@@ -1,0 +1,141 @@
+# Informe Detallado de Auditoría Técnica: Proyecto Virteex ERP
+
+## 1. Resumen Ejecutivo
+
+Este informe presenta los resultados de una auditoría técnica exhaustiva del proyecto Virteex ERP (v13), comparando el estado actual del código (Source of Truth) contra el documento de "Visión Ejecutiva y Estándares de Arquitectura".
+
+**Hallazgo Principal:**
+Existe una brecha crítica entre la arquitectura documental (que promete un sistema de clase mundial, seguro y localizado) y la implementación actual, que se encuentra en un estado de "Prototipo Avanzado" o MVP (Producto Mínimo Viable) temprano. Si bien los cimientos arquitectónicos (Monorepo Nx, Clean Architecture, NestJS, Multi-tenancy) son sólidos y cumplen con los estándares estructurales, la "carne" del negocio (motores fiscales, facturación real, seguridad en CI/CD) es simulada o inexistente.
+
+**Calificaciones por Dimensión (Escala 1-10):**
+
+*   **Objetivo final: 10/10**
+    *   *Justificación:* La visión descrita en el documento es ambiciosa, correcta técnicamente para el mercado Enterprise y cubre todas las necesidades estratégicas (multi-región, fiscalidad compleja, extensibilidad). Es un "Norte" perfecto.
+
+*   **Estado actual: 4/10**
+    *   *Justificación:* Estructuralmente correcto (Nx, Clean Arch), pero funcionalmente incompleto. Los validadores fiscales son parciales (`RFCValidator` tiene lógica dummy), el motor de impuestos (`TaxCalculatorService`) es un placeholder hardcodeado, y no hay rastro de integraciones reales (PACs, Bancos).
+
+*   **Competitividad: 2/10**
+    *   *Justificación:* En su estado actual, el software no puede competir. Sin localización fiscal real (facturación electrónica, impuestos complejos), es inútil para cualquier empresa en LatAm. Un ERP sin motor fiscal operativo tiene valor comercial cercano a cero en esta región.
+
+*   **Preparación para producción: 1/10**
+    *   *Justificación:* **Crítico.** El pipeline de CI/CD simula pasos de seguridad vitales (firma de artefactos, SBOM). La infraestructura es `docker-compose` local, no hay Terraform ni K8s visible. Secretos hardcodeados (`dev-secret`). Desplegar esto en producción sería una negligencia grave.
+
+---
+
+## 2. Análisis por Sección (Cumplimiento vs. Realidad)
+
+### 2.1 Visión General y Gobernanza
+*   **Cumplimiento:** Alto.
+*   **Hallazgos:**
+    *   Estructura Monorepo Nx correcta (`apps/`, `libs/`).
+    *   Archivos `OWNERS` presentes (ej. `libs/domains/catalog/domain/OWNERS`).
+    *   Etiquetas y límites de módulo configurados (`.dependency-cruiser.js` y `eslint.config.mjs`).
+*   **Recomendación:** Mantener disciplina.
+
+### 2.2 Arquitectura Multi-Tenant
+*   **Cumplimiento:** Medio-Alto.
+*   **Hallazgos:**
+    *   Implementado `TenantService` y `TenantRlsInterceptor`.
+    *   Uso correcto de `RequestContext` de MikroORM.
+    *   *Desviación:* `TenantService` usa un caché en memoria local (`Map<string, ...>`) en lugar de Redis distribuido como exige la arquitectura para producción. Esto fallará en escalado horizontal.
+*   **Recomendación:** Reemplazar caché en memoria por adaptador de Redis.
+
+### 2.3 Localización Fiscal (Sección Crítica 17.1)
+*   **Cumplimiento:** **Bajo (Violación Mayor).**
+*   **Hallazgos:**
+    *   **México:** Existe `RFCValidator` pero el método `validateHomoclave` retorna `true` (dummy). No hay integración con PACs (Timbrado), ni generación de XML CFDI 4.0.
+    *   **Brasil:** Existe `CPFValidator` (parece correcto), pero falta toda la lógica de CNAB, NFe, PIX y cálculo de impuestos complejos (ICMS, IPI, PIS/COFINS).
+    *   **Resto LatAm:** Inexistente. `TaxCalculatorService` solo tiene `if (jurisdiction === 'MX') return 0.16`.
+*   **Recomendación:** Implementar motores fiscales reales. No se puede salir a mercado con `return 0.16`.
+
+### 2.4 Seguridad y Compliance
+*   **Cumplimiento:** Medio-Bajo.
+*   **Hallazgos:**
+    *   HMAC Validation implementada en `TenantContextMiddleware`.
+    *   *Violación:* Secretos hardcodeados en código (`process.env['VIRTEEX_HMAC_SECRET'] || 'dev-secret'`).
+    *   *Violación:* No hay evidencia de integración con Vault real más allá del contenedor en docker-compose.
+*   **Recomendación:** Eliminar defaults inseguros.
+
+### 2.5 CI/CD y Supply Chain (Sección 11 y 5.4)
+*   **Cumplimiento:** **Nulo (Simulado).**
+*   **Hallazgos:**
+    *   El archivo `.github/workflows/ci-cd.yml` contiene pasos falsos: `run: echo "Signing artifacts..."`.
+    *   El estándar exige Sigstore/Cosign real. La simulación da una falsa sensación de seguridad.
+    *   No hay generación real de SBOM (también es un `echo`).
+*   **Recomendación:** Implementar pipeline real con Cosign y Trivy funcional.
+
+### 2.6 Plugin System
+*   **Cumplimiento:** Alto.
+*   **Hallazgos:**
+    *   Uso correcto de `isolated-vm` en `SandboxService`.
+    *   Manejo de timeouts y memoria (`memoryLimit: 128`).
+*   **Recomendación:** Añadir límites de CPU más estrictos y monitoreo externo.
+
+---
+
+## 3. Evaluación de Competitividad
+
+| Característica | Virteex (Actual) | Líder Mercado (SAP/Oracle/Odoo) | Brecha |
+| :--- | :--- | :--- | :--- |
+| **Arquitectura** | Moderna (Microservicios, Nx) | Legada / Híbrida | **Ventaja Virteex** (Potencial) |
+| **Fiscalidad MX** | Dummy (RFC regex simple) | CFDI 4.0, Complementos, PAC nativo | **Crítica** (Inviable comercialmente) |
+| **Fiscalidad BR** | Dummy (CPF check) | NFe, SPED, GNRE, PIX | **Crítica** (Inviable comercialmente) |
+| **Multi-tenant** | Nativo (RLS) | Adaptado / Instancia por cliente | **Ventaja Virteex** (Eficiencia) |
+| **Ecosistema** | Vacío | Marketplace con miles de apps | **Inmensa** |
+
+**Conclusión:** Tecnológicamente Virteex es superior en arquitectura base, pero funcionalmente es un cascarón vacío comparado con cualquier competidor serio.
+
+---
+
+## 4. Evaluación de Preparación para Producción
+
+1.  **Estabilidad:** Desconocida. El caché en memoria de `TenantService` provocará inconsistencias en cuanto se despliegue más de una réplica del pod.
+2.  **Seguridad:** **Falla Crítica.** Pipeline CI/CD falso. Secretos en código.
+3.  **Funcionalidad:** Incompleta. No se puede emitir una factura legal en ningún país soportado.
+4.  **Infraestructura:** Solo existe definición local (`docker-compose`). Falta Terraform para AWS/GCP y manifiestos K8s de producción.
+
+---
+
+## 5. Lista Priorizada de Acciones
+
+Para llevar el proyecto de "Estado Actual (4/10)" a "Objetivo (10/10)", se requieren las siguientes acciones:
+
+### Prioridad Alta (Bloqueantes para Producción)
+
+1.  **[Infraestructura] Implementar Pipeline CI/CD Real (Estándar 11.1)**
+    *   Eliminar `echo "Signing..."`.
+    *   Configurar GitHub Actions con OIDC para AWS/GCP.
+    *   Implementar `cosign` real para firmar imágenes Docker.
+    *   Integrar generación real de SBOM (CycloneDX).
+
+2.  **[Negocio] Motor Fiscal México - Fase 1 (Estándar 17.1)**
+    *   Implementar validación completa de RFC (homoclave real).
+    *   Integrar librería de generación de XML para CFDI 4.0.
+    *   Conectar con API de prueba de un PAC real (ej. Finkok, SW Sapien).
+
+3.  **[Negocio] Motor Fiscal Brasil - Fase 1 (Estándar 17.1)**
+    *   Implementar cálculo de impuestos real (no hardcoded 20%).
+    *   Estructura de datos para NFe.
+
+4.  **[Infraestructura] Externalizar Estado de TenantService (Estándar 7.1)**
+    *   Reemplazar `Map<string>` en `TenantService` por llamadas a Redis.
+    *   Asegurar invalidación de caché distribuida.
+
+### Prioridad Media (Necesario para Beta/Launch)
+
+5.  **[Infraestructura] Terraform & K8s (Estándar 7)**
+    *   Crear infraestructura como código real (no docker-compose).
+    *   Definir recursos para EKS/GKE.
+
+6.  **[Negocio] Sistema de Facturación General**
+    *   Expandir `Invoice` entity para soportar líneas de impuestos detalladas por país.
+    *   Implementar `TaxRuleEngine` configurable, no hardcoded.
+
+### Prioridad Baja (Optimización)
+
+7.  **[Plugin] Hardening de Sandbox**
+    *   Implementar límites de CPU a nivel de OS (cgroups) para los workers de `isolated-vm`.
+
+8.  **[Observabilidad] Dashboards FinOps**
+    *   Implementar atribución de costos por Tenant en Grafana.
