@@ -47,6 +47,7 @@
     "@types/express": "^4.17.21",
     "@types/jest": "^30.0.0",
     "@types/node": "20.19.9",
+    "@types/uuid": "^10.0.0",
     "@typescript-eslint/utils": "^8.40.0",
     "angular-eslint": "^21.0.1",
     "electron": "^34.5.6",
@@ -97,12 +98,19 @@
     "@nestjs/platform-fastify": "^11.1.12",
     "@opentelemetry/api": "^1.9.0",
     "axios": "^1.6.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.3",
     "express": "^4.21.2",
     "fastify": "^5.7.1",
     "graphql": "^16.12.0",
     "helmet": "^8.1.0",
+    "isolated-vm": "^6.0.2",
+    "kafkajs": "^2.2.4",
+    "keycloak-connect": "^26.1.1",
+    "nest-keycloak-connect": "^1.10.1",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.8.0"
+    "rxjs": "^7.8.0",
+    "uuid": "^13.0.0"
   },
   "lint-staged": {
     "*.{ts,js,html}": [

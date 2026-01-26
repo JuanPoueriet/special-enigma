@@ -1,7 +1,12 @@
-import { auth } from './auth';
+import { Test } from '@nestjs/testing';
+import { AuthModule } from './auth.module';
 
-describe('auth', () => {
-  it('should work', () => {
-    expect(auth()).toEqual('auth');
+describe('AuthModule', () => {
+  it('should compile', async () => {
+    const module = await Test.createTestingModule({
+      imports: [AuthModule],
+    }).compile();
+
+    expect(module).toBeDefined();
   });
 });
