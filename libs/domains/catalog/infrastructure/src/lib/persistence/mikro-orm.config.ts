@@ -22,4 +22,11 @@ export default defineConfig({
   user: process.env.DB_USER || 'postgres',
   password: process.env.DB_PASSWORD || 'password',
   debug: process.env.NODE_ENV !== 'production',
+  replicas: [
+    { name: 'read-1', host: process.env.DB_REPLICA_HOST || 'localhost' },
+  ],
+  migrations: {
+    path: './migrations',
+    transactional: true,
+  },
 });

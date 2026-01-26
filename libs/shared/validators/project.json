@@ -1,0 +1,19 @@
+{
+  "name": "shared-validators",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/validators/src",
+  "projectType": "library",
+  "tags": ["scope:shared", "type:lib", "platform:agnostic"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/shared/validators",
+        "main": "libs/shared/validators/src/index.ts",
+        "tsConfig": "libs/shared/validators/tsconfig.lib.json",
+        "assets": ["libs/shared/validators/*.md"]
+      }
+    }
+  }
+}

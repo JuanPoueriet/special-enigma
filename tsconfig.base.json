@@ -41,6 +41,12 @@
       ],
       "@virteex-erp/catalog-presentation": [
         "libs/domains/catalog/presentation/src/index.ts"
+      ],
+      "@virteex-erp/billing-domain": [
+        "libs/domains/billing/domain/src/index.ts"
+      ],
+      "@virteex-erp/shared-validators": [
+        "libs/shared/validators/src/index.ts"
       ]
     }
   },

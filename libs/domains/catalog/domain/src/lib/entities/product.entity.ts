@@ -14,21 +14,28 @@ export class Product {
   @Property()
   name!: string;
 
-  @Property()
-  price!: number;
+  @Property({ type: 'decimal', precision: 10, scale: 2 })
+  price!: string;
+
+  @Property({ nullable: true })
+  fiscalCode?: string; // NCM/HS Code
+
+  @Property({ nullable: true })
+  taxGroup?: string;
 
   @Property()
   isActive: boolean = true;
 
-  constructor(sku: string, name: string, price: number) {
+  constructor(sku: string, name: string, price: string) {
     this.sku = sku;
     this.name = name;
     this.changePrice(price);
   }
 
   // Business Logic (DDD)
-  changePrice(newPrice: number): void {
-    if (newPrice < 0) {
+  changePrice(newPrice: string): void {
+    const priceNum = parseFloat(newPrice);
+    if (priceNum < 0) {
       throw new Error('Price cannot be negative');
     }
     this.price = newPrice;
