@@ -1,0 +1,17 @@
+apiVersion: skaffold/v4beta1
+kind: Config
+metadata:
+  name: virteex-erp
+build:
+  artifacts:
+    - image: ghcr.io/virteex/api-gateway
+      context: .
+      docker:
+        dockerfile: apps/virteex-api-gateway/Dockerfile
+  local:
+    push: false
+manifests:
+  rawYaml:
+    - infrastructure/k8s/base/deployment.yaml
+deploy:
+  kubectl: {}

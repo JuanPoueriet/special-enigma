@@ -13,6 +13,7 @@
     "nxe:package:app": "nx run virteex-desktop:make --prepackageOnly",
     "nxe:make:app": "nx run virteex-desktop:make",
     "sbom:generate": "cyclonedx-npm --output-file sbom.json",
+    "sign:artifact": "cosign sign --key cosign.key",
     "dep-graph:check": "depcruise --validate .dependency-cruiser.js libs apps",
     "prepare": "husky"
   },
@@ -114,6 +115,7 @@
     "class-validator": "^0.14.3",
     "cyclonedx-npm": "^1.0.0",
     "express": "^4.21.2",
+    "fast-xml-parser": "^4.2.7",
     "fastify": "^5.7.1",
     "graphql": "^16.12.0",
     "helmet": "^8.1.0",

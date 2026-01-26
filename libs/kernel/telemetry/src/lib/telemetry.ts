@@ -29,6 +29,8 @@ export class TelemetryService implements OnModuleInit, OnModuleDestroy {
     this.sdk = new NodeSDK({
       resource: resourceFromAttributes({
         [SemanticResourceAttributes.SERVICE_NAME]: process.env['SERVICE_NAME'] || 'virteex-service',
+        'tenant.mode': process.env['TENANT_MODE'] || 'unknown',
+        'region': process.env['AWS_REGION'] || 'unknown',
       }),
       spanProcessor,
       instrumentations: [
