@@ -1,4 +1,4 @@
-import { Injectable, NestMiddleware, UnauthorizedException } from '@nestjs/common';
+import { Injectable, NestMiddleware, UnauthorizedException, OnModuleInit } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import { createHmac, timingSafeEqual } from 'crypto';
 import { TenantContext } from '../interfaces/tenant-context.interface';
@@ -6,10 +6,19 @@ import { runWithTenantContext } from '../storage/tenant-context.storage';
 import { TelemetryService } from '@virteex-erp/telemetry';
 
 @Injectable()
-export class TenantContextMiddleware implements NestMiddleware {
-  private readonly secret = process.env['VIRTEEX_HMAC_SECRET'] || 'dev-secret';
+export class TenantContextMiddleware implements NestMiddleware, OnModuleInit {
+  private readonly secret: string;
 
-  constructor(private readonly telemetryService: TelemetryService) {}
+  constructor(private readonly telemetryService: TelemetryService) {
+    // If not set, it will be undefined, validated in onModuleInit
+    this.secret = process.env['VIRTEEX_HMAC_SECRET'] || '';
+  }
+
+  onModuleInit() {
+    if (!this.secret) {
+        throw new Error('FATAL: VIRTEEX_HMAC_SECRET is not defined. Application cannot start securely.');
+    }
+  }
 
   use(req: Request, res: Response, next: NextFunction) {
     const contextHeader = Array.isArray(req.headers['x-virteex-context'])
