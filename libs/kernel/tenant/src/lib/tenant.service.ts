@@ -31,7 +31,7 @@ export class TenantService {
         // If the tenant is not in DB, it doesn't exist.
         // However, to avoid breaking existing tests/setup that rely on "schema_" prefix magic:
         // I will keep the fallback ONLY if it looks like a test/dev tenant and not found in DB.
-        if (process.env.NODE_ENV !== 'production' && (tenantId.startsWith('schema_') || tenantId.startsWith('test_'))) {
+        if (process.env['NODE_ENV'] !== 'production' && (tenantId.startsWith('schema_') || tenantId.startsWith('test_'))) {
              // ... existing mock logic as fallback ...
         } else {
              // throw new NotFoundException(`Tenant ${tenantId} not found`);
