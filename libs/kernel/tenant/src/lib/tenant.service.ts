@@ -1,20 +1,42 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/core';
 import { TenantConfig } from './interfaces/tenant-config.interface';
 import { Tenant } from './entities/tenant.entity';
+import Redis from 'ioredis';
 
 @Injectable()
-export class TenantService {
-  private cache = new Map<string, { config: TenantConfig; expiry: number }>();
-  private readonly TTL = 60 * 1000; // 1 minute cache
+export class TenantService implements OnModuleInit, OnModuleDestroy {
+  private redis: Redis | null = null;
+  private readonly TTL = 60; // 1 minute cache (Redis uses seconds)
 
   constructor(private readonly em: EntityManager) {}
 
+  onModuleInit() {
+    if (process.env['REDIS_URL']) {
+      this.redis = new Redis(process.env['REDIS_URL'], {
+        retryStrategy: (times) => Math.min(times * 50, 2000),
+      });
+      this.redis.on('error', (err) => console.error('Redis error:', err));
+    } else {
+      console.warn('REDIS_URL not set. TenantService will fallback to DB-only mode.');
+    }
+  }
+
+  onModuleDestroy() {
+    this.redis?.disconnect();
+  }
+
   async getTenantConfig(tenantId: string): Promise<TenantConfig> {
-    // 1. Check Cache
-    const cached = this.cache.get(tenantId);
-    if (cached && cached.expiry > Date.now()) {
-      return cached.config;
+    // 1. Check Redis Cache
+    if (this.redis) {
+      try {
+        const cached = await this.redis.get(`tenant:${tenantId}`);
+        if (cached) {
+          return JSON.parse(cached);
+        }
+      } catch (error) {
+        console.error('Redis get failed, falling back to DB', error);
+      }
     }
 
     // 2. Fetch from DB
@@ -57,8 +79,14 @@ export class TenantService {
         }
     }
 
-    // 3. Update Cache
-    this.cache.set(tenantId, { config, expiry: Date.now() + this.TTL });
+    // 3. Update Redis Cache
+    if (this.redis && config) {
+      try {
+        await this.redis.set(`tenant:${tenantId}`, JSON.stringify(config), 'EX', this.TTL);
+      } catch (error) {
+         console.error('Redis set failed', error);
+      }
+    }
     return config;
   }
 }

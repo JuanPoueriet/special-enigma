@@ -7,7 +7,23 @@ import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 
+function validateEnvironment() {
+  const requiredVars = [
+    'VIRTEEX_HMAC_SECRET',
+    'REDIS_URL'
+  ];
+
+  const missing = requiredVars.filter(key => !process.env[key]);
+
+  if (missing.length > 0) {
+    Logger.error(`FATAL: Missing required environment variables: ${missing.join(', ')}`);
+    process.exit(1);
+  }
+}
+
 async function bootstrap() {
+  validateEnvironment();
+
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);

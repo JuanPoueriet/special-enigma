@@ -27,8 +27,15 @@ jobs:
     needs: validate
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
       - name: SBOM generation
-        run: echo "Generating SBOM..." # Simulated
+        run: npm run sbom:generate
+
       - name: Container scanning
         uses: aquasecurity/trivy-action@master
         with:
@@ -36,5 +43,19 @@ jobs:
           ignore-unfixed: true
           format: 'table'
           exit-code: '0'
-      - name: Artifact signing
-        run: echo "Signing artifacts..." # Simulated
+
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@v3.3.0
+
+      - name: Sign SBOM
+        env:
+          COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+        run: |
+          if [ -n "$COSIGN_PRIVATE_KEY" ]; then
+            echo "$COSIGN_PRIVATE_KEY" > cosign.key
+            cosign sign-blob --key cosign.key --yes sbom.json > sbom.json.sig
+            echo "SBOM Signed successfully."
+          else
+            echo "Skipping signing: COSIGN_PRIVATE_KEY not set."
+          fi

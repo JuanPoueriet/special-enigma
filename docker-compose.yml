@@ -1,6 +1,25 @@
 version: '3.8'
 
 services:
+  api-gateway:
+    image: node:18-alpine
+    container_name: virteex-api-gateway
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    environment:
+      - VIRTEEX_HMAC_SECRET=dev-hmac-secret-for-local-only
+      - REDIS_URL=redis://redis:6379
+      - POSTGRES_URL=postgres://virteex:virteex_password@postgres:5432/virteex_erp
+      - NODE_ENV=development
+    command: npm run start # Adjust based on actual start command or use nx serve
+    depends_on:
+      - postgres
+      - redis
+      - kafka
+
   postgres:
     image: timescale/timescaledb:latest-pg15
     container_name: virteex-postgres
