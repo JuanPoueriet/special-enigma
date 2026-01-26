@@ -1,0 +1,19 @@
+{
+  "name": "catalog-application",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domains/catalog/application/src",
+  "projectType": "library",
+  "tags": ["scope:catalog", "type:application", "platform:agnostic", "tenant-mode:schema", "criticality:high"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/domains/catalog/application",
+        "main": "libs/domains/catalog/application/src/index.ts",
+        "tsConfig": "libs/domains/catalog/application/tsconfig.lib.json",
+        "assets": ["libs/domains/catalog/application/*.md"]
+      }
+    }
+  }
+}

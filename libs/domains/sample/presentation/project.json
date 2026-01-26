@@ -1,5 +1,5 @@
 {
-  "name": "presentation",
+  "name": "sample-presentation",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/domains/sample/presentation/src",
   "projectType": "library",
