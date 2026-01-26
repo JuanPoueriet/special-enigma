@@ -1,0 +1,19 @@
+{
+  "name": "application",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domains/sample/application/src",
+  "projectType": "library",
+  "tags": ["scope:sample", "type:application"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/domains/sample/application",
+        "main": "libs/domains/sample/application/src/index.ts",
+        "tsConfig": "libs/domains/sample/application/tsconfig.lib.json",
+        "assets": ["libs/domains/sample/application/*.md"]
+      }
+    }
+  }
+}

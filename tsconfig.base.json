@@ -1,0 +1,34 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@virteex-erp/auth": ["libs/kernel/auth/src/index.ts"],
+      "@virteex-erp/telemetry": ["libs/kernel/telemetry/src/index.ts"],
+      "@virteex-erp/contracts": ["libs/shared/contracts/src/index.ts"],
+      "@virteex-erp/domain": ["libs/domains/sample/domain/src/index.ts"],
+      "@virteex-erp/application": [
+        "libs/domains/sample/application/src/index.ts"
+      ],
+      "@virteex-erp/infrastructure": [
+        "libs/domains/sample/infrastructure/src/index.ts"
+      ],
+      "@virteex-erp/presentation": [
+        "libs/domains/sample/presentation/src/index.ts"
+      ]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}
