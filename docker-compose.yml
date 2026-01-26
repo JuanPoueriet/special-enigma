@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   postgres:
-    image: postgres:16-alpine
+    image: timescale/timescaledb:latest-pg15
     container_name: virteex-postgres
     restart: always
     environment:
@@ -68,6 +68,31 @@ services:
       VAULT_DEV_ROOT_TOKEN_ID: root
     cap_add:
       - IPC_LOCK
+
+  # Observability Stack
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: virteex-jaeger
+    ports:
+      - "16686:16686"
+      - "4317:4317"
+      - "4318:4318"
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: virteex-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./infrastructure/prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: virteex-grafana
+    ports:
+      - "3001:3000" # Changed to 3001 to avoid conflict with potential NestJS app on 3000
+    depends_on:
+      - prometheus
 
 volumes:
   postgres_data:
