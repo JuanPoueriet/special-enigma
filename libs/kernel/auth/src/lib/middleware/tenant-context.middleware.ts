@@ -20,10 +20,10 @@ export class TenantContextMiddleware implements NestMiddleware {
       : req.headers['x-virteex-signature'];
 
     if (!contextHeader || !signatureHeader) {
-      // In development we might want to allow missing headers if configured, but for now strictly enforce.
-      // But for the purpose of "scaffolding" where we might not have the gateway yet,
-      // we might want a bypass or a mock.
-      // Strict implementation as per requirements:
+      this.telemetryService.recordSecurityEvent('MISSING_CONTEXT_HEADERS', {
+        ip: req.ip,
+        headers: req.headers,
+      });
       throw new UnauthorizedException('Missing Tenant Context Headers');
     }
 
@@ -35,6 +35,10 @@ export class TenantContextMiddleware implements NestMiddleware {
     const signatureBuffer = Buffer.from(signatureHeader);
 
     if (expectedBuffer.length !== signatureBuffer.length || !timingSafeEqual(expectedBuffer, signatureBuffer)) {
+      this.telemetryService.recordSecurityEvent('INVALID_SIGNATURE', {
+        ip: req.ip,
+        headers: req.headers,
+      });
       throw new UnauthorizedException('Invalid Tenant Context Signature');
     }
 
@@ -57,7 +61,11 @@ export class TenantContextMiddleware implements NestMiddleware {
         next();
       });
     } catch {
-       throw new UnauthorizedException('Invalid Tenant Context Format');
+      this.telemetryService.recordSecurityEvent('INVALID_CONTEXT_FORMAT', {
+        ip: req.ip,
+        headers: req.headers,
+      });
+      throw new UnauthorizedException('Invalid Tenant Context Format');
     }
   }
 }

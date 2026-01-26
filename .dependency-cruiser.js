@@ -1,0 +1,48 @@
+/** @type {import('dependency-cruiser').IConfiguration} */
+module.exports = {
+  forbidden: [
+    {
+      name: 'no-circular',
+      severity: 'error',
+      comment: 'This dependency is part of a circular relationship.',
+      from: {},
+      to: {
+        circular: true
+      }
+    },
+    {
+      name: 'domain-no-infra-app-presentation',
+      severity: 'error',
+      comment: 'Domain must not depend on Infrastructure, Application or Presentation',
+      from: { path: '^libs/domains/.+/domain' },
+      to: {
+        path: [
+          '^libs/.*infrastructure',
+          '^libs/.*application',
+          '^libs/.*presentation'
+        ]
+      }
+    },
+    {
+      name: 'infra-no-presentation',
+      severity: 'error',
+      comment: 'Infrastructure must not depend on Presentation',
+      from: { path: '^libs/.*infrastructure' },
+      to: { path: '^libs/.*presentation' }
+    }
+  ],
+  options: {
+    doNotFollow: {
+      path: 'node_modules',
+    },
+    tsPreCompilationDeps: true,
+    tsConfig: {
+      fileName: 'tsconfig.base.json'
+    },
+    reporterOptions: {
+      dot: {
+        collapsePattern: 'node_modules/[^/]+',
+      },
+    },
+  }
+};

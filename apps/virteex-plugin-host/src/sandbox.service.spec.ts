@@ -12,17 +12,21 @@ describe('SandboxService', () => {
   });
 
   it('should execute valid code', async () => {
-    const success = await sandbox.run('const a = 1; const b = 2;');
-    expect(success).toBe(true);
+    const result = await sandbox.run('const a = 1; const b = 2;');
+    expect(result.success).toBe(true);
   });
 
   it('should handle errors gracefully', async () => {
-    const success = await sandbox.run('throw new Error("Boom");');
-    expect(success).toBe(false);
+    const result = await sandbox.run('throw new Error("Boom");');
+    expect(result.success).toBe(false);
+    expect(result.error).toContain('Boom');
+    expect(result.forensicData).toBeDefined();
   });
 
   it('should timeout infinite loops', async () => {
-    const success = await sandbox.run('while(true) {}', 50); // Short timeout
-    expect(success).toBe(false);
+    const result = await sandbox.run('while(true) {}', 50); // Short timeout
+    expect(result.success).toBe(false);
+    expect(result.error).toContain('timed out');
+    expect(result.forensicData).toBeDefined();
   });
 });

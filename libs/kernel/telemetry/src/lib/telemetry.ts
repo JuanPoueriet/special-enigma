@@ -67,4 +67,12 @@ export class TelemetryService implements OnModuleInit, OnModuleDestroy {
       span.setAttributes(attributes);
     }
   }
+
+  recordSecurityEvent(eventName: string, details: Record<string, any>) {
+    const span = this.getActiveSpan();
+    if (span) {
+      span.addEvent(eventName, details);
+    }
+    this.logger.warn(`[SECURITY] ${eventName}`, details);
+  }
 }
