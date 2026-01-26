@@ -29,7 +29,19 @@
         "libs/domains/sample/presentation/src/index.ts"
       ],
       "@virteex-erp/tenant": ["libs/kernel/tenant/src/index.ts"],
-      "@virteex-erp/messaging": ["libs/kernel/messaging/src/index.ts"]
+      "@virteex-erp/messaging": ["libs/kernel/messaging/src/index.ts"],
+      "@virteex-erp/catalog-domain": [
+        "libs/domains/catalog/domain/src/index.ts"
+      ],
+      "@virteex-erp/catalog-application": [
+        "libs/domains/catalog/application/src/index.ts"
+      ],
+      "@virteex-erp/catalog-infrastructure": [
+        "libs/domains/catalog/infrastructure/src/index.ts"
+      ],
+      "@virteex-erp/catalog-presentation": [
+        "libs/domains/catalog/presentation/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]
