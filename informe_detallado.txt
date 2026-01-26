@@ -1,0 +1,134 @@
+# Informe Detallado de Auditoría: Virteex ERP vs Estándares v13
+
+## 1. Resumen Ejecutivo
+
+Este informe presenta los resultados de una auditoría exhaustiva del proyecto Virteex ERP comparado estrictamente contra el "Documento Unificado — Virteex ERP: Visión Ejecutiva y Estándares de Arquitectura (v13)".
+
+El análisis revela un **núcleo técnico sólido** que implementa correctamente los patrones arquitectónicos más complejos (Multi-tenancy RLS, Clean Architecture, Plugin Isolation). Sin embargo, existe una **brecha significativa** en la implementación operativa (CI/CD, Infraestructura) y de negocio (Facturación, Motor Fiscal), lo que sitúa al proyecto en una fase de "Foundation" o "POC Avanzado" más que en una fase de "Pre-Production".
+
+### Calificaciones
+*   **Objetivo Final (Alineación Estratégica): 9/10**
+    *   *Justificación:* La estructura del monorepo, la definición de dominios, el uso de `AGENTS.md` como fuente de verdad y la elección de tecnologías (NestJS, MikroORM, Isolated-vm, OpenTelemetry) están perfectamente alineadas con la visión de un ERP Enterprise Multi-tenant. El diseño arquitectónico base es capaz de soportar la visión.
+*   **Estado Actual (Cumplimiento Técnico/Operativo): 4/10**
+    *   *Justificación:* Aunque el "esqueleto" es excelente, faltan componentes críticos para la operación y el negocio: no existe CI/CD, no hay dominio de facturación (`billing`), no hay motores fiscales, la infraestructura es solo local (`docker-compose`), y faltan validaciones de seguridad en pipeline (SAST/DAST).
+
+---
+
+## 2. Análisis Detallado por Sección
+
+### 1. Visión General y Gobernanza
+*   **Cumplimiento:** Estructura de carpetas correcta (`apps`, `libs`). Monorepo Nx configurado. `AGENTS.md` presente.
+*   **Violaciones:**
+    *   Faltan archivos `OWNERS` y `REVIEWERS` en las librerías (ej. `libs/domains/catalog/domain`).
+    *   No hay evidencia de configuración de caché distribuida (Nx Cloud) explícita más allá de la configuración local.
+*   **Recomendación:** Generar archivos `OWNERS` por defecto y configurar el pipeline de CI para hacer cumplir las reglas de aprobación.
+
+### 2. Arquitectura Multi-Tenant Foundation
+*   **Cumplimiento:** Implementación correcta de `TenantRlsInterceptor` usando `SET LOCAL app.current_tenant`. Propagación de contexto vía `TenantContextMiddleware` y firma HMAC.
+*   **Violaciones:**
+    *   Configuración de MikroORM (`libs/domains/catalog/.../mikro-orm.config.ts`) no define réplicas de lectura/escritura (`replicas`).
+    *   Falta configuración de migraciones (`migrations`).
+    *   La estrategia de selección de modo tenant no está automatizada en código (es lógica de negocio faltante).
+*   **Recomendación:** Configurar `replicas` en MikroORM y añadir soporte explícito para migraciones multi-schema.
+
+### 3. Arquitectura de Librerías
+*   **Cumplimiento:** Estructura DDD (Domain, Application, Infra, Presentation) correcta. `eslint.config.mjs` y `.dependency-cruiser.js` imponen límites estrictos. `project.json` usa etiquetas correctas (`type:domain`, etc.).
+*   **Violaciones:**
+    *   Entidad `Product` (`catalog`) usa `number` para precios (debería ser Decimal/BigInt).
+    *   Faltan campos de auditoría y fiscales en las entidades base.
+*   **Recomendación:** Refactorizar entidades para usar tipos de datos monetarios seguros y añadir atributos fiscales base.
+
+### 4. Dependencias y Prevención de Ciclos
+*   **Cumplimiento:** Herramientas configuradas (`dependency-cruiser`, `eslint`).
+*   **Observaciones:** No se detectaron violaciones activas en el código analizado.
+
+### 5. Seguridad y Compliance
+*   **Cumplimiento:** Validación de firma HMAC en `TenantContextMiddleware`.
+*   **Violaciones Críticas:**
+    *   **Ausencia total de carpeta `.github`**: No existen pipelines de CI/CD.
+    *   Falta de SAST, DAST, SCA y generación de SBOM.
+    *   Falta de firma de artefactos.
+    *   Falta de configuración de cifrado en reposo en `docker-compose.yml` (simulado).
+*   **Recomendación:** Implementar `workflow` de GitHub Actions completo con SonarQube, Trivy (SCA/SBOM) y Cosign (Firma).
+
+### 6. Observabilidad
+*   **Cumplimiento:** `libs/kernel/telemetry` implementa OpenTelemetry SDK.
+*   **Violaciones:**
+    *   Falta stack de observabilidad en `docker-compose.yml` (Jaeger, Prometheus, Grafana, Loki).
+    *   Configuración de telemetría "inline" en lugar de archivo de configuración separado como sugiere el estándar.
+*   **Recomendación:** Añadir servicios de observabilidad a la infraestructura local y externalizar la configuración.
+
+### 7. Performance y Escalabilidad
+*   **Cumplimiento:** Uso de Redis.
+*   **Violaciones:**
+    *   PostgreSQL no usa la imagen con extensión TimescaleDB (`postgres:16-alpine` vs requerimiento de TimescaleDB).
+    *   Falta configuración de caché multi-nivel explícita en servicios.
+*   **Recomendación:** Cambiar imagen de Docker a `postgres:15-timescaledb` (o compatible) e implementar interceptores de caché L1/L2.
+
+### 8. Plugins
+*   **Cumplimiento:** `virteex-plugin-host` usa `isolated-vm` y tiene un servicio de Sandbox básico.
+*   **Violaciones:**
+    *   Falta el pipeline de admisión (Validación SAST/DAST previa a ejecución).
+    *   El sandbox es básico, falta instrumentación profunda de recursos (CPU/Memory limits dinámicos más allá de la config inicial).
+*   **Recomendación:** Crear el servicio de validación de plugins y robustecer el SandboxService.
+
+### 9. Billing y Fiscal (Mayor Brecha)
+*   **Cumplimiento:** `TenantContext` tiene campos de jurisdicción.
+*   **Violaciones:**
+    *   **Ausencia total del dominio `billing`**.
+    *   Falta de librería de validadores (`libs/shared/validators` inexistente).
+    *   Falta de motores fiscales por país.
+*   **Recomendación:** Iniciar desarrollo inmediato del dominio `billing` y la librería de validadores regionales.
+
+### 11-13. CI/CD, Infraestructura, Governance
+*   **Violaciones:**
+    *   Falta carpeta `infrastructure/` (IaC).
+    *   Falta CI/CD.
+    *   Faltan pruebas automatizadas de políticas (OPA).
+*   **Recomendación:** Crear estructura base de Terraform/K8s y pipelines.
+
+---
+
+## 3. Conclusiones
+
+Virteex ERP tiene unos cimientos arquitectónicos excelentes. El equipo de ingeniería ha priorizado correctamente la estructura y los patrones complejos (Monorepo, DDD, RLS), lo cual es lo más difícil de corregir a posteriori.
+
+Sin embargo, para alcanzar el "10/10" y ser un producto viable, el proyecto debe transicionar de una "Architecture Proof of Concept" a un "Product MVP". Esto requiere un cambio de foco urgente hacia la infraestructura de automatización (CI/CD) y la lógica de negocio core (Billing/Fiscal).
+
+---
+
+## 4. Lista Priorizada de Acciones (Roadmap a 10/10)
+
+Las siguientes acciones son necesarias para alcanzar la conformidad total.
+
+### Prioridad Alta (Bloqueantes para Operación y Seguridad)
+1.  **Implementar CI/CD Pipeline (`.github/workflows`)** [Ref: Sección 11]
+    *   Crear workflow de validación (Lint, Test, Build).
+    *   Integrar escaneo de seguridad (SAST/SCA) y generación de SBOM.
+    *   Configurar firma de artefactos simulada para dev.
+2.  **Crear Dominio `Billing`** [Ref: Sección 9]
+    *   Generar librería `libs/domains/billing`.
+    *   Implementar entidades base (`Invoice`, `TaxLine`).
+    *   Implementar motor de cálculo de impuestos básico.
+3.  **Corregir Infraestructura Base** [Ref: Sección 3 y 7]
+    *   Actualizar `docker-compose.yml` para usar PostgreSQL con TimescaleDB.
+    *   Añadir stack de observabilidad (Jaeger/Tempo, Prometheus) a docker-compose.
+4.  **Implementar Validadores Regionales** [Ref: Sección 17]
+    *   Crear `libs/shared/validators`.
+    *   Implementar validadores dummy o reales para CPF (Brasil) y RFC (México) para cumplir el requisito de localización.
+
+### Prioridad Media (Necesario para Escala y Calidad)
+5.  **Robustecer Configuración MikroORM** [Ref: Sección 2 y 3]
+    *   Añadir configuración de `replicas` (aunque apunten al mismo host en dev).
+    *   Configurar sistema de migraciones.
+    *   Refactorizar `Product` entity para usar tipos decimales.
+6.  **Completar Plugin Pipeline** [Ref: Sección 8]
+    *   Implementar lógica de validación previa (simular análisis estático) antes de cargar un plugin en `SandboxService`.
+7.  **Añadir Archivos de Gobernanza** [Ref: Sección 1]
+    *   Crear script para generar `OWNERS` y `REVIEWERS` en todas las librerías.
+
+### Prioridad Baja (Optimizaciones y Governance Avanzado)
+8.  **Infraestructura como Código (IaC)** [Ref: Sección 13]
+    *   Crear carpeta `infrastructure/` con esqueletos de Terraform.
+9.  **Políticas OPA** [Ref: Sección 13]
+    *   Implementar validación de políticas en el pipeline.
