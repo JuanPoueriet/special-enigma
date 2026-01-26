@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { EntityManager } from '@mikro-orm/core';
 import { TenantService } from './tenant.service';
 import { TenantMode } from './interfaces/tenant-config.interface';
 
@@ -7,7 +8,15 @@ describe('TenantService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [TenantService],
+      providers: [
+        TenantService,
+        {
+          provide: EntityManager,
+          useValue: {
+            findOne: jest.fn(),
+          },
+        },
+      ],
     }).compile();
 
     service = module.get<TenantService>(TenantService);
