@@ -2,6 +2,7 @@ import { Injectable, NestMiddleware, UnauthorizedException } from '@nestjs/commo
 import { Request, Response, NextFunction } from 'express';
 import { createHmac } from 'crypto';
 import { TenantContext } from '../interfaces/tenant-context.interface';
+import { runWithTenantContext } from '../storage/tenant-context.storage';
 
 @Injectable()
 export class TenantContextMiddleware implements NestMiddleware {
@@ -38,10 +39,12 @@ export class TenantContextMiddleware implements NestMiddleware {
       // NestJS usually uses request['user'] for auth, but this is tenant context.
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (req as any).tenantContext = context;
+
+      runWithTenantContext(context, () => {
+        next();
+      });
     } catch {
        throw new UnauthorizedException('Invalid Tenant Context Format');
     }
-
-    next();
   }
 }

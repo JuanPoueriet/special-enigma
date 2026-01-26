@@ -2,3 +2,4 @@ export * from './lib/interfaces/tenant-context.interface';
 export * from './lib/middleware/tenant-context.middleware';
 export * from './lib/guards/tenant.guard';
 export * from './lib/auth.module';
+export * from './lib/storage/tenant-context.storage';
