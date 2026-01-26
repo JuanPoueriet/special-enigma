@@ -1,12 +1,15 @@
 import { Injectable, NestMiddleware, UnauthorizedException } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
-import { createHmac } from 'crypto';
+import { createHmac, timingSafeEqual } from 'crypto';
 import { TenantContext } from '../interfaces/tenant-context.interface';
 import { runWithTenantContext } from '../storage/tenant-context.storage';
+import { TelemetryService } from '@virteex-erp/telemetry';
 
 @Injectable()
 export class TenantContextMiddleware implements NestMiddleware {
   private readonly secret = process.env['VIRTEEX_HMAC_SECRET'] || 'dev-secret';
+
+  constructor(private readonly telemetryService: TelemetryService) {}
 
   use(req: Request, res: Response, next: NextFunction) {
     const contextHeader = Array.isArray(req.headers['x-virteex-context'])
@@ -28,7 +31,10 @@ export class TenantContextMiddleware implements NestMiddleware {
       .update(contextHeader)
       .digest('hex');
 
-    if (expectedSignature !== signatureHeader) {
+    const expectedBuffer = Buffer.from(expectedSignature);
+    const signatureBuffer = Buffer.from(signatureHeader);
+
+    if (expectedBuffer.length !== signatureBuffer.length || !timingSafeEqual(expectedBuffer, signatureBuffer)) {
       throw new UnauthorizedException('Invalid Tenant Context Signature');
     }
 
@@ -39,6 +45,13 @@ export class TenantContextMiddleware implements NestMiddleware {
       // NestJS usually uses request['user'] for auth, but this is tenant context.
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (req as any).tenantContext = context;
+
+      // Add Telemetry attributes
+      const requestId = (req.headers['x-request-id'] as string) || 'unknown';
+      this.telemetryService.setTraceAttributes({
+        'tenant.id': context.tenantId,
+        'request.id': requestId,
+      });
 
       runWithTenantContext(context, () => {
         next();

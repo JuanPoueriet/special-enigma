@@ -27,7 +27,9 @@
       ],
       "@virteex-erp/presentation": [
         "libs/domains/sample/presentation/src/index.ts"
-      ]
+      ],
+      "@virteex-erp/tenant": ["libs/kernel/tenant/src/index.ts"],
+      "@virteex-erp/messaging": ["libs/kernel/messaging/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

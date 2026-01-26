@@ -1,7 +1,24 @@
-import { telemetry } from './telemetry';
+import { Test } from '@nestjs/testing';
+import { TelemetryService } from './telemetry';
+import { TelemetryModule } from './telemetry.module';
 
-describe('telemetry', () => {
-  it('should work', () => {
-    expect(telemetry()).toEqual('telemetry');
+describe('TelemetryService', () => {
+  let service: TelemetryService;
+
+  beforeEach(async () => {
+    const module = await Test.createTestingModule({
+      imports: [TelemetryModule],
+    }).compile();
+
+    service = module.get(TelemetryService);
+  });
+
+  it('should be defined', () => {
+    expect(service).toBeTruthy();
+  });
+
+  it('should provide a tracer', () => {
+    const tracer = service.getTracer();
+    expect(tracer).toBeDefined();
   });
 });
