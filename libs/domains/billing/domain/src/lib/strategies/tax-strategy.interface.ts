@@ -10,5 +10,5 @@ export interface TaxDetail {
 }
 
 export interface TaxStrategy {
-  calculate(amount: number): TaxResult;
+  calculate(amount: number): Promise<TaxResult>;
 }

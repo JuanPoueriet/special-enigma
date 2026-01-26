@@ -2,17 +2,18 @@ import { Injectable } from '@nestjs/common';
 import { TaxStrategy, TaxResult } from '../strategies/tax-strategy.interface';
 import { MxTaxStrategy } from '../strategies/mx-tax.strategy';
 import { BrTaxStrategy } from '../strategies/br-tax.strategy';
+import { TaxRuleEngine } from './tax-rule.engine';
 
 @Injectable()
 export class TaxCalculatorService {
   private strategies: Map<string, TaxStrategy> = new Map();
 
-  constructor() {
-    this.strategies.set('MX', new MxTaxStrategy());
+  constructor(private readonly taxRuleEngine: TaxRuleEngine) {
+    this.strategies.set('MX', new MxTaxStrategy(this.taxRuleEngine));
     this.strategies.set('BR', new BrTaxStrategy());
   }
 
-  calculateTax(amount: number, jurisdiction: string): TaxResult {
+  async calculateTax(amount: number, jurisdiction: string): Promise<TaxResult> {
     const strategy = this.strategies.get(jurisdiction);
 
     if (!strategy) {
@@ -20,6 +21,6 @@ export class TaxCalculatorService {
        return { totalTax: 0, details: [] };
     }
 
-    return strategy.calculate(amount);
+    return await strategy.calculate(amount);
   }
 }

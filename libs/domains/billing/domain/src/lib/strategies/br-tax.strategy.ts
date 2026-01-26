@@ -1,7 +1,7 @@
 import { TaxStrategy, TaxResult } from './tax-strategy.interface';
 
 export class BrTaxStrategy implements TaxStrategy {
-  calculate(amount: number): TaxResult {
+  async calculate(amount: number): Promise<TaxResult> {
     // Brazil taxes are complex and depend on state/product.
     // This is a structured example demonstrating capability for multiple taxes.
 
