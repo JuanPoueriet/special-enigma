@@ -24,7 +24,9 @@ export default defineConfig({
   debug: true,
   driverOptions: {
     connection: {
-       // ssl: { rejectUnauthorized: false }
+      ssl: process.env['DB_SSL_ENABLED'] === 'true' || process.env['NODE_ENV'] === 'production'
+        ? { rejectUnauthorized: false }
+        : undefined,
     }
   }
 });
