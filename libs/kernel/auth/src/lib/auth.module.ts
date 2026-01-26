@@ -1,8 +1,10 @@
 import { Module, MiddlewareConsumer, NestModule, RequestMethod } from '@nestjs/common';
 import { TenantContextMiddleware } from './middleware/tenant-context.middleware';
 import { TenantGuard } from './guards/tenant.guard';
+import { TelemetryModule } from '@virteex-erp/telemetry';
 
 @Module({
+  imports: [TelemetryModule],
   providers: [TenantContextMiddleware, TenantGuard],
   exports: [TenantContextMiddleware, TenantGuard],
 })
