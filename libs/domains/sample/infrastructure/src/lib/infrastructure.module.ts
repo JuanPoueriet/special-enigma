@@ -1,0 +1,22 @@
+import { Module, NestModule, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
+import { MikroOrmModule } from '@mikro-orm/nestjs';
+import config from './persistence/mikro-orm.config';
+import { TenantPersistenceMiddleware } from './middleware/tenant-persistence.middleware';
+
+@Module({
+  imports: [
+    MikroOrmModule.forRoot({
+      ...config,
+    }),
+    MikroOrmModule.forFeature([]),
+  ],
+  providers: [TenantPersistenceMiddleware],
+  exports: [MikroOrmModule],
+})
+export class InfrastructureModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(TenantPersistenceMiddleware)
+      .forRoutes({ path: '*', method: RequestMethod.ALL });
+  }
+}
