@@ -12,6 +12,7 @@
     "nxe:test:backend": "nx test virteex-desktop",
     "nxe:package:app": "nx run virteex-desktop:make --prepackageOnly",
     "nxe:make:app": "nx run virteex-desktop:make",
+    "validate:policies": "./tools/validate-policies.sh",
     "sbom:generate": "cyclonedx-npm --output-file sbom.json",
     "sign:artifact": "cosign sign --key cosign.key",
     "dep-graph:check": "depcruise --validate .dependency-cruiser.js libs apps",

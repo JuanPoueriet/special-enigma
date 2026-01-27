@@ -3,6 +3,12 @@ import { check, sleep } from 'k6';
 import { crypto } from 'k6/crypto';
 import encoding from 'k6/encoding';
 
+// POC A: RLS Performance & Scale
+// Objective: Demonstrate Shared Schema + RLS supports target load without degradation.
+// Acceptance Criteria:
+// - p95 latency < 200ms
+// - Error rate < 0.1%
+
 export const options = {
   scenarios: {
     contacts: {
@@ -12,14 +18,15 @@ export const options = {
       preAllocatedVUs: 50,
       maxVUs: 100,
       stages: [
-        { target: 200, duration: '30s' },
-        { target: 200, duration: '1m' },
-        { target: 0, duration: '30s' },
+        { target: 200, duration: '30s' }, // Ramp up to 200 RPS
+        { target: 200, duration: '1m' },  // Sustain
+        { target: 0, duration: '30s' },   // Ramp down
       ],
     },
   },
   thresholds: {
-    http_req_duration: ['p(95)<200'],
+    http_req_duration: ['p(95)<200'], // Strict latency requirement
+    http_req_failed: ['rate<0.001'],  // Error rate < 0.1%
   },
 };
 
