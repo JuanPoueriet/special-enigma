@@ -5,8 +5,6 @@ import { TaxRuleEngine } from './services/tax-rule.engine';
 import { TaxRule } from './entities/tax-rule.entity';
 import { Invoice } from './entities/invoice.entity';
 import { TaxLine } from './entities/tax-line.entity';
-import { FinkokPacProvider } from './infrastructure/finkok-pac.provider';
-import { PAC_PROVIDER } from './infrastructure/pac-provider.interface';
 
 @Module({
   imports: [
@@ -14,16 +12,11 @@ import { PAC_PROVIDER } from './infrastructure/pac-provider.interface';
   ],
   providers: [
     TaxCalculatorService,
-    TaxRuleEngine,
-    {
-      provide: PAC_PROVIDER,
-      useClass: FinkokPacProvider
-    }
+    TaxRuleEngine
   ],
   exports: [
     TaxCalculatorService,
     TaxRuleEngine,
-    PAC_PROVIDER,
     MikroOrmModule
   ]
 })

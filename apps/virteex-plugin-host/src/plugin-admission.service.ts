@@ -1,78 +1,88 @@
 import axios from 'axios';
 
+export interface AdmissionResult {
+  status: 'approved' | 'rejected' | 'pending';
+  riskScore: number;
+  reason?: string;
+  details?: any;
+}
+
 export class PluginAdmissionService {
   private readonly sonarUrl = process.env.SONAR_HOST_URL || 'http://localhost:9000';
   private readonly sonarToken = process.env.SONAR_TOKEN || '';
+  private readonly snykUrl = process.env.SNYK_API_URL || 'https://api.snyk.io/v1';
 
-  async validatePlugin(pluginPackage: any): Promise<any> {
-    console.log('Validating plugin package...');
-
-    // SAST scan with SonarQube
-    const sastResult = await this.sastScan(pluginPackage);
-    if (!sastResult.valid) {
-      return { status: 'rejected', reason: 'SAST violations found', details: sastResult.details };
-    }
-
-    // SCA scan (assuming integrated with SonarQube or another tool, here we use SonarQube for consistency)
-    const scaResult = await this.scaScan(pluginPackage);
-    if (!scaResult.valid) {
-       return { status: 'rejected', reason: 'Vulnerable dependencies found', details: scaResult.details };
-    }
-
-    return { status: 'approved', riskScore: 0 };
-  }
-
-  private async sastScan(pluginPackage: any): Promise<{ valid: boolean; details?: any }> {
-    if (!this.sonarToken) {
-        console.warn('SONAR_TOKEN not set, skipping real SAST scan. This is unsafe for production.');
-        // Fallback to basic check if no token, but in strict mode we should fail or require token.
-        // For now, retaining basic check as fallback but logging warning.
-        if (pluginPackage.code && pluginPackage.code.includes('eval(')) {
-            return { valid: false, details: 'Manual check: eval() detected' };
-        }
-        return { valid: true };
-    }
+  async validatePlugin(pluginPackage: { name: string; code: string; dependencies?: Record<string, string> }): Promise<AdmissionResult> {
+    console.log(`[Admission] Starting validation pipeline for ${pluginPackage.name}...`);
 
     try {
-        // Trigger a scan or check quality gate status for the project
-        // This assumes the code has been submitted to SonarQube already or we trigger an analysis here.
-        // For admission, typically we check the Quality Gate of a specific project key associated with the plugin.
+      // 1. Static Application Security Testing (SAST)
+      const sastResult = await this.performSastScan(pluginPackage);
+      if (!sastResult.valid) {
+        return { status: 'rejected', riskScore: 100, reason: 'SAST Violation', details: sastResult.details };
+      }
+
+      // 2. Software Composition Analysis (SCA)
+      const scaResult = await this.performScaScan(pluginPackage);
+      if (!scaResult.valid) {
+        return { status: 'rejected', riskScore: 90, reason: 'SCA Violation', details: scaResult.details };
+      }
+
+      // 3. Metadata & Heuristic Validation
+      if (pluginPackage.code.includes('eval(') || pluginPackage.code.includes('Function(')) {
+         return { status: 'rejected', riskScore: 80, reason: 'Unsafe functions detected (eval/Function)', details: 'Heuristic check failed' };
+      }
+
+      return { status: 'approved', riskScore: 0 };
+
+    } catch (error) {
+      console.error('[Admission] Pipeline error:', error);
+      // Fail secure
+      return { status: 'rejected', riskScore: 100, reason: 'Pipeline Error', details: error instanceof Error ? error.message : 'Unknown error' };
+    }
+  }
+
+  private async performSastScan(pluginPackage: any): Promise<{ valid: boolean; details?: any }> {
+    if (!this.sonarToken) {
+       console.warn('[SAST] SONAR_TOKEN missing. Skipping real scan (Development Mode).');
+       return { valid: true };
+    }
+
+    // Simulate flow: Create Project -> Analyze -> Check Quality Gate
+    try {
         const projectKey = `plugin:${pluginPackage.name}`;
 
+        // Check Quality Gate Status
         const response = await axios.get(`${this.sonarUrl}/api/qualitygates/project_status`, {
             params: { projectKey },
-            auth: {
-                username: this.sonarToken,
-                password: ''
-            }
+            auth: { username: this.sonarToken, password: '' },
+            timeout: 5000
         });
 
         const status = response.data.projectStatus.status;
         if (status === 'OK') {
             return { valid: true };
-        } else {
-             return { valid: false, details: response.data.projectStatus };
         }
+        return { valid: false, details: response.data.projectStatus };
 
     } catch (error) {
-        console.error('Error contacting SonarQube:', error);
-        // In a strict admission controller, failure to scan means rejection.
-        return { valid: false, details: 'Scanner unavailable' };
+        // Handle 404 (project not found) or connection error
+        console.error('[SAST] Scan check failed:', error);
+        return { valid: false, details: 'SAST Service Unavailable or Project Not Found' };
     }
   }
 
-  private async scaScan(pluginPackage: any): Promise<{ valid: boolean; details?: any }> {
-      // Real SCA often involves tools like Snyk or OWASP Dependency Check.
-      // If we use SonarQube for everything, it also reports security hotspots/vulnerabilities.
-      // We will reuse the quality gate check from SAST as it covers both code smells and vulnerabilities in SonarQube.
-      // However, if we want to separate them or use a different tool:
+  private async performScaScan(pluginPackage: any): Promise<{ valid: boolean; details?: any }> {
+    // Basic dependency check logic
+    const unsafeDependencies = ['shelljs', 'child_process', 'fs', 'net'];
+    const dependencies = Object.keys(pluginPackage.dependencies || {});
 
-      // For this implementation, we assume SonarQube Quality Gate covers SCA (vulnerabilities).
-      // So we return true here as the check is aggregated in sastScan or we can implement a specific Snyk call here.
+    const violations = dependencies.filter(dep => unsafeDependencies.includes(dep));
 
-      // Let's implement a placeholder for a specific Snyk API call if we wanted to be more specific,
-      // but complying with the instruction to use "Real logic", relying on the SonarQube Quality Gate is a valid "Real" strategy.
+    if (violations.length > 0) {
+        return { valid: false, details: `Forbidden dependencies: ${violations.join(', ')}` };
+    }
 
-      return { valid: true };
+    return { valid: true };
   }
 }
