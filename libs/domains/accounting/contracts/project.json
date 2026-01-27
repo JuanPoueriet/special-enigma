@@ -1,0 +1,25 @@
+{
+  "name": "accounting-contracts",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domains/accounting/contracts/src",
+  "projectType": "library",
+  "tags": [
+    "scope:accounting",
+    "type:contract",
+    "platform:agnostic",
+    "tenant-mode:schema",
+    "criticality:high"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/domains/accounting/contracts",
+        "main": "libs/domains/accounting/contracts/src/index.ts",
+        "tsConfig": "libs/domains/accounting/contracts/tsconfig.lib.json",
+        "assets": ["libs/domains/accounting/contracts/*.md"]
+      }
+    }
+  }
+}

@@ -48,8 +48,21 @@
       "@virteex-erp/billing-infrastructure": [
         "libs/domains/billing/infrastructure/src/index.ts"
       ],
-      "@virteex-erp/shared-validators": [
-        "libs/shared/validators/src/index.ts"
+      "@virteex-erp/shared-validators": ["libs/shared/validators/src/index.ts"],
+      "@virteex-erp/accounting-domain": [
+        "libs/domains/accounting/domain/src/index.ts"
+      ],
+      "@virteex-erp/accounting-application": [
+        "libs/domains/accounting/application/src/index.ts"
+      ],
+      "@virteex-erp/accounting-infrastructure": [
+        "libs/domains/accounting/infrastructure/src/index.ts"
+      ],
+      "@virteex-erp/accounting-presentation": [
+        "libs/domains/accounting/presentation/src/index.ts"
+      ],
+      "@virteex-erp/accounting-contracts": [
+        "libs/domains/accounting/contracts/src/index.ts"
       ]
     }
   },
