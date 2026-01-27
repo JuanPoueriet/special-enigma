@@ -63,6 +63,21 @@
       ],
       "@virteex-erp/accounting-contracts": [
         "libs/domains/accounting/contracts/src/index.ts"
+      ],
+      "@virteex-erp/inventory-domain": [
+        "libs/domains/inventory/domain/src/index.ts"
+      ],
+      "@virteex-erp/inventory-application": [
+        "libs/domains/inventory/application/src/index.ts"
+      ],
+      "@virteex-erp/inventory-infrastructure": [
+        "libs/domains/inventory/infrastructure/src/index.ts"
+      ],
+      "@virteex-erp/inventory-presentation": [
+        "libs/domains/inventory/presentation/src/index.ts"
+      ],
+      "@virteex-erp/inventory-contracts": [
+        "libs/domains/inventory/contracts/src/index.ts"
       ]
     }
   },
