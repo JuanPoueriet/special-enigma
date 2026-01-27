@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { XMLParser } from 'fast-xml-parser';
-import { PacProvider, FiscalStamp } from './pac-provider.interface';
+import { PacProvider, FiscalStamp } from '@virteex-erp/billing-domain';
 
 export class FinkokPacProvider implements PacProvider {
-  private readonly username = process.env.FINKOK_USERNAME || 'usuario_demo';
-  private readonly password = process.env.FINKOK_PASSWORD || 'password_demo';
-  private readonly url = process.env.FINKOK_URL || 'https://demo-facturacion.finkok.com/servicios/soap/stamp';
+  private readonly username = process.env['FINKOK_USERNAME'] || 'usuario_demo';
+  private readonly password = process.env['FINKOK_PASSWORD'] || 'password_demo';
+  private readonly url = process.env['FINKOK_URL'] || 'https://demo-facturacion.finkok.com/servicios/soap/stamp';
   private readonly parser = new XMLParser({
     ignoreAttributes: false,
     attributeNamePrefix: '',

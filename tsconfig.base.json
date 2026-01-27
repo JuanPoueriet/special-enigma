@@ -45,6 +45,9 @@
       "@virteex-erp/billing-domain": [
         "libs/domains/billing/domain/src/index.ts"
       ],
+      "@virteex-erp/billing-infrastructure": [
+        "libs/domains/billing/infrastructure/src/index.ts"
+      ],
       "@virteex-erp/shared-validators": [
         "libs/shared/validators/src/index.ts"
       ]

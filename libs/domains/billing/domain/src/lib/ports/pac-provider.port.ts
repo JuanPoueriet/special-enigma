@@ -3,7 +3,7 @@ export interface FiscalStamp {
   selloSAT: string;
   selloCFD: string;
   fechaTimbrado: string;
-  xml: string; // The full XML with the TimbreFiscalDigital node
+  xml: string;
 }
 
 export interface PacProvider {
