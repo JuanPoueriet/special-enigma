@@ -1,0 +1,25 @@
+{
+  "name": "accounting-application",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domains/accounting/application/src",
+  "projectType": "library",
+  "tags": [
+    "scope:accounting",
+    "type:application",
+    "platform:agnostic",
+    "tenant-mode:schema",
+    "criticality:high"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/domains/accounting/application",
+        "main": "libs/domains/accounting/application/src/index.ts",
+        "tsConfig": "libs/domains/accounting/application/tsconfig.lib.json",
+        "assets": ["libs/domains/accounting/application/*.md"]
+      }
+    }
+  }
+}

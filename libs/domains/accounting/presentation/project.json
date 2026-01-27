@@ -1,0 +1,26 @@
+{
+  "name": "accounting-presentation",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domains/accounting/presentation/src",
+  "projectType": "library",
+  "tags": [
+    "scope:accounting",
+    "type:presentation",
+    "platform:nest",
+    "tenant-mode:schema",
+    "criticality:high"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/domains/accounting/presentation",
+        "tsConfig": "libs/domains/accounting/presentation/tsconfig.lib.json",
+        "packageJson": "libs/domains/accounting/presentation/package.json",
+        "main": "libs/domains/accounting/presentation/src/index.ts",
+        "assets": ["libs/domains/accounting/presentation/*.md"]
+      }
+    }
+  }
+}
