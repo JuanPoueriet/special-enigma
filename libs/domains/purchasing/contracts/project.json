@@ -1,0 +1,40 @@
+{
+  "name": "purchasing-contracts",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domains/purchasing/contracts/src",
+  "projectType": "library",
+  "tags": [
+    "scope:purchasing",
+    "type:contracts",
+    "platform:agnostic",
+    "criticality:high"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "rootDir": ".",
+        "outputPath": "dist/libs/domains/purchasing/contracts",
+        "main": "libs/domains/purchasing/contracts/src/index.ts",
+        "tsConfig": "libs/domains/purchasing/contracts/tsconfig.lib.json",
+        "assets": [
+          "libs/domains/purchasing/contracts/*.md"
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "libs/domains/purchasing/contracts/**/*.ts"
+        ]
+      }
+    }
+  }
+}
