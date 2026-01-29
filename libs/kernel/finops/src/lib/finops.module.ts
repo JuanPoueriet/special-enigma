@@ -1,8 +1,17 @@
 import { Module } from '@nestjs/common';
 import { FinOpsService } from './finops.service';
+import { USAGE_REPOSITORY } from './ports/usage.repository';
+import { InMemoryUsageRepository } from './infrastructure/memory-usage.repository';
 
 @Module({
-  providers: [FinOpsService],
-  exports: [FinOpsService]
+  controllers: [],
+  providers: [
+    FinOpsService,
+    {
+      provide: USAGE_REPOSITORY,
+      useClass: InMemoryUsageRepository
+    }
+  ],
+  exports: [FinOpsService],
 })
 export class FinOpsModule {}

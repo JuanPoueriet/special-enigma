@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
+import { USAGE_REPOSITORY, UsageRepository } from './ports/usage.repository';
 
 export interface CostBreakdown {
   compute: number;
@@ -17,25 +18,47 @@ export interface TenantCost {
 
 @Injectable()
 export class FinOpsService {
-  // Pricing Model (Mocked)
+  // Pricing Model (Configurable in future)
   private readonly PRICING = {
-    computePerHour: 0.05,
-    storagePerGB: 0.02,
-    databasePerGB: 0.10,
-    networkPerGB: 0.01
+    compute: 0.05,  // per hour
+    storage: 0.02,  // per GB
+    database: 0.10, // per GB
+    network: 0.01   // per GB
   };
 
-  async calculateTenantCost(tenantId: string, period = new Date().toISOString()): Promise<TenantCost> {
-    // 1. Telemetry / Usage Retrieval
-    // In a real system, this would query Prometheus, CloudWatch, or a Usage Ledger DB.
-    // Here we simulate usage data based on tenant ID hash or random.
-    const usage = await this.getMockUsage(tenantId);
+  constructor(
+    @Inject(USAGE_REPOSITORY) private readonly usageRepo: UsageRepository
+  ) {}
 
-    // 2. Cost Calculation
-    const computeCost = usage.computeHours * this.PRICING.computePerHour;
-    const storageCost = usage.storageGB * this.PRICING.storagePerGB;
-    const databaseCost = usage.databaseGB * this.PRICING.databasePerGB;
-    const networkCost = usage.networkGB * this.PRICING.networkPerGB;
+  async calculateTenantCost(tenantId: string, period = new Date().toISOString()): Promise<TenantCost> {
+    // Determine period range (e.g., last 30 days or specific month)
+    // For simplicity, we fetch "all time" or a fixed window based on the period date
+    const endDate = new Date(period);
+    const startDate = new Date(endDate);
+    startDate.setMonth(startDate.getMonth() - 1);
+
+    // 1. Telemetry / Usage Retrieval from Repository
+    const usageRecords = await this.usageRepo.getUsage(tenantId, startDate, endDate);
+
+    // 2. Aggregate Usage
+    const totals = {
+      compute: 0,
+      storage: 0,
+      database: 0,
+      network: 0
+    };
+
+    for (const record of usageRecords) {
+      if (totals[record.metric] !== undefined) {
+        totals[record.metric] += record.value;
+      }
+    }
+
+    // 3. Cost Calculation
+    const computeCost = totals.compute * this.PRICING.compute;
+    const storageCost = totals.storage * this.PRICING.storage;
+    const databaseCost = totals.database * this.PRICING.database;
+    const networkCost = totals.network * this.PRICING.network;
 
     const total = computeCost + storageCost + databaseCost + networkCost;
 
@@ -50,18 +73,6 @@ export class FinOpsService {
         total: Number(total.toFixed(2)),
         currency: 'USD'
       }
-    };
-  }
-
-  private async getMockUsage(tenantId: string) {
-    // Deterministic mock based on tenantId
-    const seed = tenantId.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-
-    return {
-      computeHours: (seed % 720) + 1, // 1 to 720 hours
-      storageGB: (seed % 1000) + 10,
-      databaseGB: (seed % 500) + 5,
-      networkGB: (seed % 5000) + 100
     };
   }
 }
