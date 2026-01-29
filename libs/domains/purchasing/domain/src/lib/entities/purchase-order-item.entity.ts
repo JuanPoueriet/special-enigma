@@ -1,12 +1,12 @@
 import { Entity, PrimaryKey, Property, ManyToOne } from '@mikro-orm/core';
-import { PurchaseOrder } from './purchase-order.entity';
+import type { PurchaseOrder } from './purchase-order.entity';
 
 @Entity()
 export class PurchaseOrderItem {
   @PrimaryKey({ type: 'uuid', defaultRaw: 'gen_random_uuid()' })
   id!: string;
 
-  @ManyToOne(() => PurchaseOrder)
+  @ManyToOne('PurchaseOrder')
   purchaseOrder!: PurchaseOrder;
 
   @Property()
