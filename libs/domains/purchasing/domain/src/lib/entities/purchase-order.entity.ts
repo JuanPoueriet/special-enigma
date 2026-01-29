@@ -1,7 +1,7 @@
 import { Entity, PrimaryKey, Property, Enum, ManyToOne, OneToMany, Collection, Cascade } from '@mikro-orm/core';
 import { PurchaseOrderStatus } from '../enums/purchase-order-status.enum';
 import { Supplier } from './supplier.entity';
-import { PurchaseOrderItem } from './purchase-order-item.entity';
+import type { PurchaseOrderItem } from './purchase-order-item.entity';
 
 @Entity()
 export class PurchaseOrder {
@@ -20,7 +20,7 @@ export class PurchaseOrder {
   @Enum(() => PurchaseOrderStatus)
   status: PurchaseOrderStatus = PurchaseOrderStatus.DRAFT;
 
-  @OneToMany(() => PurchaseOrderItem, item => item.purchaseOrder, { cascade: [Cascade.ALL] })
+  @OneToMany('PurchaseOrderItem', 'purchaseOrder', { cascade: [Cascade.ALL] })
   items = new Collection<PurchaseOrderItem>(this);
 
   @Property({ persist: false })

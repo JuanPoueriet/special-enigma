@@ -1,5 +1,5 @@
 import { Entity, PrimaryKey, Property, ManyToOne } from '@mikro-orm/core';
-import { JournalEntry } from './journal-entry.entity';
+import type { JournalEntry } from './journal-entry.entity';
 import { Account } from './account.entity';
 
 @Entity()
@@ -7,7 +7,7 @@ export class JournalEntryLine {
   @PrimaryKey({ type: 'uuid', defaultRaw: 'gen_random_uuid()' })
   id!: string;
 
-  @ManyToOne(() => JournalEntry)
+  @ManyToOne('JournalEntry')
   journalEntry!: JournalEntry;
 
   @ManyToOne(() => Account)

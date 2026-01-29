@@ -23,7 +23,7 @@ export class Stock {
   location?: Location;
 
   @Property({ type: 'decimal', precision: 14, scale: 4 })
-  quantity: string = '0';
+  quantity = '0';
 
   @Property()
   createdAt: Date = new Date();
@@ -35,7 +35,7 @@ export class Stock {
     tenantId: string,
     productId: string,
     warehouse: Warehouse,
-    quantity: string = '0',
+    quantity = '0',
     location?: Location
   ) {
     this.tenantId = tenantId;

@@ -24,7 +24,7 @@ export class Product {
   taxGroup?: string;
 
   @Property()
-  isActive: boolean = true;
+  isActive = true;
 
   constructor(sku: string, name: string, price: string) {
     this.sku = sku;

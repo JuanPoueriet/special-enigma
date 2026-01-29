@@ -55,7 +55,7 @@ export class TelemetryService implements OnModuleInit, OnModuleDestroy {
     }
   }
 
-  getTracer(name: string = 'virteex-kernel') {
+  getTracer(name = 'virteex-kernel') {
     return trace.getTracer(name);
   }
 

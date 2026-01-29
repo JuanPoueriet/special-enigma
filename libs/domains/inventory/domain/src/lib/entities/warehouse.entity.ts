@@ -1,6 +1,6 @@
 import { Entity, PrimaryKey, Property, OneToMany, Collection, Unique } from '@mikro-orm/core';
 import { v4 } from 'uuid';
-import { Location } from './location.entity';
+import type { Location } from './location.entity';
 
 @Entity()
 @Unique({ properties: ['tenantId', 'code'] })
@@ -21,9 +21,9 @@ export class Warehouse {
   description?: string;
 
   @Property()
-  isActive: boolean = true;
+  isActive = true;
 
-  @OneToMany(() => Location, location => location.warehouse)
+  @OneToMany('Location', 'warehouse')
   locations = new Collection<Location>(this);
 
   @Property()

@@ -1,6 +1,6 @@
 import { Entity, PrimaryKey, Property, ManyToOne, Unique } from '@mikro-orm/core';
 import { v4 } from 'uuid';
-import { Warehouse } from './warehouse.entity';
+import type { Warehouse } from './warehouse.entity';
 
 @Entity()
 @Unique({ properties: ['warehouse', 'code'] })
@@ -11,7 +11,7 @@ export class Location {
   @Property()
   tenantId!: string;
 
-  @ManyToOne(() => Warehouse)
+  @ManyToOne('Warehouse')
   warehouse!: Warehouse;
 
   @Property()

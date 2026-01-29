@@ -5,7 +5,7 @@
   "projectType": "library",
   "tags": [
     "scope:inventory",
-    "type:contracts",
+    "type:contract",
     "platform:agnostic",
     "criticality:high"
   ],
