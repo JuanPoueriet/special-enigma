@@ -21,7 +21,7 @@ export class Warehouse {
   description?: string;
 
   @Property()
-  isActive: boolean = true;
+  isActive = true;
 
   @OneToMany('Location', 'warehouse')
   locations = new Collection<Location>(this);
