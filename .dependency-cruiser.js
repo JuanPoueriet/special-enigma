@@ -7,7 +7,8 @@ module.exports = {
       comment: 'This dependency is part of a circular relationship.',
       from: {},
       to: {
-        circular: true
+        circular: true,
+        dependencyTypesNot: ['type-only']
       }
     },
     {
