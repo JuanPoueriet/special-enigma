@@ -20,6 +20,14 @@
         "tsConfig": "libs/domains/accounting/domain/tsconfig.lib.json",
         "assets": ["libs/domains/accounting/domain/*.md"]
       }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/domains/accounting/domain"],
+      "options": {
+        "jestConfig": "libs/domains/accounting/domain/jest.config.cts",
+        "passWithNoTests": true
+      }
     }
   }
 }
