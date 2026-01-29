@@ -1,0 +1,56 @@
+{
+  "name": "purchasing-application",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domains/purchasing/application/src",
+  "projectType": "library",
+  "tags": [
+    "scope:purchasing",
+    "type:application",
+    "platform:agnostic",
+    "criticality:high"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "rootDir": ".",
+        "outputPath": "dist/libs/domains/purchasing/application",
+        "main": "libs/domains/purchasing/application/src/index.ts",
+        "tsConfig": "libs/domains/purchasing/application/tsconfig.lib.json",
+        "assets": [
+          "libs/domains/purchasing/application/*.md"
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "libs/domains/purchasing/application/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/domains/purchasing/application"
+      ],
+      "options": {
+        "jestConfig": "libs/domains/purchasing/application/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  }
+}

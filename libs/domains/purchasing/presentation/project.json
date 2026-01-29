@@ -1,0 +1,40 @@
+{
+  "name": "purchasing-presentation",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domains/purchasing/presentation/src",
+  "projectType": "library",
+  "tags": [
+    "scope:purchasing",
+    "type:presentation",
+    "platform:agnostic",
+    "criticality:high"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "rootDir": ".",
+        "outputPath": "dist/libs/domains/purchasing/presentation",
+        "main": "libs/domains/purchasing/presentation/src/index.ts",
+        "tsConfig": "libs/domains/purchasing/presentation/tsconfig.lib.json",
+        "assets": [
+          "libs/domains/purchasing/presentation/*.md"
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "libs/domains/purchasing/presentation/**/*.ts"
+        ]
+      }
+    }
+  }
+}
