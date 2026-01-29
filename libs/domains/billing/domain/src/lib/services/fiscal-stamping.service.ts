@@ -23,11 +23,11 @@ export class FiscalStampingService {
   private generateXml(invoice: Invoice): string {
     // Placeholder XML generation
     return `
-      <cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/4" Version="4.0" Total="${invoice.total}" Fecha="${new Date().toISOString()}">
+      <cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/4" Version="4.0" Total="${invoice.totalAmount}" Fecha="${new Date().toISOString()}">
         <cfdi:Emisor Rfc="TEST010203001" Nombre="VIRTEEX DEMO"/>
         <cfdi:Receptor Rfc="XAXX010101000" UsoCFDI="G03"/>
         <cfdi:Conceptos>
-           <cfdi:Concepto Importe="${invoice.total}" Descripcion="Service"/>
+           <cfdi:Concepto Importe="${invoice.totalAmount}" Descripcion="Service"/>
         </cfdi:Conceptos>
       </cfdi:Comprobante>
     `;
