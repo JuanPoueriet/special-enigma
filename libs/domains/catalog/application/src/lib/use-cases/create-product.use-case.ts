@@ -14,7 +14,7 @@ export class CreateProductUseCase {
     }
 
     // 2. Create the Aggregate
-    const product = new Product(command.sku, command.name, command.price);
+    const product = new Product(command.sku, command.name, command.price.toString());
 
     // 3. Persist (TenantSubscriber will inject tenantId automatically)
     await this.productRepo.save(product);

@@ -1,1 +1,2 @@
-export * from './lib/inventory-contracts';
+// Library is currently empty.
+export {};
