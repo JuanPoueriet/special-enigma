@@ -61,7 +61,6 @@ describe('TenantRlsInterceptor', () => {
     // Since intercept is async, it returns a Promise.
     // If it returns next.handle() directly, it's Promise<Observable>.
 
-    const obs = result;
     // Wait, if next.handle() returns Observable, and async function returns it, it is Promise<Observable>.
 
     // In this case result is likely the Observable wrapped in Promise.

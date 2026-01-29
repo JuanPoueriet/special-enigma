@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
   displayName: 'purchasing-application',
   preset: '../../../../jest.preset.js',
