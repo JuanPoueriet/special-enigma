@@ -19,6 +19,14 @@
         "tsConfig": "libs/domains/inventory/application/tsconfig.lib.json",
         "assets": ["libs/domains/inventory/application/*.md"]
       }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/domains/inventory/application"],
+      "options": {
+        "jestConfig": "libs/domains/inventory/application/jest.config.cts",
+        "passWithNoTests": true
+      }
     }
   }
 }

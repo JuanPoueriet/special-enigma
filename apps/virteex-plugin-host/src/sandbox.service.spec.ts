@@ -7,10 +7,6 @@ describe('SandboxService', () => {
     sandbox = new SandboxService();
   });
 
-  afterEach(() => {
-    sandbox.dispose();
-  });
-
   it('should execute valid code', async () => {
     const result = await sandbox.run('const a = 1; const b = 2;');
     expect(result.success).toBe(true);

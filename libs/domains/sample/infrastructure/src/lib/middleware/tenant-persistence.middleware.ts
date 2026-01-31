@@ -23,8 +23,8 @@ export class TenantPersistenceMiddleware implements NestMiddleware {
         // SHARED mode: Execute SET command for RLS.
         // To be safe with connection pooling, this should ideally be done in a transaction or with strict session management.
         // For strict compliance with standards demanding DB-level RLS:
-        await this.em.execute('SET app.current_tenant = ?', [tenantId]);
-        await this.em.execute('SET search_path = public');
+        await this.em.getConnection().execute('SET app.current_tenant = ?', [tenantId]);
+        await this.em.getConnection().execute('SET search_path = public');
       } else if (config.mode === TenantMode.SCHEMA && config.schemaName) {
         // For schema mode, we fork the EM with the schema and create a new RequestContext.
         const scopedEm = this.em.fork({ schema: config.schemaName });

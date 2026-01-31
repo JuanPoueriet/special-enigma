@@ -1,9 +1,8 @@
-import { EventSubscriber, EntityName, EventArgs, Subscriber } from '@mikro-orm/core';
+import { EventSubscriber, EntityName, EventArgs } from '@mikro-orm/core';
 import { Injectable } from '@nestjs/common';
 import { getTenantContext } from '@virteex-erp/auth';
 
 @Injectable()
-@Subscriber()
 export class TenantModelSubscriber implements EventSubscriber {
   // Subscribe to all entities? Or maybe we can't easily subscribe to "All" without listing them.
   // MikroORM allows subscribing to specific entities.
