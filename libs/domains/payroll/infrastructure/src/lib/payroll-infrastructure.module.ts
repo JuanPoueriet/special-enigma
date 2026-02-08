@@ -6,10 +6,12 @@ import {
   PayrollDetail,
   Attendance,
   PAYROLL_REPOSITORY,
-  EMPLOYEE_REPOSITORY
+  EMPLOYEE_REPOSITORY,
+  TAX_SERVICE
 } from '@virteex/payroll-domain';
 import { MikroOrmPayrollRepository } from './repositories/mikro-orm-payroll.repository';
 import { MikroOrmEmployeeRepository } from './repositories/mikro-orm-employee.repository';
+import { MexicanTaxService } from './services/mexican-tax.service';
 
 @Module({
   imports: [
@@ -23,11 +25,16 @@ import { MikroOrmEmployeeRepository } from './repositories/mikro-orm-employee.re
     {
       provide: EMPLOYEE_REPOSITORY,
       useClass: MikroOrmEmployeeRepository
+    },
+    {
+      provide: TAX_SERVICE,
+      useClass: MexicanTaxService
     }
   ],
   exports: [
     PAYROLL_REPOSITORY,
     EMPLOYEE_REPOSITORY,
+    TAX_SERVICE,
     MikroOrmModule
   ]
 })

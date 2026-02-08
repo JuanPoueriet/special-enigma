@@ -89,6 +89,11 @@ export class FinkokPacProvider implements PacProvider {
   }
 
   async cancel(uuid: string): Promise<boolean> {
+     const taxId = process.env['TAX_ID'];
+     if (!taxId) {
+         throw new Error('TAX_ID environment variable missing for cancellation');
+     }
+
      const soapEnvelope = `
       <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:apps="http://facturacion.finkok.com/cancel">
          <soapenv:Header/>
@@ -101,20 +106,36 @@ export class FinkokPacProvider implements PacProvider {
                </apps:UUIDS>
                <apps:username>${this.username}</apps:username>
                <apps:password>${this.password}</apps:password>
-               <apps:taxpayer_id>${process.env['TAX_ID'] || 'REQUIRED_RFC'}</apps:taxpayer_id>
+               <apps:taxpayer_id>${taxId}</apps:taxpayer_id>
             </apps:cancel>
          </soapenv:Body>
       </soapenv:Envelope>
     `;
 
     try {
-        await axios.post(this.url.replace('stamp', 'cancel'), soapEnvelope, {
+        const response = await axios.post(this.url.replace('stamp', 'cancel'), soapEnvelope, {
             headers: { 'Content-Type': 'text/xml;charset=UTF-8', 'SOAPAction': 'cancel' }
         });
+
+        const parsed = this.parser.parse(response.data);
+        const body = parsed?.Envelope?.Body;
+        const fault = body?.Fault;
+
+        if (fault) {
+           throw new Error(`Finkok Cancel Error: ${fault.faultstring}`);
+        }
+
+        const cancelResult = body?.cancelResponse?.cancelResult;
+        if (!cancelResult) {
+            throw new Error('Invalid cancel response from Finkok');
+        }
+
         return true;
-    } catch (e) {
-        console.error('Cancel failed', e);
-        return false;
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            throw new Error(`PAC Connection Error during cancel: ${error.message}`);
+        }
+        throw error;
     }
   }
 }

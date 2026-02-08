@@ -6,7 +6,9 @@ import {
   PAYROLL_REPOSITORY,
   Payroll,
   Employee,
-  PayrollDetail
+  PayrollDetail,
+  TaxService,
+  TAX_SERVICE
 } from '@virteex/payroll-domain';
 import {
   CalculatePayrollDto,
@@ -19,7 +21,8 @@ import {
 export class CalculatePayrollUseCase {
   constructor(
     @Inject(EMPLOYEE_REPOSITORY) private employeeRepository: EmployeeRepository,
-    @Inject(PAYROLL_REPOSITORY) private payrollRepository: PayrollRepository
+    @Inject(PAYROLL_REPOSITORY) private payrollRepository: PayrollRepository,
+    @Inject(TAX_SERVICE) private taxService: TaxService
   ) {}
 
   async execute(dto: CalculatePayrollDto): Promise<Payroll> {
@@ -43,11 +46,10 @@ export class CalculatePayrollUseCase {
     }
 
     // Calculate base salary for the period (assuming semi-monthly for now)
-    // In a real system, this would use Attendance records and specific rules.
     const baseAmount = employee.salary / 2;
 
     // Create Payroll
-    const payroll = new Payroll(tenantId, employee, start, end, new Date()); // Payment date defaults to now
+    const payroll = new Payroll(tenantId, employee, start, end, new Date());
     payroll.type = PayrollType.REGULAR;
     payroll.status = PayrollStatus.DRAFT;
 
@@ -55,8 +57,8 @@ export class CalculatePayrollUseCase {
     const salaryDetail = new PayrollDetail(tenantId, 'Sueldo Base', baseAmount, PayrollDetailType.EARNING);
     payroll.details.add(salaryDetail);
 
-    // Add Tax Deduction (Simplified: 10%)
-    const taxAmount = baseAmount * 0.10;
+    // Add Tax Deduction (Using Real Tax Service)
+    const taxAmount = await this.taxService.calculateTax(baseAmount);
     const taxDetail = new PayrollDetail(tenantId, 'ISR Retenido', taxAmount, PayrollDetailType.DEDUCTION);
     payroll.details.add(taxDetail);
 
