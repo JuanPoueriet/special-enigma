@@ -110,6 +110,18 @@
       ],
       "@virteex-erp/purchasing-presentation": [
         "libs/domains/purchasing/presentation/src/index.ts"
+      ],
+      "@virteex-erp/identity-domain": [
+        "libs/domains/identity/domain/src/index.ts"
+      ],
+      "@virteex-erp/identity-application": [
+        "libs/domains/identity/application/src/index.ts"
+      ],
+      "@virteex-erp/identity-infrastructure": [
+        "libs/domains/identity/infrastructure/src/index.ts"
+      ],
+      "@virteex-erp/identity-presentation": [
+        "libs/domains/identity/presentation/src/index.ts"
       ]
     }
   },
