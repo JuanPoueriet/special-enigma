@@ -1,9 +1,12 @@
-# telemetry (Kernel - Telemetry)
+# telemetry (Kernel)
 
-## 🎯 Purpose
-This library provides **Observability** standards for the platform.
+## ☢️ Core Kernel
+This library is part of the **Shared Kernel** of Virteex ERP. It contains fundamental building blocks used across all domains.
 
-## 🔑 Key Features
-- **Logging:** Structured JSON logging (Pino/Winston).
-- **Tracing:** OpenTelemetry integration.
-- **Metrics:** Prometheus metrics collection.
+## 🧱 Scope
+- Base Classes (Entity, AggregateRoot, ValueObject).
+- Common Utilities & Helpers.
+- Cross-cutting Concerns (Logging, Exception Handling).
+
+## ⚠️ Stability
+- **High Stability Required:** Changes here propagate to ALL domains.

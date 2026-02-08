@@ -1,13 +1,12 @@
 # auth (Kernel)
 
-## 🎯 Purpose
-This library is part of the **Shared Kernel**, providing core utilities, base classes, and cross-cutting concerns used throughout the Virteex ERP ecosystem.
+## ☢️ Core Kernel
+This library is part of the **Shared Kernel** of Virteex ERP. It contains fundamental building blocks used across all domains.
 
-## 🔑 Key Features
-- **Authentication/Authorization:** Guards, Strategies.
-- **Telemetry:** Logging, Tracing, Metrics.
-- **Common Utilities:** Date manipulation, String helpers, etc.
+## 🧱 Scope
+- Base Classes (Entity, AggregateRoot, ValueObject).
+- Common Utilities & Helpers.
+- Cross-cutting Concerns (Logging, Exception Handling).
 
-## ⚠️ Usage
-- Modifications here affect the entire system.
-- **Strict backward compatibility** is required.
+## ⚠️ Stability
+- **High Stability Required:** Changes here propagate to ALL domains.

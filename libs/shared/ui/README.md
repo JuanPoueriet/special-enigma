@@ -1,9 +1,9 @@
-# ui (Shared)
+# shared-ui (Shared)
 
-## 🎯 Purpose
-This library provides reusable components, UI kits, or utility functions shared across multiple frontend or backend applications.
+## 🤝 Shared Library
+This library provides reusable functionality for multiple parts of the system.
 
-## 📦 Components
-- **UI Kit:** Atomic components (Buttons, Inputs).
-- **Utils:** Shared frontend logic.
-- **Styles:** Global SCSS/Theme definitions.
+## 📦 Scope
+- UI Kits / Component Libraries.
+- Shared Utilities.
+- API Client Generators.

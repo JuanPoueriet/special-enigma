@@ -1,11 +1,13 @@
-# projects-contracts
+# projects-contracts (Contracts)
 
-This library was generated with [Nx](https://nx.dev).
+## 📜 Shared Agreement
+This library defines the **Public Contract** for the **Projects** domain. It is safe to be shared with other domains or external consumers.
 
-## Building
+## 📦 Contents
+- **DTOs:** Data Transfer Objects used in public APIs.
+- **Events:** Integration Events published by this domain.
+- **Enums/Types:** Shared constants and type definitions.
 
-Run `nx build projects-contracts` to build the library.
-
-## Running unit tests
-
-Run `nx test projects-contracts` to execute the unit tests via [Jest](https://jestjs.io).
+## ⚠️ Guidelines
+- **Stable:** Changes here affect external consumers.
+- **No Logic:** Pure data structures only.

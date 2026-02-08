@@ -1,17 +1,14 @@
 # billing-infrastructure (Infrastructure Layer)
 
-## 🎯 Purpose
-This library provides the **concrete implementations** of the interfaces defined in the Domain and Application layers for the **Billing** domain. It handles all I/O, database persistence, and external API calls.
+## ⚙️ Implementation
+This library provides the **technical implementation** of the interfaces (Ports) defined in the Domain and Application layers. It handles persistence, external APIs, and system interactions.
 
-## 🏗 Architecture
-- **Repositories:** MikroORM/TypeORM implementations of Domain repositories.
-- **Adapters:** Implementations of external service ports (e.g., PaymentGateway, EmailService).
-- **Configuration:** Database schemas, migrations, and environment variable parsing.
+## 🛠 Contents
+- **Repositories:** MikroORM implementations of domain repositories.
+- **Adapters:** Implementations of external services (e.g., EmailService, PaymentGateway).
+- **Configuration:** Database connections, Environment variables validation.
 
-## 🤝 Dependencies
-- Depends on **Domain** and **Application** layers (to implement interfaces).
-- Depends on external libraries (MikroORM, Redis, etc.).
-
-## 🧪 Testing
-- **Integration Tests:** Using Testcontainers (Docker) for real database/service interaction.
-- **Contract Tests:** Verifying external API contracts.
+## 🔗 Dependencies
+- Depends on **Domain** (for Entities/Repositories interfaces).
+- Depends on **Application** (for Use Case ports).
+- **Platform Dependencies:** MikroORM, NestJS, Postgres, Redis, etc.

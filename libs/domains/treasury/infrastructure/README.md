@@ -1,11 +1,14 @@
-# treasury-infrastructure
+# treasury-infrastructure (Infrastructure Layer)
 
-This library was generated with [Nx](https://nx.dev).
+## ⚙️ Implementation
+This library provides the **technical implementation** of the interfaces (Ports) defined in the Domain and Application layers. It handles persistence, external APIs, and system interactions.
 
-## Building
+## 🛠 Contents
+- **Repositories:** MikroORM implementations of domain repositories.
+- **Adapters:** Implementations of external services (e.g., EmailService, PaymentGateway).
+- **Configuration:** Database connections, Environment variables validation.
 
-Run `nx build treasury-infrastructure` to build the library.
-
-## Running unit tests
-
-Run `nx test treasury-infrastructure` to execute the unit tests via [Jest](https://jestjs.io).
+## 🔗 Dependencies
+- Depends on **Domain** (for Entities/Repositories interfaces).
+- Depends on **Application** (for Use Case ports).
+- **Platform Dependencies:** MikroORM, NestJS, Postgres, Redis, etc.

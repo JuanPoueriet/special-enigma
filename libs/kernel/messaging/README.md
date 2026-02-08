@@ -1,9 +1,12 @@
-# messaging (Kernel - Messaging)
+# messaging (Kernel)
 
-## 🎯 Purpose
-This library encapsulates the **Event-Driven Architecture** infrastructure, providing abstractions for message brokers.
+## ☢️ Core Kernel
+This library is part of the **Shared Kernel** of Virteex ERP. It contains fundamental building blocks used across all domains.
 
-## 🔑 Key Features
-- **Event Bus:** Unified interface for publishing/subscribing to events.
-- **Transporters:** Kafka and RabbitMQ implementations.
-- **Patterns:** Outbox pattern support, Idempotency handling.
+## 🧱 Scope
+- Base Classes (Entity, AggregateRoot, ValueObject).
+- Common Utilities & Helpers.
+- Cross-cutting Concerns (Logging, Exception Handling).
+
+## ⚠️ Stability
+- **High Stability Required:** Changes here propagate to ALL domains.

@@ -1,9 +1,12 @@
-# finops (Kernel - FinOps)
+# finops (Kernel)
 
-## 🎯 Purpose
-This library implements **Financial Operations** logic, calculating costs and usage for tenants.
+## ☢️ Core Kernel
+This library is part of the **Shared Kernel** of Virteex ERP. It contains fundamental building blocks used across all domains.
 
-## 🔑 Key Features
-- **Metering:** Tracking resource usage (API calls, storage).
-- **Costing:** Applying pricing models to usage data.
-- **Reporting:** Generating cost reports.
+## 🧱 Scope
+- Base Classes (Entity, AggregateRoot, ValueObject).
+- Common Utilities & Helpers.
+- Cross-cutting Concerns (Logging, Exception Handling).
+
+## ⚠️ Stability
+- **High Stability Required:** Changes here propagate to ALL domains.

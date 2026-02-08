@@ -1,11 +1,14 @@
-# bi-presentation
+# bi-presentation (Presentation Layer)
 
-This library was generated with [Nx](https://nx.dev).
+## 🎮 Interface
+This library serves as the **Entry Point** for the **Bi** domain. It handles incoming requests (HTTP, GraphQL, Events) and delegates them to the Application layer.
 
-## Building
+## 📡 Components
+- **Controllers:** REST API endpoints (NestJS).
+- **Resolvers:** GraphQL resolvers (if applicable).
+- **Consumers:** Event listeners (RabbitMQ/Redis/Kafka).
+- **Modules:** NestJS Modules for dependency injection wiring.
 
-Run `nx build bi-presentation` to build the library.
-
-## Running unit tests
-
-Run `nx test bi-presentation` to execute the unit tests via [Jest](https://jestjs.io).
+## 🔌 Wiring
+- Acts as the **Composition Root** for the domain module.
+- Injects **Infrastructure** implementations into **Application** use cases.

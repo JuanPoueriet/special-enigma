@@ -1,11 +1,18 @@
-# projects-application
+# projects-application (Application Layer)
 
-This library was generated with [Nx](https://nx.dev).
+## 🎯 Purpose
+This library implements the **Use Cases** and orchestrates the flow of data for the **Projects** domain. It acts as the glue between the Presentation layer and the Domain layer.
 
-## Building
+## 🏗 Architecture
+- **Use Cases (Interactors):** Specific business actions (e.g., `CreateOrder`, `ProcessPayment`).
+- **DTOs (Data Transfer Objects):** Input/Output structures for use cases.
+- **Ports (Interfaces):** Secondary ports for Infrastructure implementations.
 
-Run `nx build projects-application` to build the library.
+## 🤝 Dependencies
+- Depends on **Domain** layer.
+- Depends on **Contracts** (Shared Kernel).
+- **No direct dependency** on Infrastructure (Dependency Inversion Principle).
 
-## Running unit tests
-
-Run `nx test projects-application` to execute the unit tests via [Jest](https://jestjs.io).
+## 🧪 Testing
+- **Unit Tests:** Mocking domain services and repositories.
+- **Integration Tests:** Verifying use case flows.

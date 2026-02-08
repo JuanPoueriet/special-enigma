@@ -1,18 +1,14 @@
 # identity-presentation (Presentation Layer)
 
-## 🎯 Purpose
-This library serves as the **Entry Point** for the **Identity** domain. It handles HTTP requests, GraphQL queries, and event subscriptions, delegating execution to the Application layer.
+## 🎮 Interface
+This library serves as the **Entry Point** for the **Identity** domain. It handles incoming requests (HTTP, GraphQL, Events) and delegates them to the Application layer.
 
-## 🏗 Architecture
+## 📡 Components
 - **Controllers:** REST API endpoints (NestJS).
-- **Resolvers:** GraphQL resolvers.
-- **Consumers:** Kafka/RabbitMQ event consumers.
-- **Module Definition:** The root NestJS module that wires dependencies (IoC).
+- **Resolvers:** GraphQL resolvers (if applicable).
+- **Consumers:** Event listeners (RabbitMQ/Redis/Kafka).
+- **Modules:** NestJS Modules for dependency injection wiring.
 
-## 🤝 Dependencies
-- Depends on **Application** layer.
-- Depends on **Contracts** layer.
-- **No business logic** here; only transport-specific validation and delegation.
-
-## 🧪 Testing
-- **E2E Tests:** Verifying full request/response cycles.
+## 🔌 Wiring
+- Acts as the **Composition Root** for the domain module.
+- Injects **Infrastructure** implementations into **Application** use cases.

@@ -1,11 +1,13 @@
-# fixed-assets-contracts
+# fixed-assets-contracts (Contracts)
 
-This library was generated with [Nx](https://nx.dev).
+## 📜 Shared Agreement
+This library defines the **Public Contract** for the **Fixed Assets** domain. It is safe to be shared with other domains or external consumers.
 
-## Building
+## 📦 Contents
+- **DTOs:** Data Transfer Objects used in public APIs.
+- **Events:** Integration Events published by this domain.
+- **Enums/Types:** Shared constants and type definitions.
 
-Run `nx build fixed-assets-contracts` to build the library.
-
-## Running unit tests
-
-Run `nx test fixed-assets-contracts` to execute the unit tests via [Jest](https://jestjs.io).
+## ⚠️ Guidelines
+- **Stable:** Changes here affect external consumers.
+- **No Logic:** Pure data structures only.

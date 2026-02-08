@@ -1,9 +1,9 @@
-# validators (Shared Validators)
+# shared-validators (Shared)
 
-## 🎯 Purpose
-This library provides **Common Validation Logic** used across backend and frontend.
+## 🤝 Shared Library
+This library provides reusable functionality for multiple parts of the system.
 
-## 🔑 Key Features
-- **Custom Decorators:** `class-validator` extensions (e.g., `@IsTaxId`, `@IsStrongPassword`).
-- **Regex Patterns:** Standard patterns for emails, phones, etc.
-- **Schemas:** Zod/Joi schemas for runtime validation.
+## 📦 Scope
+- UI Kits / Component Libraries.
+- Shared Utilities.
+- API Client Generators.

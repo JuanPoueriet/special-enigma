@@ -1,9 +1,12 @@
-# tenant (Kernel - Tenant)
+# tenant (Kernel)
 
-## 🎯 Purpose
-This library manages **Multi-Tenancy** context and isolation strategies.
+## ☢️ Core Kernel
+This library is part of the **Shared Kernel** of Virteex ERP. It contains fundamental building blocks used across all domains.
 
-## 🔑 Key Features
-- **Context:** AsyncLocalStorage wrapper for Tenant ID.
-- **Resolution:** Strategy to resolve tenant from headers/subdomains.
-- **Isolation:** Utilities for RLS (Row Level Security) and Schema switching.
+## 🧱 Scope
+- Base Classes (Entity, AggregateRoot, ValueObject).
+- Common Utilities & Helpers.
+- Cross-cutting Concerns (Logging, Exception Handling).
+
+## ⚠️ Stability
+- **High Stability Required:** Changes here propagate to ALL domains.

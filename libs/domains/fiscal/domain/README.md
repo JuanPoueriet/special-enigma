@@ -1,11 +1,14 @@
-# fiscal-domain
+# fiscal-domain (Domain Layer)
 
-This library was generated with [Nx](https://nx.dev).
+## 🧠 Core Logic
+This library contains the **Pure Business Logic** for the **Fiscal** domain. It is the heart of the bounded context.
 
-## Building
+## 📦 Contents
+- **Entities:** Rich domain models with behavior (DDD).
+- **Value Objects:** Immutable objects defined by their attributes.
+- **Domain Services:** Logic spanning multiple entities.
+- **Ports (Interfaces):** Secondary ports for repositories and services (implemented in Infrastructure).
 
-Run `nx build fiscal-domain` to build the library.
-
-## Running unit tests
-
-Run `nx test fiscal-domain` to execute the unit tests via [Jest](https://jestjs.io).
+## 🚫 Constraints
+- **Zero Dependencies:** Must NOT depend on Application, Infrastructure, or Presentation layers.
+- **Framework Agnostic:** No NestJS, MikroORM, or external library dependencies (except utility libraries).

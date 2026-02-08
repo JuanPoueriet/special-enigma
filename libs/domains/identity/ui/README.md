@@ -1,7 +1,13 @@
-# identity-ui
+# identity-ui (UI Library)
 
-This library was generated with [Nx](https://nx.dev).
+## 🎨 User Interface
+This Angular library contains the **Frontend Components** for the **Identity** domain.
 
-## Running unit tests
+## 🧩 Components
+- **Smart Components:** Containers connected to state/services.
+- **Dumb Components:** Presentational components (Inputs, Cards).
+- **Services:** API Clients for communicating with the backend.
 
-Run `nx test identity-ui` to execute the unit tests.
+## 📱 Features
+- Implements the UI/UX for Identity workflows.
+- Lazy-loaded via the main application router.

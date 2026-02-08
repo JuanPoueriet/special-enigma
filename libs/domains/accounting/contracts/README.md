@@ -1,14 +1,13 @@
 # accounting-contracts (Contracts)
 
-## 🎯 Purpose
-This library defines the **Shared Contracts**, **DTOs**, and **Interfaces** that are used across boundaries, particularly for communication between the **Accounting** domain and other domains or clients.
+## 📜 Shared Agreement
+This library defines the **Public Contract** for the **Accounting** domain. It is safe to be shared with other domains or external consumers.
 
-## 🏗 Content
-- **DTOs:** Request/Response shapes.
-- **Events:** Domain integration events (e.g., `OrderCreatedEvent`).
-- **Interfaces:** Shared types.
+## 📦 Contents
+- **DTOs:** Data Transfer Objects used in public APIs.
+- **Events:** Integration Events published by this domain.
+- **Enums/Types:** Shared constants and type definitions.
 
-## 🚫 Constraints
-- **No business logic.**
-- **No private domain entities.**
-- **Stable API:** Changes here must be backward compatible or versioned.
+## ⚠️ Guidelines
+- **Stable:** Changes here affect external consumers.
+- **No Logic:** Pure data structures only.

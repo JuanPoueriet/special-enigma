@@ -1,14 +1,9 @@
-# shared-contracts (Contracts)
+# contracts (Shared)
 
-## 🎯 Purpose
-This library defines the **Shared Contracts**, **DTOs**, and **Interfaces** that are used across boundaries, particularly for communication between the **Shared** domain and other domains or clients.
+## 🤝 Shared Library
+This library provides reusable functionality for multiple parts of the system.
 
-## 🏗 Content
-- **DTOs:** Request/Response shapes.
-- **Events:** Domain integration events (e.g., `OrderCreatedEvent`).
-- **Interfaces:** Shared types.
-
-## 🚫 Constraints
-- **No business logic.**
-- **No private domain entities.**
-- **Stable API:** Changes here must be backward compatible or versioned.
+## 📦 Scope
+- UI Kits / Component Libraries.
+- Shared Utilities.
+- API Client Generators.
