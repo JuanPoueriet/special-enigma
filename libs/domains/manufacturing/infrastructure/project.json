@@ -1,0 +1,37 @@
+{
+  "name": "manufacturing-infrastructure",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domains/manufacturing/infrastructure/src",
+  "projectType": "library",
+  "tags": [
+    "type:infrastructure",
+    "scope:manufacturing"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/domains/manufacturing/infrastructure",
+        "main": "libs/domains/manufacturing/infrastructure/src/index.ts",
+        "tsConfig": "libs/domains/manufacturing/infrastructure/tsconfig.lib.json",
+        "assets": [
+          "libs/domains/manufacturing/infrastructure/*.md"
+        ],
+        "rootDir": "."
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "libs/domains/manufacturing/infrastructure/jest.config.cts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

@@ -1,0 +1,5 @@
+export enum PayrollType {
+  REGULAR = 'REGULAR',
+  SPECIAL = 'SPECIAL',
+  EXTRAORDINARY = 'EXTRAORDINARY'
+}

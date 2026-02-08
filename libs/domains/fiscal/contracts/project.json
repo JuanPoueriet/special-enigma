@@ -1,0 +1,37 @@
+{
+  "name": "fiscal-contracts",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domains/fiscal/contracts/src",
+  "projectType": "library",
+  "tags": [
+    "type:contract",
+    "scope:fiscal"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/domains/fiscal/contracts",
+        "main": "libs/domains/fiscal/contracts/src/index.ts",
+        "tsConfig": "libs/domains/fiscal/contracts/tsconfig.lib.json",
+        "assets": [
+          "libs/domains/fiscal/contracts/*.md"
+        ],
+        "rootDir": "."
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "libs/domains/fiscal/contracts/jest.config.cts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

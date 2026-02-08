@@ -1,0 +1,37 @@
+{
+  "name": "crm-domain",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domains/crm/domain/src",
+  "projectType": "library",
+  "tags": [
+    "type:domain",
+    "scope:crm"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/domains/crm/domain",
+        "main": "libs/domains/crm/domain/src/index.ts",
+        "tsConfig": "libs/domains/crm/domain/tsconfig.lib.json",
+        "assets": [
+          "libs/domains/crm/domain/*.md"
+        ],
+        "rootDir": "."
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "libs/domains/crm/domain/jest.config.cts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

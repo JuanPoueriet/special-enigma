@@ -1,0 +1,37 @@
+{
+  "name": "fixed-assets-domain",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domains/fixed-assets/domain/src",
+  "projectType": "library",
+  "tags": [
+    "type:domain",
+    "scope:fixed-assets"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/domains/fixed-assets/domain",
+        "main": "libs/domains/fixed-assets/domain/src/index.ts",
+        "tsConfig": "libs/domains/fixed-assets/domain/tsconfig.lib.json",
+        "assets": [
+          "libs/domains/fixed-assets/domain/*.md"
+        ],
+        "rootDir": "."
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "libs/domains/fixed-assets/domain/jest.config.cts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

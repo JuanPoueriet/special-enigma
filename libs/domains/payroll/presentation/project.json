@@ -1,0 +1,37 @@
+{
+  "name": "payroll-presentation",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domains/payroll/presentation/src",
+  "projectType": "library",
+  "tags": [
+    "type:presentation",
+    "scope:payroll"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/domains/payroll/presentation",
+        "main": "libs/domains/payroll/presentation/src/index.ts",
+        "tsConfig": "libs/domains/payroll/presentation/tsconfig.lib.json",
+        "assets": [
+          "libs/domains/payroll/presentation/*.md"
+        ],
+        "rootDir": "."
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "libs/domains/payroll/presentation/jest.config.cts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

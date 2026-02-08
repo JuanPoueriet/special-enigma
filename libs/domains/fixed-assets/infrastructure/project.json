@@ -1,0 +1,37 @@
+{
+  "name": "fixed-assets-infrastructure",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domains/fixed-assets/infrastructure/src",
+  "projectType": "library",
+  "tags": [
+    "type:infrastructure",
+    "scope:fixed-assets"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/domains/fixed-assets/infrastructure",
+        "main": "libs/domains/fixed-assets/infrastructure/src/index.ts",
+        "tsConfig": "libs/domains/fixed-assets/infrastructure/tsconfig.lib.json",
+        "assets": [
+          "libs/domains/fixed-assets/infrastructure/*.md"
+        ],
+        "rootDir": "."
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "libs/domains/fixed-assets/infrastructure/jest.config.cts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

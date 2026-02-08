@@ -1,0 +1,37 @@
+{
+  "name": "crm-presentation",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domains/crm/presentation/src",
+  "projectType": "library",
+  "tags": [
+    "type:presentation",
+    "scope:crm"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/domains/crm/presentation",
+        "main": "libs/domains/crm/presentation/src/index.ts",
+        "tsConfig": "libs/domains/crm/presentation/tsconfig.lib.json",
+        "assets": [
+          "libs/domains/crm/presentation/*.md"
+        ],
+        "rootDir": "."
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "libs/domains/crm/presentation/jest.config.cts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

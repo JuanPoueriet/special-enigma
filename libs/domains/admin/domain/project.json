@@ -1,0 +1,37 @@
+{
+  "name": "admin-domain",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domains/admin/domain/src",
+  "projectType": "library",
+  "tags": [
+    "type:domain",
+    "scope:admin"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/domains/admin/domain",
+        "main": "libs/domains/admin/domain/src/index.ts",
+        "tsConfig": "libs/domains/admin/domain/tsconfig.lib.json",
+        "assets": [
+          "libs/domains/admin/domain/*.md"
+        ],
+        "rootDir": "."
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "libs/domains/admin/domain/jest.config.cts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}
