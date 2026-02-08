@@ -1,9 +1,13 @@
 import { Module, Global } from '@nestjs/common';
-import { PAC_PROVIDER } from '@virteex/billing-domain';
+import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { PAC_PROVIDER, Invoice } from '@virteex/billing-domain';
 import { FinkokPacProvider } from './providers/finkok-pac.provider';
 
 @Global()
 @Module({
+  imports: [
+    MikroOrmModule.forFeature([Invoice])
+  ],
   providers: [
     {
       provide: PAC_PROVIDER,
@@ -11,7 +15,8 @@ import { FinkokPacProvider } from './providers/finkok-pac.provider';
     }
   ],
   exports: [
-    PAC_PROVIDER
+    PAC_PROVIDER,
+    MikroOrmModule
   ]
 })
 export class BillingInfrastructureModule {}

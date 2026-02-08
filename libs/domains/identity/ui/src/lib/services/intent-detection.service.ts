@@ -18,11 +18,12 @@ export interface ContextAnalysis {
 })
 export class IntentDetectionService {
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   constructor() {}
 
   analyzeContext(urlCountry: string): ContextAnalysis {
     const ipCountry = this.mockGeoIp();
-    const browserLang = navigator.language; // e.g. 'en-US', 'es-CO'
+    // const browserLang = navigator.language; // e.g. 'en-US', 'es-CO' (unused)
 
     // Simple logic as per document
     let discrepancyLevel: 'none' | 'low' | 'medium' | 'high' = 'none';
@@ -59,7 +60,7 @@ export class IntentDetectionService {
   }
 
   private areNeighbors(c1: string, c2: string): boolean {
-      const neighbors: any = {
+      const neighbors: Record<string, string[]> = {
           'CO': ['VE', 'EC', 'PE', 'BR', 'PA'],
           'MX': ['US', 'GT', 'BZ'],
           'US': ['CA', 'MX']

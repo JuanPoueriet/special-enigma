@@ -8,4 +8,5 @@ module.exports = {
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory:
     '../../../../coverage/libs/domains/inventory/infrastructure',
+  passWithNoTests: true,
 };

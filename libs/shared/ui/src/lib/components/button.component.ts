@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'lib-button',
+  selector: 'virteex-button',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './button.component.html',
@@ -12,5 +12,5 @@ export class ButtonComponent {
   @Input() type: 'button' | 'submit' = 'button';
   @Input() disabled = false;
   @Input() variant: 'primary' | 'secondary' = 'primary';
-  @Output() onClick = new EventEmitter<Event>();
+  @Output() clicked = new EventEmitter<Event>();
 }

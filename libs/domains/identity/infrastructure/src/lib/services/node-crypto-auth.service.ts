@@ -1,19 +1,18 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from '@virteex/identity-domain';
 import * as crypto from 'crypto';
-import { TOTP } from 'otplib';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { authenticator } = require('otplib');
 
 @Injectable()
 export class NodeCryptoAuthService implements AuthService {
   private readonly secret: string;
-  private readonly totp: TOTP;
 
   constructor() {
     this.secret = process.env['JWT_SECRET'] || '';
     if (!this.secret) {
       throw new Error('JWT_SECRET is not defined in environment variables.');
     }
-    this.totp = new TOTP();
   }
 
   async hashPassword(password: string): Promise<string> {
@@ -83,10 +82,14 @@ export class NodeCryptoAuthService implements AuthService {
   }
 
   generateMfaSecret(): string {
-      return this.totp.generateSecret();
+      return authenticator.generateSecret();
   }
 
   verifyMfaToken(token: string, secret: string): boolean {
-      return this.totp.verify({ token, secret });
+      try {
+          return authenticator.check(token, secret);
+      } catch (e) {
+          return false;
+      }
   }
 }

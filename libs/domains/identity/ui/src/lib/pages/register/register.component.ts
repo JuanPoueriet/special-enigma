@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -8,13 +8,19 @@ import { CountrySelectorComponent } from '../../components/country-selector/coun
 import { IntentDetectionService, ContextAnalysis } from '../../services/intent-detection.service';
 
 @Component({
-  selector: 'lib-register',
+  selector: 'virteex-register',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, ButtonComponent, InputComponent, CountrySelectorComponent],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
+  private fb = inject(FormBuilder);
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  // private route = inject(ActivatedRoute); // Unused
+  private intentService = inject(IntentDetectionService);
+
   registerForm: FormGroup;
   loading = false;
   errorMsg = '';
@@ -22,13 +28,7 @@ export class RegisterComponent implements OnInit {
   currentStep = 1;
   contextAnalysis: ContextAnalysis | null = null;
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private intentService: IntentDetectionService
-  ) {
+  constructor() {
     this.registerForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -67,19 +67,19 @@ export class RegisterComponent implements OnInit {
 
   isStepInvalid(step: number): boolean {
     if (step === 2) {
-      return this.registerForm.get('firstName')!.invalid ||
-             this.registerForm.get('lastName')!.invalid ||
-             this.registerForm.get('email')!.invalid;
+      return this.registerForm.get('firstName')?.invalid ||
+             this.registerForm.get('lastName')?.invalid ||
+             this.registerForm.get('email')?.invalid || false;
     }
     if (step === 3) {
-      return this.registerForm.get('companyName')!.invalid ||
-             this.registerForm.get('taxId')!.invalid;
+      return this.registerForm.get('companyName')?.invalid ||
+             this.registerForm.get('taxId')?.invalid || false;
     }
     return false;
   }
 
   getCountryName(code: string = this.country): string {
-    const names: any = { 'CO': 'Colombia', 'MX': 'México', 'US': 'USA', 'BR': 'Brasil' };
+    const names: Record<string, string> = { 'CO': 'Colombia', 'MX': 'México', 'US': 'USA', 'BR': 'Brasil' };
     return names[code] || code;
   }
 
@@ -121,7 +121,7 @@ export class RegisterComponent implements OnInit {
           console.log('Register success', res);
           this.router.navigate(['/auth/login']);
         },
-        error: (err) => {
+        error: () => {
           this.loading = false;
           this.errorMsg = 'Error en el registro. Verifique los datos o intente más tarde.';
         }

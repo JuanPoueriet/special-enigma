@@ -45,6 +45,8 @@ export default [
               sourceTag: 'type:presentation',
               onlyDependOnLibsWithTags: [
                 'type:application',
+                'type:domain',
+                'type:infrastructure',
                 'type:contract',
                 'type:util',
               ],

@@ -1,7 +1,10 @@
 
     <div class="form-group">
-      <label *ngIf="label">{{ label }}</label>
+      @if (label) {
+        <label [for]="'input-' + label">{{ label }}</label>
+      }
       <input
+        [id]="'input-' + label"
         [type]="type"
         [placeholder]="placeholder"
         [value]="value"
@@ -9,5 +12,7 @@
         (blur)="onTouched()"
         [disabled]="disabled"
       />
-      <div *ngIf="error" class="error-msg">{{ error }}</div>
+      @if (error) {
+        <div class="error-msg">{{ error }}</div>
+      }
     </div>

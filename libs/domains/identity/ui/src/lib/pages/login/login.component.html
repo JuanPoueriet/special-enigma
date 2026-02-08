@@ -4,50 +4,58 @@
         <h2>{{ mfaRequired ? 'Verificación de Seguridad' : 'Iniciar Sesión' }}</h2>
 
         <!-- Context Warning (Only on initial login) -->
-        <div *ngIf="!mfaRequired && contextAnalysis?.discrepancyLevel !== 'none'" class="context-banner" [class.warning]="contextAnalysis?.discrepancyLevel === 'low'" [class.danger]="contextAnalysis?.discrepancyLevel === 'high'">
-          ⚠️ Accediendo desde {{ getCountryName(contextAnalysis?.detectedCountry) }} a cuenta {{ getCountryName(country) }}.
-        </div>
+        @if (!mfaRequired && contextAnalysis?.discrepancyLevel !== 'none') {
+          <div class="context-banner" [class.warning]="contextAnalysis?.discrepancyLevel === 'low'" [class.danger]="contextAnalysis?.discrepancyLevel === 'high'">
+            ⚠️ Accediendo desde {{ getCountryName(contextAnalysis?.detectedCountry || '') }} a cuenta {{ getCountryName(country) }}.
+          </div>
+        }
 
-        <div *ngIf="!mfaRequired">
-            <lib-country-selector (countrySelected)="onCountrySelected($event)"></lib-country-selector>
+        @if (!mfaRequired) {
+          <div>
+            <virteex-country-selector (countrySelected)="onCountrySelected($event)"></virteex-country-selector>
 
             <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-            <lib-input
+            <virteex-input
                 label="Correo electrónico"
                 formControlName="email"
                 placeholder="nombre@empresa.com"
-            ></lib-input>
+            ></virteex-input>
 
-            <lib-input
+            <virteex-input
                 label="Contraseña"
                 type="password"
                 formControlName="password"
                 placeholder="******"
-            ></lib-input>
+            ></virteex-input>
 
-            <lib-button type="submit" [disabled]="loginForm.invalid || loading" class="full-width">
+            <virteex-button type="submit" [disabled]="loginForm.invalid || loading" class="full-width">
                 {{ loading ? 'Verificando...' : 'Iniciar Sesión' }}
-            </lib-button>
+            </virteex-button>
             </form>
-        </div>
+          </div>
+        }
 
-        <div *ngIf="mfaRequired">
+        @if (mfaRequired) {
+          <div>
             <p class="mfa-instruction">Hemos detectado un intento de acceso inusual o su cuenta requiere verificación adicional. Ingrese el código enviado a su dispositivo.</p>
             <form [formGroup]="mfaForm" (ngSubmit)="onMfaSubmit()">
-                <lib-input
+                <virteex-input
                     label="Código de Verificación"
                     formControlName="code"
                     placeholder="123456"
-                ></lib-input>
+                ></virteex-input>
 
-                <lib-button type="submit" [disabled]="mfaForm.invalid || loading" class="full-width">
+                <virteex-button type="submit" [disabled]="mfaForm.invalid || loading" class="full-width">
                     {{ loading ? 'Verificando...' : 'Confirmar Código' }}
-                </lib-button>
+                </virteex-button>
             </form>
-        </div>
+          </div>
+        }
 
-        <div *ngIf="errorMsg" class="error-banner">
-          {{ errorMsg }}
-        </div>
+        @if (errorMsg) {
+          <div class="error-banner">
+            {{ errorMsg }}
+          </div>
+        }
       </div>
     </div>

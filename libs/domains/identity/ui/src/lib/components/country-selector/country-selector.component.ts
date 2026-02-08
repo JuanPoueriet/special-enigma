@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'lib-country-selector',
+  selector: 'virteex-country-selector',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './country-selector.component.html',

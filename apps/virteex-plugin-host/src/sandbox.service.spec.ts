@@ -8,7 +8,7 @@ describe('SandboxService', () => {
   });
 
   afterEach(() => {
-    sandbox.dispose();
+    // SandboxService is stateless and does not expose dispose()
   });
 
   it('should execute valid code', async () => {

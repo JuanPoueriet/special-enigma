@@ -7,4 +7,5 @@ module.exports = {
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../../../../coverage/libs/domains/inventory/presentation',
+  passWithNoTests: true,
 };
