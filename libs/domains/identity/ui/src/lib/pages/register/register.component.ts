@@ -1,10 +1,10 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, Validators, FormGroup, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ButtonComponent, InputComponent } from '@virteex/shared-ui';
-import { CountrySelectorComponent } from '../../components/country-selector/country-selector.component';
+import { CountrySelectorComponent, CountryInfo } from '../../components/country-selector/country-selector.component';
 import { IntentDetectionService, ContextAnalysis } from '../../services/intent-detection.service';
 
 @Component({
@@ -18,97 +18,147 @@ export class RegisterComponent implements OnInit {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
-  // private route = inject(ActivatedRoute); // Unused
+  private route = inject(ActivatedRoute);
   private intentService = inject(IntentDetectionService);
 
   registerForm: FormGroup;
   loading = false;
   errorMsg = '';
   country = 'CO';
+  lang = 'es';
   currentStep = 1;
   contextAnalysis: ContextAnalysis | null = null;
+  showDiscrepancyModal = false;
 
   constructor() {
     this.registerForm = this.fb.group({
+      // Step 1: Personal Info
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
+      phone: ['', Validators.required],
+      role: ['admin', Validators.required],
+
+      // Step 2: Company Info
       companyName: ['', Validators.required],
+      industry: ['', Validators.required],
+
+      // Step 3: Tax Details
+      country: ['CO', Validators.required],
       taxId: ['', Validators.required],
+      regime: ['', Validators.required],
+
+      // Step 4: Security
       password: ['', [Validators.required, Validators.minLength(12)]],
-      country: ['CO']
-    });
+      confirmPassword: ['', Validators.required],
+      terms: [false, Validators.requiredTrue]
+    }, { validators: this.passwordMatchValidator });
   }
 
   ngOnInit() {
-    // Detect context from URL/IP
-    // Assume URL param has country for demo logic or just default
-    // this.route.paramMap.subscribe(...)
+    this.route.paramMap.subscribe(params => {
+        this.lang = params.get('lang') || 'es';
+        const countryParam = params.get('country');
 
-    this.contextAnalysis = this.intentService.analyzeContext(this.country);
-    if (this.contextAnalysis.action === 'suggest') {
-        // We could auto-switch or just show banner. Banner is shown in template.
-    }
+        if (countryParam) {
+            this.country = countryParam.toUpperCase();
+            this.registerForm.patchValue({ country: this.country });
+            this.checkContext(this.country);
+            this.updateValidators(this.country);
+        } else {
+            // Auto detect if no param
+             this.intentService.analyzeContext('').subscribe(analysis => {
+                if (analysis.detectedCountry) {
+                    this.onCountrySelected(analysis.detectedCountry);
+                }
+             });
+        }
+    });
+  }
+
+  checkContext(country: string) {
+      this.intentService.analyzeContext(country).subscribe(analysis => {
+          this.contextAnalysis = analysis;
+          if (analysis.discrepancyLevel === 'medium' || analysis.discrepancyLevel === 'high') {
+              this.showDiscrepancyModal = true;
+          }
+      });
   }
 
   onCountrySelected(country: string) {
     this.country = country;
     this.registerForm.patchValue({ country });
-    this.contextAnalysis = this.intentService.analyzeContext(country);
+    this.updateValidators(country);
+    // User manual selection overrides auto-detection for the form, but we might still warn if mismatch persists
+    // However, if they manually select, we assume Intent > Location.
+  }
+
+  updateValidators(country: string) {
+      const taxIdControl = this.registerForm.get('taxId');
+      taxIdControl?.clearValidators();
+      taxIdControl?.setValidators(Validators.required);
+
+      if (country === 'CO') {
+          // NIT: 9-10 digits
+          taxIdControl?.addValidators(Validators.pattern(/^\d{9,10}$/));
+      } else if (country === 'MX') {
+          // RFC
+          taxIdControl?.addValidators(Validators.pattern(/^[A-Z&Ñ]{3,4}\d{6}[A-V1-9][A-Z\d]{2}$/));
+      } else if (country === 'US') {
+          // EIN or SSN
+          taxIdControl?.addValidators(Validators.pattern(/^\d{2}-\d{7}$|^\d{3}-\d{2}-\d{4}$/));
+      }
+
+      taxIdControl?.updateValueAndValidity();
+  }
+
+  passwordMatchValidator(g: AbstractControl): ValidationErrors | null {
+      return g.get('password')?.value === g.get('confirmPassword')?.value
+         ? null : { mismatch: true };
   }
 
   nextStep() {
-    this.currentStep++;
+      if (this.currentStep < 5) {
+          if (this.isStepValid(this.currentStep)) {
+            this.currentStep++;
+          } else {
+              this.registerForm.markAllAsTouched();
+          }
+      }
   }
 
   prevStep() {
-    this.currentStep--;
+      if (this.currentStep > 1) {
+          this.currentStep--;
+      }
   }
 
-  isStepInvalid(step: number): boolean {
-    if (step === 2) {
-      return this.registerForm.get('firstName')?.invalid ||
-             this.registerForm.get('lastName')?.invalid ||
-             this.registerForm.get('email')?.invalid || false;
-    }
-    if (step === 3) {
-      return this.registerForm.get('companyName')?.invalid ||
-             this.registerForm.get('taxId')?.invalid || false;
-    }
-    return false;
-  }
-
-  getCountryName(code: string = this.country): string {
-    const names: Record<string, string> = { 'CO': 'Colombia', 'MX': 'México', 'US': 'USA', 'BR': 'Brasil' };
-    return names[code] || code;
+  isStepValid(step: number): boolean {
+      const controls = this.registerForm.controls;
+      switch(step) {
+          case 1: return !controls['firstName'].invalid && !controls['lastName'].invalid && !controls['email'].invalid && !controls['phone'].invalid;
+          case 2: return !controls['companyName'].invalid && !controls['industry'].invalid;
+          case 3: return !controls['taxId'].invalid && !controls['regime'].invalid;
+          case 4: return !controls['password'].invalid && !controls['confirmPassword'].invalid && !controls['terms'].invalid;
+          default: return true;
+      }
   }
 
   getTaxIdLabel(): string {
-    switch (this.country) {
-      case 'CO': return 'NIT';
-      case 'MX': return 'RFC';
-      case 'US': return 'EIN';
-      case 'BR': return 'CNPJ';
-      default: return 'Tax ID';
-    }
+    const labels: Record<string, string> = { 'CO': 'NIT', 'MX': 'RFC', 'US': 'EIN/SSN', 'BR': 'CNPJ/CPF' };
+    return labels[this.country] || 'Tax ID';
   }
 
   getTaxIdPlaceholder(): string {
-    switch (this.country) {
-      case 'CO': return '900.123.456-7';
-      case 'MX': return 'ABC123456...';
-      case 'US': return '12-3456789';
-      case 'BR': return '00.000.000/0001-91';
-      default: return '';
-    }
+     const placeholders: Record<string, string> = { 'CO': '900123456', 'MX': 'ABC123456...', 'US': '12-3456789' };
+     return placeholders[this.country] || '';
   }
 
-  getTaxIdHint(): string {
-      switch (this.country) {
-          case 'CO': return 'Sin dígito de verificación si no lo conoce.';
-          case 'MX': return '12 caracteres (Moral) o 13 (Física).';
-          case 'US': return '9 dígitos.';
-          default: return '';
+  handleDiscrepancy(choice: 'continue' | 'switch') {
+      this.showDiscrepancyModal = false;
+      if (choice === 'switch' && this.contextAnalysis?.detectedCountry) {
+          this.onCountrySelected(this.contextAnalysis.detectedCountry);
+          this.router.navigate(['/', this.lang, this.contextAnalysis.detectedCountry.toLowerCase(), 'auth', 'register']);
       }
   }
 
@@ -118,8 +168,8 @@ export class RegisterComponent implements OnInit {
       this.errorMsg = '';
       this.authService.register(this.registerForm.value).subscribe({
         next: (res) => {
-          console.log('Register success', res);
-          this.router.navigate(['/auth/login']);
+          this.currentStep = 5;
+          this.loading = false;
         },
         error: () => {
           this.loading = false;

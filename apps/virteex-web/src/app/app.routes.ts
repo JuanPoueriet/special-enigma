@@ -2,6 +2,17 @@ import { Route } from '@angular/router';
 import { MainLayoutComponent } from '@virteex/shared-ui';
 
 export const appRoutes: Route[] = [
+  // Country specific auth (e.g., /es/co/auth/...)
+  {
+    path: ':lang/:country/auth',
+    loadChildren: () => import('@virteex/identity-ui').then(m => m.authRoutes)
+  },
+  // Language specific auth (e.g., /es/auth/...)
+  {
+    path: ':lang/auth',
+    loadChildren: () => import('@virteex/identity-ui').then(m => m.authRoutes)
+  },
+  // Fallback or default auth
   {
     path: 'auth',
     loadChildren: () => import('@virteex/identity-ui').then(m => m.authRoutes)

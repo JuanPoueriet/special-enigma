@@ -1,23 +1,24 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ButtonComponent, InputComponent } from '@virteex/shared-ui';
 import { CountrySelectorComponent } from '../../components/country-selector/country-selector.component';
-import { IntentDetectionService, ContextAnalysis } from '../../services/intent-detection.service';
+import { IntentDetectionService } from '../../services/intent-detection.service';
 
 @Component({
   selector: 'virteex-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ButtonComponent, InputComponent, CountrySelectorComponent],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, ButtonComponent, InputComponent, CountrySelectorComponent],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private intentService = inject(IntentDetectionService);
 
   loginForm: FormGroup;
@@ -25,10 +26,10 @@ export class LoginComponent {
   loading = false;
   errorMsg = '';
   country = 'CO';
+  lang = 'es';
 
   mfaRequired = false;
   tempToken = '';
-  contextAnalysis: ContextAnalysis | null = null;
 
   constructor() {
     this.loginForm = this.fb.group({
@@ -41,22 +42,35 @@ export class LoginComponent {
     });
   }
 
-  onCountrySelected(country: string) {
-    this.country = country;
-    this.contextAnalysis = this.intentService.analyzeContext(country);
+  ngOnInit() {
+      this.route.paramMap.subscribe(params => {
+          this.lang = params.get('lang') || 'es';
+          const countryParam = params.get('country');
+
+          if (countryParam) {
+              this.country = countryParam.toUpperCase();
+          } else {
+              // Auto detect default
+              this.intentService.analyzeContext('').subscribe(analysis => {
+                  if (analysis.detectedCountry) {
+                      this.country = analysis.detectedCountry;
+                  }
+              });
+          }
+      });
   }
 
-  getCountryName(code: string = this.country): string {
-    if (!code) return '';
-    const names: Record<string, string> = { 'CO': 'Colombia', 'MX': 'México', 'US': 'USA', 'BR': 'Brasil' };
-    return names[code] || code;
+  onCountrySelected(country: string) {
+    this.country = country;
   }
 
   onSubmit() {
     if (this.loginForm.valid) {
       this.loading = true;
       this.errorMsg = '';
-      this.authService.login(this.loginForm.value).subscribe({
+      const payload = { ...this.loginForm.value, country: this.country };
+
+      this.authService.login(payload).subscribe({
         next: (res) => {
           if (res.mfaRequired && res.tempToken) {
               this.mfaRequired = true;
@@ -69,7 +83,6 @@ export class LoginComponent {
         },
         error: (err) => {
           this.loading = false;
-          // Handle specific error codes if available (e.g. Account Locked)
           if (err.status === 403) {
              this.errorMsg = 'Cuenta bloqueada o acceso denegado.';
           } else {
