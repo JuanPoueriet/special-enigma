@@ -8,5 +8,5 @@ module.exports = {
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../../../../coverage/libs/domains/identity/application',
-  transformIgnorePatterns: ['node_modules/(?!(uuid)/)']
+  transformIgnorePatterns: ['node_modules/(?!(uuid|otplib|@otplib|@scure|@noble)/)']
 };
