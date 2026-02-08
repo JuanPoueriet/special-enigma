@@ -1,0 +1,42 @@
+{
+  "name": "identity-domain",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domains/identity/domain/src",
+  "projectType": "library",
+  "tags": [
+    "scope:identity",
+    "type:domain",
+    "platform:agnostic",
+    "tenant-mode:schema",
+    "criticality:high"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/domains/identity/domain",
+        "main": "libs/domains/identity/domain/src/index.ts",
+        "tsConfig": "libs/domains/identity/domain/tsconfig.lib.json",
+        "assets": [
+          "libs/domains/identity/domain/*.md"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "libs/domains/identity/domain/jest.config.cts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

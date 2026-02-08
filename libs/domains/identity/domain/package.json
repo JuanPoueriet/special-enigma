@@ -1,0 +1,8 @@
+{
+  "name": "@virteex-erp/identity-domain",
+  "version": "0.0.1",
+  "dependencies": {
+    "@mikro-orm/core": "^6.6.5",
+    "uuid": "^13.0.0"
+  }
+}
