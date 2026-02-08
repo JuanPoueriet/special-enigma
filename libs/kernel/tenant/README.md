@@ -1,11 +1,9 @@
-# tenant
+# tenant (Kernel - Tenant)
 
-This library was generated with [Nx](https://nx.dev).
+## 🎯 Purpose
+This library manages **Multi-Tenancy** context and isolation strategies.
 
-## Building
-
-Run `nx build tenant` to build the library.
-
-## Running unit tests
-
-Run `nx test tenant` to execute the unit tests via [Jest](https://jestjs.io).
+## 🔑 Key Features
+- **Context:** AsyncLocalStorage wrapper for Tenant ID.
+- **Resolution:** Strategy to resolve tenant from headers/subdomains.
+- **Isolation:** Utilities for RLS (Row Level Security) and Schema switching.

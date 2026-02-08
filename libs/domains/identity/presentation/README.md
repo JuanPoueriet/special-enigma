@@ -1,7 +1,7 @@
-# inventory-presentation (Presentation Layer)
+# identity-presentation (Presentation Layer)
 
 ## 🎯 Purpose
-This library serves as the **Entry Point** for the **Inventory** domain. It handles HTTP requests, GraphQL queries, and event subscriptions, delegating execution to the Application layer.
+This library serves as the **Entry Point** for the **Identity** domain. It handles HTTP requests, GraphQL queries, and event subscriptions, delegating execution to the Application layer.
 
 ## 🏗 Architecture
 - **Controllers:** REST API endpoints (NestJS).

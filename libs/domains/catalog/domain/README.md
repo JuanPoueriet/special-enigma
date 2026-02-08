@@ -1,11 +1,20 @@
-# domain
+# catalog-domain (Domain Layer)
 
-This library was generated with [Nx](https://nx.dev).
+## 🎯 Purpose
+This library encapsulates the **Pure Business Logic** and **Enterprise Rules** for the **Catalog** domain. It is the heart of the system, designed to be framework-agnostic and free of external dependencies.
 
-## Building
+## 🏗 Architecture
+Following **Clean Architecture** and **Domain-Driven Design (DDD)** principles:
+- **Entities:** Rich domain models with behavior (not anemic).
+- **Value Objects:** Immutable objects defined by their attributes.
+- **Domain Services:** Logic that doesn't belong to a single entity.
+- **Ports (Interfaces):** Definitions for repositories and external services (implemented in Infrastructure).
 
-Run `nx build domain` to build the library.
+## 🚫 Constraints
+- **No dependencies** on Infrastructure, Application, or Presentation layers.
+- **No frameworks** (e.g., no NestJS decorators, no TypeORM/MikroORM specifics unless using platform-agnostic abstractions).
+- **Pure TypeScript/JavaScript** logic.
 
-## Running unit tests
-
-Run `nx test domain` to execute the unit tests via [Jest](https://jestjs.io).
+## 🧪 Testing
+- **Unit Tests Only:** High coverage (>80%) required.
+- **Property-based Testing:** Encouraged for complex rules.

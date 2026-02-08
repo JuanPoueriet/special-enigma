@@ -1,11 +1,14 @@
-# contracts
+# shared-contracts (Contracts)
 
-This library was generated with [Nx](https://nx.dev).
+## 🎯 Purpose
+This library defines the **Shared Contracts**, **DTOs**, and **Interfaces** that are used across boundaries, particularly for communication between the **Shared** domain and other domains or clients.
 
-## Building
+## 🏗 Content
+- **DTOs:** Request/Response shapes.
+- **Events:** Domain integration events (e.g., `OrderCreatedEvent`).
+- **Interfaces:** Shared types.
 
-Run `nx build contracts` to build the library.
-
-## Running unit tests
-
-Run `nx test contracts` to execute the unit tests via [Jest](https://jestjs.io).
+## 🚫 Constraints
+- **No business logic.**
+- **No private domain entities.**
+- **Stable API:** Changes here must be backward compatible or versioned.

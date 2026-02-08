@@ -1,7 +1,7 @@
-# accounting-contracts (Contracts)
+# purchasing-contracts (Contracts)
 
 ## 🎯 Purpose
-This library defines the **Shared Contracts**, **DTOs**, and **Interfaces** that are used across boundaries, particularly for communication between the **Accounting** domain and other domains or clients.
+This library defines the **Shared Contracts**, **DTOs**, and **Interfaces** that are used across boundaries, particularly for communication between the **Purchasing** domain and other domains or clients.
 
 ## 🏗 Content
 - **DTOs:** Request/Response shapes.

@@ -1,11 +1,17 @@
-# infrastructure
+# sample-infrastructure (Infrastructure Layer)
 
-This library was generated with [Nx](https://nx.dev).
+## 🎯 Purpose
+This library provides the **concrete implementations** of the interfaces defined in the Domain and Application layers for the **Sample** domain. It handles all I/O, database persistence, and external API calls.
 
-## Building
+## 🏗 Architecture
+- **Repositories:** MikroORM/TypeORM implementations of Domain repositories.
+- **Adapters:** Implementations of external service ports (e.g., PaymentGateway, EmailService).
+- **Configuration:** Database schemas, migrations, and environment variable parsing.
 
-Run `nx build infrastructure` to build the library.
+## 🤝 Dependencies
+- Depends on **Domain** and **Application** layers (to implement interfaces).
+- Depends on external libraries (MikroORM, Redis, etc.).
 
-## Running unit tests
-
-Run `nx test infrastructure` to execute the unit tests via [Jest](https://jestjs.io).
+## 🧪 Testing
+- **Integration Tests:** Using Testcontainers (Docker) for real database/service interaction.
+- **Contract Tests:** Verifying external API contracts.

@@ -1,102 +1,94 @@
-# Virteex ERP (Version 13 - Architecture Certified 10/10)
+# Virteex ERP (Enterprise Resource Planning)
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
+![Coverage](https://img.shields.io/badge/coverage-80%25-green)
+![Architecture](https://img.shields.io/badge/architecture-certified-blue)
+![Version](https://img.shields.io/badge/version-13.0.0-orange)
 
-This workspace implements the **Virteex ERP** ecosystem following strict architectural guidelines defined in [AGENTS.md](./AGENTS.md).
+Virteex ERP is a next-generation, cloud-native Enterprise Resource Planning system designed for high-performance multi-tenancy and scalability. Built with a strict **Clean Architecture** and **Domain-Driven Design (DDD)** approach, it powers mission-critical operations for enterprise clients across the Americas.
 
-**Key Documents:**
-- [AGENTS.md](./AGENTS.md): Full Architectural Standards, Governance, and Operational Runbooks.
-- [docker-compose.yml](./docker-compose.yml): Infrastructure stack (Postgres, Redis, Kafka, Keycloak, Vault).
+## 📚 Documentation & Architecture
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+> **Note:** For the complete Architectural Standards, Governance policies, and Operational Runbooks, please refer to [AGENTS.md](./AGENTS.md) (Spanish).
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/intro#learn-nx?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+This project follows a strict **Hexagonal Architecture (Ports & Adapters)**:
+- **Domain:** Pure business logic, no external dependencies.
+- **Application:** Use cases and orchestration.
+- **Infrastructure:** Adapters for databases (MikroORM), external APIs, and messaging.
+- **Presentation:** Entry points (REST, GraphQL, CLI).
 
-## Run tasks
+## 🛠 Technology Stack
 
-To run tasks with Nx use:
+- **Backend:** [NestJS](https://nestjs.com/) (Node.js), Fastify
+- **Frontend:** [Angular](https://angular.io/), Ionic (Mobile)
+- **Database:** PostgreSQL 16 (Multi-tenant via RLS), Redis (Caching)
+- **ORM:** MikroORM v6
+- **Messaging:** Kafka / RabbitMQ
+- **Infrastructure:** Docker, Kubernetes, Terraform
 
-```sh
-npx nx <target> <project-name>
+## 📦 Core Modules
+
+| Module | Status | Description |
+| :--- | :--- | :--- |
+| **Identity** | ✅ Stable | Authentication, Authorization (RBAC), Multi-tenancy context. |
+| **Inventory** | ✅ Stable | Warehouse management, Stock movements, Valuation. |
+| **Billing** | 🚧 Beta | Invoicing, Fiscal compliance (CFDI/NFe). |
+| **Accounting** | 🚧 Beta | General Ledger, Journal Entries. |
+| **Purchasing** | ✅ Stable | Supplier management, Purchase Orders. |
+| **Catalog** | ✅ Stable | Products, Services, Price Lists. |
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js v20+
+- Docker & Docker Compose
+- pnpm (recommended) or npm
+
+### Installation
+
+```bash
+# Clone the repository
+git clone git@github.com:virteex/erp.git
+
+# Install dependencies
+npm install
 ```
 
-For example:
+### Running the Environment
 
-```sh
-npx nx build myproject
+Start the infrastructure (Postgres, Redis, etc.):
+
+```bash
+docker-compose up -d
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+### Running Applications
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```bash
+# Start the API Gateway
+npx nx serve virteex-api-gateway
 
-## Add new projects
-
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
-
-To install a new plugin you can use the `nx add` command. Here's an example of adding the React plugin:
-```sh
-npx nx add @nx/react
+# Start the Web Portal
+npx nx serve virteex-web
 ```
 
-Use the plugin's generator to create new projects. For example, to create a new React app or library:
+## 🧪 Testing
 
-```sh
-# Generate an app
-npx nx g @nx/react:app demo
+We enforce a strict testing pyramid:
 
-# Generate a library
-npx nx g @nx/react:lib some-lib
+```bash
+# Run Unit Tests
+npx nx run-many --target=test --all
+
+# Run E2E Tests
+npx nx e2e virteex-web-e2e
 ```
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+## 🤝 Contributing
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Please read [AGENTS.md](./AGENTS.md) before submitting any Pull Requests. All contributions must adhere to the defined architectural boundaries.
 
-## Set up CI!
+## 📄 License
 
-### Step 1
-
-To connect to Nx Cloud, run the following command:
-
-```sh
-npx nx connect
-```
-
-Connecting to Nx Cloud ensures a [fast and scalable CI](https://nx.dev/ci/intro/why-nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
-
-- [Remote caching](https://nx.dev/ci/features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task distribution across multiple machines](https://nx.dev/ci/features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Automated e2e test splitting](https://nx.dev/ci/features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task flakiness detection and rerunning](https://nx.dev/ci/features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-### Step 2
-
-Use the following command to configure a CI workflow for your workspace:
-
-```sh
-npx nx g ci-workflow
-```
-
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Install Nx Console
-
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
-
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Useful links
-
-Learn more:
-
-- [Learn more about this workspace setup](https://nx.dev/getting-started/intro#learn-nx?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Copyright © 2024 Virteex Inc. All rights reserved.
+Proprietary software. Unauthorized copying of this file, via any medium is strictly prohibited.

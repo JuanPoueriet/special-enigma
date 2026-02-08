@@ -1,11 +1,9 @@
-# messaging
+# messaging (Kernel - Messaging)
 
-This library was generated with [Nx](https://nx.dev).
+## 🎯 Purpose
+This library encapsulates the **Event-Driven Architecture** infrastructure, providing abstractions for message brokers.
 
-## Building
-
-Run `nx build messaging` to build the library.
-
-## Running unit tests
-
-Run `nx test messaging` to execute the unit tests via [Jest](https://jestjs.io).
+## 🔑 Key Features
+- **Event Bus:** Unified interface for publishing/subscribing to events.
+- **Transporters:** Kafka and RabbitMQ implementations.
+- **Patterns:** Outbox pattern support, Idempotency handling.

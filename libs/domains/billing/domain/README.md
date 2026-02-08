@@ -1,7 +1,7 @@
-# inventory-domain (Domain Layer)
+# billing-domain (Domain Layer)
 
 ## 🎯 Purpose
-This library encapsulates the **Pure Business Logic** and **Enterprise Rules** for the **Inventory** domain. It is the heart of the system, designed to be framework-agnostic and free of external dependencies.
+This library encapsulates the **Pure Business Logic** and **Enterprise Rules** for the **Billing** domain. It is the heart of the system, designed to be framework-agnostic and free of external dependencies.
 
 ## 🏗 Architecture
 Following **Clean Architecture** and **Domain-Driven Design (DDD)** principles:
