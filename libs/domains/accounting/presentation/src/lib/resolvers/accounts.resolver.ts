@@ -1,5 +1,5 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
-import { CreateAccountUseCase, GetAccountsUseCase } from '@virteex-erp/accounting-application';
+import { CreateAccountUseCase, GetAccountsUseCase } from '@virteex/accounting-application';
 import { AccountObject } from '../dto/account.object';
 import { CreateAccountInput } from '../dto/create-account.input';
 

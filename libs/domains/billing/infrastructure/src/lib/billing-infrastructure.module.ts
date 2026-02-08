@@ -1,5 +1,5 @@
 import { Module, Global } from '@nestjs/common';
-import { PAC_PROVIDER } from '@virteex-erp/billing-domain';
+import { PAC_PROVIDER } from '@virteex/billing-domain';
 import { FinkokPacProvider } from './providers/finkok-pac.provider';
 
 @Global()

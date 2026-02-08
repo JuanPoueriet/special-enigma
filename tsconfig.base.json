@@ -10,105 +10,129 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": ["es2020", "dom"],
+    "lib": [
+      "es2020",
+      "dom"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@virteex-erp/auth": ["libs/kernel/auth/src/index.ts"],
-      "@virteex-erp/telemetry": ["libs/kernel/telemetry/src/index.ts"],
-      "@virteex-erp/contracts": ["libs/shared/contracts/src/index.ts"],
-      "@virteex-erp/domain": ["libs/domains/sample/domain/src/index.ts"],
-      "@virteex-erp/application": [
+      "@virteex/auth": [
+        "libs/kernel/auth/src/index.ts"
+      ],
+      "@virteex/telemetry": [
+        "libs/kernel/telemetry/src/index.ts"
+      ],
+      "@virteex/contracts": [
+        "libs/shared/contracts/src/index.ts"
+      ],
+      "@virteex/domain": [
+        "libs/domains/sample/domain/src/index.ts"
+      ],
+      "@virteex/application": [
         "libs/domains/sample/application/src/index.ts"
       ],
-      "@virteex-erp/infrastructure": [
+      "@virteex/infrastructure": [
         "libs/domains/sample/infrastructure/src/index.ts"
       ],
-      "@virteex-erp/presentation": [
+      "@virteex/presentation": [
         "libs/domains/sample/presentation/src/index.ts"
       ],
-      "@virteex-erp/tenant": ["libs/kernel/tenant/src/index.ts"],
-      "@virteex-erp/messaging": ["libs/kernel/messaging/src/index.ts"],
-      "@virteex-erp/catalog-domain": [
+      "@virteex/tenant": [
+        "libs/kernel/tenant/src/index.ts"
+      ],
+      "@virteex/messaging": [
+        "libs/kernel/messaging/src/index.ts"
+      ],
+      "@virteex/catalog-domain": [
         "libs/domains/catalog/domain/src/index.ts"
       ],
-      "@virteex-erp/catalog-application": [
+      "@virteex/catalog-application": [
         "libs/domains/catalog/application/src/index.ts"
       ],
-      "@virteex-erp/catalog-infrastructure": [
+      "@virteex/catalog-infrastructure": [
         "libs/domains/catalog/infrastructure/src/index.ts"
       ],
-      "@virteex-erp/catalog-presentation": [
+      "@virteex/catalog-presentation": [
         "libs/domains/catalog/presentation/src/index.ts"
       ],
-      "@virteex-erp/billing-domain": [
+      "@virteex/billing-domain": [
         "libs/domains/billing/domain/src/index.ts"
       ],
-      "@virteex-erp/billing-infrastructure": [
+      "@virteex/billing-infrastructure": [
         "libs/domains/billing/infrastructure/src/index.ts"
       ],
-      "@virteex-erp/shared-validators": ["libs/shared/validators/src/index.ts"],
-      "@virteex-erp/accounting-domain": [
+      "@virteex/shared-validators": [
+        "libs/shared/validators/src/index.ts"
+      ],
+      "@virteex/accounting-domain": [
         "libs/domains/accounting/domain/src/index.ts"
       ],
-      "@virteex-erp/accounting-application": [
+      "@virteex/accounting-application": [
         "libs/domains/accounting/application/src/index.ts"
       ],
-      "@virteex-erp/accounting-infrastructure": [
+      "@virteex/accounting-infrastructure": [
         "libs/domains/accounting/infrastructure/src/index.ts"
       ],
-      "@virteex-erp/accounting-presentation": [
+      "@virteex/accounting-presentation": [
         "libs/domains/accounting/presentation/src/index.ts"
       ],
-      "@virteex-erp/accounting-contracts": [
+      "@virteex/accounting-contracts": [
         "libs/domains/accounting/contracts/src/index.ts"
       ],
-      "@virteex-erp/inventory-domain": [
+      "@virteex/inventory-domain": [
         "libs/domains/inventory/domain/src/index.ts"
       ],
-      "@virteex-erp/inventory-application": [
+      "@virteex/inventory-application": [
         "libs/domains/inventory/application/src/index.ts"
       ],
-      "@virteex-erp/inventory-infrastructure": [
+      "@virteex/inventory-infrastructure": [
         "libs/domains/inventory/infrastructure/src/index.ts"
       ],
-      "@virteex-erp/inventory-presentation": [
+      "@virteex/inventory-presentation": [
         "libs/domains/inventory/presentation/src/index.ts"
       ],
-      "@virteex-erp/inventory-contracts": [
+      "@virteex/inventory-contracts": [
         "libs/domains/inventory/contracts/src/index.ts"
       ],
-      "@virteex-erp/purchasing-contracts": [
+      "@virteex/purchasing-contracts": [
         "libs/domains/purchasing/contracts/src/index.ts"
       ],
-      "@virteex-erp/purchasing-domain": [
+      "@virteex/purchasing-domain": [
         "libs/domains/purchasing/domain/src/index.ts"
       ],
-      "@virteex-erp/purchasing-application": [
+      "@virteex/purchasing-application": [
         "libs/domains/purchasing/application/src/index.ts"
       ],
-      "@virteex-erp/purchasing-infrastructure": [
+      "@virteex/purchasing-infrastructure": [
         "libs/domains/purchasing/infrastructure/src/index.ts"
       ],
-      "@virteex-erp/purchasing-presentation": [
+      "@virteex/purchasing-presentation": [
         "libs/domains/purchasing/presentation/src/index.ts"
       ],
-      "@virteex-erp/identity-domain": [
+      "@virteex/identity-domain": [
         "libs/domains/identity/domain/src/index.ts"
       ],
-      "@virteex-erp/identity-application": [
+      "@virteex/identity-application": [
         "libs/domains/identity/application/src/index.ts"
       ],
-      "@virteex-erp/identity-infrastructure": [
+      "@virteex/identity-infrastructure": [
         "libs/domains/identity/infrastructure/src/index.ts"
       ],
-      "@virteex-erp/identity-presentation": [
+      "@virteex/identity-presentation": [
         "libs/domains/identity/presentation/src/index.ts"
       ],
-      "@virteex-erp/shared-ui": ["libs/shared/ui/src/index.ts"],
-      "@virteex-erp/identity-ui": ["libs/domains/identity/ui/src/index.ts"]
+      "@virteex/shared-ui": [
+        "libs/shared/ui/src/index.ts"
+      ],
+      "@virteex/identity-ui": [
+        "libs/domains/identity/ui/src/index.ts"
+      ]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }

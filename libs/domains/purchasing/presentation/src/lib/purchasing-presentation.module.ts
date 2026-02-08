@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { PurchasingController } from './controllers/purchasing.controller';
-import { CreateSupplierUseCase, CreatePurchaseOrderUseCase } from '@virteex-erp/purchasing-application';
+import { CreateSupplierUseCase, CreatePurchaseOrderUseCase } from '@virteex/purchasing-application';
 
 @Module({
   imports: [],

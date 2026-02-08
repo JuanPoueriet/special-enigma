@@ -1,0 +1,14 @@
+
+    <div class="country-selector">
+      <label>País de operación principal:</label>
+      <select [(ngModel)]="selectedCountry" (change)="onCountryChange()">
+        <option value="CO">🇨🇴 Colombia</option>
+        <option value="MX">🇲🇽 México</option>
+        <option value="US">🇺🇸 Estados Unidos</option>
+        <option value="BR">🇧🇷 Brasil</option>
+      </select>
+
+      <div *ngIf="contextDetected" class="context-alert">
+        Detectamos que estás en {{ detectedCountry }}. ¿Deseas cambiar?
+      </div>
+    </div>

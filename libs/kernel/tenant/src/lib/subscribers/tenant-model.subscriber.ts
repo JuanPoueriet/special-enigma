@@ -1,6 +1,6 @@
 import { EventSubscriber, EntityName, EventArgs, Subscriber } from '@mikro-orm/core';
 import { Injectable } from '@nestjs/common';
-import { getTenantContext } from '@virteex-erp/auth';
+import { getTenantContext } from '@virteex/auth';
 
 @Injectable()
 @Subscriber()

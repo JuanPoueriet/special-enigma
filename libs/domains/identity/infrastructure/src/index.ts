@@ -4,5 +4,5 @@ export * from './lib/persistence/mikro-orm-company.repository';
 export * from './lib/persistence/mikro-orm-audit-log.repository';
 export * from './lib/persistence/mikro-orm-session.repository';
 export * from './lib/services/node-crypto-auth.service';
-export * from './lib/services/console-notification.service';
+export * from './lib/services/nodemailer-notification.service';
 export * from './lib/services/risk-engine.service';

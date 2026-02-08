@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { Supplier, PurchaseOrder, PurchaseOrderItem, SUPPLIER_REPOSITORY, PURCHASE_ORDER_REPOSITORY } from '@virteex-erp/purchasing-domain';
+import { Supplier, PurchaseOrder, PurchaseOrderItem, SUPPLIER_REPOSITORY, PURCHASE_ORDER_REPOSITORY } from '@virteex/purchasing-domain';
 import { MikroOrmSupplierRepository } from './repositories/mikro-orm-supplier.repository';
 import { MikroOrmPurchaseOrderRepository } from './repositories/mikro-orm-purchase-order.repository';
 

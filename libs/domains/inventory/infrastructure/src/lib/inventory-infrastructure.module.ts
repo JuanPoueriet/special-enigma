@@ -7,7 +7,7 @@ import {
   Stock,
   WAREHOUSE_REPOSITORY,
   INVENTORY_REPOSITORY
-} from '@virteex-erp/inventory-domain';
+} from '@virteex/inventory-domain';
 import { MikroOrmWarehouseRepository } from './repositories/mikro-orm-warehouse.repository';
 import { MikroOrmInventoryRepository } from './repositories/mikro-orm-inventory.repository';
 

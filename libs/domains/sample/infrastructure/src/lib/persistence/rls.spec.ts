@@ -1,6 +1,6 @@
 import { TenantSubscriber } from './tenant.subscriber';
-import { runWithTenantContext } from '@virteex-erp/auth';
-import { SampleEntity } from '@virteex-erp/domain';
+import { runWithTenantContext } from '@virteex/auth';
+import { SampleEntity } from '@virteex/domain';
 import { EventArgs, MikroORM } from '@mikro-orm/core';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import config from './mikro-orm.config';

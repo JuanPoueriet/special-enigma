@@ -4,7 +4,7 @@ import {
   User, Company, AuditLog, Session,
   UserRepository, CompanyRepository, AuditLogRepository, SessionRepository,
   AuthService, NotificationService, RiskEngineService
-} from '@virteex-erp/identity-domain';
+} from '@virteex/identity-domain';
 
 import { MikroOrmUserRepository } from './persistence/mikro-orm-user.repository';
 import { MikroOrmCompanyRepository } from './persistence/mikro-orm-company.repository';
@@ -12,10 +12,10 @@ import { MikroOrmAuditLogRepository } from './persistence/mikro-orm-audit-log.re
 import { MikroOrmSessionRepository } from './persistence/mikro-orm-session.repository';
 
 import { NodeCryptoAuthService } from './services/node-crypto-auth.service';
-import { ConsoleNotificationService } from './services/console-notification.service';
+import { NodemailerNotificationService } from './services/nodemailer-notification.service';
 import { DefaultRiskEngineService } from './services/risk-engine.service';
 
-import { RegisterUserUseCase, LoginUserUseCase, VerifyMfaUseCase } from '@virteex-erp/identity-application';
+import { RegisterUserUseCase, LoginUserUseCase, VerifyMfaUseCase } from '@virteex/identity-application';
 
 @Module({
   imports: [
@@ -29,7 +29,7 @@ import { RegisterUserUseCase, LoginUserUseCase, VerifyMfaUseCase } from '@virtee
     { provide: SessionRepository, useClass: MikroOrmSessionRepository },
 
     { provide: AuthService, useClass: NodeCryptoAuthService },
-    { provide: NotificationService, useClass: ConsoleNotificationService },
+    { provide: NotificationService, useClass: NodemailerNotificationService },
     { provide: RiskEngineService, useClass: DefaultRiskEngineService },
 
     // Application Use Cases

@@ -1,16 +1,26 @@
 import axios from 'axios';
 import { XMLParser } from 'fast-xml-parser';
-import { PacProvider, FiscalStamp } from '@virteex-erp/billing-domain';
+import { PacProvider, FiscalStamp } from '@virteex/billing-domain';
 
 export class FinkokPacProvider implements PacProvider {
-  private readonly username = process.env['FINKOK_USERNAME'] || 'usuario_demo';
-  private readonly password = process.env['FINKOK_PASSWORD'] || 'password_demo';
-  private readonly url = process.env['FINKOK_URL'] || 'https://demo-facturacion.finkok.com/servicios/soap/stamp';
+  private readonly username: string;
+  private readonly password: string;
+  private readonly url: string;
   private readonly parser = new XMLParser({
     ignoreAttributes: false,
     attributeNamePrefix: '',
     removeNSPrefix: true
   });
+
+  constructor() {
+    this.username = process.env['FINKOK_USERNAME']!;
+    this.password = process.env['FINKOK_PASSWORD']!;
+    this.url = process.env['FINKOK_URL']!;
+
+    if (!this.username || !this.password || !this.url) {
+        throw new Error('Finkok PAC configuration missing (FINKOK_USERNAME, FINKOK_PASSWORD, FINKOK_URL)');
+    }
+  }
 
   async stamp(xml: string): Promise<FiscalStamp> {
     const soapEnvelope = `
@@ -52,7 +62,7 @@ export class FinkokPacProvider implements PacProvider {
          const xmlResult = result.xml;
          const uuid = result.UUID;
          const selloSAT = result.SatSeal;
-         const selloCFD = result.codestatus; // Mapping for demo
+         const selloCFD = result.codestatus || ''; // Attempt to find real seal if available, or empty.
          const fechaTimbrado = result.Date;
 
          if (!xmlResult || !uuid) {
@@ -62,7 +72,7 @@ export class FinkokPacProvider implements PacProvider {
          return {
              uuid,
              selloSAT: selloSAT || '',
-             selloCFD: selloCFD || '',
+             selloCFD: selloCFD,
              fechaTimbrado: fechaTimbrado || new Date().toISOString(),
              xml: xmlResult
          };
@@ -91,7 +101,7 @@ export class FinkokPacProvider implements PacProvider {
                </apps:UUIDS>
                <apps:username>${this.username}</apps:username>
                <apps:password>${this.password}</apps:password>
-               <apps:taxpayer_id>REQUIRED_RFC</apps:taxpayer_id>
+               <apps:taxpayer_id>${process.env['TAX_ID'] || 'REQUIRED_RFC'}</apps:taxpayer_id>
             </apps:cancel>
          </soapenv:Body>
       </soapenv:Envelope>

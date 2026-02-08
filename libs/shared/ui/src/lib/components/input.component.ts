@@ -6,20 +6,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@a
   selector: 'lib-input',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  template: `
-    <div class="form-group">
-      <label *ngIf="label">{{ label }}</label>
-      <input
-        [type]="type"
-        [placeholder]="placeholder"
-        [value]="value"
-        (input)="onInput($event)"
-        (blur)="onTouched()"
-        [disabled]="disabled"
-      />
-      <div *ngIf="error" class="error-msg">{{ error }}</div>
-    </div>
-  `,
+  templateUrl: './input.component.html',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -27,29 +14,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@a
       multi: true
     }
   ],
-  styles: [`
-    .form-group {
-      margin-bottom: var(--spacing-md);
-    }
-    label {
-      display: block;
-      margin-bottom: var(--spacing-sm);
-      color: var(--color-text-secondary);
-      font-size: 0.875rem;
-    }
-    input {
-      width: 100%;
-      padding: var(--spacing-md);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-md);
-      font-size: 1rem;
-    }
-    .error-msg {
-      color: var(--color-error);
-      font-size: 0.75rem;
-      margin-top: var(--spacing-sm);
-    }
-  `]
+  styleUrls: ['./input.component.scss']
 })
 export class InputComponent implements ControlValueAccessor {
   @Input() label = '';

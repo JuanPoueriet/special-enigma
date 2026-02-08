@@ -1,5 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { AuthService } from '@virteex-erp/identity-domain';
+import { AuthService } from '@virteex/identity-domain';
 import * as crypto from 'crypto';
 import { TOTP } from 'otplib';
 

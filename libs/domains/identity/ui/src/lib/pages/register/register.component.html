@@ -1,0 +1,80 @@
+
+    <div class="register-container">
+      <div class="register-card">
+        <!-- Progress Steps -->
+        <div class="progress-steps">
+          <div class="step" [class.active]="currentStep >= 1">1. País</div>
+          <div class="step" [class.active]="currentStep >= 2">2. Personal</div>
+          <div class="step" [class.active]="currentStep >= 3">3. Empresa</div>
+          <div class="step" [class.active]="currentStep >= 4">4. Seguridad</div>
+        </div>
+
+        <h2>Registro Empresarial - {{ getCountryName() }}</h2>
+
+        <!-- Context Warning Banner -->
+        <div *ngIf="contextAnalysis?.discrepancyLevel !== 'none'" class="context-banner" [class.warning]="contextAnalysis?.discrepancyLevel === 'low'" [class.danger]="contextAnalysis?.discrepancyLevel === 'high'">
+          ⚠️ Detectamos que estás en {{ getCountryName(contextAnalysis?.detectedCountry) }}. ¿Estás seguro de registrarte en {{ getCountryName(country) }}?
+        </div>
+
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+          <!-- STEP 1: Country Selection -->
+          <div *ngIf="currentStep === 1">
+            <lib-country-selector (countrySelected)="onCountrySelected($event)"></lib-country-selector>
+            <div class="step-actions">
+              <lib-button (click)="nextStep()" [disabled]="!country">Continuar</lib-button>
+            </div>
+          </div>
+
+          <!-- STEP 2: Personal Info -->
+          <div *ngIf="currentStep === 2">
+            <h3>Información Personal</h3>
+            <lib-input label="Nombre" formControlName="firstName"></lib-input>
+            <lib-input label="Apellido" formControlName="lastName"></lib-input>
+            <lib-input label="Email Corporativo" formControlName="email" type="email"></lib-input>
+
+            <div class="step-actions">
+              <lib-button type="button" (click)="prevStep()" variant="secondary">Atrás</lib-button>
+              <lib-button type="button" (click)="nextStep()" [disabled]="isStepInvalid(2)">Siguiente</lib-button>
+            </div>
+          </div>
+
+          <!-- STEP 3: Company Info -->
+          <div *ngIf="currentStep === 3">
+            <h3>Información de la Empresa</h3>
+            <lib-input label="Nombre de la Empresa" formControlName="companyName"></lib-input>
+
+            <lib-input
+              [label]="getTaxIdLabel()"
+              formControlName="taxId"
+              [placeholder]="getTaxIdPlaceholder()"
+            ></lib-input>
+            <div class="hint">{{ getTaxIdHint() }}</div>
+
+            <div class="step-actions">
+              <lib-button type="button" (click)="prevStep()" variant="secondary">Atrás</lib-button>
+              <lib-button type="button" (click)="nextStep()" [disabled]="isStepInvalid(3)">Siguiente</lib-button>
+            </div>
+          </div>
+
+          <!-- STEP 4: Security -->
+          <div *ngIf="currentStep === 4">
+            <h3>Seguridad</h3>
+            <lib-input label="Contraseña" type="password" formControlName="password"></lib-input>
+            <div class="password-hint">Mínimo 12 caracteres, mayúscula, número y símbolo.</div>
+
+            <div class="step-actions">
+              <lib-button type="button" (click)="prevStep()" variant="secondary">Atrás</lib-button>
+              <lib-button type="submit" [disabled]="registerForm.invalid || loading" class="full-width">
+                {{ loading ? 'Registrando...' : 'Crear Cuenta' }}
+              </lib-button>
+            </div>
+          </div>
+
+        </form>
+
+        <div *ngIf="errorMsg" class="error-banner">
+          {{ errorMsg }}
+        </div>
+      </div>
+    </div>

@@ -1,8 +1,8 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { EntityManager, RequestContext } from '@mikro-orm/core';
 import { NextFunction, Request, Response } from 'express';
-import { TenantContext } from '@virteex-erp/auth';
-import { TenantService, TenantMode } from '@virteex-erp/tenant';
+import { TenantContext } from '@virteex/auth';
+import { TenantService, TenantMode } from '@virteex/tenant';
 
 @Injectable()
 export class TenantPersistenceMiddleware implements NestMiddleware {

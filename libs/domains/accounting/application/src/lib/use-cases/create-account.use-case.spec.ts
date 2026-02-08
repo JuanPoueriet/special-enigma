@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CreateAccountUseCase } from './create-account.use-case';
-import { ACCOUNT_REPOSITORY, AccountRepository, Account } from '@virteex-erp/accounting-domain';
-import { AccountType } from '@virteex-erp/accounting-contracts';
+import { ACCOUNT_REPOSITORY, AccountRepository, Account } from '@virteex/accounting-domain';
+import { AccountType } from '@virteex/accounting-contracts';
 
 describe('CreateAccountUseCase', () => {
   let service: CreateAccountUseCase;

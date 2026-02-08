@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { RiskEngineService } from '@virteex-erp/identity-domain';
+import { RiskEngineService } from '@virteex/identity-domain';
 
 @Injectable()
 export class DefaultRiskEngineService implements RiskEngineService {

@@ -8,7 +8,7 @@ import {
   InventoryMovement,
   Stock,
   InventoryMovementType
-} from '@virteex-erp/inventory-domain';
+} from '@virteex/inventory-domain';
 
 export class RegisterMovementDto {
   @IsUUID()

@@ -4,7 +4,7 @@ import {
   CreateWarehouseDto,
   RegisterMovementUseCase,
   RegisterMovementDto
-} from '@virteex-erp/inventory-application';
+} from '@virteex/inventory-application';
 
 @Controller('inventory')
 export class InventoryController {
