@@ -40,10 +40,14 @@ export class VerifyMfaUseCase {
         throw new UnauthorizedException('User not found');
     }
 
-    // 2. Validate Code (Mock for now)
-    // In real app, we verify TOTP using user.mfaSecret or check SMS code from Cache/Redis.
-    // For demo, accept '123456'.
-    if (dto.code !== '123456') {
+    // 2. Validate Code
+    if (!user.mfaSecret) {
+        throw new UnauthorizedException('MFA not configured for this account.');
+    }
+
+    const isValid = this.authService.verifyMfaToken(dto.code, user.mfaSecret);
+
+    if (!isValid) {
         await this.auditLogRepository.save(new AuditLog('MFA_FAILED', user.id, { ip: context.ip }));
         throw new UnauthorizedException('Invalid verification code');
     }

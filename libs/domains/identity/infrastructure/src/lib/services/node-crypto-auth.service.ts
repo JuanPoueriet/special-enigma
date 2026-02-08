@@ -1,17 +1,19 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from '@virteex-erp/identity-domain';
 import * as crypto from 'crypto';
+import { TOTP } from 'otplib';
 
 @Injectable()
 export class NodeCryptoAuthService implements AuthService {
   private readonly secret: string;
+  private readonly totp: TOTP;
 
   constructor() {
-    this.secret = process.env['JWT_SECRET'] || 'development-secret-key-1234567890';
+    this.secret = process.env['JWT_SECRET'] || '';
     if (!this.secret) {
-      // Should not happen with fallback, but good to keep
-      throw new Error('JWT_SECRET is not defined.');
+      throw new Error('JWT_SECRET is not defined in environment variables.');
     }
+    this.totp = new TOTP();
   }
 
   async hashPassword(password: string): Promise<string> {
@@ -78,5 +80,13 @@ export class NodeCryptoAuthService implements AuthService {
     }
 
     return payload;
+  }
+
+  generateMfaSecret(): string {
+      return this.totp.generateSecret();
+  }
+
+  verifyMfaToken(token: string, secret: string): boolean {
+      return this.totp.verify({ token, secret });
   }
 }

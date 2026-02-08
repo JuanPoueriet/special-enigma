@@ -82,6 +82,10 @@ export class RegisterUserUseCase {
     user.role = role;
     user.riskScore = riskScore;
 
+    // Generate MFA Secret for all new users (Zero Trust default)
+    user.mfaSecret = this.authService.generateMfaSecret();
+    user.mfaEnabled = true; // Enable by default or based on policy
+
     // 5. Persist
     await this.userRepository.save(user);
 
@@ -112,7 +116,7 @@ export class RegisterUserUseCase {
         if (rfc.length < 12 || rfc.length > 13) {
              isValid = false;
              errorMsg = 'Invalid RFC for Mexico. Must be 12-13 alphanumeric characters.';
-        } else if (!/^[A-Z&Ñ]{3,4}\d{6}[A-V1-9][A-Z1-9][0-9A]$/.test(rfc)) {
+        } else if (!/^[A-Z&Ñ]{3,4}\d{6}[A-Z0-9]{3}$/.test(rfc)) {
              // More strict regex
              isValid = false;
              errorMsg = 'Invalid RFC format.';
