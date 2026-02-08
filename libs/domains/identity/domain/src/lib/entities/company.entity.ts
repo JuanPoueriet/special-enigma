@@ -16,6 +16,16 @@ export class Company {
   @Property()
   country!: string;
 
+  // New fields for Tax/Regime Context
+  @Property({ nullable: true })
+  regime?: string; // Simplified, Ordinary, Gran Contribuyente
+
+  @Property()
+  currency = 'USD'; // Default, adaptive based on country
+
+  @Property({ type: 'json', nullable: true })
+  settings?: Record<string, any>; // For tax configurations
+
   @Property({ type: 'json', nullable: true })
   metadata?: Record<string, any>;
 
@@ -32,5 +42,16 @@ export class Company {
     this.name = name;
     this.taxId = taxId;
     this.country = country;
+    this.currency = this.getDefaultCurrency(country);
+  }
+
+  private getDefaultCurrency(country: string): string {
+      switch(country) {
+          case 'CO': return 'COP';
+          case 'MX': return 'MXN';
+          case 'BR': return 'BRL';
+          case 'US': return 'USD';
+          default: return 'USD';
+      }
   }
 }

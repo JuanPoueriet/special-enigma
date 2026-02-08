@@ -1,6 +1,15 @@
 import { Injectable, Inject, ConflictException, BadRequestException } from '@nestjs/common';
 import { RegisterUserDto } from '../dto/register-user.dto';
-import { User, Company, UserRepository, CompanyRepository, AuthService, NotificationService } from '@virteex-erp/identity-domain';
+import {
+  User, Company, UserRepository, CompanyRepository, AuthService, NotificationService,
+  AuditLogRepository, AuditLog, RiskEngineService
+} from '@virteex-erp/identity-domain';
+
+export interface RegisterContext {
+  ip: string;
+  userAgent: string;
+  country?: string; // Detected country
+}
 
 @Injectable()
 export class RegisterUserUseCase {
@@ -8,33 +17,58 @@ export class RegisterUserUseCase {
     @Inject(UserRepository) private readonly userRepository: UserRepository,
     @Inject(CompanyRepository) private readonly companyRepository: CompanyRepository,
     @Inject(AuthService) private readonly authService: AuthService,
-    @Inject(NotificationService) private readonly notificationService: NotificationService
+    @Inject(NotificationService) private readonly notificationService: NotificationService,
+    @Inject(AuditLogRepository) private readonly auditLogRepository: AuditLogRepository,
+    @Inject(RiskEngineService) private readonly riskEngineService: RiskEngineService
   ) {}
 
-  async execute(dto: RegisterUserDto): Promise<User> {
-    // Basic Country/TaxID Validation
+  async execute(dto: RegisterUserDto, context: RegisterContext = { ip: 'unknown', userAgent: 'unknown' }): Promise<User> {
+    // 1. Validate Tax ID Format
     this.validateTaxId(dto.country, dto.taxId);
 
+    // 2. Check for Existing User
     const existingUser = await this.userRepository.findByEmail(dto.email);
     if (existingUser) {
+      await this.auditLogRepository.save(new AuditLog('REGISTER_FAILED_DUPLICATE', undefined, { email: dto.email, ip: context.ip }));
       throw new ConflictException('User with this email already exists');
     }
 
+    // 3. Risk Assessment (Pre-registration)
+    // If IP country differs significantly from Registration Country, we might want to flag or block.
+    // For now, we calculate a score and store it with the user.
+    const riskScore = await this.riskEngineService.calculateRisk({
+        ip: context.ip,
+        country: dto.country, // User claimed country
+        userAgent: context.userAgent,
+        email: dto.email
+    });
+
+    if (riskScore > 80) {
+        // In a real system, we might require manual approval or extra verification here.
+        // For MVP, we proceed but log a high risk warning.
+        await this.auditLogRepository.save(new AuditLog('REGISTER_HIGH_RISK', undefined, { email: dto.email, score: riskScore, context }));
+    }
+
+    // 4. Create User & Company
     const passwordHash = await this.authService.hashPassword(dto.password);
 
     let company = await this.companyRepository.findByTaxId(dto.taxId);
+    let role = 'user';
+
     if (!company) {
       company = new Company(dto.companyName, dto.taxId, dto.country);
+
+      // Default Settings per country
+      if (dto.country === 'CO') {
+          company.settings = { fiscalRegime: 'ORDINARY', taxProvider: 'DIAN' };
+          company.currency = 'COP';
+      } else if (dto.country === 'MX') {
+          company.settings = { fiscalRegime: 'PERSONA_MORAL', taxProvider: 'SAT' };
+          company.currency = 'MXN';
+      }
+
       await this.companyRepository.save(company);
-    } else {
-      // Typically, joining an existing company requires invitation or verification.
-      // For MVP/Demo, we might allow it or block it.
-      // The document says "Invitación de colaboradores".
-      // So self-registration into existing company without invite is suspicious.
-      // But maybe the user is the owner trying to register again?
-      // Or maybe multiple users can register for same company if they provide correct TaxID?
-      // I will allow it but maybe set role to 'user' instead of 'admin' if company exists.
-      // But for now, let's assume if company exists, user is added to it.
+      role = 'admin'; // First user of new company is admin
     }
 
     const user = new User(
@@ -45,20 +79,14 @@ export class RegisterUserUseCase {
       dto.country,
       company
     );
+    user.role = role;
+    user.riskScore = riskScore;
 
-    // Assign admin role if company was just created (or if it's the first user)
-    // Here we check if company users count is 0?
-    // MikroORM collection might need initialization.
-    // For simplicity, I'll default to 'admin' for now as registration usually implies creating a NEW account/tenant.
-    if (company.users.length === 0) {
-        user.role = 'admin';
-    } else {
-        user.role = 'user';
-    }
-
+    // 5. Persist
     await this.userRepository.save(user);
 
-    // Trigger Notification (Domain Event implied)
+    // 6. Audit & Notify
+    await this.auditLogRepository.save(new AuditLog('REGISTER_SUCCESS', user.id, { ip: context.ip, userAgent: context.userAgent }));
     await this.notificationService.sendWelcomeEmail(user);
 
     return user;
@@ -70,29 +98,44 @@ export class RegisterUserUseCase {
     let errorMsg = '';
 
     switch (countryCode) {
-      case 'CO': // Colombia NIT (9-10 digits)
-        if (!/^\d{9,10}$/.test(taxId)) {
+      case 'CO': { // Colombia NIT (9-10 digits)
+        // Allow dashes or dots, strip them for validation
+        const nit = taxId.replace(/[^0-9]/g, '');
+        if (!/^\d{9,10}$/.test(nit)) {
           isValid = false;
           errorMsg = 'Invalid NIT for Colombia. Must be 9-10 digits.';
         }
         break;
-      case 'MX': // Mexico RFC (12-13 chars)
-        if (!/^[A-Z&Ñ]{3,4}\d{6}[A-V1-9][A-Z1-9][0-9A]$/.test(taxId.toUpperCase())) {
-          // Simplified regex
-          if (taxId.length < 12 || taxId.length > 13) {
+      }
+      case 'MX': { // Mexico RFC (12-13 chars)
+        const rfc = taxId.toUpperCase().replace(/[^A-Z0-9]/g, '');
+        if (rfc.length < 12 || rfc.length > 13) {
              isValid = false;
-             errorMsg = 'Invalid RFC for Mexico. Must be 12-13 characters.';
-          }
+             errorMsg = 'Invalid RFC for Mexico. Must be 12-13 alphanumeric characters.';
+        } else if (!/^[A-Z&Ñ]{3,4}\d{6}[A-V1-9][A-Z1-9][0-9A]$/.test(rfc)) {
+             // More strict regex
+             isValid = false;
+             errorMsg = 'Invalid RFC format.';
         }
         break;
-      case 'US': // USA EIN (9 digits)
-        if (!/^\d{9}$/.test(taxId.replace(/-/g, ''))) {
+      }
+      case 'US': { // USA EIN (9 digits)
+        const ein = taxId.replace(/[^0-9]/g, '');
+        if (!/^\d{9}$/.test(ein)) {
           isValid = false;
           errorMsg = 'Invalid EIN for USA. Must be 9 digits.';
         }
         break;
+      }
+      case 'BR': { // Brazil CNPJ (14 digits)
+        const cnpj = taxId.replace(/[^0-9]/g, '');
+        if (!/^\d{14}$/.test(cnpj)) {
+            isValid = false;
+            errorMsg = 'Invalid CNPJ for Brazil. Must be 14 digits.';
+        }
+        break;
+      }
       default:
-        // No specific validation for other countries yet
         if (taxId.length < 5) {
             isValid = false;
             errorMsg = 'Tax ID too short.';
