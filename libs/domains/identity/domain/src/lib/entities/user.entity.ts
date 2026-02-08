@@ -27,13 +27,32 @@ export class User {
   timezone!: string;
 
   @Property()
-  role: string = 'user'; // 'admin', 'user', etc.
+  role = 'user'; // 'admin', 'user', etc.
 
   @ManyToOne(() => Company)
   company!: Company;
 
   @Property()
-  isActive: boolean = true;
+  isActive = true;
+
+  // New fields for Authentication Security
+  @Property()
+  riskScore = 0; // 0-100, dynamic or static baseline
+
+  @Property()
+  mfaEnabled = false;
+
+  @Property({ nullable: true })
+  mfaSecret?: string;
+
+  @Property({ nullable: true })
+  lastLoginAt?: Date;
+
+  @Property()
+  failedLoginAttempts = 0;
+
+  @Property({ nullable: true })
+  lockedUntil?: Date;
 
   @Property()
   createdAt: Date = new Date();
@@ -48,7 +67,6 @@ export class User {
     this.lastName = lastName;
     this.country = country;
     this.company = company;
-    // Default timezone based on country could be logic here, but keeping it simple
     this.timezone = 'UTC';
   }
 }

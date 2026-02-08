@@ -1,34 +1,53 @@
 import { Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { User, Company, UserRepository, CompanyRepository, AuthService, NotificationService } from '@virteex-erp/identity-domain';
+import {
+  User, Company, AuditLog, Session,
+  UserRepository, CompanyRepository, AuditLogRepository, SessionRepository,
+  AuthService, NotificationService, RiskEngineService
+} from '@virteex-erp/identity-domain';
+
 import { MikroOrmUserRepository } from './persistence/mikro-orm-user.repository';
 import { MikroOrmCompanyRepository } from './persistence/mikro-orm-company.repository';
+import { MikroOrmAuditLogRepository } from './persistence/mikro-orm-audit-log.repository';
+import { MikroOrmSessionRepository } from './persistence/mikro-orm-session.repository';
+
 import { NodeCryptoAuthService } from './services/node-crypto-auth.service';
 import { ConsoleNotificationService } from './services/console-notification.service';
-import { RegisterUserUseCase, LoginUserUseCase } from '@virteex-erp/identity-application';
+import { DefaultRiskEngineService } from './services/risk-engine.service';
+
+import { RegisterUserUseCase, LoginUserUseCase, VerifyMfaUseCase } from '@virteex-erp/identity-application';
 
 @Module({
   imports: [
-    MikroOrmModule.forFeature([User, Company])
+    MikroOrmModule.forFeature([User, Company, AuditLog, Session])
   ],
   providers: [
     // Ports Implementations
     { provide: UserRepository, useClass: MikroOrmUserRepository },
     { provide: CompanyRepository, useClass: MikroOrmCompanyRepository },
+    { provide: AuditLogRepository, useClass: MikroOrmAuditLogRepository },
+    { provide: SessionRepository, useClass: MikroOrmSessionRepository },
+
     { provide: AuthService, useClass: NodeCryptoAuthService },
     { provide: NotificationService, useClass: ConsoleNotificationService },
+    { provide: RiskEngineService, useClass: DefaultRiskEngineService },
 
     // Application Use Cases
     RegisterUserUseCase,
-    LoginUserUseCase
+    LoginUserUseCase,
+    VerifyMfaUseCase
   ],
   exports: [
     RegisterUserUseCase,
     LoginUserUseCase,
+    VerifyMfaUseCase,
     // Export ports if other modules need them directly
     UserRepository,
     CompanyRepository,
-    AuthService
+    AuditLogRepository,
+    SessionRepository,
+    AuthService,
+    RiskEngineService
   ]
 })
 export class IdentityInfrastructureModule {}
