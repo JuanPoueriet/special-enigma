@@ -99,6 +99,7 @@
         "libs/domains/identity/presentation/src/index.ts"
       ],
       "@virteex/shared-ui": ["libs/shared/ui/src/index.ts"],
+      "@virteex/shared-ui/*": ["libs/shared/ui/src/*"],
       "@virteex/identity-ui": ["libs/domains/identity/ui/src/index.ts"],
       "@virteex/payroll-domain": ["libs/domains/payroll/domain/src/index.ts"],
       "@virteex/payroll-application": [

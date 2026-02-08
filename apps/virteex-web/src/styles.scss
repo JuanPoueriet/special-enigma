@@ -1,8 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
-@import '../../../libs/shared/ui/src/lib/styles/_tokens.scss';
+@use 'tokens';
 
 body {
-  font-family: 'Inter', -apple-system, sans-serif;
+  font-family:
+    'Inter',
+    -apple-system,
+    sans-serif;
   color: var(--color-text-primary);
   background-color: var(--color-background);
   margin: 0;

@@ -6,11 +6,12 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './button.component.html',
-  styleUrls: ['./button.component.scss']
+  styleUrls: ['./button.component.scss'],
 })
 export class ButtonComponent {
   @Input() type: 'button' | 'submit' = 'button';
   @Input() disabled = false;
+  @Input() loading = false;
   @Input() variant: 'primary' | 'secondary' = 'primary';
   @Output() clicked = new EventEmitter<Event>();
 }
