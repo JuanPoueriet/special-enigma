@@ -1,7 +1,9 @@
-# shared-ui
+# ui (Shared)
 
-This library was generated with [Nx](https://nx.dev).
+## 🎯 Purpose
+This library provides reusable components, UI kits, or utility functions shared across multiple frontend or backend applications.
 
-## Running unit tests
-
-Run `nx test shared-ui` to execute the unit tests.
+## 📦 Components
+- **UI Kit:** Atomic components (Buttons, Inputs).
+- **Utils:** Shared frontend logic.
+- **Styles:** Global SCSS/Theme definitions.

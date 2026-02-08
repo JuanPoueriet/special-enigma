@@ -1,11 +1,9 @@
-# telemetry
+# telemetry (Kernel - Telemetry)
 
-This library was generated with [Nx](https://nx.dev).
+## 🎯 Purpose
+This library provides **Observability** standards for the platform.
 
-## Building
-
-Run `nx build telemetry` to build the library.
-
-## Running unit tests
-
-Run `nx test telemetry` to execute the unit tests via [Jest](https://jestjs.io).
+## 🔑 Key Features
+- **Logging:** Structured JSON logging (Pino/Winston).
+- **Tracing:** OpenTelemetry integration.
+- **Metrics:** Prometheus metrics collection.

@@ -1,7 +1,7 @@
-# accounting-application (Application Layer)
+# purchasing-application (Application Layer)
 
 ## 🎯 Purpose
-This library implements the **Use Cases** and orchestrates the flow of data for the **Accounting** domain. It acts as the glue between the Presentation layer and the Domain layer.
+This library implements the **Use Cases** and orchestrates the flow of data for the **Purchasing** domain. It acts as the glue between the Presentation layer and the Domain layer.
 
 ## 🏗 Architecture
 - **Use Cases (Interactors):** Specific business actions (e.g., `CreateOrder`, `ProcessPayment`).

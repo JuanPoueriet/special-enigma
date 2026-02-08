@@ -1,11 +1,13 @@
-# auth
+# auth (Kernel)
 
-This library was generated with [Nx](https://nx.dev).
+## 🎯 Purpose
+This library is part of the **Shared Kernel**, providing core utilities, base classes, and cross-cutting concerns used throughout the Virteex ERP ecosystem.
 
-## Building
+## 🔑 Key Features
+- **Authentication/Authorization:** Guards, Strategies.
+- **Telemetry:** Logging, Tracing, Metrics.
+- **Common Utilities:** Date manipulation, String helpers, etc.
 
-Run `nx build auth` to build the library.
-
-## Running unit tests
-
-Run `nx test auth` to execute the unit tests via [Jest](https://jestjs.io).
+## ⚠️ Usage
+- Modifications here affect the entire system.
+- **Strict backward compatibility** is required.

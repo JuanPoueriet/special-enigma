@@ -1,7 +1,7 @@
-# accounting-infrastructure (Infrastructure Layer)
+# purchasing-infrastructure (Infrastructure Layer)
 
 ## 🎯 Purpose
-This library provides the **concrete implementations** of the interfaces defined in the Domain and Application layers for the **Accounting** domain. It handles all I/O, database persistence, and external API calls.
+This library provides the **concrete implementations** of the interfaces defined in the Domain and Application layers for the **Purchasing** domain. It handles all I/O, database persistence, and external API calls.
 
 ## 🏗 Architecture
 - **Repositories:** MikroORM/TypeORM implementations of Domain repositories.
