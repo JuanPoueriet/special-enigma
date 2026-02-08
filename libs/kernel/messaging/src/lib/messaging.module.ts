@@ -4,6 +4,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { OutboxEvent } from './entities/outbox-event.entity';
 import { OutboxService } from './outbox.service';
 import { OutboxProcessor } from './outbox.processor';
+import Redis from 'ioredis';
 
 @Global()
 @Module({
@@ -11,7 +12,20 @@ import { OutboxProcessor } from './outbox.processor';
     MikroOrmModule.forFeature([OutboxEvent]),
     ScheduleModule.forRoot(),
   ],
-  providers: [OutboxService, OutboxProcessor],
-  exports: [OutboxService, MikroOrmModule],
+  providers: [
+    OutboxService,
+    OutboxProcessor,
+    {
+      provide: 'REDIS_CLIENT',
+      useFactory: () => {
+        const url = process.env['REDIS_URL'];
+        if (!url) {
+          throw new Error('REDIS_URL environment variable is missing');
+        }
+        return new Redis(url);
+      }
+    }
+  ],
+  exports: [OutboxService, MikroOrmModule, 'REDIS_CLIENT'],
 })
 export class MessagingModule {}
