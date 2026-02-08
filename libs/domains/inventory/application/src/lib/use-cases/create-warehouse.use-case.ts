@@ -4,7 +4,7 @@ import {
   WAREHOUSE_REPOSITORY,
   WarehouseRepository,
   Warehouse
-} from '@virteex-erp/inventory-domain';
+} from '@virteex/inventory-domain';
 
 export class CreateWarehouseDto {
   @IsUUID()

@@ -3,7 +3,7 @@ import { LoginUserUseCase } from './login-user.use-case';
 import {
   UserRepository, SessionRepository, AuditLogRepository,
   AuthService, RiskEngineService
-} from '@virteex-erp/identity-domain';
+} from '@virteex/identity-domain';
 import { UnauthorizedException, ForbiddenException } from '@nestjs/common';
 
 describe('LoginUserUseCase', () => {

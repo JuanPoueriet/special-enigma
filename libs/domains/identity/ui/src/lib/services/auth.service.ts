@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { LoginUserDto, RegisterUserDto, LoginResponseDto, VerifyMfaDto } from '@virteex-erp/identity-application';
+import { LoginUserDto, RegisterUserDto, LoginResponseDto, VerifyMfaDto } from '@virteex/identity-application';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {

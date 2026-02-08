@@ -3,8 +3,8 @@ import {
   RegisterUserDto, LoginUserDto, VerifyMfaDto,
   RegisterUserUseCase, LoginUserUseCase, VerifyMfaUseCase,
   LoginResponseDto
-} from '@virteex-erp/identity-application';
-import { User } from '@virteex-erp/identity-domain';
+} from '@virteex/identity-application';
+import { User } from '@virteex/identity-domain';
 import { Request } from 'express';
 
 @Controller('auth')

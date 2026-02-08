@@ -18,21 +18,21 @@ export interface TenantCost {
 
 @Injectable()
 export class FinOpsService {
-  // Pricing Model (Configurable in future)
-  private readonly PRICING = {
-    compute: 0.05,  // per hour
-    storage: 0.02,  // per GB
-    database: 0.10, // per GB
-    network: 0.01   // per GB
-  };
-
   constructor(
     @Inject(USAGE_REPOSITORY) private readonly usageRepo: UsageRepository
   ) {}
 
+  private get pricing() {
+    return {
+      compute: Number(process.env['PRICING_COMPUTE_RATE']) || 0.05,
+      storage: Number(process.env['PRICING_STORAGE_RATE']) || 0.02,
+      database: Number(process.env['PRICING_DATABASE_RATE']) || 0.10,
+      network: Number(process.env['PRICING_NETWORK_RATE']) || 0.01
+    };
+  }
+
   async calculateTenantCost(tenantId: string, period = new Date().toISOString()): Promise<TenantCost> {
     // Determine period range (e.g., last 30 days or specific month)
-    // For simplicity, we fetch "all time" or a fixed window based on the period date
     const endDate = new Date(period);
     const startDate = new Date(endDate);
     startDate.setMonth(startDate.getMonth() - 1);
@@ -41,7 +41,7 @@ export class FinOpsService {
     const usageRecords = await this.usageRepo.getUsage(tenantId, startDate, endDate);
 
     // 2. Aggregate Usage
-    const totals = {
+    const totals: Record<string, number> = {
       compute: 0,
       storage: 0,
       database: 0,
@@ -55,10 +55,11 @@ export class FinOpsService {
     }
 
     // 3. Cost Calculation
-    const computeCost = totals.compute * this.PRICING.compute;
-    const storageCost = totals.storage * this.PRICING.storage;
-    const databaseCost = totals.database * this.PRICING.database;
-    const networkCost = totals.network * this.PRICING.network;
+    const currentPricing = this.pricing;
+    const computeCost = totals['compute'] * currentPricing.compute;
+    const storageCost = totals['storage'] * currentPricing.storage;
+    const databaseCost = totals['database'] * currentPricing.database;
+    const networkCost = totals['network'] * currentPricing.network;
 
     const total = computeCost + storageCost + databaseCost + networkCost;
 

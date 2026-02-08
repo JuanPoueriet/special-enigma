@@ -1,5 +1,5 @@
 {
-  "name": "@virteex-erp/inventory-domain",
+  "name": "@virteex/inventory-domain",
   "version": "0.0.1",
   "private": true,
   "type": "commonjs",

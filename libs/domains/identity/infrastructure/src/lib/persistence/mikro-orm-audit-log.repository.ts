@@ -1,7 +1,7 @@
 import { EntityRepository } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
-import { AuditLog, AuditLogRepository } from '@virteex-erp/identity-domain';
+import { AuditLog, AuditLogRepository } from '@virteex/identity-domain';
 
 @Injectable()
 export class MikroOrmAuditLogRepository implements AuditLogRepository {

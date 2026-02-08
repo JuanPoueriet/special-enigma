@@ -2,7 +2,7 @@ import { Module, NestModule, MiddlewareConsumer, RequestMethod } from '@nestjs/c
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import config from './persistence/mikro-orm.config';
 import { TenantPersistenceMiddleware } from './middleware/tenant-persistence.middleware';
-import { TenantModule } from '@virteex-erp/tenant';
+import { TenantModule } from '@virteex/tenant';
 
 @Module({
   imports: [

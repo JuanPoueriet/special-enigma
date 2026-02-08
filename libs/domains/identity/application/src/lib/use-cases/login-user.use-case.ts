@@ -4,7 +4,7 @@ import { LoginResponseDto } from '../dto/login-response.dto';
 import {
   UserRepository, SessionRepository, Session, AuditLogRepository, AuditLog,
   RiskEngineService, AuthService
-} from '@virteex-erp/identity-domain';
+} from '@virteex/identity-domain';
 
 export interface LoginContext {
   ip: string;

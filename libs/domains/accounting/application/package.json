@@ -1,5 +1,5 @@
 {
-  "name": "@virteex-erp/accounting-application",
+  "name": "@virteex/accounting-application",
   "version": "0.0.1",
   "private": true,
   "type": "commonjs",
@@ -8,8 +8,8 @@
   "dependencies": {
     "tslib": "^2.3.0",
     "@nestjs/common": "^11.0.0",
-    "@virteex-erp/accounting-domain": "0.0.1",
-    "@virteex-erp/accounting-contracts": "0.0.1",
+    "@virteex/accounting-domain": "0.0.1",
+    "@virteex/accounting-contracts": "0.0.1",
     "decimal.js": "^10.6.0"
   }
 }

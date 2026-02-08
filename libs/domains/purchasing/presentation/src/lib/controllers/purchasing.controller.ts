@@ -1,7 +1,7 @@
 import { Controller, Post, Body, UnauthorizedException } from '@nestjs/common';
-import { CreateSupplierUseCase, CreatePurchaseOrderUseCase } from '@virteex-erp/purchasing-application';
-import { CreateSupplierDto, CreatePurchaseOrderDto } from '@virteex-erp/purchasing-contracts';
-import { getTenantContext } from '@virteex-erp/auth';
+import { CreateSupplierUseCase, CreatePurchaseOrderUseCase } from '@virteex/purchasing-application';
+import { CreateSupplierDto, CreatePurchaseOrderDto } from '@virteex/purchasing-contracts';
+import { getTenantContext } from '@virteex/auth';
 
 @Controller('purchasing')
 export class PurchasingController {

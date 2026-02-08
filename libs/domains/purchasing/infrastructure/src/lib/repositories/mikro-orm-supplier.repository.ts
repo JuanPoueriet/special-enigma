@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/core';
-import { ISupplierRepository, Supplier } from '@virteex-erp/purchasing-domain';
+import { ISupplierRepository, Supplier } from '@virteex/purchasing-domain';
 
 @Injectable()
 export class MikroOrmSupplierRepository implements ISupplierRepository {

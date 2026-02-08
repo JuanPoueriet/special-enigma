@@ -3,7 +3,7 @@ import { RegisterUserDto } from '../dto/register-user.dto';
 import {
   User, Company, UserRepository, CompanyRepository, AuthService, NotificationService,
   AuditLogRepository, AuditLog, RiskEngineService
-} from '@virteex-erp/identity-domain';
+} from '@virteex/identity-domain';
 
 export interface RegisterContext {
   ip: string;

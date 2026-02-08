@@ -1,7 +1,7 @@
 import { defineConfig } from '@mikro-orm/postgresql';
-import { Product } from '@virteex-erp/catalog-domain';
-import { TenantModelSubscriber } from '@virteex-erp/tenant';
-import { getTenantContext } from '@virteex-erp/auth';
+import { Product } from '@virteex/catalog-domain';
+import { TenantModelSubscriber } from '@virteex/tenant';
+import { getTenantContext } from '@virteex/auth';
 
 export default defineConfig({
   entities: [Product],

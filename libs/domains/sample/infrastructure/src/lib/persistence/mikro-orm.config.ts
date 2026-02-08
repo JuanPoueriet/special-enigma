@@ -1,7 +1,7 @@
 import { defineConfig } from '@mikro-orm/postgresql';
-import { SampleEntity } from '@virteex-erp/domain';
+import { SampleEntity } from '@virteex/domain';
 import { TenantSubscriber } from './tenant.subscriber';
-import { getTenantContext } from '@virteex-erp/auth';
+import { getTenantContext } from '@virteex/auth';
 
 export default defineConfig({
   entities: [SampleEntity],

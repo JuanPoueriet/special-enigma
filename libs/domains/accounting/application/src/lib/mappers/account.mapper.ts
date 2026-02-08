@@ -1,5 +1,5 @@
-import { Account } from '@virteex-erp/accounting-domain';
-import { AccountDto } from '@virteex-erp/accounting-contracts';
+import { Account } from '@virteex/accounting-domain';
+import { AccountDto } from '@virteex/accounting-contracts';
 
 export class AccountMapper {
   static toDto(entity: Account): AccountDto {
