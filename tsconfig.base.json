@@ -10,26 +10,15 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": [
-      "es2020",
-      "dom"
-    ],
+    "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@virteex-erp/auth": [
-        "libs/kernel/auth/src/index.ts"
-      ],
-      "@virteex-erp/telemetry": [
-        "libs/kernel/telemetry/src/index.ts"
-      ],
-      "@virteex-erp/contracts": [
-        "libs/shared/contracts/src/index.ts"
-      ],
-      "@virteex-erp/domain": [
-        "libs/domains/sample/domain/src/index.ts"
-      ],
+      "@virteex-erp/auth": ["libs/kernel/auth/src/index.ts"],
+      "@virteex-erp/telemetry": ["libs/kernel/telemetry/src/index.ts"],
+      "@virteex-erp/contracts": ["libs/shared/contracts/src/index.ts"],
+      "@virteex-erp/domain": ["libs/domains/sample/domain/src/index.ts"],
       "@virteex-erp/application": [
         "libs/domains/sample/application/src/index.ts"
       ],
@@ -39,12 +28,8 @@
       "@virteex-erp/presentation": [
         "libs/domains/sample/presentation/src/index.ts"
       ],
-      "@virteex-erp/tenant": [
-        "libs/kernel/tenant/src/index.ts"
-      ],
-      "@virteex-erp/messaging": [
-        "libs/kernel/messaging/src/index.ts"
-      ],
+      "@virteex-erp/tenant": ["libs/kernel/tenant/src/index.ts"],
+      "@virteex-erp/messaging": ["libs/kernel/messaging/src/index.ts"],
       "@virteex-erp/catalog-domain": [
         "libs/domains/catalog/domain/src/index.ts"
       ],
@@ -63,9 +48,7 @@
       "@virteex-erp/billing-infrastructure": [
         "libs/domains/billing/infrastructure/src/index.ts"
       ],
-      "@virteex-erp/shared-validators": [
-        "libs/shared/validators/src/index.ts"
-      ],
+      "@virteex-erp/shared-validators": ["libs/shared/validators/src/index.ts"],
       "@virteex-erp/accounting-domain": [
         "libs/domains/accounting/domain/src/index.ts"
       ],
@@ -110,11 +93,22 @@
       ],
       "@virteex-erp/purchasing-presentation": [
         "libs/domains/purchasing/presentation/src/index.ts"
-      ]
+      ],
+      "@virteex-erp/identity-domain": [
+        "libs/domains/identity/domain/src/index.ts"
+      ],
+      "@virteex-erp/identity-application": [
+        "libs/domains/identity/application/src/index.ts"
+      ],
+      "@virteex-erp/identity-infrastructure": [
+        "libs/domains/identity/infrastructure/src/index.ts"
+      ],
+      "@virteex-erp/identity-presentation": [
+        "libs/domains/identity/presentation/src/index.ts"
+      ],
+      "@virteex-erp/shared-ui": ["libs/shared/ui/src/index.ts"],
+      "@virteex-erp/identity-ui": ["libs/domains/identity/ui/src/index.ts"]
     }
   },
-  "exclude": [
-    "node_modules",
-    "tmp"
-  ]
+  "exclude": ["node_modules", "tmp"]
 }

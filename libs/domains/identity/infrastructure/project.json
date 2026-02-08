@@ -1,0 +1,42 @@
+{
+  "name": "identity-infrastructure",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domains/identity/infrastructure/src",
+  "projectType": "library",
+  "tags": [
+    "scope:identity",
+    "type:infrastructure",
+    "platform:nest",
+    "tenant-mode:schema",
+    "criticality:high"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/domains/identity/infrastructure",
+        "main": "libs/domains/identity/infrastructure/src/index.ts",
+        "tsConfig": "libs/domains/identity/infrastructure/tsconfig.lib.json",
+        "assets": [
+          "libs/domains/identity/infrastructure/*.md"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "libs/domains/identity/infrastructure/jest.config.cts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}
