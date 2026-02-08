@@ -7,4 +7,7 @@ module.exports = {
   },
   moduleFileExtensions: ['ts', 'js', 'html', 'node'],
   coverageDirectory: '../../coverage/apps/virteex-plugin-host',
+  moduleNameMapper: {
+    '^isolated-vm$': '<rootDir>/src/test/mocks/isolated-vm.mock.ts',
+  },
 };

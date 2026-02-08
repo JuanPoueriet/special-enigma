@@ -12,69 +12,81 @@
         <h2>Registro Empresarial - {{ getCountryName() }}</h2>
 
         <!-- Context Warning Banner -->
-        <div *ngIf="contextAnalysis?.discrepancyLevel !== 'none'" class="context-banner" [class.warning]="contextAnalysis?.discrepancyLevel === 'low'" [class.danger]="contextAnalysis?.discrepancyLevel === 'high'">
-          ⚠️ Detectamos que estás en {{ getCountryName(contextAnalysis?.detectedCountry) }}. ¿Estás seguro de registrarte en {{ getCountryName(country) }}?
-        </div>
+        @if (contextAnalysis?.discrepancyLevel !== 'none') {
+          <div class="context-banner" [class.warning]="contextAnalysis?.discrepancyLevel === 'low'" [class.danger]="contextAnalysis?.discrepancyLevel === 'high'">
+            ⚠️ Detectamos que estás en {{ getCountryName(contextAnalysis?.detectedCountry || '') }}. ¿Estás seguro de registrarte en {{ getCountryName(country) }}?
+          </div>
+        }
 
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
 
           <!-- STEP 1: Country Selection -->
-          <div *ngIf="currentStep === 1">
-            <lib-country-selector (countrySelected)="onCountrySelected($event)"></lib-country-selector>
-            <div class="step-actions">
-              <lib-button (click)="nextStep()" [disabled]="!country">Continuar</lib-button>
+          @if (currentStep === 1) {
+            <div>
+              <virteex-country-selector (countrySelected)="onCountrySelected($event)"></virteex-country-selector>
+              <div class="step-actions">
+                <virteex-button (clicked)="nextStep()" [disabled]="!country">Continuar</virteex-button>
+              </div>
             </div>
-          </div>
+          }
 
           <!-- STEP 2: Personal Info -->
-          <div *ngIf="currentStep === 2">
-            <h3>Información Personal</h3>
-            <lib-input label="Nombre" formControlName="firstName"></lib-input>
-            <lib-input label="Apellido" formControlName="lastName"></lib-input>
-            <lib-input label="Email Corporativo" formControlName="email" type="email"></lib-input>
+          @if (currentStep === 2) {
+            <div>
+              <h3>Información Personal</h3>
+              <virteex-input label="Nombre" formControlName="firstName"></virteex-input>
+              <virteex-input label="Apellido" formControlName="lastName"></virteex-input>
+              <virteex-input label="Email Corporativo" formControlName="email" type="email"></virteex-input>
 
-            <div class="step-actions">
-              <lib-button type="button" (click)="prevStep()" variant="secondary">Atrás</lib-button>
-              <lib-button type="button" (click)="nextStep()" [disabled]="isStepInvalid(2)">Siguiente</lib-button>
+              <div class="step-actions">
+                <virteex-button type="button" (clicked)="prevStep()" variant="secondary">Atrás</virteex-button>
+                <virteex-button type="button" (clicked)="nextStep()" [disabled]="isStepInvalid(2)">Siguiente</virteex-button>
+              </div>
             </div>
-          </div>
+          }
 
           <!-- STEP 3: Company Info -->
-          <div *ngIf="currentStep === 3">
-            <h3>Información de la Empresa</h3>
-            <lib-input label="Nombre de la Empresa" formControlName="companyName"></lib-input>
+          @if (currentStep === 3) {
+            <div>
+              <h3>Información de la Empresa</h3>
+              <virteex-input label="Nombre de la Empresa" formControlName="companyName"></virteex-input>
 
-            <lib-input
-              [label]="getTaxIdLabel()"
-              formControlName="taxId"
-              [placeholder]="getTaxIdPlaceholder()"
-            ></lib-input>
-            <div class="hint">{{ getTaxIdHint() }}</div>
+              <virteex-input
+                [label]="getTaxIdLabel()"
+                formControlName="taxId"
+                [placeholder]="getTaxIdPlaceholder()"
+              ></virteex-input>
+              <div class="hint">{{ getTaxIdHint() }}</div>
 
-            <div class="step-actions">
-              <lib-button type="button" (click)="prevStep()" variant="secondary">Atrás</lib-button>
-              <lib-button type="button" (click)="nextStep()" [disabled]="isStepInvalid(3)">Siguiente</lib-button>
+              <div class="step-actions">
+                <virteex-button type="button" (clicked)="prevStep()" variant="secondary">Atrás</virteex-button>
+                <virteex-button type="button" (clicked)="nextStep()" [disabled]="isStepInvalid(3)">Siguiente</virteex-button>
+              </div>
             </div>
-          </div>
+          }
 
           <!-- STEP 4: Security -->
-          <div *ngIf="currentStep === 4">
-            <h3>Seguridad</h3>
-            <lib-input label="Contraseña" type="password" formControlName="password"></lib-input>
-            <div class="password-hint">Mínimo 12 caracteres, mayúscula, número y símbolo.</div>
+          @if (currentStep === 4) {
+            <div>
+              <h3>Seguridad</h3>
+              <virteex-input label="Contraseña" type="password" formControlName="password"></virteex-input>
+              <div class="password-hint">Mínimo 12 caracteres, mayúscula, número y símbolo.</div>
 
-            <div class="step-actions">
-              <lib-button type="button" (click)="prevStep()" variant="secondary">Atrás</lib-button>
-              <lib-button type="submit" [disabled]="registerForm.invalid || loading" class="full-width">
-                {{ loading ? 'Registrando...' : 'Crear Cuenta' }}
-              </lib-button>
+              <div class="step-actions">
+                <virteex-button type="button" (clicked)="prevStep()" variant="secondary">Atrás</virteex-button>
+                <virteex-button type="submit" [disabled]="registerForm.invalid || loading" class="full-width">
+                  {{ loading ? 'Registrando...' : 'Crear Cuenta' }}
+                </virteex-button>
+              </div>
             </div>
-          </div>
+          }
 
         </form>
 
-        <div *ngIf="errorMsg" class="error-banner">
-          {{ errorMsg }}
-        </div>
+        @if (errorMsg) {
+          <div class="error-banner">
+            {{ errorMsg }}
+          </div>
+        }
       </div>
     </div>

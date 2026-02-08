@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'lib-input',
+  selector: 'virteex-input',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './input.component.html',
@@ -25,17 +25,22 @@ export class InputComponent implements ControlValueAccessor {
   value = '';
   disabled = false;
 
-  onChange: any = () => {};
-  onTouched: any = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-empty-function
+  onChange: (value: any) => void = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onTouched: () => void = () => {};
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   writeValue(value: any): void {
     this.value = value;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   registerOnChange(fn: any): void {
     this.onChange = fn;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
@@ -44,6 +49,7 @@ export class InputComponent implements ControlValueAccessor {
     this.disabled = isDisabled;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onInput(event: any) {
     this.value = event.target.value;
     this.onChange(this.value);

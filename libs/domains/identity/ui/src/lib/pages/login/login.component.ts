@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -8,13 +8,18 @@ import { CountrySelectorComponent } from '../../components/country-selector/coun
 import { IntentDetectionService, ContextAnalysis } from '../../services/intent-detection.service';
 
 @Component({
-  selector: 'lib-login',
+  selector: 'virteex-login',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, ButtonComponent, InputComponent, CountrySelectorComponent],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
+  private fb = inject(FormBuilder);
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  private intentService = inject(IntentDetectionService);
+
   loginForm: FormGroup;
   mfaForm: FormGroup;
   loading = false;
@@ -25,12 +30,7 @@ export class LoginComponent {
   tempToken = '';
   contextAnalysis: ContextAnalysis | null = null;
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router,
-    private intentService: IntentDetectionService
-  ) {
+  constructor() {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
@@ -48,7 +48,7 @@ export class LoginComponent {
 
   getCountryName(code: string = this.country): string {
     if (!code) return '';
-    const names: any = { 'CO': 'Colombia', 'MX': 'México', 'US': 'USA', 'BR': 'Brasil' };
+    const names: Record<string, string> = { 'CO': 'Colombia', 'MX': 'México', 'US': 'USA', 'BR': 'Brasil' };
     return names[code] || code;
   }
 
@@ -94,7 +94,7 @@ export class LoginComponent {
                       this.router.navigate(['/']);
                   }
               },
-              error: (err) => {
+              error: () => {
                   this.loading = false;
                   this.errorMsg = 'Código inválido.';
               }

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'lib-identity-ui',
+  selector: 'virteex-identity-ui',
   imports: [],
   templateUrl: './identity-ui.html',
   styleUrl: './identity-ui.css',

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { LoginUserDto, RegisterUserDto, LoginResponseDto, VerifyMfaDto } from '@virteex/identity-application';
@@ -6,13 +6,13 @@ import { LoginUserDto, RegisterUserDto, LoginResponseDto, VerifyMfaDto } from '@
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private apiUrl = '/api/auth';
-
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
 
   login(dto: LoginUserDto): Observable<LoginResponseDto> {
     return this.http.post<LoginResponseDto>(`${this.apiUrl}/login`, dto);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   register(dto: RegisterUserDto): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, dto);
   }

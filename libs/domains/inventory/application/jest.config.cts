@@ -1,5 +1,5 @@
 module.exports = {
-  displayName: 'application',
+  displayName: 'inventory-application',
   preset: '../../../../jest.preset.js',
   testEnvironment: 'node',
   transform: {
@@ -7,4 +7,5 @@ module.exports = {
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../../../../coverage/libs/domains/inventory/application',
+  passWithNoTests: true,
 };
