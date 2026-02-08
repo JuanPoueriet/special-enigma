@@ -1,0 +1,37 @@
+{
+  "name": "treasury-domain",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domains/treasury/domain/src",
+  "projectType": "library",
+  "tags": [
+    "type:domain",
+    "scope:treasury"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/domains/treasury/domain",
+        "main": "libs/domains/treasury/domain/src/index.ts",
+        "tsConfig": "libs/domains/treasury/domain/tsconfig.lib.json",
+        "assets": [
+          "libs/domains/treasury/domain/*.md"
+        ],
+        "rootDir": "."
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "libs/domains/treasury/domain/jest.config.cts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "name": "admin-contracts",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domains/admin/contracts/src",
+  "projectType": "library",
+  "tags": [
+    "type:contract",
+    "scope:admin"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/domains/admin/contracts",
+        "main": "libs/domains/admin/contracts/src/index.ts",
+        "tsConfig": "libs/domains/admin/contracts/tsconfig.lib.json",
+        "assets": [
+          "libs/domains/admin/contracts/*.md"
+        ],
+        "rootDir": "."
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "libs/domains/admin/contracts/jest.config.cts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

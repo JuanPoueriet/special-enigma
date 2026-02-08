@@ -1,0 +1,43 @@
+import { Entity, PrimaryKey, Property, OneToMany, Collection, Cascade } from '@mikro-orm/core';
+import type { CashFlow } from './cash-flow.entity';
+
+@Entity()
+export class BankAccount {
+  @PrimaryKey({ type: 'uuid', defaultRaw: 'gen_random_uuid()' })
+  id!: string;
+
+  @Property()
+  tenantId!: string;
+
+  @Property()
+  name!: string;
+
+  @Property()
+  accountNumber!: string;
+
+  @Property()
+  bankName!: string;
+
+  @Property()
+  currency!: string;
+
+  @Property({ type: 'decimal', precision: 12, scale: 2, default: 0 })
+  balance: number = 0;
+
+  @OneToMany('CashFlow', 'bankAccount', { cascade: [Cascade.ALL] })
+  transactions = new Collection<CashFlow>(this);
+
+  @Property({ onCreate: () => new Date() })
+  createdAt: Date = new Date();
+
+  @Property({ onUpdate: () => new Date() })
+  updatedAt: Date = new Date();
+
+  constructor(tenantId: string, name: string, accountNumber: string, bankName: string, currency: string) {
+    this.tenantId = tenantId;
+    this.name = name;
+    this.accountNumber = accountNumber;
+    this.bankName = bankName;
+    this.currency = currency;
+  }
+}

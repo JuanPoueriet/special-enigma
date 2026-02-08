@@ -1,0 +1,37 @@
+{
+  "name": "crm-infrastructure",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domains/crm/infrastructure/src",
+  "projectType": "library",
+  "tags": [
+    "type:infrastructure",
+    "scope:crm"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/domains/crm/infrastructure",
+        "main": "libs/domains/crm/infrastructure/src/index.ts",
+        "tsConfig": "libs/domains/crm/infrastructure/tsconfig.lib.json",
+        "assets": [
+          "libs/domains/crm/infrastructure/*.md"
+        ],
+        "rootDir": "."
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "libs/domains/crm/infrastructure/jest.config.cts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

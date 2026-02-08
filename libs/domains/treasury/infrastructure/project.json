@@ -1,0 +1,37 @@
+{
+  "name": "treasury-infrastructure",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domains/treasury/infrastructure/src",
+  "projectType": "library",
+  "tags": [
+    "type:infrastructure",
+    "scope:treasury"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/domains/treasury/infrastructure",
+        "main": "libs/domains/treasury/infrastructure/src/index.ts",
+        "tsConfig": "libs/domains/treasury/infrastructure/tsconfig.lib.json",
+        "assets": [
+          "libs/domains/treasury/infrastructure/*.md"
+        ],
+        "rootDir": "."
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "libs/domains/treasury/infrastructure/jest.config.cts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

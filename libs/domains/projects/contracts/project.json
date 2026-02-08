@@ -1,0 +1,37 @@
+{
+  "name": "projects-contracts",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domains/projects/contracts/src",
+  "projectType": "library",
+  "tags": [
+    "type:contract",
+    "scope:projects"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/domains/projects/contracts",
+        "main": "libs/domains/projects/contracts/src/index.ts",
+        "tsConfig": "libs/domains/projects/contracts/tsconfig.lib.json",
+        "assets": [
+          "libs/domains/projects/contracts/*.md"
+        ],
+        "rootDir": "."
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "libs/domains/projects/contracts/jest.config.cts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "name": "payroll-infrastructure",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domains/payroll/infrastructure/src",
+  "projectType": "library",
+  "tags": [
+    "type:infrastructure",
+    "scope:payroll"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/domains/payroll/infrastructure",
+        "main": "libs/domains/payroll/infrastructure/src/index.ts",
+        "tsConfig": "libs/domains/payroll/infrastructure/tsconfig.lib.json",
+        "assets": [
+          "libs/domains/payroll/infrastructure/*.md"
+        ],
+        "rootDir": "."
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "libs/domains/payroll/infrastructure/jest.config.cts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}
