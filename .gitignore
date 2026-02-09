@@ -48,3 +48,5 @@ dist/
 coverage/
 tmp/
 test.log
+
+vitest.config.*.timestamp*
