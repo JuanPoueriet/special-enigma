@@ -7,7 +7,7 @@ import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 
-function validateEnvironment() {
+function validateEnvironment(): void {
   const requiredVars = [
     'VIRTEEX_HMAC_SECRET',
     'REDIS_URL'
@@ -21,7 +21,7 @@ function validateEnvironment() {
   }
 }
 
-async function bootstrap() {
+async function bootstrap(): Promise<void> {
   validateEnvironment();
 
   const app = await NestFactory.create(AppModule);
