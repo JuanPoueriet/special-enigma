@@ -1,7 +1,8 @@
 
 class MockScript {
   constructor(private code: string) {}
-  async run(context: any, options: any) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async run(_context: any, _options: any) {
     if (this.code.includes('throw')) {
       throw new Error('Boom');
     }
@@ -14,14 +15,17 @@ class MockScript {
 
 class MockIsolate {
   public isDisposed = false;
-  constructor(opts: any) {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
+  constructor(_opts: any) {}
 
   createContextSync() {
     return {
       global: {
-        setSync: (key: string, val: any) => {},
+        // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
+        setSync: (_key: string, _val: any) => {},
         derefInto: () => ({}),
       },
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
       release: () => {},
     };
   }

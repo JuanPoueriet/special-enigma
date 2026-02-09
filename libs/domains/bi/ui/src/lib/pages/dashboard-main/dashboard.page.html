@@ -35,7 +35,7 @@
           </button>
           }
           @switch (widget.componentType) {
-          @case ('kpi-card') { <app-kpi-card [data]="widget.data" /> }
+          @case ('kpi-card') { <virteex-kpi-card [data]="widget.data" /> }
           @case ('stat-card') { <app-stat-card [data]="widget.data" /> }
           @case ('comparison-chart') { <app-comparison-chart [widget]="widget" [isEditMode]="isEditMode()" /> }
           @case ('alerts-panel') { <app-alerts-panel /> }
