@@ -1,5 +1,5 @@
 import { Test } from '@nestjs/testing';
-import { AuthModule } from '@virteex/auth/lib/auth.module';
+import { AuthModule } from './auth.module';
 
 describe('AuthModule', () => {
   it('should compile', async () => {

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { UsageRecord, UsageRepository } from '@virteex/finops/lib/ports/usage.repository';
+import { UsageRecord, UsageRepository } from '../ports/usage.repository';
 
 @Injectable()
 export class InMemoryUsageRepository implements UsageRepository {

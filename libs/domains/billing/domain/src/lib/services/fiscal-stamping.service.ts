@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { Invoice } from '@virteex/billing-domain/lib/entities/invoice.entity';
-import { PacProvider, PAC_PROVIDER, FiscalStamp } from '@virteex/billing-domain/lib/ports/pac-provider.port';
+import { Invoice } from '../entities/invoice.entity';
+import { PacProvider, PAC_PROVIDER, FiscalStamp } from '../ports/pac-provider.port';
 
 @Injectable()
 export class FiscalStampingService {

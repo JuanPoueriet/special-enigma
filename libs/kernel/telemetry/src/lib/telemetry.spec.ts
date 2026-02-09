@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
-import { TelemetryService } from '@virteex/telemetry/lib/telemetry';
-import { TelemetryModule } from '@virteex/telemetry/lib/telemetry.module';
+import { TelemetryService } from './telemetry';
+import { TelemetryModule } from './telemetry.module';
 
 describe('TelemetryService', () => {
   let service: TelemetryService;

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/core';
-import { OutboxEvent } from '@virteex/messaging/lib/entities/outbox-event.entity';
+import { OutboxEvent } from './entities/outbox-event.entity';
 
 @Injectable()
 export class OutboxService {

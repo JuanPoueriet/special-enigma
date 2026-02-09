@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
-import { DashboardComponent } from '@virteex/payroll-ui/lib/pages/dashboard/dashboard.component';
-import { ListComponent } from '@virteex/payroll-ui/lib/pages/list/list.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { ListComponent } from './pages/list/list.component';
 
 export const payrollRoutes: Route[] = [
   { path: '', component: DashboardComponent },

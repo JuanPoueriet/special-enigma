@@ -5,10 +5,10 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { LucideAngularModule, Save } from 'lucide-angular';
 // FIX: Importar DTOs desde el servicio.
-import { LedgersService, CreateLedgerDto, UpdateLedgerDto } from '@virteex/accounting-ui/lib/core/api/ledgers.service';
+import { LedgersService, CreateLedgerDto, UpdateLedgerDto } from '../../../core/api/ledgers.service';
 // FIX: Importar el tipo Ledger directamente desde su modelo, ya que el servicio no lo re-exporta.
-import { Ledger } from '@virteex/accounting-ui/lib/core/models/ledger.model';
-import { NotificationService } from '@virteex/accounting-ui/lib/core/services/notification';
+import { Ledger } from '../../../core/models/ledger.model';
+import { NotificationService } from '../../../core/services/notification';
 
 @Component({
   selector: 'virteex-ledger-form-page',

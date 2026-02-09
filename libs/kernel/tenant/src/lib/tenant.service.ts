@@ -1,7 +1,7 @@
 import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/core';
-import { TenantConfig } from '@virteex/tenant/lib/interfaces/tenant-config.interface';
-import { Tenant } from '@virteex/tenant/lib/entities/tenant.entity';
+import { TenantConfig } from './interfaces/tenant-config.interface';
+import { Tenant } from './entities/tenant.entity';
 import Redis from 'ioredis';
 
 @Injectable()

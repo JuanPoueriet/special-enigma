@@ -1,4 +1,4 @@
-import { fiscalApplication } from '@virteex/fiscal-application/lib/fiscal-application';
+import { fiscalApplication } from './fiscal-application';
 
 describe('fiscalApplication', () => {
   it('should work', () => {

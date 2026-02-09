@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Suppliers } from '@virteex/crm-ui/lib/pages/contacts/suppliers/suppliers.page';
+import { Suppliers } from './suppliers.page';
 
 describe('Suppliers', () => {
   let component: Suppliers;

@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { ThemeService } from '@virteex/shared-ui/core/services/theme';
+import { ThemeService } from '../../../core/services/theme';
 
 // --- PASO 1: Importar el MÓDULO y los OBJETOS de los íconos ---
 import { LucideAngularModule, Sun, Moon, Monitor } from 'lucide-angular';

@@ -2,8 +2,8 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '@virteex/shared-ui/environments/environment';
-import { PriceList } from '@virteex/shared-ui/lib/core/models/price-list.model';
+import { environment } from '../../../environments/environment';
+import { PriceList } from '../models/price-list.model';
 
 export type CreatePriceListDto = Omit<PriceList, 'id' | 'organizationId' | 'createdAt' | 'updatedAt' | 'items'> & {
   items: { productId: string; price: number }[];

@@ -1,7 +1,7 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { RecordJournalEntryUseCase, GetJournalEntriesUseCase } from '@virteex/accounting-application';
-import { JournalEntryObject } from '@virteex/accounting-presentation/lib/dto/journal-entry.object';
-import { RecordJournalEntryInput } from '@virteex/accounting-presentation/lib/dto/record-journal-entry.input';
+import { JournalEntryObject } from '../dto/journal-entry.object';
+import { RecordJournalEntryInput } from '../dto/record-journal-entry.input';
 
 @Resolver(() => JournalEntryObject)
 export class JournalEntriesResolver {

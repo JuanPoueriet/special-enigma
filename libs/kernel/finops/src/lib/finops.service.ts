@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { USAGE_REPOSITORY, UsageRepository } from '@virteex/finops/lib/ports/usage.repository';
+import { USAGE_REPOSITORY, UsageRepository } from './ports/usage.repository';
 
 export interface CostBreakdown {
   compute: number;

@@ -1,8 +1,8 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { WebSocketService } from '@virteex/shared-ui/lib/core/services/websocket.service';
-import { PushNotificationService } from '@virteex/shared-ui/lib/core/services/push-notification.service';
-import { environment } from '@virteex/shared-ui/environments/environment';
+import { WebSocketService } from './websocket.service';
+import { PushNotificationService } from './push-notification.service';
+import { environment } from '../../../environments/environment';
 
 export interface Notification {
   id: string;

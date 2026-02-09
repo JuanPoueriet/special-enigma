@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { LucideAngularModule, ShieldAlert, Mail } from 'lucide-angular';
-import { AuthService } from '@virteex/shared-ui/lib/core/services/auth';
+import { AuthService } from '../../core/services/auth';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 

@@ -1,0 +1,172 @@
+
+> nx run identity-ui:test
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/app/libs/domains/identity/ui[39m
+ [31m❯[39m [30m[43m identity-ui [49m[39m src/lib/pages/profile/my-profile.page.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m [30m[43m identity-ui [49m[39m src/lib/pages/auth/login/login.page.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m [30m[43m identity-ui [49m[39m src/lib/pages/user-management/user-management.page.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m [30m[43m identity-ui [49m[39m src/lib/pages/auth/set-password/set-password.page.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m [30m[43m identity-ui [49m[39m src/lib/pages/auth/register/register.page.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m [30m[43m identity-ui [49m[39m src/lib/pages/auth/forgot-password/forgot-password/forgot-password.page.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m [30m[43m identity-ui [49m[39m src/lib/pages/auth/register/steps/step-configuration/step-configuration.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31m❯[39m [30m[43m identity-ui [49m[39m src/lib/pages/auth/reset-password/reset-password.page/reset-password.page.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [32m✓[39m [30m[43m identity-ui [49m[39m src/lib/identity-ui/identity-ui.spec.ts [2m([22m[2m1 test[22m[2m)[22m[32m 107[2mms[22m[39m
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Suites 8 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+[41m[1m FAIL [22m[49m [30m[43m identity-ui [49m[39m src/lib/pages/profile/my-profile.page.spec.ts[2m [ src/lib/pages/profile/my-profile.page.spec.ts ][22m
+[31m[1mError[22m: Failed to resolve import "../../../core/services/auth" from "libs/domains/identity/ui/src/lib/pages/profile/my-profile.page.spec.ts". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36m/app/libs/domains/identity/ui/src/lib/pages/profile/my-profile.page.spec.ts[39m:3:28
+[33m  2  |  import { TestBed } from "@angular/core/testing";
+  3  |  import { MyProfilePage } from "./my-profile.page";
+  4  |  import { AuthService } from "../../../core/services/auth";
+     |                               ^
+  5  |  import { UsersService } from "../../../core/api/users.service";
+  6  |  import { SecurityService } from "../../../core/api/security.service";[39m
+[90m [2m❯[22m TransformPluginContext._formatLog ../../../../node_modules/vite/dist/node/chunks/config.js:[2m28998:43[22m[39m
+[90m [2m❯[22m TransformPluginContext.error ../../../../node_modules/vite/dist/node/chunks/config.js:[2m28995:14[22m[39m
+[90m [2m❯[22m normalizeUrl ../../../../node_modules/vite/dist/node/chunks/config.js:[2m27118:18[22m[39m
+[90m [2m❯[22m ../../../../node_modules/vite/dist/node/chunks/config.js:[2m27176:32[22m[39m
+[90m [2m❯[22m TransformPluginContext.transform ../../../../node_modules/vite/dist/node/chunks/config.js:[2m27144:4[22m[39m
+[90m [2m❯[22m EnvironmentPluginContainer.transform ../../../../node_modules/vite/dist/node/chunks/config.js:[2m28796:14[22m[39m
+[90m [2m❯[22m loadAndTransform ../../../../node_modules/vite/dist/node/chunks/config.js:[2m22669:26[22m[39m
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯[22m[39m
+[41m[1m FAIL [22m[49m [30m[43m identity-ui [49m[39m src/lib/pages/user-management/user-management.page.spec.ts[2m [ src/lib/pages/user-management/user-management.page.spec.ts ][22m
+[31m[1mError[22m: Failed to resolve import "../../../core/api/users.service" from "libs/domains/identity/ui/src/lib/pages/user-management/user-management.page.spec.ts". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36m/app/libs/domains/identity/ui/src/lib/pages/user-management/user-management.page.spec.ts[39m:6:59
+[33m  4  |  import { of } from "rxjs";
+  5  |  import { UserManagementPage } from "./user-management.page";
+  6  |  import { UsersService } from "../../../core/api/users.service";
+     |                                ^
+  7  |  import { RolesService } from "../../../core/api/roles.service";
+  8  |  import { NotificationService } from "../../../core/services/notification";[39m
+[90m [2m❯[22m TransformPluginContext._formatLog ../../../../node_modules/vite/dist/node/chunks/config.js:[2m28998:43[22m[39m
+[90m [2m❯[22m TransformPluginContext.error ../../../../node_modules/vite/dist/node/chunks/config.js:[2m28995:14[22m[39m
+[90m [2m❯[22m normalizeUrl ../../../../node_modules/vite/dist/node/chunks/config.js:[2m27118:18[22m[39m
+[90m [2m❯[22m ../../../../node_modules/vite/dist/node/chunks/config.js:[2m27176:32[22m[39m
+[90m [2m❯[22m TransformPluginContext.transform ../../../../node_modules/vite/dist/node/chunks/config.js:[2m27144:4[22m[39m
+[90m [2m❯[22m EnvironmentPluginContainer.transform ../../../../node_modules/vite/dist/node/chunks/config.js:[2m28796:14[22m[39m
+[90m [2m❯[22m loadAndTransform ../../../../node_modules/vite/dist/node/chunks/config.js:[2m22669:26[22m[39m
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯[22m[39m
+[41m[1m FAIL [22m[49m [30m[43m identity-ui [49m[39m src/lib/pages/auth/login/login.page.spec.ts[2m [ src/lib/pages/auth/login/login.page.spec.ts ][22m
+[31m[1mError[22m: Failed to resolve import "../../../core/services/auth" from "libs/domains/identity/ui/src/lib/pages/auth/login/login.page.spec.ts". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36m/app/libs/domains/identity/ui/src/lib/pages/auth/login/login.page.spec.ts[39m:7:28
+[33m  5  |  import { provideRouter } from "@angular/router";
+  6  |  import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+  7  |  import { AuthService } from "../../../core/services/auth";
+     |                               ^
+  8  |  import { ReCaptchaV3Service, RECAPTCHA_V3_SITE_KEY } from "ng-recaptcha-19";
+  9  |  import { of } from "rxjs";[39m
+[90m [2m❯[22m TransformPluginContext._formatLog ../../../../node_modules/vite/dist/node/chunks/config.js:[2m28998:43[22m[39m
+[90m [2m❯[22m TransformPluginContext.error ../../../../node_modules/vite/dist/node/chunks/config.js:[2m28995:14[22m[39m
+[90m [2m❯[22m normalizeUrl ../../../../node_modules/vite/dist/node/chunks/config.js:[2m27118:18[22m[39m
+[90m [2m❯[22m ../../../../node_modules/vite/dist/node/chunks/config.js:[2m27176:32[22m[39m
+[90m [2m❯[22m TransformPluginContext.transform ../../../../node_modules/vite/dist/node/chunks/config.js:[2m27144:4[22m[39m
+[90m [2m❯[22m EnvironmentPluginContainer.transform ../../../../node_modules/vite/dist/node/chunks/config.js:[2m28796:14[22m[39m
+[90m [2m❯[22m loadAndTransform ../../../../node_modules/vite/dist/node/chunks/config.js:[2m22669:26[22m[39m
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯[22m[39m
+[41m[1m FAIL [22m[49m [30m[43m identity-ui [49m[39m src/lib/pages/auth/register/register.page.spec.ts[2m [ src/lib/pages/auth/register/register.page.spec.ts ][22m
+[31m[1mError[22m: Failed to resolve import "../../../core/services/auth" from "libs/domains/identity/ui/src/lib/pages/auth/register/register.page.spec.ts". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36m/app/libs/domains/identity/ui/src/lib/pages/auth/register/register.page.spec.ts[39m:8:28
+[33m  5  |  import { provideRouter } from "@angular/router";
+  6  |  import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+  7  |  import { AuthService } from "../../../core/services/auth";
+     |                               ^
+  8  |  import { ReCaptchaV3Service } from "ng-recaptcha-19";
+  9  |  import { of } from "rxjs";[39m
+[90m [2m❯[22m TransformPluginContext._formatLog ../../../../node_modules/vite/dist/node/chunks/config.js:[2m28998:43[22m[39m
+[90m [2m❯[22m TransformPluginContext.error ../../../../node_modules/vite/dist/node/chunks/config.js:[2m28995:14[22m[39m
+[90m [2m❯[22m normalizeUrl ../../../../node_modules/vite/dist/node/chunks/config.js:[2m27118:18[22m[39m
+[90m [2m❯[22m ../../../../node_modules/vite/dist/node/chunks/config.js:[2m27176:32[22m[39m
+[90m [2m❯[22m TransformPluginContext.transform ../../../../node_modules/vite/dist/node/chunks/config.js:[2m27144:4[22m[39m
+[90m [2m❯[22m EnvironmentPluginContainer.transform ../../../../node_modules/vite/dist/node/chunks/config.js:[2m28796:14[22m[39m
+[90m [2m❯[22m loadAndTransform ../../../../node_modules/vite/dist/node/chunks/config.js:[2m22669:26[22m[39m
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯[22m[39m
+[41m[1m FAIL [22m[49m [30m[43m identity-ui [49m[39m src/lib/pages/auth/set-password/set-password.page.spec.ts[2m [ src/lib/pages/auth/set-password/set-password.page.spec.ts ][22m
+[31m[1mError[22m: Failed to resolve import "../../../core/services/auth" from "libs/domains/identity/ui/src/lib/pages/auth/set-password/set-password.page.spec.ts". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36m/app/libs/domains/identity/ui/src/lib/pages/auth/set-password/set-password.page.spec.ts[39m:7:28
+[33m  5  |  import { provideRouter, ActivatedRoute } from "@angular/router";
+  6  |  import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+  7  |  import { AuthService } from "../../../core/services/auth";
+     |                               ^
+  8  |  import { ReCaptchaV3Service, RECAPTCHA_V3_SITE_KEY } from "ng-recaptcha-19";
+  9  |  import { of } from "rxjs";[39m
+[90m [2m❯[22m TransformPluginContext._formatLog ../../../../node_modules/vite/dist/node/chunks/config.js:[2m28998:43[22m[39m
+[90m [2m❯[22m TransformPluginContext.error ../../../../node_modules/vite/dist/node/chunks/config.js:[2m28995:14[22m[39m
+[90m [2m❯[22m normalizeUrl ../../../../node_modules/vite/dist/node/chunks/config.js:[2m27118:18[22m[39m
+[90m [2m❯[22m ../../../../node_modules/vite/dist/node/chunks/config.js:[2m27176:32[22m[39m
+[90m [2m❯[22m TransformPluginContext.transform ../../../../node_modules/vite/dist/node/chunks/config.js:[2m27144:4[22m[39m
+[90m [2m❯[22m EnvironmentPluginContainer.transform ../../../../node_modules/vite/dist/node/chunks/config.js:[2m28796:14[22m[39m
+[90m [2m❯[22m loadAndTransform ../../../../node_modules/vite/dist/node/chunks/config.js:[2m22669:26[22m[39m
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/8]⎯[22m[39m
+[41m[1m FAIL [22m[49m [30m[43m identity-ui [49m[39m src/lib/pages/auth/forgot-password/forgot-password/forgot-password.page.spec.ts[2m [ src/lib/pages/auth/forgot-password/forgot-password/forgot-password.page.spec.ts ][22m
+[31m[1mError[22m: Failed to resolve import "../../../../core/services/auth" from "libs/domains/identity/ui/src/lib/pages/auth/forgot-password/forgot-password/forgot-password.page.spec.ts". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36m/app/libs/domains/identity/ui/src/lib/pages/auth/forgot-password/forgot-password/forgot-password.page.spec.ts[39m:7:28
+[33m  5  |  import { provideRouter } from "@angular/router";
+  6  |  import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+  7  |  import { AuthService } from "../../../../core/services/auth";
+     |                               ^
+  8  |  import { ReCaptchaV3Service } from "ng-recaptcha-19";
+  9  |  import { of } from "rxjs";[39m
+[90m [2m❯[22m TransformPluginContext._formatLog ../../../../node_modules/vite/dist/node/chunks/config.js:[2m28998:43[22m[39m
+[90m [2m❯[22m TransformPluginContext.error ../../../../node_modules/vite/dist/node/chunks/config.js:[2m28995:14[22m[39m
+[90m [2m❯[22m normalizeUrl ../../../../node_modules/vite/dist/node/chunks/config.js:[2m27118:18[22m[39m
+[90m [2m❯[22m ../../../../node_modules/vite/dist/node/chunks/config.js:[2m27176:32[22m[39m
+[90m [2m❯[22m TransformPluginContext.transform ../../../../node_modules/vite/dist/node/chunks/config.js:[2m27144:4[22m[39m
+[90m [2m❯[22m EnvironmentPluginContainer.transform ../../../../node_modules/vite/dist/node/chunks/config.js:[2m28796:14[22m[39m
+[90m [2m❯[22m loadAndTransform ../../../../node_modules/vite/dist/node/chunks/config.js:[2m22669:26[22m[39m
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/8]⎯[22m[39m
+[41m[1m FAIL [22m[49m [30m[43m identity-ui [49m[39m src/lib/pages/auth/reset-password/reset-password.page/reset-password.page.spec.ts[2m [ src/lib/pages/auth/reset-password/reset-password.page/reset-password.page.spec.ts ][22m
+[31m[1mError[22m: Failed to resolve import "../../../../core/services/auth" from "libs/domains/identity/ui/src/lib/pages/auth/reset-password/reset-password.page/reset-password.page.spec.ts". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36m/app/libs/domains/identity/ui/src/lib/pages/auth/reset-password/reset-password.page/reset-password.page.spec.ts[39m:7:28
+[33m  5  |  import { provideRouter, ActivatedRoute } from "@angular/router";
+  6  |  import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+  7  |  import { AuthService } from "../../../../core/services/auth";
+     |                               ^
+  8  |  import { of } from "rxjs";
+  9  |  import { LanguageService } from "../../../../core/services/language";[39m
+[90m [2m❯[22m TransformPluginContext._formatLog ../../../../node_modules/vite/dist/node/chunks/config.js:[2m28998:43[22m[39m
+[90m [2m❯[22m TransformPluginContext.error ../../../../node_modules/vite/dist/node/chunks/config.js:[2m28995:14[22m[39m
+[90m [2m❯[22m normalizeUrl ../../../../node_modules/vite/dist/node/chunks/config.js:[2m27118:18[22m[39m
+[90m [2m❯[22m ../../../../node_modules/vite/dist/node/chunks/config.js:[2m27176:32[22m[39m
+[90m [2m❯[22m TransformPluginContext.transform ../../../../node_modules/vite/dist/node/chunks/config.js:[2m27144:4[22m[39m
+[90m [2m❯[22m EnvironmentPluginContainer.transform ../../../../node_modules/vite/dist/node/chunks/config.js:[2m28796:14[22m[39m
+[90m [2m❯[22m loadAndTransform ../../../../node_modules/vite/dist/node/chunks/config.js:[2m22669:26[22m[39m
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/8]⎯[22m[39m
+[41m[1m FAIL [22m[49m [30m[43m identity-ui [49m[39m src/lib/pages/auth/register/steps/step-configuration/step-configuration.spec.ts[2m [ src/lib/pages/auth/register/steps/step-configuration/step-configuration.spec.ts ][22m
+[31m[1mError[22m: Failed to resolve import "../../../../../core/services/country.service" from "libs/domains/identity/ui/src/lib/pages/auth/register/steps/step-configuration/step-configuration.spec.ts". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36m/app/libs/domains/identity/ui/src/lib/pages/auth/register/steps/step-configuration/step-configuration.spec.ts[39m:5:31
+[33m  3  |  import { ReactiveFormsModule, FormGroup, FormControl } from "@angular/forms";
+  4  |  import { TranslateModule } from "@ngx-translate/core";
+  5  |  import { CountryService } from "../../../../../core/services/country.service";
+     |                                  ^
+  6  |  import { of } from "rxjs";
+  7  |  import { Router } from "@angular/router";[39m
+[90m [2m❯[22m TransformPluginContext._formatLog ../../../../node_modules/vite/dist/node/chunks/config.js:[2m28998:43[22m[39m
+[90m [2m❯[22m TransformPluginContext.error ../../../../node_modules/vite/dist/node/chunks/config.js:[2m28995:14[22m[39m
+[90m [2m❯[22m normalizeUrl ../../../../node_modules/vite/dist/node/chunks/config.js:[2m27118:18[22m[39m
+[90m [2m❯[22m ../../../../node_modules/vite/dist/node/chunks/config.js:[2m27176:32[22m[39m
+[90m [2m❯[22m TransformPluginContext.transform ../../../../node_modules/vite/dist/node/chunks/config.js:[2m27144:4[22m[39m
+[90m [2m❯[22m EnvironmentPluginContainer.transform ../../../../node_modules/vite/dist/node/chunks/config.js:[2m28796:14[22m[39m
+[90m [2m❯[22m loadAndTransform ../../../../node_modules/vite/dist/node/chunks/config.js:[2m22669:26[22m[39m
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/8]⎯[22m[39m
+[2m Test Files [22m [1m[31m8 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m   Start at [22m 12:20:09
+[2m   Duration [22m 4.84s[2m (transform 2.97s, setup 6.61s, import 48ms, tests 107ms, environment 5.33s)[22m
+
+
+
+ NX   Running target test for project identity-ui failed
+
+Failed tasks:
+
+- identity-ui:test
+
+Hint: run the command with --verbose for more details.

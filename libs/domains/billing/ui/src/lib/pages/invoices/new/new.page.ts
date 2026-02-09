@@ -8,12 +8,12 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { InvoicesService, CreateInvoiceDto } from '@virteex/billing-ui/lib/core/services/invoices';
-import { CustomersService } from '@virteex/billing-ui/lib/core/api/customers.service';
-import { InventoryService } from '@virteex/billing-ui/lib/core/api/inventory.service';
-import { Customer } from '@virteex/billing-ui/lib/core/models/customer.model';
-import { Product } from '@virteex/billing-ui/lib/core/models/product.model';
-import { NotificationService } from '@virteex/billing-ui/lib/core/services/notification';
+import { InvoicesService, CreateInvoiceDto } from '../../../core/services/invoices';
+import { CustomersService } from '../../../core/api/customers.service';
+import { InventoryService } from '../../../core/api/inventory.service';
+import { Customer } from '../../../core/models/customer.model';
+import { Product } from '../../../core/models/product.model';
+import { NotificationService } from '../../../core/services/notification';
 
 @Component({
   selector: 'virteex-new-invoice-page',

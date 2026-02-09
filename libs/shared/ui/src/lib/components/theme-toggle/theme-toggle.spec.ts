@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ThemeToggle } from '@virteex/shared-ui/lib/components/theme-toggle/theme-toggle';
+import { ThemeToggle } from './theme-toggle';
 
 describe('ThemeToggle', () => {
   let component: ThemeToggle;

@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ForgotPasswordPage } from '@virteex/identity-ui/lib/pages/auth/forgot-password/forgot-password/forgot-password.page';
+import { ForgotPasswordPage } from './forgot-password.page';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideRouter } from '@angular/router';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthService } from '@virteex/identity-ui/lib/core/services/auth';
+import { AuthService  } from '@virteex/shared-ui';
 import { ReCaptchaV3Service } from 'ng-recaptcha-19';
 import { of, Observable } from 'rxjs';
-import { LanguageService } from '@virteex/identity-ui/lib/core/services/language';
+import { LanguageService  } from '@virteex/shared-ui';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { AuthLayoutComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-layout/auth-layout.component';
-import { AuthInputComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-input/auth-input.component';
-import { AuthButtonComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-button/auth-button.component';
+import { AuthLayoutComponent } from '../../components/auth-layout/auth-layout.component';
+import { AuthInputComponent } from '../../components/auth-input/auth-input.component';
+import { AuthButtonComponent } from '../../components/auth-button/auth-button.component';
 
 class FakeLoader implements TranslateLoader {
   getTranslation(lang: string): Observable<any> {

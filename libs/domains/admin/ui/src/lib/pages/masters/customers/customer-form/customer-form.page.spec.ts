@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CustomerForm } from '@virteex/admin-ui/lib/pages/masters/customers/customer-form/customer-form.page';
+import { CustomerForm } from './customer-form.page';
 
 describe('CustomerForm', () => {
   let component: CustomerForm;

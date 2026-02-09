@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Pos } from '@virteex/crm-ui/lib/pages/sales/pos/pos.page';
+import { Pos } from './pos.page';
 
 describe('Pos', () => {
   let component: Pos;

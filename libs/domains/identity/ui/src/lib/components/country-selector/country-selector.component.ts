@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter, Input, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IntentDetectionService } from '@virteex/identity-ui/lib/services/intent-detection.service';
+import { IntentDetectionService } from '../../services/intent-detection.service';
 
 export interface CountryInfo {
   code: string;

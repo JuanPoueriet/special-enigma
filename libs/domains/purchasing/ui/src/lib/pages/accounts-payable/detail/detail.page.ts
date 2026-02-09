@@ -2,8 +2,8 @@ import { Component, ChangeDetectionStrategy, inject, OnInit, signal } from '@ang
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { LucideAngularModule, ChevronLeft, Edit, MoreVertical, Trash2 } from 'lucide-angular';
-import { AccountsPayableService, VendorBill } from '@virteex/purchasing-ui/lib/core/services/accounts-payable';
-import { NotificationService } from '@virteex/purchasing-ui/lib/core/services/notification';
+import { AccountsPayableService, VendorBill } from '../../../core/services/accounts-payable';
+import { NotificationService } from '../../../core/services/notification';
 import { EMPTY, Observable } from 'rxjs';
 import { switchMap, catchError } from 'rxjs/operators';
 

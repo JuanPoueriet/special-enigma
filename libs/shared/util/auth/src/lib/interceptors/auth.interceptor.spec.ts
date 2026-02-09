@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClient, HttpErrorResponse, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { authInterceptor } from '@virteex/shared-util-auth/lib/interceptors/auth.interceptor';
-import { TokenService } from '@virteex/shared-util-auth/lib/services/token.service';
+import { authInterceptor } from './auth.interceptor';
+import { TokenService } from '../services/token.service';
 import { Router } from '@angular/router';
 import { vi } from 'vitest';
 

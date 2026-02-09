@@ -3,15 +3,15 @@ import { CommonModule, DecimalPipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { LucideAngularModule, Save, Plus, Trash2 } from 'lucide-angular';
-import { LanguageService } from '@virteex/accounting-ui/lib/core/services/language';
-import { JournalEntries } from '@virteex/accounting-ui/lib/core/services/journal-entries';
-import { NotificationService } from '@virteex/accounting-ui/lib/core/services/notification';
-import { AccountingService } from '@virteex/accounting-ui/lib/core/api/accounting.service';
-import { Account } from '@virteex/accounting-ui/lib/core/models/account.model';
-import { LedgersService } from '@virteex/accounting-ui/lib/core/api/ledgers.service';
-import { JournalsService } from '@virteex/accounting-ui/lib/core/api/journals.service';
-import { Ledger } from '@virteex/accounting-ui/lib/core/models/ledger.model';
-import { Journal } from '@virteex/accounting-ui/lib/core/models/journal.model';
+import { LanguageService } from '../../../core/services/language';
+import { JournalEntries } from '../../../core/services/journal-entries';
+import { NotificationService } from '../../../core/services/notification';
+import { AccountingService } from '../../../core/api/accounting.service';
+import { Account } from '../../../core/models/account.model';
+import { LedgersService } from '../../../core/api/ledgers.service';
+import { JournalsService } from '../../../core/api/journals.service';
+import { Ledger } from '../../../core/models/ledger.model';
+import { Journal } from '../../../core/models/journal.model';
 
 // Validador personalizado para el asiento contable
 export const journalEntryValidator = (control: AbstractControl): ValidationErrors | null => {

@@ -1,4 +1,4 @@
-import { manufacturingInfrastructure } from '@virteex/manufacturing-infrastructure/lib/manufacturing-infrastructure';
+import { manufacturingInfrastructure } from './manufacturing-infrastructure';
 
 describe('manufacturingInfrastructure', () => {
   it('should work', () => {

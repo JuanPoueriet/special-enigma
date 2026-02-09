@@ -1,28 +1,28 @@
 
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { RegisterPage } from '@virteex/identity-ui/lib/pages/auth/register/register.page';
+import { RegisterPage } from './register.page';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideRouter } from '@angular/router';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthService } from '@virteex/identity-ui/lib/core/services/auth';
+import { AuthService  } from '@virteex/shared-ui';
 import { ReCaptchaV3Service } from 'ng-recaptcha-19';
 import { of, Observable } from 'rxjs';
-import { CountryService } from '@virteex/identity-ui/lib/core/services/country.service';
-import { LanguageService } from '@virteex/identity-ui/lib/core/services/language';
+import { CountryService  } from '@virteex/shared-ui';
+import { LanguageService  } from '@virteex/shared-ui';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { UsersService } from '@virteex/identity-ui/lib/core/api/users.service';
-import { GeoLocationService } from '@virteex/identity-ui/lib/core/services/geo-location.service';
-import { ConfigService, RegistrationOptions } from '@virteex/identity-ui/lib/shared/services/config.service';
+import { UsersService  } from '@virteex/shared-ui';
+import { GeoLocationService } from '../../../core/services/geo-location.service';
+import { ConfigService, RegistrationOptions } from '../../../shared/services/config.service';
 
 // Import standalone components used in template to ensure they are available
-import { AuthLayoutComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-layout/auth-layout.component';
-import { StepAccountInfo } from '@virteex/identity-ui/lib/pages/auth/register/steps/step-account-info/step-account-info';
-import { StepBusiness } from '@virteex/identity-ui/lib/pages/auth/register/steps/step-business/step-business';
-import { StepConfiguration } from '@virteex/identity-ui/lib/pages/auth/register/steps/step-configuration/step-configuration';
-import { StepPlan } from '@virteex/identity-ui/lib/pages/auth/register/steps/step-plan/step-plan';
-import { AuthButtonComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-button/auth-button.component';
-import { environment } from '@virteex/identity-ui/environments/environment';
+import { AuthLayoutComponent } from '../../components/auth-layout/auth-layout.component';
+import { StepAccountInfo } from './steps/step-account-info/step-account-info';
+import { StepBusiness } from './steps/step-business/step-business';
+import { StepConfiguration } from './steps/step-configuration/step-configuration';
+import { StepPlan } from './steps/step-plan/step-plan';
+import { AuthButtonComponent } from '../../components/auth-button/auth-button.component';
+import { environment } from '../../../../environments/environment';
 
 // Fake Loader for Translate
 class FakeLoader implements TranslateLoader {

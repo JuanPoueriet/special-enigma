@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthFooterComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-footer/auth-footer.component';
+import { AuthFooterComponent } from '../auth-footer/auth-footer.component';
 
 @Component({
   selector: 'virteex-auth-layout',

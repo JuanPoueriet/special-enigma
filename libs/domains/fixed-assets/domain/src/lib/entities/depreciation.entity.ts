@@ -1,5 +1,5 @@
 import { Entity, PrimaryKey, Property, ManyToOne } from '@mikro-orm/core';
-import type { Asset } from '@virteex/fixed-assets-domain/lib/entities/asset.entity';
+import type { Asset } from './asset.entity';
 
 @Entity()
 export class Depreciation {

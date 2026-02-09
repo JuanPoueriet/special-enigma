@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AccountsReceivable } from '@virteex/bi-ui/lib/pages/dashboard-main/widgets/accounts-receivable/accounts-receivable';
+import { AccountsReceivable } from './accounts-receivable';
 
 describe('AccountsReceivable', () => {
   let component: AccountsReceivable;

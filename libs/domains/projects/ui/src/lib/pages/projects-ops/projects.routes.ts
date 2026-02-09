@@ -1,6 +1,6 @@
 
 import { Routes } from '@angular/router';
-import { ProjectsDashboardComponent } from '@virteex/projects-ui/lib/pages/projects-ops/pages/dashboard.component';
+import { ProjectsDashboardComponent } from './pages/dashboard.component';
 
 export const PROJECTS_ROUTES: Routes = [
   {

@@ -2,8 +2,8 @@ import { Component, ChangeDetectionStrategy, signal, inject, OnInit } from '@ang
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LucideAngularModule, PlusCircle, Filter, MoreHorizontal } from 'lucide-angular';
-import { AccountsPayableService, VendorBill } from '@virteex/purchasing-ui/lib/core/services/accounts-payable';
-import { NotificationService } from '@virteex/purchasing-ui/lib/core/services/notification';
+import { AccountsPayableService, VendorBill } from '../../../core/services/accounts-payable';
+import { NotificationService } from '../../../core/services/notification';
 
 @Component({
   selector: 'virteex-vendor-bills-list-page',

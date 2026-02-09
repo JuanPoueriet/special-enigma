@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule, Building, Plus, MoreVertical, X } from 'lucide-angular';
-import { SubsidiariesService, Subsidiary, CreateSubsidiaryDto } from '@virteex/admin-ui/lib/pages/organization/subsidiaries/subsidiaries.service';
+import { SubsidiariesService, Subsidiary, CreateSubsidiaryDto } from './subsidiaries.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({

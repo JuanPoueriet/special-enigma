@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { PurchasingLayout } from '@virteex/purchasing-ui/lib/pages/purchasing/layout/purchasing.layout';
+import { PurchasingLayout } from './layout/purchasing.layout';
 
 export const PURCHASING_ROUTES: Routes = [
     {

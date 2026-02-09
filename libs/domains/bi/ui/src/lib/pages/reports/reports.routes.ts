@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { ReportsLayout } from '@virteex/bi-ui/lib/pages/reports/layout/reports.layout';
+import { ReportsLayout } from './layout/reports.layout';
 
 export const REPORTS_ROUTES: Routes = [
   {

@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 // Importa el nuevo guard que acabamos de crear.
-import { publicGuard } from '@virteex/identity-ui/lib/core/guards/public.guard';
+import { publicGuard } from '../../core/guards/public.guard';
 
 export const REGISTER_ROUTES: Routes = [
   {

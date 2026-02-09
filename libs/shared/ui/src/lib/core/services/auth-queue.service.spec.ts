@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { AuthQueueService } from '@virteex/shared-ui/lib/core/services/auth-queue.service';
+import { AuthQueueService } from './auth-queue.service';
 import { take } from 'rxjs/operators';
 
 describe('AuthQueueService', () => {

@@ -1,0 +1,128 @@
+
+> nx run identity-ui:lint
+
+Linting "identity-ui"...
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/components/auth-input/auth-input.component.ts[24m[0m
+[0m  [2m3:1[22m  [33mwarning[39m  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-empty-function')[0m
+[0m  [2m4:1[22m  [33mwarning[39m  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-unused-expressions')[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/components/password-validator/password-validator.component.ts[24m[0m
+[0m  [2m36:12[22m  [33mwarning[39m  'level' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/forgot-password/forgot-password/forgot-password.page.spec.ts[24m[0m
+[0m  [2m17:18[22m  [33mwarning[39m  'lang' is defined but never used          [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m17:44[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/forgot-password/forgot-password/forgot-password.page.ts[24m[0m
+[0m   [2m2:23[22m  [33mwarning[39m  'FormGroup' is defined but never used         [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m   [2m3:10[22m  [33mwarning[39m  'Router' is defined but never used            [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m10:27[22m  [33mwarning[39m  'TranslateService' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m71:23[22m  [33mwarning[39m  Forbidden non-null assertion                  [2m@typescript-eslint/no-non-null-assertion[22m[0m
+[0m  [2m75:14[22m  [33mwarning[39m  'response' is defined but never used          [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m80:15[22m  [33mwarning[39m  'err' is defined but never used               [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/login/login.page.spec.ts[24m[0m
+[0m  [2m12:44[22m  [33mwarning[39m  'TranslateService' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m21:18[22m  [33mwarning[39m  'lang' is defined but never used              [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m21:44[22m  [33mwarning[39m  Unexpected any. Specify a different type      [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/login/login.page.ts[24m[0m
+[0m  [2m133:28[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m158:22[22m  [33mwarning[39m  Forbidden non-null assertion              [2m@typescript-eslint/no-non-null-assertion[22m[0m
+[0m  [2m167:38[22m  [33mwarning[39m  Forbidden non-null assertion              [2m@typescript-eslint/no-non-null-assertion[22m[0m
+[0m  [2m171:15[22m  [33mwarning[39m  'err' is defined but never used           [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m185:31[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m193:28[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/register/register.page.spec.ts[24m[0m
+[0m   [2m16:25[22m  [33mwarning[39m  'RegistrationOptions' is defined but never used   [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m   [2m19:10[22m  [33mwarning[39m  'AuthLayoutComponent' is defined but never used   [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m   [2m20:10[22m  [33mwarning[39m  'StepAccountInfo' is defined but never used       [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m   [2m21:10[22m  [33mwarning[39m  'StepBusiness' is defined but never used          [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m   [2m22:10[22m  [33mwarning[39m  'StepConfiguration' is defined but never used     [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m   [2m23:10[22m  [33mwarning[39m  'StepPlan' is defined but never used              [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m   [2m24:10[22m  [33mwarning[39m  'AuthButtonComponent' is defined but never used   [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m   [2m29:18[22m  [33mwarning[39m  'lang' is defined but never used                  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m   [2m29:44[22m  [33mwarning[39m  Unexpected any. Specify a different type          [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m111:11[22m  [33mwarning[39m  'langService' is assigned a value but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/register/steps/step-access/step-access.ts[24m[0m
+[0m  [2m11:42[22m  [33mwarning[39m  'FormControl' is defined but never used   [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m43:40[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/register/steps/step-account-info/step-account-info.ts[24m[0m
+[0m  [2m3:42[22m  [33mwarning[39m  'FormGroupDirective' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/register/steps/step-account/step-account.ts[24m[0m
+[0m  [2m1:28[22m  [33mwarning[39m  'ChangeDetectionStrategy' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/register/steps/step-configuration/step-configuration.component.ts[24m[0m
+[0m    [2m2:28[22m  [33mwarning[39m  'Output' is defined but never used         [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m    [2m2:36[22m  [33mwarning[39m  'EventEmitter' is defined but never used   [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m    [2m4:42[22m  [33mwarning[39m  'Validators' is defined but never used     [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m    [2m6:26[22m  [33mwarning[39m  'CountryConfig' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m113:25[22m  [33mwarning[39m  Unexpected any. Specify a different type   [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m174:26[22m  [33mwarning[39m  Unexpected any. Specify a different type   [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/register/steps/step-configuration/step-configuration.spec.ts[24m[0m
+[0m  [2m12:27[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m13:19[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/register/steps/step-configuration/step-configuration.ts[24m[0m
+[0m  [2m32:22[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m36:26[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/reset-password/reset-password.page/reset-password.page.spec.ts[24m[0m
+[0m  [2m17:18[22m  [33mwarning[39m  'lang' is defined but never used          [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m17:44[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/reset-password/reset-password.page/reset-password.page.ts[24m[0m
+[0m  [2m6:27[22m  [33mwarning[39m  'TranslateService' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/set-password/set-password.page.spec.ts[24m[0m
+[0m  [2m17:18[22m  [33mwarning[39m  'lang' is defined but never used          [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m17:44[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/set-password/set-password.page.ts[24m[0m
+[0m  [2m101:16[22m  [33mwarning[39m  'token' is defined but never used         [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m102:56[22m  [33mwarning[39m  Forbidden non-null assertion              [2m@typescript-eslint/no-non-null-assertion[22m[0m
+[0m  [2m106:30[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/profile/my-profile.page.ts[24m[0m
+[0m  [2m150:18[22m  [33mwarning[39m  'res' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m184:22[22m  [33mwarning[39m  Forbidden non-null assertion     [2m@typescript-eslint/no-non-null-assertion[22m[0m
+[0m  [2m185:21[22m  [33mwarning[39m  Forbidden non-null assertion     [2m@typescript-eslint/no-non-null-assertion[22m[0m
+[0m  [2m186:30[22m  [33mwarning[39m  Forbidden non-null assertion     [2m@typescript-eslint/no-non-null-assertion[22m[0m
+[0m  [2m187:18[22m  [33mwarning[39m  Forbidden non-null assertion     [2m@typescript-eslint/no-non-null-assertion[22m[0m
+[0m  [2m188:18[22m  [33mwarning[39m  Forbidden non-null assertion     [2m@typescript-eslint/no-non-null-assertion[22m[0m
+[0m  [2m189:21[22m  [33mwarning[39m  Forbidden non-null assertion     [2m@typescript-eslint/no-non-null-assertion[22m[0m
+[0m  [2m225:19[22m  [33mwarning[39m  'err' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/register/register.component.ts[24m[0m
+[0m    [2m7:36[22m  [33mwarning[39m  'CountryInfo' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m170:16[22m  [33mwarning[39m  'res' is defined but never used          [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/roles/roles.page.ts[24m[0m
+[0m  [2m120:19[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m173:19[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m189:19[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/user-management/user-management.page.spec.ts[24m[0m
+[0m   [2m4:14[22m  [33mwarning[39m  'throwError' is defined but never used                    [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m30:7[22m   [33mwarning[39m  'usersService' is assigned a value but never used         [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m31:7[22m   [33mwarning[39m  'notificationService' is assigned a value but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/user-management/user-management.page.ts[24m[0m
+[0m  [2m292:17[22m  [33mwarning[39m  'err' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m310:17[22m  [33mwarning[39m  'err' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[33m[1m✖ 70 problems (0 errors, 70 warnings)[22m[39m[0m
+[0m[33m[1m[22m[39m[33m[1m  0 errors and 2 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[33m[1m[22m[39m[0m
+✖ 70 problems (0 errors, 70 warnings)
+  0 errors and 2 warnings are potentially fixable with the `--fix` option.
+
+
+
+ NX   Successfully ran target lint for project identity-ui

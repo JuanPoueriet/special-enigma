@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Branches } from '@virteex/admin-ui/lib/pages/masters/branches/branches.page';
+import { Branches } from './branches.page';
 
 describe('Branches', () => {
   let component: Branches;

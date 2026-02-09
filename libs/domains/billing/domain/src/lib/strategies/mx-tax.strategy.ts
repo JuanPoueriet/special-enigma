@@ -1,5 +1,5 @@
-import { TaxStrategy, TaxResult, TaxDetail } from '@virteex/billing-domain/lib/strategies/tax-strategy.interface';
-import { TaxRuleEngine } from '@virteex/billing-domain/lib/services/tax-rule.engine';
+import { TaxStrategy, TaxResult, TaxDetail } from './tax-strategy.interface';
+import { TaxRuleEngine } from '../services/tax-rule.engine';
 
 export class MxTaxStrategy implements TaxStrategy {
   constructor(private readonly taxRuleEngine: TaxRuleEngine) {}

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Product, ProductRepository } from '@virteex/catalog-domain';
-import { MikroOrmProductRepository } from '@virteex/catalog-infrastructure/lib/persistence/mikro-orm-product.repository';
+import { MikroOrmProductRepository } from './persistence/mikro-orm-product.repository';
 
 @Module({
   imports: [

@@ -2,10 +2,10 @@ import { Component, Input, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormGroupDirective } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { AuthInputComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-input/auth-input.component';
-import { PasswordValidatorComponent } from '@virteex/identity-ui/lib/pages/auth/components/password-validator/password-validator.component';
+import { AuthInputComponent } from '../../../components/auth-input/auth-input.component';
+import { PasswordValidatorComponent } from '../../../components/password-validator/password-validator.component';
 import { HttpClient } from '@angular/common/http';
-import { AsyncValidators } from '@virteex/identity-ui/lib/shared/validators/async.validators';
+import { AsyncValidators } from '../../../../../shared/validators/async.validators';
 
 @Component({
   selector: 'virteex-step-account-info',

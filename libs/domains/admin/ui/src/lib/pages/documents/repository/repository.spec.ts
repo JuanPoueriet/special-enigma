@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Repository } from '@virteex/admin-ui/lib/pages/documents/repository/repository.page';
+import { Repository } from './repository.page';
 
 describe('Repository', () => {
   let component: Repository;

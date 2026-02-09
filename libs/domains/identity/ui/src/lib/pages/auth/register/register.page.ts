@@ -29,25 +29,25 @@ import {
   AlertCircle,
 } from 'lucide-angular';
 import { trigger, style, transition, animate } from '@angular/animations';
-import { AuthService } from '@virteex/identity-ui/lib/core/services/auth';
-import { RegisterPayload } from '@virteex/identity-ui/lib/shared/interfaces/register-payload.interface';
-import { StepAccountInfo } from '@virteex/identity-ui/lib/pages/auth/register/steps/step-account-info/step-account-info';
-import { StepBusiness } from '@virteex/identity-ui/lib/pages/auth/register/steps/step-business/step-business';
-import { StepConfiguration } from '@virteex/identity-ui/lib/pages/auth/register/steps/step-configuration/step-configuration';
-import { StepPlan } from '@virteex/identity-ui/lib/pages/auth/register/steps/step-plan/step-plan';
-import { strongPasswordValidator } from '@virteex/identity-ui/lib/shared/validators/password.validator';
+import { AuthService  } from '@virteex/shared-ui';
+import { RegisterPayload } from '../../../shared/interfaces/register-payload.interface';
+import { StepAccountInfo } from './steps/step-account-info/step-account-info';
+import { StepBusiness } from './steps/step-business/step-business';
+import { StepConfiguration } from './steps/step-configuration/step-configuration';
+import { StepPlan } from './steps/step-plan/step-plan';
+import { strongPasswordValidator } from '../../../shared/validators/password.validator';
 import {
   RECAPTCHA_V3_SITE_KEY,
   RecaptchaV3Module,
   ReCaptchaV3Service,
 } from 'ng-recaptcha-19';
-import { environment } from '@virteex/identity-ui/environments/environment';
-import { CountryService } from '@virteex/identity-ui/lib/core/services/country.service';
-import { GeoMismatchModalComponent } from '@virteex/identity-ui/lib/shared/components/geo-mismatch-modal/geo-mismatch-modal.component';
-import { AuthLayoutComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-layout/auth-layout.component';
-import { AuthButtonComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-button/auth-button.component';
-import { AuthInputComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-input/auth-input.component';
-import { LanguageService } from '@virteex/identity-ui/lib/core/services/language';
+import { environment } from '../../../../environments/environment';
+import { CountryService  } from '@virteex/shared-ui';
+import { GeoMismatchModalComponent } from '../../../shared/components/geo-mismatch-modal/geo-mismatch-modal.component';
+import { AuthLayoutComponent } from '../../components/auth-layout/auth-layout.component';
+import { AuthButtonComponent } from '../../components/auth-button/auth-button.component';
+import { AuthInputComponent } from '../../components/auth-input/auth-input.component';
+import { LanguageService  } from '@virteex/shared-ui';
 
 // Validador personalizado para coincidencia de contraseñas
 export function passwordMatchValidator(

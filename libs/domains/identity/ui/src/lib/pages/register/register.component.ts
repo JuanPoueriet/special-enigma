@@ -2,10 +2,10 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AuthService } from '@virteex/identity-ui/lib/services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { ButtonComponent, InputComponent } from '@virteex/shared-ui';
-import { CountrySelectorComponent, CountryInfo } from '@virteex/identity-ui/lib/components/country-selector/country-selector.component';
-import { IntentDetectionService, ContextAnalysis } from '@virteex/identity-ui/lib/services/intent-detection.service';
+import { CountrySelectorComponent, CountryInfo } from '../../components/country-selector/country-selector.component';
+import { IntentDetectionService, ContextAnalysis } from '../../services/intent-detection.service';
 
 @Component({
   selector: 'virteex-register',

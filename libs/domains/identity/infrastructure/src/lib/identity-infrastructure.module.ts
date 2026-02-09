@@ -6,14 +6,14 @@ import {
   AuthService, NotificationService, RiskEngineService
 } from '@virteex/identity-domain';
 
-import { MikroOrmUserRepository } from '@virteex/identity-infrastructure/lib/persistence/mikro-orm-user.repository';
-import { MikroOrmCompanyRepository } from '@virteex/identity-infrastructure/lib/persistence/mikro-orm-company.repository';
-import { MikroOrmAuditLogRepository } from '@virteex/identity-infrastructure/lib/persistence/mikro-orm-audit-log.repository';
-import { MikroOrmSessionRepository } from '@virteex/identity-infrastructure/lib/persistence/mikro-orm-session.repository';
+import { MikroOrmUserRepository } from './persistence/mikro-orm-user.repository';
+import { MikroOrmCompanyRepository } from './persistence/mikro-orm-company.repository';
+import { MikroOrmAuditLogRepository } from './persistence/mikro-orm-audit-log.repository';
+import { MikroOrmSessionRepository } from './persistence/mikro-orm-session.repository';
 
-import { NodeCryptoAuthService } from '@virteex/identity-infrastructure/lib/services/node-crypto-auth.service';
-import { NodemailerNotificationService } from '@virteex/identity-infrastructure/lib/services/nodemailer-notification.service';
-import { DefaultRiskEngineService } from '@virteex/identity-infrastructure/lib/services/risk-engine.service';
+import { NodeCryptoAuthService } from './services/node-crypto-auth.service';
+import { NodemailerNotificationService } from './services/nodemailer-notification.service';
+import { DefaultRiskEngineService } from './services/risk-engine.service';
 
 import { RegisterUserUseCase, LoginUserUseCase, VerifyMfaUseCase } from '@virteex/identity-application';
 

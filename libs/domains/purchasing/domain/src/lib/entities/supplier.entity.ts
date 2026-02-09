@@ -1,5 +1,5 @@
 import { Entity, PrimaryKey, Property, Enum, Unique } from '@mikro-orm/core';
-import { SupplierType } from '@virteex/purchasing-domain/lib/enums/supplier-type.enum';
+import { SupplierType } from '../enums/supplier-type.enum';
 
 @Entity()
 @Unique({ properties: ['tenantId', 'taxId'] })

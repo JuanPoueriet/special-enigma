@@ -1,5 +1,5 @@
 import { IsString, IsNotEmpty, IsEnum, IsEmail, IsOptional } from 'class-validator';
-import { SupplierType } from '@virteex/purchasing-contracts/lib/enums/supplier-type.enum';
+import { SupplierType } from '../enums/supplier-type.enum';
 
 export class CreateSupplierDto {
   @IsString()

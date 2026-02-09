@@ -1,4 +1,4 @@
-import { payrollInfrastructure } from '@virteex/payroll-infrastructure/lib/payroll-infrastructure';
+import { payrollInfrastructure } from './payroll-infrastructure';
 
 describe('payrollInfrastructure', () => {
   it('should work', () => {

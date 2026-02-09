@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { LoginPage } from '@virteex/identity-ui/lib/pages/auth/login/login.page';
+import { LoginPage } from './login.page';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideRouter } from '@angular/router';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthService } from '@virteex/identity-ui/lib/core/services/auth';
+import { AuthService  } from '@virteex/shared-ui';
 import { ReCaptchaV3Service, RECAPTCHA_V3_SITE_KEY } from 'ng-recaptcha-19';
 import { of, Observable } from 'rxjs';
-import { CountryService } from '@virteex/identity-ui/lib/core/services/country.service';
-import { LanguageService } from '@virteex/identity-ui/lib/core/services/language';
+import { CountryService  } from '@virteex/shared-ui';
+import { LanguageService  } from '@virteex/shared-ui';
 import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
-import { AuthLayoutComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-layout/auth-layout.component';
-import { AuthInputComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-input/auth-input.component';
-import { AuthButtonComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-button/auth-button.component';
-import { SocialAuthButtonsComponent } from '@virteex/identity-ui/lib/pages/auth/components/social-auth-buttons/social-auth-buttons.component';
-import { PasskeyButtonComponent } from '@virteex/identity-ui/lib/pages/auth/components/passkey-button/passkey-button.component';
+import { AuthLayoutComponent } from '../../components/auth-layout/auth-layout.component';
+import { AuthInputComponent } from '../../components/auth-input/auth-input.component';
+import { AuthButtonComponent } from '../../components/auth-button/auth-button.component';
+import { SocialAuthButtonsComponent } from '../../components/social-auth-buttons/social-auth-buttons.component';
+import { PasskeyButtonComponent } from '../../components/passkey-button/passkey-button.component';
 
 // Fake Loader for Translate
 class FakeLoader implements TranslateLoader {

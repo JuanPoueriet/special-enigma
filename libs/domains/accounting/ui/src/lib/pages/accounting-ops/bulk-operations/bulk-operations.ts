@@ -18,10 +18,10 @@
 import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { ChartOfAccountsService, BulkOperationResult } from '@virteex/accounting-ui/lib/core/services/chart-of-accounts.service';
-import { ChartOfAccountsStateService } from '@virteex/accounting-ui/lib/core/state/chart-of-accounts.state';
+import { ChartOfAccountsService, BulkOperationResult } from '../../../core/services/chart-of-accounts.service';
+import { ChartOfAccountsStateService } from '../../../core/state/chart-of-accounts.state';
 import { finalize } from 'rxjs/operators';
-import { BulkOperationResult, ChartOfAccountsService } from '@virteex/accounting-ui/lib/core/services/chart-of-accounts';
+import { BulkOperationResult, ChartOfAccountsService } from '../../../core/services/chart-of-accounts';
 
 @Component({
   selector: 'virteex-bulk-operations',

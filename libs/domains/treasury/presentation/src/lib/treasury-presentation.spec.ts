@@ -1,4 +1,4 @@
-import { treasuryPresentation } from '@virteex/treasury-presentation/lib/treasury-presentation';
+import { treasuryPresentation } from './treasury-presentation';
 
 describe('treasuryPresentation', () => {
   it('should work', () => {

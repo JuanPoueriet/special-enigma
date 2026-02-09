@@ -1,4 +1,4 @@
-import { Product } from '@virteex/catalog-domain/lib/entities/product.entity';
+import { Product } from '../entities/product.entity';
 
 export abstract class ProductRepository {
   abstract save(product: Product): Promise<void>;

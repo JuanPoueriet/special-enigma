@@ -1,4 +1,4 @@
-import { domain } from '@virteex/domain/lib/domain';
+import { domain } from './domain';
 
 describe('domain', () => {
   it('should work', () => {

@@ -1,4 +1,4 @@
-import { treasuryInfrastructure } from '@virteex/treasury-infrastructure/lib/treasury-infrastructure';
+import { treasuryInfrastructure } from './treasury-infrastructure';
 
 describe('treasuryInfrastructure', () => {
   it('should work', () => {
