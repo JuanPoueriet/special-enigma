@@ -6,6 +6,7 @@ import { AuthService } from '../../services/auth.service';
 import { ButtonComponent, InputComponent } from '@virteex/shared-ui';
 import { CountrySelectorComponent } from '../../components/country-selector/country-selector.component';
 import { IntentDetectionService } from '../../services/intent-detection.service';
+import { SessionService } from '@virteex/shared-util-auth';
 
 @Component({
   selector: 'virteex-login',
@@ -17,6 +18,7 @@ import { IntentDetectionService } from '../../services/intent-detection.service'
 export class LoginComponent implements OnInit {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
+  private sessionService = inject(SessionService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private intentService = inject(IntentDetectionService);
@@ -77,8 +79,9 @@ export class LoginComponent implements OnInit {
               this.tempToken = res.tempToken;
               this.loading = false;
           } else if (res.accessToken) {
-            localStorage.setItem('access_token', res.accessToken);
-            this.router.navigate(['/']);
+            this.sessionService.login(res.accessToken, res.refreshToken);
+            const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+            this.router.navigate([returnUrl]);
           }
         },
         error: (err) => {
@@ -103,8 +106,9 @@ export class LoginComponent implements OnInit {
           }).subscribe({
               next: (res) => {
                   if (res.accessToken) {
-                      localStorage.setItem('access_token', res.accessToken);
-                      this.router.navigate(['/']);
+              this.sessionService.login(res.accessToken, res.refreshToken);
+              const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+              this.router.navigate([returnUrl]);
                   }
               },
               error: () => {

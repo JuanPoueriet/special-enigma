@@ -1,5 +1,6 @@
 import { Route } from '@angular/router';
 import { MainLayoutComponent } from '@virteex/shared-ui';
+import { authGuard } from '@virteex/shared-util-auth';
 
 export const appRoutes: Route[] = [
   // Country specific auth (e.g., /es/co/auth/...)
@@ -20,6 +21,7 @@ export const appRoutes: Route[] = [
   {
     path: '',
     component: MainLayoutComponent,
+    canActivate: [authGuard],
     children: [
       { path: '', redirectTo: 'accounting', pathMatch: 'full' }, // Redirect root to accounting or a dashboard
       { path: 'accounting', loadChildren: () => import('@virteex/accounting-ui').then(m => m.accountingRoutes) },

@@ -5,6 +5,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BillingDomainModule } from '@virteex/billing-domain';
 import { BillingInfrastructureModule } from '@virteex/billing-infrastructure';
+import { IdentityInfrastructureModule } from '@virteex/identity-infrastructure';
+import { IdentityPresentationModule } from '@virteex/identity-presentation';
 
 @Module({
   imports: [
@@ -21,7 +23,9 @@ import { BillingInfrastructureModule } from '@virteex/billing-infrastructure';
       } : undefined,
     }),
     BillingDomainModule,
-    BillingInfrastructureModule
+    BillingInfrastructureModule,
+    IdentityInfrastructureModule,
+    IdentityPresentationModule
   ],
   controllers: [AppController],
   providers: [AppService],
