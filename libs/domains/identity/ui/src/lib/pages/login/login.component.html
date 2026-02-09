@@ -14,7 +14,8 @@
 
       <virteex-country-selector [selectedCountry]="country" (countrySelected)="onCountrySelected($event)"></virteex-country-selector>
 
-      <div *ngIf="!mfaRequired">
+      @if (!mfaRequired) {
+      <div>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
             <virteex-input formControlName="email" label="Correo electrónico o teléfono" type="text" [error]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched ? 'Requerido' : ''"></virteex-input>
@@ -57,8 +58,10 @@
             </div>
         </div>
       </div>
+      }
 
-      <div *ngIf="mfaRequired">
+      @if (mfaRequired) {
+      <div>
         <form [formGroup]="mfaForm" (ngSubmit)="onMfaSubmit()">
             <div class="text-center mb-4">
                 <h3 class="text-lg font-medium text-gray-900">Verificación de Identidad</h3>
@@ -73,10 +76,13 @@
             </div>
         </form>
       </div>
+      }
 
-      <div *ngIf="errorMsg" class="mt-4 text-sm text-red-600 text-center">
+      @if (errorMsg) {
+      <div class="mt-4 text-sm text-red-600 text-center">
         {{ errorMsg }}
       </div>
+      }
 
     </div>
   </div>
