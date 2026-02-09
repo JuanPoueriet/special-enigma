@@ -1,4 +1,4 @@
-import { fixedAssetsInfrastructure } from '@virteex/fixed-assets-infrastructure/lib/fixed-assets-infrastructure';
+import { fixedAssetsInfrastructure } from './fixed-assets-infrastructure';
 
 describe('fixedAssetsInfrastructure', () => {
   it('should work', () => {

@@ -1,4 +1,4 @@
-import { payrollDomain } from '@virteex/payroll-domain/lib/payroll-domain';
+import { payrollDomain } from './payroll-domain';
 
 describe('payrollDomain', () => {
   it('should work', () => {

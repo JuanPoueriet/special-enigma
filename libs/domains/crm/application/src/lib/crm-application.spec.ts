@@ -1,4 +1,4 @@
-import { crmApplication } from '@virteex/crm-application/lib/crm-application';
+import { crmApplication } from './crm-application';
 
 describe('crmApplication', () => {
   it('should work', () => {

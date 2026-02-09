@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AccountReconciliation } from '@virteex/accounting-ui/lib/pages/accounting-ops/reconciliation/account-reconciliation/account-reconciliation.page';
+import { AccountReconciliation } from './account-reconciliation.page';
 
 describe('AccountReconciliation', () => {
   let component: AccountReconciliation;

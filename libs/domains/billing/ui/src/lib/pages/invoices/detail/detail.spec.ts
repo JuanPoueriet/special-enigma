@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Detail } from '@virteex/billing-ui/lib/pages/invoices/detail/detail.page';
+import { Detail } from './detail.page';
 
 describe('Detail', () => {
   let component: Detail;

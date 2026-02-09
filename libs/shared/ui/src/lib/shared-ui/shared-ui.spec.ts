@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SharedUi } from '@virteex/shared-ui/lib/shared-ui/shared-ui';
+import { SharedUi } from './shared-ui';
 
 describe('SharedUi', () => {
   let component: SharedUi;

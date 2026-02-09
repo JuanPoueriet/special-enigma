@@ -2,15 +2,15 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '@virteex/identity-ui/lib/core/services/auth';
+import { AuthService } from '../../../../core/services/auth';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { LanguageService } from '@virteex/identity-ui/lib/core/services/language';
+import { LanguageService } from '../../../../core/services/language';
 
 // Shared
-import { AuthLayoutComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-layout/auth-layout.component';
-import { AuthInputComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-input/auth-input.component';
-import { AuthButtonComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-button/auth-button.component';
-import { PasswordValidatorComponent } from '@virteex/identity-ui/lib/pages/auth/components/password-validator/password-validator.component';
+import { AuthLayoutComponent } from '../../components/auth-layout/auth-layout.component';
+import { AuthInputComponent } from '../../components/auth-input/auth-input.component';
+import { AuthButtonComponent } from '../../components/auth-button/auth-button.component';
+import { PasswordValidatorComponent } from '../../components/password-validator/password-validator.component';
 
 // Custom validator for strong password
 const strongPasswordValidator = (): ValidatorFn => {

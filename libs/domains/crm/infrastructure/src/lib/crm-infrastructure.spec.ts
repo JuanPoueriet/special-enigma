@@ -1,4 +1,4 @@
-import { crmInfrastructure } from '@virteex/crm-infrastructure/lib/crm-infrastructure';
+import { crmInfrastructure } from './crm-infrastructure';
 
 describe('crmInfrastructure', () => {
   it('should work', () => {

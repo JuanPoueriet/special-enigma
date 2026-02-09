@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PaymentMethods } from '@virteex/admin-ui/lib/pages/masters/payment-methods/payment-methods.page';
+import { PaymentMethods } from './payment-methods.page';
 
 describe('PaymentMethods', () => {
   let component: PaymentMethods;

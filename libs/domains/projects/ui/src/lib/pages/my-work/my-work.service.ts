@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '@virteex/projects-ui/environments/environment';
-import { environment } from '@virteex/projects-ui/lib/pages/environments/environment';
+import { environment } from '../../../environments/environment';
+import { environment } from '../environments/environment';
 
 export interface WorkItem {
   id: string;

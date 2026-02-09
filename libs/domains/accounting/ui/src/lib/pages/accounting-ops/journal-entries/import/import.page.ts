@@ -2,8 +2,8 @@ import { Component, ChangeDetectionStrategy, signal, inject } from '@angular/cor
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { LucideAngularModule, UploadCloud, ChevronLeft } from 'lucide-angular';
-import { JournalEntries } from '@virteex/accounting-ui/lib/core/services/journal-entries';
-import { NotificationService } from '@virteex/accounting-ui/lib/core/services/notification';
+import { JournalEntries } from '../../../../core/services/journal-entries';
+import { NotificationService } from '../../../../core/services/notification';
 
 @Component({
   selector: 'virteex-journal-entry-import-page',

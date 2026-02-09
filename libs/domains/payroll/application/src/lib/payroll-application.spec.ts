@@ -1,4 +1,4 @@
-import { payrollApplication } from '@virteex/payroll-application/lib/payroll-application';
+import { payrollApplication } from './payroll-application';
 
 describe('payrollApplication', () => {
   it('should work', () => {

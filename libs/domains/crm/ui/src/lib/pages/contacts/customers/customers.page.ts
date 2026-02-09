@@ -3,9 +3,9 @@ import { Component, ChangeDetectionStrategy, signal, inject, OnInit } from '@ang
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LucideAngularModule, PlusCircle, Filter, MoreHorizontal } from 'lucide-angular';
-import { Customer } from '@virteex/crm-ui/lib/core/models/customer.model';
-import { CustomersService } from '@virteex/crm-ui/lib/core/api/customers.service';
-import { NotificationService } from '@virteex/crm-ui/lib/core/services/notification';
+import { Customer } from '../../../core/models/customer.model';
+import { CustomersService } from '../../../core/api/customers.service';
+import { NotificationService } from '../../../core/services/notification';
 
 @Component({
   selector: 'virteex-customers-page',

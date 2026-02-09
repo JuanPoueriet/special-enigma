@@ -4,8 +4,8 @@ import {
   Router,
   UrlTree,
 } from '@angular/router';
-import { LanguageService } from '@virteex/shared-ui/lib/core/services/language';
-import { AuthService } from '@virteex/shared-ui/lib/core/services/auth';
+import { LanguageService } from '../services/language';
+import { AuthService } from '../services/auth';
 
 export const languageRedirectGuard: CanActivateFn = (): boolean | UrlTree => {
   const router = inject(Router);

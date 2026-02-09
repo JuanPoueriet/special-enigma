@@ -1,4 +1,4 @@
-import { crmDomain } from '@virteex/crm-domain/lib/crm-domain';
+import { crmDomain } from './crm-domain';
 
 describe('crmDomain', () => {
   it('should work', () => {

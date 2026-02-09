@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { LucideAngularModule, ChevronLeft } from 'lucide-angular';
-import { AccountsPayableService, CreateVendorBillDto, UpdateVendorBillDto } from '@virteex/purchasing-ui/lib/core/services/accounts-payable';
-import { NotificationService } from '@virteex/purchasing-ui/lib/core/services/notification';
+import { AccountsPayableService, CreateVendorBillDto, UpdateVendorBillDto } from '../../../core/services/accounts-payable';
+import { NotificationService } from '../../../core/services/notification';
 import { of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 

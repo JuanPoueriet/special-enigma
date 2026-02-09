@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ImpactAnalysisModal } from '@virteex/shared-ui/lib/components/impact-analysis-modal/impact-analysis-modal';
+import { ImpactAnalysisModal } from './impact-analysis-modal';
 
 describe('ImpactAnalysisModal', () => {
   let component: ImpactAnalysisModal;

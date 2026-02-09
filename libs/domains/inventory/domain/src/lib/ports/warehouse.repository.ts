@@ -1,5 +1,5 @@
-import { Warehouse } from '@virteex/inventory-domain/lib/entities/warehouse.entity';
-import { Location } from '@virteex/inventory-domain/lib/entities/location.entity';
+import { Warehouse } from '../entities/warehouse.entity';
+import { Location } from '../entities/location.entity';
 
 export interface WarehouseRepository {
   save(warehouse: Warehouse): Promise<void>;

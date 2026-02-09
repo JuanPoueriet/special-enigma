@@ -1,4 +1,4 @@
-import { treasuryApplication } from '@virteex/treasury-application/lib/treasury-application';
+import { treasuryApplication } from './treasury-application';
 
 describe('treasuryApplication', () => {
   it('should work', () => {

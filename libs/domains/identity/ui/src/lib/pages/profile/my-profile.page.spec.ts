@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MyProfilePage } from '@virteex/identity-ui/lib/pages/profile/my-profile.page';
-import { AuthService } from '@virteex/identity-ui/core/services/auth';
-import { UsersService } from '@virteex/identity-ui/core/api/users.service';
-import { SecurityService } from '@virteex/identity-ui/core/api/security.service';
-import { NotificationService } from '@virteex/identity-ui/core/services/notification';
+import { MyProfilePage } from './my-profile.page';
+import { AuthService } from '../../../core/services/auth';
+import { UsersService } from '../../../core/api/users.service';
+import { SecurityService } from '../../../core/api/security.service';
+import { NotificationService } from '../../../core/services/notification';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BulkOperations } from '@virteex/accounting-ui/lib/pages/accounting-ops/bulk-operations/bulk-operations';
+import { BulkOperations } from './bulk-operations';
 
 describe('BulkOperations', () => {
   let component: BulkOperations;

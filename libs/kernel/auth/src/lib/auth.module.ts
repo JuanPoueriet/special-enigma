@@ -1,6 +1,6 @@
 import { Module, MiddlewareConsumer, NestModule, RequestMethod } from '@nestjs/common';
-import { TenantContextMiddleware } from '@virteex/auth/lib/middleware/tenant-context.middleware';
-import { TenantGuard } from '@virteex/auth/lib/guards/tenant.guard';
+import { TenantContextMiddleware } from './middleware/tenant-context.middleware';
+import { TenantGuard } from './guards/tenant.guard';
 import { TelemetryModule } from '@virteex/telemetry';
 
 @Module({

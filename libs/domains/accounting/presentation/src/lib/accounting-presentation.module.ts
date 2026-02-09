@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { AccountsResolver } from '@virteex/accounting-presentation/lib/resolvers/accounts.resolver';
-import { JournalEntriesResolver } from '@virteex/accounting-presentation/lib/resolvers/journal-entries.resolver';
+import { AccountsResolver } from './resolvers/accounts.resolver';
+import { JournalEntriesResolver } from './resolvers/journal-entries.resolver';
 import { AccountingApplicationModule } from '@virteex/accounting-application';
 
 @Module({

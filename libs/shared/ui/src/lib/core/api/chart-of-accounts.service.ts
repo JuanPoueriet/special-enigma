@@ -2,8 +2,8 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '@virteex/shared-ui/environments/environment';
-import { Account, CashFlowCategory, RequiredDimension } from '@virteex/shared-ui/lib/core/models/account.model';
+import { environment } from '../../../environments/environment';
+import { Account, CashFlowCategory, RequiredDimension } from '../models/account.model';
 
 export interface CreateAccountDto extends Omit<Account, 'id' | 'organizationId' | 'createdAt' | 'updatedAt' | 'balance' | 'children' | 'isSystemAccount' | 'level' | 'isExpanded' | 'hasChildren'> {
   statementMapping?: {

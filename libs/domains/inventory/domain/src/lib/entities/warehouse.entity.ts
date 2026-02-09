@@ -1,6 +1,6 @@
 import { Entity, PrimaryKey, Property, OneToMany, Collection, Unique } from '@mikro-orm/core';
 import { v4 } from 'uuid';
-import type { Location } from '@virteex/inventory-domain/lib/entities/location.entity';
+import type { Location } from './location.entity';
 
 @Entity()
 @Unique({ properties: ['tenantId', 'code'] })

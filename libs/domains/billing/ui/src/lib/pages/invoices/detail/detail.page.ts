@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 // Se importa ActivatedRoute para acceder a los parámetros de la URL.
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { LucideAngularModule, Printer, Download, Mail, MoreVertical } from 'lucide-angular';
-import { Invoice, InvoicesService } from '@virteex/billing-ui/lib/core/services/invoices';
-import { NotificationService } from '@virteex/billing-ui/lib/core/services/notification';
+import { Invoice, InvoicesService } from '../../../core/services/invoices';
+import { NotificationService } from '../../../core/services/notification';
 
 @Component({
   selector: 'virteex-invoice-detail-page',

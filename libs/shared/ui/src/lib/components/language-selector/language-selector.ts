@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LanguageService } from '@virteex/shared-ui/core/services/language';
+import { LanguageService } from '../../../core/services/language';
 
 @Component({
   selector: 'virteex-language-selector',

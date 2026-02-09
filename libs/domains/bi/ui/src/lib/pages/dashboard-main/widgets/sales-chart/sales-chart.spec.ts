@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SalesChart } from '@virteex/bi-ui/lib/pages/dashboard-main/widgets/sales-chart/sales-chart';
+import { SalesChart } from './sales-chart';
 
 describe('SalesChart', () => {
   let component: SalesChart;

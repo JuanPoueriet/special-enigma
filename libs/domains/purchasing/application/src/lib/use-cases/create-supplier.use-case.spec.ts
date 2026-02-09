@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CreateSupplierUseCase } from '@virteex/purchasing-application/lib/use-cases/create-supplier.use-case';
+import { CreateSupplierUseCase } from './create-supplier.use-case';
 import { SUPPLIER_REPOSITORY } from '@virteex/purchasing-domain';
 import { CreateSupplierDto, SupplierType as ContractSupplierType } from '@virteex/purchasing-contracts';
 

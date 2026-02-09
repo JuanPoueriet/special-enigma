@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Supplier, PurchaseOrder, PurchaseOrderItem, SUPPLIER_REPOSITORY, PURCHASE_ORDER_REPOSITORY } from '@virteex/purchasing-domain';
-import { MikroOrmSupplierRepository } from '@virteex/purchasing-infrastructure/lib/repositories/mikro-orm-supplier.repository';
-import { MikroOrmPurchaseOrderRepository } from '@virteex/purchasing-infrastructure/lib/repositories/mikro-orm-purchase-order.repository';
+import { MikroOrmSupplierRepository } from './repositories/mikro-orm-supplier.repository';
+import { MikroOrmPurchaseOrderRepository } from './repositories/mikro-orm-purchase-order.repository';
 
 @Module({
   imports: [

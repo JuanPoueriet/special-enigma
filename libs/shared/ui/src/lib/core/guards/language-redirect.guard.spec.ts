@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { languageRedirectGuard } from '@virteex/shared-ui/lib/core/guards/language-redirect.guard';
-import { LanguageService } from '@virteex/shared-ui/lib/core/services/language';
-import { AuthService } from '@virteex/shared-ui/lib/core/services/auth';
+import { languageRedirectGuard } from './language-redirect.guard';
+import { LanguageService } from '../services/language';
+import { AuthService } from '../services/auth';
 import { Router } from '@angular/router';
 
 class MockLanguageService {

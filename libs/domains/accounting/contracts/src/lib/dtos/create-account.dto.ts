@@ -1,4 +1,4 @@
-import { AccountType } from '@virteex/accounting-contracts/lib/enums/account-type.enum';
+import { AccountType } from '../enums/account-type.enum';
 
 export interface CreateAccountDto {
   tenantId: string;

@@ -1,5 +1,5 @@
 import { AsyncLocalStorage } from 'async_hooks';
-import { TenantContext } from '@virteex/auth/lib/interfaces/tenant-context.interface';
+import { TenantContext } from '../interfaces/tenant-context.interface';
 
 const tenantStorage = new AsyncLocalStorage<TenantContext>();
 

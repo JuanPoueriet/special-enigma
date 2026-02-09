@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TopProductsChart } from '@virteex/bi-ui/lib/pages/dashboard-main/widgets/top-products-chart/top-products-chart';
+import { TopProductsChart } from './top-products-chart';
 
 describe('TopProductsChart', () => {
   let component: TopProductsChart;

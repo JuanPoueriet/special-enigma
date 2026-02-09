@@ -2,7 +2,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '@virteex/shared-ui/environments/environment';
+import { environment } from '../../../environments/environment';
 
 export interface UserSession {
     id: string;

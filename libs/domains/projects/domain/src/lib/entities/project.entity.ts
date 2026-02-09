@@ -1,6 +1,6 @@
 import { Entity, PrimaryKey, Property, Enum, OneToMany, Collection, Cascade } from '@mikro-orm/core';
 import { ProjectStatus } from '@virteex/projects-contracts';
-import type { Task } from '@virteex/projects-domain/lib/entities/task.entity';
+import type { Task } from './task.entity';
 
 @Entity()
 export class Project {

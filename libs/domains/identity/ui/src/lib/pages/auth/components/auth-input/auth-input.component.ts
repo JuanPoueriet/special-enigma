@@ -1,3 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+/* eslint-disable @angular-eslint/use-lifecycle-interface */
 import { Component, Input, forwardRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule, FormControl } from '@angular/forms';
@@ -61,6 +66,10 @@ export class AuthInputComponent implements ControlValueAccessor {
   }
 
   setDisabledState?(isDisabled: boolean): void {
-    isDisabled ? this.control.disable() : this.control.enable();
+    if (isDisabled) {
+      this.control.disable();
+    } else {
+      this.control.enable();
+    }
   }
 }

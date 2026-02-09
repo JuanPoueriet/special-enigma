@@ -2,17 +2,17 @@ import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '@virteex/identity-ui/lib/core/services/auth';
+import { AuthService } from '../../../../core/services/auth';
 import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module, ReCaptchaV3Service } from 'ng-recaptcha-19';
-import { environment } from '@virteex/identity-ui/environments/environment';
+import { environment } from '../../../../../environments/environment';
 import { switchMap } from 'rxjs/operators';
-import { LanguageService } from '@virteex/identity-ui/lib/core/services/language';
+import { LanguageService } from '../../../../core/services/language';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 // Shared Components
-import { AuthLayoutComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-layout/auth-layout.component';
-import { AuthInputComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-input/auth-input.component';
-import { AuthButtonComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-button/auth-button.component';
+import { AuthLayoutComponent } from '../../components/auth-layout/auth-layout.component';
+import { AuthInputComponent } from '../../components/auth-input/auth-input.component';
+import { AuthButtonComponent } from '../../components/auth-button/auth-button.component';
 
 @Component({
   selector: 'virteex-forgot-password',

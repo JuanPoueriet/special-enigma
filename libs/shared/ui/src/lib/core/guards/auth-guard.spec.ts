@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { Router, UrlTree } from '@angular/router';
-import { AuthService } from '@virteex/shared-ui/lib/core/services/auth';
-import { LanguageService } from '@virteex/shared-ui/lib/core/services/language';
-import { authGuard } from '@virteex/shared-ui/lib/core/guards/auth-guard';
+import { AuthService } from '../services/auth';
+import { LanguageService } from '../services/language';
+import { authGuard } from './auth-guard';
 import { of } from 'rxjs';
 import { EnvironmentInjector, runInInjectionContext } from '@angular/core';
 

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GlobalSearch } from '@virteex/shared-ui/lib/components/global-search/global-search.page';
+import { GlobalSearch } from './global-search.page';
 
 describe('GlobalSearch', () => {
   let component: GlobalSearch;

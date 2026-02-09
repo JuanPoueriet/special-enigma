@@ -1,4 +1,4 @@
-import { biApplication } from '@virteex/bi-application/lib/bi-application';
+import { biApplication } from './bi-application';
 
 describe('biApplication', () => {
   it('should work', () => {

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IdentityUi } from '@virteex/identity-ui/lib/identity-ui/identity-ui';
+import { IdentityUi } from './identity-ui';
 
 describe('IdentityUi', () => {
   let component: IdentityUi;

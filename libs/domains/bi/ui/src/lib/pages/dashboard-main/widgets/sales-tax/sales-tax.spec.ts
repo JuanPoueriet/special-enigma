@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SalesTax } from '@virteex/bi-ui/lib/pages/dashboard-main/widgets/sales-tax/sales-tax';
+import { SalesTax } from './sales-tax';
 
 describe('SalesTax', () => {
   let component: SalesTax;

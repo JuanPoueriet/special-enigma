@@ -1,5 +1,5 @@
 // app/core/models/price-list.model.ts
-import { Product } from '@virteex/shared-ui/lib/core/models/product.model';
+import { Product } from './product.model';
 
 export enum PriceListStatus {
   DRAFT = 'Draft',

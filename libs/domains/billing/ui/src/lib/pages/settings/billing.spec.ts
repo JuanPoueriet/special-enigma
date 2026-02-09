@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { BillingPage } from '@virteex/billing-ui/lib/pages/settings/billing.page';
+import { BillingPage } from './billing.page';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { BillingService } from '@virteex/billing-ui/core/services/billing';
+import { BillingService } from '../../../core/services/billing';
 
 describe('BillingPage', () => {
   let component: BillingPage;

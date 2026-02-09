@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '@virteex/shared-ui/environments/environment';
-import { Product } from '@virteex/shared-ui/lib/core/models/product.model';
+import { environment } from '../../../environments/environment';
+import { Product } from '../models/product.model';
 
 // DTOs que coinciden con el backend
 export type CreateProductDto = Omit<Product, 'id' | 'organizationId' | 'createdAt' | 'updatedAt'>;
