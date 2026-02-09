@@ -49,19 +49,18 @@ import {
   UserCircle2,
   LogOut,
 } from 'lucide-angular';
-import { NotificationService } from '../../../core/services/notification';
-import {
-  InviteUserDto,
+import { NotificationService  } from '@virteex/shared-ui';
+import { InviteUserDto,
   UpdateUserDto,
   UsersService,
-} from '../../../core/api/users.service';
-import { Role, RolesService } from '../../../core/api/roles.service';
-import { AuthService } from '../../../core/services/auth';
+ } from '@virteex/shared-ui';
+import { Role, RolesService  } from '@virteex/shared-ui';
+import { AuthService  } from '@virteex/shared-ui';
 import { TranslateModule } from '@ngx-translate/core';
 import { User as ApiUser } from '../../../shared/interfaces/user.interface';
 import { UserStatus } from '../../../shared/enums/user-status.enum';
-import { WebSocketService } from '../../../core/services/websocket.service';
-import { HasPermissionDirective } from '../../../shared/directives/has-permission.directive';
+import { WebSocketService  } from '@virteex/shared-ui';
+import { HasPermissionDirective } from '@virteex/shared-ui';
 import { debounceTime, distinctUntilChanged, Subject, Subscription } from 'rxjs';
 
 @Component({

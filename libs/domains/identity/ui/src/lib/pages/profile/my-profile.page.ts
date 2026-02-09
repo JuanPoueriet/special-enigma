@@ -28,11 +28,11 @@ import {
   Shield,
   Check,
 } from 'lucide-angular';
-import { AuthService } from '../../../core/services/auth';
-import { NotificationService } from '../../../core/services/notification';
-import { UsersService } from '../../../core/api/users.service';
-import { SecuritySettingsComponent } from '../components/security-settings/security-settings.component';
-import { PhoneVerificationModalComponent } from '../components/phone-verification-modal/phone-verification-modal.component';
+import { AuthService  } from '@virteex/shared-ui';
+import { NotificationService  } from '@virteex/shared-ui';
+import { UsersService  } from '@virteex/shared-ui';
+import { SecuritySettingsComponent } from '../../components/security-settings/security-settings.component';
+import { PhoneVerificationModalComponent } from '../../components/phone-verification-modal/phone-verification-modal.component';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslateModule } from '@ngx-translate/core';
 import { FileUtil } from '../../../shared/utils/file.util';

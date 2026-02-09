@@ -29,7 +29,7 @@ import {
   AlertCircle,
 } from 'lucide-angular';
 import { trigger, style, transition, animate } from '@angular/animations';
-import { AuthService } from '../../../core/services/auth';
+import { AuthService  } from '@virteex/shared-ui';
 import { RegisterPayload } from '../../../shared/interfaces/register-payload.interface';
 import { StepAccountInfo } from './steps/step-account-info/step-account-info';
 import { StepBusiness } from './steps/step-business/step-business';
@@ -42,12 +42,12 @@ import {
   ReCaptchaV3Service,
 } from 'ng-recaptcha-19';
 import { environment } from '../../../../environments/environment';
-import { CountryService } from '../../../core/services/country.service';
+import { CountryService  } from '@virteex/shared-ui';
 import { GeoMismatchModalComponent } from '../../../shared/components/geo-mismatch-modal/geo-mismatch-modal.component';
-import { AuthLayoutComponent } from '../components/auth-layout/auth-layout.component';
-import { AuthButtonComponent } from '../components/auth-button/auth-button.component';
-import { AuthInputComponent } from '../components/auth-input/auth-input.component';
-import { LanguageService } from '../../../core/services/language';
+import { AuthLayoutComponent } from '../../components/auth-layout/auth-layout.component';
+import { AuthButtonComponent } from '../../components/auth-button/auth-button.component';
+import { AuthInputComponent } from '../../components/auth-input/auth-input.component';
+import { LanguageService  } from '@virteex/shared-ui';
 
 // Validador personalizado para coincidencia de contraseñas
 export function passwordMatchValidator(

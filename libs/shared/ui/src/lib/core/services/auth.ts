@@ -15,12 +15,12 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { startRegistration, startAuthentication } from '@simplewebauthn/browser';
 
 import { API_URL } from '../tokens/api-url.token';
-import { RegisterPayload } from '../../shared/interfaces/register-payload.interface';
-import { User } from '../../shared/interfaces/user.interface';
-import { LoginCredentials } from '../../shared/interfaces/login-credentials.interface';
-import { AuthStatus } from '../../shared/enums/auth-status.enum';
-import { UserStatus } from '../../shared/enums/user-status.enum';
-import { UserPayload } from '../../shared/interfaces/user-payload.interface';
+import { RegisterPayload } from '../../interfaces/register-payload.interface';
+import { User } from '../../interfaces/user.interface';
+import { LoginCredentials } from '../../interfaces/login-credentials.interface';
+import { AuthStatus } from '../../enums/auth-status.enum';
+import { UserStatus } from '../../enums/user-status.enum';
+import { UserPayload } from '../../interfaces/user-payload.interface';
 import { NotificationService } from './notification';
 import { WebSocketService } from './websocket.service';
 import { ModalService } from '../../shared/service/modal.service';

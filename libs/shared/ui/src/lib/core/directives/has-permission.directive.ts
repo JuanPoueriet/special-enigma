@@ -1,0 +1,1 @@
+import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core'; @Directive({ selector: '[virteexHasPermission]', standalone: true }) export class HasPermissionDirective { @Input('virteexHasPermission') permissions: string[] = []; constructor(private templateRef: TemplateRef<any>, private viewContainer: ViewContainerRef) {} }

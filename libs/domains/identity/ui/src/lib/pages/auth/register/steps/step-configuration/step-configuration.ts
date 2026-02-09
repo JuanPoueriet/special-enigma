@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { CountryService } from '../../../../../core/services/country.service';
+import { CountryService  } from '@virteex/shared-ui';
 import { AuthInputComponent } from '../../../components/auth-input/auth-input.component';
 
 @Component({
