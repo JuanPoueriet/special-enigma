@@ -4,7 +4,7 @@
     <p class="text-sm text-text-secondary">{{ 'REGISTER.STEPS.BUSINESS.SUBTITLE' | translate }}</p>
   </div>
 
-  <app-auth-input
+  <virteex-auth-input
     formControlName="companyName"
     [label]="'REGISTER.COMPANY_NAME' | translate"
     [placeholder]="'REGISTER.COMPANY_NAME_PLACEHOLDER' | translate"
@@ -12,7 +12,7 @@
     [hasIcon]="true"
     [errorMessage]="getErrorMessage('companyName')">
     <svg icon xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4 8 4v14"/><path d="M17 21v-8.5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0-.5.5V21"/><path d="M9 10a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v1Z"/></svg>
-  </app-auth-input>
+  </virteex-auth-input>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <!-- Industry Select (using HTML select but styled like AuthInput) -->
@@ -54,12 +54,12 @@
       </div>
   </div>
 
-  <app-auth-input
+  <virteex-auth-input
     formControlName="website"
     [label]="'REGISTER.WEBSITE' | translate"
     [placeholder]="'REGISTER.WEBSITE_PLACEHOLDER' | translate"
     [hasIcon]="true">
     <svg icon xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
-  </app-auth-input>
+  </virteex-auth-input>
 
 </form>

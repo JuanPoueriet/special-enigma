@@ -2,10 +2,10 @@ import { Component, ChangeDetectionStrategy, inject, OnInit, signal } from '@ang
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule, CreditCard, Download, CheckCircle, Info } from 'lucide-angular';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { BillingService, Subscription, PaymentMethod, PaymentHistoryItem } from '../../../core/services/billing';
+import { BillingService, Subscription, PaymentMethod, PaymentHistoryItem } from '@virteex/billing-ui/core/services/billing';
 
 @Component({
-  selector: 'app-billing-page',
+  selector: 'virteex-billing-page',
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './billing.page.html',

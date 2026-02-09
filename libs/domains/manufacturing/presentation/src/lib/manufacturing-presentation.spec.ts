@@ -1,4 +1,4 @@
-import { manufacturingPresentation } from './manufacturing-presentation';
+import { manufacturingPresentation } from '@virteex/manufacturing-presentation/lib/manufacturing-presentation';
 
 describe('manufacturingPresentation', () => {
   it('should work', () => {

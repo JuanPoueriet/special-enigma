@@ -9,7 +9,7 @@ interface PaymentTerm {
 }
 
 @Component({
-  selector: 'app-payment-terms-page',
+  selector: 'virteex-payment-terms-page',
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './payment-terms.page.html',

@@ -4,13 +4,13 @@ import { RouterLink } from '@angular/router';
 import { LucideAngularModule, Search, X, Plus, Minus, Trash2, CreditCard } from 'lucide-angular';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Product } from '../../../core/models/product.model';
+import { Product } from '@virteex/crm-ui/lib/core/models/product.model';
 
 // Reutilizamos el modelo de producto
-// import { Product } from '../../inventory/products/products.page';
+import { Product } from '@virteex/crm-ui/lib/pages/inventory/products/products.page';
 
 @Component({
-  selector: 'app-pos-page',
+  selector: 'virteex-pos-page',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, LucideAngularModule],
   templateUrl: './pos.page.html',

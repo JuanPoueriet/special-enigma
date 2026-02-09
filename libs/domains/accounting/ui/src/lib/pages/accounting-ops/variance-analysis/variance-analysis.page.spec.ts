@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VarianceAnalysis } from './variance-analysis.page';
+import { VarianceAnalysis } from '@virteex/accounting-ui/lib/pages/accounting-ops/variance-analysis/variance-analysis.page';
 
 describe('VarianceAnalysis', () => {
   let component: VarianceAnalysis;

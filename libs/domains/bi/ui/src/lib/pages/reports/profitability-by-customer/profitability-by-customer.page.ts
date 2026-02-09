@@ -12,7 +12,7 @@ interface CustomerProfitability {
 }
 
 @Component({
-  selector: 'app-profitability-by-customer-page',
+  selector: 'virteex-profitability-by-customer-page',
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './profitability-by-customer.page.html',

@@ -1,4 +1,4 @@
-import { PurchaseOrder } from '../entities/purchase-order.entity';
+import { PurchaseOrder } from '@virteex/purchasing-domain/lib/entities/purchase-order.entity';
 
 export interface IPurchaseOrderRepository {
   save(order: PurchaseOrder): Promise<void>;

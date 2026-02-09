@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DailyJournal } from './daily-journal.page';
+import { DailyJournal } from '@virteex/accounting-ui/lib/pages/accounting-ops/daily-journal/daily-journal.page';
 
 describe('DailyJournal', () => {
   let component: DailyJournal;

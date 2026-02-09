@@ -10,7 +10,7 @@ interface Template {
 }
 
 @Component({
-  selector: 'app-templates-page',
+  selector: 'virteex-templates-page',
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './templates.page.html',

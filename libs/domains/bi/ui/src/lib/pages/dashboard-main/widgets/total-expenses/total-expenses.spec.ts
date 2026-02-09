@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TotalExpenses } from './total-expenses';
+import { TotalExpenses } from '@virteex/bi-ui/lib/pages/dashboard-main/widgets/total-expenses/total-expenses';
 
 describe('TotalExpenses', () => {
   let component: TotalExpenses;

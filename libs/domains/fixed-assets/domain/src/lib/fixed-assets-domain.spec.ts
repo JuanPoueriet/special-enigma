@@ -1,4 +1,4 @@
-import { fixedAssetsDomain } from './fixed-assets-domain';
+import { fixedAssetsDomain } from '@virteex/fixed-assets-domain/lib/fixed-assets-domain';
 
 describe('fixedAssetsDomain', () => {
   it('should work', () => {

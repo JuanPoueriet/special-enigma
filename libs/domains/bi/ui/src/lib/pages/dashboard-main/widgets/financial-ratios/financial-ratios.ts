@@ -10,7 +10,7 @@ interface FinancialRatio {
 }
 
 @Component({
-  selector: 'app-financial-ratios',
+  selector: 'virteex-financial-ratios',
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './financial-ratios.html',

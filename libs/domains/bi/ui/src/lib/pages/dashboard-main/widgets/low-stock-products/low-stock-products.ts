@@ -16,7 +16,7 @@ export interface Product {
 }
 
 @Component({
-  selector: 'app-low-stock-products',
+  selector: 'virteex-low-stock-products',
   standalone: true,
   imports: [CommonModule, RouterLink, LucideAngularModule],
   templateUrl: './low-stock-products.html',

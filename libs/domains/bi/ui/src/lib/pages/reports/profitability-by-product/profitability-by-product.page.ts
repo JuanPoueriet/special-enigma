@@ -14,7 +14,7 @@ interface ProductProfitability {
 }
 
 @Component({
-  selector: 'app-profitability-by-product-page',
+  selector: 'virteex-profitability-by-product-page',
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './profitability-by-product.page.html',

@@ -1,6 +1,6 @@
 import { Entity, PrimaryKey, Property, Enum, ManyToOne } from '@mikro-orm/core';
 import { AttendanceStatus } from '@virteex/payroll-contracts';
-import type { Employee } from './employee.entity';
+import type { Employee } from '@virteex/payroll-domain/lib/entities/employee.entity';
 
 @Entity()
 export class Attendance {

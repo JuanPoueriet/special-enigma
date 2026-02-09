@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UnitsOfMeasure } from './units-of-measure.page';
+import { UnitsOfMeasure } from '@virteex/admin-ui/lib/pages/masters/units-of-measure/units-of-measure.page';
 
 describe('UnitsOfMeasure', () => {
   let component: UnitsOfMeasure;

@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TenantRlsInterceptor } from './tenant-rls.interceptor';
+import { TenantRlsInterceptor } from '@virteex/tenant/lib/interceptors/tenant-rls.interceptor';
 import { EntityManager, RequestContext } from '@mikro-orm/core';
-import { TenantService } from '../tenant.service';
+import { TenantService } from '@virteex/tenant/lib/tenant.service';
 import { CallHandler, ExecutionContext } from '@nestjs/common';
 import { of, lastValueFrom } from 'rxjs';
 import * as AuthModule from '@virteex/auth';

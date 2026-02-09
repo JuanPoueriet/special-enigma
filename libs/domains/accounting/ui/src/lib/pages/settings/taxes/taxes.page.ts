@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-tax-rules',
+  selector: 'virteex-tax-rules',
   standalone: true,
   imports: [CommonModule],
   template: `

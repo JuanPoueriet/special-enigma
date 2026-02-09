@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { KpiCurrentRatio } from './kpi-current-ratio';
+import { KpiCurrentRatio } from '@virteex/bi-ui/lib/pages/dashboard-main/widgets/kpi-current-ratio/kpi-current-ratio';
 
 describe('KpiCurrentRatio', () => {
   let component: KpiCurrentRatio;

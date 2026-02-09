@@ -1,4 +1,4 @@
-<app-auth-layout>
+<virteex-auth-layout>
   <div class="register-container animate-fade-in-up">
     <!-- Header -->
     <div class="view-header">
@@ -46,22 +46,22 @@
 
       <!-- Step 1: Account Info -->
       <div *ngIf="currentStep() === 1" [@stepAnimation] class="step-content">
-        <app-step-account-info [group]="accountInfo"></app-step-account-info>
+        <virteex-step-account-info [group]="accountInfo"></virteex-step-account-info>
       </div>
 
       <!-- Step 2: Configuration (Country/Tax) -->
       <div *ngIf="currentStep() === 2" [@stepAnimation] class="step-content">
-        <app-step-configuration [group]="configuration"></app-step-configuration>
+        <virteex-step-configuration [group]="configuration"></virteex-step-configuration>
       </div>
 
       <!-- Step 3: Business Info -->
       <div *ngIf="currentStep() === 3" [@stepAnimation] class="step-content">
-        <app-step-business [group]="business"></app-step-business>
+        <virteex-step-business [group]="business"></virteex-step-business>
       </div>
 
       <!-- Step 4: Plan / Confirmation -->
       <div *ngIf="currentStep() === 4" [@stepAnimation] class="step-content">
-        <app-step-plan [group]="plan"></app-step-plan>
+        <virteex-step-plan [group]="plan"></virteex-step-plan>
       </div>
 
       <!-- Navigation Buttons -->
@@ -77,22 +77,22 @@
         <div *ngIf="currentStep() === 1" class="spacer"></div> <!-- Spacer -->
 
         <div class="next-btn-container" *ngIf="currentStep() < 4">
-            <app-auth-button
+            <virteex-auth-button
             (onClick)="nextStep()"
             variant="primary">
             Siguiente
             <svg icon xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-            </app-auth-button>
+            </virteex-auth-button>
         </div>
 
         <div class="next-btn-container" *ngIf="currentStep() === 4">
-            <app-auth-button
+            <virteex-auth-button
             type="submit"
             variant="primary"
             [loading]="isRegistering()"
             [disabled]="registerForm.invalid">
             {{ "REGISTER.SUBMIT_BUTTON" | translate }}
-            </app-auth-button>
+            </virteex-auth-button>
         </div>
       </div>
 
@@ -121,4 +121,4 @@
        {{ "REGISTER.LOGIN_LINK" | translate }}
     </a>
   </p>
-</app-auth-layout>
+</virteex-auth-layout>

@@ -15,7 +15,7 @@ interface FileItem {
 }
 
 @Component({
-  selector: 'app-repository-page',
+  selector: 'virteex-repository-page',
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './repository.page.html',

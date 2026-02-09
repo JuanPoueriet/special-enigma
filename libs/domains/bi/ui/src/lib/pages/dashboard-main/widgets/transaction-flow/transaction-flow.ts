@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-transaction-flow',
+  selector: 'virteex-transaction-flow',
   imports: [],
   templateUrl: './transaction-flow.html',
   styleUrl: './transaction-flow.scss'

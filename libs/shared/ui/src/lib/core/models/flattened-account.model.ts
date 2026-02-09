@@ -1,4 +1,4 @@
-import { Account } from './account.model';
+import { Account } from '@virteex/shared-ui/lib/core/models/account.model';
 
 /**
  * Extiende Account con datos de presentación necesarios para la UI en tablas/árboles.

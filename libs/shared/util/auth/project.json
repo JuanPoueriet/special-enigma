@@ -2,7 +2,7 @@
   "name": "shared-util-auth",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/shared/util/auth/src",
-  "prefix": "lib",
+  "prefix": "virteex",
   "projectType": "library",
   "tags": [],
   "targets": {

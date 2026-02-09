@@ -1,4 +1,4 @@
-import { projectsInfrastructure } from './projects-infrastructure';
+import { projectsInfrastructure } from '@virteex/projects-infrastructure/lib/projects-infrastructure';
 
 describe('projectsInfrastructure', () => {
   it('should work', () => {

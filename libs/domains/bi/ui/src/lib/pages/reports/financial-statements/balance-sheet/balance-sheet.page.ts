@@ -15,7 +15,7 @@ interface ReportSubSection {
 }
 
 @Component({
-  selector: 'app-balance-sheet-page',
+  selector: 'virteex-balance-sheet-page',
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './balance-sheet.page.html',

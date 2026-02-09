@@ -1,4 +1,4 @@
-import { Session } from '../entities/session.entity';
+import { Session } from '@virteex/identity-domain/lib/entities/session.entity';
 
 export abstract class SessionRepository {
   abstract save(session: Session): Promise<void>;

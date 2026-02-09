@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-confirmation-modal',
+  selector: 'virteex-confirmation-modal',
   standalone: true,
   imports: [CommonModule, TranslateModule],
   template: `

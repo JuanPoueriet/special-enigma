@@ -1,4 +1,4 @@
-import { manufacturingContracts } from './manufacturing-contracts';
+import { manufacturingContracts } from '@virteex/manufacturing-contracts/lib/manufacturing-contracts';
 
 describe('manufacturingContracts', () => {
   it('should work', () => {

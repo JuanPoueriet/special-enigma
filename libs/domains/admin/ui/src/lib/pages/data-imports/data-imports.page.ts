@@ -21,7 +21,7 @@ interface DataType {
 }
 
 @Component({
-  selector: 'app-data-imports-page',
+  selector: 'virteex-data-imports-page',
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './data-imports.page.html',

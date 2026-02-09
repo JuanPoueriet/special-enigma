@@ -36,7 +36,7 @@ type ExportingChart = Highcharts.Chart & {
 };
 
 @Component({
-  selector: 'app-top-products-chart',
+  selector: 'virteex-top-products-chart',
   standalone: true,
   imports: [CommonModule, HighchartsChartComponent, LucideAngularModule, TranslateModule],
   templateUrl: './top-products-chart.html',

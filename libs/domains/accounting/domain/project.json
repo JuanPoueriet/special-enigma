@@ -13,21 +13,28 @@
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/libs/domains/accounting/domain",
         "main": "libs/domains/accounting/domain/src/index.ts",
         "tsConfig": "libs/domains/accounting/domain/tsconfig.lib.json",
-        "assets": ["libs/domains/accounting/domain/*.md"]
+        "assets": [
+          "libs/domains/accounting/domain/*.md"
+        ]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/libs/domains/accounting/domain"],
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/domains/accounting/domain"
+      ],
       "options": {
         "jestConfig": "libs/domains/accounting/domain/jest.config.cts",
         "passWithNoTests": true
       }
     }
-  }
+  },
+  "prefix": "virteex"
 }

@@ -2,15 +2,15 @@ import { Component, OnInit, inject, ChangeDetectionStrategy, signal } from '@ang
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { ChartOfAccountsApiService, CreateAccountDto, UpdateAccountDto } from '../../../core/api/chart-of-accounts.service';
-import { ChartOfAccountsStateService } from '../../../core/state/chart-of-accounts.state';
+import { ChartOfAccountsApiService, CreateAccountDto, UpdateAccountDto } from '@virteex/accounting-ui/lib/core/api/chart-of-accounts.service';
+import { ChartOfAccountsStateService } from '@virteex/accounting-ui/lib/core/state/chart-of-accounts.state';
 import { take } from 'rxjs/operators';
-import { AccountType, AccountCategory, AccountNature, CashFlowCategory, RequiredDimension } from '../../../core/models/account.model';
+import { AccountType, AccountCategory, AccountNature, CashFlowCategory, RequiredDimension } from '@virteex/accounting-ui/lib/core/models/account.model';
 import { LucideAngularModule, Save } from 'lucide-angular';
-import { NotificationService } from '../../../core/services/notification';
+import { NotificationService } from '@virteex/accounting-ui/lib/core/services/notification';
 
 @Component({
-  selector: 'app-account-form-page',
+  selector: 'virteex-account-form-page',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink, LucideAngularModule],
   templateUrl: './account-form.page.html',

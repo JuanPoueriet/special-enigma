@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-sequences',
+  selector: 'virteex-sequences',
   standalone: true,
   imports: [CommonModule],
   template: `

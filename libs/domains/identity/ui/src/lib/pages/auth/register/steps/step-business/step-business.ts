@@ -2,10 +2,10 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { AuthInputComponent } from '../../../components/auth-input/auth-input.component';
+import { AuthInputComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-input/auth-input.component';
 
 @Component({
-  selector: 'app-step-business',
+  selector: 'virteex-step-business',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, TranslateModule, AuthInputComponent],
   templateUrl: './step-business.html',

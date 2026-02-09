@@ -37,26 +37,26 @@
           @switch (widget.componentType) {
           @case ('kpi-card') { <virteex-kpi-card [data]="widget.data" /> }
           @case ('stat-card') { <virteex-stat-card [data]="widget.data" /> }
-          @case ('comparison-chart') { <app-comparison-chart [widget]="widget" [isEditMode]="isEditMode()" /> }
-          @case ('alerts-panel') { <app-alerts-panel /> }
-          @case ('sales-chart') { <app-sales-chart [widget]="widget" [isEditMode]="isEditMode()" /> }
-          @case ('invoice-status') { <app-invoice-status [widget]="widget" [isEditMode]="isEditMode()" /> }
-          @case ('low-stock') { <app-low-stock-products /> }
-          @case ('top-products') { <app-top-products-chart [widget]="widget" [isEditMode]="isEditMode()" /> }
-          @case ('recent-activity') { <app-recent-activity /> }
-          @case ('cashflow-chart') { <app-cashflow-chart [widget]="widget" [isEditMode]="isEditMode()" /> }
-          @case ('expenses-chart') { <app-expenses-chart [widget]="widget" [isEditMode]="isEditMode()" /> }
-          @case ('ar-aging-chart') { <app-ar-aging-chart [widget]="widget" [isEditMode]="isEditMode()" /> }
-          @case ('financial-ratios') { <app-financial-ratios /> }
-          @case ('kpi-roe') { <app-kpi-roe /> }
-          @case ('kpi-roa') { <app-kpi-roa /> }
-          @case ('kpi-current-ratio') { <app-kpi-current-ratio /> }
-          @case ('kpi-quick-ratio') { <app-kpi-quick-ratio /> }
-          @case ('kpi-working-capital') { <app-kpi-working-capital /> }
-          @case ('kpi-leverage') { <app-kpi-leverage /> }
-          @case ('kpi-net-margin') { <app-kpi-net-margin /> }
-          @case ('kpi-ebitda') { <app-kpi-ebitda /> }
-          @case ('kpi-fcf') { <app-kpi-fcf /> }
+          @case ('comparison-chart') { <virteex-comparison-chart [widget]="widget" [isEditMode]="isEditMode()" /> }
+          @case ('alerts-panel') { <virteex-alerts-panel /> }
+          @case ('sales-chart') { <virteex-sales-chart [widget]="widget" [isEditMode]="isEditMode()" /> }
+          @case ('invoice-status') { <virteex-invoice-status [widget]="widget" [isEditMode]="isEditMode()" /> }
+          @case ('low-stock') { <virteex-low-stock-products /> }
+          @case ('top-products') { <virteex-top-products-chart [widget]="widget" [isEditMode]="isEditMode()" /> }
+          @case ('recent-activity') { <virteex-recent-activity /> }
+          @case ('cashflow-chart') { <virteex-cashflow-chart [widget]="widget" [isEditMode]="isEditMode()" /> }
+          @case ('expenses-chart') { <virteex-expenses-chart [widget]="widget" [isEditMode]="isEditMode()" /> }
+          @case ('ar-aging-chart') { <virteex-ar-aging-chart [widget]="widget" [isEditMode]="isEditMode()" /> }
+          @case ('financial-ratios') { <virteex-financial-ratios /> }
+          @case ('kpi-roe') { <virteex-kpi-roe /> }
+          @case ('kpi-roa') { <virteex-kpi-roa /> }
+          @case ('kpi-current-ratio') { <virteex-kpi-current-ratio /> }
+          @case ('kpi-quick-ratio') { <virteex-kpi-quick-ratio /> }
+          @case ('kpi-working-capital') { <virteex-kpi-working-capital /> }
+          @case ('kpi-leverage') { <virteex-kpi-leverage /> }
+          @case ('kpi-net-margin') { <virteex-kpi-net-margin /> }
+          @case ('kpi-ebitda') { <virteex-kpi-ebitda /> }
+          @case ('kpi-fcf') { <virteex-kpi-fcf /> }
           }
         </div>
       </gridster-item>

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AuditTrail } from './audit-trail';
+import { AuditTrail } from '@virteex/shared-ui/lib/components/audit-trail/audit-trail';
 
 describe('AuditTrail', () => {
   let component: AuditTrail;

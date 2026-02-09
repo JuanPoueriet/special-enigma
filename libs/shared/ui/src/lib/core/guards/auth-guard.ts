@@ -2,8 +2,8 @@
 
 import { inject } from '@angular/core';
 import { CanActivateFn, Router, UrlTree } from '@angular/router';
-import { AuthService } from '../services/auth';
-import { LanguageService } from '../services/language';
+import { AuthService } from '@virteex/shared-ui/lib/core/services/auth';
+import { LanguageService } from '@virteex/shared-ui/lib/core/services/language';
 import { map, take } from 'rxjs/operators';
 // import { Observable } from 'rxjs';
 import { Observable, of } from 'rxjs';

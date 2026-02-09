@@ -33,7 +33,7 @@ export interface MergeAnalysis {
 }
 
 @Component({
-  selector: 'app-merge-tool',
+  selector: 'virteex-merge-tool',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './merge-tool.html',

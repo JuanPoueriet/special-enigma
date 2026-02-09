@@ -1,4 +1,4 @@
-import { TaxStrategy, TaxResult } from './tax-strategy.interface';
+import { TaxStrategy, TaxResult } from '@virteex/billing-domain/lib/strategies/tax-strategy.interface';
 
 export class BrTaxStrategy implements TaxStrategy {
   async calculate(amount: number): Promise<TaxResult> {

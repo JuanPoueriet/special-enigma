@@ -1,6 +1,6 @@
 import { Entity, PrimaryKey, Property, ManyToOne, Unique } from '@mikro-orm/core';
 import { v4 } from 'uuid';
-import type { Warehouse } from './warehouse.entity';
+import type { Warehouse } from '@virteex/inventory-domain/lib/entities/warehouse.entity';
 
 @Entity()
 @Unique({ properties: ['warehouse', 'code'] })

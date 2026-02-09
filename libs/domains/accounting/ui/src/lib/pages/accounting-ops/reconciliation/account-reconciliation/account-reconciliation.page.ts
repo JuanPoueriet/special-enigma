@@ -14,7 +14,7 @@ interface ReconciliationItem {
 }
 
 @Component({
-  selector: 'app-account-reconciliation-page',
+  selector: 'virteex-account-reconciliation-page',
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './account-reconciliation.page.html',

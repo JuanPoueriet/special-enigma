@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-approvals',
+  selector: 'virteex-approvals',
   standalone: true,
   imports: [CommonModule],
   template: `

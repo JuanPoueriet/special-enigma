@@ -1,4 +1,4 @@
-import { biDomain } from './bi-domain';
+import { biDomain } from '@virteex/bi-domain/lib/bi-domain';
 
 describe('biDomain', () => {
   it('should work', () => {

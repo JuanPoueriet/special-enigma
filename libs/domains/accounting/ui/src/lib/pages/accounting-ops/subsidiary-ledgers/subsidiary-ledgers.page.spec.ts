@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SubsidiaryLedgers } from './subsidiary-ledgers.page';
+import { SubsidiaryLedgers } from '@virteex/accounting-ui/lib/pages/accounting-ops/subsidiary-ledgers/subsidiary-ledgers.page';
 
 describe('SubsidiaryLedgers', () => {
   let component: SubsidiaryLedgers;

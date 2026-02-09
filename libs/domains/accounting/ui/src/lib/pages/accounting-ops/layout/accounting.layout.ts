@@ -4,7 +4,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LucideAngularModule, BookCopy, BookOpenCheck, CalendarDays, BookText, Library, FileCheck2, ShieldCheck, Users, BarChart3 } from 'lucide-angular';
 
 @Component({
-  selector: 'app-accounting-layout',
+  selector: 'virteex-accounting-layout',
   standalone: true,
   imports: [RouterOutlet, RouterLink, RouterLinkActive, LucideAngularModule, TranslateModule],
   templateUrl: './accounting.layout.html',

@@ -14,7 +14,7 @@ interface JournalEntry {
 }
 
 @Component({
-  selector: 'app-journal-entries-page',
+  selector: 'virteex-journal-entries-page',
   standalone: true,
   imports: [CommonModule, LucideAngularModule,RouterLink, TranslateModule],
   templateUrl: './journal-entries.page.html',

@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { AuthController } from './controllers/auth.controller';
+import { AuthController } from '@virteex/identity-presentation/lib/controllers/auth.controller';
 import { IdentityInfrastructureModule } from '@virteex/identity-infrastructure';
 
 @Module({

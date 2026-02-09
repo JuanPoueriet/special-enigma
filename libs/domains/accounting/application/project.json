@@ -13,13 +13,18 @@
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/libs/domains/accounting/application",
         "main": "libs/domains/accounting/application/src/index.ts",
         "tsConfig": "libs/domains/accounting/application/tsconfig.lib.json",
-        "assets": ["libs/domains/accounting/application/*.md"]
+        "assets": [
+          "libs/domains/accounting/application/*.md"
+        ]
       }
     }
-  }
+  },
+  "prefix": "virteex"
 }

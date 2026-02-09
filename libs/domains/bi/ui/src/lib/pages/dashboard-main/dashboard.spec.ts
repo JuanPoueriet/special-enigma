@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Dashboard } from './dashboard.page';
+import { Dashboard } from '@virteex/bi-ui/lib/pages/dashboard-main/dashboard.page';
 
 describe('Dashboard', () => {
   let component: Dashboard;

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DataExports } from './data-exports.page';
+import { DataExports } from '@virteex/admin-ui/lib/pages/data-exports/data-exports.page';
 
 describe('DataExports', () => {
   let component: DataExports;

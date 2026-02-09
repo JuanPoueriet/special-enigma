@@ -2,11 +2,11 @@ import { Component, ChangeDetectionStrategy, signal, inject } from '@angular/cor
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { LucideAngularModule, UploadCloud, ChevronLeft } from 'lucide-angular';
-import { JournalEntries } from '../../../../core/services/journal-entries';
-import { NotificationService } from '../../../../core/services/notification';
+import { JournalEntries } from '@virteex/accounting-ui/lib/core/services/journal-entries';
+import { NotificationService } from '@virteex/accounting-ui/lib/core/services/notification';
 
 @Component({
-  selector: 'app-journal-entry-import-page',
+  selector: 'virteex-journal-entry-import-page',
   standalone: true,
   imports: [CommonModule, RouterLink, LucideAngularModule],
   templateUrl: './import.page.html',

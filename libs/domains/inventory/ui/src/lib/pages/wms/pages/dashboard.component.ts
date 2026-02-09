@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-wms-dashboard',
+  selector: 'virteex-wms-dashboard',
   standalone: true,
   imports: [CommonModule],
   template: `

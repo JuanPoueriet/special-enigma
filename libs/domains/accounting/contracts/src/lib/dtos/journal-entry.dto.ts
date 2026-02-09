@@ -1,4 +1,4 @@
-import { JournalEntryStatus } from '../enums/journal-entry-status.enum';
+import { JournalEntryStatus } from '@virteex/accounting-contracts/lib/enums/journal-entry-status.enum';
 
 export interface JournalEntryLineDto {
   id: string;

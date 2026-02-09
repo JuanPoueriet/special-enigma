@@ -1,4 +1,4 @@
-import { manufacturingDomain } from './manufacturing-domain';
+import { manufacturingDomain } from '@virteex/manufacturing-domain/lib/manufacturing-domain';
 
 describe('manufacturingDomain', () => {
   it('should work', () => {

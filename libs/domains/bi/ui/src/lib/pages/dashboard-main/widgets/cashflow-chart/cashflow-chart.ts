@@ -18,9 +18,9 @@ import {
     Menu as MenuIcon, Maximize, FileDown, FileSpreadsheet, Printer,
 } from 'lucide-angular';
 
-import { DashboardWidget, DashboardService, ChartType } from '../../../../core/services/dashboard';
-import { BrandingService } from '../../../../core/services/branding';
-import { DashboardApiService, CashFlowWaterfallDto } from '../../../../core/api/dashboard-api.service';
+import { DashboardWidget, DashboardService, ChartType } from '@virteex/bi-ui/lib/core/services/dashboard';
+import { BrandingService } from '@virteex/bi-ui/lib/core/services/branding';
+import { DashboardApiService, CashFlowWaterfallDto } from '@virteex/bi-ui/lib/core/api/dashboard-api.service';
 
 // >>> ÚNICO CAMBIO NECESARIO PARA TRADUCCIÓN EN TS <<<
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -36,7 +36,7 @@ type ExportingChart = Highcharts.Chart & {
 };
 
 @Component({
-    selector: 'app-cashflow-chart',
+    selector: 'virteex-cashflow-chart',
     templateUrl: './cashflow-chart.html',
     styleUrls: ['../widget-styles.scss', './cashflow-chart.scss'],
     providers: [

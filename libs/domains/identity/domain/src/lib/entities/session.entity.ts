@@ -1,5 +1,5 @@
 import { Entity, PrimaryKey, Property, ManyToOne } from '@mikro-orm/core';
-import { User } from './user.entity';
+import { User } from '@virteex/identity-domain/lib/entities/user.entity';
 import { v4 as uuidv4 } from 'uuid';
 
 @Entity()

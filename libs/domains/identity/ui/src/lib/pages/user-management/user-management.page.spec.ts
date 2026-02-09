@@ -2,17 +2,17 @@ import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testin
 import { provideZonelessChangeDetection } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { of, throwError } from 'rxjs';
-import { UserManagementPage } from './user-management.page';
-import { UsersService, InviteUserDto, UpdateUserDto } from '../../../core/api/users.service';
-import { RolesService, Role } from '../../../core/api/roles.service';
-import { NotificationService } from '../../../core/services/notification';
-import { WebSocketService } from '../../../core/services/websocket.service';
-import { AuthService } from '../../../core/services/auth';
+import { UserManagementPage } from '@virteex/identity-ui/lib/pages/user-management/user-management.page';
+import { UsersService, InviteUserDto, UpdateUserDto } from '@virteex/identity-ui/core/api/users.service';
+import { RolesService, Role } from '@virteex/identity-ui/core/api/roles.service';
+import { NotificationService } from '@virteex/identity-ui/core/services/notification';
+import { WebSocketService } from '@virteex/identity-ui/core/services/websocket.service';
+import { AuthService } from '@virteex/identity-ui/core/services/auth';
 import { TranslateModule } from '@ngx-translate/core';
-import { HasPermissionDirective } from '../../../shared/directives/has-permission.directive';
+import { HasPermissionDirective } from '@virteex/identity-ui/shared/directives/has-permission.directive';
 import { LucideAngularModule, UserPlus, Save, X, Send, User, History, Trash2, Key, Search, Filter, ArrowUpDown, ArrowUp, ArrowDown, MoreHorizontal, FilePenLine, Ban, UserCog, Mail, ChevronLeft, ChevronRight, Plus, RefreshCw, Power, PowerOff, Building, Lock, Archive, UserCheck, Zap, FileInput, FileOutput, UserCircle2, LogOut } from 'lucide-angular';
-import { User as ApiUser } from '../../../shared/interfaces/user.interface';
-import { UserStatus } from '../../../shared/enums/user-status.enum';
+import { User as ApiUser } from '@virteex/identity-ui/shared/interfaces/user.interface';
+import { UserStatus } from '@virteex/identity-ui/shared/enums/user-status.enum';
 
 const mockUsers: ApiUser[] = [
   { id: '1', firstName: 'John', lastName: 'Doe', email: 'john@doe.com', status: UserStatus.ACTIVE, roles: [{id: '1', name: 'Admin'}], organizationId: '1', isOnline: true, createdAt: new Date() },

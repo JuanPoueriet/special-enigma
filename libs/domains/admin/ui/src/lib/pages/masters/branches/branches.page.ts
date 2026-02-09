@@ -12,7 +12,7 @@ interface Branch {
 }
 
 @Component({
-  selector: 'app-branches-page',
+  selector: 'virteex-branches-page',
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './branches.page.html',

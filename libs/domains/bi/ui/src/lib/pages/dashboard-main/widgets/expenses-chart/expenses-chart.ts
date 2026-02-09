@@ -17,8 +17,8 @@ import {
   Menu as MenuIcon, Maximize, FileDown, FileSpreadsheet, Printer
 } from 'lucide-angular';
 
-import { DashboardWidget, DashboardService, ChartType } from '../../../../core/services/dashboard';
-import { BrandingService } from '../../../../core/services/branding';
+import { DashboardWidget, DashboardService, ChartType } from '@virteex/bi-ui/lib/core/services/dashboard';
+import { BrandingService } from '@virteex/bi-ui/lib/core/services/branding';
 import { PointOptionsObject } from 'highcharts';
 
 type ExportingChart = Highcharts.Chart & {
@@ -30,7 +30,7 @@ type ExportingChart = Highcharts.Chart & {
 };
 
 @Component({
-  selector: 'app-expenses-chart',
+  selector: 'virteex-expenses-chart',
   standalone: true,
   imports: [CommonModule, HighchartsChartComponent, LucideAngularModule],
   templateUrl: './expenses-chart.html',

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Templates } from './templates.page';
+import { Templates } from '@virteex/admin-ui/lib/pages/documents/templates/templates.page';
 
 describe('Templates', () => {
   let component: Templates;

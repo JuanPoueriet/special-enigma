@@ -2,7 +2,7 @@ import { Component, Input, computed, signal, inject, ChangeDetectionStrategy } f
 import { CommonModule } from '@angular/common';
 import { HighchartsChartComponent } from 'highcharts-angular';
 import * as Highcharts from 'highcharts';
-import { DashboardWidget, DashboardService, ChartType } from '../../../../core/services/dashboard';
+import { DashboardWidget, DashboardService, ChartType } from '@virteex/bi-ui/lib/core/services/dashboard';
 import { LucideAngularModule, Settings, BarChart, AreaChart, PieChart } from 'lucide-angular';
 
 // Importar y activar el módulo de exportación de Highcharts para habilitar el menú contextual (imprimir, descargar, etc.)
@@ -10,7 +10,7 @@ import Exporting from 'highcharts/modules/exporting';
 // Exporting(Highcharts);
 
 @Component({
-  selector: 'app-comparison-chart',
+  selector: 'virteex-comparison-chart',
   standalone: true,
   imports: [CommonModule, HighchartsChartComponent, LucideAngularModule],
   templateUrl: './comparison-chart.html',

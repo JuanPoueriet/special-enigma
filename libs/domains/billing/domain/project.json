@@ -3,17 +3,28 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/domains/billing/domain/src",
   "projectType": "library",
-  "tags": ["scope:billing", "type:domain", "platform:agnostic", "tenant-mode:schema", "criticality:high"],
+  "tags": [
+    "scope:billing",
+    "type:domain",
+    "platform:agnostic",
+    "tenant-mode:schema",
+    "criticality:high"
+  ],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/libs/domains/billing/domain",
         "main": "libs/domains/billing/domain/src/index.ts",
         "tsConfig": "libs/domains/billing/domain/tsconfig.lib.json",
-        "assets": ["libs/domains/billing/domain/*.md"]
+        "assets": [
+          "libs/domains/billing/domain/*.md"
+        ]
       }
     }
-  }
+  },
+  "prefix": "virteex"
 }

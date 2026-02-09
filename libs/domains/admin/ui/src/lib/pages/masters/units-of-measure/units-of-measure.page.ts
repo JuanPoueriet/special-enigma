@@ -12,7 +12,7 @@ interface UnitOfMeasure {
 }
 
 @Component({
-  selector: 'app-units-of-measure-page',
+  selector: 'virteex-units-of-measure-page',
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './units-of-measure.page.html',

@@ -1,4 +1,4 @@
-import { Employee } from '../entities/employee.entity';
+import { Employee } from '@virteex/payroll-domain/lib/entities/employee.entity';
 
 export interface EmployeeRepository {
   save(employee: Employee): Promise<void>;

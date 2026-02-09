@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule, DOCUMENT } from '@angular/common';
-import { GeoLocationService } from '../../../core/services/geo-location.service';
+import { GeoLocationService } from '@virteex/shared-ui/core/services/geo-location.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-geo-mismatch-modal',
+  selector: 'virteex-geo-mismatch-modal',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './geo-mismatch-modal.component.html',

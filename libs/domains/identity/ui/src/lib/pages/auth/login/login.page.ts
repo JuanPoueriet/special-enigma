@@ -2,23 +2,23 @@ import { Component, OnInit, inject, signal, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../../core/services/auth';
-import { LanguageService } from '../../../core/services/language';
-import { CountryService } from '../../../core/services/country.service';
+import { AuthService } from '@virteex/identity-ui/lib/core/services/auth';
+import { LanguageService } from '@virteex/identity-ui/lib/core/services/language';
+import { CountryService } from '@virteex/identity-ui/lib/core/services/country.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { RecaptchaV3Module, ReCaptchaV3Service } from 'ng-recaptcha-19';
 import { LucideAngularModule, Mail, Lock, User, ArrowRight, AlertCircle, CheckCircle, ShieldCheck } from 'lucide-angular';
 
 // Shared Components
-import { AuthLayoutComponent } from '../components/auth-layout/auth-layout.component';
-import { AuthInputComponent } from '../components/auth-input/auth-input.component';
-import { AuthButtonComponent } from '../components/auth-button/auth-button.component';
-import { SocialAuthButtonsComponent } from '../components/social-auth-buttons/social-auth-buttons.component';
-import { PasskeyButtonComponent } from '../components/passkey-button/passkey-button.component';
-import { OtpComponent } from '../../../shared/components/otp/otp.component';
+import { AuthLayoutComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-layout/auth-layout.component';
+import { AuthInputComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-input/auth-input.component';
+import { AuthButtonComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-button/auth-button.component';
+import { SocialAuthButtonsComponent } from '@virteex/identity-ui/lib/pages/auth/components/social-auth-buttons/social-auth-buttons.component';
+import { PasskeyButtonComponent } from '@virteex/identity-ui/lib/pages/auth/components/passkey-button/passkey-button.component';
+import { OtpComponent } from '@virteex/identity-ui/lib/shared/components/otp/otp.component';
 
 @Component({
-  selector: 'app-login',
+  selector: 'virteex-login',
   standalone: true,
   imports: [
     CommonModule,

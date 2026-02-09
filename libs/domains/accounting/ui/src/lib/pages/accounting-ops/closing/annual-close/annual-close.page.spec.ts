@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AnnualClose } from './annual-close.page';
+import { AnnualClose } from '@virteex/accounting-ui/lib/pages/accounting-ops/closing/annual-close/annual-close.page';
 
 describe('AnnualClose', () => {
   let component: AnnualClose;

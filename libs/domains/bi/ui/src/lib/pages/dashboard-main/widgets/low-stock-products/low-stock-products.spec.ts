@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LowStockProducts } from './low-stock-products';
+import { LowStockProducts } from '@virteex/bi-ui/lib/pages/dashboard-main/widgets/low-stock-products/low-stock-products';
 
 describe('LowStockProducts', () => {
   let component: LowStockProducts;

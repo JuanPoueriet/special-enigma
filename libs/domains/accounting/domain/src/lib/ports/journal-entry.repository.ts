@@ -1,4 +1,4 @@
-import { JournalEntry } from '../entities/journal-entry.entity';
+import { JournalEntry } from '@virteex/accounting-domain/lib/entities/journal-entry.entity';
 
 export interface JournalEntryRepository {
   create(entry: JournalEntry): Promise<JournalEntry>;

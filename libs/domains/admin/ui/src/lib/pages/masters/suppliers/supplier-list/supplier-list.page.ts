@@ -2,12 +2,12 @@ import { Component, ChangeDetectionStrategy, signal, inject, OnInit } from '@ang
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LucideAngularModule, PlusCircle, Filter, MoreHorizontal } from 'lucide-angular';
-import { SuppliersService } from '../../../../core/api/suppliers.service';
-import { NotificationService } from '../../../../core/services/notification';
-import { Supplier } from '../../../../core/models/supplier.model';
+import { SuppliersService } from '@virteex/admin-ui/lib/core/api/suppliers.service';
+import { NotificationService } from '@virteex/admin-ui/lib/core/services/notification';
+import { Supplier } from '@virteex/admin-ui/lib/core/models/supplier.model';
 
 @Component({
-  selector: 'app-suppliers-page',
+  selector: 'virteex-suppliers-page',
   standalone: true,
   imports: [CommonModule, RouterLink, LucideAngularModule],
   templateUrl: './supplier-list.page.html',

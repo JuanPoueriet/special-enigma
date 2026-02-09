@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-approvals',
+  selector: 'virteex-approvals',
   imports: [],
   templateUrl: './approvals.html',
   styleUrl: './approvals.scss'

@@ -2,14 +2,14 @@ import { Component, Input, computed, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HighchartsChartComponent } from 'highcharts-angular';
 import * as Highcharts from 'highcharts';
-import { DashboardWidget, DashboardService, ChartType } from '../../../../core/services/dashboard';
+import { DashboardWidget, DashboardService, ChartType } from '@virteex/bi-ui/lib/core/services/dashboard';
 import { LucideAngularModule, Settings, AreaChart, LineChart } from 'lucide-angular';
 import Exporting from 'highcharts/modules/exporting';
 
 // Exporting(Highcharts);
 
 @Component({
-  selector: 'app-sales-chart',
+  selector: 'virteex-sales-chart',
   standalone: true,
   imports: [CommonModule, HighchartsChartComponent, LucideAngularModule],
   templateUrl: './sales-chart.html',

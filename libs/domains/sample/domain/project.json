@@ -3,17 +3,25 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/domains/sample/domain/src",
   "projectType": "library",
-  "tags": ["scope:sample", "type:domain"],
+  "tags": [
+    "scope:sample",
+    "type:domain"
+  ],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/libs/domains/sample/domain",
         "main": "libs/domains/sample/domain/src/index.ts",
         "tsConfig": "libs/domains/sample/domain/tsconfig.lib.json",
-        "assets": ["libs/domains/sample/domain/*.md"]
+        "assets": [
+          "libs/domains/sample/domain/*.md"
+        ]
       }
     }
-  }
+  },
+  "prefix": "virteex"
 }

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-customer-returns',
+  selector: 'virteex-customer-returns',
   imports: [],
   templateUrl: './customer-returns.html',
   styleUrl: './customer-returns.scss'

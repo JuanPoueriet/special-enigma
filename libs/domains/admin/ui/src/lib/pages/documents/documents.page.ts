@@ -15,7 +15,7 @@
 // }
 
 // @Component({
-//   selector: 'app-documents-page',
+//   selector: 'virteex-documents-page',
 //   standalone: true,
 //   imports: [CommonModule, LucideAngularModule],
 //   templateUrl: './documents.page.html',

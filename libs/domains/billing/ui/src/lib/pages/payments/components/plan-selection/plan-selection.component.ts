@@ -1,10 +1,10 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PaymentService } from '../../services/payment.service';
+import { PaymentService } from '@virteex/billing-ui/lib/pages/payments/services/payment.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-plan-selection',
+  selector: 'virteex-plan-selection',
   standalone: true,
   imports: [CommonModule],
   template: `

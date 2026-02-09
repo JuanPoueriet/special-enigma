@@ -3,7 +3,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import { Observable, Subject } from 'rxjs'; // Importa Subject
-import { environment } from '../../../environments/environment';
+import { environment } from '@virteex/shared-ui/environments/environment';
 
 @Injectable({
   providedIn: 'root'

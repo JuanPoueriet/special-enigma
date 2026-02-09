@@ -3,13 +3,13 @@ import { Component, inject, ChangeDetectionStrategy, OnInit } from '@angular/cor
 import { CommonModule, TitleCasePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { ChartOfAccountsStateService } from '../../../core/state/chart-of-accounts.state';
+import { ChartOfAccountsStateService } from '@virteex/accounting-ui/lib/core/state/chart-of-accounts.state';
 import { LucideAngularModule, Plus, ChevronDown, ChevronRight, Edit, Trash, FileDown, Search, RefreshCcw, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-angular';
-import { Account, AccountType } from '../../../core/models/account.model';
-import { FlattenedAccount } from '../../../core/models/flattened-account.model';
+import { Account, AccountType } from '@virteex/accounting-ui/lib/core/models/account.model';
+import { FlattenedAccount } from '@virteex/accounting-ui/lib/core/models/flattened-account.model';
 
 @Component({
-  selector: 'app-chart-of-accounts-page',
+  selector: 'virteex-chart-of-accounts-page',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink, LucideAngularModule, TitleCasePipe],
   templateUrl: './chart-of-accounts.page.html',

@@ -12,13 +12,18 @@
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/libs/domains/inventory/contracts",
         "main": "libs/domains/inventory/contracts/src/index.ts",
         "tsConfig": "libs/domains/inventory/contracts/tsconfig.lib.json",
-        "assets": ["libs/domains/inventory/contracts/*.md"]
+        "assets": [
+          "libs/domains/inventory/contracts/*.md"
+        ]
       }
     }
-  }
+  },
+  "prefix": "virteex"
 }

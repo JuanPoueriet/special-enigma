@@ -1,5 +1,5 @@
 import { Injectable, Inject, ConflictException, BadRequestException } from '@nestjs/common';
-import { RegisterUserDto } from '../dto/register-user.dto';
+import { RegisterUserDto } from '@virteex/identity-application/lib/dto/register-user.dto';
 import {
   User, Company, UserRepository, CompanyRepository, AuthService, NotificationService,
   AuditLogRepository, AuditLog, RiskEngineService

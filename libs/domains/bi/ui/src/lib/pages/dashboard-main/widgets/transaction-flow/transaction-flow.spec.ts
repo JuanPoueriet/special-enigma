@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TransactionFlow } from './transaction-flow';
+import { TransactionFlow } from '@virteex/bi-ui/lib/pages/dashboard-main/widgets/transaction-flow/transaction-flow';
 
 describe('TransactionFlow', () => {
   let component: TransactionFlow;

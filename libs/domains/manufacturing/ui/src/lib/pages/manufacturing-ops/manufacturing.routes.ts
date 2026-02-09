@@ -1,6 +1,6 @@
 
 import { Routes } from '@angular/router';
-import { ManufacturingDashboardComponent } from './pages/dashboard.component';
+import { ManufacturingDashboardComponent } from '@virteex/manufacturing-ui/lib/pages/manufacturing-ops/pages/dashboard.component';
 
 export const MANUFACTURING_ROUTES: Routes = [
   {

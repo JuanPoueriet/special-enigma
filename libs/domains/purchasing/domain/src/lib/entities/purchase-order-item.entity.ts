@@ -1,5 +1,5 @@
 import { Entity, PrimaryKey, Property, ManyToOne } from '@mikro-orm/core';
-import type { PurchaseOrder } from './purchase-order.entity';
+import type { PurchaseOrder } from '@virteex/purchasing-domain/lib/entities/purchase-order.entity';
 
 @Entity()
 export class PurchaseOrderItem {

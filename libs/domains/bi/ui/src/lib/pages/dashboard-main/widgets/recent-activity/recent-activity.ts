@@ -12,7 +12,7 @@ interface ActivityItem {
 }
 
 @Component({
-  selector: 'app-recent-activity',
+  selector: 'virteex-recent-activity',
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './recent-activity.html',

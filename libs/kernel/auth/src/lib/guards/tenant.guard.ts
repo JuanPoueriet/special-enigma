@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { TenantContext } from '../interfaces/tenant-context.interface';
+import { TenantContext } from '@virteex/auth/lib/interfaces/tenant-context.interface';
 
 @Injectable()
 export class TenantGuard implements CanActivate {

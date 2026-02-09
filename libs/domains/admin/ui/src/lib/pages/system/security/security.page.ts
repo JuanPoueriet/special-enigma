@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-security',
+  selector: 'virteex-security',
   standalone: true,
   imports: [CommonModule],
   template: `

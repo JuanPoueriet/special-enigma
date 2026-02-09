@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CreateAccountUseCase } from './create-account.use-case';
+import { CreateAccountUseCase } from '@virteex/accounting-application/lib/use-cases/create-account.use-case';
 import { ACCOUNT_REPOSITORY, AccountRepository, Account } from '@virteex/accounting-domain';
 import { AccountType } from '@virteex/accounting-contracts';
 

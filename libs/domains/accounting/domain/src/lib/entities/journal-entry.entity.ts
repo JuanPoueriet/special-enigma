@@ -1,5 +1,5 @@
 import { Entity, PrimaryKey, Property, Enum, OneToMany, Collection, Cascade } from '@mikro-orm/core';
-import type { JournalEntryLine } from './journal-entry-line.entity';
+import type { JournalEntryLine } from '@virteex/accounting-domain/lib/entities/journal-entry-line.entity';
 import { JournalEntryStatus } from '@virteex/accounting-contracts';
 
 @Entity()

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-sold-products',
+  selector: 'virteex-sold-products',
   imports: [],
   templateUrl: './sold-products.html',
   styleUrl: './sold-products.scss'

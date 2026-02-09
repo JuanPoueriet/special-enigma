@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Tasks } from './tasks.page';
+import { Tasks } from '@virteex/accounting-ui/lib/pages/accounting-ops/closing/tasks/tasks.page';
 
 describe('Tasks', () => {
   let component: Tasks;

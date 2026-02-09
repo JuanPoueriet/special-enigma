@@ -1,4 +1,4 @@
-import { adminInfrastructure } from './admin-infrastructure';
+import { adminInfrastructure } from '@virteex/admin-infrastructure/lib/admin-infrastructure';
 
 describe('adminInfrastructure', () => {
   it('should work', () => {

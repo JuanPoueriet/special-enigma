@@ -1,13 +1,13 @@
 import { Component, ChangeDetectionStrategy, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule, TrendingUp, TrendingDown, Minus, Percent } from 'lucide-angular';
-import { Kpi } from '../../../../core/models/finance';
-import { DashboardApiService } from '../../../../core/api/dashboard-api.service';
+import { Kpi } from '@virteex/bi-ui/lib/core/models/finance';
+import { DashboardApiService } from '@virteex/bi-ui/lib/core/api/dashboard-api.service';
 import { Observable, map } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-kpi-net-margin',
+  selector: 'virteex-kpi-net-margin',
   standalone: true,
   imports: [CommonModule, LucideAngularModule, TranslateModule],
   templateUrl: './kpi-net-margin.html',

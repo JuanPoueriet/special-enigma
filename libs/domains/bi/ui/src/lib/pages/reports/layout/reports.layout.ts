@@ -3,7 +3,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { LucideAngularModule, AreaChart, FileText, BarChartHorizontal } from 'lucide-angular';
 
 @Component({
-  selector: 'app-reports-layout',
+  selector: 'virteex-reports-layout',
   standalone: true,
   imports: [RouterOutlet, RouterLink, RouterLinkActive, LucideAngularModule],
   templateUrl: './reports.layout.html',

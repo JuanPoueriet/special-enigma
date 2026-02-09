@@ -3,11 +3,11 @@ import { Component, Input, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { LucideAngularModule, Building, Users, Globe, Briefcase } from 'lucide-angular';
-// import { ConfigService, RegistrationOptions } from '../../../../../../shared/services/config.service';
-import { ConfigService, RegistrationOptions } from '../../../../../shared/services/config.service';
+import { ConfigService, RegistrationOptions } from '@virteex/identity-ui/shared/services/config.service';
+import { ConfigService, RegistrationOptions } from '@virteex/identity-ui/lib/shared/services/config.service';
 
 @Component({
-  selector: 'app-step-business',
+  selector: 'virteex-step-business',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, LucideAngularModule],
   template: `
