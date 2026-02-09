@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MergeTool } from './merge-tool';
+import { MergeTool } from '@virteex/accounting-ui/lib/pages/accounting-ops/merge-tool/merge-tool';
 
 describe('MergeTool', () => {
   let component: MergeTool;

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Layout } from './accounting.layout';
+import { Layout } from '@virteex/accounting-ui/lib/pages/accounting-ops/layout/accounting.layout';
 
 describe('Layout', () => {
   let component: Layout;

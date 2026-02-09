@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-payment-success',
+  selector: 'virteex-payment-success',
   standalone: true,
   imports: [CommonModule, RouterModule],
   template: `

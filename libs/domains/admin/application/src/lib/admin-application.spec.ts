@@ -1,4 +1,4 @@
-import { adminApplication } from './admin-application';
+import { adminApplication } from '@virteex/admin-application/lib/admin-application';
 
 describe('adminApplication', () => {
   it('should work', () => {

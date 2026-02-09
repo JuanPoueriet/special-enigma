@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SalesSummary } from './sales-summary';
+import { SalesSummary } from '@virteex/bi-ui/lib/pages/reports/sales-summary/sales-summary';
 
 describe('SalesSummary', () => {
   let component: SalesSummary;

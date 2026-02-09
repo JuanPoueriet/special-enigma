@@ -13,7 +13,7 @@ interface Currency {
 }
 
 @Component({
-  selector: 'app-currencies-page',
+  selector: 'virteex-currencies-page',
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './currencies.page.html',

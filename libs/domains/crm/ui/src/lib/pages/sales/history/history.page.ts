@@ -13,7 +13,7 @@ export interface Sale {
 }
 
 @Component({
-  selector: 'app-history-page',
+  selector: 'virteex-history-page',
   standalone: true,
   imports: [CommonModule, RouterLink, LucideAngularModule],
   templateUrl: './history.page.html',

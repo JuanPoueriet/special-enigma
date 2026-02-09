@@ -17,7 +17,7 @@ interface JournalEntryView {
 }
 
 @Component({
-  selector: 'app-daily-journal-page',
+  selector: 'virteex-daily-journal-page',
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './daily-journal.page.html',

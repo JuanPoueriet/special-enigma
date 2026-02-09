@@ -1,4 +1,4 @@
-import { fixedAssetsPresentation } from './fixed-assets-presentation';
+import { fixedAssetsPresentation } from '@virteex/fixed-assets-presentation/lib/fixed-assets-presentation';
 
 describe('fixedAssetsPresentation', () => {
   it('should work', () => {

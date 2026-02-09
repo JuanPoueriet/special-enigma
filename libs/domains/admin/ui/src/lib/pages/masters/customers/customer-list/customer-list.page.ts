@@ -14,7 +14,7 @@ export interface Customer {
 }
 
 @Component({
-  selector: 'app-customer-list-page',
+  selector: 'virteex-customer-list-page',
   standalone: true,
   imports: [CommonModule, RouterLink, LucideAngularModule],
   templateUrl: './customer-list.page.html',

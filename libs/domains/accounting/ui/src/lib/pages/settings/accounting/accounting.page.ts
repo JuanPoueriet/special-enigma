@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-accounting-settings',
+  selector: 'virteex-accounting-settings',
   standalone: true,
   imports: [CommonModule],
   template: `

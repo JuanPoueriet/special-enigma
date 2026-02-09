@@ -1,4 +1,4 @@
-import { projectsApplication } from './projects-application';
+import { projectsApplication } from '@virteex/projects-application/lib/projects-application';
 
 describe('projectsApplication', () => {
   it('should work', () => {

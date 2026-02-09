@@ -1,5 +1,5 @@
 import { Entity, PrimaryKey, Property, OneToMany, Collection, Cascade } from '@mikro-orm/core';
-import type { CashFlow } from './cash-flow.entity';
+import type { CashFlow } from '@virteex/treasury-domain/lib/entities/cash-flow.entity';
 
 @Entity()
 export class BankAccount {

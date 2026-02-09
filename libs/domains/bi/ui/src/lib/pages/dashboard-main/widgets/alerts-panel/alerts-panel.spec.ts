@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AlertsPanel } from './alerts-panel';
+import { AlertsPanel } from '@virteex/bi-ui/lib/pages/dashboard-main/widgets/alerts-panel/alerts-panel';
 
 describe('AlertsPanel', () => {
   let component: AlertsPanel;

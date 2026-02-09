@@ -2,13 +2,13 @@ import { Component, ChangeDetectionStrategy, signal, inject, OnInit } from '@ang
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LucideAngularModule, PlusCircle, Filter, MoreHorizontal, Trash2 } from 'lucide-angular';
-import { Tax } from '../../../core/models/tax.model';
-import { TaxesService } from '../../../core/api/taxes.service';
-import { NotificationService } from '../../../core/services/notification';
-import { HasPermissionDirective } from '../../../shared/directives/has-permission.directive';
+import { Tax } from '@virteex/admin-ui/lib/core/models/tax.model';
+import { TaxesService } from '@virteex/admin-ui/lib/core/api/taxes.service';
+import { NotificationService } from '@virteex/admin-ui/lib/core/services/notification';
+import { HasPermissionDirective } from '@virteex/admin-ui/lib/shared/directives/has-permission.directive';
 
 @Component({
-  selector: 'app-taxes-page',
+  selector: 'virteex-taxes-page',
   standalone: true,
   imports: [CommonModule, LucideAngularModule, RouterLink, HasPermissionDirective],
   templateUrl: './taxes.page.html',

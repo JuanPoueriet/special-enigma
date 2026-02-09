@@ -1,4 +1,4 @@
-import { crmPresentation } from './crm-presentation';
+import { crmPresentation } from '@virteex/crm-presentation/lib/crm-presentation';
 
 describe('crmPresentation', () => {
   it('should work', () => {

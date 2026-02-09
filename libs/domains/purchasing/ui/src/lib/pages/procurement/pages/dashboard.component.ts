@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-procurement-dashboard',
+  selector: 'virteex-procurement-dashboard',
   standalone: true,
   imports: [CommonModule],
   template: `

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CustomerList } from './customer-list.page';
+import { CustomerList } from '@virteex/admin-ui/lib/pages/masters/customers/customer-list/customer-list.page';
 
 describe('CustomerList', () => {
   let component: CustomerList;

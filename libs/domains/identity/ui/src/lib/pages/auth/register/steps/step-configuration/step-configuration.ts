@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { CountryService } from '../../../../../core/services/country.service';
-import { AuthInputComponent } from '../../../components/auth-input/auth-input.component';
+import { CountryService } from '@virteex/identity-ui/lib/core/services/country.service';
+import { AuthInputComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-input/auth-input.component';
 
 @Component({
-  selector: 'app-step-configuration',
+  selector: 'virteex-step-configuration',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, TranslateModule, AuthInputComponent],
   templateUrl: './step-configuration.html',

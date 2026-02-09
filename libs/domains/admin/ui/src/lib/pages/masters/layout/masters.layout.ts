@@ -3,7 +3,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { LucideAngularModule, Users, Package, Tag, Banknote, Warehouse, Building, Landmark, Landmark as BranchesIcon, CreditCard, Clock } from 'lucide-angular';
 
 @Component({
-  selector: 'app-masters-layout',
+  selector: 'virteex-masters-layout',
   standalone: true,
   imports: [RouterOutlet, RouterLink, RouterLinkActive, LucideAngularModule],
   templateUrl: './masters.layout.html',

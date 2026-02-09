@@ -1,7 +1,7 @@
 import { Injectable, Logger, Inject } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { EntityManager } from '@mikro-orm/core';
-import { OutboxEvent } from './entities/outbox-event.entity';
+import { OutboxEvent } from '@virteex/messaging/lib/entities/outbox-event.entity';
 import Redis from 'ioredis';
 
 @Injectable()

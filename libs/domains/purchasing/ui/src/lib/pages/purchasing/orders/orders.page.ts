@@ -15,7 +15,7 @@ interface PurchaseOrder {
 }
 
 @Component({
-  selector: 'app-orders-page',
+  selector: 'virteex-orders-page',
   standalone: true,
   imports: [CommonModule, RouterLink, LucideAngularModule, TranslateModule],
   templateUrl: './orders.page.html',

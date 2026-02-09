@@ -21,7 +21,7 @@ interface DataType {
 }
 
 @Component({
-  selector: 'app-data-exports-page',
+  selector: 'virteex-data-exports-page',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, LucideAngularModule],
   templateUrl: './data-exports.page.html',

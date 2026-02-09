@@ -4,7 +4,7 @@ import { LucideAngularModule, Shield, Clock, RefreshCw, Eraser, CheckCircle, Inf
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-otp',
+  selector: 'virteex-otp',
   standalone: true,
   imports: [CommonModule, LucideAngularModule, TranslateModule],
   templateUrl: './otp.component.html',

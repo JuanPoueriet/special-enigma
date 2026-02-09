@@ -38,5 +38,6 @@
     "lint": {
       "executor": "@nx/eslint:lint"
     }
-  }
+  },
+  "prefix": "virteex"
 }

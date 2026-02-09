@@ -1,6 +1,6 @@
 import { Entity, PrimaryKey, Property, Enum, ManyToOne } from '@mikro-orm/core';
 import { ProductionOrderStatus } from '@virteex/manufacturing-contracts';
-import type { BillOfMaterials } from './bill-of-materials.entity';
+import type { BillOfMaterials } from '@virteex/manufacturing-domain/lib/entities/bill-of-materials.entity';
 
 @Entity()
 export class ProductionOrder {

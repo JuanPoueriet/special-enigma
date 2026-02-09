@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProfitabilityByProduct } from './profitability-by-product.page';
+import { ProfitabilityByProduct } from '@virteex/bi-ui/lib/pages/reports/profitability-by-product/profitability-by-product.page';
 
 describe('ProfitabilityByProduct', () => {
   let component: ProfitabilityByProduct;

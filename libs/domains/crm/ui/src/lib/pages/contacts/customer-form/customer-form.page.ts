@@ -4,11 +4,11 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LucideAngularModule, Save } from 'lucide-angular';
-import { CustomersService, CreateCustomerDto, UpdateCustomerDto } from '../../../core/api/customers.service';
-import { NotificationService } from '../../../core/services/notification';
+import { CustomersService, CreateCustomerDto, UpdateCustomerDto } from '@virteex/crm-ui/lib/core/api/customers.service';
+import { NotificationService } from '@virteex/crm-ui/lib/core/services/notification';
 
 @Component({
-  selector: 'app-customer-form-page',
+  selector: 'virteex-customer-form-page',
   standalone: true,
   imports: [CommonModule, RouterLink, ReactiveFormsModule, LucideAngularModule],
   templateUrl: './customer-form.page.html',

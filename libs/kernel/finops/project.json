@@ -3,6 +3,12 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/kernel/finops/src",
   "projectType": "library",
-  "tags": ["scope:kernel", "type:util", "platform:agnostic", "criticality:medium"],
-  "targets": {}
+  "tags": [
+    "scope:kernel",
+    "type:util",
+    "platform:agnostic",
+    "criticality:medium"
+  ],
+  "targets": {},
+  "prefix": "virteex"
 }

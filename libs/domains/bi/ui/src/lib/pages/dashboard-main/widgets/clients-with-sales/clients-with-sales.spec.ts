@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ClientsWithSales } from './clients-with-sales';
+import { ClientsWithSales } from '@virteex/bi-ui/lib/pages/dashboard-main/widgets/clients-with-sales/clients-with-sales';
 
 describe('ClientsWithSales', () => {
   let component: ClientsWithSales;

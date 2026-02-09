@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '../services/auth';
+import { AuthService } from '@virteex/shared-ui/lib/core/services/auth';
 
 export const permissionsGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);

@@ -15,7 +15,7 @@ interface Requisition {
 }
 
 @Component({
-  selector: 'app-requisitions-page',
+  selector: 'virteex-requisitions-page',
   standalone: true,
   imports: [CommonModule, RouterLink, LucideAngularModule, TranslateModule],
   templateUrl: './requisitions.page.html',

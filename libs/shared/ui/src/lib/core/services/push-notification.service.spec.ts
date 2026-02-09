@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { PushNotificationService } from './push-notification.service';
+import { PushNotificationService } from '@virteex/shared-ui/lib/core/services/push-notification.service';
 import { SwPush } from '@angular/service-worker';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 

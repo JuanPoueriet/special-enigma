@@ -1,7 +1,7 @@
 import { Entity, PrimaryKey, Property, Enum, OneToMany, ManyToOne, Collection, Cascade } from '@mikro-orm/core';
 import { PayrollStatus, PayrollType } from '@virteex/payroll-contracts';
-import type { Employee } from './employee.entity';
-import type { PayrollDetail } from './payroll-detail.entity';
+import type { Employee } from '@virteex/payroll-domain/lib/entities/employee.entity';
+import type { PayrollDetail } from '@virteex/payroll-domain/lib/entities/payroll-detail.entity';
 
 @Entity()
 export class Payroll {

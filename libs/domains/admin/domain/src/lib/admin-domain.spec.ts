@@ -1,4 +1,4 @@
-import { adminDomain } from './admin-domain';
+import { adminDomain } from '@virteex/admin-domain/lib/admin-domain';
 
 describe('adminDomain', () => {
   it('should work', () => {

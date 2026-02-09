@@ -11,7 +11,7 @@ interface Bank {
 }
 
 @Component({
-  selector: 'app-banks-page',
+  selector: 'virteex-banks-page',
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './banks.page.html',

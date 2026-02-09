@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BestClients } from './best-clients';
+import { BestClients } from '@virteex/bi-ui/lib/pages/dashboard-main/widgets/best-clients/best-clients';
 
 describe('BestClients', () => {
   let component: BestClients;

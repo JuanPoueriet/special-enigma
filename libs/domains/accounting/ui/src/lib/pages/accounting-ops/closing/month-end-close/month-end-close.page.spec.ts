@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MonthEndClose } from './month-end-close.page';
+import { MonthEndClose } from '@virteex/accounting-ui/lib/pages/accounting-ops/closing/month-end-close/month-end-close.page';
 
 describe('MonthEndClose', () => {
   let component: MonthEndClose;

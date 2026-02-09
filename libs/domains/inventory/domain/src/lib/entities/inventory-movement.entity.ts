@@ -1,7 +1,7 @@
 import { Entity, PrimaryKey, Property, ManyToOne, Enum } from '@mikro-orm/core';
 import { v4 } from 'uuid';
-import { Warehouse } from './warehouse.entity';
-import { Location } from './location.entity';
+import { Warehouse } from '@virteex/inventory-domain/lib/entities/warehouse.entity';
+import { Location } from '@virteex/inventory-domain/lib/entities/location.entity';
 
 export enum InventoryMovementType {
   IN = 'IN',

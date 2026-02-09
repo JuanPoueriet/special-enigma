@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LucideAngularModule, Save } from 'lucide-angular';
-import { SuppliersService, CreateSupplierDto, UpdateSupplierDto } from '../../../../core/api/suppliers.service';
-import { NotificationService } from '../../../../core/services/notification';
+import { SuppliersService, CreateSupplierDto, UpdateSupplierDto } from '@virteex/admin-ui/lib/core/api/suppliers.service';
+import { NotificationService } from '@virteex/admin-ui/lib/core/services/notification';
 
 @Component({
-  selector: 'app-supplier-form-page',
+  selector: 'virteex-supplier-form-page',
   standalone: true,
   imports: [CommonModule, RouterLink, ReactiveFormsModule, LucideAngularModule],
   templateUrl: './supplier-form.html',

@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { ListComponent } from './pages/list/list.component';
+import { DashboardComponent } from '@virteex/bi-ui/lib/pages/dashboard/dashboard.component';
+import { ListComponent } from '@virteex/bi-ui/lib/pages/list/list.component';
 
 export const biRoutes: Route[] = [
   { path: '', component: DashboardComponent },

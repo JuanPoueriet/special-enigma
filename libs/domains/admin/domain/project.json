@@ -33,5 +33,6 @@
         "passWithNoTests": true
       }
     }
-  }
+  },
+  "prefix": "virteex"
 }

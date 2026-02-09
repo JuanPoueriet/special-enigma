@@ -17,8 +17,8 @@ import {
   Menu as MenuIcon, Maximize, FileDown, FileSpreadsheet, Printer
 } from 'lucide-angular';
 
-import { DashboardWidget, DashboardService, ChartType } from '../../../../core/services/dashboard';
-import { BrandingService } from '../../../../core/services/branding';
+import { DashboardWidget, DashboardService, ChartType } from '@virteex/bi-ui/lib/core/services/dashboard';
+import { BrandingService } from '@virteex/bi-ui/lib/core/services/branding';
 import { PointOptionsObject } from 'highcharts';
 
 // Extiende tipos que Highcharts no declara en Chart para los métodos de exportación
@@ -31,7 +31,7 @@ type ExportingChart = Highcharts.Chart & {
 };
 
 @Component({
-  selector: 'app-invoice-status',
+  selector: 'virteex-invoice-status',
   standalone: true,
   imports: [CommonModule, HighchartsChartComponent, LucideAngularModule],
   templateUrl: './invoice-status.html',

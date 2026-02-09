@@ -10,7 +10,7 @@ interface PaymentMethod {
 }
 
 @Component({
-  selector: 'app-payment-methods-page',
+  selector: 'virteex-payment-methods-page',
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './payment-methods.page.html',

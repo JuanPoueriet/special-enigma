@@ -3,7 +3,7 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule, User, Phone, CaseSensitive, Image } from 'lucide-angular';
 @Component({
-  selector: 'app-step-account', standalone: true,
+  selector: 'virteex-step-account', standalone: true,
   imports: [CommonModule, ReactiveFormsModule, LucideAngularModule],
   templateUrl: './step-account.html', styleUrls: ['./step-account.scss']
 })

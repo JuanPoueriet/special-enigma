@@ -11,7 +11,7 @@ interface Checklist {
 }
 
 @Component({
-  selector: 'app-checklist-page',
+  selector: 'virteex-checklist-page',
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './checklist.page.html',

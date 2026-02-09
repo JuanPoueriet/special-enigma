@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-closing-rules',
+  selector: 'virteex-closing-rules',
   standalone: true,
   imports: [CommonModule],
   template: `

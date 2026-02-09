@@ -1,4 +1,4 @@
-import { payrollContracts } from './payroll-contracts';
+import { payrollContracts } from '@virteex/payroll-contracts/lib/payroll-contracts';
 
 describe('payrollContracts', () => {
   it('should work', () => {

@@ -1,6 +1,6 @@
 import { Entity, PrimaryKey, Property, ManyToOne } from '@mikro-orm/core';
-import type { JournalEntry } from './journal-entry.entity';
-import { Account } from './account.entity';
+import type { JournalEntry } from '@virteex/accounting-domain/lib/entities/journal-entry.entity';
+import { Account } from '@virteex/accounting-domain/lib/entities/account.entity';
 
 @Entity()
 export class JournalEntryLine {

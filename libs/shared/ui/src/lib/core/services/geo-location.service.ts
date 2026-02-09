@@ -1,7 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { of, catchError, Observable, timer, switchMap, filter } from 'rxjs';
-import { environment } from '../../../environments/environment';
+import { environment } from '@virteex/shared-ui/environments/environment';
 import { Router, NavigationStart } from '@angular/router'; // 1. Importar Router y eventos
 
 export interface GeoLocationResponse {

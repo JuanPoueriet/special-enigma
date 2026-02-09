@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-hcm-dashboard',
+  selector: 'virteex-hcm-dashboard',
   standalone: true,
   imports: [CommonModule],
   template: `

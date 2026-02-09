@@ -1,7 +1,7 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { CreateAccountUseCase, GetAccountsUseCase } from '@virteex/accounting-application';
-import { AccountObject } from '../dto/account.object';
-import { CreateAccountInput } from '../dto/create-account.input';
+import { AccountObject } from '@virteex/accounting-presentation/lib/dto/account.object';
+import { CreateAccountInput } from '@virteex/accounting-presentation/lib/dto/create-account.input';
 
 @Resolver(() => AccountObject)
 export class AccountsResolver {

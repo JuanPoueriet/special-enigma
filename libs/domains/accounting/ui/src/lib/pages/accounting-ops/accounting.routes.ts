@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { AccountingLayout } from './layout/accounting.layout';
+import { AccountingLayout } from '@virteex/accounting-ui/lib/pages/accounting-ops/layout/accounting.layout';
 
 export const ACCOUNTING_ROUTES: Routes = [
   {

@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { RecordJournalEntryUseCase } from './record-journal-entry.use-case';
+import { RecordJournalEntryUseCase } from '@virteex/accounting-application/lib/use-cases/record-journal-entry.use-case';
 import { JOURNAL_ENTRY_REPOSITORY, JournalEntryRepository, ACCOUNT_REPOSITORY, AccountRepository, Account, JournalEntry, JournalEntryLine } from '@virteex/accounting-domain';
 import { AccountType } from '@virteex/accounting-contracts';
 import { MikroORM } from '@mikro-orm/core';

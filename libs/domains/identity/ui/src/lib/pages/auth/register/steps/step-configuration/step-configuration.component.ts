@@ -3,15 +3,15 @@ import { Component, Input, Output, EventEmitter, inject, signal, effect, Destroy
 import { CommonModule } from '@angular/common';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LucideAngularModule, Globe, CreditCard, Building2 } from 'lucide-angular';
-import { CountryService, CountryConfig } from '../../../../../core/services/country.service';
+import { CountryService, CountryConfig } from '@virteex/identity-ui/lib/core/services/country.service';
 import { debounceTime, switchMap, tap, filter, distinctUntilChanged, catchError } from 'rxjs/operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { AsyncValidators } from '../../../../../shared/validators/async.validators';
+import { AsyncValidators } from '@virteex/identity-ui/lib/shared/validators/async.validators';
 
 @Component({
-  selector: 'app-step-configuration',
+  selector: 'virteex-step-configuration',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, LucideAngularModule],
   template: `

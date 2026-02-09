@@ -11,7 +11,7 @@ interface ClosingTask {
 }
 
 @Component({
-  selector: 'app-annual-close-page',
+  selector: 'virteex-annual-close-page',
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './annual-close.page.html',

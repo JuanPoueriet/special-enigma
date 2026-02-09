@@ -3,6 +3,13 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/domains/billing/infrastructure/src",
   "projectType": "library",
-  "tags": ["scope:billing", "type:infrastructure", "platform:agnostic", "tenant-mode:schema", "criticality:high"],
-  "targets": {}
+  "tags": [
+    "scope:billing",
+    "type:infrastructure",
+    "platform:agnostic",
+    "tenant-mode:schema",
+    "criticality:high"
+  ],
+  "targets": {},
+  "prefix": "virteex"
 }

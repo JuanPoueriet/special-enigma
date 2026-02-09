@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-password-validator',
+  selector: 'virteex-password-validator',
   standalone: true,
   imports: [CommonModule],
   template: `

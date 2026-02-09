@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router, UrlTree } from '@angular/router';
 import { map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { AuthService } from '../services/auth';
+import { AuthService } from '@virteex/shared-ui/lib/core/services/auth';
 
 /**
  * Guard para proteger rutas públicas de usuarios ya autenticados.

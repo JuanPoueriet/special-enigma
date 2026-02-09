@@ -5,7 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-step-plan',
+  selector: 'virteex-step-plan',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, TranslateModule, RouterModule],
   templateUrl: './step-plan.html',

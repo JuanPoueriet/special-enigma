@@ -14,7 +14,7 @@ interface ClosingTask {
 }
 
 @Component({
-  selector: 'app-tasks-page',
+  selector: 'virteex-tasks-page',
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './tasks.page.html',

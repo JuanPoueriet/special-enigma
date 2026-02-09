@@ -1,4 +1,4 @@
-import { projectsDomain } from './projects-domain';
+import { projectsDomain } from '@virteex/projects-domain/lib/projects-domain';
 
 describe('projectsDomain', () => {
   it('should work', () => {

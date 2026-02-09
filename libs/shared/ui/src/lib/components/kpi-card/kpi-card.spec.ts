@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { KpiCard } from './kpi-card';
+import { KpiCard } from '@virteex/shared-ui/lib/components/kpi-card/kpi-card';
 
 describe('KpiCard', () => {
   let component: KpiCard;

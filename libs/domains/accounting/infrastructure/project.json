@@ -13,14 +13,19 @@
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/libs/domains/accounting/infrastructure",
         "tsConfig": "libs/domains/accounting/infrastructure/tsconfig.lib.json",
         "packageJson": "libs/domains/accounting/infrastructure/package.json",
         "main": "libs/domains/accounting/infrastructure/src/index.ts",
-        "assets": ["libs/domains/accounting/infrastructure/*.md"]
+        "assets": [
+          "libs/domains/accounting/infrastructure/*.md"
+        ]
       }
     }
-  }
+  },
+  "prefix": "virteex"
 }

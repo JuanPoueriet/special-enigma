@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { ClosingLayout } from './layout/closing.layout';
+import { ClosingLayout } from '@virteex/accounting-ui/lib/pages/accounting-ops/closing/layout/closing.layout';
 
 export const CLOSING_ROUTES: Routes = [
     {

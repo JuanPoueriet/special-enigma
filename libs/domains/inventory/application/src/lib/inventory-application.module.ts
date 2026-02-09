@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { CreateWarehouseUseCase } from './use-cases/create-warehouse.use-case';
-import { RegisterMovementUseCase } from './use-cases/register-movement.use-case';
+import { CreateWarehouseUseCase } from '@virteex/inventory-application/lib/use-cases/create-warehouse.use-case';
+import { RegisterMovementUseCase } from '@virteex/inventory-application/lib/use-cases/register-movement.use-case';
 
 @Module({
   imports: [],

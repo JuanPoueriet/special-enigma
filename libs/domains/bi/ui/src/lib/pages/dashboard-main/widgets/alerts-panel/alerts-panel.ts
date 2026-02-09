@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule, AlertTriangle, CheckCircle } from 'lucide-angular';
-import { AlertItem } from '../../../../core/models/finance';
+import { AlertItem } from '@virteex/bi-ui/lib/core/models/finance';
 
 @Component({
-  selector: 'app-alerts-panel', standalone: true,
+  selector: 'virteex-alerts-panel', standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './alerts-panel.html',
   styleUrls: ['../widget-styles.scss']

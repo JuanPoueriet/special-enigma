@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { JOURNAL_ENTRY_REPOSITORY, JournalEntryRepository } from '@virteex/accounting-domain';
 import { JournalEntryDto } from '@virteex/accounting-contracts';
-import { JournalEntryMapper } from '../mappers/journal-entry.mapper';
+import { JournalEntryMapper } from '@virteex/accounting-application/lib/mappers/journal-entry.mapper';
 
 @Injectable()
 export class GetJournalEntriesUseCase {

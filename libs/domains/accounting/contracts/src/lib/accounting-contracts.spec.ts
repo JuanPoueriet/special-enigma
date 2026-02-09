@@ -1,4 +1,4 @@
-import { accountingContracts } from './accounting-contracts';
+import { accountingContracts } from '@virteex/accounting-contracts/lib/accounting-contracts';
 
 describe('accountingContracts', () => {
   it('should work', () => {

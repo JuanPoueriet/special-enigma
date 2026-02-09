@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-best-clients',
+  selector: 'virteex-best-clients',
   imports: [],
   templateUrl: './best-clients.html',
   styleUrl: './best-clients.scss'

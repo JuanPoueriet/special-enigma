@@ -11,7 +11,7 @@ interface AccountingPeriod {
 }
 
 @Component({
-  selector: 'app-periods-page',
+  selector: 'virteex-periods-page',
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './periods.page.html',

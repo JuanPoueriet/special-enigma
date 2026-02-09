@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-loader',
+  selector: 'virteex-loader',
   standalone: true,
   imports: [CommonModule],
   template: `

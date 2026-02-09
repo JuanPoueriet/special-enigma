@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RecentActivity } from './recent-activity';
+import { RecentActivity } from '@virteex/bi-ui/lib/pages/dashboard-main/widgets/recent-activity/recent-activity';
 
 describe('RecentActivity', () => {
   let component: RecentActivity;

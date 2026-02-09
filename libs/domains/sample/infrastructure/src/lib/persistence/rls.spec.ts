@@ -1,9 +1,9 @@
-import { TenantSubscriber } from './tenant.subscriber';
+import { TenantSubscriber } from '@virteex/infrastructure/lib/persistence/tenant.subscriber';
 import { runWithTenantContext } from '@virteex/auth';
 import { SampleEntity } from '@virteex/domain';
 import { EventArgs, MikroORM } from '@mikro-orm/core';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
-import config from './mikro-orm.config';
+import config from '@virteex/infrastructure/lib/persistence/mikro-orm.config';
 
 describe('RLS Logic', () => {
   describe('TenantSubscriber', () => {

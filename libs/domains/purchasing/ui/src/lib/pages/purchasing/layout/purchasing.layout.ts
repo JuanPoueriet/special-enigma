@@ -4,7 +4,7 @@ import { LucideAngularModule, ShoppingCart, FilePlus, Truck } from 'lucide-angul
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-purchasing-layout',
+  selector: 'virteex-purchasing-layout',
   standalone: true,
   imports: [RouterOutlet, RouterLink, RouterLinkActive, LucideAngularModule, TranslateModule],
   templateUrl: './purchasing.layout.html',

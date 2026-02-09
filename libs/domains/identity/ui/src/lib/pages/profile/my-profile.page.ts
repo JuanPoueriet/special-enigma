@@ -28,14 +28,14 @@ import {
   Shield,
   Check,
 } from 'lucide-angular';
-import { AuthService } from '../../../core/services/auth';
-import { NotificationService } from '../../../core/services/notification';
-import { UsersService } from '../../../core/api/users.service';
-import { SecuritySettingsComponent } from '../components/security-settings/security-settings.component';
-import { PhoneVerificationModalComponent } from '../components/phone-verification-modal/phone-verification-modal.component';
+import { AuthService } from '@virteex/identity-ui/core/services/auth';
+import { NotificationService } from '@virteex/identity-ui/core/services/notification';
+import { UsersService } from '@virteex/identity-ui/core/api/users.service';
+import { SecuritySettingsComponent } from '@virteex/identity-ui/lib/pages/components/security-settings/security-settings.component';
+import { PhoneVerificationModalComponent } from '@virteex/identity-ui/lib/pages/components/phone-verification-modal/phone-verification-modal.component';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslateModule } from '@ngx-translate/core';
-import { FileUtil } from '../../../shared/utils/file.util';
+import { FileUtil } from '@virteex/identity-ui/shared/utils/file.util';
 import { catchError, of } from 'rxjs';
 
 // Typed Form Interface
@@ -49,7 +49,7 @@ interface ProfileForm {
 }
 
 @Component({
-  selector: 'app-my-profile-page',
+  selector: 'virteex-my-profile-page',
   standalone: true,
   imports: [
     CommonModule,

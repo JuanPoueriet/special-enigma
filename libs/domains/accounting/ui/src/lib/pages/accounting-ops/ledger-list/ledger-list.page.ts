@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 import { LucideAngularModule, PlusCircle } from 'lucide-angular';
-import { LedgersService,  } from '../../../core/api/ledgers.service';
-import { Ledger } from '../../../core/models/ledger.model';
+import { LedgersService,  } from '@virteex/accounting-ui/lib/core/api/ledgers.service';
+import { Ledger } from '@virteex/accounting-ui/lib/core/models/ledger.model';
 
 @Component({
-  selector: 'app-ledger-list-page',
+  selector: 'virteex-ledger-list-page',
   standalone: true,
   imports: [CommonModule, RouterLink, LucideAngularModule],
   templateUrl: './ledger-list.page.html',

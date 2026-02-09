@@ -12,7 +12,7 @@ interface LedgerLine {
 }
 
 @Component({
-  selector: 'app-subsidiary-ledgers-page',
+  selector: 'virteex-subsidiary-ledgers-page',
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './subsidiary-ledgers.page.html',

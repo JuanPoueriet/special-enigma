@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ArAgingChart } from './ar-aging-chart';
+import { ArAgingChart } from '@virteex/bi-ui/lib/pages/dashboard-main/widgets/ar-aging-chart/ar-aging-chart';
 
 describe('ArAgingChart', () => {
   let component: ArAgingChart;

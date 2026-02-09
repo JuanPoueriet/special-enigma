@@ -2,7 +2,7 @@ import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nes
 import { EntityManager, RequestContext } from '@mikro-orm/core';
 import { Observable, from, lastValueFrom } from 'rxjs';
 import { getTenantContext } from '@virteex/auth';
-import { TenantService } from '../tenant.service';
+import { TenantService } from '@virteex/tenant/lib/tenant.service';
 
 @Injectable()
 export class TenantRlsInterceptor implements NestInterceptor {

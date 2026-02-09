@@ -155,14 +155,14 @@
        </div>
 
        <!-- 2FA & Sessions -->
-       <app-security-settings></app-security-settings>
+       <virteex-security-settings></virteex-security-settings>
     </div>
   </div>
 </div>
 
 <!-- Phone Verification Modal -->
-<app-phone-verification-modal
+<virteex-phone-verification-modal
    [isOpen]="showPhoneModal"
    (close)="showPhoneModal.set(false)"
    (verified)="onPhoneVerified()">
-</app-phone-verification-modal>
+</virteex-phone-verification-modal>

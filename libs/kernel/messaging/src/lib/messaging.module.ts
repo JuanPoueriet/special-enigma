@@ -1,9 +1,9 @@
 import { Module, Global } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { ScheduleModule } from '@nestjs/schedule';
-import { OutboxEvent } from './entities/outbox-event.entity';
-import { OutboxService } from './outbox.service';
-import { OutboxProcessor } from './outbox.processor';
+import { OutboxEvent } from '@virteex/messaging/lib/entities/outbox-event.entity';
+import { OutboxService } from '@virteex/messaging/lib/outbox.service';
+import { OutboxProcessor } from '@virteex/messaging/lib/outbox.processor';
 import Redis from 'ioredis';
 
 @Global()

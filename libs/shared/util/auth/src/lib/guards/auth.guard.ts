@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { Router, CanActivateFn } from '@angular/router';
-import { SessionService } from '../services/session.service';
+import { SessionService } from '@virteex/shared-util-auth/lib/services/session.service';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const session = inject(SessionService);

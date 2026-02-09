@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { DocumentsLayout } from './layout/documents.layout';
+import { DocumentsLayout } from '@virteex/admin-ui/lib/pages/documents/layout/documents.layout';
 
 export const DOCUMENTS_ROUTES: Routes = [
     {

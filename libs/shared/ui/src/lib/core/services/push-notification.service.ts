@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
+import { environment } from '@virteex/shared-ui/environments/environment';
 import { SwPush } from '@angular/service-worker';
 
 @Injectable({

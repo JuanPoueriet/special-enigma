@@ -2,14 +2,14 @@ import { Component, ChangeDetectionStrategy, signal, inject, OnInit } from '@ang
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LucideAngularModule, Check, Clock, Bell, Key } from 'lucide-angular';
-import { MyWorkService, WorkItem } from './my-work.service';
-import { AuthService } from '../../core/services/auth';
+import { MyWorkService, WorkItem } from '@virteex/projects-ui/lib/pages/my-work/my-work.service';
+import { AuthService } from '@virteex/projects-ui/lib/core/services/auth';
 
 type WorkItemStatus = 'pending' | 'in-progress' | 'completed';
 type WorkItemType = 'tasks' | 'approvals' | 'notifications' | 'security';
 
 @Component({
-  selector: 'app-my-work-page',
+  selector: 'virteex-my-work-page',
   standalone: true,
   imports: [CommonModule, RouterLink, LucideAngularModule],
   templateUrl: './my-work.page.html',

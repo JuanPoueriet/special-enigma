@@ -11,7 +11,7 @@ interface Warehouse {
 }
 
 @Component({
-  selector: 'app-warehouses-page',
+  selector: 'virteex-warehouses-page',
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './warehouses.page.html',

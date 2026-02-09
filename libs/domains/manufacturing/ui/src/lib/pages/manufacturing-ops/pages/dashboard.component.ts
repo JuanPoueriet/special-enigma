@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-manufacturing-dashboard',
+  selector: 'virteex-manufacturing-dashboard',
   standalone: true,
   imports: [CommonModule, RouterModule],
   template: `

@@ -12,7 +12,7 @@ interface VarianceItem {
 }
 
 @Component({
-  selector: 'app-variance-analysis-page',
+  selector: 'virteex-variance-analysis-page',
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './variance-analysis.page.html',

@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { LucideAngularModule, Globe, ChevronUp, Check } from 'lucide-angular';
 
 @Component({
-  selector: 'app-auth-footer',
+  selector: 'virteex-auth-footer',
   standalone: true,
   imports: [
     CommonModule,

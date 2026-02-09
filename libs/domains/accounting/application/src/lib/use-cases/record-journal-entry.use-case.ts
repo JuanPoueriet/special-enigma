@@ -8,7 +8,7 @@ import {
   AccountRepository
 } from '@virteex/accounting-domain';
 import { RecordJournalEntryDto, JournalEntryDto } from '@virteex/accounting-contracts';
-import { JournalEntryMapper } from '../mappers/journal-entry.mapper';
+import { JournalEntryMapper } from '@virteex/accounting-application/lib/mappers/journal-entry.mapper';
 import { Decimal } from 'decimal.js';
 
 @Injectable()

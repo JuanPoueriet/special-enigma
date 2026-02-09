@@ -1,4 +1,4 @@
-import { biPresentation } from './bi-presentation';
+import { biPresentation } from '@virteex/bi-presentation/lib/bi-presentation';
 
 describe('biPresentation', () => {
   it('should work', () => {

@@ -1,5 +1,5 @@
 import { Injectable, signal, inject, computed } from '@angular/core';
-import { TokenService } from './token.service';
+import { TokenService } from '@virteex/shared-util-auth/lib/services/token.service';
 
 export interface User {
   id: string;

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { KpiWorkingCapital } from './kpi-working-capital';
+import { KpiWorkingCapital } from '@virteex/bi-ui/lib/pages/dashboard-main/widgets/kpi-working-capital/kpi-working-capital';
 
 describe('KpiWorkingCapital', () => {
   let component: KpiWorkingCapital;

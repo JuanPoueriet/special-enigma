@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FinancialRatios } from './financial-ratios';
+import { FinancialRatios } from '@virteex/bi-ui/lib/pages/dashboard-main/widgets/financial-ratios/financial-ratios';
 
 describe('FinancialRatios', () => {
   let component: FinancialRatios;
