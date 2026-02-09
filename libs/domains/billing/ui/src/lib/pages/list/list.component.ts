@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 export interface InvoiceItem {
   id: string;
@@ -10,7 +10,7 @@ export interface InvoiceItem {
 @Component({
   selector: 'virteex-billing-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
 })

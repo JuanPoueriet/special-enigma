@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Output, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ModalOptions } from '../../service/modal.service';
 import { UiModalComponent } from '../ui/modal';
 
 @Component({
   selector: 'app-modal',
   standalone: true,
-  imports: [CommonModule, UiModalComponent],
+  imports: [UiModalComponent],
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss']
 })

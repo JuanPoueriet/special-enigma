@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { AuthService } from '../../../../core/services/auth';
 import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module, ReCaptchaV3Service } from 'ng-recaptcha-19';
 import { environment } from '../../../../../environments/environment';
@@ -18,7 +18,6 @@ import { AuthButtonComponent } from '../../components/auth-button/auth-button.co
   selector: 'app-forgot-password',
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     RecaptchaV3Module,
     RouterModule,
@@ -26,7 +25,7 @@ import { AuthButtonComponent } from '../../components/auth-button/auth-button.co
     AuthLayoutComponent,
     AuthInputComponent,
     AuthButtonComponent
-  ],
+],
   providers: [
     ReCaptchaV3Service,
     { provide: RECAPTCHA_V3_SITE_KEY, useValue: environment.recaptcha.siteKey }

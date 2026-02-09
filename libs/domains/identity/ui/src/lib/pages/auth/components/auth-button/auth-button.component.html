@@ -6,11 +6,15 @@
   (click)="onClick.emit($event)">
 
   <!-- Loading Spinner -->
-  <div *ngIf="loading" class="spinner"></div>
+  @if (loading) {
+    <div class="spinner"></div>
+  }
 
   <!-- Button Content -->
-  <span *ngIf="!loading" class="btn-content">
-    <ng-content select="[icon]"></ng-content>
-    <ng-content></ng-content>
-  </span>
+  @if (!loading) {
+    <span class="btn-content">
+      <ng-content select="[icon]"></ng-content>
+      <ng-content></ng-content>
+    </span>
+  }
 </button>

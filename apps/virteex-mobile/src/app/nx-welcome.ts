@@ -1,9 +1,9 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'virteex-nx-welcome',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './nx-welcome.html',
   styles: [],
   encapsulation: ViewEncapsulation.None,

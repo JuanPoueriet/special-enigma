@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, signal, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterLink } from '@angular/router';
 import { LucideAngularModule, PlusCircle, Filter, MoreHorizontal } from 'lucide-angular';
 import { SuppliersService } from '../../../../core/api/suppliers.service';
@@ -9,7 +9,7 @@ import { Supplier } from '../../../../core/models/supplier.model';
 @Component({
   selector: 'app-suppliers-page',
   standalone: true,
-  imports: [CommonModule, RouterLink, LucideAngularModule],
+  imports: [RouterLink, LucideAngularModule],
   templateUrl: './supplier-list.page.html',
   styleUrls: ['./supplier-list.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

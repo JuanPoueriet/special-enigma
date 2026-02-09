@@ -1,6 +1,6 @@
 
 import { Component, Input, inject, signal, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { LucideAngularModule, Building, Users, Globe, Briefcase } from 'lucide-angular';
 // import { ConfigService, RegistrationOptions } from '../../../../../../shared/services/config.service';
@@ -9,7 +9,7 @@ import { ConfigService, RegistrationOptions } from '../../../../../shared/servic
 @Component({
   selector: 'app-step-business',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, LucideAngularModule],
+  imports: [ReactiveFormsModule, LucideAngularModule],
   template: `
     <div [formGroup]="form" class="space-y-6">
       <div class="text-center mb-8">
@@ -39,11 +39,13 @@ import { ConfigService, RegistrationOptions } from '../../../../../shared/servic
               [readonly]="isReadOnly()"
               class="pl-10 w-full rounded-lg border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-primary focus:border-primary transition-colors disabled:bg-gray-100 disabled:text-gray-500"
               [class.border-red-500]="form.get('companyName')?.invalid && form.get('companyName')?.touched"
-            />
+              />
           </div>
-          <p *ngIf="isReadOnly()" class="text-xs text-gray-500 mt-1">
-             Obtenido automáticamente de registros oficiales.
-          </p>
+          @if (isReadOnly()) {
+            <p class="text-xs text-gray-500 mt-1">
+              Obtenido automáticamente de registros oficiales.
+            </p>
+          }
         </div>
 
         <!-- Industry -->
@@ -58,11 +60,13 @@ import { ConfigService, RegistrationOptions } from '../../../../../shared/servic
             <select
               formControlName="industry"
               class="pl-10 w-full rounded-lg border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-primary focus:border-primary transition-colors"
-            >
+              >
               <option value="" disabled selected>Selecciona una industria</option>
-              <option *ngFor="let industry of industries()" [value]="industry">
-                {{ industry }}
-              </option>
+              @for (industry of industries(); track industry) {
+                <option [value]="industry">
+                  {{ industry }}
+                </option>
+              }
             </select>
           </div>
         </div>
@@ -73,23 +77,25 @@ import { ConfigService, RegistrationOptions } from '../../../../../shared/servic
             Tamaño de la Empresa
           </label>
           <div class="relative">
-             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
               <lucide-icon [img]="UsersIcon" class="w-5 h-5"></lucide-icon>
             </div>
             <select
               formControlName="numberOfEmployees"
               class="pl-10 w-full rounded-lg border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-primary focus:border-primary transition-colors"
-            >
+              >
               <option value="" disabled selected>Selecciona el tamaño</option>
-              <option *ngFor="let size of companySizes()" [value]="size">
-                {{ size }}
-              </option>
+              @for (size of companySizes(); track size) {
+                <option [value]="size">
+                  {{ size }}
+                </option>
+              }
             </select>
           </div>
         </div>
       </div>
     </div>
-  `,
+    `,
   styles: [`
     :host { display: block; }
   `]

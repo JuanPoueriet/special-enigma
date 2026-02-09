@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthInputComponent } from '../../../components/auth-input/auth-input.component';
@@ -7,7 +7,7 @@ import { AuthInputComponent } from '../../../components/auth-input/auth-input.co
 @Component({
   selector: 'app-step-business',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslateModule, AuthInputComponent],
+  imports: [ReactiveFormsModule, TranslateModule, AuthInputComponent],
   templateUrl: './step-business.html',
 })
 export class StepBusiness {

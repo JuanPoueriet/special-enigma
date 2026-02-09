@@ -17,15 +17,18 @@
         </button>
 
         <div class="dropdown-menu" [class.show]="isLangDropdownOpen">
-          <button
-            type="button"
-            class="dropdown-item"
-            *ngFor="let lang of availableLanguages"
-            [class.active]="currentLang === lang.code"
-            (click)="changeLang(lang.code)">
-            <span>{{ lang.label }}</span>
-            <lucide-icon *ngIf="currentLang === lang.code" [img]="icons.Check" size="14" class="check-icon"></lucide-icon>
-          </button>
+          @for (lang of availableLanguages; track lang) {
+            <button
+              type="button"
+              class="dropdown-item"
+              [class.active]="currentLang === lang.code"
+              (click)="changeLang(lang.code)">
+              <span>{{ lang.label }}</span>
+              @if (currentLang === lang.code) {
+                <lucide-icon [img]="icons.Check" size="14" class="check-icon"></lucide-icon>
+              }
+            </button>
+          }
         </div>
       </div>
     </div>
@@ -43,9 +46,9 @@
       </p>
 
       <!-- <p class="support-text">
-        {{ 'AUTH.NEED_HELP' | translate }}
-        <a routerLink="/support" class="support-link">{{ 'AUTH.SUPPORT_CENTER' | translate }}</a>
-      </p> -->
-    </div>
+      {{ 'AUTH.NEED_HELP' | translate }}
+      <a routerLink="/support" class="support-link">{{ 'AUTH.SUPPORT_CENTER' | translate }}</a>
+    </p> -->
   </div>
+</div>
 </footer>

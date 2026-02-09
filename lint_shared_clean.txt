@@ -1,0 +1,108 @@
+
+> nx run shared-ui:lint
+
+Linting "shared-ui"...
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/audit-trail/audit-trail.ts[24m[0m
+[0m  [2m4:13[22m  [33mwarning[39m  The selector should start with one of these prefixes: "virteex" (https://angular.dev/style-guide#choosing-component-selectors)  [2m@angular-eslint/component-selector[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/confirmation-modal/confirmation-modal.component.ts[24m[0m
+[0m   [2m7:13[22m  [33mwarning[39m  The selector should start with one of these prefixes: "virteex" (https://angular.dev/style-guide#choosing-component-selectors)  [2m@angular-eslint/component-selector[22m[0m
+[0m  [2m12:7[22m   [33mwarning[39m  click must be accompanied by either keyup, keydown or keypress event for accessibility                                          [2m@angular-eslint/template/click-events-have-key-events[22m[0m
+[0m  [2m12:7[22m   [33mwarning[39m  Elements with interaction handlers must be focusable                                                                            [2m@angular-eslint/template/interactive-supports-focus[22m[0m
+[0m  [2m14:9[22m   [33mwarning[39m  click must be accompanied by either keyup, keydown or keypress event for accessibility                                          [2m@angular-eslint/template/click-events-have-key-events[22m[0m
+[0m  [2m14:9[22m   [33mwarning[39m  Elements with interaction handlers must be focusable                                                                            [2m@angular-eslint/template/interactive-supports-focus[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/geo-mismatch-modal/geo-mismatch-modal.component.ts[24m[0m
+[0m  [2m7:13[22m  [33mwarning[39m  The selector should start with one of these prefixes: "virteex" (https://angular.dev/style-guide#choosing-component-selectors)  [2m@angular-eslint/component-selector[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/global-search/global-search.page.ts[24m[0m
+[0m  [2m12:13[22m  [33mwarning[39m  The selector should start with one of these prefixes: "virteex" (https://angular.dev/style-guide#choosing-component-selectors)  [2m@angular-eslint/component-selector[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/impact-analysis-modal/impact-analysis-modal.ts[24m[0m
+[0m  [2m4:13[22m  [33mwarning[39m  The selector should start with one of these prefixes: "virteex" (https://angular.dev/style-guide#choosing-component-selectors)  [2m@angular-eslint/component-selector[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/input.component.ts[24m[0m
+[0m  [2m28:3[22m  [33mwarning[39m  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any' or '@typescript-eslint/no-empty-function')[0m
+[0m  [2m30:3[22m  [33mwarning[39m  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-empty-function')[0m
+[0m  [2m33:3[22m  [33mwarning[39m  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')[0m
+[0m  [2m38:3[22m  [33mwarning[39m  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')[0m
+[0m  [2m43:3[22m  [33mwarning[39m  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')[0m
+[0m  [2m52:3[22m  [33mwarning[39m  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/language-selector/language-selector.ts[24m[0m
+[0m  [2m6:13[22m  [33mwarning[39m  The selector should start with one of these prefixes: "virteex" (https://angular.dev/style-guide#choosing-component-selectors)  [2m@angular-eslint/component-selector[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/live-preview/live-preview.html[24m[0m
+[0m  [2m14:13[22m  [33mwarning[39m  A label component must be associated with a form element  [2m@angular-eslint/template/label-has-associated-control[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/live-preview/live-preview.ts[24m[0m
+[0m  [2m5:13[22m  [33mwarning[39m  The selector should start with one of these prefixes: "virteex" (https://angular.dev/style-guide#choosing-component-selectors)  [2m@angular-eslint/component-selector[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/loader/loader.component.ts[24m[0m
+[0m  [2m5:13[22m  [33mwarning[39m  The selector should start with one of these prefixes: "virteex" (https://angular.dev/style-guide#choosing-component-selectors)  [2m@angular-eslint/component-selector[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/modal/modal.component.ts[24m[0m
+[0m  [2m7:13[22m  [33mwarning[39m  The selector should start with one of these prefixes: "virteex" (https://angular.dev/style-guide#choosing-component-selectors)  [2m@angular-eslint/component-selector[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/notifications/notifications.page.html[24m[0m
+[0m  [2m22:17[22m  [33mwarning[39m  click must be accompanied by either keyup, keydown or keypress event for accessibility  [2m@angular-eslint/template/click-events-have-key-events[22m[0m
+[0m  [2m22:17[22m  [33mwarning[39m  Elements with interaction handlers must be focusable                                    [2m@angular-eslint/template/interactive-supports-focus[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/notifications/notifications.page.ts[24m[0m
+[0m  [2m12:13[22m  [33mwarning[39m  The selector should start with one of these prefixes: "virteex" (https://angular.dev/style-guide#choosing-component-selectors)  [2m@angular-eslint/component-selector[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/otp/otp.component.ts[24m[0m
+[0m  [2m7:13[22m  [33mwarning[39m  The selector should start with one of these prefixes: "virteex" (https://angular.dev/style-guide#choosing-component-selectors)  [2m@angular-eslint/component-selector[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/stat-card/stat-card.ts[24m[0m
+[0m  [2m6:13[22m  [33mwarning[39m  The selector should start with one of these prefixes: "virteex" (https://angular.dev/style-guide#choosing-component-selectors)  [2m@angular-eslint/component-selector[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/theme-toggle/theme-toggle.ts[24m[0m
+[0m  [2m8:13[22m  [33mwarning[39m  The selector should start with one of these prefixes: "virteex" (https://angular.dev/style-guide#choosing-component-selectors)  [2m@angular-eslint/component-selector[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/ui/modal/ui-modal.component.html[24m[0m
+[0m  [2m4:5[22m  [33mwarning[39m  click must be accompanied by either keyup, keydown or keypress event for accessibility  [2m@angular-eslint/template/click-events-have-key-events[22m[0m
+[0m  [2m4:5[22m  [33mwarning[39m  Elements with interaction handlers must be focusable                                    [2m@angular-eslint/template/interactive-supports-focus[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/ui/modal/ui-modal.component.ts[24m[0m
+[0m  [2m7:13[22m  [33mwarning[39m  The selector should start with one of these prefixes: "virteex" (https://angular.dev/style-guide#choosing-component-selectors)  [2m@angular-eslint/component-selector[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/guards/auth-guard.spec.ts[24m[0m
+[0m  [2m65:25[22m  [33mwarning[39m  'res' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/guards/country.guard.spec.ts[24m[0m
+[0m  [2m30:7[22m  [33mwarning[39m  'router' is assigned a value but never used      [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m31:7[22m  [33mwarning[39m  'geoService' is assigned a value but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/guards/language-init.guard.spec.ts[24m[0m
+[0m   [2m5:10[22m  [33mwarning[39m  'of' is defined but never used     [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m17:7[22m   [33mwarning[39m  'guard' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/interceptors/auth.interceptor.ts[24m[0m
+[0m  [2m73:24[22m  [33mwarning[39m  'response' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/services/auth.ts[24m[0m
+[0m    [2m9:3[22m   [33mwarning[39m  'throwError' is defined but never used            [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m173:21[22m  [33mwarning[39m  'accessToken' is assigned a value but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/services/idle.service.ts[24m[0m
+[0m  [2m2:10[22m  [33mwarning[39m  'Router' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m4:21[22m  [33mwarning[39m  'take' is defined but never used    [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/services/tree.ts[24m[0m
+[0m  [2m50:9[22m  [33mwarning[39m  Forbidden non-null assertion  [2m@typescript-eslint/no-non-null-assertion[22m[0m
+[0m  [2m50:9[22m  [33mwarning[39m  Forbidden non-null assertion  [2m@typescript-eslint/no-non-null-assertion[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/pages/unauthorized/unauthorized.page.ts[24m[0m
+[0m  [2m3:10[22m  [33mwarning[39m  'Router' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[33m[1m✖ 42 problems (0 errors, 42 warnings)[22m[39m[0m
+[0m[33m[1m[22m[39m[33m[1m  0 errors and 6 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[33m[1m[22m[39m[0m
+✖ 42 problems (0 errors, 42 warnings)
+  0 errors and 6 warnings are potentially fixable with the `--fix` option.
+
+
+
+ NX   Successfully ran target lint for project shared-ui

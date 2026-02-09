@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 import { ButtonComponent, InputComponent } from '@virteex/shared-ui';
@@ -7,7 +7,7 @@ import { ButtonComponent, InputComponent } from '@virteex/shared-ui';
 @Component({
   selector: 'virteex-forgot-password',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, ButtonComponent, InputComponent],
+  imports: [ReactiveFormsModule, RouterModule, ButtonComponent, InputComponent],
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss']
 })

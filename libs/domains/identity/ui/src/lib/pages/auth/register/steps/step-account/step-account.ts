@@ -1,10 +1,10 @@
 import { Component, Input, ChangeDetectionStrategy, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 import { LucideAngularModule, User, Phone, CaseSensitive, Image } from 'lucide-angular';
 @Component({
   selector: 'app-step-account', standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, LucideAngularModule],
+  imports: [ReactiveFormsModule, LucideAngularModule],
   templateUrl: './step-account.html', styleUrls: ['./step-account.scss']
 })
 export class StepAccount {

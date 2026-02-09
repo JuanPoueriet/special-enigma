@@ -2,7 +2,7 @@ import {
   Component, Input, computed, signal, inject, effect,
   ChangeDetectionStrategy, untracked, ElementRef, HostListener
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { HighchartsChartComponent } from 'highcharts-angular';
 import * as Highcharts from 'highcharts';
 
@@ -33,7 +33,7 @@ type ExportingChart = Highcharts.Chart & {
 @Component({
   selector: 'app-invoice-status',
   standalone: true,
-  imports: [CommonModule, HighchartsChartComponent, LucideAngularModule],
+  imports: [HighchartsChartComponent, LucideAngularModule],
   templateUrl: './invoice-status.html',
   styleUrls: ['./invoice-status.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

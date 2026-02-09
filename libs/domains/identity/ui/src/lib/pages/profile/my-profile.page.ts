@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
+
 import {
   ReactiveFormsModule,
   FormBuilder,
@@ -52,13 +52,12 @@ interface ProfileForm {
   selector: 'app-my-profile-page',
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     LucideAngularModule,
     SecuritySettingsComponent,
     TranslateModule,
     PhoneVerificationModalComponent
-  ],
+],
   templateUrl: './my-profile.page.html',
   styleUrls: ['./my-profile.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

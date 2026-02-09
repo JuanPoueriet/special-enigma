@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule, DOCUMENT } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 import { GeoLocationService } from '../../../core/services/geo-location.service';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-geo-mismatch-modal',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './geo-mismatch-modal.component.html',
   styleUrls: ['./geo-mismatch-modal.component.scss']
 })

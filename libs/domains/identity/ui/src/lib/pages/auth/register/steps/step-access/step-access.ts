@@ -9,13 +9,13 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, FormControl } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 import { LucideAngularModule, Mail, Lock, Eye, EyeOff, Check, X } from 'lucide-angular';
 
 @Component({
   selector: 'app-step-access',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, LucideAngularModule],
+  imports: [ReactiveFormsModule, LucideAngularModule],
   templateUrl: './step-access.html',
   styleUrls: ['./step-access.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

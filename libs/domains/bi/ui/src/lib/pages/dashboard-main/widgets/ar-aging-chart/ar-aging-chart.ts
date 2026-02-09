@@ -2,7 +2,7 @@ import {
   Component, Input, computed, signal, inject, effect,
   ChangeDetectionStrategy, untracked, ElementRef, HostListener
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { HighchartsChartComponent } from 'highcharts-angular';
 import * as Highcharts from 'highcharts';
 
@@ -31,7 +31,7 @@ type ExportingChart = Highcharts.Chart & {
 @Component({
   selector: 'app-ar-aging-chart',
   standalone: true,
-  imports: [CommonModule, HighchartsChartComponent, LucideAngularModule],
+  imports: [HighchartsChartComponent, LucideAngularModule],
   templateUrl: './ar-aging-chart.html',
   styleUrls: ['./ar-aging-chart.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

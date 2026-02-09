@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { AuthService } from '../../../../core/services/auth';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../core/services/language';
@@ -35,7 +35,6 @@ const passwordMatchValidator: ValidatorFn = (group: AbstractControl): Validation
   selector: 'app-reset-password-page',
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     RouterModule,
     TranslateModule,
@@ -43,7 +42,7 @@ const passwordMatchValidator: ValidatorFn = (group: AbstractControl): Validation
     AuthInputComponent,
     AuthButtonComponent,
     PasswordValidatorComponent
-  ],
+],
   templateUrl: './reset-password.page.html'
 })
 export class ResetPasswordPage implements OnInit {

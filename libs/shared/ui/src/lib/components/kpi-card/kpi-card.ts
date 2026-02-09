@@ -1,12 +1,12 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { LucideAngularModule, TrendingUp, TrendingDown } from 'lucide-angular';
 import { Kpi } from '../../../core/models/finance';
 
 @Component({
   selector: 'virteex-kpi-card',
   standalone: true,
-  imports: [CommonModule, LucideAngularModule],
+  imports: [LucideAngularModule],
   templateUrl: './kpi-card.html',
   styleUrls: ['./kpi-card.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

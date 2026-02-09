@@ -1,6 +1,6 @@
 
 import { Component, Input, Output, EventEmitter, inject, signal, effect, DestroyRef, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LucideAngularModule, Globe, CreditCard, Building2 } from 'lucide-angular';
 import { CountryService, CountryConfig } from '../../../../../core/services/country.service';
@@ -13,7 +13,7 @@ import { AsyncValidators } from '../../../../../shared/validators/async.validato
 @Component({
   selector: 'app-step-configuration',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, LucideAngularModule],
+  imports: [ReactiveFormsModule, LucideAngularModule],
   template: `
     <div [formGroup]="form" class="space-y-6">
       <div class="text-center mb-8">
@@ -40,7 +40,7 @@ import { AsyncValidators } from '../../../../../shared/validators/async.validato
               formControlName="country"
               (change)="onCountryChange($event)"
               class="pl-10 w-full rounded-lg border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-primary focus:border-primary transition-colors"
-            >
+              >
               <option value="DO">República Dominicana</option>
               <option value="CO">Colombia</option>
               <option value="MX">México</option>
@@ -69,28 +69,36 @@ import { AsyncValidators } from '../../../../../shared/validators/async.validato
               class="pl-10 w-full rounded-lg border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-primary focus:border-primary transition-colors"
               [class.border-red-500]="form.get('taxId')?.invalid && form.get('taxId')?.touched"
               [class.border-green-500]="isValidTaxId()"
-            />
+              />
             <!-- Loading Indicator -->
-             <div *ngIf="isValidating()" class="absolute inset-y-0 right-0 pr-3 flex items-center">
+            @if (isValidating()) {
+              <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
                 <div class="animate-spin h-5 w-5 border-2 border-primary border-t-transparent rounded-full"></div>
-             </div>
+              </div>
+            }
           </div>
-          <p *ngIf="form.get('taxId')?.invalid && form.get('taxId')?.touched" class="mt-1 text-sm text-red-500">
-             {{ getErrorMessage() }}
-          </p>
-          <p *ngIf="isValidTaxId()" class="mt-1 text-sm text-green-500">
-             Identificación válida. Empresa encontrada.
-          </p>
+          @if (form.get('taxId')?.invalid && form.get('taxId')?.touched) {
+            <p class="mt-1 text-sm text-red-500">
+              {{ getErrorMessage() }}
+            </p>
+          }
+          @if (isValidTaxId()) {
+            <p class="mt-1 text-sm text-green-500">
+              Identificación válida. Empresa encontrada.
+            </p>
+          }
         </div>
 
         <!-- Auto-detected info summary -->
-        <div *ngIf="foundCompany()" class="p-4 bg-primary/5 rounded-lg border border-primary/20">
+        @if (foundCompany()) {
+          <div class="p-4 bg-primary/5 rounded-lg border border-primary/20">
             <p class="text-sm text-gray-700 dark:text-gray-300"><strong>Razón Social:</strong> {{ foundCompany()?.legalName }}</p>
             <p class="text-sm text-gray-700 dark:text-gray-300"><strong>Estado:</strong> {{ foundCompany()?.status }}</p>
-        </div>
+          </div>
+        }
       </div>
     </div>
-  `,
+    `,
   styles: [`
     :host { display: block; }
   `]

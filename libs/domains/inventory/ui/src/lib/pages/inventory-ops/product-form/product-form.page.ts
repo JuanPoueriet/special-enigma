@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject, OnInit, signal, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LucideAngularModule, Save, Image } from 'lucide-angular';
@@ -11,7 +11,7 @@ import { HasPermissionDirective } from '../../../shared/directives/has-permissio
 @Component({
   selector: 'app-product-form-page',
   standalone: true,
-  imports: [CommonModule, RouterLink, ReactiveFormsModule, LucideAngularModule, HasPermissionDirective],
+  imports: [RouterLink, ReactiveFormsModule, LucideAngularModule, HasPermissionDirective],
   templateUrl: './product-form.page.html',
   styleUrls: ['./product-form.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

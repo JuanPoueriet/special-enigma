@@ -1,5 +1,5 @@
 import { Component, Input, computed, signal, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { HighchartsChartComponent } from 'highcharts-angular';
 import * as Highcharts from 'highcharts';
 import { DashboardWidget, DashboardService, ChartType } from '../../../../core/services/dashboard';
@@ -11,7 +11,7 @@ import Exporting from 'highcharts/modules/exporting';
 @Component({
   selector: 'app-sales-chart',
   standalone: true,
-  imports: [CommonModule, HighchartsChartComponent, LucideAngularModule],
+  imports: [HighchartsChartComponent, LucideAngularModule],
   templateUrl: './sales-chart.html',
   styleUrls: ['../widget-styles.scss'],
 })

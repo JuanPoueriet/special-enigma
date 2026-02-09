@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -11,7 +11,7 @@ import { SessionService } from '@virteex/shared-util-auth';
 @Component({
   selector: 'virteex-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, ButtonComponent, InputComponent, CountrySelectorComponent],
+  imports: [ReactiveFormsModule, RouterModule, ButtonComponent, InputComponent, CountrySelectorComponent],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })

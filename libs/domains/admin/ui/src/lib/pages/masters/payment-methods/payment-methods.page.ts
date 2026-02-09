@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { LucideAngularModule, PlusCircle, Filter, MoreHorizontal } from 'lucide-angular';
 
 interface PaymentMethod {
@@ -12,7 +12,7 @@ interface PaymentMethod {
 @Component({
   selector: 'app-payment-methods-page',
   standalone: true,
-  imports: [CommonModule, LucideAngularModule],
+  imports: [LucideAngularModule],
   templateUrl: './payment-methods.page.html',
   styleUrls: ['./payment-methods.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

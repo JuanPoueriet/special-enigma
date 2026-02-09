@@ -1,5 +1,5 @@
 import { Component, HostListener, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { LucideAngularModule, Globe, ChevronUp, Check } from 'lucide-angular';
@@ -8,11 +8,10 @@ import { LucideAngularModule, Globe, ChevronUp, Check } from 'lucide-angular';
   selector: 'app-auth-footer',
   standalone: true,
   imports: [
-    CommonModule,
     TranslateModule,
     RouterModule,
     LucideAngularModule
-  ],
+],
   templateUrl: './auth-footer.component.html',
   styleUrls: ['./auth-footer.component.scss']
 })

@@ -25,7 +25,7 @@
           <button class="btn view-toggle" [class.active]="statusFilter() === 'ACTIVE'" (click)="applyStatusFilter('ACTIVE')">
             {{ "USER.STATUS.ACTIVE" | translate }}
           </button>
-           <button class="btn view-toggle" [class.active]="statusFilter() === 'ARCHIVED'" (click)="applyStatusFilter('ARCHIVED')">
+          <button class="btn view-toggle" [class.active]="statusFilter() === 'ARCHIVED'" (click)="applyStatusFilter('ARCHIVED')">
             {{ "USER.STATUS.ARCHIVED" | translate }}
           </button>
           <button class="btn view-toggle" [class.active]="statusFilter() === 'PENDING'" (click)="applyStatusFilter('PENDING')">
@@ -47,9 +47,11 @@
       </div>
 
       <div class="card-body">
-        <div class="loading-overlay" *ngIf="loading()">
-          <div class="spinner"></div>
-        </div>
+        @if (loading()) {
+          <div class="loading-overlay">
+            <div class="spinner"></div>
+          </div>
+        }
 
         <div class="table-container">
           <table class="data-table">
@@ -58,56 +60,78 @@
                 <th style="width: 30px"><input type="checkbox" /></th>
                 <th (click)="sortTable('firstName')">
                   {{ "USERS.TABLE.NAME" | translate }}
-                  <lucide-icon [name]="SortIcon" size="14" *ngIf="sortColumn() !== 'firstName'"></lucide-icon>
-                  <lucide-icon [name]="SortUpIcon" size="14" *ngIf="sortColumn() === 'firstName' && sortDirection() === 'ASC'"></lucide-icon>
-                  <lucide-icon [name]="SortDownIcon" size="14" *ngIf="sortColumn() === 'firstName' && sortDirection() === 'DESC'"></lucide-icon>
+                  @if (sortColumn() !== 'firstName') {
+                    <lucide-icon [name]="SortIcon" size="14"></lucide-icon>
+                  }
+                  @if (sortColumn() === 'firstName' && sortDirection() === 'ASC') {
+                    <lucide-icon [name]="SortUpIcon" size="14"></lucide-icon>
+                  }
+                  @if (sortColumn() === 'firstName' && sortDirection() === 'DESC') {
+                    <lucide-icon [name]="SortDownIcon" size="14"></lucide-icon>
+                  }
                 </th>
                 <th (click)="sortTable('email')">
                   {{ "USERS.TABLE.EMAIL" | translate }}
-                  <lucide-icon [name]="SortIcon" size="14" *ngIf="sortColumn() !== 'email'"></lucide-icon>
-                  <lucide-icon [name]="SortUpIcon" size="14" *ngIf="sortColumn() === 'email' && sortDirection() === 'ASC'"></lucide-icon>
-                  <lucide-icon [name]="SortDownIcon" size="14" *ngIf="sortColumn() === 'email' && sortDirection() === 'DESC'"></lucide-icon>
+                  @if (sortColumn() !== 'email') {
+                    <lucide-icon [name]="SortIcon" size="14"></lucide-icon>
+                  }
+                  @if (sortColumn() === 'email' && sortDirection() === 'ASC') {
+                    <lucide-icon [name]="SortUpIcon" size="14"></lucide-icon>
+                  }
+                  @if (sortColumn() === 'email' && sortDirection() === 'DESC') {
+                    <lucide-icon [name]="SortDownIcon" size="14"></lucide-icon>
+                  }
                 </th>
                 <th>{{ "USERS.TABLE.ROLE" | translate }}</th>
                 <th (click)="sortTable('status')">
                   {{ "USERS.TABLE.STATUS" | translate }}
-                  <lucide-icon [name]="SortIcon" size="14" *ngIf="sortColumn() !== 'status'"></lucide-icon>
-                  <lucide-icon [name]="SortUpIcon" size="14" *ngIf="sortColumn() === 'status' && sortDirection() === 'ASC'"></lucide-icon>
-                  <lucide-icon [name]="SortDownIcon" size="14" *ngIf="sortColumn() === 'status' && sortDirection() === 'DESC'"></lucide-icon>
+                  @if (sortColumn() !== 'status') {
+                    <lucide-icon [name]="SortIcon" size="14"></lucide-icon>
+                  }
+                  @if (sortColumn() === 'status' && sortDirection() === 'ASC') {
+                    <lucide-icon [name]="SortUpIcon" size="14"></lucide-icon>
+                  }
+                  @if (sortColumn() === 'status' && sortDirection() === 'DESC') {
+                    <lucide-icon [name]="SortDownIcon" size="14"></lucide-icon>
+                  }
                 </th>
                 <th>{{ "USERS.TABLE.ACTIONS" | translate }}</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let user of users()">
-                <td><input type="checkbox" /></td>
-                <td>
-                  <div class="user-avatar-container">
-                    <div class="user-avatar-small">
-                      {{ user.firstName.charAt(0) }}{{ user.lastName.charAt(0) }}
-                      <div class="user-status" [ngClass]="user.isOnline ? 'status-online' : 'status-offline'"></div>
+              @for (user of users(); track user) {
+                <tr>
+                  <td><input type="checkbox" /></td>
+                  <td>
+                    <div class="user-avatar-container">
+                      <div class="user-avatar-small">
+                        {{ user.firstName.charAt(0) }}{{ user.lastName.charAt(0) }}
+                        <div class="user-status" [ngClass]="user.isOnline ? 'status-online' : 'status-offline'"></div>
+                      </div>
+                      {{ user.firstName }} {{ user.lastName }}
                     </div>
-                    {{ user.firstName }} {{ user.lastName }}
-                  </div>
-                </td>
-                <td>{{ user.email }}</td>
-                <td>{{ getRoleNames(user) }}</td>
-                <td>
-                  <span class="badge" [ngClass]="getStatusClass(user.status)">
-                    {{ "USER.STATUS." + user.status | translate }}
-                  </span>
-                </td>
-                <td>
-                  <div class="actions-container">
-                    <button class="btn-icon" (click)="openUserActions($event, user)">
-                      <lucide-icon [name]="MoreHorizontalIcon" size="20"></lucide-icon>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <tr *ngIf="!loading() && users().length === 0">
-                <td colspan="6" style="text-align: center;">No se encontraron usuarios.</td>
-              </tr>
+                  </td>
+                  <td>{{ user.email }}</td>
+                  <td>{{ getRoleNames(user) }}</td>
+                  <td>
+                    <span class="badge" [ngClass]="getStatusClass(user.status)">
+                      {{ "USER.STATUS." + user.status | translate }}
+                    </span>
+                  </td>
+                  <td>
+                    <div class="actions-container">
+                      <button class="btn-icon" (click)="openUserActions($event, user)">
+                        <lucide-icon [name]="MoreHorizontalIcon" size="20"></lucide-icon>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              }
+              @if (!loading() && users().length === 0) {
+                <tr>
+                  <td colspan="6" style="text-align: center;">No se encontraron usuarios.</td>
+                </tr>
+              }
             </tbody>
           </table>
         </div>
@@ -121,12 +145,16 @@
           <button class="pagination-btn" [disabled]="currentPage() === 1" (click)="changePage(currentPage() - 1)">
             <lucide-icon [name]="ChevronLeftIcon" size="18"></lucide-icon>
           </button>
-          <ng-container *ngFor="let page of getPageNumbers()">
-             <button *ngIf="page !== -1" class="pagination-btn" [class.active]="page === currentPage()" (click)="changePage(page)">
-              {{ page }}
-            </button>
-             <span *ngIf="page === -1" class="pagination-ellipsis">...</span>
-          </ng-container>
+          @for (page of getPageNumbers(); track page) {
+            @if (page !== -1) {
+              <button class="pagination-btn" [class.active]="page === currentPage()" (click)="changePage(page)">
+                {{ page }}
+              </button>
+            }
+            @if (page === -1) {
+              <span class="pagination-ellipsis">...</span>
+            }
+          }
           <button class="pagination-btn" [disabled]="currentPage() === totalPages()" (click)="changePage(currentPage() + 1)">
             <lucide-icon [name]="ChevronRightIcon" size="18"></lucide-icon>
           </button>
@@ -163,13 +191,17 @@
           <label class="form-label">Rol</label>
           <select class="form-control" formControlName="roleId" required>
             <option [ngValue]="null" disabled>Seleccionar rol</option>
-            <option *ngFor="let role of roles()" [value]="role.id">{{ role.name }}</option>
+            @for (role of roles(); track role) {
+              <option [value]="role.id">{{ role.name }}</option>
+            }
           </select>
         </div>
-         <div class="form-group" *ngIf="!isEditMode()">
+        @if (!isEditMode()) {
+          <div class="form-group">
             <label class="form-label">Mensaje de invitación (opcional)</label>
             <textarea class="form-control" rows="3" placeholder="Mensaje personalizado para el usuario..." formControlName="invitationMessage"></textarea>
           </div>
+        }
       </form>
     </div>
     <div class="modal-footer">
@@ -200,13 +232,15 @@
 </div>
 
 <!-- Context Menu -->
-<div class="windows-menu" *ngIf="showContextMenu" [style.left.px]="contextMenuPosition.x" [style.top.px]="contextMenuPosition.y">
-  <div class="menu-item" (click)="handleAction('edit', contextMenuUser!)"><lucide-icon [name]="EditIcon" size="16"></lucide-icon> Editar Usuario</div>
-  <div class="menu-item" (click)="handleAction('resetPassword', contextMenuUser!)"><lucide-icon [name]="KeyIcon" size="16"></lucide-icon> Resetear Contraseña</div>
-  <div class="menu-divider"></div>
-  <div class="menu-item" (click)="handleAction('impersonate', contextMenuUser!)" *hasPermission="'users:impersonate'"><lucide-icon [name]="UserCogIcon" size="16"></lucide-icon> Suplantar Usuario</div>
-  <div class="menu-item" (click)="handleAction('force-logout', contextMenuUser!)"><lucide-icon [name]="PowerOff" size="16"></lucide-icon> Forzar Cierre de Sesión</div>
-  <div class="menu-item" (click)="handleAction('block-and-logout', contextMenuUser!)"><lucide-icon [name]="BanIcon" size="16"></lucide-icon> Bloquear y Cerrar Sesión</div>
-  <div class="menu-divider"></div>
-  <div class="menu-item menu-item-danger" (click)="handleAction('delete', contextMenuUser!)"><lucide-icon [name]="TrashIcon" size="16"></lucide-icon> Eliminar Cuenta</div>
-</div>
+@if (showContextMenu) {
+  <div class="windows-menu" [style.left.px]="contextMenuPosition.x" [style.top.px]="contextMenuPosition.y">
+    <div class="menu-item" (click)="handleAction('edit', contextMenuUser!)"><lucide-icon [name]="EditIcon" size="16"></lucide-icon> Editar Usuario</div>
+    <div class="menu-item" (click)="handleAction('resetPassword', contextMenuUser!)"><lucide-icon [name]="KeyIcon" size="16"></lucide-icon> Resetear Contraseña</div>
+    <div class="menu-divider"></div>
+    <div class="menu-item" (click)="handleAction('impersonate', contextMenuUser!)" *hasPermission="'users:impersonate'"><lucide-icon [name]="UserCogIcon" size="16"></lucide-icon> Suplantar Usuario</div>
+    <div class="menu-item" (click)="handleAction('force-logout', contextMenuUser!)"><lucide-icon [name]="PowerOff" size="16"></lucide-icon> Forzar Cierre de Sesión</div>
+    <div class="menu-item" (click)="handleAction('block-and-logout', contextMenuUser!)"><lucide-icon [name]="BanIcon" size="16"></lucide-icon> Bloquear y Cerrar Sesión</div>
+    <div class="menu-divider"></div>
+    <div class="menu-item menu-item-danger" (click)="handleAction('delete', contextMenuUser!)"><lucide-icon [name]="TrashIcon" size="16"></lucide-icon> Eliminar Cuenta</div>
+  </div>
+}

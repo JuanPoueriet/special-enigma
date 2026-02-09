@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterLink } from '@angular/router';
 import { LucideAngularModule, PlusCircle, Filter, MoreHorizontal } from 'lucide-angular';
 
@@ -14,7 +14,7 @@ interface Branch {
 @Component({
   selector: 'app-branches-page',
   standalone: true,
-  imports: [CommonModule, LucideAngularModule],
+  imports: [LucideAngularModule],
   templateUrl: './branches.page.html',
   styleUrls: ['./branches.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

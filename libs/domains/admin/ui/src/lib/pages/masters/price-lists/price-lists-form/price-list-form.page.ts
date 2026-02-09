@@ -1,6 +1,6 @@
 // app/features/masters/price-lists/price-lists-form/price-list-form.page.ts
 import { Component, ChangeDetectionStrategy, inject, OnInit, signal, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Router, RouterLink } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LucideAngularModule, Save, Plus, Trash2 } from 'lucide-angular';
@@ -13,7 +13,7 @@ import { PriceListItem, PriceListStatus } from '../../../../core/models/price-li
 @Component({
   selector: 'app-price-list-form-page',
   standalone: true,
-  imports: [CommonModule, RouterLink, ReactiveFormsModule, LucideAngularModule],
+  imports: [RouterLink, ReactiveFormsModule, LucideAngularModule],
   templateUrl: './price-list-form.page.html',
   styleUrls: ['./price-list-form.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

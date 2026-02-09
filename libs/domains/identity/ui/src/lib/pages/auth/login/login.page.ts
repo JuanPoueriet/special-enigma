@@ -1,7 +1,7 @@
 import { Component, OnInit, inject, signal, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { AuthService } from '../../../core/services/auth';
 import { LanguageService } from '../../../core/services/language';
 import { CountryService } from '../../../core/services/country.service';
@@ -21,7 +21,6 @@ import { OtpComponent } from '../../../shared/components/otp/otp.component';
   selector: 'app-login',
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     RouterModule,
     TranslateModule,
@@ -33,7 +32,7 @@ import { OtpComponent } from '../../../shared/components/otp/otp.component';
     SocialAuthButtonsComponent,
     PasskeyButtonComponent,
     OtpComponent
-  ],
+],
   providers: [ReCaptchaV3Service],
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss']

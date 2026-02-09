@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterLink } from '@angular/router';
 import { LucideAngularModule, PlusCircle, Filter, MoreHorizontal } from 'lucide-angular';
 
@@ -16,7 +16,7 @@ export interface Customer {
 @Component({
   selector: 'app-customer-list-page',
   standalone: true,
-  imports: [CommonModule, RouterLink, LucideAngularModule],
+  imports: [RouterLink, LucideAngularModule],
   templateUrl: './customer-list.page.html',
   styleUrls: ['./customer-list.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

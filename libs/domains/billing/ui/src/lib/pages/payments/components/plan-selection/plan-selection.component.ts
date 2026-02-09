@@ -1,12 +1,12 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { PaymentService } from '../../services/payment.service';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-plan-selection',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `
     <div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div class="sm:mx-auto sm:w-full sm:max-w-md">

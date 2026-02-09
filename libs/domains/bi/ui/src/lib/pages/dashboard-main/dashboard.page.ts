@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject, OnInit, signal, computed, effect } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { GridsterModule, GridsterConfig, GridType, CompactType, DisplayGrid } from 'angular-gridster2';
 import { DashboardService, DashboardWidget } from '../../core/services/dashboard';
 
@@ -34,10 +34,8 @@ import { TranslateModule } from '@ngx-translate/core';
   selector: 'app-dashboard-page',
   standalone: true,
   imports: [
-    CommonModule,
     GridsterModule,
     LucideAngularModule,
-    // ✅ CORRECCIÓN: Se añaden todos los widgets a la lista de imports
     KpiCard,
     StatCard,
     ComparisonChart,
@@ -61,7 +59,7 @@ import { TranslateModule } from '@ngx-translate/core';
     KpiEbitdaComponent,
     KpiFcfComponent,
     TranslateModule
-  ],
+],
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

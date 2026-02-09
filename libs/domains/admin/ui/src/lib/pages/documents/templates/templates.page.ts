@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { LucideAngularModule, PlusCircle, FileText } from 'lucide-angular';
 
 interface Template {
@@ -12,7 +12,7 @@ interface Template {
 @Component({
   selector: 'app-templates-page',
   standalone: true,
-  imports: [CommonModule, LucideAngularModule],
+  imports: [LucideAngularModule],
   templateUrl: './templates.page.html',
   styleUrls: ['./templates.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

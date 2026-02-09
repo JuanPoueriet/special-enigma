@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject, OnInit, signal, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LucideAngularModule, Save } from 'lucide-angular';
@@ -10,7 +10,7 @@ import { TaxType } from '../../../../core/models/tax.model';
 @Component({
   selector: 'app-tax-form-page',
   standalone: true,
-  imports: [CommonModule, RouterLink, ReactiveFormsModule, LucideAngularModule],
+  imports: [RouterLink, ReactiveFormsModule, LucideAngularModule],
   templateUrl: './tax-form.page.html',
   styleUrls: ['./tax-form.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

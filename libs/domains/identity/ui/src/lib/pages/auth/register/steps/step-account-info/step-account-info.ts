@@ -1,5 +1,5 @@
 import { Component, Input, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ReactiveFormsModule, FormGroup, FormGroupDirective } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthInputComponent } from '../../../components/auth-input/auth-input.component';
@@ -11,12 +11,11 @@ import { AsyncValidators } from '../../../../../shared/validators/async.validato
   selector: 'app-step-account-info',
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     TranslateModule,
     AuthInputComponent,
     PasswordValidatorComponent
-  ],
+],
   templateUrl: './step-account-info.html',
 })
 export class StepAccountInfo implements OnInit {

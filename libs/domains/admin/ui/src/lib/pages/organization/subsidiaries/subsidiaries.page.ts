@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { LucideAngularModule, Building, Plus, MoreVertical, X } from 'lucide-angular';
 import { SubsidiariesService, Subsidiary, CreateSubsidiaryDto } from './subsidiaries.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 @Component({
   selector: 'app-subsidiaries',
   standalone: true,
-  imports: [CommonModule, LucideAngularModule, ReactiveFormsModule],
+  imports: [LucideAngularModule, ReactiveFormsModule],
   templateUrl: './subsidiaries.page.html',
   styleUrls: ['./subsidiaries.page.scss']
 })

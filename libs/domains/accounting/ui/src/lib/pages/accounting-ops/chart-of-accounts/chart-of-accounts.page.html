@@ -30,7 +30,7 @@
             placeholder="Buscar por código o nombre..."
             [ngModel]="state.searchTerm()"
             (ngModelChange)="onSearchTermChange($event)"
-          />
+            />
         </div>
         <div class="filters">
           <!-- <select class="filter-select" [ngModel]="state.filters.status()" (ngModelChange)="onFilterChange('status', $event)"> -->
@@ -77,119 +77,121 @@
             </thead>
             <tbody>
               @if (state.isLoading()) { @for (item of [1, 2, 3, 4, 5, 6, 7]; track
-              item) {
-              <tr class="skeleton-row">
-                <td><div class="skeleton-bar"></div></td>
-                <td><div class="skeleton-bar"></div></td>
-                <td><div class="skeleton-bar"></div></td>
-                <td><div class="skeleton-bar"></div></td>
-                <td><div class="skeleton-bar"></div></td>
-              </tr>
-              } } @else if (state.error()) {
-              <tr>
-                <td colspan="5">
-                  <div class="empty-state">
-                    <h3>Error al Cargar Cuentas</h3>
-                    <p>{{ state.error() }}</p>
-                  </div>
-                </td>
-              </tr>
+                item) {
+                <tr class="skeleton-row">
+                  <td><div class="skeleton-bar"></div></td>
+                  <td><div class="skeleton-bar"></div></td>
+                  <td><div class="skeleton-bar"></div></td>
+                  <td><div class="skeleton-bar"></div></td>
+                  <td><div class="skeleton-bar"></div></td>
+                </tr>
+                } } @else if (state.error()) {
+                <tr>
+                  <td colspan="5">
+                    <div class="empty-state">
+                      <h3>Error al Cargar Cuentas</h3>
+                      <p>{{ state.error() }}</p>
+                    </div>
+                  </td>
+                </tr>
               } @else { @for (account of state.displayAccounts(); track
-              account.id) {
-              <tr [class.is-parent]="account.hasChildren">
-                <td>
-                  <div
-                    class="account-name-cell"
-                    [style.padding-left.px]="account.level * 24"
-                  >
-                    <button
-                      *ngIf="account.hasChildren"
-                      class="expand-btn"
-                      (click)="toggleExpand(account)"
-                    >
-                      <lucide-icon
+                account.id) {
+                <tr [class.is-parent]="account.hasChildren">
+                  <td>
+                    <div
+                      class="account-name-cell"
+                      [style.padding-left.px]="account.level * 24"
+                      >
+                      @if (account.hasChildren) {
+                        <button
+                          class="expand-btn"
+                          (click)="toggleExpand(account)"
+                          >
+                          <lucide-icon
                         [name]="
                           account.isExpanded
                             ? ChevronDownIcon
                             : ChevronRightIcon
                         "
-                        size="16"
-                      ></lucide-icon>
-                    </button>
-                    <span
-                      *ngIf="!account.hasChildren"
-                      class="expand-placeholder"
-                    ></span>
-                    <div class="account-info">
-                      <span>{{ account.name }}</span>
-                      <small>{{ account.code }}</small>
-                      <a
+                            size="16"
+                          ></lucide-icon>
+                        </button>
+                      }
+                      @if (!account.hasChildren) {
+                        <span
+                          class="expand-placeholder"
+                        ></span>
+                      }
+                      <div class="account-info">
+                        <span>{{ account.name }}</span>
+                        <small>{{ account.code }}</small>
+                        <a
                         [routerLink]="[
                           '/app/accounting/general-ledger',
                           account.id
                         ]"
-                        class="text-blue-500 hover:underline"
-                      >
-                        {{ account.code }}
-                      </a>
+                          class="text-blue-500 hover:underline"
+                          >
+                          {{ account.code }}
+                        </a>
+                      </div>
                     </div>
-                  </div>
-                </td>
-                <td>{{ account.type }}</td>
-                <td class="balance-cell" [class.negative]="account.balance < 0">
-                  {{ account.balance | number : "1.2-2" }}
-                </td>
-                <td>
-                  <span
-                    class="badge"
-                    [class.status-active]="account.isActive"
-                    [class.status-inactive]="!account.isActive"
-                  >
-                    {{ account.isActive ? "Activa" : "Inactiva" }}
-                  </span>
-                </td>
-                <td>
-                  <button
-                    class="btn-icon"
-                    (click)="goToAccountForm(account.id)"
-                    title="Editar"
-                  >
-                    <lucide-icon [name]="EditIcon" size="16"></lucide-icon>
-                  </button>
-                  <button
-                    class="btn-icon danger"
-                    (click)="deleteAccount(account)"
-                    title="Eliminar"
-                    [disabled]="account.isSystemAccount"
-                  >
-                    <lucide-icon [name]="TrashIcon" size="16"></lucide-icon>
-                  </button>
-                </td>
-              </tr>
-              } @empty {
-              <tr>
-                <td colspan="5">
-                  <div class="empty-state">
-                    <h3>No se encontraron cuentas</h3>
-                    <p>
-                      Añade una nueva cuenta para empezar a gestionar tu
-                      catálogo.
-                    </p>
-                  </div>
-                </td>
-              </tr>
-              } }
-            </tbody>
-          </table>
+                  </td>
+                  <td>{{ account.type }}</td>
+                  <td class="balance-cell" [class.negative]="account.balance < 0">
+                    {{ account.balance | number : "1.2-2" }}
+                  </td>
+                  <td>
+                    <span
+                      class="badge"
+                      [class.status-active]="account.isActive"
+                      [class.status-inactive]="!account.isActive"
+                      >
+                      {{ account.isActive ? "Activa" : "Inactiva" }}
+                    </span>
+                  </td>
+                  <td>
+                    <button
+                      class="btn-icon"
+                      (click)="goToAccountForm(account.id)"
+                      title="Editar"
+                      >
+                      <lucide-icon [name]="EditIcon" size="16"></lucide-icon>
+                    </button>
+                    <button
+                      class="btn-icon danger"
+                      (click)="deleteAccount(account)"
+                      title="Eliminar"
+                      [disabled]="account.isSystemAccount"
+                      >
+                      <lucide-icon [name]="TrashIcon" size="16"></lucide-icon>
+                    </button>
+                  </td>
+                </tr>
+                } @empty {
+                <tr>
+                  <td colspan="5">
+                    <div class="empty-state">
+                      <h3>No se encontraron cuentas</h3>
+                      <p>
+                        Añade una nueva cuenta para empezar a gestionar tu
+                        catálogo.
+                      </p>
+                    </div>
+                  </td>
+                </tr>
+                } }
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
 
-      <div class="card-footer">
-        <div class="pagination-info">
-          Mostrando <strong>10</strong> de
-          <strong>{{ state.displayAccounts().length }}</strong> cuentas
+        <div class="card-footer">
+          <div class="pagination-info">
+            Mostrando <strong>10</strong> de
+            <strong>{{ state.displayAccounts().length }}</strong> cuentas
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 export interface CustomerItem {
   id: string;
@@ -10,7 +10,7 @@ export interface CustomerItem {
 @Component({
   selector: 'virteex-crm-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
 })

@@ -14,11 +14,13 @@ import { CommonModule } from '@angular/common';
         <div class="h-full flex-1 rounded-full transition-colors duration-300" [ngClass]="strength >= 4 ? getColor(4) : 'bg-bg-tertiary'"></div>
       </div>
 
-      <p class="text-xs text-text-tertiary text-right" *ngIf="password">
-        {{ getStrengthLabel() }}
-      </p>
+      @if (password) {
+        <p class="text-xs text-text-tertiary text-right">
+          {{ getStrengthLabel() }}
+        </p>
+      }
     </div>
-  `
+    `
 })
 export class PasswordValidatorComponent {
   @Input() password = '';

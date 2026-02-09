@@ -2,7 +2,7 @@ import {
   Component, Input, computed, signal, inject, effect, untracked,
   ElementRef, HostListener, ChangeDetectionStrategy
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { HighchartsChartComponent } from 'highcharts-angular';
 import * as Highcharts from 'highcharts';
 import { PointOptionsObject } from 'highcharts';
@@ -38,7 +38,7 @@ type ExportingChart = Highcharts.Chart & {
 @Component({
   selector: 'app-top-products-chart',
   standalone: true,
-  imports: [CommonModule, HighchartsChartComponent, LucideAngularModule, TranslateModule],
+  imports: [HighchartsChartComponent, LucideAngularModule, TranslateModule],
   templateUrl: './top-products-chart.html',
   styleUrls: ['../widget-styles.scss', './top-products-chart.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

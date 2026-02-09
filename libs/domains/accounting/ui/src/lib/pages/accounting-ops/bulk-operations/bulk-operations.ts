@@ -16,7 +16,7 @@
  */
 
 import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterLink } from '@angular/router';
 // import { ChartOfAccountsService, BulkOperationResult } from '../../../core/services/chart-of-accounts.service';
 import { ChartOfAccountsStateService } from '../../../core/state/chart-of-accounts.state';
@@ -26,7 +26,7 @@ import { BulkOperationResult, ChartOfAccountsService } from '../../../core/servi
 @Component({
   selector: 'app-bulk-operations',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [RouterLink],
   templateUrl: './bulk-operations.html',
   styleUrls: ['./bulk-operations.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

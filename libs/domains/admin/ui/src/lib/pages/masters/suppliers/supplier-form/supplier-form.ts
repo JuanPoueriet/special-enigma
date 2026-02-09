@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject, OnInit, signal, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LucideAngularModule, Save } from 'lucide-angular';
@@ -9,7 +9,7 @@ import { NotificationService } from '../../../../core/services/notification';
 @Component({
   selector: 'app-supplier-form-page',
   standalone: true,
-  imports: [CommonModule, RouterLink, ReactiveFormsModule, LucideAngularModule],
+  imports: [RouterLink, ReactiveFormsModule, LucideAngularModule],
   templateUrl: './supplier-form.html',
   styleUrls: ['./supplier-form.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

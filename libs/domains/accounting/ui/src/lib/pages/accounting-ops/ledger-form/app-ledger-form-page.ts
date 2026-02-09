@@ -1,7 +1,7 @@
 // app/features/accounting/ledger-form/app-ledger-form-page.ts
 import { Component, inject, OnInit, signal, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 import { Router, RouterLink } from '@angular/router';
 import { LucideAngularModule, Save } from 'lucide-angular';
 // FIX: Importar DTOs desde el servicio.
@@ -13,7 +13,7 @@ import { NotificationService } from '../../../core/services/notification';
 @Component({
   selector: 'app-ledger-form-page',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, LucideAngularModule],
+  imports: [ReactiveFormsModule, RouterLink, LucideAngularModule],
   templateUrl: './app-ledger-form-page.html',
   styleUrls: ['./app-ledger-form-page.scss']
 })

@@ -36,31 +36,33 @@
         <h2>Detalles de la Factura</h2>
       </div>
       <div class="card-body">
-        <div *ngFor="let line of lineItems.controls; let i=index" [formGroupName]="i" class="line-item">
-          <input type="text" formControlName="description" placeholder="Descripción" class="line-description">
-          <input type="number" formControlName="quantity" placeholder="Cant.">
-          <input type="number" formControlName="price" placeholder="Precio">
-          <input type="text" formControlName="expenseAccountId" placeholder="Cuenta de Gasto">
-          <button (click)="removeLineItem(i)" class="btn-danger-outline btn-icon">&times;</button>
-        </div>
+        @for (line of lineItems.controls; track line; let i = $index) {
+          <div [formGroupName]="i" class="line-item">
+            <input type="text" formControlName="description" placeholder="Descripción" class="line-description">
+            <input type="number" formControlName="quantity" placeholder="Cant.">
+            <input type="number" formControlName="price" placeholder="Precio">
+            <input type="text" formControlName="expenseAccountId" placeholder="Cuenta de Gasto">
+            <button (click)="removeLineItem(i)" class="btn-danger-outline btn-icon">&times;</button>
+          </div>
+        }
         <button (click)="addLineItem()" class="btn-secondary mt-2">Añadir Línea</button>
       </div>
     </div>
 
     <div class="card">
-        <div class="card-body">
-            <div class="form-field">
-                <label for="notes">Notas</label>
-                <textarea id="notes" formControlName="notes" rows="3"></textarea>
-            </div>
+      <div class="card-body">
+        <div class="form-field">
+          <label for="notes">Notas</label>
+          <textarea id="notes" formControlName="notes" rows="3"></textarea>
         </div>
+      </div>
     </div>
 
     <div class="form-actions">
-        <a routerLink="/app/accounts-payable" class="btn-secondary">Cancelar</a>
-        <button (click)="save()" class="btn-primary" [disabled]="form.invalid || isLoading()">
-            {{ isLoading() ? 'Guardando...' : 'Guardar Factura' }}
-        </button>
+      <a routerLink="/app/accounts-payable" class="btn-secondary">Cancelar</a>
+      <button (click)="save()" class="btn-primary" [disabled]="form.invalid || isLoading()">
+        {{ isLoading() ? 'Guardando...' : 'Guardar Factura' }}
+      </button>
     </div>
 
   </div>

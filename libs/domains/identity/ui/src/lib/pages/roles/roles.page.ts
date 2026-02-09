@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 import { ReactiveFormsModule } from '@angular/forms';
 // ✅ CORREGIDO: Se importa el ícono 'X' que se usará como CloseIcon.
 import { LucideAngularModule, Plus, Edit, Trash, Copy, X } from 'lucide-angular';
@@ -17,7 +17,7 @@ interface PermissionGroup {
 @Component({
   selector: 'virteex-roles-management-page',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, LucideAngularModule, HasPermissionDirective],
+  imports: [ReactiveFormsModule, LucideAngularModule, HasPermissionDirective],
   templateUrl: './roles.page.html',
   styleUrls: ['./roles.page.scss'],
 })

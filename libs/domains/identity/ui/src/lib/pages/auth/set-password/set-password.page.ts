@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { AuthService } from '../../../core/services/auth';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReCaptchaV3Service, RecaptchaV3Module, RECAPTCHA_V3_SITE_KEY } from 'ng-recaptcha-19';
@@ -31,7 +31,6 @@ const passwordMatchValidator: ValidatorFn = (group: AbstractControl): Validation
   selector: 'app-set-password',
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     RouterModule,
     TranslateModule,
@@ -40,7 +39,7 @@ const passwordMatchValidator: ValidatorFn = (group: AbstractControl): Validation
     AuthInputComponent,
     AuthButtonComponent,
     PasswordValidatorComponent
-  ],
+],
   providers: [
     ReCaptchaV3Service,
     { provide: RECAPTCHA_V3_SITE_KEY, useValue: environment.recaptcha.siteKey }

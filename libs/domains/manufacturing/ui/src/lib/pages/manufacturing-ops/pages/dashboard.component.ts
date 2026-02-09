@@ -1,12 +1,12 @@
 
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-manufacturing-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [RouterModule],
   template: `
     <div class="p-6">
       <h1 class="text-2xl font-bold mb-4">Manufacturing & Production (MRP)</h1>

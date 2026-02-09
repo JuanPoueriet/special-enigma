@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { AuthButtonComponent } from '../auth-button/auth-button.component';
 
 @Component({
   selector: 'app-passkey-button',
   standalone: true,
-  imports: [CommonModule, AuthButtonComponent],
+  imports: [AuthButtonComponent],
   template: `
     <app-auth-button
         variant="secondary"

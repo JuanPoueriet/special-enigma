@@ -1,10 +1,10 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-auth-button',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './auth-button.component.html',
   styleUrls: ['./auth-button.component.scss']
 })

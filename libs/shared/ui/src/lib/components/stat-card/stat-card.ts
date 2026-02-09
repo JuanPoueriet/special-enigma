@@ -1,11 +1,11 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { LucideAngularModule, DollarSign, Receipt, Package, Users } from 'lucide-angular';
 
 @Component({
   selector: 'app-stat-card',
   standalone: true,
-  imports: [CommonModule, LucideAngularModule],
+  imports: [LucideAngularModule],
   templateUrl: './stat-card.html',
   styleUrls: ['./stat-card.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,0 +1,198 @@
+
+> nx run shared-ui:lint
+
+Linting "shared-ui"...
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/audit-trail/audit-trail.ts[24m[0m
+[0m  [2m4:13[22m  [31merror[39m  The selector should start with one of these prefixes: "virteex" (https://angular.dev/style-guide#choosing-component-selectors)  [2m@angular-eslint/component-selector[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/confirmation-modal/confirmation-modal.component.ts[24m[0m
+[0m   [2m7:13[22m  [31merror[39m  The selector should start with one of these prefixes: "virteex" (https://angular.dev/style-guide#choosing-component-selectors)  [2m@angular-eslint/component-selector[22m[0m
+[0m  [2m41:13[22m  [31merror[39m  Output bindings, including aliases, should not be named as standard DOM events                                                  [2m@angular-eslint/no-output-native[22m[0m
+[0m  [2m12:7[22m   [31merror[39m  click must be accompanied by either keyup, keydown or keypress event for accessibility                                          [2m@angular-eslint/template/click-events-have-key-events[22m[0m
+[0m  [2m12:7[22m   [31merror[39m  Elements with interaction handlers must be focusable                                                                            [2m@angular-eslint/template/interactive-supports-focus[22m[0m
+[0m  [2m14:9[22m   [31merror[39m  click must be accompanied by either keyup, keydown or keypress event for accessibility                                          [2m@angular-eslint/template/click-events-have-key-events[22m[0m
+[0m  [2m14:9[22m   [31merror[39m  Elements with interaction handlers must be focusable                                                                            [2m@angular-eslint/template/interactive-supports-focus[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/geo-mismatch-modal/geo-mismatch-modal.component.ts[24m[0m
+[0m  [2m7:13[22m  [31merror[39m  The selector should start with one of these prefixes: "virteex" (https://angular.dev/style-guide#choosing-component-selectors)  [2m@angular-eslint/component-selector[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/global-search/global-search.page.ts[24m[0m
+[0m   [2m8:9[22m   [33mwarning[39m  Unexpected any. Specify a different type                                                                                        [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m12:13[22m  [31merror[39m    The selector should start with one of these prefixes: "virteex" (https://angular.dev/style-guide#choosing-component-selectors)  [2m@angular-eslint/component-selector[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/impact-analysis-modal/impact-analysis-modal.ts[24m[0m
+[0m  [2m4:13[22m  [31merror[39m  The selector should start with one of these prefixes: "virteex" (https://angular.dev/style-guide#choosing-component-selectors)  [2m@angular-eslint/component-selector[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/language-selector/language-selector.ts[24m[0m
+[0m  [2m6:13[22m  [31merror[39m  The selector should start with one of these prefixes: "virteex" (https://angular.dev/style-guide#choosing-component-selectors)  [2m@angular-eslint/component-selector[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/live-preview/live-preview.html[24m[0m
+[0m  [2m14:13[22m  [31merror[39m  A label component must be associated with a form element  [2m@angular-eslint/template/label-has-associated-control[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/live-preview/live-preview.ts[24m[0m
+[0m  [2m5:13[22m  [31merror[39m  The selector should start with one of these prefixes: "virteex" (https://angular.dev/style-guide#choosing-component-selectors)  [2m@angular-eslint/component-selector[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/loader/loader.component.ts[24m[0m
+[0m  [2m5:13[22m  [31merror[39m  The selector should start with one of these prefixes: "virteex" (https://angular.dev/style-guide#choosing-component-selectors)  [2m@angular-eslint/component-selector[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/modal/modal.component.ts[24m[0m
+[0m   [2m7:13[22m  [31merror[39m  The selector should start with one of these prefixes: "virteex" (https://angular.dev/style-guide#choosing-component-selectors)                          [2m@angular-eslint/component-selector[22m[0m
+[0m  [2m15:13[22m  [31merror[39m  Output bindings, including aliases, should not be named "on", nor prefixed with it (https://angular.dev/guide/components/outputs#choosing-event-names)  [2m@angular-eslint/no-output-on-prefix[22m[0m
+[0m  [2m16:13[22m  [31merror[39m  Output bindings, including aliases, should not be named "on", nor prefixed with it (https://angular.dev/guide/components/outputs#choosing-event-names)  [2m@angular-eslint/no-output-on-prefix[22m[0m
+[0m  [2m17:13[22m  [31merror[39m  Output bindings, including aliases, should not be named "on", nor prefixed with it (https://angular.dev/guide/components/outputs#choosing-event-names)  [2m@angular-eslint/no-output-on-prefix[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/notifications/notifications.page.html[24m[0m
+[0m  [2m22:17[22m  [31merror[39m  click must be accompanied by either keyup, keydown or keypress event for accessibility  [2m@angular-eslint/template/click-events-have-key-events[22m[0m
+[0m  [2m22:17[22m  [31merror[39m  Elements with interaction handlers must be focusable                                    [2m@angular-eslint/template/interactive-supports-focus[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/notifications/notifications.page.ts[24m[0m
+[0m  [2m12:13[22m  [31merror[39m  The selector should start with one of these prefixes: "virteex" (https://angular.dev/style-guide#choosing-component-selectors)  [2m@angular-eslint/component-selector[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/otp/otp.component.ts[24m[0m
+[0m  [2m7:13[22m  [31merror[39m  The selector should start with one of these prefixes: "virteex" (https://angular.dev/style-guide#choosing-component-selectors)  [2m@angular-eslint/component-selector[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/stat-card/stat-card.ts[24m[0m
+[0m   [2m6:13[22m  [31merror[39m    The selector should start with one of these prefixes: "virteex" (https://angular.dev/style-guide#choosing-component-selectors)  [2m@angular-eslint/component-selector[22m[0m
+[0m  [2m15:18[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                                        [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m18:37[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                                        [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/theme-toggle/theme-toggle.ts[24m[0m
+[0m  [2m8:13[22m  [31merror[39m  The selector should start with one of these prefixes: "virteex" (https://angular.dev/style-guide#choosing-component-selectors)  [2m@angular-eslint/component-selector[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/ui/modal/ui-modal.component.html[24m[0m
+[0m  [2m4:5[22m  [31merror[39m  click must be accompanied by either keyup, keydown or keypress event for accessibility  [2m@angular-eslint/template/click-events-have-key-events[22m[0m
+[0m  [2m4:5[22m  [31merror[39m  Elements with interaction handlers must be focusable                                    [2m@angular-eslint/template/interactive-supports-focus[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/ui/modal/ui-modal.component.ts[24m[0m
+[0m   [2m7:13[22m  [31merror[39m  The selector should start with one of these prefixes: "virteex" (https://angular.dev/style-guide#choosing-component-selectors)  [2m@angular-eslint/component-selector[22m[0m
+[0m  [2m71:13[22m  [31merror[39m  Output bindings, including aliases, should not be named as standard DOM events                                                  [2m@angular-eslint/no-output-native[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/guards/auth-guard.spec.ts[24m[0m
+[0m  [2m10:24[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m11:19[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m12:28[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m38:40[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m38:53[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m38:61[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m50:40[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m50:53[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m50:61[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m64:40[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m64:53[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m64:61[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m65:25[22m  [33mwarning[39m  'res' is defined but never used           [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/guards/country.guard.spec.ts[24m[0m
+[0m  [2m30:7[22m   [33mwarning[39m  'router' is assigned a value but never used      [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m31:7[22m   [33mwarning[39m  'geoService' is assigned a value but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m62:84[22m  [33mwarning[39m  Unexpected any. Specify a different type         [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m67:13[22m  [33mwarning[39m  Unexpected any. Specify a different type         [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m87:15[22m  [33mwarning[39m  Unexpected any. Specify a different type         [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m87:39[22m  [33mwarning[39m  Unexpected any. Specify a different type         [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/guards/language-init.guard.spec.ts[24m[0m
+[0m   [2m5:10[22m  [33mwarning[39m  'of' is defined but never used     [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m17:7[22m   [33mwarning[39m  'guard' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/guards/language-redirect.guard.spec.ts[24m[0m
+[0m  [2m39:76[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m39:87[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/interceptors/auth.interceptor.ts[24m[0m
+[0m  [2m73:24[22m  [33mwarning[39m  'response' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/services/auth-queue.service.ts[24m[0m
+[0m  [2m12:17[22m  [31merror[39m  Unexpected empty constructor  [2m@typescript-eslint/no-empty-function[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/services/auth.ts[24m[0m
+[0m    [2m9:3[22m   [33mwarning[39m  'throwError' is defined but never used                                                                                                                                  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m   [2m86:15[22m  [31merror[39m    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  [2m@angular-eslint/prefer-inject[22m[0m
+[0m  [2m103:40[22m  [31merror[39m    Unexpected empty arrow function                                                                                                                                         [2m@typescript-eslint/no-empty-function[22m[0m
+[0m  [2m173:21[22m  [33mwarning[39m  'accessToken' is assigned a value but never used                                                                                                                        [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m206:40[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                                                                                [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m210:28[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                                                                                [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m257:52[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                                                                                [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m323:58[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                                                                                [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m342:59[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                                                                                [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m519:24[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                                                                                [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/services/billing.ts[24m[0m
+[0m  [2m74:26[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m75:26[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/services/country.service.ts[24m[0m
+[0m   [2m18:15[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m   [2m67:26[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m115:63[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m116:28[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/services/dashboard.ts[24m[0m
+[0m   [2m38:10[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m148:73[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m171:43[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m215:24[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/services/error-handler.service.ts[24m[0m
+[0m  [2m10:15[22m  [31merror[39m  Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  [2m@angular-eslint/prefer-inject[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/services/idle.service.ts[24m[0m
+[0m  [2m2:10[22m  [33mwarning[39m  'Router' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m4:21[22m  [33mwarning[39m  'take' is defined but never used    [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/services/journal-entries.ts[24m[0m
+[0m  [2m32:41[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m37:27[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/services/language.ts[24m[0m
+[0m  [2m31:36[22m  [31merror[39m  Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  [2m@angular-eslint/prefer-inject[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/services/notification-center.service.ts[24m[0m
+[0m  [2m25:5[22m  [31merror[39m  Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  [2m@angular-eslint/prefer-inject[22m[0m
+[0m  [2m26:5[22m  [31merror[39m  Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  [2m@angular-eslint/prefer-inject[22m[0m
+[0m  [2m27:5[22m  [31merror[39m  Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  [2m@angular-eslint/prefer-inject[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/services/theme.ts[24m[0m
+[0m  [2m23:5[22m  [31merror[39m  Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  [2m@angular-eslint/prefer-inject[22m[0m
+[0m  [2m24:5[22m  [31merror[39m  Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  [2m@angular-eslint/prefer-inject[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/services/tree.ts[24m[0m
+[0m  [2m25:17[22m  [31merror[39m    Unexpected empty constructor  [2m@typescript-eslint/no-empty-function[22m[0m
+[0m  [2m50:9[22m   [33mwarning[39m  Forbidden non-null assertion  [2m@typescript-eslint/no-non-null-assertion[22m[0m
+[0m  [2m50:9[22m   [33mwarning[39m  Forbidden non-null assertion  [2m@typescript-eslint/no-non-null-assertion[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/services/websocket.service.ts[24m[0m
+[0m  [2m17:17[22m  [31merror[39m    Unexpected empty constructor              [2m@typescript-eslint/no-empty-function[22m[0m
+[0m  [2m65:33[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/pages/unauthorized/unauthorized.page.ts[24m[0m
+[0m  [2m3:10[22m  [33mwarning[39m  'Router' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/services/common/config.service.ts[24m[0m
+[0m  [2m20:15[22m  [31merror[39m  Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  [2m@angular-eslint/prefer-inject[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/services/modal.service.ts[24m[0m
+[0m  [2m16:25[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                                                                                [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m27:5[22m   [31merror[39m    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  [2m@angular-eslint/prefer-inject[22m[0m
+[0m  [2m28:5[22m   [31merror[39m    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  [2m@angular-eslint/prefer-inject[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/services/organization.service.ts[24m[0m
+[0m  [2m26:15[22m  [31merror[39m  Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  [2m@angular-eslint/prefer-inject[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/validators/password.validator.ts[24m[0m
+[0m   [2m6:57[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m10:23[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[31m[1m✖ 100 problems (44 errors, 56 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+✖ 100 problems (44 errors, 56 warnings)
+
+
+
+ NX   Running target lint for project shared-ui failed
+
+Failed tasks:
+
+- shared-ui:lint
+
+Hint: run the command with --verbose for more details.

@@ -15,43 +15,51 @@
   </app-auth-input>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <!-- Industry Select (using HTML select but styled like AuthInput) -->
-      <div class="mb-4 group">
-          <label class="block text-sm font-medium text-text-secondary mb-1.5 transition-colors group-focus-within:text-primary">
-              {{ 'REGISTER.INDUSTRY' | translate }} <span class="text-error">*</span>
-          </label>
-          <div class="relative">
-              <select formControlName="industry" class="w-full bg-bg-secondary border border-border-color rounded-xl py-3 pl-10 pr-4 text-text-primary focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none appearance-none">
-                  <option value="" disabled selected>{{ 'REGISTER.INDUSTRY_PLACEHOLDER' | translate }}</option>
-                  <option *ngFor="let ind of industries" [value]="ind.id">{{ ind.label | translate }}</option>
-              </select>
-              <div class="absolute left-3 top-1/2 -translate-y-1/2 text-text-tertiary pointer-events-none transition-colors group-focus-within:text-primary">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="m17 20-1-6h-2"/><path d="m12 20-1-6H9"/><path d="m7 20-1-6H4"/><path d="M2 14h20"/></svg>
-              </div>
-          </div>
-          <div *ngIf="group.get('industry')?.touched && group.get('industry')?.invalid" class="mt-1.5 text-xs text-error">
-              {{ 'REGISTER.ERRORS.REQUIRED' | translate }}
-          </div>
+    <!-- Industry Select (using HTML select but styled like AuthInput) -->
+    <div class="mb-4 group">
+      <label class="block text-sm font-medium text-text-secondary mb-1.5 transition-colors group-focus-within:text-primary">
+        {{ 'REGISTER.INDUSTRY' | translate }} <span class="text-error">*</span>
+      </label>
+      <div class="relative">
+        <select formControlName="industry" class="w-full bg-bg-secondary border border-border-color rounded-xl py-3 pl-10 pr-4 text-text-primary focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none appearance-none">
+          <option value="" disabled selected>{{ 'REGISTER.INDUSTRY_PLACEHOLDER' | translate }}</option>
+          @for (ind of industries; track ind) {
+            <option [value]="ind.id">{{ ind.label | translate }}</option>
+          }
+        </select>
+        <div class="absolute left-3 top-1/2 -translate-y-1/2 text-text-tertiary pointer-events-none transition-colors group-focus-within:text-primary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="m17 20-1-6h-2"/><path d="m12 20-1-6H9"/><path d="m7 20-1-6H4"/><path d="M2 14h20"/></svg>
+        </div>
       </div>
+      @if (group.get('industry')?.touched && group.get('industry')?.invalid) {
+        <div class="mt-1.5 text-xs text-error">
+          {{ 'REGISTER.ERRORS.REQUIRED' | translate }}
+        </div>
+      }
+    </div>
 
-      <!-- Employees Select -->
-      <div class="mb-4 group">
-          <label class="block text-sm font-medium text-text-secondary mb-1.5 transition-colors group-focus-within:text-primary">
-              {{ 'REGISTER.EMPLOYEES' | translate }} <span class="text-error">*</span>
-          </label>
-          <div class="relative">
-              <select formControlName="numberOfEmployees" class="w-full bg-bg-secondary border border-border-color rounded-xl py-3 pl-10 pr-4 text-text-primary focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none appearance-none">
-                  <option value="" disabled selected>{{ 'REGISTER.EMPLOYEES_PLACEHOLDER' | translate }}</option>
-                  <option *ngFor="let size of companySizes" [value]="size.id">{{ size.label | translate }}</option>
-              </select>
-              <div class="absolute left-3 top-1/2 -translate-y-1/2 text-text-tertiary pointer-events-none transition-colors group-focus-within:text-primary">
-                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-              </div>
-          </div>
-          <div *ngIf="group.get('numberOfEmployees')?.touched && group.get('numberOfEmployees')?.invalid" class="mt-1.5 text-xs text-error">
-              {{ 'REGISTER.ERRORS.REQUIRED' | translate }}
-          </div>
+    <!-- Employees Select -->
+    <div class="mb-4 group">
+      <label class="block text-sm font-medium text-text-secondary mb-1.5 transition-colors group-focus-within:text-primary">
+        {{ 'REGISTER.EMPLOYEES' | translate }} <span class="text-error">*</span>
+      </label>
+      <div class="relative">
+        <select formControlName="numberOfEmployees" class="w-full bg-bg-secondary border border-border-color rounded-xl py-3 pl-10 pr-4 text-text-primary focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none appearance-none">
+          <option value="" disabled selected>{{ 'REGISTER.EMPLOYEES_PLACEHOLDER' | translate }}</option>
+          @for (size of companySizes; track size) {
+            <option [value]="size.id">{{ size.label | translate }}</option>
+          }
+        </select>
+        <div class="absolute left-3 top-1/2 -translate-y-1/2 text-text-tertiary pointer-events-none transition-colors group-focus-within:text-primary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
       </div>
+      @if (group.get('numberOfEmployees')?.touched && group.get('numberOfEmployees')?.invalid) {
+        <div class="mt-1.5 text-xs text-error">
+          {{ 'REGISTER.ERRORS.REQUIRED' | translate }}
+        </div>
+      }
+    </div>
   </div>
 
   <app-auth-input

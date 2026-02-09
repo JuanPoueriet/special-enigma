@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject, OnInit, signal, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LucideAngularModule, Save, Building2, User, Mail, Phone, Hash, MapPin } from 'lucide-angular';
@@ -7,7 +7,7 @@ import { LucideAngularModule, Save, Building2, User, Mail, Phone, Hash, MapPin }
 @Component({
   selector: 'app-customer-form-page',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, LucideAngularModule],
+  imports: [ReactiveFormsModule, LucideAngularModule],
   templateUrl: './customer-form.page.html',
   styleUrls: ['./customer-form.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

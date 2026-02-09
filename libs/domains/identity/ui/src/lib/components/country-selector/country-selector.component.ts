@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter, Input, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { IntentDetectionService } from '../../services/intent-detection.service';
 
@@ -15,7 +15,7 @@ export interface CountryInfo {
 @Component({
   selector: 'virteex-country-selector',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   template: `
     <div class="country-selector-container mb-4">
       <label class="block text-sm font-medium text-gray-700 mb-1">País de operación de tu empresa</label>
@@ -24,27 +24,31 @@ export interface CountryInfo {
           [(ngModel)]="selectedCountry"
           (ngModelChange)="onCountryChange()"
           class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md border"
-        >
-          <option *ngFor="let c of countries" [value]="c.code">
-            {{ c.flag }} {{ c.name }}
-          </option>
+          >
+          @for (c of countries; track c) {
+            <option [value]="c.code">
+              {{ c.flag }} {{ c.name }}
+            </option>
+          }
         </select>
       </div>
 
       <!-- Context Info Card -->
-      <div *ngIf="getSelectedCountryInfo() as info" class="mt-2 p-3 bg-gray-50 rounded-md border border-gray-200 text-sm">
-        <div class="flex items-center space-x-2 mb-1">
-          <span class="text-lg">{{ info.flag }}</span>
-          <span class="font-bold text-gray-900">{{ info.name }}</span>
+      @if (getSelectedCountryInfo(); as info) {
+        <div class="mt-2 p-3 bg-gray-50 rounded-md border border-gray-200 text-sm">
+          <div class="flex items-center space-x-2 mb-1">
+            <span class="text-lg">{{ info.flag }}</span>
+            <span class="font-bold text-gray-900">{{ info.name }}</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-xs text-gray-600">
+            <div><span class="font-semibold">Moneda:</span> {{ info.currency }}</div>
+            <div><span class="font-semibold">Impuesto:</span> {{ info.tax }}</div>
+            <div class="col-span-2"><span class="font-semibold">Facturación:</span> {{ info.invoiceType }}</div>
+          </div>
         </div>
-        <div class="grid grid-cols-2 gap-2 text-xs text-gray-600">
-          <div><span class="font-semibold">Moneda:</span> {{ info.currency }}</div>
-          <div><span class="font-semibold">Impuesto:</span> {{ info.tax }}</div>
-          <div class="col-span-2"><span class="font-semibold">Facturación:</span> {{ info.invoiceType }}</div>
-        </div>
-      </div>
+      }
     </div>
-  `,
+    `,
   styles: [`
     .country-selector-container select {
       border: 1px solid #d1d5db;
