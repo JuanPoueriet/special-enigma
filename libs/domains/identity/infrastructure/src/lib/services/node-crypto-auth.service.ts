@@ -1,8 +1,21 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from '@virteex/identity-domain';
 import * as crypto from 'crypto';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { authenticator } = require('otplib');
+import { generateSecret, verifySync, NobleCryptoPlugin, ScureBase32Plugin } from 'otplib';
+
+interface JwtPayload {
+  [key: string]: unknown;
+  exp?: number;
+}
+
+const authenticatorOptions = {
+  crypto: new NobleCryptoPlugin(),
+  base32: new ScureBase32Plugin(),
+  digits: 6 as const, // Explicit type
+  period: 30,
+  algorithm: 'sha1' as const,
+  window: 1
+};
 
 @Injectable()
 export class NodeCryptoAuthService implements AuthService {
@@ -41,10 +54,12 @@ export class NodeCryptoAuthService implements AuthService {
     const header = { alg: 'HS256', typ: 'JWT' };
     const encodedHeader = Buffer.from(JSON.stringify(header)).toString('base64url');
 
+    const typedPayload = payload as JwtPayload;
+
     // Ensure payload has exp claim
     const enrichedPayload = {
-      ...payload,
-      exp: payload.exp || Math.floor(Date.now() / 1000) + (60 * 60) // 1 hour default if not set
+      ...typedPayload,
+      exp: typedPayload.exp || Math.floor(Date.now() / 1000) + (60 * 60) // 1 hour default if not set
     };
 
     const encodedPayload = Buffer.from(JSON.stringify(enrichedPayload)).toString('base64url');
@@ -72,7 +87,7 @@ export class NodeCryptoAuthService implements AuthService {
       throw new UnauthorizedException('Invalid token signature');
     }
 
-    const payload = JSON.parse(Buffer.from(encodedPayload, 'base64url').toString());
+    const payload = JSON.parse(Buffer.from(encodedPayload, 'base64url').toString()) as JwtPayload;
 
     if (payload.exp && payload.exp < Math.floor(Date.now() / 1000)) {
         throw new UnauthorizedException('Token expired');
@@ -82,14 +97,19 @@ export class NodeCryptoAuthService implements AuthService {
   }
 
   generateMfaSecret(): string {
-      return authenticator.generateSecret();
+    return generateSecret();
   }
 
   verifyMfaToken(token: string, secret: string): boolean {
-      try {
-          return authenticator.check(token, secret);
-      } catch (e) {
-          return false;
-      }
+    try {
+      const result = verifySync({ ...authenticatorOptions, token, secret });
+      // The result of verifySync is usually { valid: boolean, ... } or possibly null/undefined if error suppressed?
+      // In functional API, it usually returns result object.
+      // Cast to any to access properties safely if type inference is tricky due to plugin types.
+      // Or trust verifySync return type.
+      return result && result.valid === true;
+    } catch {
+      return false;
+    }
   }
 }

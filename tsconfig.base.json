@@ -16,6 +16,12 @@
     ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
       "@virteex/auth": [
