@@ -36,7 +36,7 @@ export class Employee {
   position?: string;
 
   @Property({ type: 'decimal', precision: 10, scale: 2, default: 0 })
-  salary: number = 0;
+  salary = 0;
 
   @Property()
   hireDate!: Date;

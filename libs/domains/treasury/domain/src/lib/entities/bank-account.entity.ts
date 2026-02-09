@@ -22,7 +22,7 @@ export class BankAccount {
   currency!: string;
 
   @Property({ type: 'decimal', precision: 12, scale: 2, default: 0 })
-  balance: number = 0;
+  balance = 0;
 
   @OneToMany('CashFlow', 'bankAccount', { cascade: [Cascade.ALL] })
   transactions = new Collection<CashFlow>(this);

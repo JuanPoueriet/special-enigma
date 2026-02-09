@@ -15,7 +15,7 @@ export class BillOfMaterials {
   version!: string;
 
   @Property({ default: true })
-  isActive: boolean = true;
+  isActive = true;
 
   @OneToMany('BillOfMaterialsComponent', 'billOfMaterials', { cascade: [Cascade.ALL] })
   components = new Collection<BillOfMaterialsComponent>(this);

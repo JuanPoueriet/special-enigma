@@ -15,7 +15,7 @@ interface PermissionGroup {
 }
 
 @Component({
-  selector: 'app-roles-management-page',
+  selector: 'virteex-roles-management-page',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, LucideAngularModule, HasPermissionDirective],
   templateUrl: './roles.page.html',
