@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LanguageService } from '../../../core/services/language';
 
 @Component({
-  selector: 'app-language-selector',
+  selector: 'virteex-language-selector',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './language-selector.html',

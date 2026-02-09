@@ -4,7 +4,7 @@ import { ModalOptions } from '../../service/modal.service';
 import { UiModalComponent } from '../ui/modal';
 
 @Component({
-  selector: 'app-modal',
+  selector: 'virteex-modal',
   standalone: true,
   imports: [CommonModule, UiModalComponent],
   templateUrl: './modal.component.html',

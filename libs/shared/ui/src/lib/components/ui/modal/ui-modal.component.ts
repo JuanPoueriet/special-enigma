@@ -4,7 +4,7 @@ import { trigger, style, animate, transition, query, animateChild, group } from 
 import { LucideAngularModule, X } from 'lucide-angular';
 
 @Component({
-  selector: 'app-ui-modal',
+  selector: 'virteex-ui-modal',
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './ui-modal.component.html',
