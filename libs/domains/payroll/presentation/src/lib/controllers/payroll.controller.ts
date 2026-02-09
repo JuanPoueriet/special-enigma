@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param, NotFoundException } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { CalculatePayrollUseCase } from '@virteex/payroll-application';
 import { CalculatePayrollDto } from '@virteex/payroll-contracts';
 import { Payroll } from '@virteex/payroll-domain';

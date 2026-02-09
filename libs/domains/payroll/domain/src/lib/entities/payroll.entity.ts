@@ -21,13 +21,13 @@ export class Payroll {
   paymentDate!: Date;
 
   @Property({ type: 'decimal', precision: 10, scale: 2 })
-  totalEarnings: number = 0;
+  totalEarnings = 0;
 
   @Property({ type: 'decimal', precision: 10, scale: 2 })
-  totalDeductions: number = 0;
+  totalDeductions = 0;
 
   @Property({ type: 'decimal', precision: 10, scale: 2 })
-  netPay: number = 0;
+  netPay = 0;
 
   @Enum(() => PayrollStatus)
   status: PayrollStatus = PayrollStatus.DRAFT;

@@ -4,22 +4,26 @@ let ivm: any;
 try {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   ivm = require('isolated-vm');
-} catch (e) {
+} catch (_e) {
   console.warn('isolated-vm not found, using mock implementation for development/environment safety');
   ivm = {
     Isolate: class {
       isDisposed = false;
-      constructor(opts: any) {}
+      // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
+      constructor(_opts: any) {}
       createContextSync() {
         return {
           global: {
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
             setSync: () => {},
             derefInto: () => ({}),
           },
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
           release: () => {},
         };
       }
-      compileScriptSync(code: string) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      compileScriptSync(_code: string) {
         return {
           run: async () => ({})
         };

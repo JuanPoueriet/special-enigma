@@ -4,7 +4,7 @@ import { LucideAngularModule, TrendingUp, TrendingDown } from 'lucide-angular';
 import { Kpi } from '../../../core/models/finance';
 
 @Component({
-  selector: 'app-kpi-card',
+  selector: 'virteex-kpi-card',
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './kpi-card.html',
