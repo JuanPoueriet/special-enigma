@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { PayrollApplicationModule } from '../../../application/src/index';
-import { PayrollInfrastructureModule } from '../../../infrastructure/src/index';
+import { PayrollApplicationModule } from '@virteex/payroll-application';
+import { PayrollInfrastructureModule } from '@virteex/payroll-infrastructure';
 import { PayrollController } from './controllers/payroll.controller';
 
 @Module({

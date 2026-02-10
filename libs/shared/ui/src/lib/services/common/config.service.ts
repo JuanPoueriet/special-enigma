@@ -1,9 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, shareReplay } from 'rxjs';
 import { Industry, CompanySize } from '@virteex/shared-types';
-// import { environment } from '../../../../environments/environment';
-import { environment } from '@virteex/shared-ui/environments/environment';
+import { APP_CONFIG, AppConfig } from '@virteex/shared-config';
 
 export interface RegistrationOptions {
   industries: Industry[];
@@ -14,14 +13,13 @@ export interface RegistrationOptions {
   providedIn: 'root'
 })
 export class ConfigService {
-  private apiUrl = environment.apiUrl;
   private registrationOptions$: Observable<RegistrationOptions> | null = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, @Inject(APP_CONFIG) private config: AppConfig) {}
 
   getRegistrationOptions(): Observable<RegistrationOptions> {
     if (!this.registrationOptions$) {
-      this.registrationOptions$ = this.http.get<RegistrationOptions>(`${this.apiUrl}/config/registration-options`).pipe(
+      this.registrationOptions$ = this.http.get<RegistrationOptions>(`${this.config.apiUrl}/config/registration-options`).pipe(
         shareReplay(1)
       );
     }

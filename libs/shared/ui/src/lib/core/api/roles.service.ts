@@ -1,8 +1,9 @@
+import { APP_CONFIG } from '@virteex/shared-config';
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '@virteex/shared-ui/environments/environment';
-// import { environment } from '../../../../environments/environment';
+
+//
 
 // Interfaces que coinciden con los DTOs del Backend
 export interface Role {
@@ -21,11 +22,11 @@ export interface CreateRoleDto {
 
 export type UpdateRoleDto = Partial<CreateRoleDto>;
 
-
 @Injectable({ providedIn: 'root' })
 export class RolesService {
+  private config = inject(APP_CONFIG);
   private http = inject(HttpClient);
-  private apiUrl = `${environment.apiUrl}/roles`;
+  private apiUrl = `${this.config.apiUrl}/roles`;
 
   getRoles(): Observable<Role[]> {
     return this.http.get<Role[]>(this.apiUrl);

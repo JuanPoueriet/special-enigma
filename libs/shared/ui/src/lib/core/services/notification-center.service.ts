@@ -1,8 +1,8 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { WebSocketService } from '@virteex/shared-ui/lib/core/services/websocket.service';
 import { PushNotificationService } from '@virteex/shared-ui/lib/core/services/push-notification.service';
-import { environment } from '@virteex/shared-ui/environments/environment';
+import { APP_CONFIG } from '@virteex/shared-config';
 
 export interface Notification {
   id: string;
@@ -16,7 +16,8 @@ export interface Notification {
   providedIn: 'root'
 })
 export class NotificationCenterService {
-  private readonly apiUrl = `${environment.apiUrl}/notifications`;
+  private config = inject(APP_CONFIG);
+  private readonly apiUrl = `${this.config.apiUrl}/notifications`;
 
   notifications = signal<Notification[]>([]);
   unreadCount = signal(0);

@@ -1,8 +1,7 @@
+import { APP_CONFIG } from '@virteex/shared-config';
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '@virteex/projects-ui/environments/environment';
-import { environment } from '@virteex/projects-ui/lib/pages/environments/environment';
 
 export interface WorkItem {
   id: string;
@@ -23,8 +22,9 @@ export interface MyWorkData {
   providedIn: 'root'
 })
 export class MyWorkService {
+  private config = inject(APP_CONFIG);
   private http = inject(HttpClient);
-  private apiUrl = `${environment.apiUrl}/my-work`;
+  private apiUrl = `${this.config.apiUrl}/my-work`;
 
   getWorkItems(): Observable<MyWorkData> {
     return this.http.get<MyWorkData>(this.apiUrl, { withCredentials: true });

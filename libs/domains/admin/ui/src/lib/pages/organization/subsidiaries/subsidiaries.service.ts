@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../../../../environments/environment';
+import { APP_CONFIG } from '@virteex/shared-config';
 
 export interface Subsidiary {
   parentOrganizationId: string;
@@ -26,7 +26,8 @@ export interface CreateSubsidiaryDto {
   providedIn: 'root'
 })
 export class SubsidiariesService {
-  private apiUrl = `${environment.apiUrl}/organizations/subsidiaries`;
+  private config = inject(APP_CONFIG);
+  private apiUrl = `${this.config.apiUrl}/organizations/subsidiaries`;
 
   constructor(private http: HttpClient) {}
 

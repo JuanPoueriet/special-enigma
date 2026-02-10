@@ -1,21 +1,22 @@
+import { APP_CONFIG } from '@virteex/shared-config';
 // app/core/services/journal-entries.ts
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '@virteex/shared-ui/environments/environment';
+
 import { JournalEntry } from '@virteex/shared-ui/lib/core/models/journal-entry.model';
 
 // Usaremos un DTO (Data Transfer Object) para la creación,
 // ya que no necesitamos enviar todos los campos de JournalEntry.
 type CreateJournalEntryDto = Omit<JournalEntry, 'id' | 'organizationId' | 'createdAt' | 'updatedAt' | 'totalDebit' | 'totalCredit' | 'status'>;
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class JournalEntries {
+  private config = inject(APP_CONFIG);
   private http = inject(HttpClient);
-  private apiUrl = `${environment.apiUrl}/journal-entries`;
+  private apiUrl = `${this.config.apiUrl}/journal-entries`;
 
   getAll(): Observable<JournalEntry[]> {
     return this.http.get<JournalEntry[]>(this.apiUrl);

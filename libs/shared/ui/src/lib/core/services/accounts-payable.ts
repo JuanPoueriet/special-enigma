@@ -1,7 +1,7 @@
+import { APP_CONFIG } from '@virteex/shared-config';
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '@virteex/shared-ui/environments/environment';
 
 // Interfaces based on backend entities (simplified for now)
 export interface VendorBill {
@@ -35,8 +35,9 @@ export type UpdateVendorBillDto = Partial<CreateVendorBillDto>
 
 @Injectable({ providedIn: 'root' })
 export class AccountsPayableService {
+  private config = inject(APP_CONFIG);
   private http = inject(HttpClient);
-  private apiUrl = `${environment.apiUrl}/accounts-payable`;
+  private apiUrl = `${this.config.apiUrl}/accounts-payable`;
 
   getVendorBills(): Observable<VendorBill[]> {
     return this.http.get<VendorBill[]>(this.apiUrl);

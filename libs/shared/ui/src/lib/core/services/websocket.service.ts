@@ -1,14 +1,15 @@
 // app/core/services/websocket.service.ts
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import { Observable, Subject } from 'rxjs'; // Importa Subject
-import { environment } from '@virteex/shared-ui/environments/environment';
+import { APP_CONFIG } from '@virteex/shared-config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WebSocketService implements OnDestroy {
+  private config = inject(APP_CONFIG);
   private socket: Socket | null = null;
   // Subject para notificar cuando la conexión está establecida
   private connectionReady = new Subject<void>();
@@ -21,7 +22,7 @@ export class WebSocketService implements OnDestroy {
       return;
     }
 
-    const baseUrl = environment.apiUrl.split('/api')[0];
+    const baseUrl = this.config.apiUrl.split('/api')[0];
     console.log('Attempting to connect WebSocket...');
     this.socket = io(baseUrl, {
       withCredentials: true,

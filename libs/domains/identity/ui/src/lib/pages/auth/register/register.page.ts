@@ -29,7 +29,7 @@ import {
   AlertCircle,
 } from 'lucide-angular';
 import { trigger, style, transition, animate } from '@angular/animations';
-import { AuthService } from '../../../services/auth.service';
+import { AuthService } from '@virteex/identity-ui';
 import { RegisterPayload, GeoMismatchModalComponent } from '@virteex/shared-ui'; // Import from shared-ui
 import { StepAccountInfo } from './steps/step-account-info/step-account-info';
 import { StepBusiness } from './steps/step-business/step-business';
@@ -41,11 +41,11 @@ import {
   RecaptchaV3Module,
   ReCaptchaV3Service,
 } from 'ng-recaptcha-19';
-import { environment } from '@virteex/shared-ui/environments/environment';
+import { APP_CONFIG, AppConfig } from '@virteex/shared-config';
 import { CountryService, LanguageService } from '@virteex/shared-ui';
-import { AuthLayoutComponent } from '../components/auth-layout/auth-layout.component';
-import { AuthButtonComponent } from '../components/auth-button/auth-button.component';
-import { AuthInputComponent } from '../components/auth-input/auth-input.component';
+import { AuthLayoutComponent } from '@virteex/identity-ui';
+import { AuthButtonComponent } from '@virteex/identity-ui';
+import { AuthInputComponent } from '@virteex/identity-ui';
 
 // Validador personalizado para coincidencia de contraseñas
 export function passwordMatchValidator(
@@ -77,7 +77,11 @@ export function passwordMatchValidator(
   ],
   providers: [
     ReCaptchaV3Service,
-    { provide: RECAPTCHA_V3_SITE_KEY, useValue: environment.recaptcha.siteKey },
+    {
+      provide: RECAPTCHA_V3_SITE_KEY,
+      useFactory: (config: AppConfig) => config.recaptcha.siteKey,
+      deps: [APP_CONFIG]
+    },
   ],
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],

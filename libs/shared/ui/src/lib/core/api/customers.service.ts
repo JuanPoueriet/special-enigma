@@ -1,8 +1,9 @@
+import { APP_CONFIG } from '@virteex/shared-config';
 // app/core/api/customers.service.ts
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '@virteex/shared-ui/environments/environment';
+
 import { Customer } from '@virteex/shared-ui/lib/core/models/customer.model';
 
 export type CreateCustomerDto = Omit<Customer, 'id' | 'organizationId' | 'createdAt' | 'updatedAt' | 'totalBilled'>;
@@ -10,8 +11,9 @@ export type UpdateCustomerDto = Partial<CreateCustomerDto>;
 
 @Injectable({ providedIn: 'root' })
 export class CustomersService {
+  private config = inject(APP_CONFIG);
   private http = inject(HttpClient);
-  private apiUrl = `${environment.apiUrl}/customers`;
+  private apiUrl = `${this.config.apiUrl}/customers`;
 
   getCustomers(): Observable<Customer[]> {
     return this.http.get<Customer[]>(this.apiUrl);

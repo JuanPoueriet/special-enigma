@@ -1,5 +1,5 @@
 import { defineConfig } from '@mikro-orm/postgresql';
-import { SampleEntity } from '@virteex/domain';
+import { SampleEntity } from '@virteex/sample-domain';
 import { TenantSubscriber } from '@virteex/infrastructure/lib/persistence/tenant.subscriber';
 import { getTenantContext } from '@virteex/auth';
 

@@ -1,20 +1,22 @@
+import { APP_CONFIG } from '@virteex/shared-config';
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
+
 import { SwPush } from '@angular/service-worker';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PushNotificationService {
-  readonly VAPID_PUBLIC_KEY = environment.vapidPublicKey;
+  private config = inject(APP_CONFIG);
+  readonly VAPID_PUBLIC_KEY = this.config.vapidPublicKey || '';
 
   private swPush = inject(SwPush);
   private http = inject(HttpClient);
 
   subscribeToNotifications() {
     if (!this.swPush.isEnabled) {
-      if (environment.production) {
+      if (this.config.production) {
           console.warn('Push notifications are not enabled (Service Worker not active).');
       }
       return;
@@ -27,6 +29,6 @@ export class PushNotificationService {
   }
 
   private sendToServer(params: PushSubscription) {
-    this.http.post(`${environment.apiUrl}/push/subscribe`, params).subscribe();
+    this.http.post(`${this.config.apiUrl}/push/subscribe`, params).subscribe();
   }
 }

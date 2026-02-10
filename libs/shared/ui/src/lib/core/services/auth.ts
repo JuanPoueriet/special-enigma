@@ -14,18 +14,18 @@ import {
 import { toObservable } from '@angular/core/rxjs-interop';
 import { startRegistration, startAuthentication } from '@simplewebauthn/browser';
 
-import { API_URL } from '../tokens/api-url.token';
-import { RegisterPayload } from '../../interfaces/register-payload.interface';
-import { User } from '../../interfaces/user.interface';
-import { LoginCredentials } from '../../interfaces/login-credentials.interface';
-import { AuthStatus } from '../../enums/auth-status.enum';
-import { UserStatus } from '../../enums/user-status.enum';
-import { UserPayload } from '../../interfaces/user-payload.interface';
+import { API_URL } from '@virteex/shared-ui';
+import { RegisterPayload } from '@virteex/shared-ui';
+import { User } from '@virteex/shared-ui';
+import { LoginCredentials } from '@virteex/shared-ui';
+import { AuthStatus } from '@virteex/shared-ui';
+import { UserStatus } from '@virteex/shared-ui';
+import { UserPayload } from '@virteex/shared-ui';
 import { NotificationService } from './notification';
 import { WebSocketService } from './websocket.service';
-import { ModalService } from '../../services/modal.service';
+import { ModalService } from '@virteex/shared-ui';
 import { ErrorHandlerService } from './error-handler.service';
-import { IS_PUBLIC_API } from '../tokens/http-context.tokens';
+import { IS_PUBLIC_API } from '@virteex/shared-ui';
 import { hasPermission } from '@virteex/shared-util-auth';
 
 interface LoginResponse {

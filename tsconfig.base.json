@@ -42,28 +42,28 @@
       "@virteex/contracts/*": [
         "libs/shared/contracts/src/*"
       ],
-      "@virteex/domain": [
+      "@virteex/sample-domain": [
         "libs/domains/sample/domain/src/index.ts"
       ],
-      "@virteex/domain/*": [
+      "@virteex/sample-domain/*": [
         "libs/domains/sample/domain/src/*"
       ],
-      "@virteex/application": [
+      "@virteex/sample-application": [
         "libs/domains/sample/application/src/index.ts"
       ],
-      "@virteex/application/*": [
+      "@virteex/sample-application/*": [
         "libs/domains/sample/application/src/*"
       ],
-      "@virteex/infrastructure": [
+      "@virteex/sample-infrastructure": [
         "libs/domains/sample/infrastructure/src/index.ts"
       ],
-      "@virteex/infrastructure/*": [
+      "@virteex/sample-infrastructure/*": [
         "libs/domains/sample/infrastructure/src/*"
       ],
-      "@virteex/presentation": [
+      "@virteex/sample-presentation": [
         "libs/domains/sample/presentation/src/index.ts"
       ],
-      "@virteex/presentation/*": [
+      "@virteex/sample-presentation/*": [
         "libs/domains/sample/presentation/src/*"
       ],
       "@virteex/tenant": [
@@ -617,6 +617,12 @@
       ],
       "@virteex/shared-util-auth/*": [
         "libs/shared/util/auth/src/*"
+      ],
+      "@virteex/shared-config": [
+        "libs/shared/util/config/src/index.ts"
+      ],
+      "@virteex/shared-config/*": [
+        "libs/shared/util/config/src/*"
       ],
       "@virteex/finops": [
         "libs/kernel/finops/src/index.ts"
