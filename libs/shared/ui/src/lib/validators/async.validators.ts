@@ -2,7 +2,7 @@ import { AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/fo
 import { HttpClient } from '@angular/common/http';
 import { Observable, timer, of } from 'rxjs';
 import { map, switchMap, catchError } from 'rxjs/operators';
-import { environment } from 'apps/core/client-web/src/environments/environment';
+import { environment } from '../../environments/environment';
 
 export class AsyncValidators {
   static createEmailValidator(http: HttpClient): AsyncValidatorFn {

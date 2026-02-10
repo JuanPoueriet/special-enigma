@@ -1,4 +1,5 @@
 import { Injectable, Inject, NotFoundException } from '@nestjs/common';
+import { PayrollStatus, PayrollType, PayrollDetailType } from '@virteex/contracts';
 import {
   EmployeeRepository,
   EMPLOYEE_REPOSITORY,
@@ -9,13 +10,8 @@ import {
   PayrollDetail,
   TaxService,
   TAX_SERVICE
-} from '@virteex/payroll-domain';
-import {
-  CalculatePayrollDto,
-  PayrollStatus,
-  PayrollType,
-  PayrollDetailType
-} from '@virteex/payroll-contracts';
+} from '../../../../domain/src/index';
+import { CalculatePayrollDto } from '../../../../contracts/src/index';
 
 @Injectable()
 export class CalculatePayrollUseCase {

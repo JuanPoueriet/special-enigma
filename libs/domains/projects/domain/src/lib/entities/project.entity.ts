@@ -1,5 +1,5 @@
 import { Entity, PrimaryKey, Property, Enum, OneToMany, Collection, Cascade } from '@mikro-orm/core';
-import { ProjectStatus } from '@virteex/projects-contracts';
+import { ProjectStatus } from '@virteex/contracts';
 import type { Task } from '@virteex/projects-domain/lib/entities/task.entity';
 
 @Entity()
@@ -23,7 +23,7 @@ export class Project {
   endDate?: Date;
 
   @Enum(() => ProjectStatus)
-  status: ProjectStatus = ProjectStatus.PLANNING;
+  status: ProjectStatus = ProjectStatus.PLANNED;
 
   @OneToMany('Task', 'project', { cascade: [Cascade.ALL] })
   tasks = new Collection<Task>(this);

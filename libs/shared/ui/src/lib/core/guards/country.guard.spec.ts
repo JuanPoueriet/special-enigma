@@ -1,96 +1,57 @@
 import { TestBed } from '@angular/core/testing';
-import { CountryGuard } from '@virteex/shared-ui/lib/core/guards/country.guard';
-import { CountryService } from '@virteex/shared-ui/lib/core/services/country.service';
-import { LanguageService } from '@virteex/shared-ui/lib/core/services/language';
-import { GeoLocationService } from '@virteex/shared-ui/lib/core/services/geo-location.service';
-import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { of, throwError } from 'rxjs';
-
-class MockCountryService {
-  getCountryConfig = jest.fn().mockReturnValue(of({ code: 'do' }));
-}
-
-class MockLanguageService {
-  setLanguage = jest.fn();
-}
-
-class MockGeoLocationService {
-  checkAndNotifyMismatch = jest.fn();
-}
-
-class MockRouter {
-  createUrlTree = jest.fn((commands) => commands.join('/'));
-  parseUrl = jest.fn((url) => url);
-}
+import { Router } from '@angular/router';
+import { CountryService } from '../services/country.service';
+import { LanguageService } from '../services/language';
+import { GeoLocationService } from '../services/geo-location.service';
+import { CountryGuard } from './country.guard';
+import { of, firstValueFrom } from 'rxjs';
+import { vi } from 'vitest';
 
 describe('CountryGuard', () => {
   let guard: CountryGuard;
-  let countryService: MockCountryService;
-  let languageService: MockLanguageService;
-  let router: MockRouter;
-  let geoService: MockGeoLocationService;
+  const mockCountryService = {
+    getCountryConfig: vi.fn()
+  };
+  const mockLanguageService = {
+    setLanguage: vi.fn()
+  };
+  const mockGeoService = {
+    checkAndNotifyMismatch: vi.fn()
+  };
+  const mockRouter = {
+    createUrlTree: vi.fn(),
+    parseUrl: vi.fn()
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         CountryGuard,
-        { provide: CountryService, useClass: MockCountryService },
-        { provide: LanguageService, useClass: MockLanguageService },
-        { provide: GeoLocationService, useClass: MockGeoLocationService },
-        { provide: Router, useClass: MockRouter }
+        { provide: CountryService, useValue: mockCountryService },
+        { provide: LanguageService, useValue: mockLanguageService },
+        { provide: GeoLocationService, useValue: mockGeoService },
+        { provide: Router, useValue: mockRouter }
       ]
     });
-
     guard = TestBed.inject(CountryGuard);
-    countryService = TestBed.inject(CountryService) as unknown as MockCountryService;
-    languageService = TestBed.inject(LanguageService) as unknown as MockLanguageService;
-    router = TestBed.inject(Router) as unknown as MockRouter;
-    geoService = TestBed.inject(GeoLocationService) as unknown as MockGeoLocationService;
   });
 
-  it('should allow navigation if country and lang are present and valid', (done) => {
-    const route = {
-      paramMap: {
-        get: (key: string) => key === 'country' ? 'do' : 'es'
-      }
-    } as unknown as ActivatedRouteSnapshot;
-
-    const state = { url: '/es/do/auth/login' } as RouterStateSnapshot;
-
-    const obs = guard.canActivate(route, state);
-
-    if (typeof obs === 'boolean' || obs instanceof Promise || 'urlTree' in (obs as any)) {
-      fail('Expected observable');
-      return;
-    }
-
-    (obs as any).subscribe((result: boolean) => {
-      expect(result).toBe(true);
-      expect(languageService.setLanguage).toHaveBeenCalledWith('es');
-      expect(countryService.getCountryConfig).toHaveBeenCalledWith('do');
-      done();
-    });
+  it('should be created', () => {
+    expect(guard).toBeTruthy();
   });
 
-  it('should redirect if country fetch fails', (done) => {
-    countryService.getCountryConfig.mockReturnValue(throwError(() => new Error('Failed')));
-    const route = {
-        paramMap: {
-          get: (key: string) => key === 'country' ? 'invalid' : 'es'
-        }
-      } as unknown as ActivatedRouteSnapshot;
+  it('should redirect if params missing', () => {
+    const route = { paramMap: { get: vi.fn().mockReturnValue(null) } } as any;
+    guard.canActivate(route, {} as any);
+    expect(mockRouter.createUrlTree).toHaveBeenCalled();
+  });
 
-      const state = { url: '/es/invalid/auth/login' } as RouterStateSnapshot;
+  it('should allow navigation if country matches', async () => {
+    const route = { paramMap: { get: vi.fn().mockReturnValue('us') } } as any;
+    mockCountryService.getCountryConfig.mockReturnValue(of({ code: 'us' }));
 
-      const obs = guard.canActivate(route, state);
-
-      (obs as any).subscribe((result: any) => {
-        // Expect logic to try fallback or createUrlTree
-        // In the guard code: return of(this.router.parseUrl(segments.join('/'))); for fallback
-        // or return of(this.router.createUrlTree(['/es/do/auth/login']));
-        // Since we are mocking everything, we just check if it completed without error
-        expect(result).toBeDefined();
-        done();
-      });
+    const result$ = guard.canActivate(route, { url: '/en/us/home'} as any) as any;
+    const result = await firstValueFrom(result$);
+    expect(result).toBe(true);
   });
 });

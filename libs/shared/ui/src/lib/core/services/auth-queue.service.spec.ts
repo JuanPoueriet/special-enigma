@@ -1,12 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-import { AuthQueueService } from '@virteex/shared-ui/lib/core/services/auth-queue.service';
-import { take } from 'rxjs/operators';
+import { AuthQueueService } from './auth-queue.service';
+import { take, firstValueFrom } from 'rxjs';
 
 describe('AuthQueueService', () => {
   let service: AuthQueueService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+        providers: [AuthQueueService]
+    });
     service = TestBed.inject(AuthQueueService);
   });
 
@@ -29,21 +31,19 @@ describe('AuthQueueService', () => {
     expect(service.isRefreshingToken).toBe(false);
   });
 
-  it('should emit true on finishRefreshSuccess', (done) => {
+  it('should emit true on finishRefreshSuccess', async () => {
     service.startRefresh();
-    service.waitForTokenRefresh().pipe(take(1)).subscribe(result => {
-        expect(result).toBe(true);
-        done();
-    });
+    const promise = firstValueFrom(service.waitForTokenRefresh());
     service.finishRefreshSuccess();
+    const result = await promise;
+    expect(result).toBe(true);
   });
 
-  it('should emit false on finishRefreshError', (done) => {
+  it('should emit false on finishRefreshError', async () => {
     service.startRefresh();
-    service.waitForTokenRefresh().pipe(take(1)).subscribe(result => {
-        expect(result).toBe(false);
-        done();
-    });
+    const promise = firstValueFrom(service.waitForTokenRefresh());
     service.finishRefreshError();
+    const result = await promise;
+    expect(result).toBe(false);
   });
 });

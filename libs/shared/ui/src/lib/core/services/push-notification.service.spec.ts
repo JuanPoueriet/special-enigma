@@ -1,11 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { PushNotificationService } from '@virteex/shared-ui/lib/core/services/push-notification.service';
+import { PushNotificationService } from './push-notification.service';
 import { SwPush } from '@angular/service-worker';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { vi } from 'vitest';
 
 class MockSwPush {
   isEnabled = false;
-  requestSubscription = jest.fn();
+  requestSubscription = vi.fn();
 }
 
 describe('PushNotificationService', () => {
@@ -29,11 +30,9 @@ describe('PushNotificationService', () => {
   });
 
   it('should not request subscription if service worker is not enabled', () => {
-    const spy = jest.spyOn(console, 'warn');
+    const spy = vi.spyOn(console, 'warn');
     service.subscribeToNotifications();
     expect(swPush.requestSubscription).not.toHaveBeenCalled();
-    // Warning is suppressed in test/dev environment by default logic modification
-    // So we expect it NOT to be called, unless we mock environment.production = true
     expect(spy).not.toHaveBeenCalled();
   });
 });

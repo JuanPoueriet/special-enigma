@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, shareReplay } from 'rxjs';
-import { Industry, CompanySize } from '@virteex/shared/types';
+import { Industry, CompanySize } from '@virteex/shared-types';
 // import { environment } from '../../../../environments/environment';
 import { environment } from '@virteex/shared-ui/environments/environment';
 
