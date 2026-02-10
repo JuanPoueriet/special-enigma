@@ -1,1 +1,1 @@
-export * from '@virteex/inventory-contracts/src/lib/inventory-contracts';
+export * from './lib/inventory-contracts';

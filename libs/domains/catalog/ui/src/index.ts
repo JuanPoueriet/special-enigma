@@ -1,1 +1,1 @@
-export * from '@virteex/catalog-ui/src/lib/lib.routes';
+export * from './lib/lib.routes';

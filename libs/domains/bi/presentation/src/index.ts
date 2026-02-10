@@ -1,1 +1,2 @@
-export * from '@virteex/bi-presentation/src/lib/bi-presentation';
+export * from './lib/bi-presentation.module';
+export * from './lib/controllers/bi.controller';

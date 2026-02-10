@@ -29,4 +29,8 @@ export class MikroOrmWarehouseRepository implements WarehouseRepository {
   async findLocationById(id: string): Promise<Location | null> {
     return this.em.findOne(Location, { id });
   }
+
+  async findAll(tenantId: string): Promise<Warehouse[]> {
+    return this.em.find(Warehouse, { tenantId });
+  }
 }

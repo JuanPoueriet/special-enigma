@@ -1,1 +1,2 @@
-export * from '@virteex/crm-presentation/src/lib/crm-presentation';
+export * from './lib/crm-presentation.module';
+export * from './lib/controllers/crm.controller';

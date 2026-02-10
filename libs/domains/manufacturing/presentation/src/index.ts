@@ -1,1 +1,2 @@
-export * from '@virteex/manufacturing-presentation/src/lib/manufacturing-presentation';
+export * from './lib/manufacturing-presentation.module';
+export * from './lib/controllers/manufacturing.controller';

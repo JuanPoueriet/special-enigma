@@ -1,1 +1,2 @@
-export * from '@virteex/admin-presentation/src/lib/admin-presentation';
+export * from './lib/admin-presentation.module';
+export * from './lib/controllers/admin.controller';
