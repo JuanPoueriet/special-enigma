@@ -1,0 +1,120 @@
+INFORME DETALLADO DE BRECHAS PARA PRODUCTIVIDAD "COMMERCIAL READY" - VIRTEEX
+===========================================================================
+
+FECHA: 2024-05-22
+OBJETIVO: Identificar todas las brechas técnicas y funcionales para alcanzar el 100% de operatividad real (Zero Mocks) y preparación comercial.
+
+RESUMEN EJECUTIVO
+-----------------
+La aplicación Virteex cuenta con una arquitectura sólida en el Backend (NestJS, Clean Architecture, MikroORM) y una estructura modular en el Frontend (Angular, Nx Monorepo). Sin embargo, la implementación funcional en la capa de presentación (Frontend) es extremadamente superficial en la mayoría de los dominios, estando desconectada de la lógica de negocio real o utilizando datos simulados (mocks).
+
+Para ser comercialmente viable, se requiere un esfuerzo significativo de desarrollo en la integración Frontend-Backend, la implementación completa de flujos de trabajo (UI/UX) y la validación de reglas de negocio en el cliente.
+
+ANÁLISIS POR DOMINIO
+--------------------
+
+1. FACTURACIÓN (BILLING)
+   - ESTATUS: CRÍTICO (Funcionalidad Simulada)
+   - Backend:
+     - Existe `MikroOrmInvoiceRepository`, lo que indica que la persistencia está lista.
+     - Falta verificar si la lógica de cálculo de impuestos y totales en `CalculateInvoiceUseCase` es robusta y cubre casos borde.
+   - Frontend:
+     - El servicio `BillingService` (en `libs/domains/billing/ui/src/lib/core/services/billing.ts`) devuelve DATOS HARDCODED (Mocks) para `getSubscription`, `getPaymentMethod` y `getPaymentHistory`.
+     - No hay integración real con pasarelas de pago ni con el Backend de facturación.
+     - La gestión de planes y suscripciones es puramente visual y no afecta el comportamiento del sistema.
+   - ACCIÓN REQUERIDA:
+     - Reemplazar `BillingService` por llamadas HTTP reales a los controladores de Billing.
+     - Implementar formularios reales para la creación de facturas con validación de clientes y productos.
+
+2. INVENTARIO (INVENTORY)
+   - ESTATUS: ALTO (Incompleto)
+   - Backend:
+     - Repositorios `InventoryRepository` y `WarehouseRepository` existen y usan MikroORM.
+     - Faltan casos de uso complejos como "Ajuste de Inventario", "Transferencia entre Almacenes" y "Valoración de Inventario" (FIFO/LIFO/Promedio).
+   - Frontend:
+     - El servicio `InventoryService` existe pero solo implementa `getWarehouses`.
+     - FALTAN métodos para: Crear/Editar/Eliminar Almacenes, Gestionar Productos, Registrar Movimientos de Stock (Entradas/Salidas), Ver Kardex.
+     - La UI es un cascarón vacío para la mayoría de las operaciones críticas de un ERP.
+   - ACCIÓN REQUERIDA:
+     - Implementar CRUD completo de Almacenes y Productos en el Frontend.
+     - Crear interfaces para registrar movimientos de inventario (Entradas/Salidas) conectadas al Backend.
+
+3. COMPRAS (PURCHASING)
+   - ESTATUS: BLOQUEANTE (Inexistente en Frontend)
+   - Backend:
+     - Repositorios `PurchaseOrderRepository` y `SupplierRepository` implementados.
+   - Frontend:
+     - La librería de UI (`libs/domains/purchasing/ui`) existe, pero sus componentes (ej. `DashboardComponent`) están VACÍOS. No tienen lógica, ni plantillas HTML funcionales, ni servicios conectados.
+     - No es posible crear una Orden de Compra ni gestionar Proveedores desde la interfaz.
+   - ACCIÓN REQUERIDA:
+     - Desarrollar desde cero los módulos de Gestión de Proveedores y Órdenes de Compra en Angular.
+     - Conectar con el Backend de Compras.
+
+4. NÓMINA (PAYROLL)
+   - ESTATUS: BLOQUEANTE (Inexistente en Frontend)
+   - Backend:
+     - Repositorios `PayrollRepository`, `EmployeeRepository` y `TaxTableRepository` implementados. Lógica de impuestos mexicanos (`MexicanTaxService`) parece existir.
+   - Frontend:
+     - Similar a Compras, la UI está vacía. No existen servicios en `libs/domains/payroll/ui` para interactuar con la API.
+     - No hay interfaz para dar de alta Empleados, configurar Contratos ni procesar la Nómina.
+   - ACCIÓN REQUERIDA:
+     - Implementar el módulo de Recursos Humanos (Alta de Empleados) y Procesamiento de Nómina en el Frontend.
+
+5. CONTABILIDAD (ACCOUNTING)
+   - ESTATUS: MEDIO (Base Sólida, Falta Profundidad)
+   - Backend:
+     - Repositorios `JournalEntryRepository` y `AccountRepository` implementados.
+   - Frontend:
+     - Es el dominio más avanzado. Existen `LedgersService`, `JournalsService` y `ChartOfAccountsService`.
+     - Falta auditoría de la UX: ¿Es fácil crear una póliza manual? ¿Se validan los cuadres (Debe = Haber) en el cliente antes de enviar?
+   - ACCIÓN REQUERIDA:
+     - Revisar y pulir la experiencia de usuario en la creación de Pólizas. Asegurar reportes reales (Balanza de Comprobación) conectados al Backend.
+
+6. ACTIVOS FIJOS (FIXED ASSETS)
+   - ESTATUS: BLOQUEANTE (Inexistente en Frontend)
+   - Backend:
+     - Repositorio `FixedAssetRepository` existe.
+   - Frontend:
+     - Sin servicios ni componentes funcionales detectados.
+   - ACCIÓN REQUERIDA:
+     - Implementar gestión del ciclo de vida de activos (Alta, Depreciación, Baja) en la UI.
+
+7. IDENTIDAD Y SEGURIDAD (IDENTITY)
+   - ESTATUS: BUENO (Con detalles)
+   - Backend:
+     - `NodeCryptoAuthService` implementa MFA y encriptación real.
+   - Frontend:
+     - `IntentDetectionService` es real (consulta API externa).
+     - Falta manejo robusto de errores: El uso de `catchError(() => of(default))` en servicios críticos puede ocultar fallos de red o configuración silenciosamente.
+   - ACCIÓN REQUERIDA:
+     - Implementar un interceptor de errores global que notifique al usuario (Toast/Alert) cuando fallan servicios críticos de seguridad.
+
+ANÁLISIS DE INFRAESTRUCTURA Y CROSS-CUTTING
+-------------------------------------------
+
+1. VALIDACIÓN DE FORMULARIOS
+   - Brecha: La mayoría de los formularios en el Frontend (donde existen) carecen de validaciones de negocio complejas (ej. RFC válido, reglas de negocio cruzadas). Se depende excesivamente de la validación del Backend, lo que genera una mala UX.
+   - Acción: Implementar validadores síncronos y asíncronos en Angular Forms para todas las entidades clave.
+
+2. MANEJO DE ERRORES (ERROR HANDLING)
+   - Brecha: No existe una estrategia unificada de manejo de errores en el Frontend. Si una petición API falla (500, 403), la UI no siempre informa al usuario de manera clara.
+   - Acción: Crear un `GlobalErrorHandler` y un `HttpInterceptor` que estandaricen las notificaciones de error.
+
+3. ESTADO DE LA APLICACIÓN (STATE MANAGEMENT)
+   - Brecha: Cada servicio maneja su propio estado o simplemente hace "pass-through" de las peticiones HTTP. Esto puede llevar a inconsistencias de datos entre pantallas (ej. actualizar un producto en inventario y que no se refleje en ventas hasta recargar).
+   - Acción: Evaluar la implementación de Signals (ya usado en Auth) de manera consistente para caché de datos maestros (Catálogos, Configuración).
+
+4. PRUEBAS (TESTING)
+   - Brecha: Los tests existentes confían demasiado en Mocks (`jest.Mock`). Faltan pruebas de integración real (E2E con Cypress/Playwright) que verifiquen el flujo completo (Login -> Crear Factura -> Ver en Reporte) contra una base de datos de pruebas real.
+   - Acción: Crear una suite de pruebas E2E crítica para los "Happy Paths" de cada dominio.
+
+CONCLUSIÓN
+----------
+Para considerar a Virteex como "Commercial Ready", el foco inmediato debe cambiar del Backend (que está estructuralmente listo) al Frontend. La prioridad absoluta es "llenar los cascarones" de los módulos de Compras, Inventario, Nómina y Activos Fijos, y conectar los servicios de Facturación a la API real, eliminando los datos simulados.
+
+PRIORIDAD DE EJECUCIÓN:
+1. Billing (Eliminar Mocks, conectar pagos reales).
+2. Inventory (Implementar CRUD completo y Movimientos).
+3. Purchasing (Crear UI funcional para Órdenes de Compra).
+4. Payroll (Crear UI funcional para Empleados y Nómina).
+5. Cross-Cutting (Manejo de Errores Global y Validaciones).
