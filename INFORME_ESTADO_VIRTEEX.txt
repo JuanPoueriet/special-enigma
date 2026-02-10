@@ -1,0 +1,94 @@
+# INFORME TÉCNICO DE ESTADO Y VIABILIDAD COMERCIAL - VIRTEEX ERP
+
+**Fecha:** 24 de Mayo de 2024
+**Autor:** Jules (Ingeniero de Software Senior)
+**Estado General:** PROTOTIPO FUNCIONAL (ALPHA) - NO APTO PARA PRODUCCIÓN COMERCIAL
+
+Este informe detalla exhaustivamente las brechas técnicas, funcionales y de seguridad que impiden que la aplicación "Virteex ERP" sea considerada un producto comercialmente viable (100% funcional sin mocks). El análisis cubre Backend, Frontend, Infraestructura y Procesos de Desarrollo.
+
+---
+
+## 1. ARQUITECTURA E INFRAESTRUCTURA (CRÍTICO)
+
+### 1.1. Gestión de Base de Datos (MikroORM)
+*   **Falta de Migraciones:** No se encontraron archivos de migración (`.ts` o `.sql`) en el repositorio. El proyecto depende probablemente de `mikro-orm schema:create` o `schema:update`, lo cual es inaceptable en producción ya que puede causar pérdida de datos al modificar estructuras de tablas existentes. Se requiere un sistema de migraciones versionado y scripts de *rollback*.
+*   **Semillas (Seeds):** No existe un mecanismo claro de *seeding* para datos maestros (Catálogo de cuentas SAT, Monedas, Países, Impuestos). Esto obliga a insertar datos manualmente o depender de scripts externos no versionados.
+
+### 1.2. Seguridad y Gateway
+*   **Rate Limiting (Ausente):** Aunque `apps/virteex-api-gateway/src/main.ts` implementa `helmet` y `cors`, carece de un mecanismo de limitación de tasa (Rate Limiting / Throttling). Esto expone la API a ataques de denegación de servicio (DDoS) o fuerza bruta.
+*   **Autenticación Débil:** El servicio de sesión en frontend (`libs/shared/util/auth/src/lib/services/session.service.ts`) decodifica el JWT localmente para verificar expiración, pero **no valida el token contra el backend al iniciar la aplicación**. Si un token es revocado en el servidor (e.g., por robo), la sesión en el cliente sigue siendo válida hasta que expire naturalmente.
+
+---
+
+## 2. ANÁLISIS DE DOMINIOS (BACKEND)
+
+Se identificaron múltiples dominios que existen solo como "esqueletos" (carpetas con contratos vacíos) sin lógica de negocio real.
+
+### 2.1. Dominios "Fantasma" (Incompletos / Inexistentes)
+Los siguientes dominios tienen estructura de carpetas pero **carecen de implementación funcional (Controladores, Casos de Uso, Repositorios)**. Solo contienen archivos `contracts` o `infrastructure` vacíos que exportan strings o funciones "dummy":
+*   **CRM (Customer Relationship Management):** Archivos vacíos en `libs/domains/crm`.
+*   **Tesorería (Treasury):** Archivos vacíos en `libs/domains/treasury`.
+*   **Compras (Purchasing):** Archivos vacíos.
+*   **Proyectos (Projects):** Archivos vacíos.
+*   **Manufactura (Manufacturing):** Archivos vacíos.
+*   **Fiscal:** Archivos vacíos.
+*   **BI (Business Intelligence):** Archivos vacíos.
+*   **Administración (Admin):** Archivos vacíos.
+
+**Impacto:** El 70% de la funcionalidad prometida en el menú principal no existe en el backend.
+
+### 2.2. Contabilidad (Accounting) - Parcialmente Implementado
+*   **Persistencia Real:** Existe `MikroOrmJournalEntryRepository`, lo cual es positivo.
+*   **Desconexión API:** El frontend (`ChartOfAccountsService`) intenta consumir `GET /api/chart-of-accounts`, pero el Backend (`AccountingController`) solo expone `/api/accounting/accounts`. Esto resultará en errores 404 constantes.
+*   **Validación:** Los DTOs existen pero la lógica de validación de negocio (e.g., cuadre de pólizas, validación de períodos cerrados) no es visible en los casos de uso inspeccionados.
+
+### 2.3. Nómina (Payroll) - Lógica Hardcodeada
+*   **Tablas de Impuestos Estáticas:** El servicio `MexicanTaxService` (`libs/domains/payroll/infrastructure/src/lib/services/mexican-tax.service.ts`) contiene las tablas de ISR 2024 **hardcodeadas en el código fuente**.
+    *   *Problema Comercial:* No permite actualizar tasas impositivas sin redeployar la aplicación. No soporta histórico de tablas (e.g., recálculos de años anteriores).
+    *   *Solución Requerida:* Mover tablas a Base de Datos con vigencia por fechas.
+
+### 2.4. Facturación (Billing) - Roto
+*   **Servicios Faltantes:** No se encontró la implementación de `InvoicesService` en el backend ni en el frontend (ver sección Frontend).
+*   **Integración PAC:** Aunque existe referencia a `FinkokPacProvider`, no se validó su integración completa con los casos de uso de timbrado real.
+
+---
+
+## 3. ANÁLISIS DE INTERFAZ DE USUARIO (FRONTEND)
+
+La aplicación web (`apps/virteex-web`) presenta graves problemas de integración y "mocks" visuales.
+
+### 3.1. Errores de Construcción (Build Breaks)
+*   **Facturación (InvoicesListPage):** El archivo `libs/domains/billing/ui/src/lib/pages/invoices/list/list.page.ts` importa `InvoicesService` desde una ruta inexistente: `@virteex/billing-ui/lib/core/services/invoices`.
+    *   *Consecuencia:* La aplicación fallará al compilar o al intentar cargar el módulo de facturación.
+
+### 3.2. Datos Falsos (Mocks) y Lógica Incompleta
+*   **Punto de Venta (POS - CRM):** La página `PosPage` (`libs/domains/crm/ui/src/lib/pages/sales/pos/pos.page.ts`) utiliza una señal `allProducts` con **datos hardcodeados** (comentados o vacíos) y no conecta con el inventario real.
+    *   El método `completeSale()` solo imprime en consola (`console.log`) y limpia el formulario. No genera transacción, no descuenta inventario, no genera factura.
+*   **Catálogo de Productos:** No existe una pantalla funcional conectada al backend para administrar productos, precios y existencias.
+
+### 3.3. Navegación y Rutas
+*   El archivo de rutas (`app.routes.ts`) define rutas para todos los dominios, pero dado que la mayoría son "fantasmas" en el backend y esqueletos en el frontend, la experiencia de usuario será de navegación a páginas vacías o con errores de carga.
+
+---
+
+## 4. CALIDAD Y PROCESOS DE DESARROLLO
+
+### 4.1. Pruebas (Testing)
+*   **Cobertura Nula:** La mayoría de los archivos `project.json` (e.g., en `accounting-domain`) tienen la configuración `"passWithNoTests": true`. Esto indica que los pipelines de CI/CD (si existieran) pasarían en verde incluso sin ejecutar una sola prueba real.
+*   **Falta de Tests de Integración:** No hay evidencia de pruebas E2E (Cypress/Playwright) que validen flujos completos (e.g., Crear Factura -> Descontar Inventario -> Generar Póliza).
+
+### 4.2. CI/CD
+*   No se encontraron archivos de configuración de pipelines (GitHub Actions, GitLab CI, Azure Pipelines) en la raíz del proyecto. Solo existe un script de ejemplo en `.git/hooks`.
+
+---
+
+## CONCLUSIÓN Y RECOMENDACIONES
+
+Para llevar **Virteex ERP** a un estado comercial (1.0), se requiere un esfuerzo significativo de desarrollo estimado en **4-6 meses** con un equipo completo, priorizando:
+
+1.  **Implementar los Dominios Fantasma:** CRM, Compras, Tesorería e Inventario deben tener lógica real de backend.
+2.  **Corregir la Integración Frontend-Backend:** Alinear endpoints (Accounting) y crear los servicios faltantes (Billing).
+3.  **Eliminar Hardcoding:** Mover tablas de impuestos y configuraciones a la base de datos.
+4.  **Infraestructura de Datos:** Implementar sistema de migraciones (MikroORM) y seeds.
+5.  **Seguridad:** Implementar validación de tokens lado servidor y Rate Limiting.
+6.  **Pruebas:** Eliminar `passWithNoTests` y crear suites de pruebas unitarias y de integración para flujos críticos (Dinero y Inventario).
