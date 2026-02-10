@@ -1,14 +1,15 @@
+import { APP_CONFIG } from '@virteex/shared-config';
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '@virteex/billing-ui/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PaymentService {
+  private config = inject(APP_CONFIG);
   private http = inject(HttpClient);
-  private apiUrl = `${environment.apiUrl}/payment`; // adjusting based on global prefix api/v1 assumption in environment
+  private apiUrl = `${this.config.apiUrl}/payment`; // adjusting based on global prefix api/v1 assumption in environment
 
   getConfig(): Observable<{ prices: { starter: string; pro: string; enterprise: string } }> {
     return this.http.get<{ prices: { starter: string; pro: string; enterprise: string } }>(`${this.apiUrl}/config`);

@@ -10,8 +10,8 @@ import {
   PayrollDetail,
   TaxService,
   TAX_SERVICE
-} from '../../../../domain/src/index';
-import { CalculatePayrollDto } from '../../../../contracts/src/index';
+} from '@virteex/payroll-domain';
+import { CalculatePayrollDto } from '@virteex/payroll-contracts';
 
 @Injectable()
 export class CalculatePayrollUseCase {

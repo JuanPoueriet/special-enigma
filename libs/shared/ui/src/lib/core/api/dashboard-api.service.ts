@@ -1,7 +1,7 @@
+import { APP_CONFIG } from '@virteex/shared-config';
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '@virteex/shared-ui/environments/environment';
 
 // Define las interfaces para los DTOs que vienen del backend
 export interface WorkingCapitalDto {
@@ -59,13 +59,13 @@ export interface CashFlowWaterfallDto {
   endingBalance: number;
 }
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class DashboardApiService {
+  private config = inject(APP_CONFIG);
   private http = inject(HttpClient);
-  private apiUrl = `${environment.apiUrl}/dashboard`; // Asumiendo que el proxy está configurado para /api
+  private apiUrl = `${this.config.apiUrl}/dashboard`; // Asumiendo que el proxy está configurado para /api
 
   getWorkingCapital(): Observable<WorkingCapitalDto> {
     return this.http.get<WorkingCapitalDto>(`${this.apiUrl}/kpi/working-capital`);

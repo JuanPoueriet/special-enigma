@@ -10,7 +10,6 @@ import { of, Observable } from 'rxjs';
 import { CountryService, LanguageService, UsersService, GeoLocationService, ConfigService } from '@virteex/shared-ui';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { vi } from 'vitest';
-import { environment } from '@virteex/shared-ui/environments/environment';
 
 // Fake Loader for Translate
 class FakeLoader implements TranslateLoader {

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { TaxService } from '../../../../domain/src/index';
+import { TaxService } from '@virteex/payroll-domain';
 import { Decimal } from 'decimal.js';
 
 @Injectable()

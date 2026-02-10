@@ -1,8 +1,9 @@
+import { APP_CONFIG } from '@virteex/shared-config';
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '@virteex/shared-ui/environments/environment';
-import { User } from '../../interfaces/user.interface';
+
+import { User } from '@virteex/shared-ui';
 
 export interface InviteUserDto {
   firstName: string;
@@ -36,8 +37,9 @@ export interface PaginatedUsersResponse {
 
 @Injectable({ providedIn: 'root' })
 export class UsersService {
+  private config = inject(APP_CONFIG);
   private http = inject(HttpClient);
-  private apiUrl = `${environment.apiUrl}/users`;
+  private apiUrl = `${this.config.apiUrl}/users`;
 
   getJobTitles(): Observable<string[]> {
       return this.http.get<string[]>(`${this.apiUrl}/job-titles`);

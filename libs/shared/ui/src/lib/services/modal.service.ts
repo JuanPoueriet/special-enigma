@@ -1,13 +1,7 @@
 import { Injectable, ApplicationRef, createComponent, EnvironmentInjector, signal } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ModalComponent } from '@virteex/shared-ui/lib/components/modal/modal.component';
-
-export interface ModalOptions {
-  title: string;
-  message: string;
-  confirmText?: string;
-  cancelText?: string;
-}
+import { ModalOptions } from './modal.interface';
 
 @Injectable({
   providedIn: 'root'

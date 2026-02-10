@@ -1,6 +1,7 @@
+import { APP_CONFIG } from '@virteex/shared-config';
 import { Injectable, signal, inject, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '@virteex/shared-ui/environments/environment';
+
 import { catchError, Observable, of, tap, map } from 'rxjs';
 import { GeoLocationService } from '@virteex/shared-ui/lib/core/services/geo-location.service';
 
@@ -22,6 +23,7 @@ export interface CountryConfig {
   providedIn: 'root'
 })
 export class CountryService {
+  private config = inject(APP_CONFIG);
   private http = inject(HttpClient);
   private geoLocation = inject(GeoLocationService);
 
@@ -64,7 +66,7 @@ export class CountryService {
       return of(cached);
     }
 
-    return this.http.get<any>(`${environment.apiUrl}/localization/config/${code}`).pipe(
+    return this.http.get<any>(`${this.config.apiUrl}/localization/config/${code}`).pipe(
       map(backendConfig => {
         // Mapeo robusto de la respuesta del backend
         const config: CountryConfig = {
@@ -113,6 +115,6 @@ export class CountryService {
 
   // Validación remota contra la DGII (DO) u otros servicios gubernamentales
   lookupTaxId(taxId: string, countryCode: string): Observable<any> {
-      return this.http.get<any>(`${environment.apiUrl}/localization/lookup/${taxId}?country=${countryCode}`);
+      return this.http.get<any>(`${this.config.apiUrl}/localization/lookup/${taxId}?country=${countryCode}`);
   }
 }

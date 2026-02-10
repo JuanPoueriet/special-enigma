@@ -57,6 +57,7 @@ export class AuthService {
   private webSocketService = inject(WebSocketService);
   private errorHandlerService = inject(ErrorHandlerService);
   private readonly baseUrl = inject(API_URL);
+  private modalService = inject(ModalService);
 
   // URL base de tu API de autenticación.
   private readonly apiUrl = `${this.baseUrl}/auth`;
@@ -83,7 +84,7 @@ export class AuthService {
   public isAuthenticated$ = toObservable(this.isAuthenticated);
   public user$ = toObservable(this.currentUser);
 
-  constructor(private modalService: ModalService) {
+  constructor() {
     this.listenForForcedLogout();
   }
 

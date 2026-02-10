@@ -1,7 +1,7 @@
 import { Controller, Post, Body } from '@nestjs/common';
-import { CalculatePayrollUseCase } from '../../../../application/src/index';
-import { CalculatePayrollDto } from '../../../../contracts/src/index';
-import { Payroll } from '../../../../domain/src/index';
+import { CalculatePayrollUseCase } from '@virteex/payroll-application';
+import { CalculatePayrollDto } from '@virteex/payroll-contracts';
+import { Payroll } from '@virteex/payroll-domain';
 
 @Controller('payroll')
 export class PayrollController {

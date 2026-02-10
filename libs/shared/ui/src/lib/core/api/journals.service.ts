@@ -1,17 +1,17 @@
+import { APP_CONFIG } from '@virteex/shared-config';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Journal } from '@virteex/shared-ui/lib/core/models/journal.model';
 import { Observable } from 'rxjs';
-import { environment } from '@virteex/shared-ui/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class JournalsService {
+  private config = inject(APP_CONFIG);
   private http = inject(HttpClient);
 //   private apiUrl = '/api/journals';
-    private apiUrl = `${environment.apiUrl}/journals`;
-
+    private apiUrl = `${this.config.apiUrl}/journals`;
 
   getJournals(): Observable<Journal[]> {
     return this.http.get<Journal[]>(this.apiUrl);
@@ -28,6 +28,5 @@ export class JournalsService {
   update(id: string, journal: Journal): Observable<Journal> {
     return this.http.put<Journal>(`${this.apiUrl}/${id}`, journal);
   }
-
 
 }

@@ -1,8 +1,8 @@
+import { APP_CONFIG } from '@virteex/shared-config';
 
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '@virteex/shared-ui/environments/environment';
 
 export interface UserSession {
     id: string;
@@ -17,8 +17,9 @@ export interface UserSession {
     providedIn: 'root'
 })
 export class SessionService {
+  private config = inject(APP_CONFIG);
     private http = inject(HttpClient);
-    private apiUrl = `${environment.apiUrl}/auth/sessions`;
+    private apiUrl = `${this.config.apiUrl}/auth/sessions`;
 
     getSessions(): Observable<UserSession[]> {
         return this.http.get<UserSession[]>(this.apiUrl);

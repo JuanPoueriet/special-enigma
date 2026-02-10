@@ -2,8 +2,8 @@ import { Injectable, NgZone, inject, effect } from '@angular/core';
 import { Router } from '@angular/router';
 import { fromEvent, merge, Subscription, timer } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
-import { AuthService } from '@virteex/shared-ui/lib/core/services/auth';
-import { ModalService } from '@virteex/shared-ui/lib/shared/service/modal.service';
+import { AuthService } from './auth';
+import { ModalService } from '../../services/modal.service';
 
 @Injectable({
   providedIn: 'root'

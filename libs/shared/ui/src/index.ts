@@ -19,4 +19,9 @@ export * from './lib/components/geo-mismatch-modal/geo-mismatch-modal.component'
 export * from './lib/utils/file.util';
 export * from './lib/interfaces/register-payload.interface';
 export * from './lib/validators/async.validators';
+export * from './lib/core/tokens/api-url.token';
+export * from './lib/core/services/notification';
+export * from './lib/core/models/finance';
+export * from './lib/core/services/theme';
+export * from './lib/services/modal.interface';
 // Export styles if needed or handle via architect

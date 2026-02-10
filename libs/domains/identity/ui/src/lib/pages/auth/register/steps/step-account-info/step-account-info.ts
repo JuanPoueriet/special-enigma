@@ -2,10 +2,11 @@ import { Component, Input, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormGroupDirective } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { AuthInputComponent } from '../../../components/auth-input/auth-input.component';
-import { PasswordValidatorComponent } from '../../../components/password-validator/password-validator.component';
+import { AuthInputComponent } from '@virteex/identity-ui';
+import { PasswordValidatorComponent } from '@virteex/identity-ui';
 import { HttpClient } from '@angular/common/http';
 import { AsyncValidators } from '@virteex/shared-ui';
+import { APP_CONFIG } from '@virteex/shared-config';
 
 @Component({
   selector: 'virteex-step-account-info',
@@ -22,12 +23,13 @@ import { AsyncValidators } from '@virteex/shared-ui';
 export class StepAccountInfo implements OnInit {
   @Input() group!: FormGroup;
   private http = inject(HttpClient);
+  private config = inject(APP_CONFIG);
 
   ngOnInit() {
     if (this.group) {
         const emailControl = this.group.get('email');
         if (emailControl) {
-            emailControl.addAsyncValidators(AsyncValidators.createEmailValidator(this.http));
+            emailControl.addAsyncValidators(AsyncValidators.createEmailValidator(this.http, this.config.apiUrl));
             emailControl.updateValueAndValidity();
         }
     }
