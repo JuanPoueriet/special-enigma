@@ -1,6 +1,6 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { CreateSaleUseCase, CreateSaleDto } from '@virteex/crm-application';
+import { CreateSaleUseCase, CreateSaleDto } from '../../../../application/src';
 
 @ApiTags('CRM')
 @Controller('crm')

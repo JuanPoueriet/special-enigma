@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { CrmApplicationModule } from '@virteex/crm-application';
-import { CrmInfrastructureModule } from '@virteex/crm-infrastructure';
+import { CrmApplicationModule } from '../../../application/src';
+import { CrmInfrastructureModule } from '../../../infrastructure/src';
 import { CrmController } from './controllers/crm.controller';
 
 @Module({

@@ -9,6 +9,36 @@ import {
 import { v4 } from 'uuid';
 
 @Entity()
+export class Sale {
+  @PrimaryKey({ type: 'uuid' })
+  id: string = v4();
+
+  @Property()
+  tenantId!: string;
+
+  @Property()
+  customerName!: string;
+
+  @Property({ type: 'decimal', precision: 10, scale: 2 })
+  total!: string;
+
+  @Property()
+  status: 'PENDING' | 'COMPLETED' | 'CANCELLED' = 'PENDING';
+
+  @OneToMany('SaleItem', 'sale', { cascade: [] })
+  items = new Collection<any>(this);
+
+  @Property()
+  createdAt: Date = new Date();
+
+  constructor(tenantId: string, customerName: string, total: string) {
+    this.tenantId = tenantId;
+    this.customerName = customerName;
+    this.total = total;
+  }
+}
+
+@Entity()
 export class SaleItem {
   @PrimaryKey({ type: 'uuid' })
   id: string = v4();
@@ -38,35 +68,5 @@ export class SaleItem {
     this.productName = productName;
     this.price = price;
     this.quantity = quantity;
-  }
-}
-
-@Entity()
-export class Sale {
-  @PrimaryKey({ type: 'uuid' })
-  id: string = v4();
-
-  @Property()
-  tenantId!: string;
-
-  @Property()
-  customerName!: string;
-
-  @Property({ type: 'decimal', precision: 10, scale: 2 })
-  total!: string;
-
-  @Property()
-  status: 'PENDING' | 'COMPLETED' | 'CANCELLED' = 'PENDING';
-
-  @OneToMany(() => SaleItem, (item) => item.sale, { cascade: [] })
-  items = new Collection<SaleItem>(this);
-
-  @Property()
-  createdAt: Date = new Date();
-
-  constructor(tenantId: string, customerName: string, total: string) {
-    this.tenantId = tenantId;
-    this.customerName = customerName;
-    this.total = total;
   }
 }

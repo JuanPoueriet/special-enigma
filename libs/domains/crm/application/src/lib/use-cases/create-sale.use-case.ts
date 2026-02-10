@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { Sale, SaleItem, SaleRepository } from '@virteex/crm-domain';
+import { Sale, SaleItem, SaleRepository } from '../../../../domain/src';
 import Decimal from 'decimal.js';
 
 export interface CreateSaleDto {

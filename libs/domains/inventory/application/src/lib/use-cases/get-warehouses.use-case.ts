@@ -17,7 +17,7 @@ export class GetWarehousesUseCase {
     return warehouses.map((w) => ({
       id: w.id,
       name: w.name,
-      location: '', // TODO: Map locations properly
+      location: w.address || '',
       tenantId: w.tenantId,
     }));
   }
