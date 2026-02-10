@@ -1,2 +1,2 @@
-export * from './lib/entities/sale.entity';
-export * from './lib/repositories/sale.repository';
+export { Sale, SaleItem } from './lib/entities/sale.entity';
+export { SaleRepository } from './lib/repositories/sale.repository';

@@ -18,6 +18,9 @@ export class Warehouse {
   name!: string;
 
   @Property({ nullable: true })
+  address?: string;
+
+  @Property({ nullable: true })
   description?: string;
 
   @Property()

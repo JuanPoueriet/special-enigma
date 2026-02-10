@@ -20,3 +20,4 @@ export * from './lib/utils/file.util';
 export * from './lib/interfaces/register-payload.interface';
 export * from './lib/validators/async.validators';
 export * from './lib/core/tokens/api-url.token';
+export * from './lib/services/toast.service';

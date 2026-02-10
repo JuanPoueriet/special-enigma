@@ -5,6 +5,7 @@ import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ServerConfigModule } from '@virteex/shared-util-server-config';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { LoggerModule } from 'nestjs-pino';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -28,7 +29,7 @@ import { FiscalInfrastructureModule } from '@virteex/fiscal-infrastructure';
 import { AccountingPresentationModule } from '@virteex/accounting-presentation';
 import { InventoryPresentationModule } from '@virteex/inventory-presentation';
 import { PayrollPresentationModule } from '@virteex/payroll-presentation';
-// import { CrmPresentationModule } from '@virteex/crm-presentation'; // Disabled due to persistent build error
+import { CrmPresentationModule } from '@virteex/crm-presentation';
 import { TreasuryPresentationModule } from '@virteex/treasury-presentation';
 import { ProjectsPresentationModule } from '@virteex/projects-presentation';
 import { PurchasingPresentationModule } from '@virteex/purchasing-presentation';
@@ -40,6 +41,14 @@ import { CatalogPresentationModule } from '@virteex/catalog-presentation';
 
 @Module({
   imports: [
+    LoggerModule.forRoot({
+      pinoHttp: {
+        level: process.env.LOG_LEVEL || 'info',
+        transport: process.env.NODE_ENV !== 'production'
+          ? { target: 'pino-pretty' }
+          : undefined,
+      },
+    }),
     ServerConfigModule,
     ThrottlerModule.forRoot([
       {
@@ -80,7 +89,7 @@ import { CatalogPresentationModule } from '@virteex/catalog-presentation';
     AccountingPresentationModule,
     InventoryPresentationModule,
     PayrollPresentationModule,
-    // CrmPresentationModule,
+    CrmPresentationModule,
     TreasuryPresentationModule,
     ProjectsPresentationModule,
     PurchasingPresentationModule,

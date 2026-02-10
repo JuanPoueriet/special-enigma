@@ -4,6 +4,7 @@
  */
 
 import { Logger, ValidationPipe } from '@nestjs/common';
+import { Logger as PinoLogger } from 'nestjs-pino';
 import { NestFactory } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
@@ -12,13 +13,18 @@ import { AppModule } from './app/app.module';
 import { GlobalExceptionFilter } from './app/filters/global-exception.filter';
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { bufferLogs: true });
+  app.useLogger(app.get(PinoLogger));
+  const configService = app.get(ConfigService);
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
 
   // Security
   app.use(helmet());
-  app.enableCors();
+  app.enableCors({
+    origin: configService.get<string>('CORS_ORIGIN')?.split(',') || ['http://localhost:4200'],
+    credentials: true,
+  });
 
   // Validation
   app.useGlobalPipes(new ValidationPipe({
@@ -40,7 +46,6 @@ async function bootstrap(): Promise<void> {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document);
 
-  const configService = app.get(ConfigService);
   const port = configService.get<number>('PORT') || 3000;
 
   await app.listen(port);
