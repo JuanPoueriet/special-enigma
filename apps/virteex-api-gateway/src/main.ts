@@ -21,13 +21,11 @@ async function bootstrap(): Promise<void> {
   app.enableCors();
 
   // Validation
-  app.useGlobalPipes(
-    new ValidationPipe({
-      transform: true,
-      whitelist: true,
-      forbidNonWhitelisted: true,
-    }),
-  );
+  app.useGlobalPipes(new ValidationPipe({
+    transform: true,
+    whitelist: true,
+    forbidNonWhitelisted: true,
+  }));
 
   // Exception Filter
   app.useGlobalFilters(new GlobalExceptionFilter());
