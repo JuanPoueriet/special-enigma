@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { EntityManager } from '@mikro-orm/postgresql';
-import { PayrollRepository, Payroll } from '@virteex/payroll-domain';
+import { EntityManager } from '@mikro-orm/core';
+import { PayrollRepository, Payroll } from '../../../../domain/src/index';
 
 @Injectable()
 export class MikroOrmPayrollRepository implements PayrollRepository {
@@ -19,9 +19,8 @@ export class MikroOrmPayrollRepository implements PayrollRepository {
   }
 
   async findByEmployeeAndPeriod(employeeId: string, start: Date, end: Date): Promise<Payroll | null> {
-    // MikroORM allows referencing entity by ID in query
     return this.em.findOne(Payroll, {
-      employee: { id: employeeId },
+      employee: employeeId,
       periodStart: start,
       periodEnd: end
     });

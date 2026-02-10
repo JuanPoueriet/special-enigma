@@ -1,2 +1,2 @@
-export * from '@virteex/shared-util-server-config/src/lib/server-config.module';
-export * from '@virteex/shared-util-server-config/src/lib/env.validation';
+export * from './lib/server-config.module';
+export * from './lib/env.validation';

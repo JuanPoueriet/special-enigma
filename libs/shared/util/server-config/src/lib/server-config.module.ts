@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { validate } from '@virteex/shared-util-server-config/src/lib/env.validation';
+import { validate } from './env.validation';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
+      isGlobal: true,
       validate,
-      isGlobal: true, // Make it available everywhere without importing
-      cache: true,
     }),
   ],
+  providers: [],
   exports: [ConfigModule],
 })
 export class ServerConfigModule {}

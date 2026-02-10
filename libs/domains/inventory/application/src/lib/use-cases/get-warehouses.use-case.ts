@@ -1,6 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
 import {
-  Warehouse,
   WAREHOUSE_REPOSITORY,
   WarehouseRepository,
 } from '@virteex/inventory-domain';
@@ -15,13 +14,10 @@ export class GetWarehousesUseCase {
 
   async execute(tenantId: string): Promise<WarehouseDto[]> {
     const warehouses = await this.warehouseRepository.findAll(tenantId);
-    // Simple mapping assuming DTO matches entity or close enough for now.
-    // Ideally use a mapper like WarehouseMapper.toDto(w)
-    // But since I don't want to create mapper if it doesn't exist, I'll map manually here.
     return warehouses.map((w) => ({
       id: w.id,
       name: w.name,
-      location: w.location,
+      location: '', // TODO: Map locations properly
       tenantId: w.tenantId,
     }));
   }

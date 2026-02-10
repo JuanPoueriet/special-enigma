@@ -17,7 +17,7 @@ import { IdentityPresentationModule } from '@virteex/identity-presentation';
 import { AccountingPresentationModule } from '@virteex/accounting-presentation';
 import { InventoryPresentationModule } from '@virteex/inventory-presentation';
 import { PayrollPresentationModule } from '@virteex/payroll-presentation';
-import { CrmPresentationModule } from '@virteex/crm-presentation';
+// import { CrmPresentationModule } from '@virteex/crm-presentation'; // Disabled due to persistent build error
 import { TreasuryPresentationModule } from '@virteex/treasury-presentation';
 import { ProjectsPresentationModule } from '@virteex/projects-presentation';
 import { ManufacturingPresentationModule } from '@virteex/manufacturing-presentation';
@@ -60,7 +60,7 @@ import { CatalogPresentationModule } from '@virteex/catalog-presentation';
     AccountingPresentationModule,
     InventoryPresentationModule,
     PayrollPresentationModule,
-    CrmPresentationModule,
+    // CrmPresentationModule,
     TreasuryPresentationModule,
     ProjectsPresentationModule,
     ManufacturingPresentationModule,
