@@ -1,0 +1,88 @@
+INFORME DETALLADO FINAL: ANÁLISIS DE ESTADO Y REQUISITOS PARA LA FUNCIONALIDAD 100% Y LISTA PARA COMERCIALIZACIÓN DE VIRTEEX
+
+Fecha: 24 de Mayo de 2024
+Autor: Jules (AI Assistant)
+
+Este informe detalla exhaustivamente las brechas, inconsistencias y componentes faltantes en la aplicación Virteex para alcanzar un estado "100% funcional" (sin mocks) y apto para uso comercial. El análisis cubre Backend, Frontend e Infraestructura.
+
+1. ANÁLISIS DEL BACKEND (API GATEWAY & DOMAINS)
+
+El backend presenta una arquitectura de microservicios (monorepo) con inconsistencias críticas en la implementación de varios dominios.
+
+A. DOMINIOS "FANTASMA" (SHELL DOMAINS)
+Los siguientes dominios tienen estructura de directorios y controladores, pero su implementación es puramente cosmética. Sus controladores únicamente exponen un endpoint de salud (`/health`) que retorna un objeto JSON estático. Carecen de Casos de Uso reales, Entidades persistidas y Lógica de Negocio.
+
+- **Projects (Proyectos):**
+  - Controlador: `ProjectsController` solo tiene método `health()`.
+  - Falta: Gestión de Tareas, Hitos, Recursos, Presupuestos. No hay conexión a base de datos para estas entidades.
+- **Manufacturing (Manufactura):**
+  - Controlador: `ManufacturingController` solo tiene método `health()`.
+  - Falta: Órdenes de Producción, Listas de Materiales (BOM), Centros de Trabajo, Rutas.
+- **BI (Business Intelligence):**
+  - Controlador: `BiController` solo tiene método `health()`.
+  - Falta: Generación de reportes dinámicos, cubos de datos, integración con herramientas de análisis.
+- **Admin (Administración del Sistema):**
+  - Controlador: `AdminController` solo tiene método `health()`.
+  - Falta: Gestión de Tenants, Configuración Global, Logs de Auditoría reales.
+- **Fiscal:**
+  - Controlador: `FiscalController` solo tiene método `health()`.
+  - Falta: Cálculo de Impuestos complejos, Declaraciones, Integración con normativas locales.
+
+B. DOMINIOS DESCONECTADOS (UNWIRED DOMAINS)
+El código existe y parece funcional, pero no está conectado al módulo principal de la aplicación (`AppModule`), por lo que es inaccesible en tiempo de ejecución.
+
+- **Purchasing (Compras):**
+  - Estado: Tiene `PurchasingController` con `CreateSupplierUseCase` y `CreatePurchaseOrderUseCase`.
+  - Problema: `PurchasingPresentationModule` (o equivalente) NO está importado en `apps/virteex-api-gateway/src/app/app.module.ts`. Los endpoints `/api/purchasing/*` devolverán 404.
+
+C. DOMINIOS INCOMPLETOS O ESTRUCTURALMENTE DEFICIENTES
+Existen dominios que rompen la arquitectura establecida o carecen de capas fundamentales.
+
+- **Billing (Facturación):**
+  - Estado Crítico: Existe `BillingDomainModule` y `BillingInfrastructureModule` importados en `AppModule`, PERO **no existe la capa de Presentación (`libs/domains/billing/presentation`)**.
+  - Consecuencia: No hay controladores expuestos para Facturación. La funcionalidad de crear, listar o gestionar facturas es inexistente desde la API. Solo existe infraestructura para integración con PAC (Finkok), pero no la lógica de negocio completa ni la exposición REST.
+- **Fixed Assets (Activos Fijos):**
+  - Estado: No existe controlador en el backend (`libs/domains/fixed-assets`).
+  - Consecuencia: El frontend tiene rutas para Activos Fijos, pero no hay backend que lo soporte. Es un dominio "zombie".
+
+D. SEGURIDAD E IDENTIDAD (IDENTITY DOMAIN)
+El servicio `NodeCryptoAuthService` presenta implementaciones que, aunque funcionales, no son robustas para un entorno comercial de alto riesgo.
+
+- **JWT Expiration:** El tiempo de expiración del token está hardcodeado a `'1h'` (`jwt.sign(..., { expiresIn: '1h' })`). Esto debe ser configurable por variable de entorno o política de seguridad.
+- **Password Hashing:** Usa `crypto.scrypt` con un formato simple `salt:key`. Si se requiere migrar usuarios de sistemas legacy o cumplir con estándares específicos (e.g., Argon2), esta implementación es rígida.
+- **MFA:** La implementación depende de `authenticator` (otplib) y valida tokens en memoria o base de datos, pero la persistencia del secreto MFA debe ser rigurosamente auditada para asegurar que se cifra en reposo (actualmente parece guardarse como texto plano en la entidad User si no se especifica lo contrario).
+
+2. ANÁLISIS DEL FRONTEND (VIRTEEX-WEB & UI LIBRARIES)
+
+El frontend presenta interfaces que, en muchos casos, son "fachadas" sin funcionalidad real detrás.
+
+A. UI DESCONECTADA O SIMULADA
+- **Projects UI:** La librería `libs/domains/projects/ui` contiene rutas y un `DashboardComponent`, pero al revisar su contenido (`dashboard.component.ts`), es probable que sea una vista estática o con datos "mockeados" en el propio componente, dado que el backend solo devuelve un "health check".
+- **Fixed Assets UI:** Existen rutas definidas, pero al no haber backend, cualquier intento de guardar o listar datos fallará o usará servicios mock en el frontend (si es que existen).
+
+B. NAVEGACIÓN Y RUTAS
+- Las rutas en `app.routes.ts` incluyen `purchasing` y `fixed-assets`. Dado el estado del backend, estas secciones de la aplicación arrojarán errores de red (404/500) o mostrarán spinners infinitos si no se manejan los errores adecuadamente.
+
+3. INFRAESTRUCTURA Y CONFIGURACIÓN
+
+A. MOCKS Y DEPENDENCIAS
+- **Virteex Plugin Host:** Se ha detectado el uso de mocks para `isolated-vm`. Para un entorno comercial que dependa de la ejecución segura de código de terceros (plugins), el uso de mocks es inaceptable. Se debe garantizar la compilación nativa de `isolated-vm` en el entorno de producción.
+- **Base de Datos:** La configuración de MikroORM (`mikro-orm.config.ts`) está presente, pero la falta de entidades en los dominios "fantasma" implica que el esquema de base de datos está incompleto. Faltan tablas para Proyectos, Manufactura, etc.
+
+B. PRUEBAS Y CALIDAD
+- **E2E Testing:** La cobertura de pruebas End-to-End (Cypress/Playwright) es mínima o inexistente para los flujos críticos de negocio (e.g., ciclo completo de Compra -> Inventario -> Venta -> Factura -> Contabilidad).
+- **Unit Testing:** Se observaron numerosos archivos `.spec.ts` con mocks (`jest.fn()`), lo cual es normal para pruebas unitarias, pero la falta de pruebas de integración reales confirma que la robustez del sistema no está verificada.
+
+4. CONCLUSIÓN Y HOJA DE RUTA PARA "100% FUNCTIONAL"
+
+Para que Virteex sea comercialmente viable, se requiere ejecutar las siguientes acciones mandatorias:
+
+1.  **Implementar Backend Real:** Desarrollar Casos de Uso, Entidades y Controladores para `Projects`, `Manufacturing`, `BI`, `Admin` y `Fiscal`. Eliminar los endpoints `/health` y reemplazarlos por lógica de negocio real (CRUDs complejos).
+2.  **Conectar Purchasing:** Importar `PurchasingPresentationModule` (o crear el módulo de presentación si falta) en `AppModule` para exponer la lógica de compras existente.
+3.  **Completar Billing:** Crear la capa `libs/domains/billing/presentation`, implementar `BillingController` y conectar los casos de uso de facturación (creación, timbrado, cancelación).
+4.  **Crear Backend Fixed Assets:** Desarrollar desde cero el backend para Activos Fijos.
+5.  **Reforzar Seguridad:** Configurar expiración de tokens dinámica e implementar cifrado en reposo para secretos MFA.
+6.  **Eliminar Mocks:** Reemplazar cualquier servicio en el frontend que devuelva datos estáticos por llamadas reales a la API (`HttpClient`).
+7.  **Sincronizar Base de Datos:** Generar y ejecutar migraciones para todas las nuevas entidades creadas en los pasos anteriores.
+
+Sin estas acciones, la aplicación es un prototipo avanzado con funcionalidad core (Contabilidad, Inventario, Identidad) pero con grandes vacíos que impiden su venta o uso en producción como un ERP completo.
