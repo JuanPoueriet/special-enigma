@@ -1,1 +1,1 @@
-export * from './lib/bi-domain';
+export * from '@virteex/bi-domain/src/lib/bi-domain';

@@ -1,1 +1,1 @@
-export * from './lib/lib.routes';
+export * from '@virteex/crm-ui/src/lib/lib.routes';

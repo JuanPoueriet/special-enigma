@@ -1,1 +1,1 @@
-export * from './lib/lib.routes';
+export * from '@virteex/inventory-ui/src/lib/lib.routes';

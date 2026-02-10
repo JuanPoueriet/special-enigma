@@ -1,1 +1,1 @@
-export * from './ui-modal.component';
+export * from '@virteex/shared-ui/src/lib/components/ui/modal/ui-modal.component';

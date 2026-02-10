@@ -1,4 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NotificationService, User } from '@virteex/identity-domain';
 import * as nodemailer from 'nodemailer';
 
@@ -7,20 +8,17 @@ export class NodemailerNotificationService implements NotificationService {
   private readonly logger = new Logger(NodemailerNotificationService.name);
   private transporter: nodemailer.Transporter;
 
-  constructor() {
-    const host = process.env['SMTP_HOST'];
-    const port = Number(process.env['SMTP_PORT']);
-    const user = process.env['SMTP_USER'];
-    const pass = process.env['SMTP_PASSWORD'];
-
-    if (!host || !port || !user || !pass) {
-        throw new Error('SMTP Configuration missing (SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD)');
-    }
+  constructor(private readonly configService: ConfigService) {
+    const host = this.configService.getOrThrow<string>('SMTP_HOST');
+    const port = this.configService.getOrThrow<number>('SMTP_PORT');
+    const user = this.configService.getOrThrow<string>('SMTP_USER');
+    const pass = this.configService.getOrThrow<string>('SMTP_PASSWORD');
+    const secure = this.configService.get<boolean>('SMTP_SECURE') ?? false;
 
     this.transporter = nodemailer.createTransport({
       host,
       port,
-      secure: process.env['SMTP_SECURE'] === 'true',
+      secure,
       auth: {
         user,
         pass,
@@ -29,7 +27,7 @@ export class NodemailerNotificationService implements NotificationService {
   }
 
   async sendWelcomeEmail(user: User): Promise<void> {
-    const from = process.env['SMTP_FROM'] || '"Virteex ERP" <no-reply@virteex.com>';
+    const from = this.configService.get<string>('SMTP_FROM') || '"Virteex ERP" <no-reply@virteex.com>';
 
     this.logger.log(`Sending welcome email to ${user.email}`);
 

@@ -1,1 +1,1 @@
-export * from './lib/fiscal-contracts';
+export * from '@virteex/fiscal-contracts/src/lib/fiscal-contracts';

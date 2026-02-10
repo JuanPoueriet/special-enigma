@@ -1,1 +1,1 @@
-export * from './lib/app.config';
+export * from '@virteex/shared-config/src/lib/app.config';

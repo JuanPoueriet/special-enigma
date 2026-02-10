@@ -1,1 +1,1 @@
-export * from './lib/admin-presentation';
+export * from '@virteex/admin-presentation/src/lib/admin-presentation';

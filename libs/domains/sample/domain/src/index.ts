@@ -1,2 +1,2 @@
-export * from './lib/domain';
-export * from './lib/entities/sample.entity';
+export * from '@virteex/sample-domain/src/lib/domain';
+export * from '@virteex/sample-domain/src/lib/entities/sample.entity';

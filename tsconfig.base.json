@@ -618,6 +618,12 @@
       "@virteex/shared-util-auth/*": [
         "libs/shared/util/auth/src/*"
       ],
+      "@virteex/shared-util-server-config": [
+        "libs/shared/util/server-config/src/index.ts"
+      ],
+      "@virteex/shared-util-server-config/*": [
+        "libs/shared/util/server-config/src/*"
+      ],
       "@virteex/shared-config": [
         "libs/shared/util/config/src/index.ts"
       ],

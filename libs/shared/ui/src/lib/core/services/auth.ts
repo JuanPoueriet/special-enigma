@@ -21,10 +21,10 @@ import { LoginCredentials } from '@virteex/shared-ui';
 import { AuthStatus } from '@virteex/shared-ui';
 import { UserStatus } from '@virteex/shared-ui';
 import { UserPayload } from '@virteex/shared-ui';
-import { NotificationService } from './notification';
-import { WebSocketService } from './websocket.service';
+import { NotificationService } from '@virteex/shared-ui/src/lib/core/services/notification';
+import { WebSocketService } from '@virteex/shared-ui/src/lib/core/services/websocket.service';
 import { ModalService } from '@virteex/shared-ui';
-import { ErrorHandlerService } from './error-handler.service';
+import { ErrorHandlerService } from '@virteex/shared-ui/src/lib/core/services/error-handler.service';
 import { IS_PUBLIC_API } from '@virteex/shared-ui';
 import { hasPermission } from '@virteex/shared-util-auth';
 

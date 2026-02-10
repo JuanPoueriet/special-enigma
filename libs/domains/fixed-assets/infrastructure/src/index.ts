@@ -1,1 +1,1 @@
-export * from './lib/fixed-assets-infrastructure';
+export * from '@virteex/fixed-assets-infrastructure/src/lib/fixed-assets-infrastructure';

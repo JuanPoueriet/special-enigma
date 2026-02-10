@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RegisterPage } from './register.page';
+import { RegisterPage } from '@virteex/identity-ui/src/lib/pages/auth/register/register.page';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideRouter } from '@angular/router';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthService } from '../../../services/auth.service';
+import { AuthService } from '@virteex/identity-ui/src/lib/services/auth.service';
 import { ReCaptchaV3Service, RECAPTCHA_V3_SITE_KEY } from 'ng-recaptcha-19';
 import { of, Observable } from 'rxjs';
 import { CountryService, LanguageService, UsersService, GeoLocationService, ConfigService } from '@virteex/shared-ui';

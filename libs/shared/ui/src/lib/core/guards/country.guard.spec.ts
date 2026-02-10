@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { CountryService } from '../services/country.service';
-import { LanguageService } from '../services/language';
-import { GeoLocationService } from '../services/geo-location.service';
-import { CountryGuard } from './country.guard';
+import { CountryService } from '@virteex/shared-ui/src/lib/core/services/country.service';
+import { LanguageService } from '@virteex/shared-ui/src/lib/core/services/language';
+import { GeoLocationService } from '@virteex/shared-ui/src/lib/core/services/geo-location.service';
+import { CountryGuard } from '@virteex/shared-ui/src/lib/core/guards/country.guard';
 import { of, firstValueFrom } from 'rxjs';
 import { vi } from 'vitest';
 

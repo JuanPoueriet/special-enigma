@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { LanguageService } from '../services/language';
-import { languageInitGuard } from './language-init.guard';
+import { LanguageService } from '@virteex/shared-ui/src/lib/core/services/language';
+import { languageInitGuard } from '@virteex/shared-ui/src/lib/core/guards/language-init.guard';
 import { vi } from 'vitest';
 
 describe('languageInitGuard', () => {

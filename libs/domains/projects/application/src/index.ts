@@ -1,1 +1,1 @@
-export * from './lib/projects-application';
+export * from '@virteex/projects-application/src/lib/projects-application';

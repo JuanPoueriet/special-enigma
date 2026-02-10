@@ -1,2 +1,2 @@
-export * from './lib/identity-presentation.module';
-export * from './lib/controllers/auth.controller';
+export * from '@virteex/identity-presentation/src/lib/identity-presentation.module';
+export * from '@virteex/identity-presentation/src/lib/controllers/auth.controller';

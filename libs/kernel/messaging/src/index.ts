@@ -1,3 +1,3 @@
-export * from './lib/messaging.module';
-export * from './lib/outbox.service';
-export * from './lib/entities/outbox-event.entity';
+export * from '@virteex/messaging/src/lib/messaging.module';
+export * from '@virteex/messaging/src/lib/outbox.service';
+export * from '@virteex/messaging/src/lib/entities/outbox-event.entity';

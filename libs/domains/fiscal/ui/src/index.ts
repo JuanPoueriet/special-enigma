@@ -1,1 +1,1 @@
-export * from './lib/lib.routes';
+export * from '@virteex/fiscal-ui/src/lib/lib.routes';

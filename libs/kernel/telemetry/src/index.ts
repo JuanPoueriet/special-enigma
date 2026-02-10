@@ -1,2 +1,2 @@
-export * from './lib/telemetry';
-export * from './lib/telemetry.module';
+export * from '@virteex/telemetry/src/lib/telemetry';
+export * from '@virteex/telemetry/src/lib/telemetry.module';

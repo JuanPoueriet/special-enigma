@@ -1,1 +1,1 @@
-export * from './lib/catalog-presentation.module';
+export * from '@virteex/catalog-presentation/src/lib/catalog-presentation.module';

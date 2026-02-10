@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideZonelessChangeDetection } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { of } from 'rxjs';
-import { UserManagementPage } from './user-management.page';
+import { UserManagementPage } from '@virteex/identity-ui/src/lib/pages/user-management/user-management.page';
 import {
   UsersService,
   InviteUserDto,

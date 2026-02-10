@@ -1,1 +1,1 @@
-export * from './lib/treasury-infrastructure';
+export * from '@virteex/treasury-infrastructure/src/lib/treasury-infrastructure';
