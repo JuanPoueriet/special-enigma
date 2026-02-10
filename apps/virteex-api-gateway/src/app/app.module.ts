@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ServerConfigModule } from '@virteex/shared-util-server-config';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -22,10 +24,17 @@ import { ManufacturingPresentationModule } from '@virteex/manufacturing-presenta
 import { BiPresentationModule } from '@virteex/bi-presentation';
 import { AdminPresentationModule } from '@virteex/admin-presentation';
 import { FiscalPresentationModule } from '@virteex/fiscal-presentation';
+import { CatalogPresentationModule } from '@virteex/catalog-presentation';
 
 @Module({
   imports: [
     ServerConfigModule,
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 100, // Reasonable limit
+      },
+    ]),
     MikroOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -58,8 +67,15 @@ import { FiscalPresentationModule } from '@virteex/fiscal-presentation';
     BiPresentationModule,
     AdminPresentationModule,
     FiscalPresentationModule,
+    CatalogPresentationModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule {}

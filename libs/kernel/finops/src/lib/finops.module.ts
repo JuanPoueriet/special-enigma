@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { FinOpsService } from '@virteex/finops/lib/finops.service';
-import { USAGE_REPOSITORY } from '@virteex/finops/lib/ports/usage.repository';
-import { InMemoryUsageRepository } from '@virteex/finops/lib/infrastructure/memory-usage.repository';
+import { FinOpsService } from './finops.service';
+import { USAGE_REPOSITORY } from './ports/usage.repository';
+import { InMemoryUsageRepository } from './infrastructure/memory-usage.repository';
 
 @Module({
   controllers: [],
@@ -9,8 +9,8 @@ import { InMemoryUsageRepository } from '@virteex/finops/lib/infrastructure/memo
     FinOpsService,
     {
       provide: USAGE_REPOSITORY,
-      useClass: InMemoryUsageRepository
-    }
+      useClass: InMemoryUsageRepository,
+    },
   ],
   exports: [FinOpsService],
 })

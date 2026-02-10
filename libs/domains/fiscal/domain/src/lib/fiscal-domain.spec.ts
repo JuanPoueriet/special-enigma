@@ -1,7 +1,7 @@
-import { fiscalDomain } from '@virteex/fiscal-domain/lib/fiscal-domain';
+import { fiscalDomain } from './fiscal-domain';
 
 describe('fiscalDomain', () => {
   it('should work', () => {
     expect(fiscalDomain()).toEqual('fiscal-domain');
-  })
-})
+  });
+});
