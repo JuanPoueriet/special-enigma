@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { EntityManager } from '@mikro-orm/postgresql';
-import { EmployeeRepository, Employee } from '@virteex/payroll-domain';
+import { EntityManager } from '@mikro-orm/core';
+import { EmployeeRepository, Employee } from '../../../../domain/src/index';
 
 @Injectable()
 export class MikroOrmEmployeeRepository implements EmployeeRepository {
@@ -18,7 +18,6 @@ export class MikroOrmEmployeeRepository implements EmployeeRepository {
     return this.em.findOne(Employee, { email });
   }
 
-  async findAllByTenant(tenantId: string): Promise<Employee[]>;
   async findAllByTenant(tenantId: string): Promise<Employee[]> {
     return this.em.find(Employee, { tenantId });
   }

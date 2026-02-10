@@ -1,3 +1,3 @@
-export * from '@virteex/accounting-presentation/src/lib/accounting-presentation.module';
-export * from '@virteex/accounting-presentation/src/lib/resolvers/accounts.resolver';
-export * from '@virteex/accounting-presentation/src/lib/resolvers/journal-entries.resolver';
+export * from './lib/accounting-presentation.module';
+export * from './lib/resolvers/accounts.resolver';
+export * from './lib/resolvers/journal-entries.resolver';

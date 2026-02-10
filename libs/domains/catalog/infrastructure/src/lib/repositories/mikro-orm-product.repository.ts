@@ -17,6 +17,16 @@ export class MikroOrmProductRepository implements ProductRepository {
 
   async create(product: Product): Promise<Product> {
     this.repository.getEntityManager().persist(product);
+    await this.repository.getEntityManager().flush();
     return product;
+  }
+
+  async findBySku(sku: string): Promise<Product | null> {
+    return this.repository.findOne({ sku });
+  }
+
+  async save(product: Product): Promise<void> {
+    this.repository.getEntityManager().persist(product);
+    await this.repository.getEntityManager().flush();
   }
 }

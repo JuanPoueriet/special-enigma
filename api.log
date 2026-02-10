@@ -1,6 +1,9 @@
 
- NX   Running target serve for project virteex-api-gateway and 29 tasks it depends on:
+ NX   Running target serve for project virteex-api-gateway and 34 tasks it depends on:
 
+
+
+> nx run contracts:build  [existing outputs match the cache, left as is]
 
 
 > nx run identity-domain:build  [existing outputs match the cache, left as is]
@@ -9,99 +12,70 @@
 > nx run payroll-contracts:build  [existing outputs match the cache, left as is]
 
 
+> nx run treasury-contracts:build  [existing outputs match the cache, left as is]
+
+
 > nx run accounting-contracts:build  [existing outputs match the cache, left as is]
-
-
-> nx run contracts:build  [existing outputs match the cache, left as is]
 
 
 > nx run identity-application:build  [existing outputs match the cache, left as is]
 
 
+> nx run payroll-domain:build  [existing outputs match the cache, left as is]
+
+
 > nx run inventory-domain:build  [existing outputs match the cache, left as is]
+
+
+> nx run treasury-domain:build  [existing outputs match the cache, left as is]
+
+
+> nx run accounting-domain:build  [existing outputs match the cache, left as is]
+
+
+> nx run catalog-domain:build  [existing outputs match the cache, left as is]
 
 
 > nx run inventory-contracts:build  [existing outputs match the cache, left as is]
 
 
-> nx run payroll-domain:build
+> nx run treasury-infrastructure:build  [existing outputs match the cache, left as is]
 
-Compiling TypeScript files for project "payroll-domain"...
-[1m[31m[96mlibs/domains/payroll/domain/src/index.ts[0m:[93m1[0m:[93m15[0m - [91merror[0m[90m TS2307: [0mCannot find module '@virteex/payroll-domain/src/lib/entities/employee.entity' or its corresponding type declarations.[39m[22m
-[1m[31m[39m[22m
-[1m[31m[7m1[0m export * from '@virteex/payroll-domain/src/lib/entities/employee.entity';[39m[22m
-[1m[31m[7m [0m [91m              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
-[1m[31m[96mlibs/domains/payroll/domain/src/index.ts[0m:[93m2[0m:[93m15[0m - [91merror[0m[90m TS2307: [0mCannot find module '@virteex/payroll-domain/src/lib/entities/payroll.entity' or its corresponding type declarations.[39m[22m
-[1m[31m[39m[22m
-[1m[31m[7m2[0m export * from '@virteex/payroll-domain/src/lib/entities/payroll.entity';[39m[22m
-[1m[31m[7m [0m [91m              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
-[1m[31m[96mlibs/domains/payroll/domain/src/index.ts[0m:[93m3[0m:[93m15[0m - [91merror[0m[90m TS2307: [0mCannot find module '@virteex/payroll-domain/src/lib/entities/payroll-detail.entity' or its corresponding type declarations.[39m[22m
-[1m[31m[39m[22m
-[1m[31m[7m3[0m export * from '@virteex/payroll-domain/src/lib/entities/payroll-detail.entity';[39m[22m
-[1m[31m[7m [0m [91m              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
-[1m[31m[96mlibs/domains/payroll/domain/src/index.ts[0m:[93m4[0m:[93m15[0m - [91merror[0m[90m TS2307: [0mCannot find module '@virteex/payroll-domain/src/lib/entities/attendance.entity' or its corresponding type declarations.[39m[22m
-[1m[31m[39m[22m
-[1m[31m[7m4[0m export * from '@virteex/payroll-domain/src/lib/entities/attendance.entity';[39m[22m
-[1m[31m[7m [0m [91m              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
-[1m[31m[96mlibs/domains/payroll/domain/src/index.ts[0m:[93m5[0m:[93m15[0m - [91merror[0m[90m TS2307: [0mCannot find module '@virteex/payroll-domain/src/lib/repositories/payroll.repository' or its corresponding type declarations.[39m[22m
-[1m[31m[39m[22m
-[1m[31m[7m5[0m export * from '@virteex/payroll-domain/src/lib/repositories/payroll.repository';[39m[22m
-[1m[31m[7m [0m [91m              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
-[1m[31m[96mlibs/domains/payroll/domain/src/index.ts[0m:[93m6[0m:[93m15[0m - [91merror[0m[90m TS2307: [0mCannot find module '@virteex/payroll-domain/src/lib/repositories/employee.repository' or its corresponding type declarations.[39m[22m
-[1m[31m[39m[22m
-[1m[31m[7m6[0m export * from '@virteex/payroll-domain/src/lib/repositories/employee.repository';[39m[22m
-[1m[31m[7m [0m [91m              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
-[1m[31m[96mlibs/domains/payroll/domain/src/index.ts[0m:[93m7[0m:[93m15[0m - [91merror[0m[90m TS2307: [0mCannot find module '@virteex/payroll-domain/src/lib/ports/tax-service.port' or its corresponding type declarations.[39m[22m
-[1m[31m[39m[22m
-[1m[31m[7m7[0m export * from '@virteex/payroll-domain/src/lib/ports/tax-service.port';[39m[22m
-[1m[31m[7m [0m [91m              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
-[1m[31m[96mlibs/domains/payroll/domain/src/lib/entities/attendance.entity.ts[0m:[93m3[0m:[93m31[0m - [91merror[0m[90m TS2307: [0mCannot find module '@virteex/payroll-domain/src/lib/entities/employee.entity' or its corresponding type declarations.[39m[22m
-[1m[31m[39m[22m
-[1m[31m[7m3[0m import type { Employee } from '@virteex/payroll-domain/src/lib/entities/employee.entity';[39m[22m
-[1m[31m[7m [0m [91m                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
-[1m[31m[96mlibs/domains/payroll/domain/src/lib/entities/employee.entity.ts[0m:[93m3[0m:[93m30[0m - [91merror[0m[90m TS2307: [0mCannot find module '@virteex/payroll-domain/src/lib/entities/payroll.entity' or its corresponding type declarations.[39m[22m
-[1m[31m[39m[22m
-[1m[31m[7m3[0m import type { Payroll } from '@virteex/payroll-domain/src/lib/entities/payroll.entity';[39m[22m
-[1m[31m[7m [0m [91m                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
-[1m[31m[96mlibs/domains/payroll/domain/src/lib/entities/employee.entity.ts[0m:[93m4[0m:[93m33[0m - [91merror[0m[90m TS2307: [0mCannot find module '@virteex/payroll-domain/src/lib/entities/attendance.entity' or its corresponding type declarations.[39m[22m
-[1m[31m[39m[22m
-[1m[31m[7m4[0m import type { Attendance } from '@virteex/payroll-domain/src/lib/entities/attendance.entity';[39m[22m
-[1m[31m[7m [0m [91m                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
-[1m[31m[96mlibs/domains/payroll/domain/src/lib/entities/payroll-detail.entity.ts[0m:[93m3[0m:[93m30[0m - [91merror[0m[90m TS2307: [0mCannot find module '@virteex/payroll-domain/src/lib/entities/payroll.entity' or its corresponding type declarations.[39m[22m
-[1m[31m[39m[22m
-[1m[31m[7m3[0m import type { Payroll } from '@virteex/payroll-domain/src/lib/entities/payroll.entity';[39m[22m
-[1m[31m[7m [0m [91m                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
-[1m[31m[96mlibs/domains/payroll/domain/src/lib/entities/payroll.entity.ts[0m:[93m3[0m:[93m31[0m - [91merror[0m[90m TS2307: [0mCannot find module '@virteex/payroll-domain/src/lib/entities/employee.entity' or its corresponding type declarations.[39m[22m
-[1m[31m[39m[22m
-[1m[31m[7m3[0m import type { Employee } from '@virteex/payroll-domain/src/lib/entities/employee.entity';[39m[22m
-[1m[31m[7m [0m [91m                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
-[1m[31m[96mlibs/domains/payroll/domain/src/lib/entities/payroll.entity.ts[0m:[93m4[0m:[93m36[0m - [91merror[0m[90m TS2307: [0mCannot find module '@virteex/payroll-domain/src/lib/entities/payroll-detail.entity' or its corresponding type declarations.[39m[22m
-[1m[31m[39m[22m
-[1m[31m[7m4[0m import type { PayrollDetail } from '@virteex/payroll-domain/src/lib/entities/payroll-detail.entity';[39m[22m
-[1m[31m[7m [0m [91m                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
-[1m[31m[96mlibs/domains/payroll/domain/src/lib/repositories/employee.repository.ts[0m:[93m1[0m:[93m10[0m - [91merror[0m[90m TS2305: [0mModule '"@virteex/payroll-domain"' has no exported member 'Employee'.[39m[22m
-[1m[31m[39m[22m
-[1m[31m[7m1[0m import { Employee } from '@virteex/payroll-domain';[39m[22m
-[1m[31m[7m [0m [91m         ~~~~~~~~[0m[39m[22m
-[1m[31m[96mlibs/domains/payroll/domain/src/lib/repositories/payroll.repository.ts[0m:[93m1[0m:[93m10[0m - [91merror[0m[90m TS2305: [0mModule '"@virteex/payroll-domain"' has no exported member 'Payroll'.[39m[22m
-[1m[31m[39m[22m
-[1m[31m[7m1[0m import { Payroll } from '@virteex/payroll-domain';[39m[22m
-[1m[31m[7m [0m [91m         ~~~~~~~[0m[39m[22m
-[1m[31m[39m[22m
 
-> nx run billing-domain:build  [existing outputs match the cache, left as is]
+> nx run payroll-infrastructure:build  [existing outputs match the cache, left as is]
+
+
+> nx run payroll-application:build  [existing outputs match the cache, left as is]
 
 
 > nx run inventory-infrastructure:build  [existing outputs match the cache, left as is]
 
 
+> nx run identity-infrastructure:build  [existing outputs match the cache, left as is]
+
+
+> nx run accounting-infrastructure:build  [existing outputs match the cache, left as is]
+
+
+> nx run billing-domain:build  [existing outputs match the cache, left as is]
+
+
+> nx run accounting-application:build  [existing outputs match the cache, left as is]
+
+
+> nx run inventory-application:build  [existing outputs match the cache, left as is]
+
+
+> nx run catalog-application:build  [existing outputs match the cache, left as is]
+
+
+> nx run treasury-application:build  [existing outputs match the cache, left as is]
+
+
 > nx run fiscal-presentation:build  [existing outputs match the cache, left as is]
 
 
-> nx run crm-presentation:build  [existing outputs match the cache, left as is]
-
-
-> nx run projects-presentation:build  [existing outputs match the cache, left as is]
+> nx run payroll-presentation:build  [existing outputs match the cache, left as is]
 
 
 > nx run bi-presentation:build  [existing outputs match the cache, left as is]
@@ -110,114 +84,27 @@ Compiling TypeScript files for project "payroll-domain"...
 > nx run treasury-presentation:build  [existing outputs match the cache, left as is]
 
 
-> nx run accounting-domain:build
+> nx run accounting-presentation:build  [existing outputs match the cache, left as is]
 
-Compiling TypeScript files for project "accounting-domain"...
-[1m[31m[96mlibs/domains/accounting/domain/src/index.ts[0m:[93m1[0m:[93m15[0m - [91merror[0m[90m TS2307: [0mCannot find module '@virteex/accounting-domain/src/lib/entities/account.entity' or its corresponding type declarations.[39m[22m
-[1m[31m[39m[22m
-[1m[31m[7m1[0m export * from '@virteex/accounting-domain/src/lib/entities/account.entity';[39m[22m
-[1m[31m[7m [0m [91m              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
-[1m[31m[96mlibs/domains/accounting/domain/src/index.ts[0m:[93m2[0m:[93m15[0m - [91merror[0m[90m TS2307: [0mCannot find module '@virteex/accounting-domain/src/lib/entities/journal-entry.entity' or its corresponding type declarations.[39m[22m
-[1m[31m[39m[22m
-[1m[31m[7m2[0m export * from '@virteex/accounting-domain/src/lib/entities/journal-entry.entity';[39m[22m
-[1m[31m[7m [0m [91m              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
-[1m[31m[96mlibs/domains/accounting/domain/src/index.ts[0m:[93m3[0m:[93m15[0m - [91merror[0m[90m TS2307: [0mCannot find module '@virteex/accounting-domain/src/lib/entities/journal-entry-line.entity' or its corresponding type declarations.[39m[22m
-[1m[31m[39m[22m
-[1m[31m[7m3[0m export * from '@virteex/accounting-domain/src/lib/entities/journal-entry-line.entity';[39m[22m
-[1m[31m[7m [0m [91m              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
-[1m[31m[96mlibs/domains/accounting/domain/src/index.ts[0m:[93m4[0m:[93m15[0m - [91merror[0m[90m TS2307: [0mCannot find module '@virteex/accounting-domain/src/lib/entities/fiscal-year.entity' or its corresponding type declarations.[39m[22m
-[1m[31m[39m[22m
-[1m[31m[7m4[0m export * from '@virteex/accounting-domain/src/lib/entities/fiscal-year.entity';[39m[22m
-[1m[31m[7m [0m [91m              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
-[1m[31m[96mlibs/domains/accounting/domain/src/index.ts[0m:[93m5[0m:[93m15[0m - [91merror[0m[90m TS2307: [0mCannot find module '@virteex/accounting-domain/src/lib/ports/account.repository' or its corresponding type declarations.[39m[22m
-[1m[31m[39m[22m
-[1m[31m[7m5[0m export * from '@virteex/accounting-domain/src/lib/ports/account.repository';[39m[22m
-[1m[31m[7m [0m [91m              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
-[1m[31m[96mlibs/domains/accounting/domain/src/index.ts[0m:[93m6[0m:[93m15[0m - [91merror[0m[90m TS2307: [0mCannot find module '@virteex/accounting-domain/src/lib/ports/journal-entry.repository' or its corresponding type declarations.[39m[22m
-[1m[31m[39m[22m
-[1m[31m[7m6[0m export * from '@virteex/accounting-domain/src/lib/ports/journal-entry.repository';[39m[22m
-[1m[31m[7m [0m [91m              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
-[1m[31m[39m[22m
 
-> nx run admin-presentation:build  [existing outputs match the cache, left as is]
+> nx run inventory-presentation:build  [existing outputs match the cache, left as is]
+
+
+> nx run projects-presentation:build  [existing outputs match the cache, left as is]
+
+
+> nx run identity-presentation:build  [existing outputs match the cache, left as is]
 
 
 > nx run manufacturing-presentation:build  [existing outputs match the cache, left as is]
 
 
-> nx run inventory-application:build
-
-Compiling TypeScript files for project "inventory-application"...
-[1m[31m[96mlibs/domains/inventory/application/src/lib/use-cases/get-warehouses.use-case.ts[0m:[93m24[0m:[93m19[0m - [91merror[0m[90m TS2551: [0mProperty 'location' does not exist on type 'Warehouse'. Did you mean 'locations'?[39m[22m
-[1m[31m[39m[22m
-[1m[31m[7m24[0m       location: w.location,[39m[22m
-[1m[31m[7m  [0m [91m                  ~~~~~~~~[0m[39m[22m
-[1m[31m[39m[22m
-[1m[31m  [96mdist/libs/domains/inventory/domain/src/lib/entities/warehouse.entity.d.ts[0m:[93m10[0m:[93m5[0m[39m[22m
-[1m[31m    [7m10[0m     locations: Collection<Location, object>;[39m[22m
-[1m[31m    [7m  [0m [96m    ~~~~~~~~~[0m[39m[22m
-[1m[31m    'locations' is declared here.[39m[22m
-[1m[31m[39m[22m
-
-> nx run identity-infrastructure:build
-
-Compiling TypeScript files for project "identity-infrastructure"...
-[1m[31m[96mlibs/domains/identity/infrastructure/src/index.ts[0m:[93m1[0m:[93m15[0m - [91merror[0m[90m TS2307: [0mCannot find module '@virteex/identity-infrastructure/src/lib/identity-infrastructure.module' or its corresponding type declarations.[39m[22m
-[1m[31m[39m[22m
-[1m[31m[7m1[0m export * from '@virteex/identity-infrastructure/src/lib/identity-infrastructure.module';[39m[22m
-[1m[31m[7m [0m [91m              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
-[1m[31m[96mlibs/domains/identity/infrastructure/src/index.ts[0m:[93m2[0m:[93m15[0m - [91merror[0m[90m TS2307: [0mCannot find module '@virteex/identity-infrastructure/src/lib/persistence/mikro-orm-user.repository' or its corresponding type declarations.[39m[22m
-[1m[31m[39m[22m
-[1m[31m[7m2[0m export * from '@virteex/identity-infrastructure/src/lib/persistence/mikro-orm-user.repository';[39m[22m
-[1m[31m[7m [0m [91m              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
-[1m[31m[96mlibs/domains/identity/infrastructure/src/index.ts[0m:[93m3[0m:[93m15[0m - [91merror[0m[90m TS2307: [0mCannot find module '@virteex/identity-infrastructure/src/lib/persistence/mikro-orm-company.repository' or its corresponding type declarations.[39m[22m
-[1m[31m[39m[22m
-[1m[31m[7m3[0m export * from '@virteex/identity-infrastructure/src/lib/persistence/mikro-orm-company.repository';[39m[22m
-[1m[31m[7m [0m [91m              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
-[1m[31m[96mlibs/domains/identity/infrastructure/src/index.ts[0m:[93m4[0m:[93m15[0m - [91merror[0m[90m TS2307: [0mCannot find module '@virteex/identity-infrastructure/src/lib/persistence/mikro-orm-audit-log.repository' or its corresponding type declarations.[39m[22m
-[1m[31m[39m[22m
-[1m[31m[7m4[0m export * from '@virteex/identity-infrastructure/src/lib/persistence/mikro-orm-audit-log.repository';[39m[22m
-[1m[31m[7m [0m [91m              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
-[1m[31m[96mlibs/domains/identity/infrastructure/src/index.ts[0m:[93m5[0m:[93m15[0m - [91merror[0m[90m TS2307: [0mCannot find module '@virteex/identity-infrastructure/src/lib/persistence/mikro-orm-session.repository' or its corresponding type declarations.[39m[22m
-[1m[31m[39m[22m
-[1m[31m[7m5[0m export * from '@virteex/identity-infrastructure/src/lib/persistence/mikro-orm-session.repository';[39m[22m
-[1m[31m[7m [0m [91m              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
-[1m[31m[96mlibs/domains/identity/infrastructure/src/index.ts[0m:[93m6[0m:[93m15[0m - [91merror[0m[90m TS2307: [0mCannot find module '@virteex/identity-infrastructure/src/lib/services/node-crypto-auth.service' or its corresponding type declarations.[39m[22m
-[1m[31m[39m[22m
-[1m[31m[7m6[0m export * from '@virteex/identity-infrastructure/src/lib/services/node-crypto-auth.service';[39m[22m
-[1m[31m[7m [0m [91m              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
-[1m[31m[96mlibs/domains/identity/infrastructure/src/index.ts[0m:[93m7[0m:[93m15[0m - [91merror[0m[90m TS2307: [0mCannot find module '@virteex/identity-infrastructure/src/lib/services/nodemailer-notification.service' or its corresponding type declarations.[39m[22m
-[1m[31m[39m[22m
-[1m[31m[7m7[0m export * from '@virteex/identity-infrastructure/src/lib/services/nodemailer-notification.service';[39m[22m
-[1m[31m[7m [0m [91m              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
-[1m[31m[96mlibs/domains/identity/infrastructure/src/index.ts[0m:[93m8[0m:[93m15[0m - [91merror[0m[90m TS2307: [0mCannot find module '@virteex/identity-infrastructure/src/lib/services/risk-engine.service' or its corresponding type declarations.[39m[22m
-[1m[31m[39m[22m
-[1m[31m[7m8[0m export * from '@virteex/identity-infrastructure/src/lib/services/risk-engine.service';[39m[22m
-[1m[31m[7m [0m [91m              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[39m[22m
-[1m[31m[96mlibs/domains/identity/infrastructure/src/lib/services/nodemailer-notification.service.ts[0m:[93m2[0m:[93m31[0m - [91merror[0m[90m TS2307: [0mCannot find module '@nestjs/config' or its corresponding type declarations.[39m[22m
-[1m[31m[39m[22m
-[1m[31m[7m2[0m import { ConfigService } from '@nestjs/config';[39m[22m
-[1m[31m[7m [0m [91m                              ~~~~~~~~~~~~~~~~[0m[39m[22m
-[1m[31m[39m[22m
+> nx run admin-presentation:build  [existing outputs match the cache, left as is]
 
 
+> nx run virteex-api-gateway:build  [existing outputs match the cache, left as is]
 
- NX   Running target serve for project virteex-api-gateway and 29 tasks it depends on failed
+> webpack-cli build --node-env=production
 
-Failed tasks:
-
-- payroll-domain:build
-- accounting-domain:build
-- inventory-application:build
-- identity-infrastructure:build
-
-Hint: run the command with --verbose for more details.
-
-
- NX   Nx detected  flaky tasks
-
-  accounting-contracts:build
-  payroll-contracts:build
-  identity-domain:build
-
-Flaky tasks can disrupt your CI pipeline. Automatically retry them with Nx Cloud. Learn more at https://nx.dev/ci/features/flaky-tasks
+webpack compiled [1m[32msuccessfully[39m[22m (9216c38783f7cf82)
+Waiting for virteex-api-gateway:serve:development in another nx process

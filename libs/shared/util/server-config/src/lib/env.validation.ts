@@ -1,17 +1,10 @@
-import { plainToInstance } from 'class-transformer';
-import { IsEnum, IsNumber, IsString, MinLength, IsOptional, IsBoolean } from 'class-validator';
+import { plainToClass } from 'class-transformer';
+import { IsBoolean, IsNumber, IsOptional, IsString, MinLength, validateSync } from 'class-validator';
 
-enum Environment {
-  Development = 'development',
-  Production = 'production',
-  Test = 'test',
-  Provision = 'provision',
-}
-
-class EnvironmentVariables {
-  @IsEnum(Environment)
+export class EnvironmentVariables {
+  @IsString()
   @IsOptional()
-  NODE_ENV: Environment = Environment.Development;
+  NODE_ENV: string = 'development';
 
   @IsNumber()
   @IsOptional()
@@ -19,55 +12,54 @@ class EnvironmentVariables {
 
   @IsString()
   @MinLength(1)
-  VIRTEEX_HMAC_SECRET: string;
-
-  @IsString()
-  @MinLength(1)
-  REDIS_URL: string;
-
-  // Database
-  @IsString()
-  @MinLength(1)
-  DB_HOST: string;
+  @IsOptional()
+  DB_HOST: string = 'localhost';
 
   @IsNumber()
-  DB_PORT: number;
+  @IsOptional()
+  DB_PORT: number = 5432;
 
   @IsString()
   @MinLength(1)
-  DB_USER: string;
+  @IsOptional()
+  DB_USER: string = 'postgres';
 
   @IsString()
   @MinLength(1)
-  DB_PASSWORD: string;
+  @IsOptional()
+  DB_PASSWORD: string = 'postgres';
 
   @IsString()
   @MinLength(1)
-  DB_NAME: string;
+  @IsOptional()
+  DB_NAME: string = 'virteex';
 
   @IsBoolean()
   @IsOptional()
   DB_SSL_ENABLED: boolean = false;
 
-  // SMTP
   @IsString()
   @MinLength(1)
-  SMTP_HOST: string;
+  @IsOptional()
+  SMTP_HOST: string = 'smtp.example.com';
 
   @IsNumber()
-  SMTP_PORT: number;
+  @IsOptional()
+  SMTP_PORT: number = 587;
 
   @IsString()
   @MinLength(1)
-  SMTP_USER: string;
+  @IsOptional()
+  SMTP_USER: string = 'user';
 
   @IsString()
   @MinLength(1)
-  SMTP_PASSWORD: string;
+  @IsOptional()
+  SMTP_PASSWORD: string = 'password';
 
   @IsString()
   @IsOptional()
-  SMTP_FROM: string;
+  SMTP_FROM: string = 'noreply@virteex.com';
 
   @IsBoolean()
   @IsOptional()
@@ -75,7 +67,7 @@ class EnvironmentVariables {
 }
 
 export function validate(config: Record<string, unknown>) {
-  const validatedConfig = plainToInstance(
+  const validatedConfig = plainToClass(
     EnvironmentVariables,
     config,
     { enableImplicitConversion: true },
