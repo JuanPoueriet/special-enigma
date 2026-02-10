@@ -1,1 +1,2 @@
-export * from '@virteex/treasury-presentation/src/lib/treasury-presentation';
+export * from './lib/treasury-presentation.module';
+export * from './lib/controllers/treasury.controller';

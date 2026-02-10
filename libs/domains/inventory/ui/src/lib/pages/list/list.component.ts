@@ -1,27 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-export interface WarehouseItem {
-  id: string;
-  name: string;
-  status: string;
-}
+import { RouterLink } from '@angular/router';
+import { InventoryService } from '../../services/inventory.service';
 
 @Component({
   selector: 'virteex-inventory-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './list.component.html',
-  styleUrl: './list.component.scss',
+  styleUrls: ['./list.component.scss'],
 })
-export class ListComponent implements OnInit {
-  items: WarehouseItem[] = [];
+export class InventoryListComponent implements OnInit {
+  private inventoryService = inject(InventoryService);
+  warehouses = signal<any[]>([]);
 
   ngOnInit() {
-    this.items = [
-      { id: '1', name: 'Warehouse 1', status: 'Active' },
-      { id: '2', name: 'Warehouse 2', status: 'Pending' },
-      { id: '3', name: 'Warehouse 3', status: 'Closed' },
-    ];
+    this.inventoryService.getWarehouses().subscribe({
+      next: (data) => this.warehouses.set(data),
+      error: (err) => console.error('Failed to load warehouses', err),
+    });
   }
 }
