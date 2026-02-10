@@ -1,1 +1,2 @@
-export * from '@virteex/bi-application/src/lib/bi-application';
+export * from './lib/bi-application';
+export * from './lib/use-cases/generate-report.use-case';

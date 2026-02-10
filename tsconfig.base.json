@@ -73,6 +73,18 @@
       ],
       "@virteex/billing-domain": ["libs/domains/billing/domain/src/index.ts"],
       "@virteex/billing-domain/*": ["libs/domains/billing/domain/src/*"],
+      "@virteex/billing-application": [
+        "libs/domains/billing/application/src/index.ts"
+      ],
+      "@virteex/billing-application/*": [
+        "libs/domains/billing/application/src/*"
+      ],
+      "@virteex/billing-presentation": [
+        "libs/domains/billing/presentation/src/index.ts"
+      ],
+      "@virteex/billing-presentation/*": [
+        "libs/domains/billing/presentation/src/*"
+      ],
       "@virteex/billing-infrastructure": [
         "libs/domains/billing/infrastructure/src/index.ts"
       ],

@@ -1,1 +1,2 @@
-export * from './lib/bi-domain';
+export * from './lib/entities/bi-report.entity';
+export * from './lib/ports/bi-report.repository';

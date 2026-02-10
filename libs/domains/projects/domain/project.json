@@ -20,7 +20,7 @@
         "assets": [
           "libs/domains/projects/domain/*.md"
         ],
-        "rootDir": "."
+        "rootDir": "libs/domains/projects/domain/src"
       }
     },
     "test": {

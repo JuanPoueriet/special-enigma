@@ -1,1 +1,2 @@
-export * from '@virteex/admin-application/src/lib/admin-application';
+export * from './lib/admin-application';
+export * from './lib/use-cases/update-config.use-case';

@@ -45,7 +45,8 @@ export class VerifyMfaUseCase {
         throw new UnauthorizedException('MFA not configured for this account.');
     }
 
-    const isValid = this.authService.verifyMfaToken(dto.code, user.mfaSecret);
+    const decryptedSecret = await this.authService.decrypt(user.mfaSecret);
+    const isValid = this.authService.verifyMfaToken(dto.code, decryptedSecret);
 
     if (!isValid) {
         await this.auditLogRepository.save(new AuditLog('MFA_FAILED', user.id, { ip: context.ip }));

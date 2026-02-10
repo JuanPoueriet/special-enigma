@@ -11,12 +11,17 @@ interface JwtPayload {
 @Injectable()
 export class NodeCryptoAuthService implements AuthService {
   private readonly secret: string;
+  private readonly encryptionKey: Buffer;
+  private readonly algorithm = 'aes-256-gcm';
 
   constructor() {
     this.secret = process.env['JWT_SECRET'] || '';
     if (!this.secret) {
       throw new Error('JWT_SECRET is not defined in environment variables.');
     }
+    const mfaKey = process.env['MFA_ENCRYPTION_KEY'] || this.secret;
+    // Derive a 32-byte key
+    this.encryptionKey = crypto.scryptSync(mfaKey, 'salt', 32);
   }
 
   async hashPassword(password: string): Promise<string> {
@@ -42,7 +47,8 @@ export class NodeCryptoAuthService implements AuthService {
   }
 
   async generateToken(payload: any): Promise<string> {
-    return jwt.sign(payload, this.secret, { expiresIn: '1h' });
+    const expiration = process.env['JWT_EXPIRATION'] || '1h';
+    return jwt.sign(payload, this.secret, { expiresIn: expiration } as jwt.SignOptions);
   }
 
   async verifyToken(token: string): Promise<any> {
@@ -63,5 +69,28 @@ export class NodeCryptoAuthService implements AuthService {
     } catch {
       return false;
     }
+  }
+
+  async encrypt(text: string): Promise<string> {
+    const iv = crypto.randomBytes(16);
+    const cipher = crypto.createCipheriv(this.algorithm, this.encryptionKey, iv);
+    let encrypted = cipher.update(text, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
+    const authTag = cipher.getAuthTag();
+    return `${iv.toString('hex')}:${encrypted}:${authTag.toString('hex')}`;
+  }
+
+  async decrypt(text: string): Promise<string> {
+    const parts = text.split(':');
+    if (parts.length !== 3) throw new Error('Invalid encrypted text format');
+    const [ivHex, encryptedHex, authTagHex] = parts;
+
+    const iv = Buffer.from(ivHex, 'hex');
+    const authTag = Buffer.from(authTagHex, 'hex');
+    const decipher = crypto.createDecipheriv(this.algorithm, this.encryptionKey, iv);
+    decipher.setAuthTag(authTag);
+    let decrypted = decipher.update(encryptedHex, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
+    return decrypted;
   }
 }

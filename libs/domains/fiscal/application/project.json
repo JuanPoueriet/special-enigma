@@ -20,7 +20,7 @@
         "assets": [
           "libs/domains/fiscal/application/*.md"
         ],
-        "rootDir": "."
+        "rootDir": "libs/domains/fiscal/application/src"
       }
     },
     "test": {
