@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MyProfilePage } from './my-profile.page';
+import { MyProfilePage } from '@virteex/identity-ui/src/lib/pages/profile/my-profile.page';
 import { AuthService, UsersService, SecurityService } from '@virteex/shared-ui';
 import { NotificationService } from '@virteex/identity-domain';
 import { of } from 'rxjs';

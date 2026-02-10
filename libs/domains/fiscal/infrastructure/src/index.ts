@@ -1,1 +1,1 @@
-export * from './lib/fiscal-infrastructure';
+export * from '@virteex/fiscal-infrastructure/src/lib/fiscal-infrastructure';

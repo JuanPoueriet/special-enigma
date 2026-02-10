@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StatCard } from './stat-card';
+import { StatCard } from '@virteex/shared-ui/src/lib/components/stat-card/stat-card';
 import { LucideAngularModule, DollarSign } from 'lucide-angular';
 
 describe('StatCard', () => {

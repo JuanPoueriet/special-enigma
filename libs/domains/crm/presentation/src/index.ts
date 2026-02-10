@@ -1,1 +1,1 @@
-export * from './lib/crm-presentation';
+export * from '@virteex/crm-presentation/src/lib/crm-presentation';

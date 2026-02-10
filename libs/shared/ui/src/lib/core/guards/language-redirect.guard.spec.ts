@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { AuthService } from '../services/auth';
-import { LanguageService } from '../services/language';
-import { languageRedirectGuard } from './language-redirect.guard';
+import { AuthService } from '@virteex/shared-ui/src/lib/core/services/auth';
+import { LanguageService } from '@virteex/shared-ui/src/lib/core/services/language';
+import { languageRedirectGuard } from '@virteex/shared-ui/src/lib/core/guards/language-redirect.guard';
 import { vi } from 'vitest';
 
 describe('languageRedirectGuard', () => {

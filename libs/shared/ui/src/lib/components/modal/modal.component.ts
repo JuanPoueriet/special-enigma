@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ModalOptions } from '../../services/modal.interface';
-import { UiModalComponent } from '../ui/modal';
+import { ModalOptions } from '@virteex/shared-ui/src/lib/services/modal.interface';
+import { UiModalComponent } from '@virteex/shared-ui/src/lib/components/ui/modal';
 
 @Component({
   selector: 'virteex-modal',

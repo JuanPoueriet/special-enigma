@@ -31,10 +31,10 @@ import {
 import { trigger, style, transition, animate } from '@angular/animations';
 import { AuthService } from '@virteex/identity-ui';
 import { RegisterPayload, GeoMismatchModalComponent } from '@virteex/shared-ui'; // Import from shared-ui
-import { StepAccountInfo } from './steps/step-account-info/step-account-info';
-import { StepBusiness } from './steps/step-business/step-business';
-import { StepConfiguration } from './steps/step-configuration/step-configuration';
-import { StepPlan } from './steps/step-plan/step-plan';
+import { StepAccountInfo } from '@virteex/identity-ui/src/lib/pages/auth/register/steps/step-account-info/step-account-info';
+import { StepBusiness } from '@virteex/identity-ui/src/lib/pages/auth/register/steps/step-business/step-business';
+import { StepConfiguration } from '@virteex/identity-ui/src/lib/pages/auth/register/steps/step-configuration/step-configuration';
+import { StepPlan } from '@virteex/identity-ui/src/lib/pages/auth/register/steps/step-plan/step-plan';
 import { strongPasswordValidator } from '@virteex/shared-ui';
 import {
   RECAPTCHA_V3_SITE_KEY,

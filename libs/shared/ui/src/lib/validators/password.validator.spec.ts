@@ -1,4 +1,4 @@
-import { strongPasswordValidator } from './password.validator';
+import { strongPasswordValidator } from '@virteex/shared-ui/src/lib/validators/password.validator';
 import { FormControl } from '@angular/forms';
 
 describe('strongPasswordValidator', () => {

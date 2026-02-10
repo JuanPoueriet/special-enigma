@@ -1,55 +1,5 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-let ivm: any;
-try {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  ivm = require('isolated-vm');
-  // Validate that the loaded module is functional (e.g., native bindings loaded correctly)
-  if (!ivm || typeof ivm.Isolate !== 'function') {
-    throw new Error('isolated-vm loaded but Isolate is not a constructor');
-  }
-} catch (_e) {
-  console.warn(
-    'isolated-vm not found, using mock implementation for development/environment safety',
-  );
-  ivm = {
-    Isolate: class {
-      isDisposed = false;
-      // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
-      constructor(_opts: any) {}
-      createContextSync() {
-        return {
-          global: {
-            // eslint-disable-next-line @typescript-eslint/no-empty-function
-            setSync: () => {},
-            derefInto: () => ({}),
-          },
-          // eslint-disable-next-line @typescript-eslint/no-empty-function
-          release: () => {},
-        };
-      }
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      compileScriptSync(code: string) {
-        return {
-          run: async () => {
-            if (code.includes('throw')) {
-              throw new Error('Boom');
-            }
-            if (code.includes('while(true)')) {
-              throw new Error('Script execution timed out.');
-            }
-            return {};
-          },
-        };
-      }
-      getHeapStatisticsSync() {
-        return { total_heap_size: 0 };
-      }
-      dispose() {
-        this.isDisposed = true;
-      }
-    },
-  };
-}
+import { Injectable } from '@nestjs/common';
+import * as ivm from 'isolated-vm';
 
 export interface SandboxResult {
   success: boolean;
@@ -63,6 +13,7 @@ export interface SandboxResult {
   };
 }
 
+@Injectable()
 export class SandboxService {
   private readonly MEMORY_LIMIT_MB = 128;
   private readonly DEFAULT_TIMEOUT_MS = 100;
@@ -71,8 +22,8 @@ export class SandboxService {
     code: string,
     timeout = this.DEFAULT_TIMEOUT_MS,
   ): Promise<SandboxResult> {
-    let isolate: any = null;
-    let context: any = null;
+    let isolate: ivm.Isolate | null = null;
+    let context: ivm.Context | null = null;
     const logs: string[] = [];
 
     const start = Date.now();

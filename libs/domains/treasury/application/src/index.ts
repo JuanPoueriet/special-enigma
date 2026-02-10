@@ -1,1 +1,1 @@
-export * from './lib/treasury-application';
+export * from '@virteex/treasury-application/src/lib/treasury-application';

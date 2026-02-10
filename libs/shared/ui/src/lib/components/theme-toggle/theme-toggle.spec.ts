@@ -1,7 +1,7 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ThemeToggle } from './theme-toggle';
-import { ThemeService } from '../../core/services/theme';
+import { ThemeToggle } from '@virteex/shared-ui/src/lib/components/theme-toggle/theme-toggle';
+import { ThemeService } from '@virteex/shared-ui/src/lib/core/services/theme';
 import { vi } from 'vitest';
 import { signal } from '@angular/core';
 
