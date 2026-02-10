@@ -1,1 +1,2 @@
-export * from '@virteex/projects-presentation/src/lib/projects-presentation';
+export * from './lib/projects-presentation.module';
+export * from './lib/controllers/projects.controller';
