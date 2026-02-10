@@ -5,4 +5,5 @@ export * from './lib/services/tax-calculator.service';
 export * from './lib/services/tax-rule.engine';
 export * from './lib/services/fiscal-stamping.service';
 export * from './lib/ports/pac-provider.port';
+export * from './lib/ports/invoice.repository';
 export * from './lib/billing-domain.module';

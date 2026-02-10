@@ -1,1 +1,1 @@
-export * from '@virteex/admin-infrastructure/src/lib/admin-infrastructure';
+export * from './lib/admin-infrastructure';

@@ -11,7 +11,18 @@ import { AppService } from './app.service';
 // Existing Modules
 import { BillingDomainModule } from '@virteex/billing-domain';
 import { BillingInfrastructureModule } from '@virteex/billing-infrastructure';
+import { BillingPresentationModule } from '@virteex/billing-presentation';
 import { IdentityPresentationModule } from '@virteex/identity-presentation';
+
+// Projects
+import { ProjectsInfrastructureModule } from '@virteex/projects-infrastructure';
+import { ManufacturingInfrastructureModule } from '@virteex/manufacturing-infrastructure';
+import { FixedAssetsInfrastructureModule } from '@virteex/fixed-assets-infrastructure';
+import { FixedAssetsPresentationModule } from '@virteex/fixed-assets-presentation';
+
+import { BiInfrastructureModule } from '@virteex/bi-infrastructure';
+import { AdminInfrastructureModule } from '@virteex/admin-infrastructure';
+import { FiscalInfrastructureModule } from '@virteex/fiscal-infrastructure';
 
 // New Modules
 import { AccountingPresentationModule } from '@virteex/accounting-presentation';
@@ -20,6 +31,7 @@ import { PayrollPresentationModule } from '@virteex/payroll-presentation';
 // import { CrmPresentationModule } from '@virteex/crm-presentation'; // Disabled due to persistent build error
 import { TreasuryPresentationModule } from '@virteex/treasury-presentation';
 import { ProjectsPresentationModule } from '@virteex/projects-presentation';
+import { PurchasingPresentationModule } from '@virteex/purchasing-presentation';
 import { ManufacturingPresentationModule } from '@virteex/manufacturing-presentation';
 import { BiPresentationModule } from '@virteex/bi-presentation';
 import { AdminPresentationModule } from '@virteex/admin-presentation';
@@ -56,6 +68,14 @@ import { CatalogPresentationModule } from '@virteex/catalog-presentation';
     // Domain Modules
     BillingDomainModule,
     BillingInfrastructureModule,
+    BillingPresentationModule,
+    ProjectsInfrastructureModule,
+    ManufacturingInfrastructureModule,
+    FixedAssetsInfrastructureModule,
+    FixedAssetsPresentationModule,
+    BiInfrastructureModule,
+    AdminInfrastructureModule,
+    FiscalInfrastructureModule,
     IdentityPresentationModule,
     AccountingPresentationModule,
     InventoryPresentationModule,
@@ -63,6 +83,7 @@ import { CatalogPresentationModule } from '@virteex/catalog-presentation';
     // CrmPresentationModule,
     TreasuryPresentationModule,
     ProjectsPresentationModule,
+    PurchasingPresentationModule,
     ManufacturingPresentationModule,
     BiPresentationModule,
     AdminPresentationModule,

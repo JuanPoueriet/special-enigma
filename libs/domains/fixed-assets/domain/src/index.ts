@@ -1,2 +1,2 @@
-export * from '@virteex/fixed-assets-domain/src/lib/entities/asset.entity';
-export * from '@virteex/fixed-assets-domain/src/lib/entities/depreciation.entity';
+export * from './lib/entities/fixed-asset.entity';
+export * from './lib/ports/fixed-asset.repository';

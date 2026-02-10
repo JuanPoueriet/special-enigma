@@ -5,4 +5,6 @@ export abstract class AuthService {
   abstract verifyToken(token: string): Promise<any>; // Returns payload or throws
   abstract generateMfaSecret(): string;
   abstract verifyMfaToken(token: string, secret: string): boolean;
+  abstract encrypt(text: string): Promise<string>;
+  abstract decrypt(text: string): Promise<string>;
 }

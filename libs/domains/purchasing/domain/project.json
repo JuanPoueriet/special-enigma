@@ -16,7 +16,7 @@
         "{options.outputPath}"
       ],
       "options": {
-        "rootDir": ".",
+        "rootDir": "libs/domains/purchasing/domain/src",
         "outputPath": "dist/libs/domains/purchasing/domain",
         "main": "libs/domains/purchasing/domain/src/index.ts",
         "tsConfig": "libs/domains/purchasing/domain/tsconfig.lib.json",

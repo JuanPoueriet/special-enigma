@@ -1,1 +1,1 @@
-export * from '@virteex/purchasing-presentation/src/lib/index';
+export * from './lib/purchasing-presentation.module';

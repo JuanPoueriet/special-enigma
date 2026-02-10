@@ -83,11 +83,15 @@ export class RegisterUserUseCase {
     user.riskScore = riskScore;
 
     // Generate MFA Secret for all new users (Zero Trust default)
-    user.mfaSecret = this.authService.generateMfaSecret();
+    const rawSecret = this.authService.generateMfaSecret();
+    user.mfaSecret = await this.authService.encrypt(rawSecret);
     user.mfaEnabled = true; // Enable by default or based on policy
 
     // 5. Persist
     await this.userRepository.save(user);
+
+    // Restore raw secret for QR code generation in frontend (in-memory only)
+    user.mfaSecret = rawSecret;
 
     // 6. Audit & Notify
     await this.auditLogRepository.save(new AuditLog('REGISTER_SUCCESS', user.id, { ip: context.ip, userAgent: context.userAgent }));

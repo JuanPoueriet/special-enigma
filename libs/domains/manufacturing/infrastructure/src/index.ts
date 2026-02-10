@@ -1,1 +1,1 @@
-export * from '@virteex/manufacturing-infrastructure/src/lib/manufacturing-infrastructure';
+export * from './lib/manufacturing-infrastructure';
