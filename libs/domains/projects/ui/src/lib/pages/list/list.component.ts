@@ -1,11 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-export interface ProjectItem {
-  id: string;
-  name: string;
-  status: string;
-}
+import { ProjectsService, Project } from '../../services/projects.service';
 
 @Component({
   selector: 'virteex-projects-list',
@@ -15,13 +10,17 @@ export interface ProjectItem {
   styleUrl: './list.component.scss',
 })
 export class ListComponent implements OnInit {
-  items: ProjectItem[] = [];
+  private projectsService = inject(ProjectsService);
+  items: Project[] = [];
 
   ngOnInit() {
-    this.items = [
-      { id: '1', name: 'Project 1', status: 'Active' },
-      { id: '2', name: 'Project 2', status: 'Pending' },
-      { id: '3', name: 'Project 3', status: 'Closed' },
-    ];
+    this.projectsService.getProjects().subscribe({
+      next: (projects) => {
+        this.items = projects;
+      },
+      error: (err) => {
+        console.error('Failed to load projects', err);
+      }
+    });
   }
 }
