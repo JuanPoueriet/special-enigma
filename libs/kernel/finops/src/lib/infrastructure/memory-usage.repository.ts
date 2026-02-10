@@ -1,33 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { UsageRecord, UsageRepository } from '@virteex/finops/lib/ports/usage.repository';
+import { UsageRecord, UsageRepository } from '../ports/usage.repository';
 
 @Injectable()
 export class InMemoryUsageRepository implements UsageRepository {
-  private readonly store: UsageRecord[] = [];
+  private records: UsageRecord[] = [];
 
-  constructor() {
-    // Seed with some deterministic data for verification
-    this.seedData();
+  async record(tenantId: string, metric: string, value: number): Promise<void> {
+    this.records.push({ tenantId, metric, value, timestamp: new Date() });
   }
 
-  private seedData() {
-    const now = new Date();
-    // Tenant A
-    this.store.push({ tenantId: 'tenant-a', metric: 'compute', value: 100, timestamp: now });
-    this.store.push({ tenantId: 'tenant-a', metric: 'storage', value: 50, timestamp: now });
-    // Tenant B
-    this.store.push({ tenantId: 'tenant-b', metric: 'compute', value: 200, timestamp: now });
-  }
-
-  async getUsage(tenantId: string, startDate: Date, endDate: Date): Promise<UsageRecord[]> {
-    return this.store.filter(r =>
-      r.tenantId === tenantId &&
-      r.timestamp >= startDate &&
-      r.timestamp <= endDate
-    );
-  }
-
-  async recordUsage(record: UsageRecord): Promise<void> {
-    this.store.push(record);
+  async get(tenantId: string): Promise<UsageRecord[]> {
+    return this.records.filter(r => r.tenantId === tenantId);
   }
 }
