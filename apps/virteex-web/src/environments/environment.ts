@@ -1,0 +1,10 @@
+import { AppConfig } from '@virteex/shared-config';
+
+export const environment: AppConfig = {
+  production: false,
+  apiUrl: 'http://localhost:3333/api',
+  recaptcha: {
+    siteKey: '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
+  },
+  vapidPublicKey: 'BK_gXy_yq_placeholder_key'
+};

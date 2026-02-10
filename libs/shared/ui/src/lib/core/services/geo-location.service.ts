@@ -1,7 +1,8 @@
+import { APP_CONFIG } from '@virteex/shared-config';
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { of, catchError, Observable, timer, switchMap, filter } from 'rxjs';
-import { environment } from '@virteex/shared-ui/environments/environment';
+
 import { Router, NavigationStart } from '@angular/router'; // 1. Importar Router y eventos
 
 export interface GeoLocationResponse {
@@ -13,6 +14,7 @@ export interface GeoLocationResponse {
   providedIn: 'root'
 })
 export class GeoLocationService {
+  private config = inject(APP_CONFIG);
   private http = inject(HttpClient);
   private router = inject(Router); // 2. Inyectar Router
 
@@ -34,7 +36,7 @@ export class GeoLocationService {
       return of({ country: this.SIMULATE_COUNTRY_CODE, ip: '0.0.0.0 (simulated)' });
     }
 
-    return this.http.get<GeoLocationResponse>(`${environment.apiUrl}/geo/location`).pipe(
+    return this.http.get<GeoLocationResponse>(`${this.config.apiUrl}/geo/location`).pipe(
         catchError(() => {
             return of({ country: null, ip: '' });
         })

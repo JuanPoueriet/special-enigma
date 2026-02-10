@@ -8,7 +8,8 @@ import { debounceTime, switchMap, tap, filter, distinctUntilChanged, catchError 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { AsyncValidators } from '@virteex/identity-ui/lib/shared/validators/async.validators';
+import { AsyncValidators } from '@virteex/shared-ui';
+import { APP_CONFIG } from '@virteex/shared-config';
 
 @Component({
   selector: 'virteex-step-configuration',
@@ -106,6 +107,7 @@ export class StepConfiguration implements OnInit {
   countryService = inject(CountryService);
   destroyRef = inject(DestroyRef); // Inject DestroyRef
   private http = inject(HttpClient);
+  private config = inject(APP_CONFIG);
 
   currentLabel = signal('Tax ID');
   currentPlaceholder = signal('Ingrese su identificación');
@@ -135,7 +137,7 @@ export class StepConfiguration implements OnInit {
       if (this.form) {
           const taxControl = this.form.get('taxId');
           if (taxControl) {
-              taxControl.addAsyncValidators(AsyncValidators.createTaxIdValidator(this.http));
+              taxControl.addAsyncValidators(AsyncValidators.createTaxIdValidator(this.http, this.config.apiUrl));
               taxControl.updateValueAndValidity();
           }
       }

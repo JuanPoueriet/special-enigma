@@ -1,8 +1,9 @@
+import { APP_CONFIG } from '@virteex/shared-config';
 // app/core/api/chart-of-accounts.service.ts
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '@virteex/shared-ui/environments/environment';
+
 import { Account, CashFlowCategory, RequiredDimension } from '@virteex/shared-ui/lib/core/models/account.model';
 
 export interface CreateAccountDto extends Omit<Account, 'id' | 'organizationId' | 'createdAt' | 'updatedAt' | 'balance' | 'children' | 'isSystemAccount' | 'level' | 'isExpanded' | 'hasChildren'> {
@@ -28,11 +29,11 @@ export interface CreateAccountDto extends Omit<Account, 'id' | 'organizationId' 
 
 export type UpdateAccountDto = Partial<CreateAccountDto>;
 
-
 @Injectable({ providedIn: 'root' })
 export class ChartOfAccountsApiService {
+  private config = inject(APP_CONFIG);
   private http = inject(HttpClient);
-  private apiUrl = `${environment.apiUrl}/chart-of-accounts`;
+  private apiUrl = `${this.config.apiUrl}/chart-of-accounts`;
 
   getAccounts(): Observable<Account[]> {
     return this.http.get<Account[]>(this.apiUrl);

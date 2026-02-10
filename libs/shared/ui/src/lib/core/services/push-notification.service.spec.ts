@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { PushNotificationService } from './push-notification.service';
 import { SwPush } from '@angular/service-worker';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { APP_CONFIG } from '@virteex/shared-config';
 import { vi } from 'vitest';
 
 class MockSwPush {
@@ -18,7 +19,8 @@ describe('PushNotificationService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         PushNotificationService,
-        { provide: SwPush, useClass: MockSwPush }
+        { provide: SwPush, useClass: MockSwPush },
+        { provide: APP_CONFIG, useValue: { apiUrl: 'http://test', production: false, recaptcha: { siteKey: 'test' } } }
       ]
     });
     service = TestBed.inject(PushNotificationService);

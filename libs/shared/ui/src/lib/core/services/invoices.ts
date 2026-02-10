@@ -1,7 +1,7 @@
+import { APP_CONFIG } from '@virteex/shared-config';
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '@virteex/shared-ui/environments/environment';
 
 export interface InvoiceLineItem {
   id?: string;
@@ -40,11 +40,11 @@ export interface CreateInvoiceDto {
     }[];
 }
 
-
 @Injectable({ providedIn: 'root' })
 export class InvoicesService {
+  private config = inject(APP_CONFIG);
   private http = inject(HttpClient);
-  private apiUrl = `${environment.apiUrl}/invoices`;
+  private apiUrl = `${this.config.apiUrl}/invoices`;
 
   getInvoices(): Observable<Invoice[]> {
     return this.http.get<Invoice[]>(this.apiUrl);

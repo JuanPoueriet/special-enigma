@@ -1,7 +1,7 @@
+import { APP_CONFIG } from '@virteex/shared-config';
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '@virteex/shared-ui/environments/environment';
 
 export interface CustomerReceipt {
   id: string;
@@ -13,8 +13,9 @@ export interface CustomerReceipt {
 
 @Injectable({ providedIn: 'root' })
 export class CustomerReceiptsService {
+  private config = inject(APP_CONFIG);
   private http = inject(HttpClient);
-  private apiUrl = `${environment.apiUrl}/customer-payments`; // Assuming this is the new endpoint
+  private apiUrl = `${this.config.apiUrl}/customer-payments`; // Assuming this is the new endpoint
 
   // Placeholder methods
   getReceipts(): Observable<CustomerReceipt[]> {

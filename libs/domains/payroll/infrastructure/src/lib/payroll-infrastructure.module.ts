@@ -8,7 +8,7 @@ import {
   PAYROLL_REPOSITORY,
   EMPLOYEE_REPOSITORY,
   TAX_SERVICE
-} from '../../../domain/src/index';
+} from '@virteex/payroll-domain';
 import { MikroOrmPayrollRepository } from './repositories/mikro-orm-payroll.repository';
 import { MikroOrmEmployeeRepository } from './repositories/mikro-orm-employee.repository';
 import { MexicanTaxService } from './services/mexican-tax.service';

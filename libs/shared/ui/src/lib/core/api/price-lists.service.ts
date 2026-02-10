@@ -1,8 +1,9 @@
+import { APP_CONFIG } from '@virteex/shared-config';
 // app/core/api/price-lists.service.ts
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '@virteex/shared-ui/environments/environment';
+
 import { PriceList } from '@virteex/shared-ui/lib/core/models/price-list.model';
 
 export type CreatePriceListDto = Omit<PriceList, 'id' | 'organizationId' | 'createdAt' | 'updatedAt' | 'items'> & {
@@ -12,8 +13,9 @@ export type UpdatePriceListDto = Partial<CreatePriceListDto>;
 
 @Injectable({ providedIn: 'root' })
 export class PriceListsService {
+  private config = inject(APP_CONFIG);
   private http = inject(HttpClient);
-  private apiUrl = `${environment.apiUrl}/price-lists`;
+  private apiUrl = `${this.config.apiUrl}/price-lists`;
 
   getPriceLists(): Observable<PriceList[]> {
     return this.http.get<PriceList[]>(this.apiUrl);

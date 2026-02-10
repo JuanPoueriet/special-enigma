@@ -1,7 +1,7 @@
+import { APP_CONFIG } from '@virteex/shared-config';
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '@virteex/shared-ui/environments/environment';
 
 export interface Session {
   id: string;
@@ -33,8 +33,9 @@ export interface BackupCodesResponse {
   providedIn: 'root'
 })
 export class SecurityService {
+  private config = inject(APP_CONFIG);
   private http = inject(HttpClient);
-  private apiUrl = `${environment.apiUrl}/auth`;
+  private apiUrl = `${this.config.apiUrl}/auth`;
 
   getActiveSessions(): Observable<Session[]> {
     return this.http.get<Session[]>(`${this.apiUrl}/sessions`);

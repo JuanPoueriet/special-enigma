@@ -1,11 +1,12 @@
+import { APP_CONFIG } from '@virteex/shared-config';
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../../../services/auth.service';
+import { AuthService } from '@virteex/identity-ui';
 import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module, ReCaptchaV3Service } from 'ng-recaptcha-19';
-import { environment } from '@virteex/shared-ui/environments/environment';
-import { AuthService } from '../../../../services/auth.service';
+
+import { AuthService } from '@virteex/identity-ui';
 import { LanguageService } from '@virteex/shared-ui/lib/core/services/language';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
@@ -29,11 +30,12 @@ import { AuthButtonComponent } from '@virteex/identity-ui/lib/pages/auth/compone
   ],
   providers: [
     ReCaptchaV3Service,
-    { provide: RECAPTCHA_V3_SITE_KEY, useValue: environment.recaptcha.siteKey }
+    { provide: RECAPTCHA_V3_SITE_KEY, useValue: this.config.recaptcha.siteKey }
   ],
   templateUrl: './forgot-password.page.html'
 })
 export class ForgotPasswordPage {
+  private config = inject(APP_CONFIG);
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private recaptchaV3Service = inject(ReCaptchaV3Service);

@@ -1,8 +1,8 @@
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
+import { APP_CONFIG } from '@virteex/shared-config';
 
 export interface OrganizationProfile {
   id: string;
@@ -21,7 +21,8 @@ export interface OrganizationProfile {
   providedIn: 'root'
 })
 export class OrganizationService {
-  private apiUrl = `${environment.apiUrl}/organizations`;
+  private config = inject(APP_CONFIG);
+  private apiUrl = `${this.config.apiUrl}/organizations`;
 
   constructor(private http: HttpClient) {}
 

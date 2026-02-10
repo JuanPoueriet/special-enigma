@@ -1,17 +1,17 @@
+import { APP_CONFIG } from '@virteex/shared-config';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../../services/auth.service';
+import { AuthService } from '@virteex/identity-ui';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReCaptchaV3Service, RecaptchaV3Module, RECAPTCHA_V3_SITE_KEY } from 'ng-recaptcha-19';
-import { environment } from '@virteex/shared-ui/environments/environment';
 
 // Shared
-import { AuthLayoutComponent } from '../components/auth-layout/auth-layout.component';
-import { AuthInputComponent } from '../components/auth-input/auth-input.component';
-import { AuthButtonComponent } from '../components/auth-button/auth-button.component';
-import { PasswordValidatorComponent } from '../components/password-validator/password-validator.component';
+import { AuthLayoutComponent } from '@virteex/identity-ui';
+import { AuthInputComponent } from '@virteex/identity-ui';
+import { AuthButtonComponent } from '@virteex/identity-ui';
+import { PasswordValidatorComponent } from '@virteex/identity-ui';
 
 const strongPasswordValidator = (): ValidatorFn => {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -45,7 +45,7 @@ const passwordMatchValidator: ValidatorFn = (group: AbstractControl): Validation
     ReCaptchaV3Service,
     {
       provide: RECAPTCHA_V3_SITE_KEY,
-      useFactory: () => environment.recaptcha.siteKey
+      useFactory: () => this.config.recaptcha.siteKey
     }
   ],
   templateUrl: './set-password.page.html'

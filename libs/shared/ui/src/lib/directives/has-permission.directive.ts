@@ -1,5 +1,5 @@
 import { Directive, Input, TemplateRef, ViewContainerRef, inject } from '@angular/core';
-import { AuthService } from '../core/services/auth';
+import { AuthService } from '@virteex/shared-ui';
 
 @Directive({
   selector: '[hasPermission]',

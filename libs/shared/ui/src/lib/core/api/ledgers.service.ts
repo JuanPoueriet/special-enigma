@@ -1,8 +1,9 @@
+import { APP_CONFIG } from '@virteex/shared-config';
 // app/core/api/ledgers.service.ts
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '@virteex/shared-ui/environments/environment';
+
 import { GeneralLedger } from '@virteex/shared-ui/lib/core/models/general-ledger.model';
 import { Ledger } from '@virteex/shared-ui/lib/core/models/ledger.model';
 
@@ -15,8 +16,9 @@ export type UpdateLedgerDto = Partial<Ledger>;
   providedIn: 'root'
 })
 export class LedgersService {
+  private config = inject(APP_CONFIG);
   private http = inject(HttpClient);
-  private apiUrl = `${environment.apiUrl}/accounting/ledgers`;
+  private apiUrl = `${this.config.apiUrl}/accounting/ledgers`;
 
   /**
    * Obtiene el reporte del Libro Mayor para una cuenta específica.
