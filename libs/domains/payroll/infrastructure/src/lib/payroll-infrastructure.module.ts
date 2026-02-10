@@ -1,41 +1,21 @@
 import { Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import {
-  Employee,
-  Payroll,
-  PayrollDetail,
-  Attendance,
-  PAYROLL_REPOSITORY,
-  EMPLOYEE_REPOSITORY,
-  TAX_SERVICE
-} from '@virteex/payroll-domain';
-import { MikroOrmPayrollRepository } from '@virteex/payroll-infrastructure/src/lib/repositories/mikro-orm-payroll.repository';
-import { MikroOrmEmployeeRepository } from '@virteex/payroll-infrastructure/src/lib/repositories/mikro-orm-employee.repository';
-import { MexicanTaxService } from '@virteex/payroll-infrastructure/src/lib/services/mexican-tax.service';
+import { TaxTable } from '@virteex/payroll-domain';
+import { MikroOrmTaxTableRepository } from './repositories/mikro-orm-tax-table.repository';
+import { MexicanTaxService } from './services/mexican-tax.service';
 
 @Module({
-  imports: [
-    MikroOrmModule.forFeature([Employee, Payroll, PayrollDetail, Attendance])
-  ],
+  imports: [MikroOrmModule.forFeature([TaxTable])],
   providers: [
     {
-      provide: PAYROLL_REPOSITORY,
-      useClass: MikroOrmPayrollRepository
+      provide: 'TaxTableRepository',
+      useClass: MikroOrmTaxTableRepository,
     },
     {
-      provide: EMPLOYEE_REPOSITORY,
-      useClass: MikroOrmEmployeeRepository
+      provide: 'TaxService',
+      useClass: MexicanTaxService,
     },
-    {
-      provide: TAX_SERVICE,
-      useClass: MexicanTaxService
-    }
   ],
-  exports: [
-    PAYROLL_REPOSITORY,
-    EMPLOYEE_REPOSITORY,
-    TAX_SERVICE,
-    MikroOrmModule
-  ]
+  exports: ['TaxTableRepository', 'TaxService'],
 })
 export class PayrollInfrastructureModule {}

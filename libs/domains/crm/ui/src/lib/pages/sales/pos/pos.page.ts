@@ -1,13 +1,31 @@
-import { Component, ChangeDetectionStrategy, signal, inject, OnInit, computed } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  signal,
+  inject,
+  OnInit,
+  computed,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { LucideAngularModule, Search, X, Plus, Minus, Trash2, CreditCard } from 'lucide-angular';
-import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  LucideAngularModule,
+  Search,
+  X,
+  Plus,
+  Minus,
+  Trash2,
+  CreditCard,
+} from 'lucide-angular';
+import {
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Product } from '@virteex/crm-ui/lib/core/models/product.model';
-
-// Reutilizamos el modelo de producto
-import { Product } from '@virteex/crm-ui/lib/pages/inventory/products/products.page';
+import { CrmService } from '@virteex/crm-ui/lib/core/services/crm.service';
 
 @Component({
   selector: 'virteex-pos-page',
@@ -19,6 +37,7 @@ import { Product } from '@virteex/crm-ui/lib/pages/inventory/products/products.p
 })
 export class PosPage implements OnInit {
   private fb = inject(FormBuilder);
+  private crmService = inject(CrmService);
 
   protected readonly SearchIcon = Search;
   protected readonly XIcon = X;
@@ -27,33 +46,46 @@ export class PosPage implements OnInit {
   protected readonly TrashIcon = Trash2;
   protected readonly CreditCardIcon = CreditCard;
 
-  // Catálogo de productos simulado
-  allProducts = signal<Product[]>([
-    // { id: 'P001', name: 'Laptop Pro 15"', sku: 'LP-15-PRO', category: 'Electrónica', price: 1599.99, stock: 25, status: 'En Stock', imageUrl: 'https://i.imgur.com/4q0d7w9.png' },
-    // { id: 'P002', name: 'Mouse Inalámbrico Ergonómico', sku: 'MS-ERG-WL', category: 'Accesorios', price: 49.50, stock: 8, status: 'Bajo Stock', imageUrl: 'https://i.imgur.com/h3G6Qv4.png' },
-    // { id: 'P003', name: 'Teclado Mecánico RGB', sku: 'KB-MEC-RGB', category: 'Accesorios', price: 120.00, stock: 0, status: 'Agotado', imageUrl: 'https://i.imgur.com/a9a626d.png' },
-    // { id: 'P004', name: 'Monitor UltraWide 34"', sku: 'MN-UW-34', category: 'Monitores', price: 799.00, stock: 15, status: 'En Stock', imageUrl: 'https://i.imgur.com/L30ER72.png' },
-  ]);
+  allProducts = signal<Product[]>([]);
+  isLoading = signal(false);
 
   saleForm!: FormGroup;
 
-  private formChanges = toSignal(this.saleForm.valueChanges, { initialValue: {} });
+  private formChanges = toSignal(this.saleForm.valueChanges, {
+    initialValue: {},
+  });
 
   subtotal = computed(() => {
     return this.cartItems.controls.reduce((acc, control) => {
       const quantity = control.get('quantity')?.value || 0;
       const price = control.get('price')?.value || 0;
-      return acc + (quantity * price);
+      return acc + quantity * price;
     }, 0);
   });
 
-  taxAmount = computed(() => this.subtotal() * 0.18);
+  taxAmount = computed(() => this.subtotal() * 0.16); // 16% IVA
   total = computed(() => this.subtotal() + this.taxAmount());
 
   ngOnInit(): void {
     this.saleForm = this.fb.group({
       cartItems: this.fb.array([]),
       customer: ['Cliente General'],
+    });
+
+    this.loadProducts();
+  }
+
+  loadProducts(): void {
+    this.isLoading.set(true);
+    this.crmService.getProducts().subscribe({
+      next: (products) => {
+        this.allProducts.set(products);
+        this.isLoading.set(false);
+      },
+      error: () => {
+        this.isLoading.set(false);
+        // Handle error toast
+      },
     });
   }
 
@@ -63,10 +95,12 @@ export class PosPage implements OnInit {
 
   addToCart(product: Product): void {
     const existingItem = this.cartItems.controls.find(
-      (control) => control.get('productId')?.value === product.id
+      (control) => control.get('productId')?.value === product.id,
     );
     if (existingItem) {
-      existingItem.get('quantity')?.setValue(existingItem.get('quantity')?.value + 1);
+      existingItem
+        .get('quantity')
+        ?.setValue(existingItem.get('quantity')?.value + 1);
     } else {
       const newItem = this.fb.group({
         productId: [product.id],
@@ -98,9 +132,30 @@ export class PosPage implements OnInit {
 
   completeSale(): void {
     if (this.saleForm.valid && this.cartItems.length > 0) {
-      console.log('Venta completada:', this.saleForm.value);
-      // Lógica para enviar al backend y luego limpiar
-      this.cartItems.clear();
+      this.isLoading.set(true);
+      const salePayload = {
+        customerName: this.saleForm.get('customer')?.value,
+        items: this.cartItems.value.map((item: any) => ({
+          productId: item.productId,
+          productName: item.name,
+          price: item.price,
+          quantity: item.quantity,
+        })),
+        tenantId: 'default', // Should come from session
+      };
+
+      this.crmService.createSale(salePayload).subscribe({
+        next: () => {
+          this.cartItems.clear();
+          this.saleForm.get('customer')?.setValue('Cliente General');
+          this.isLoading.set(false);
+          alert('Venta realizada con éxito');
+        },
+        error: () => {
+          alert('Error al procesar la venta');
+          this.isLoading.set(false);
+        },
+      });
     }
   }
 }

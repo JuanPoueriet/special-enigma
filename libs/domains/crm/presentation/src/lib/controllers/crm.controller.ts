@@ -1,12 +1,18 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import {
+  CreateSaleUseCase,
+  CreateSaleDto,
+} from '@virteex/crm-application/lib/use-cases/create-sale.use-case';
 
 @ApiTags('CRM')
 @Controller('crm')
 export class CrmController {
-  @Get()
-  @ApiOperation({ summary: 'Health check for CRM domain' })
-  healthCheck() {
-    return { status: 'ok', domain: 'crm' };
+  constructor(private readonly createSaleUseCase: CreateSaleUseCase) {}
+
+  @Post('sales')
+  @ApiOperation({ summary: 'Create a new sale (POS)' })
+  async createSale(@Body() dto: CreateSaleDto) {
+    return this.createSaleUseCase.execute(dto);
   }
 }

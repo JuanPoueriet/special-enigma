@@ -1,1 +1,2 @@
-export * from '@virteex/crm-application/src/lib/crm-application';
+export * from './lib/use-cases/create-sale.use-case';
+export * from './lib/crm-application.module';

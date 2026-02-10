@@ -1,5 +1,8 @@
-import { Injectable, signal, inject, computed } from '@angular/core';
-import { TokenService } from '@virteex/shared-util-auth/lib/services/token.service';
+import { Injectable, signal, inject, computed, Inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { TokenService } from './token.service';
+import { API_URL } from '@virteex/shared-ui';
+import { firstValueFrom } from 'rxjs';
 
 export interface User {
   id: string;
@@ -11,16 +14,17 @@ export interface User {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SessionService {
   private tokenService = inject(TokenService);
+  private http = inject(HttpClient);
 
   private _user = signal<User | null>(null);
   public user = this._user.asReadonly();
   public isLoggedIn = computed(() => !!this._user());
 
-  constructor() {
+  constructor(@Inject(API_URL) private apiUrl: string) {
     this.restoreSession();
   }
 
@@ -35,15 +39,17 @@ export class SessionService {
     // Ideally redirect to login here or let the caller handle it
   }
 
-  private restoreSession(): void {
+  private async restoreSession(): Promise<void> {
     const token = this.tokenService.getAccessToken();
     if (token) {
       try {
+        // Validate with backend
+        await firstValueFrom(this.http.get(`${this.apiUrl}/auth/validate`));
+
         const user = this.decodeToken(token);
-        // Check expiry?
         this._user.set(user);
       } catch (e) {
-        console.error('Invalid token', e);
+        console.error('Invalid token or session expired', e);
         this.logout();
       }
     }
@@ -54,9 +60,14 @@ export class SessionService {
     if (!payload) throw new Error('Invalid token format');
 
     const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map(function (c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        })
+        .join(''),
+    );
 
     const decoded = JSON.parse(jsonPayload);
 
@@ -66,7 +77,7 @@ export class SessionService {
       role: decoded.role,
       companyId: decoded.companyId,
       country: decoded.country,
-      sessionId: decoded.sessionId
+      sessionId: decoded.sessionId,
     };
   }
 }

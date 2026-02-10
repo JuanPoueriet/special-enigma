@@ -1,0 +1,24 @@
+import { Injectable } from '@nestjs/common';
+import { EntityRepository } from '@mikro-orm/core';
+import { InjectRepository } from '@mikro-orm/nestjs';
+import { Sale } from '@virteex/crm-domain/lib/entities/sale.entity';
+import { SaleRepository } from '@virteex/crm-domain/lib/repositories/sale.repository';
+
+@Injectable()
+export class MikroOrmSaleRepository implements SaleRepository {
+  constructor(
+    @InjectRepository(Sale)
+    private readonly repository: EntityRepository<Sale>,
+  ) {}
+
+  async create(sale: Sale): Promise<Sale> {
+    this.repository.getEntityManager().persist(sale);
+    // Flush is typically handled by UoW or Interceptor, but for simplicity here we assume transactional boundary or manual flush
+    await this.repository.getEntityManager().flush();
+    return sale;
+  }
+
+  async findById(id: string): Promise<Sale | null> {
+    return this.repository.findOne({ id }, { populate: ['items'] });
+  }
+}

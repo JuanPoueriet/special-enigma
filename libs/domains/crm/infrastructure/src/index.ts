@@ -1,1 +1,1 @@
-export * from '@virteex/crm-infrastructure/src/lib/crm-infrastructure';
+export * from './lib/crm-infrastructure.module';
