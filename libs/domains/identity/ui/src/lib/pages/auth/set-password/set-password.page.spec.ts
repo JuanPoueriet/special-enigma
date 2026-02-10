@@ -1,17 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SetPasswordPage } from '@virteex/identity-ui/lib/pages/auth/set-password/set-password.page';
+import { SetPasswordPage } from './set-password.page';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideRouter, ActivatedRoute } from '@angular/router';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthService } from '@virteex/identity-ui/lib/core/services/auth';
+import { AuthService } from '../../../services/auth.service';
 import { ReCaptchaV3Service, RECAPTCHA_V3_SITE_KEY } from 'ng-recaptcha-19';
 import { of, Observable } from 'rxjs';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { AuthLayoutComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-layout/auth-layout.component';
-import { AuthInputComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-input/auth-input.component';
-import { AuthButtonComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-button/auth-button.component';
-import { PasswordValidatorComponent } from '@virteex/identity-ui/lib/pages/auth/components/password-validator/password-validator.component';
+import { AuthLayoutComponent } from '../components/auth-layout/auth-layout.component';
+import { AuthInputComponent } from '../components/auth-input/auth-input.component';
+import { AuthButtonComponent } from '../components/auth-button/auth-button.component';
+import { PasswordValidatorComponent } from '../components/password-validator/password-validator.component';
+import { vi } from 'vitest';
 
 class FakeLoader implements TranslateLoader {
   getTranslation(lang: string): Observable<any> {
@@ -20,11 +21,11 @@ class FakeLoader implements TranslateLoader {
 }
 
 class MockAuthService {
-  setPasswordFromInvitation = jest.fn().mockReturnValue(of({ user: {} }));
-  getInvitationDetails = jest.fn().mockReturnValue(of({ firstName: 'John' }));
+  setPasswordFromInvitation = vi.fn().mockReturnValue(of({ user: {} }));
+  getInvitationDetails = vi.fn().mockReturnValue(of({ firstName: 'John' }));
 }
 class MockRecaptchaService {
-  execute = jest.fn().mockReturnValue(of('mock-token'));
+  execute = vi.fn().mockReturnValue(of('mock-token'));
 }
 
 describe('SetPasswordPage', () => {
@@ -34,7 +35,7 @@ describe('SetPasswordPage', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        SetPasswordPage,
+        SetPasswordPage, // Standalone
         NoopAnimationsModule,
         TranslateModule.forRoot({
             loader: { provide: TranslateLoader, useClass: FakeLoader }
@@ -60,9 +61,19 @@ describe('SetPasswordPage', () => {
         },
         { provide: AuthService, useClass: MockAuthService },
         { provide: ReCaptchaV3Service, useClass: MockRecaptchaService },
+        // Override the token to avoid environment access
         { provide: RECAPTCHA_V3_SITE_KEY, useValue: 'mock-key' },
       ]
-    }).compileComponents();
+    })
+    .overrideComponent(SetPasswordPage, {
+        set: {
+            providers: [
+                { provide: ReCaptchaV3Service, useClass: MockRecaptchaService },
+                { provide: RECAPTCHA_V3_SITE_KEY, useValue: 'mock-key' }
+            ]
+        }
+    })
+    .compileComponents();
 
     fixture = TestBed.createComponent(SetPasswordPage);
     component = fixture.componentInstance;

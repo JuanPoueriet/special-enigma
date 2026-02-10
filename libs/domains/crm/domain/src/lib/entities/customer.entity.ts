@@ -1,5 +1,5 @@
 import { Entity, PrimaryKey, Property, Enum, OneToMany, Collection, Cascade } from '@mikro-orm/core';
-import { CustomerType } from '@virteex/crm-contracts';
+import { CustomerType } from '@virteex/contracts';
 import type { Opportunity } from '@virteex/crm-domain/lib/entities/opportunity.entity';
 
 @Entity()

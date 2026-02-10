@@ -240,6 +240,12 @@
       "@virteex/shared-ui/*": [
         "libs/shared/ui/src/*"
       ],
+      "@virteex/shared-types": [
+        "libs/shared/types/src/index.ts"
+      ],
+      "@virteex/shared-types/*": [
+        "libs/shared/types/src/*"
+      ],
       "@virteex/identity-ui": [
         "libs/domains/identity/ui/src/index.ts"
       ],

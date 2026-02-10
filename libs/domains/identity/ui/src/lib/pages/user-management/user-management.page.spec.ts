@@ -1,18 +1,24 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideZonelessChangeDetection } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { of, throwError } from 'rxjs';
-import { UserManagementPage } from '@virteex/identity-ui/lib/pages/user-management/user-management.page';
-import { UsersService, InviteUserDto, UpdateUserDto } from '@virteex/identity-ui/core/api/users.service';
-import { RolesService, Role } from '@virteex/identity-ui/core/api/roles.service';
-import { NotificationService } from '@virteex/identity-ui/core/services/notification';
-import { WebSocketService } from '@virteex/identity-ui/core/services/websocket.service';
-import { AuthService } from '@virteex/identity-ui/core/services/auth';
+import { of } from 'rxjs';
+import { UserManagementPage } from './user-management.page';
+import {
+  UsersService,
+  InviteUserDto,
+  UpdateUserDto,
+  RolesService,
+  Role,
+  AuthService,
+  User as ApiUser,
+  UserStatus,
+  WebSocketService,
+  HasPermissionDirective
+} from '@virteex/shared-ui';
+import { NotificationService } from '@virteex/identity-domain';
 import { TranslateModule } from '@ngx-translate/core';
-import { HasPermissionDirective } from '@virteex/identity-ui/shared/directives/has-permission.directive';
 import { LucideAngularModule, UserPlus, Save, X, Send, User, History, Trash2, Key, Search, Filter, ArrowUpDown, ArrowUp, ArrowDown, MoreHorizontal, FilePenLine, Ban, UserCog, Mail, ChevronLeft, ChevronRight, Plus, RefreshCw, Power, PowerOff, Building, Lock, Archive, UserCheck, Zap, FileInput, FileOutput, UserCircle2, LogOut } from 'lucide-angular';
-import { User as ApiUser } from '@virteex/identity-ui/shared/interfaces/user.interface';
-import { UserStatus } from '@virteex/identity-ui/shared/enums/user-status.enum';
+import { vi } from 'vitest';
 
 const mockUsers: ApiUser[] = [
   { id: '1', firstName: 'John', lastName: 'Doe', email: 'john@doe.com', status: UserStatus.ACTIVE, roles: [{id: '1', name: 'Admin'}], organizationId: '1', isOnline: true, createdAt: new Date() },
@@ -31,32 +37,37 @@ describe('UserManagementPage', () => {
   let notificationService: NotificationService;
 
   const mockUsersService = {
-    getUsers: jest.fn(() => of({ data: mockUsers, total: mockUsers.length })),
-    inviteUser: jest.fn(() => of(mockUsers[0])),
-    updateUser: jest.fn(() => of(mockUsers[0])),
-    deleteUser: jest.fn(() => of(undefined)),
+    getUsers: vi.fn(() => of({ data: mockUsers, total: mockUsers.length })),
+    inviteUser: vi.fn(() => of(mockUsers[0])),
+    updateUser: vi.fn(() => of(mockUsers[0])),
+    deleteUser: vi.fn(() => of(undefined)),
+    sendPasswordReset: vi.fn(() => of({ message: 'Email sent' })),
+    forceLogout: vi.fn(() => of({})),
+    blockAndLogout: vi.fn(() => of({})),
   };
 
   const mockRolesService = {
-    getRoles: jest.fn(() => of(mockRoles)),
+    getRoles: vi.fn(() => of(mockRoles)),
   };
 
   const mockNotificationService = {
-    showError: jest.fn(),
-    showSuccess: jest.fn(),
+    showError: vi.fn(),
+    showSuccess: vi.fn(),
   };
 
   const mockWebSocketService = {
     listen: () => of({}),
-    disconnect: jest.fn(),
+    disconnect: vi.fn(),
   };
 
   const mockAuthService = {
     currentUser: () => null,
-    impersonate: () => of(null),
+    impersonate: vi.fn(() => of(null)),
+    hasPermissions: vi.fn().mockReturnValue(true),
   };
 
   beforeEach(async () => {
+    vi.clearAllMocks(); // Clear mocks before each test
     await TestBed.configureTestingModule({
       imports: [
         UserManagementPage,
@@ -108,7 +119,7 @@ describe('UserManagementPage', () => {
     expect(component.userForm.value.firstName).toBe(userToEdit.firstName);
   });
 
-  it('should invite a new user', fakeAsync(() => {
+  it('should invite a new user', () => {
     component.openInviteModal();
     component.userForm.patchValue({
         firstName: 'Test',
@@ -117,7 +128,6 @@ describe('UserManagementPage', () => {
         roleId: '1',
     });
     component.save();
-    tick();
 
     const payload: InviteUserDto = {
         firstName: 'Test',
@@ -128,9 +138,9 @@ describe('UserManagementPage', () => {
     expect(mockUsersService.inviteUser).toHaveBeenCalledWith(payload);
     expect(mockNotificationService.showSuccess).toHaveBeenCalledWith('Usuario invitado con éxito.');
     expect(mockUsersService.getUsers).toHaveBeenCalledTimes(2); // 1 on init, 1 after save
-  }));
+  });
 
-  it('should update an existing user', fakeAsync(() => {
+  it('should update an existing user', () => {
     const userToEdit = mockUsers[0];
     component.openEditModal(userToEdit);
     component.userForm.patchValue({
@@ -140,7 +150,6 @@ describe('UserManagementPage', () => {
         roleId: '2',
     });
     component.save();
-    tick();
 
     const payload: UpdateUserDto = {
         firstName: 'John Updated',
@@ -151,19 +160,18 @@ describe('UserManagementPage', () => {
     expect(mockUsersService.updateUser).toHaveBeenCalledWith(userToEdit.id, payload);
     expect(mockNotificationService.showSuccess).toHaveBeenCalledWith('Usuario actualizado con éxito.');
     expect(mockUsersService.getUsers).toHaveBeenCalledTimes(2);
-  }));
+  });
 
-  it('should delete a user', fakeAsync(() => {
+  it('should delete a user', () => {
     const userToDelete = mockUsers[0];
     component.openDeleteModal(userToDelete);
     expect(component.deleteModalOpen()).toBe(true);
     expect(component.selectedUser).toBe(userToDelete);
 
     component.confirmDelete();
-    tick();
 
     expect(mockUsersService.deleteUser).toHaveBeenCalledWith(userToDelete.id);
     expect(mockNotificationService.showSuccess).toHaveBeenCalledWith('Usuario eliminado con éxito.');
     expect(mockUsersService.getUsers).toHaveBeenCalledTimes(2);
-  }));
+  });
 });

@@ -2,11 +2,11 @@ import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '@virteex/identity-ui/lib/core/services/auth';
+import { AuthService } from '../../../../services/auth.service';
 import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module, ReCaptchaV3Service } from 'ng-recaptcha-19';
-import { environment } from '@virteex/identity-ui/environments/environment';
-import { switchMap } from 'rxjs/operators';
-import { LanguageService } from '@virteex/identity-ui/lib/core/services/language';
+import { environment } from '@virteex/shared-ui/environments/environment';
+import { AuthService } from '../../../../services/auth.service';
+import { LanguageService } from '@virteex/shared-ui/lib/core/services/language';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 // Shared Components

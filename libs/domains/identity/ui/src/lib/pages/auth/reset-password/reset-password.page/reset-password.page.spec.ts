@@ -1,17 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ResetPasswordPage } from '@virteex/identity-ui/lib/pages/auth/reset-password/reset-password.page/reset-password.page';
+import { ResetPasswordPage } from './reset-password.page';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideRouter, ActivatedRoute } from '@angular/router';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthService } from '@virteex/identity-ui/lib/core/services/auth';
+import { AuthService } from '../../../../services/auth.service';
 import { of, Observable } from 'rxjs';
-import { LanguageService } from '@virteex/identity-ui/lib/core/services/language';
+import { LanguageService } from '@virteex/shared-ui/lib/core/services/language';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { AuthLayoutComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-layout/auth-layout.component';
-import { AuthInputComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-input/auth-input.component';
-import { AuthButtonComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-button/auth-button.component';
-import { PasswordValidatorComponent } from '@virteex/identity-ui/lib/pages/auth/components/password-validator/password-validator.component';
+import { AuthLayoutComponent } from '../../components/auth-layout/auth-layout.component';
+import { AuthInputComponent } from '../../components/auth-input/auth-input.component';
+import { AuthButtonComponent } from '../../components/auth-button/auth-button.component';
+import { PasswordValidatorComponent } from '../../components/password-validator/password-validator.component';
+import { vi } from 'vitest';
 
 class FakeLoader implements TranslateLoader {
   getTranslation(lang: string): Observable<any> {
@@ -20,10 +21,10 @@ class FakeLoader implements TranslateLoader {
 }
 
 class MockAuthService {
-  resetPassword = jest.fn().mockReturnValue(of({}));
+  resetPassword = vi.fn().mockReturnValue(of({}));
 }
 class MockLanguageService {
-    currentLang = jest.fn().mockReturnValue('es');
+    currentLang = vi.fn().mockReturnValue('es');
 }
 
 describe('ResetPasswordPage', () => {
@@ -33,7 +34,7 @@ describe('ResetPasswordPage', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        ResetPasswordPage,
+        ResetPasswordPage, // Standalone
         NoopAnimationsModule,
         TranslateModule.forRoot({
             loader: { provide: TranslateLoader, useClass: FakeLoader }

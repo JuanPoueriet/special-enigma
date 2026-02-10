@@ -6,7 +6,7 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { LanguageService } from '@virteex/shared-ui/lib/core/services/language';
+import { LanguageService } from '../services/language';
 
 export const languageInitGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot,

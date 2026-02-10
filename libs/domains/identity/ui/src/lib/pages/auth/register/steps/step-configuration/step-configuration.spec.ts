@@ -1,10 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { StepConfiguration } from '@virteex/identity-ui/lib/pages/auth/register/steps/step-configuration/step-configuration';
+import { StepConfiguration } from './step-configuration';
 import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { CountryService } from '@virteex/identity-ui/lib/core/services/country.service';
+import { CountryService } from '@virteex/shared-ui/lib/core/services/country.service';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
+import { vi } from 'vitest';
 
 describe('StepConfiguration', () => {
   let component: StepConfiguration;
@@ -14,14 +15,14 @@ describe('StepConfiguration', () => {
 
   beforeEach(async () => {
     mockCountryService = {
-      currentCountry: jest.fn().mockReturnValue({ code: 'DO', name: 'Dominican Republic', currencyCode: 'DOP' }),
-      currentCountryCode: jest.fn().mockReturnValue('do'),
-      getCountryConfig: jest.fn().mockReturnValue(of({}))
+      currentCountry: vi.fn().mockReturnValue({ code: 'DO', name: 'Dominican Republic', currencyCode: 'DOP' }),
+      currentCountryCode: vi.fn().mockReturnValue('do'),
+      getCountryConfig: vi.fn().mockReturnValue(of({}))
     };
 
     mockRouter = {
       url: '/es/do/auth/register',
-      navigateByUrl: jest.fn()
+      navigateByUrl: vi.fn()
     };
 
     await TestBed.configureTestingModule({
