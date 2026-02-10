@@ -1,0 +1,101 @@
+INFORME DETALLADO DE ESTADO Y REQUISITOS PARA VERSIÓN COMERCIAL 100% FUNCIONAL - VIRTEEX ERP
+================================================================================================
+
+Este informe detalla exhaustivamente las brechas funcionales, técnicas y de infraestructura que deben resolverse para que Virteex ERP pase de su estado actual de prototipo avanzado a una versión comercialmente viable ("Ready for Production"). Se basa en un análisis profundo del código fuente, configuración y estructura del proyecto.
+
+1. ANÁLISIS DE ARQUITECTURA Y CONFIGURACIÓN GLOBAL
+--------------------------------------------------
+
+1.1. Backend (Virteex API Gateway)
+   - Adherencia a Clean Architecture: El proyecto sigue correctamente la separación en Domain, Application, Infrastructure y Presentation. Sin embargo, la implementación es inconsistente entre dominios nuevos (Fixed Assets) y antiguos.
+   - Seguridad Global:
+     - CORS: Actualmente configurado en `apps/virteex-api-gateway/src/main.ts` como `app.enableCors()` sin opciones. Esto es una VULNERABILIDAD CRÍTICA para producción. Debe restringirse a dominios de confianza (whitelist).
+     - Helmet: Activado (`app.use(helmet())`), lo cual es correcto.
+     - Rate Limiting: Configurado globalmente vía `ThrottlerModule` en `AppModule` (TTL 60s, Limit 100). Adecuado para inicio, pero requiere ajuste fino por endpoint para uso comercial.
+   - Validación: `ValidationPipe` está configurado globalmente con `whitelist: true` y `forbidNonWhitelisted: true`. Esto es excelente para prevenir inyección de parámetros no deseados.
+   - Manejo de Excepciones: Existe un `GlobalExceptionFilter`, pero debe asegurarse que no exponga stack traces en entorno de producción.
+
+1.2. Frontend (Virteex Web)
+   - Configuración de Errores: Se usa `provideBrowserGlobalErrorListeners` en `app.config.ts`. Sin embargo, la experiencia de usuario ante errores es deficiente debido a "swallowing" de excepciones en los servicios (ver sección Frontend).
+   - Autenticación: Implementada con `authInterceptor`, inyectando el token en cada petición. La estructura es correcta.
+
+2. ANÁLISIS DETALLADO POR DOMINIO (BACKEND)
+-------------------------------------------
+
+2.1. Business Intelligence (BI) - ESTADO: MOCK / SIMULADO
+   - Hallazgo Crítico: El caso de uso `GenerateReportUseCase` (ubicado en `libs/domains/bi/application/src/lib/use-cases/generate-report.use-case.ts`) contiene lógica explícitamente simulada:
+     ```typescript
+     // Mock logic: generate dummy data based on params
+     const dummyData = { summary: 'Report Generated', value: Math.random() * 1000 };
+     ```
+   - Acción Requerida: Reemplazar completamente este caso de uso con consultas reales a la base de datos (agregaciones de ventas, inventario, etc.). El dominio BI actual es funcionalmente inútil para un cliente real.
+
+2.2. CRM (Customer Relationship Management) - ESTADO: DESACTIVADO
+   - Hallazgo Crítico: El módulo `CrmPresentationModule` está comentado/desactivado en `apps/virteex-api-gateway/src/app/app.module.ts`.
+   - Causa Raíz: Existen errores de compilación o resolución de dependencias pendientes que obligaron a su desactivación.
+   - Acción Requerida: Reactivar el módulo, resolver los errores de construcción y verificar que los Controladores (`CrmController`) conecten con los Casos de Uso reales.
+
+2.3. Inventory (Inventarios) - ESTADO: INCOMPLETO
+   - Hallazgo: En `libs/domains/inventory/application/src/lib/use-cases/get-warehouses.use-case.ts`, el mapeo de datos está incompleto:
+     ```typescript
+     location: '', // TODO: Map locations properly
+     ```
+   - Impacto: Los datos de ubicación de almacenes no se persisten ni se recuperan, haciendo imposible la gestión logística real.
+   - Acción Requerida: Implementar la entidad de Ubicación (Location) completa y asegurar su persistencia en `MikroOrmWarehouseRepository`.
+
+2.4. Identity (Gestión de Identidad) - ESTADO: FUNCIONAL CON RESERVAS
+   - Infraestructura: Utiliza repositorios reales (`MikroOrmUserRepository`, `MikroOrmCompanyRepository`).
+   - Lógica: Los casos de uso (`LoginUser`, `RegisterUser`) parecen completos.
+   - Riesgo: Se detectaron numerosos mocks en los tests unitarios (`libs/domains/identity/application/src/lib/use-cases/login-user.use-case.spec.ts`). Esto es normal para tests, pero la falta de tests de integración (E2E) deja dudas sobre el flujo real con la base de datos en producción.
+
+2.5. Sample (Dominio de Ejemplo) - ESTADO: DEBE ELIMINARSE
+   - Hallazgo: Existe un dominio `sample` en `libs/domains/sample` y referencias en infraestructura.
+   - Acción Requerida: Eliminar completamente este código antes del despliegue comercial para limpiar la base de código.
+
+2.6. Treasury & Accounting - ESTADO: BASELINE (REFERENCIA)
+   - Estos dominios parecen ser los más completos. Sin embargo, deben someterse a una auditoría final para asegurar que no contengan "hardcoded returns" ocultos como en BI.
+
+3. ANÁLISIS DETALLADO POR DOMINIO (FRONTEND)
+--------------------------------------------
+
+3.1. Manejo de Errores y Datos "Dummy"
+   - Patrón Deficiente: Múltiples servicios y componentes capturan errores y retornan observables con datos nulos o vacíos, silenciando el error para el usuario.
+     - Ejemplo: `libs/domains/identity/ui/src/lib/services/intent-detection.service.ts` retorna `of({ country_code: 'US' })` en caso de error. Esto enmascara fallos de red o API geoloc.
+     - Ejemplo: `libs/domains/billing/ui/src/lib/pages/invoices/detail/detail.page.ts` retorna `of(null)`.
+   - BI Dashboard (`DashboardPage`): Aunque importa widgets reales, estos widgets dependen de datos que el backend está simulando (ver sección 2.1). Visualmente parece funcional, pero los datos son falsos (`Math.random`).
+
+3.2. Deuda Técnica Visual
+   - En `libs/domains/billing/ui`, se encontró el comentario `<!-- TODO: Show price properly from limits or meta -->`. Esto indica que la UI de facturación no está mostrando precios reales calculados, sino probablemente valores estáticos o incompletos.
+   - Internacionalización: Se observaron imports de `TranslateModule`, pero se debe verificar que TODAS las cadenas de texto estén extraídas a archivos JSON de idioma y no existan textos "quemados" en el HTML.
+
+4. INFRAESTRUCTURA, DEVOPS Y CALIDAD (NO FUNCIONALES)
+-----------------------------------------------------
+
+4.1. Pruebas Automatizadas (Testing)
+   - Estado Actual: Existen tests unitarios con Jest (`.spec.ts`), los cuales hacen uso intensivo de mocks (`jest.Mock`).
+   - Brecha Crítica: NO existe una suite de pruebas End-to-End (E2E) funcional y completa. `apps/virteex-web-e2e` contiene esqueletos.
+   - Requisito Comercial: Se requiere implementar tests E2E (con Playwright o Cypress) que cubran los flujos críticos: Login -> Crear Factura -> Ver Reporte. Sin esto, cada despliegue es un riesgo alto de regresión.
+
+4.2. Observabilidad y Logs
+   - Estado Actual: El backend usa `Logger` de NestJS, que por defecto escribe en `stdout`.
+   - Requisito Comercial: Para producción, se debe integrar un sistema de logging estructurado (ej. Pino, Winston) que permita enviar logs a un agregador (ELK, Datadog, CloudWatch) con niveles de severidad adecuados y contexto (Trace ID).
+
+4.3. Base de Datos y Migraciones
+   - Estado Actual: Se usa MikroORM. Se debe verificar que el sistema de migraciones (`npx mikro-orm migration:create/up`) esté integrado en el pipeline de CI/CD para que los cambios de esquema (como la corrección en Inventory) se apliquen automáticamente.
+
+4.4. Plugins (Virteex Plugin Host)
+   - Estado: La aplicación `virteex-plugin-host` depende de `isolated-vm`. Se debe asegurar que el entorno de despliegue (Docker/Node) tenga las dependencias nativas necesarias (compiladores C++) para construir este módulo, o fallará en producción.
+
+5. CONCLUSIÓN Y RUTA CRÍTICA
+----------------------------
+
+Para considerar la aplicación "100% Funcional y Comercial", se deben ejecutar obligatoriamente las siguientes acciones, en orden de prioridad:
+
+1.  **Backend Fixes**: Reescribir `GenerateReportUseCase` (BI) con lógica real, Reactivar CRM y arreglar sus errores, y Completar el mapeo de `Inventory`.
+2.  **Security Hardening**: Configurar CORS con whitelist explícita en `main.ts`.
+3.  **Frontend Cleanup**: Eliminar el patrón de "swallowing errors" y reemplazarlo por notificaciones al usuario (Toast/Snackbar). Conectar widgets de BI a endpoints reales.
+4.  **Testing**: Implementar al menos 5 tests E2E de flujos críticos (Login, CRUD básico).
+5.  **Logging**: Configurar logger estructurado JSON.
+6.  **Cleanup**: Borrar dominio `sample` y comentarios TODO/FIXME.
+
+Sin completar estos pasos, la aplicación es un prototipo técnico avanzado, pero NO un producto comercial viable.
