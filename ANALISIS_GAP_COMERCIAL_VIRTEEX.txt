@@ -1,0 +1,138 @@
+# INFORME DETALLADO DE ANÁLISIS DE GAPS PARA LA COMERCIALIZACIÓN DE VIRTEEX
+FECHA: 2025-05-24
+ESTADO ACTUAL: PROTOTIPO AVANZADO / ALPHA
+OBJETIVO: IDENTIFICAR TODOS LOS ELEMENTOS FALTANTES PARA "100% FUNCIONALIDAD" (SIN MOCKS)
+
+Este informe detalla exhaustivamente las carencias funcionales, técnicas y de seguridad que impiden que la aplicación Virteex sea considerada un producto comercial viable en este momento. No se omiten detalles técnicos.
+
+---
+
+## 1. ANÁLISIS POR DOMINIO (BACKEND Y FRONTEND)
+
+### 1.1. DOMINIO: IDENTITY (IDENTIDAD Y ACCESO)
+**Estado:** CRÍTICO (Riesgos de Seguridad)
+
+*   **Backend (Infraestructura):**
+    *   **Archivo:** `libs/domains/identity/infrastructure/src/lib/services/node-crypto-auth.service.ts`
+    *   **Problema:** El servicio contiene una lógica de fallback insegura para `JWT_SECRET`.
+        ```typescript
+        this.secret = 'dev_secret_key_123'; // SEVERO RIESGO DE SEGURIDAD
+        ```
+        Si la variable de entorno no está definida, la aplicación arranca con una clave conocida públicamente. Esto permite la falsificación de tokens JWT en producción si falla la configuración.
+    *   **Acción Requerida:** Eliminar el fallback en producción. La aplicación debe fallar al inicio (`throw new Error`) si `JWT_SECRET` no está presente.
+
+*   **Frontend (UI):**
+    *   **Archivo:** `libs/domains/identity/ui/src/lib/pages/profile/my-profile.page.ts`
+    *   **Problema:** Detectado como archivo sospechoso de contener lógica incompleta o datos simulados.
+    *   **Acción Requerida:** Verificar que la edición de perfil (cambio de contraseña, actualización de datos) esté conectada al backend `updateProfile` y no solo sea una vista estática.
+
+### 1.2. DOMINIO: BILLING (FACTURACIÓN)
+**Estado:** PARCIALMENTE IMPLEMENTADO (Mocks presentes)
+
+*   **Frontend (UI):**
+    *   **Archivo:** `libs/domains/billing/ui/src/lib/core/services/billing.ts`
+    *   **Problema 1 (Planes Hardcoded):** La lista de planes está definida en código estático:
+        ```typescript
+        plans = [{ id: '1', slug: 'free', ... }, ...];
+        ```
+        Esto impide cambiar precios o características sin redesplegar la aplicación.
+    *   **Problema 2 (Historial de Pagos):** El método `getPaymentHistory` contiene un TODO explícito y apunta a un endpoint incorrecto o simulado:
+        ```typescript
+        // TODO: Implement backend for payment history
+        return this.http.get<PaymentHistoryItem[]>(`${this.apiUrl}/billing/invoices?tenantId=${tenantId}`);
+        ```
+    *   **Acción Requerida:** Crear tabla `SubscriptionPlan` en BD, exponer endpoint GET `/billing/plans`, e implementar endpoint real para historial de pagos.
+
+*   **Backend (Infraestructura):**
+    *   **Archivo:** `libs/domains/billing/infrastructure/src/lib/providers/finkok-pac.provider.ts`
+    *   **Problema:** Manejo de errores rudimentario (`throw new Error`). No hay reintentos (retries) ni logging estructurado para fallos de conexión con el PAC (Finkok). En un entorno comercial, la facturación no puede fallar silenciosamente o con un error genérico 500.
+
+### 1.3. DOMINIO: PURCHASING (COMPRAS)
+**Estado:** NO FUNCIONAL (Errores de Compilación y Mocks)
+
+*   **Frontend (UI):**
+    *   **Archivo:** `libs/domains/purchasing/ui/src/lib/pages/accounts-payable/form/form.page.ts`
+    *   **Problema CRÍTICO:** Importación de un módulo inexistente o mal referenciado:
+        ```typescript
+        import { ... } from '@virteex/purchasing-ui/lib/core/services/accounts-payable';
+        ```
+        El análisis del sistema de archivos muestra que la estructura `ui/src/lib/core` no existe o no exporta correctamente este servicio. Esto provocará fallos en tiempo de compilación o ejecución.
+    *   **Archivo:** `libs/domains/purchasing/ui/src/lib/pages/purchasing/requisitions/requisitions.page.ts`
+    *   **Problema (Mock):** Uso de datos simulados con `signal`:
+        ```typescript
+        requisitions = signal<Requisition[]>([{ id: '1', reqNumber: 'REQ-001', ... }]);
+        ```
+        No hay conexión con `HttpClient`. La página es puramente visual.
+    *   **Acción Requerida:** Implementar `RequisitionService`, conectar al backend real, y corregir la estructura de carpetas/exportaciones en `purchasing-ui`.
+
+### 1.4. DOMINIO: FISCAL
+**Estado:** SHELL VACÍO (Solo visual)
+
+*   **Frontend (UI):**
+    *   **Archivo:** `libs/domains/fiscal/ui/src/lib/pages/dashboard/dashboard.component.ts`
+    *   **Problema:** Componente vacío:
+        ```typescript
+        export class DashboardComponent {}
+        ```
+        No muestra ninguna métrica fiscal real (e.g., impuestos por pagar, declaraciones pendientes).
+    *   **Archivo:** `libs/domains/fiscal/ui/src/lib/pages/list/list.component.ts`
+    *   **Problema (Mock):** Datos hardcoded en `ngOnInit`:
+        ```typescript
+        this.items = [{ id: '1', name: 'Taxrule 1', ... }];
+        ```
+    *   **Acción Requerida:** Desarrollar endpoints de resumen fiscal en backend y consumirlos en el dashboard. Eliminar datos falsos.
+
+### 1.5. DOMINIO: BI (INTELIGENCIA DE NEGOCIOS)
+**Estado:** MOCK (No funcional)
+
+*   **Frontend (UI):**
+    *   **Archivos:** Widgets en `libs/domains/bi/ui/src/lib/pages/dashboard-main/widgets/` (ej. `top-products-chart.ts`)
+    *   **Problema:** Retornan arrays vacíos o datos estáticos:
+        ```typescript
+        return [];
+        ```
+    *   **Acción Requerida:** Conectar cada widget a un endpoint de agregación en el backend (ej. `/api/bi/stats/top-products`).
+
+### 1.6. DOMINIO: INVENTORY (INVENTARIO)
+**Estado:** FUNCIONAL (Backend y Servicio), UI por Verificar
+
+*   **Frontend (UI):**
+    *   **Servicio:** `InventoryService` (`libs/domains/inventory/ui/src/lib/services/inventory.service.ts`) está correctamente implementado con llamadas HTTP reales (`post`, `put`, `delete`).
+    *   **Brecha Potencial:** Verificar si los componentes de UI (`product-form`, `categories`) realmente usan todos los métodos del servicio o si solo están implementados parcialmente en la vista.
+
+---
+
+## 2. ANÁLISIS DE INFRAESTRUCTURA Y CROSS-CUTTING
+
+### 2.1. BASE DE DATOS Y ORM
+*   **MikroORM:** La configuración parece correcta, pero muchos dominios (Fiscal, Projects) tienen entidades muy básicas.
+*   **Falta de Validaciones de Negocio:**
+    *   En `Projects`, las entidades `Task` parecen ser solo contenedores de datos sin lógica de dominio (e.g., no permitir cerrar una tarea si tiene subtareas abiertas).
+
+### 2.2. BUILD Y DESPLIEGUE
+*   **Dependencias Nativas:** Existen problemas reportados con `node-gyp` y dependencias de Python para `electron-builder`. Esto debe resolverse para garantizar un pipeline de CI/CD estable.
+*   **Docker:** El archivo `docker-compose.yml` contiene servicios como Kafka, Keycloak y Vault que NO están siendo utilizados por el código actual.
+    *   **Acción:** Eliminar servicios no usados para reducir consumo de recursos y complejidad, o implementar su uso (ej. usar Vault para secretos en lugar de .env).
+
+### 2.3. AUTENTICACIÓN Y SEGURIDAD
+*   **Role-Based Access Control (RBAC):** Aunque existe `authGuard`, no se evidencia un control granular de permisos en los controladores del backend (ej. `@Roles('ADMIN')`).
+*   **Rate Limiting:** Implementado globalmente, pero debe ajustarse por dominio para evitar bloqueos en operaciones legítimas de alta frecuencia (ej. importación masiva en inventario).
+
+---
+
+## 3. LISTA DE VERIFICACIÓN PARA "READY TO MARKET"
+
+Para que Virteex sea 100% funcional y comercial, se deben completar estrictamente los siguientes puntos:
+
+1.  [ ] **Seguridad:** Eliminar fallback de `JWT_SECRET` en `NodeCryptoAuthService`.
+2.  [ ] **Billing:** Reemplazar `plans` estáticos con base de datos y conectar historial de pagos.
+3.  [ ] **Purchasing:** Corregir importaciones rotas (`accounts-payable`) y conectar `RequisitionsPage` a API real.
+4.  [ ] **Fiscal:** Implementar lógica real en Dashboard y Listas (eliminar mocks).
+5.  [ ] **BI:** Implementar endpoints de analítica real para todos los widgets del dashboard.
+6.  [ ] **Proyectos/Fixed Assets:** Completar la implementación de lógica de negocio (Use Cases) más allá del CRUD básico.
+7.  [ ] **Infraestructura:** Limpiar `docker-compose.yml` de servicios zombies.
+
+---
+
+**CONCLUSIÓN:**
+La aplicación tiene una arquitectura sólida (Clean Architecture, Nx Monorepo), pero los dominios "periféricos" (Fiscal, Purchasing, BI) son actualmente fachadas visuales sin funcionalidad real. El dominio de Facturación (Billing) requiere trabajo urgente para dejar de usar datos simulados, lo cual es inaceptable para un entorno comercial.
