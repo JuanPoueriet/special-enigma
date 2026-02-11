@@ -3,6 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { API_URL } from '@virteex/shared-ui';
 
+export interface Warehouse {
+  id: string;
+  name: string;
+  code: string;
+  address?: string;
+  description?: string;
+  isActive: boolean;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -11,9 +20,21 @@ export class InventoryService {
 
   constructor(@Inject(API_URL) private apiUrl: string) {}
 
-  getWarehouses(tenantId: string = 'default'): Observable<any[]> {
-    return this.http.get<any[]>(
+  getWarehouses(tenantId: string = 'default'): Observable<Warehouse[]> {
+    return this.http.get<Warehouse[]>(
       `${this.apiUrl}/inventory/warehouses?tenantId=${tenantId}`,
     );
+  }
+
+  createWarehouse(warehouse: Partial<Warehouse>): Observable<Warehouse> {
+    return this.http.post<Warehouse>(`${this.apiUrl}/inventory/warehouses`, warehouse);
+  }
+
+  updateWarehouse(id: string, warehouse: Partial<Warehouse>): Observable<Warehouse> {
+    return this.http.put<Warehouse>(`${this.apiUrl}/inventory/warehouses/${id}`, warehouse);
+  }
+
+  deleteWarehouse(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/inventory/warehouses/${id}`);
   }
 }

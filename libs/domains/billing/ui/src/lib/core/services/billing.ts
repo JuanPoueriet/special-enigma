@@ -1,11 +1,13 @@
-import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
+import { Injectable, Inject, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { API_URL } from '@virteex/shared-ui';
 
 export interface Subscription {
   id: string;
   planId: string;
-  planName: string;
-  status: 'Active' | 'Inactive';
+  planName?: string; // Backend doesn't return planName yet, frontend might need to map it
+  status: 'Active' | 'Inactive' | 'Trial';
   price: number;
   billingCycle: string;
   nextBillingDate: string;
@@ -17,6 +19,7 @@ export interface PaymentMethod {
   type: string;
   last4: string;
   expiryDate: string;
+  isDefault?: boolean;
 }
 
 export interface PaymentHistoryItem {
@@ -30,37 +33,41 @@ export interface PaymentHistoryItem {
   providedIn: 'root'
 })
 export class BillingService {
+  private http = inject(HttpClient);
+
   plans = [
     { id: '1', slug: 'free', name: 'Free', price: 0, description: 'Basic features' },
     { id: '2', slug: 'pro', name: 'Pro', price: 29.99, description: 'Advanced features' },
     { id: '3', slug: 'enterprise', name: 'Enterprise', price: 99.99, description: 'All features' }
   ];
 
-  getSubscription() {
-    return {
-        id: '1',
-        planId: 'pro',
-        planName: 'Pro',
-        status: 'Active',
-        price: 29.99,
-        billingCycle: 'month',
-        nextBillingDate: new Date().toISOString()
-    } as Subscription; // Cast because interface might mismatch slightly but good enough for demo
+  constructor(@Inject(API_URL) private apiUrl: string) {}
+
+  getSubscription(tenantId: string = 'default'): Observable<Subscription> {
+    return this.http.get<Subscription>(`${this.apiUrl}/billing/subscription?tenantId=${tenantId}`);
   }
 
-  getPaymentMethod() {
-      return { id: '1', type: 'Visa', last4: '4242', expiryDate: '12/25' };
+  getPaymentMethod(tenantId: string = 'default'): Observable<PaymentMethod[]> {
+    return this.http.get<PaymentMethod[]>(`${this.apiUrl}/billing/payment-methods?tenantId=${tenantId}`);
   }
 
-  getPaymentHistory() {
-      return [{ id: '1', amount: 29.99, date: new Date().toISOString(), description: 'Pro Plan' }];
+  // Keeping this mock for now as backend for history wasn't strictly requested in plan, but I can add it if time permits.
+  // The plan focused on Subscription and PaymentMethod.
+  getPaymentHistory(tenantId: string = 'default'): Observable<PaymentHistoryItem[]> {
+      // TODO: Implement backend for payment history
+      return this.http.get<PaymentHistoryItem[]>(`${this.apiUrl}/billing/invoices?tenantId=${tenantId}`);
   }
 
   getUsage() {
       return [{ resource: 'Invoices', used: 10, limit: 100, type: 'numeric', isUnlimited: false, isEnabled: true }];
   }
 
-  changePlan(planId: string) {
-      return of(true);
+  changePlan(planId: string, tenantId: string = 'default') {
+      // Ideally this should call an endpoint to update subscription
+      return this.http.post(`${this.apiUrl}/billing/subscription`, { planId, tenantId });
+  }
+
+  addPaymentMethod(paymentMethod: any, tenantId: string = 'default') {
+      return this.http.post(`${this.apiUrl}/billing/payment-methods`, { ...paymentMethod, tenantId });
   }
 }

@@ -33,4 +33,11 @@ export class MikroOrmWarehouseRepository implements WarehouseRepository {
   async findAll(tenantId: string): Promise<Warehouse[]> {
     return this.em.find(Warehouse, { tenantId });
   }
+
+  async delete(id: string): Promise<void> {
+    const warehouse = await this.em.findOne(Warehouse, { id });
+    if (warehouse) {
+      await this.em.removeAndFlush(warehouse);
+    }
+  }
 }

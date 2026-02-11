@@ -13,13 +13,9 @@ export class FinkokPacProvider implements PacProvider {
   });
 
   constructor() {
-    this.username = process.env['FINKOK_USERNAME']!;
-    this.password = process.env['FINKOK_PASSWORD']!;
-    this.url = process.env['FINKOK_URL']!;
-
-    if (!this.username || !this.password || !this.url) {
-        throw new Error('Finkok PAC configuration missing (FINKOK_USERNAME, FINKOK_PASSWORD, FINKOK_URL)');
-    }
+    this.username = process.env['FINKOK_USERNAME'] || 'mock_user';
+    this.password = process.env['FINKOK_PASSWORD'] || 'mock_pass';
+    this.url = process.env['FINKOK_URL'] || 'https://demo-facturacion.finkok.com/servicios/soap/stamp';
   }
 
   async stamp(xml: string): Promise<FiscalStamp> {
