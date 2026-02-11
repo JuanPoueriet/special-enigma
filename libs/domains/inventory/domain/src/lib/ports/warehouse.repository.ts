@@ -8,6 +8,7 @@ export interface WarehouseRepository {
   saveLocation(location: Location): Promise<void>;
   findLocationById(id: string): Promise<Location | null>;
   findAll(tenantId: string): Promise<Warehouse[]>;
+  delete(id: string): Promise<void>;
 }
 
 export const WAREHOUSE_REPOSITORY = 'WAREHOUSE_REPOSITORY';

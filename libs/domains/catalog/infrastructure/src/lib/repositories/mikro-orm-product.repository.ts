@@ -29,4 +29,16 @@ export class MikroOrmProductRepository implements ProductRepository {
     this.repository.getEntityManager().persist(product);
     await this.repository.getEntityManager().flush();
   }
+
+  async findById(id: number): Promise<Product | null> {
+    return this.repository.findOne({ id });
+  }
+
+  async delete(id: number): Promise<void> {
+    const product = await this.repository.findOne({ id });
+    if (product) {
+      this.repository.getEntityManager().remove(product);
+      await this.repository.getEntityManager().flush();
+    }
+  }
 }

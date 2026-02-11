@@ -1,12 +1,21 @@
-import { Injectable } from '@nestjs/common';
-import { Product } from '@virteex/catalog-domain';
-import { ProductRepository } from '@virteex/catalog-domain';
+import { Injectable, Inject } from '@nestjs/common';
+import { Product } from '@virteex/catalog-domain/lib/entities/product.entity';
+import { ProductRepository } from '@virteex/catalog-domain/lib/repositories/product.repository';
+
+export interface CreateProductDto {
+  sku: string;
+  name: string;
+  price: number;
+}
 
 @Injectable()
 export class CreateProductUseCase {
-  constructor(private readonly productRepo: ProductRepository) {}
+  constructor(
+    @Inject('ProductRepository')
+    private readonly productRepo: ProductRepository
+  ) {}
 
-  async execute(command: { sku: string; name: string; price: number }): Promise<Product> {
+  async execute(command: CreateProductDto): Promise<Product> {
     // 1. Validate business uniqueness (if not done by DB)
     const existing = await this.productRepo.findBySku(command.sku);
     if (existing) {

@@ -5,4 +5,6 @@ export interface ProductRepository {
   create(product: Product): Promise<Product>;
   findBySku(sku: string): Promise<Product | null>;
   save(product: Product): Promise<void>;
+  findById(id: number): Promise<Product | null>;
+  delete(id: number): Promise<void>;
 }
