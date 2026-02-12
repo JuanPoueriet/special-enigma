@@ -99,3 +99,8 @@ La aplicación **NO está lista para comercialización** (aprox. 70% funcional).
 2.  Implementar `ListSales` en CRM (Backend y Frontend).
 3.  Implementar persistencia de `Transactions` en Treasury.
 4.  Conectar la aplicación NestJS al stack de Jaeger/Prometheus existente.
+
+### D. CI/CD (CRÍTICO - BLOQUEO ADMINISTRATIVO)
+- **Hallazgo:** La cuenta de GitHub está bloqueada por problemas de facturación (Billing Issue).
+- **Impacto:** Los pipelines de integración continua (CI) fallan inmediatamente. No se puede validar código automáticamente.
+- **Acción Requerida:** Resolver el estado de facturación de la cuenta de GitHub propietaria del repositorio.
