@@ -1,0 +1,110 @@
+# INFORME DETALLADO DE ESTADO - VIRTEEX ERP
+# Análisis de Viabilidad Comercial y Funcionalidad "Sin Mocks"
+
+FECHA: 24 de Octubre de 2023
+OBJETIVO: Identificar brechas para alcanzar funcionalidad 100% real (sin mocks) y nivel comercial.
+
+## 1. RESUMEN EJECUTIVO
+
+La aplicación **NO ESTÁ LISTA** para despliegue comercial. Aunque la arquitectura base (Backend NestJS + Frontend Angular) es sólida y varios módulos críticos (Contabilidad, Facturación) están completamente implementados, existen **brechas funcionales severas** en los módulos operativos y de soporte, así como una **ausencia crítica de infraestructura de archivos y gestión de usuarios**.
+
+---
+
+## 2. INFRAESTRUCTURA Y CORE (CRÍTICO)
+
+### 2.1. Gestión de Identidad y Usuarios (BLOQUEANTE)
+*   **Problema:** El módulo `Identity` tiene un `AuthController` funcional (Login/Register), pero **CARECE COMPLETAMENTE** de un `UsersController`.
+*   **Impacto:**
+    *   El Frontend (`UsersService`) intenta llamar a `/users/profile`, `/users/invite`, `/users/avatar`, pero estos endpoints **dan error 404**.
+    *   No es posible actualizar perfiles, subir avatares, ni invitar nuevos usuarios.
+    *   La gestión de usuarios es inexistente en el backend.
+
+### 2.2. Almacenamiento de Archivos (BLOQUEANTE)
+*   **Problema:** No existe un servicio de almacenamiento (Storage Service) implementado (ni local ni S3/Blob).
+*   **Impacto:**
+    *   La subida de avatares en `MyProfilePage` fallará aunque existiera el controlador.
+    *   No se pueden adjuntar documentos a Facturas o Gastos.
+
+### 2.3. Seguridad y Configuración
+*   **Problema:** `env.validation.ts` define valores por defecto inseguros (ej. `SMTP_PASSWORD = 'password'`).
+*   **Acción:** Se debe eliminar los valores por defecto para variables sensibles en producción, forzando a que la aplicación falle si no están configuradas.
+
+---
+
+## 3. ANÁLISIS POR DOMINIO DE NEGOCIO
+
+### GRUPO 1: FINANZAS (ESTADO: EXCELENTE)
+Este grupo es el más maduro y está técnicamente listo para uso comercial, salvo por dependencias menores.
+
+*   **Accounting (Contabilidad):** 100% Real.
+    *   Backend: Repositorios MikroORM reales, Controladores completos.
+    *   Frontend: `LedgersService`, `JournalsService` conectados. Páginas funcionales.
+*   **Billing (Facturación):** 100% Real.
+    *   Backend: Generación de facturas real. Integración (teórica) con PAC.
+    *   Frontend: Formulario de creación de facturas completo y validado.
+*   **Treasury (Tesorería):** 100% Real.
+    *   Gestión de cuentas bancarias y transacciones operativa.
+*   **Fiscal:** 100% Real.
+    *   Sorprendentemente completo. Dashboard y Listas conectadas a `FiscalService` real.
+
+### GRUPO 2: OPERACIONES (ESTADO: MIXTO)
+
+*   **Purchasing (Compras):** Functional.
+    *   Cuentas por pagar y órdenes de compra implementadas.
+*   **Inventory (Inventario):** Parcialmente Completo.
+    *   Backend: Gestión de almacenes y productos real.
+    *   Frontend: `ProductsPage` funcional (lista, búsqueda).
+    *   **Faltante:** No se detectó formulario UI claro para *Movimientos de Inventario* complejos, aunque el backend lo soporta.
+*   **Manufacturing (Manufactura):** **BRECHA IMPORTANTE**.
+    *   Backend: Tiene casos de uso (`CreateProductionOrder`).
+    *   Frontend: Es de "Solo Lectura". Existe lista, pero **NO EXISTE formulario** para crear órdenes de producción.
+*   **Projects (Proyectos):** **ROTO**.
+    *   Backend: Expone `/projects`.
+    *   Frontend: `MyWorkService` intenta llamar a `/my-work` (o `/projects/my-work`), un endpoint que **NO EXISTE** en el controlador actual. La funcionalidad "Mi Trabajo" dará error 404.
+
+### GRUPO 3: SOPORTE Y RRHH (ESTADO: INCOMPLETO)
+
+*   **CRM:** Funcional.
+    *   Gestión de Clientes (`CustomersPage`) real y conectada.
+*   **Payroll (Nómina):** **BRECHA IMPORTANTE**.
+    *   Backend: Tiene repositorios y entidades.
+    *   Frontend:
+        *   `Dashboard`: Vacío (Shell).
+        *   `List`: Muestra empleados, pero **NO EXISTE interfaz** para dar de alta/baja empleados o procesar nómina. Solo visualización.
+*   **Fixed Assets (Activos Fijos):** **BRECHA**.
+    *   Frontend: Solo lista de lectura. Sin formularios de gestión.
+
+### GRUPO 4: BI & ADMIN (ESTADO: SHELL)
+
+*   **Admin:** Funcional.
+    *   Gestión de Subsidiarias correcta.
+*   **BI (Business Intelligence):** **VACÍO**.
+    *   `DashboardComponent` es un archivo vacío sin lógica ni servicio conectado. Es un placeholder visual solamente.
+
+---
+
+## 4. PLAN DE ACCIÓN PARA "COMERCIAL READY"
+
+Para llevar Virteex al 100% funcional, se deben ejecutar estrictamente estos pasos:
+
+### 4.1. INFRAESTRUCTURA DE DESPLIEGUE (CRÍTICO - ACTUALIZACIÓN)
+*   **Problema Detectado:** El proceso de Integración Continua (CI) en GitHub Actions está fallando debido a un bloqueo de cuenta por facturación ("account is locked due to a billing issue").
+*   **Acción Inmediata:** Se requiere resolver el estado de la cuenta de GitHub para restaurar los despliegues automáticos. El código no puede ser validado ni desplegado hasta que esto se resuelva.
+
+### Prioridad 1: Core & Infraestructura
+1.  **Implementar `UsersController` en Identity:** Crear endpoints para `/users`, `/users/profile` (GET/PATCH), `/users/invite`.
+2.  **Implementar `StorageService`:** Crear un módulo compartido para subir archivos (S3 o Disco Local) e integrarlo en `Identity` para avatares.
+3.  **Hardening de Env:** Eliminar defaults inseguros en `env.validation.ts`.
+
+### Prioridad 2: Reparar Funcionalidad Rota
+1.  **Arreglar Projects:** Alinear el Frontend (`MyWorkService`) con el Backend (`ProjectsController`). Crear el endpoint faltante `/projects/my-work`.
+2.  **Manufacturing UI:** Crear `ProductionOrderFormPage` y conectarla al caso de uso existente `CreateProductionOrder`.
+
+### Prioridad 3: Completar "Shells" (Solo Lectura -> Escritura)
+1.  **Payroll UI:** Crear formularios para Alta de Empleados y Generación de Nómina.
+2.  **Fixed Assets UI:** Crear formulario de Alta de Activos.
+3.  **BI:** Conectar el Dashboard a endpoints de reportes reales (que ya existen parcialmente en el backend).
+
+---
+**CONCLUSIÓN:**
+Virteex tiene un núcleo financiero sólido, pero es inutilizable comercialmente debido a la imposibilidad de gestionar usuarios (Identity roto) y la falta de interfaces de operación (Manufactura/Nómina solo lectura). Adicionalmente, el bloqueo de CI representa un riesgo operativo inmediato.
