@@ -1,12 +1,13 @@
 import { Controller, Post, Body, Get } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { CreateFixedAssetUseCase, CreateFixedAssetDto } from '@virteex/fixed-assets-application';
+import { CreateFixedAssetUseCase, CreateFixedAssetDto, GetFixedAssetsUseCase } from '@virteex/fixed-assets-application';
 
 @ApiTags('Fixed Assets')
 @Controller('fixed-assets')
 export class FixedAssetsController {
   constructor(
-    private readonly createUseCase: CreateFixedAssetUseCase
+    private readonly createUseCase: CreateFixedAssetUseCase,
+    private readonly getUseCase: GetFixedAssetsUseCase
   ) {}
 
   @Get('health')
@@ -19,5 +20,11 @@ export class FixedAssetsController {
   @ApiOperation({ summary: 'Create Fixed Asset' })
   create(@Body() dto: CreateFixedAssetDto) {
     return this.createUseCase.execute(dto);
+  }
+
+  @Get()
+  @ApiOperation({ summary: 'Get all Fixed Assets' })
+  findAll() {
+    return this.getUseCase.execute();
   }
 }

@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FixedAssetsService, FixedAsset } from '../../core/services/fixed-assets.service';
 
-export interface AssetItem {
-  id: string;
-  name: string;
-  status: string;
+export interface AssetItem extends FixedAsset {
+  // Add UI props
 }
 
 @Component({
@@ -15,13 +14,12 @@ export interface AssetItem {
   styleUrl: './list.component.scss',
 })
 export class ListComponent implements OnInit {
+  private service = inject(FixedAssetsService);
   items: AssetItem[] = [];
 
   ngOnInit() {
-    this.items = [
-      { id: '1', name: 'Asset 1', status: 'Active' },
-      { id: '2', name: 'Asset 2', status: 'Pending' },
-      { id: '3', name: 'Asset 3', status: 'Closed' },
-    ];
+    this.service.getAssets().subscribe((assets) => {
+      this.items = assets;
+    });
   }
 }
