@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { RegisterUserUseCase } from '@virteex/identity-application/lib/use-cases/register-user.use-case';
+import { RegisterUserUseCase } from './register-user.use-case';
 import {
   UserRepository, CompanyRepository, AuditLogRepository,
   AuthService, NotificationService, RiskEngineService

@@ -1,4 +1,4 @@
-import { adminContracts } from '@virteex/admin-contracts/lib/admin-contracts';
+import { adminContracts } from './admin-contracts';
 
 describe('adminContracts', () => {
   it('should work', () => {

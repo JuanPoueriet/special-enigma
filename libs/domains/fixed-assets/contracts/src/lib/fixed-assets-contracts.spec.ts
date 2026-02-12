@@ -1,4 +1,4 @@
-import { fixedAssetsContracts } from '@virteex/fixed-assets-contracts/lib/fixed-assets-contracts';
+import { fixedAssetsContracts } from './fixed-assets-contracts';
 
 describe('fixedAssetsContracts', () => {
   it('should work', () => {

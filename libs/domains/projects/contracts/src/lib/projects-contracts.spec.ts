@@ -1,4 +1,4 @@
-import { projectsContracts } from '@virteex/projects-contracts/lib/projects-contracts';
+import { projectsContracts } from './projects-contracts';
 
 describe('projectsContracts', () => {
   it('should work', () => {

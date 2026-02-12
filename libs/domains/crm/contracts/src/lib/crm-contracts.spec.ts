@@ -1,4 +1,4 @@
-import { crmContracts } from '@virteex/crm-contracts/lib/crm-contracts';
+import { crmContracts } from './crm-contracts';
 
 describe('crmContracts', () => {
   it('should work', () => {
