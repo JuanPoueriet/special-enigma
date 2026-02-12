@@ -4,66 +4,66 @@ import { IsBoolean, IsNumber, IsOptional, IsString, MinLength, validateSync } fr
 export class EnvironmentVariables {
   @IsString()
   @IsOptional()
-  NODE_ENV: string = 'development';
+  NODE_ENV = 'development';
 
   @IsNumber()
   @IsOptional()
-  PORT: number = 3000;
+  PORT = 3000;
 
   @IsString()
   @MinLength(1)
   @IsOptional()
-  DB_HOST: string = 'localhost';
+  DB_HOST = 'localhost';
 
   @IsNumber()
   @IsOptional()
-  DB_PORT: number = 5432;
+  DB_PORT = 5432;
 
   @IsString()
   @MinLength(1)
   @IsOptional()
-  DB_USER: string = 'postgres';
+  DB_USER = 'postgres';
 
   @IsString()
   @MinLength(1)
   @IsOptional()
-  DB_PASSWORD: string = 'postgres';
+  DB_PASSWORD = 'postgres';
 
   @IsString()
   @MinLength(1)
   @IsOptional()
-  DB_NAME: string = 'virteex';
+  DB_NAME = 'virteex';
 
   @IsBoolean()
   @IsOptional()
-  DB_SSL_ENABLED: boolean = false;
+  DB_SSL_ENABLED = false;
 
   @IsString()
   @MinLength(1)
   @IsOptional()
-  SMTP_HOST: string = 'smtp.example.com';
+  SMTP_HOST = 'smtp.example.com';
 
   @IsNumber()
   @IsOptional()
-  SMTP_PORT: number = 587;
+  SMTP_PORT = 587;
 
   @IsString()
   @MinLength(1)
   @IsOptional()
-  SMTP_USER: string = 'user';
+  SMTP_USER = 'user';
 
   @IsString()
   @MinLength(1)
   @IsOptional()
-  SMTP_PASSWORD: string = 'password';
+  SMTP_PASSWORD = 'password';
 
   @IsString()
   @IsOptional()
-  SMTP_FROM: string = 'noreply@virteex.com';
+  SMTP_FROM = 'noreply@virteex.com';
 
   @IsBoolean()
   @IsOptional()
-  SMTP_SECURE: boolean = false;
+  SMTP_SECURE = false;
 }
 
 export function validate(config: Record<string, unknown>) {

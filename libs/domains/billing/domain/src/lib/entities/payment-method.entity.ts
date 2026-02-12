@@ -19,7 +19,7 @@ export class PaymentMethod {
   expiryDate!: string; // MM/YY
 
   @Property()
-  isDefault: boolean = false;
+  isDefault = false;
 
   @Property()
   createdAt: Date = new Date();

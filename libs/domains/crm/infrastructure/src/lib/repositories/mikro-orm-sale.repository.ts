@@ -16,4 +16,8 @@ export class MikroOrmSaleRepository implements SaleRepository {
   async findById(id: string): Promise<Sale | null> {
     return this.em.findOne(Sale, { id }, { populate: ['items'] });
   }
+
+  async findAll(tenantId: string): Promise<Sale[]> {
+    return this.em.find(Sale, { tenantId }, { populate: ['items'], orderBy: { createdAt: 'DESC' } });
+  }
 }

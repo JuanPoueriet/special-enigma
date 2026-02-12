@@ -1,6 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { Employee, EmployeeRepository } from '@virteex/payroll-domain';
-import { EMPLOYEE_REPOSITORY } from '@virteex/payroll-domain';
+import { Employee, EmployeeRepository, EMPLOYEE_REPOSITORY } from '../../../../domain/src/index';
 
 @Injectable()
 export class GetEmployeesUseCase {
