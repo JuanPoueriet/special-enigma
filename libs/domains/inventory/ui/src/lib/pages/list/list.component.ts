@@ -1,12 +1,12 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { InventoryService } from '../../services/inventory.service';
 
 @Component({
   selector: 'virteex-inventory-list',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterModule],
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
 })

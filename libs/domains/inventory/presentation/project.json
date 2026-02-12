@@ -21,7 +21,8 @@
         "tsConfig": "libs/domains/inventory/presentation/tsconfig.lib.json",
         "assets": [
           "libs/domains/inventory/presentation/*.md"
-        ]
+        ],
+        "rootDir": "."
       }
     }
   },

@@ -1,11 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-export interface TaxruleItem {
-  id: string;
-  name: string;
-  status: string;
-}
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FiscalService } from '../../services/fiscal.service';
 
 @Component({
   selector: 'virteex-fiscal-list',
@@ -13,15 +9,9 @@ export interface TaxruleItem {
   imports: [CommonModule],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ListComponent implements OnInit {
-  items: TaxruleItem[] = [];
-
-  ngOnInit() {
-    this.items = [
-      { id: '1', name: 'Taxrule 1', status: 'Active' },
-      { id: '2', name: 'Taxrule 2', status: 'Pending' },
-      { id: '3', name: 'Taxrule 3', status: 'Closed' },
-    ];
-  }
+export class ListComponent {
+  private fiscalService = inject(FiscalService);
+  items = toSignal(this.fiscalService.getTaxRules(), { initialValue: [] });
 }

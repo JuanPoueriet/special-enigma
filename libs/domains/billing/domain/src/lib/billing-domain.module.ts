@@ -6,10 +6,11 @@ import { FiscalStampingService } from '@virteex/billing-domain/lib/services/fisc
 import { TaxRule } from '@virteex/billing-domain/lib/entities/tax-rule.entity';
 import { Invoice } from '@virteex/billing-domain/lib/entities/invoice.entity';
 import { TaxLine } from '@virteex/billing-domain/lib/entities/tax-line.entity';
+import { SubscriptionPlan } from '@virteex/billing-domain/lib/entities/subscription-plan.entity';
 
 @Module({
   imports: [
-    MikroOrmModule.forFeature([Invoice, TaxLine, TaxRule])
+    MikroOrmModule.forFeature([Invoice, TaxLine, TaxRule, SubscriptionPlan])
   ],
   providers: [
     TaxCalculatorService,

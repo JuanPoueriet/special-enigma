@@ -3,5 +3,7 @@ export * from './lib/use-cases/create-invoice.use-case';
 export * from './lib/use-cases/get-invoices.use-case';
 export * from './lib/use-cases/create-subscription.use-case';
 export * from './lib/use-cases/get-subscription.use-case';
+export * from './lib/use-cases/get-subscription-plans.use-case';
+export * from './lib/use-cases/get-payment-history.use-case';
 export * from './lib/use-cases/add-payment-method.use-case';
 export * from './lib/use-cases/get-payment-method.use-case';

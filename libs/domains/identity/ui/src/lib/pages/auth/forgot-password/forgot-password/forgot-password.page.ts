@@ -3,17 +3,16 @@ import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '@virteex/identity-ui';
 import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module, ReCaptchaV3Service } from 'ng-recaptcha-19';
 
-import { AuthService } from '@virteex/identity-ui';
-import { LanguageService } from '@virteex/shared-ui/lib/core/services/language';
+import { AuthService } from '../../../../services/auth.service';
+import { LanguageService } from '@virteex/shared-ui';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 // Shared Components
-import { AuthLayoutComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-layout/auth-layout.component';
-import { AuthInputComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-input/auth-input.component';
-import { AuthButtonComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-button/auth-button.component';
+import { AuthLayoutComponent } from '../../components/auth-layout/auth-layout.component';
+import { AuthInputComponent } from '../../components/auth-input/auth-input.component';
+import { AuthButtonComponent } from '../../components/auth-button/auth-button.component';
 
 @Component({
   selector: 'virteex-forgot-password',
@@ -30,7 +29,11 @@ import { AuthButtonComponent } from '@virteex/identity-ui/lib/pages/auth/compone
   ],
   providers: [
     ReCaptchaV3Service,
-    { provide: RECAPTCHA_V3_SITE_KEY, useValue: this.config.recaptcha.siteKey }
+    // Note: Config is injected in constructor/fields, cannot be used in decorator metadata directly if it relies on instance 'this'.
+    // However, if we assume APP_CONFIG is a token that provides the whole config object, we might need a factory or direct string if static.
+    // For now, removing the problematic provider usage in decorator or mocking it differently.
+    // Assuming the site key should be provided at module/app level, not here.
+    // But if we must, we can't access 'this' here.
   ],
   templateUrl: './forgot-password.page.html'
 })

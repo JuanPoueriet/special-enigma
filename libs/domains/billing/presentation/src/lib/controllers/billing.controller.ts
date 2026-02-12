@@ -1,23 +1,42 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
-import { CreateInvoiceUseCase, CreateInvoiceDto } from '@virteex/billing-application';
-import { GetInvoicesUseCase } from '@virteex/billing-application';
+import { Controller, Get, Post, Body, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import {
+  CreateInvoiceUseCase,
+  CreateInvoiceDto,
+  GetInvoicesUseCase,
+  GetSubscriptionPlansUseCase,
+  GetPaymentHistoryUseCase
+} from '../../../../application/src/index';
 
 @ApiTags('Billing')
 @Controller('billing')
 export class BillingController {
   constructor(
     private readonly createInvoiceUseCase: CreateInvoiceUseCase,
-    private readonly getInvoicesUseCase: GetInvoicesUseCase
+    private readonly getInvoicesUseCase: GetInvoicesUseCase,
+    private readonly getSubscriptionPlansUseCase: GetSubscriptionPlansUseCase,
+    private readonly getPaymentHistoryUseCase: GetPaymentHistoryUseCase
   ) {}
 
   @Post('invoices')
-  create(@Body() dto: CreateInvoiceDto) {
-    return this.createInvoiceUseCase.execute(dto);
+  async create(@Body() dto: CreateInvoiceDto) {
+    return await this.createInvoiceUseCase.execute(dto);
   }
 
   @Get('invoices')
-  findAll() {
-    return this.getInvoicesUseCase.execute();
+  async findAll() {
+    return await this.getInvoicesUseCase.execute();
+  }
+
+  @Get('plans')
+  async getPlans() {
+    return await this.getSubscriptionPlansUseCase.execute();
+  }
+
+  @Get('history')
+  async getHistory(@Query('tenantId') tenantId: string) {
+    // Basic tenant handling - in real app should come from auth context
+    const tid = tenantId || 'default-tenant';
+    return await this.getPaymentHistoryUseCase.execute(tid);
   }
 }

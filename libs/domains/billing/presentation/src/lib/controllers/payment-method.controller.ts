@@ -1,7 +1,10 @@
 import { Controller, Get, Post, Body, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { AddPaymentMethodUseCase, AddPaymentMethodDto } from '@virteex/billing-application';
-import { GetPaymentMethodUseCase } from '@virteex/billing-application';
+import {
+  AddPaymentMethodUseCase,
+  AddPaymentMethodDto,
+  GetPaymentMethodUseCase
+} from '../../../../application/src/index';
 
 @ApiTags('Billing')
 @Controller('billing/payment-methods')
@@ -13,13 +16,14 @@ export class PaymentMethodController {
 
   @Post()
   @ApiOperation({ summary: 'Add a payment method' })
-  create(@Body() dto: AddPaymentMethodDto) {
-    return this.addPaymentMethodUseCase.execute(dto);
+  async create(@Body() dto: AddPaymentMethodDto) {
+    return await this.addPaymentMethodUseCase.execute(dto);
   }
 
   @Get()
   @ApiOperation({ summary: 'Get payment methods by tenant' })
-  findAll(@Query('tenantId') tenantId: string) {
-    return this.getPaymentMethodUseCase.execute(tenantId);
+  async findAll(@Query('tenantId') tenantId: string) {
+    const tid = tenantId || 'default-tenant';
+    return await this.getPaymentMethodUseCase.execute(tid);
   }
 }

@@ -1,6 +1,6 @@
 import {
   Component, Input, computed, signal, inject, effect, untracked,
-  ElementRef, HostListener, ChangeDetectionStrategy
+  ElementRef, HostListener, ChangeDetectionStrategy, OnInit
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HighchartsChartComponent } from 'highcharts-angular';
@@ -9,13 +9,14 @@ import { PointOptionsObject } from 'highcharts';
 
 import {
   DashboardWidget, DashboardService, ChartType
-} from '@virteex/bi-ui';
+} from '../../../../core/services/dashboard';
+import { BiService } from '../../../services/bi.service';
 
 import {
   LucideAngularModule,
   Settings, BarChart, LineChart,
   Menu as MenuIcon, Maximize, FileDown, FileSpreadsheet, Printer,
-  Trash2 // Ícono de basura importado
+  Trash2
 } from 'lucide-angular';
 
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -43,11 +44,12 @@ type ExportingChart = Highcharts.Chart & {
   styleUrls: ['../widget-styles.scss', './top-products-chart.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TopProductsChart {
+export class TopProductsChart implements OnInit {
   @Input({ required: true }) widget!: DashboardWidget;
   @Input() isEditMode = false;
 
   private dashboardService = inject(DashboardService);
+  private biService = inject(BiService);
   private i18n = inject(TranslateService);
   private hostEl = inject(ElementRef<HTMLElement>);
 
@@ -60,11 +62,14 @@ export class TopProductsChart {
   protected readonly PrintIcon = Printer;
   protected readonly PngIcon = FileDown;
   protected readonly CsvIcon = FileSpreadsheet;
-  protected readonly TrashIcon = Trash2; // Ícono de basura disponible en la plantilla
+  protected readonly TrashIcon = Trash2;
 
   // Estado UI
   isSettingsOpen = signal(false);
   isExportMenuOpen = signal(false);
+
+  // Real Data
+  realData = signal<{name: string, value: number}[]>([]);
 
   Highcharts: typeof Highcharts = Highcharts;
   chartRef?: Highcharts.Chart;
@@ -79,6 +84,12 @@ export class TopProductsChart {
       }
     });
   });
+
+  ngOnInit() {
+    this.biService.getTopProducts().subscribe(data => {
+      this.realData.set(data);
+    });
+  }
 
   private getPaletteFromTheme(): string[] {
     const custom = (this.widget?.data as any)?.colors as string[] | undefined;
@@ -132,13 +143,10 @@ export class TopProductsChart {
     };
   }
 
-  // NEW: colores por defecto hardcodeados como en tu ejemplo
   private getDefaultSeriesColors(categories: string[], chartType: ChartType): Record<string, string> {
-    // Base tomada de tu ejemplo: pagadas (verde), pendientes (naranja), vencidas (rojo)
-    const base = ['#4ade80', '#fb923c', '#f87171', '#60a5fa', '#a78bfa']; // extendido para más ítems
+    const base = ['#4ade80', '#fb923c', '#f87171', '#60a5fa', '#a78bfa'];
 
     if (chartType === 'line') {
-      // Para líneas usamos un solo color por defecto
       return { __series: base[0] };
     }
 
@@ -151,17 +159,18 @@ export class TopProductsChart {
 
   chartOptions = computed<Highcharts.Options>(() => {
     const chartType = (this.widget.chartType || 'bar') as ChartType;
+    const data = this.realData();
 
-    const categories: string[] =
+    // Use real data if available, fallback to mock/widget config
+    const categories: string[] = data.length > 0 ? data.map(d => d.name) :
       (this.widget?.data as any)?.categories ?? ['Laptop Pro', 'Mouse Ergo', 'Monitor UW', 'Teclado RGB', 'Webcam HD'];
-    const values: number[] =
+    const values: number[] = data.length > 0 ? data.map(d => d.value) :
       (this.widget?.data as any)?.values ?? [120, 95, 88, 75, 60];
 
     const palette = this.getPaletteFromTheme();
     const theme = this.getThemeOptions();
     const isBarLike = chartType === 'bar' || chartType === 'column';
 
-    // CHANGED: seriesColors ahora usa hardcoded defaults si no hay configuración del widget
     const seriesColors: Record<string, string> =
       ((this.widget?.data as any)?.seriesColors as Record<string, string> | undefined)
       ?? this.getDefaultSeriesColors(categories, chartType);
@@ -173,7 +182,7 @@ export class TopProductsChart {
       borderColor: 'transparent'
     }));
 
-    const lineColor = seriesColors['__series'] ?? '#4ade80'; // por defecto verde (como tu ejemplo)
+    const lineColor = seriesColors['__series'] ?? '#4ade80';
 
     const series: Highcharts.SeriesOptionsType[] = [{
       name: this.i18n.instant('CHARTS.TOP_PRODUCTS.SERIES_NAME'),
@@ -198,13 +207,12 @@ export class TopProductsChart {
       },
       series,
       legend: { enabled: false },
-      exporting: { enabled: false } // usamos menú personalizado
+      exporting: { enabled: false }
     };
 
     return Highcharts.merge(base, theme);
   });
 
-  // CHANGED: refleja los colores por defecto también en el panel para líneas
   chartDataPoints = computed(() => {
     const type = (this.widget.chartType || 'bar') as ChartType;
 
@@ -269,7 +277,6 @@ export class TopProductsChart {
     }
   }
 
-  // Exportación (menú personalizado)
   viewFullscreen(ev: MouseEvent) { ev.stopPropagation(); this.chart?.fullscreen?.toggle(); this.closeMenus(); }
   printChart(ev: MouseEvent) { ev.stopPropagation(); this.chart?.print(); this.closeMenus(); }
   downloadPNG(ev: MouseEvent) { ev.stopPropagation(); this.chart?.exportChart({ type: 'image/png' }); this.closeMenus(); }

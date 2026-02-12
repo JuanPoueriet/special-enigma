@@ -4,7 +4,7 @@ import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CountryService } from '@virteex/shared-ui/lib/core/services/country.service';
-import { AuthInputComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-input/auth-input.component';
+import { AuthInputComponent } from '../../../components/auth-input/auth-input.component';
 
 @Component({
   selector: 'virteex-step-configuration',

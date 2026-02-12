@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { LucideAngularModule, ChevronLeft } from 'lucide-angular';
-import { AccountsPayableService, CreateVendorBillDto, UpdateVendorBillDto } from '@virteex/purchasing-ui/lib/core/services/accounts-payable';
-import { NotificationService } from '@virteex/purchasing-ui/lib/core/services/notification';
+import { AccountsPayableService, CreateVendorBillDto, UpdateVendorBillDto } from '../../../core/services/accounts-payable.service';
+import { ToastService } from '@virteex/shared-ui';
 import { of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
@@ -23,7 +23,7 @@ export class VendorBillFormPage implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private accountsPayableService = inject(AccountsPayableService);
-  private notificationService = inject(NotificationService);
+  private toastService = inject(ToastService);
 
   form!: FormGroup;
   isEditMode = signal(false);
@@ -81,8 +81,6 @@ export class VendorBillFormPage implements OnInit {
       })
     ).subscribe(bill => {
       if (bill) {
-        // Note: The DTO and the form structure must align perfectly.
-        // This is a simplified patch; a real implementation might need more complex mapping.
         this.form.patchValue(bill);
         this.isLoading.set(false);
       }
@@ -91,7 +89,7 @@ export class VendorBillFormPage implements OnInit {
 
   save(): void {
     if (this.form.invalid) {
-      this.notificationService.showError('Por favor, completa todos los campos requeridos.');
+      this.toastService.showError('Por favor, completa todos los campos requeridos.');
       return;
     }
 
@@ -104,11 +102,11 @@ export class VendorBillFormPage implements OnInit {
 
     operation.subscribe({
       next: () => {
-        this.notificationService.showSuccess(`Factura ${this.isEditMode() ? 'actualizada' : 'creada'} con éxito.`);
+        this.toastService.showSuccess(`Factura ${this.isEditMode() ? 'actualizada' : 'creada'} con éxito.`);
         this.router.navigate(['/app/accounts-payable']);
       },
       error: (err) => {
-        this.notificationService.showError('Error al guardar la factura.');
+        this.toastService.showError('Error al guardar la factura.');
         this.isLoading.set(false);
       },
       complete: () => {

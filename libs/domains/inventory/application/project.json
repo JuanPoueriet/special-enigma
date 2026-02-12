@@ -21,7 +21,8 @@
         "tsConfig": "libs/domains/inventory/application/tsconfig.lib.json",
         "assets": [
           "libs/domains/inventory/application/*.md"
-        ]
+        ],
+        "rootDir": "."
       }
     }
   },

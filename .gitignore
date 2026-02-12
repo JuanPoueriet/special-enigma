@@ -43,10 +43,11 @@ Thumbs.db
 
 .angular
 
-vitest.config.*.timestamp*node_modules/
-dist/
-coverage/
-tmp/
-test.log
-
 vitest.config.*.timestamp*
+
+# Local logs
+*.log
+
+# Local Env
+.env
+*.db
