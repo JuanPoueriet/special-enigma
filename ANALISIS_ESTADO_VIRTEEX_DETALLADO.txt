@@ -87,6 +87,10 @@ Este grupo es el más maduro y está técnicamente listo para uso comercial, sal
 
 Para llevar Virteex al 100% funcional, se deben ejecutar estrictamente estos pasos:
 
+### 4.1. INFRAESTRUCTURA DE DESPLIEGUE (CRÍTICO - ACTUALIZACIÓN)
+*   **Problema Detectado:** El proceso de Integración Continua (CI) en GitHub Actions está fallando debido a un bloqueo de cuenta por facturación ("account is locked due to a billing issue").
+*   **Acción Inmediata:** Se requiere resolver el estado de la cuenta de GitHub para restaurar los despliegues automáticos. El código no puede ser validado ni desplegado hasta que esto se resuelva.
+
 ### Prioridad 1: Core & Infraestructura
 1.  **Implementar `UsersController` en Identity:** Crear endpoints para `/users`, `/users/profile` (GET/PATCH), `/users/invite`.
 2.  **Implementar `StorageService`:** Crear un módulo compartido para subir archivos (S3 o Disco Local) e integrarlo en `Identity` para avatares.
@@ -103,4 +107,4 @@ Para llevar Virteex al 100% funcional, se deben ejecutar estrictamente estos pas
 
 ---
 **CONCLUSIÓN:**
-Virteex tiene un núcleo financiero sólido, pero es inutilizable comercialmente debido a la imposibilidad de gestionar usuarios (Identity roto) y la falta de interfaces de operación (Manufactura/Nómina solo lectura).
+Virteex tiene un núcleo financiero sólido, pero es inutilizable comercialmente debido a la imposibilidad de gestionar usuarios (Identity roto) y la falta de interfaces de operación (Manufactura/Nómina solo lectura). Adicionalmente, el bloqueo de CI representa un riesgo operativo inmediato.
