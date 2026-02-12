@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CatalogService, Product } from '../../core/services/catalog.service';
 
-export interface ProductItem {
-  id: string;
-  name: string;
+export interface ProductItem extends Product {
   status: string;
 }
 
@@ -15,13 +14,15 @@ export interface ProductItem {
   styleUrl: './list.component.scss',
 })
 export class ListComponent implements OnInit {
+  private catalogService = inject(CatalogService);
   items: ProductItem[] = [];
 
   ngOnInit() {
-    this.items = [
-      { id: '1', name: 'Product 1', status: 'Active' },
-      { id: '2', name: 'Product 2', status: 'Pending' },
-      { id: '3', name: 'Product 3', status: 'Closed' },
-    ];
+    this.catalogService.getProducts().subscribe((products) => {
+      this.items = products.map((p) => ({
+        ...p,
+        status: p.isActive ? 'Active' : 'Inactive',
+      }));
+    });
   }
 }

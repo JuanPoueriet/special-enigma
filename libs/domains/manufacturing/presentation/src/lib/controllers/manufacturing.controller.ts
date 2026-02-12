@@ -1,12 +1,13 @@
 import { Controller, Post, Body, Get } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { CreateProductionOrderUseCase, CreateProductionOrderDto } from '@virteex/manufacturing-application';
+import { CreateProductionOrderUseCase, CreateProductionOrderDto, GetProductionOrdersUseCase } from '@virteex/manufacturing-application';
 
 @ApiTags('Manufacturing')
 @Controller('manufacturing')
 export class ManufacturingController {
   constructor(
-    private readonly createUseCase: CreateProductionOrderUseCase
+    private readonly createUseCase: CreateProductionOrderUseCase,
+    private readonly getUseCase: GetProductionOrdersUseCase
   ) {}
 
   @Get('health')
@@ -19,5 +20,11 @@ export class ManufacturingController {
   @ApiOperation({ summary: 'Create Production Order' })
   create(@Body() dto: CreateProductionOrderDto) {
     return this.createUseCase.execute(dto);
+  }
+
+  @Get('orders')
+  @ApiOperation({ summary: 'Get all Production Orders' })
+  findAll() {
+    return this.getUseCase.execute();
   }
 }

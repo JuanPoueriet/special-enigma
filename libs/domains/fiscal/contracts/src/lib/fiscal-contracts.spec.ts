@@ -1,7 +1,7 @@
-import { fiscalContracts } from '@virteex/fiscal-contracts/lib/fiscal-contracts';
+import { fiscalContracts } from './fiscal-contracts';
 
 describe('fiscalContracts', () => {
   it('should work', () => {
     expect(fiscalContracts()).toEqual('fiscal-contracts');
-  })
-})
+  });
+});

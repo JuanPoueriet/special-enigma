@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ProjectsService, Project } from '../../core/services/projects.service';
 
-export interface ProjectItem {
-  id: string;
-  name: string;
-  status: string;
+export interface ProjectItem extends Project {
+  // Add UI specific properties if needed
 }
 
 @Component({
@@ -15,13 +14,12 @@ export interface ProjectItem {
   styleUrl: './list.component.scss',
 })
 export class ListComponent implements OnInit {
+  private projectsService = inject(ProjectsService);
   items: ProjectItem[] = [];
 
   ngOnInit() {
-    this.items = [
-      { id: '1', name: 'Project 1', status: 'Active' },
-      { id: '2', name: 'Project 2', status: 'Pending' },
-      { id: '3', name: 'Project 3', status: 'Closed' },
-    ];
+    this.projectsService.getProjects().subscribe((projects) => {
+      this.items = projects;
+    });
   }
 }

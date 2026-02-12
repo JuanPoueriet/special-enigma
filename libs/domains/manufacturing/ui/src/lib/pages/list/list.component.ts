@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ManufacturingService, ProductionOrder } from '../../core/services/manufacturing.service';
 
-export interface ProductionorderItem {
-  id: string;
+export interface ProductionorderItem extends ProductionOrder {
   name: string;
-  status: string;
 }
 
 @Component({
@@ -15,13 +14,15 @@ export interface ProductionorderItem {
   styleUrl: './list.component.scss',
 })
 export class ListComponent implements OnInit {
+  private service = inject(ManufacturingService);
   items: ProductionorderItem[] = [];
 
   ngOnInit() {
-    this.items = [
-      { id: '1', name: 'Productionorder 1', status: 'Active' },
-      { id: '2', name: 'Productionorder 2', status: 'Pending' },
-      { id: '3', name: 'Productionorder 3', status: 'Closed' },
-    ];
+    this.service.getOrders().subscribe((orders) => {
+      this.items = orders.map((o) => ({
+        ...o,
+        name: o.productSku // Map SKU to name for display
+      }));
+    });
   }
 }
