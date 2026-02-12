@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { TaxStrategy, TaxResult } from '@virteex/billing-domain/lib/strategies/tax-strategy.interface';
-import { MxTaxStrategy } from '@virteex/billing-domain/lib/strategies/mx-tax.strategy';
-import { BrTaxStrategy } from '@virteex/billing-domain/lib/strategies/br-tax.strategy';
-import { TaxRuleEngine } from '@virteex/billing-domain/lib/services/tax-rule.engine';
+import { TaxStrategy, TaxResult } from '../strategies/tax-strategy.interface';
+import { MxTaxStrategy } from '../strategies/mx-tax.strategy';
+import { BrTaxStrategy } from '../strategies/br-tax.strategy';
+import { TaxRuleEngine } from './tax-rule.engine';
 
 @Injectable()
 export class TaxCalculatorService {

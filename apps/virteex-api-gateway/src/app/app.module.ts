@@ -10,23 +10,28 @@ import { LoggerModule } from 'nestjs-pino';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
-// Existing Modules
+// Domain Modules - Infrastructure
 import { BillingDomainModule } from '@virteex/billing-domain';
 import { BillingInfrastructureModule } from '@virteex/billing-infrastructure';
-import { BillingPresentationModule } from '@virteex/billing-presentation';
-import { IdentityPresentationModule } from '@virteex/identity-presentation';
-
-// Projects
 import { ProjectsInfrastructureModule } from '@virteex/projects-infrastructure';
 import { ManufacturingInfrastructureModule } from '@virteex/manufacturing-infrastructure';
 import { FixedAssetsInfrastructureModule } from '@virteex/fixed-assets-infrastructure';
-import { FixedAssetsPresentationModule } from '@virteex/fixed-assets-presentation';
-
 import { BiInfrastructureModule } from '@virteex/bi-infrastructure';
 import { AdminInfrastructureModule } from '@virteex/admin-infrastructure';
 import { FiscalInfrastructureModule } from '@virteex/fiscal-infrastructure';
+import { AccountingInfrastructureModule } from '@virteex/accounting-infrastructure';
+import { InventoryInfrastructureModule } from '@virteex/inventory-infrastructure';
+import { PayrollInfrastructureModule } from '@virteex/payroll-infrastructure';
+import { CrmInfrastructureModule } from '@virteex/crm-infrastructure';
+import { TreasuryInfrastructureModule } from '@virteex/treasury-infrastructure';
+import { PurchasingInfrastructureModule } from '@virteex/purchasing-infrastructure';
+import { CatalogInfrastructureModule } from '@virteex/catalog-infrastructure';
+import { IdentityInfrastructureModule } from '@virteex/identity-infrastructure';
 
-// New Modules
+// Domain Modules - Presentation
+import { BillingPresentationModule } from '@virteex/billing-presentation';
+import { IdentityPresentationModule } from '@virteex/identity-presentation';
+import { FixedAssetsPresentationModule } from '@virteex/fixed-assets-presentation';
 import { AccountingPresentationModule } from '@virteex/accounting-presentation';
 import { InventoryPresentationModule } from '@virteex/inventory-presentation';
 import { PayrollPresentationModule } from '@virteex/payroll-presentation';
@@ -54,7 +59,7 @@ import { CatalogPresentationModule } from '@virteex/catalog-presentation';
     ThrottlerModule.forRoot([
       {
         ttl: 60000,
-        limit: 100, // Reasonable limit
+        limit: 100,
       },
     ]),
     MikroOrmModule.forRootAsync({
@@ -78,18 +83,31 @@ import { CatalogPresentationModule } from '@virteex/catalog-presentation';
         };
       },
     }),
-    // Domain Modules
-    BillingDomainModule,
+
+    // Infrastructure Modules
     BillingInfrastructureModule,
-    BillingPresentationModule,
     ProjectsInfrastructureModule,
     ManufacturingInfrastructureModule,
     FixedAssetsInfrastructureModule,
-    FixedAssetsPresentationModule,
     BiInfrastructureModule,
     AdminInfrastructureModule,
     FiscalInfrastructureModule,
+    AccountingInfrastructureModule,
+    InventoryInfrastructureModule,
+    PayrollInfrastructureModule,
+    CrmInfrastructureModule,
+    TreasuryInfrastructureModule,
+    PurchasingInfrastructureModule,
+    CatalogInfrastructureModule,
+    IdentityInfrastructureModule,
+
+    // Domain Definition Modules (if needed)
+    BillingDomainModule,
+
+    // Presentation Modules
+    BillingPresentationModule,
     IdentityPresentationModule,
+    FixedAssetsPresentationModule,
     AccountingPresentationModule,
     InventoryPresentationModule,
     PayrollPresentationModule,

@@ -39,6 +39,15 @@ export interface SubscriptionPlan {
   features?: string;
 }
 
+export interface UsageItem {
+  resource: string;
+  used: number;
+  limit: number;
+  type: string;
+  isUnlimited: boolean;
+  isEnabled: boolean;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -63,9 +72,8 @@ export class BillingService {
       return this.http.get<PaymentHistoryItem[]>(`${this.apiUrl}/billing/history?tenantId=${tenantId}`);
   }
 
-  getUsage() {
-      // Logic for usage could also be dynamic, but for now it's out of scope of "plans hardcoded" issue.
-      return [{ resource: 'Invoices', used: 10, limit: 100, type: 'numeric', isUnlimited: false, isEnabled: true }];
+  getUsage(tenantId: string = 'default'): Observable<UsageItem[]> {
+      return this.http.get<UsageItem[]>(`${this.apiUrl}/billing/usage?tenantId=${tenantId}`);
   }
 
   changePlan(planId: string, tenantId: string = 'default') {

@@ -22,7 +22,7 @@ export class SubscriptionPlan {
   features!: string; // JSON string or array
 
   @Property()
-  isActive: boolean = true;
+  isActive = true;
 
   constructor(slug: string, name: string, price: string, description: string, features: string[]) {
     this.slug = slug;
