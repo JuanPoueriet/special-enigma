@@ -1,1 +1,1 @@
-export * from '@virteex/bi-contracts/src/lib/bi-contracts';
+export * from './lib/bi-contracts';

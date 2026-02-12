@@ -1,0 +1,182 @@
+
+--- Domain: accounting ---
+  [Infrastructure] Repositories: FOUND
+    - mikro-orm-journal-entry.repository.ts: Real (MikroORM)
+    - mikro-orm-account.repository.ts: Real (MikroORM)
+  [Application] Use Cases: FOUND
+    - record-journal-entry.use-case.ts: Implemented (Contains: throw new Error)
+    - get-accounts.use-case.ts: Implemented
+    - get-journal-entries.use-case.ts: Implemented
+    - create-account.use-case.ts: Implemented (Contains: throw new Error)
+  [UI] Services: FOUND
+    - accounting.service.ts: Real (HTTP)
+  [UI] Pages/Components: FOUND
+    - 4 components/pages found.
+
+--- Domain: admin ---
+  [Infrastructure] Repositories: FOUND
+    - mikro-orm-tenant-config.repository.ts: Real (MikroORM)
+  [Application] Use Cases: FOUND
+    - update-config.use-case.ts: Implemented
+  [UI] Services: NOT FOUND
+  [UI] Pages/Components: FOUND
+    - 8 components/pages found.
+
+--- Domain: bi ---
+  [Infrastructure] Repositories: FOUND
+    - mikro-orm-bi-report.repository.ts: Real (MikroORM)
+  [Application] Use Cases: FOUND
+    - get-top-products.use-case.ts: Implemented
+    - generate-report.use-case.ts: Implemented
+  [UI] Services: FOUND
+    - bi.service.ts: Real (HTTP)
+  [UI] Pages/Components: FOUND
+    - 4 components/pages found.
+
+--- Domain: billing ---
+  [Infrastructure] Repositories: FOUND
+    - mikro-orm-subscription.repository.ts: Real (MikroORM)
+    - mikro-orm-payment-method.repository.ts: Real (MikroORM)
+    - mikro-orm-invoice.repository.ts: Real (MikroORM)
+    - mikro-orm-subscription-plan.repository.ts: Real (MikroORM)
+  [Application] Use Cases: FOUND
+    - add-payment-method.use-case.ts: Implemented
+    - create-subscription.use-case.ts: Implemented
+    - create-invoice.use-case.ts: Implemented
+    - get-payment-history.use-case.ts: Implemented
+    - get-subscription.use-case.ts: Implemented
+    - get-payment-method.use-case.ts: Implemented
+    - get-invoices.use-case.ts: Implemented
+    - get-subscription-plans.use-case.ts: Implemented
+  [UI] Services: NOT FOUND
+  [UI] Pages/Components: FOUND
+    - 5 components/pages found.
+
+--- Domain: catalog ---
+  [Infrastructure] Repositories: FOUND
+    - mikro-orm-product.repository.ts: Real (MikroORM)
+  [Application] Use Cases: FOUND
+    - delete-product.use-case.ts: Implemented
+    - get-products.use-case.ts: Implemented
+    - create-product.use-case.ts: Implemented (Contains: throw new Error)
+    - update-product.use-case.ts: Implemented
+  [UI] Services: NOT FOUND
+  [UI] Pages/Components: FOUND
+    - 2 components/pages found.
+
+--- Domain: crm ---
+  [Infrastructure] Repositories: FOUND
+    - mikro-orm-sale.repository.ts: Real (MikroORM)
+  [Application] Use Cases: FOUND
+    - create-sale.use-case.ts: Implemented
+  [UI] Services: NOT FOUND
+  [UI] Pages/Components: FOUND
+    - 4 components/pages found.
+
+--- Domain: fiscal ---
+  [Infrastructure] Repositories: FOUND
+    - mikro-orm-tax-declaration.repository.ts: Real (MikroORM)
+  [Application] Use Cases: FOUND
+    - create-declaration.use-case.ts: Implemented
+    - get-tax-rules.use-case.ts: Implemented
+    - get-fiscal-stats.use-case.ts: Implemented
+  [UI] Services: FOUND
+    - fiscal.service.ts: Real (HTTP)
+  [UI] Pages/Components: FOUND
+    - 2 components/pages found.
+
+--- Domain: fixed-assets ---
+  [Infrastructure] Repositories: FOUND
+    - mikro-orm-fixed-asset.repository.ts: Real (MikroORM)
+  [Application] Use Cases: FOUND
+    - create-fixed-asset.use-case.ts: Implemented
+  [UI] Services: NOT FOUND
+  [UI] Pages/Components: FOUND
+    - 2 components/pages found.
+
+--- Domain: identity ---
+  [Infrastructure] Repositories: NOT FOUND
+  [Application] Use Cases: FOUND
+    - login-user.use-case.ts: Implemented
+    - verify-mfa.use-case.ts: Implemented
+    - register-user.use-case.ts: Implemented
+  [UI] Services: FOUND
+    - intent-detection.service.ts: Real (HTTP)
+    - auth.service.ts: Real (HTTP)
+  [UI] Pages/Components: FOUND
+    - 8 components/pages found.
+
+--- Domain: inventory ---
+  [Infrastructure] Repositories: FOUND
+    - mikro-orm-inventory.repository.ts: Real (MikroORM)
+    - mikro-orm-warehouse.repository.ts: Real (MikroORM)
+  [Application] Use Cases: FOUND
+    - get-warehouses.use-case.ts: Implemented
+    - register-movement.use-case.ts: Implemented (Contains: throw new Error)
+    - update-warehouse.use-case.ts: Implemented
+    - delete-warehouse.use-case.ts: Implemented
+    - create-warehouse.use-case.ts: Implemented (Contains: throw new Error)
+  [UI] Services: FOUND
+    - inventory.service.ts: Real (HTTP)
+    - product.service.ts: Real (HTTP)
+  [UI] Pages/Components: FOUND
+    - 5 components/pages found.
+
+--- Domain: manufacturing ---
+  [Infrastructure] Repositories: FOUND
+    - mikro-orm-production-order.repository.ts: Real (MikroORM)
+  [Application] Use Cases: FOUND
+    - create-production-order.use-case.ts: Implemented
+  [UI] Services: NOT FOUND
+  [UI] Pages/Components: FOUND
+    - 3 components/pages found.
+
+--- Domain: payroll ---
+  [Infrastructure] Repositories: FOUND
+    - mikro-orm-payroll.repository.ts: Real (MikroORM)
+    - mikro-orm-employee.repository.ts: Real (MikroORM)
+    - mikro-orm-tax-table.repository.ts: Real (MikroORM)
+  [Application] Use Cases: FOUND
+    - calculate-payroll.use-case.ts: Implemented (Contains: throw new Error)
+  [UI] Services: NOT FOUND
+  [UI] Pages/Components: FOUND
+    - 3 components/pages found.
+
+--- Domain: projects ---
+  [Infrastructure] Repositories: FOUND
+    - mikro-orm-project.repository.ts: Real (MikroORM)
+  [Application] Use Cases: FOUND
+    - get-projects.use-case.ts: Implemented
+    - create-project.use-case.ts: Implemented
+  [UI] Services: NOT FOUND
+  [UI] Pages/Components: FOUND
+    - 4 components/pages found.
+
+--- Domain: purchasing ---
+  [Infrastructure] Repositories: FOUND
+    - mikro-orm-purchase-order.repository.ts: Real (MikroORM)
+    - mikro-orm-supplier.repository.ts: Real (MikroORM)
+    - mikro-orm-requisition.repository.ts: Real (MikroORM)
+    - mikro-orm-vendor-bill.repository.ts: Real (MikroORM)
+  [Application] Use Cases: FOUND
+    - get-requisitions.use-case.ts: Implemented
+    - create-purchase-order.use-case.ts: Implemented (Contains: throw new Error)
+    - update-vendor-bill.use-case.ts: Implemented
+    - create-supplier.use-case.ts: Implemented (Contains: throw new Error)
+    - create-requisition.use-case.ts: Implemented
+    - create-vendor-bill.use-case.ts: Implemented
+    - get-vendor-bill.use-case.ts: Implemented
+  [UI] Services: NOT FOUND
+  [UI] Pages/Components: FOUND
+    - 5 components/pages found.
+
+--- Domain: treasury ---
+  [Infrastructure] Repositories: FOUND
+    - mikro-orm-bank-account.repository.ts: Real (MikroORM)
+  [Application] Use Cases: FOUND
+    - get-bank-accounts.use-case.ts: Implemented
+    - create-bank-account.use-case.ts: Implemented
+  [UI] Services: FOUND
+    - treasury.service.ts: Real (HTTP)
+  [UI] Pages/Components: FOUND
+    - 2 components/pages found.
