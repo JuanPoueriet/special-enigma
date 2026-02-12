@@ -1,26 +1,41 @@
 import { Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { Supplier, PurchaseOrder, PurchaseOrderItem, SUPPLIER_REPOSITORY, PURCHASE_ORDER_REPOSITORY } from '@virteex/purchasing-domain';
-import { MikroOrmSupplierRepository } from '@virteex/purchasing-infrastructure/lib/repositories/mikro-orm-supplier.repository';
-import { MikroOrmPurchaseOrderRepository } from '@virteex/purchasing-infrastructure/lib/repositories/mikro-orm-purchase-order.repository';
+import {
+  Supplier, PurchaseOrder, PurchaseOrderItem, Requisition, VendorBill,
+  SUPPLIER_REPOSITORY, PURCHASE_ORDER_REPOSITORY, REQUISITION_REPOSITORY, VENDOR_BILL_REPOSITORY
+} from '@virteex/purchasing-domain';
+import { MikroOrmSupplierRepository } from './repositories/mikro-orm-supplier.repository';
+import { MikroOrmPurchaseOrderRepository } from './repositories/mikro-orm-purchase-order.repository';
+import { MikroOrmRequisitionRepository } from './repositories/mikro-orm-requisition.repository';
+import { MikroOrmVendorBillRepository } from './repositories/mikro-orm-vendor-bill.repository';
 
 @Module({
   imports: [
-    MikroOrmModule.forFeature([Supplier, PurchaseOrder, PurchaseOrderItem])
+    MikroOrmModule.forFeature([Supplier, PurchaseOrder, PurchaseOrderItem, Requisition, VendorBill])
   ],
   providers: [
     {
-      provide: SUPPLIER_REPOSITORY,
+      provide: 'SUPPLIER_REPOSITORY',
       useClass: MikroOrmSupplierRepository
     },
     {
-      provide: PURCHASE_ORDER_REPOSITORY,
+      provide: 'PURCHASE_ORDER_REPOSITORY',
       useClass: MikroOrmPurchaseOrderRepository
+    },
+    {
+      provide: 'REQUISITION_REPOSITORY',
+      useClass: MikroOrmRequisitionRepository
+    },
+    {
+      provide: 'VENDOR_BILL_REPOSITORY',
+      useClass: MikroOrmVendorBillRepository
     }
   ],
   exports: [
-    SUPPLIER_REPOSITORY,
-    PURCHASE_ORDER_REPOSITORY,
+    'SUPPLIER_REPOSITORY',
+    'PURCHASE_ORDER_REPOSITORY',
+    'REQUISITION_REPOSITORY',
+    'VENDOR_BILL_REPOSITORY',
     MikroOrmModule
   ]
 })

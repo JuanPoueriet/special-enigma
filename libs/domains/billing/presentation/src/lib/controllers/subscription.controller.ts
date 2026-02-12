@@ -1,7 +1,10 @@
 import { Controller, Get, Post, Body, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { CreateSubscriptionUseCase, CreateSubscriptionDto } from '@virteex/billing-application';
-import { GetSubscriptionUseCase } from '@virteex/billing-application';
+import {
+  CreateSubscriptionUseCase,
+  CreateSubscriptionDto,
+  GetSubscriptionUseCase
+} from '../../../../application/src/index';
 
 @ApiTags('Billing')
 @Controller('billing/subscription')
@@ -13,13 +16,14 @@ export class SubscriptionController {
 
   @Post()
   @ApiOperation({ summary: 'Create a subscription' })
-  create(@Body() dto: CreateSubscriptionDto) {
-    return this.createSubscriptionUseCase.execute(dto);
+  async create(@Body() dto: CreateSubscriptionDto) {
+    return await this.createSubscriptionUseCase.execute(dto);
   }
 
   @Get()
   @ApiOperation({ summary: 'Get subscription by tenant' })
-  findOne(@Query('tenantId') tenantId: string) {
-    return this.getSubscriptionUseCase.execute(tenantId);
+  async findOne(@Query('tenantId') tenantId: string) {
+    const tid = tenantId || 'default-tenant';
+    return await this.getSubscriptionUseCase.execute(tid);
   }
 }

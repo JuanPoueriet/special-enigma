@@ -32,56 +32,65 @@ export class FinkokPacProvider implements PacProvider {
       </soapenv:Envelope>
     `;
 
-    try {
-      const response = await axios.post(this.url, soapEnvelope, {
-        headers: {
-          'Content-Type': 'text/xml;charset=UTF-8',
-          'SOAPAction': 'stamp'
+    let lastError: any;
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      try {
+        const response = await axios.post(this.url, soapEnvelope, {
+          headers: {
+            'Content-Type': 'text/xml;charset=UTF-8',
+            'SOAPAction': 'stamp'
+          }
+        });
+
+        const responseBody = response.data;
+        const parsed = this.parser.parse(responseBody);
+
+        // Navigate SOAP structure (Envelope -> Body -> stampResponse -> stampResult)
+        // Structure depends on library config (removeNSPrefix handles namespaces)
+        const body = parsed?.Envelope?.Body;
+        const result = body?.stampResponse?.stampResult;
+        const fault = body?.Fault;
+
+        if (fault) {
+           const faultString = fault.faultstring;
+           throw new Error(`Finkok Error: ${faultString}`);
         }
-      });
 
-      const responseBody = response.data;
-      const parsed = this.parser.parse(responseBody);
+        if (result) {
+           const xmlResult = result.xml;
+           const uuid = result.UUID;
+           const selloSAT = result.SatSeal;
+           const selloCFD = result.codestatus || ''; // Attempt to find real seal if available, or empty.
+           const fechaTimbrado = result.Date;
 
-      // Navigate SOAP structure (Envelope -> Body -> stampResponse -> stampResult)
-      // Structure depends on library config (removeNSPrefix handles namespaces)
-      const body = parsed?.Envelope?.Body;
-      const result = body?.stampResponse?.stampResult;
-      const fault = body?.Fault;
+           if (!xmlResult || !uuid) {
+               throw new Error('Invalid response structure from Finkok');
+           }
 
-      if (fault) {
-         const faultString = fault.faultstring;
-         throw new Error(`Finkok Error: ${faultString}`);
+           return {
+               uuid,
+               selloSAT: selloSAT || '',
+               selloCFD: selloCFD,
+               fechaTimbrado: fechaTimbrado || new Date().toISOString(),
+               xml: xmlResult
+           };
+        } else {
+           throw new Error('Unknown response format from Finkok');
+        }
+
+      } catch (error: any) {
+        console.error(`Finkok stamp attempt ${attempt} failed: ${error.message}`);
+        lastError = error;
+        if (attempt < 3) {
+            await new Promise(resolve => setTimeout(resolve, attempt * 1000));
+        }
       }
-
-      if (result) {
-         const xmlResult = result.xml;
-         const uuid = result.UUID;
-         const selloSAT = result.SatSeal;
-         const selloCFD = result.codestatus || ''; // Attempt to find real seal if available, or empty.
-         const fechaTimbrado = result.Date;
-
-         if (!xmlResult || !uuid) {
-             throw new Error('Invalid response structure from Finkok');
-         }
-
-         return {
-             uuid,
-             selloSAT: selloSAT || '',
-             selloCFD: selloCFD,
-             fechaTimbrado: fechaTimbrado || new Date().toISOString(),
-             xml: xmlResult
-         };
-      } else {
-         throw new Error('Unknown response format from Finkok');
-      }
-
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`PAC Connection Error: ${error.message}`);
-      }
-      throw error;
     }
+
+    if (axios.isAxiosError(lastError)) {
+      throw new Error(`PAC Connection Error after 3 attempts: ${lastError.message}`);
+    }
+    throw lastError;
   }
 
   async cancel(uuid: string): Promise<boolean> {

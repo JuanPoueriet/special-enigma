@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { PayrollApplicationModule } from '../../../application/src/index';
+import { PayrollApplicationModule, CalculatePayrollUseCase } from '../../../application/src/index';
 import { PayrollInfrastructureModule } from '../../../infrastructure/src/index';
 import { PayrollController } from './controllers/payroll.controller';
 
@@ -9,7 +9,7 @@ import { PayrollController } from './controllers/payroll.controller';
     PayrollInfrastructureModule
   ],
   controllers: [PayrollController],
-  providers: [],
+  providers: [CalculatePayrollUseCase],
   exports: [PayrollApplicationModule, PayrollInfrastructureModule]
 })
 export class PayrollPresentationModule {}

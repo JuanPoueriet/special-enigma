@@ -9,7 +9,7 @@ import {
   UpdateWarehouseUseCase,
   UpdateWarehouseDto,
   DeleteWarehouseUseCase
-} from '@virteex/inventory-application';
+} from '../../../../application/src/index';
 
 @ApiTags('Inventory')
 @Controller('inventory')

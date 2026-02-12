@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
+import { SqliteDriver } from '@mikro-orm/sqlite';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ServerConfigModule } from '@virteex/shared-util-server-config';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
@@ -59,20 +60,23 @@ import { CatalogPresentationModule } from '@virteex/catalog-presentation';
     MikroOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        driver: PostgreSqlDriver,
-        host: configService.getOrThrow<string>('DB_HOST'),
-        port: configService.getOrThrow<number>('DB_PORT'),
-        user: configService.getOrThrow<string>('DB_USER'),
-        password: configService.getOrThrow<string>('DB_PASSWORD'),
-        dbName: configService.getOrThrow<string>('DB_NAME'),
-        autoLoadEntities: true,
-        driverOptions: configService.get<boolean>('DB_SSL_ENABLED')
-          ? {
-              connection: { ssl: { rejectUnauthorized: false } },
-            }
-          : undefined,
-      }),
+      useFactory: (configService: ConfigService) => {
+        const isPostgres = configService.get('DB_DRIVER') === 'postgres';
+        return {
+          driver: isPostgres ? PostgreSqlDriver : SqliteDriver,
+          host: isPostgres ? configService.get<string>('DB_HOST') : undefined,
+          port: isPostgres ? configService.get<number>('DB_PORT') : undefined,
+          user: isPostgres ? configService.get<string>('DB_USER') : undefined,
+          password: isPostgres ? configService.get<string>('DB_PASSWORD') : undefined,
+          dbName: configService.get<string>('DB_NAME') || (isPostgres ? 'virteex' : 'virteex.db'),
+          autoLoadEntities: true,
+          driverOptions: (isPostgres && configService.get<boolean>('DB_SSL_ENABLED'))
+            ? {
+                connection: { ssl: { rejectUnauthorized: false } },
+              }
+            : undefined,
+        };
+      },
     }),
     // Domain Modules
     BillingDomainModule,

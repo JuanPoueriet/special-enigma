@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy, inject, OnInit, signal } from '@ang
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule, CreditCard, Download, CheckCircle, Info } from 'lucide-angular';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { BillingService, Subscription, PaymentMethod, PaymentHistoryItem } from '@virteex/billing-ui/core/services/billing';
+import { BillingService, Subscription, PaymentMethod, PaymentHistoryItem } from '../../core/services/billing';
 
 @Component({
   selector: 'virteex-billing-page',
@@ -29,9 +29,9 @@ export class BillingPage implements OnInit {
   // Estado para la UI
   selectedPlan = signal<string>('pro');
   isSaving = signal(false);
-  availablePlans = this.billingService.plans;
+  availablePlans = toSignal(this.billingService.getPlans(), { initialValue: [] });
 
-  usageMetrics = toSignal(this.billingService.getUsage(), { initialValue: [] });
+  usageMetrics = signal(this.billingService.getUsage());
 
   ngOnInit(): void {
     // Inicializa el plan seleccionado con el plan actual del usuario

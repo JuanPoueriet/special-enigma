@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { StepConfiguration } from '@virteex/identity-ui/src/lib/pages/auth/register/steps/step-configuration/step-configuration';
+import { StepConfiguration } from './step-configuration';
 import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { CountryService } from '@virteex/shared-ui/lib/core/services/country.service';

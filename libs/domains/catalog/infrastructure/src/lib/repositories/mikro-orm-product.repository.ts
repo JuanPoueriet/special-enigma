@@ -1,44 +1,40 @@
 import { Injectable } from '@nestjs/common';
-import { EntityRepository } from '@mikro-orm/core';
-import { InjectRepository } from '@mikro-orm/nestjs';
-import { Product } from '@virteex/catalog-domain/lib/entities/product.entity';
-import { ProductRepository } from '@virteex/catalog-domain/lib/repositories/product.repository';
+import { EntityManager } from '@mikro-orm/core';
+import { Product } from '@virteex/catalog-domain';
+import { ProductRepository } from '@virteex/catalog-domain';
 
 @Injectable()
 export class MikroOrmProductRepository implements ProductRepository {
-  constructor(
-    @InjectRepository(Product)
-    private readonly repository: EntityRepository<Product>,
-  ) {}
+  constructor(private readonly em: EntityManager) {}
 
   async findAll(tenantId: string): Promise<Product[]> {
-    return this.repository.find({ tenantId });
+    return this.em.find(Product, { tenantId });
   }
 
   async create(product: Product): Promise<Product> {
-    this.repository.getEntityManager().persist(product);
-    await this.repository.getEntityManager().flush();
+    this.em.persist(product);
+    await this.em.flush();
     return product;
   }
 
   async findBySku(sku: string): Promise<Product | null> {
-    return this.repository.findOne({ sku });
+    return this.em.findOne(Product, { sku });
   }
 
   async save(product: Product): Promise<void> {
-    this.repository.getEntityManager().persist(product);
-    await this.repository.getEntityManager().flush();
+    this.em.persist(product);
+    await this.em.flush();
   }
 
   async findById(id: number): Promise<Product | null> {
-    return this.repository.findOne({ id });
+    return this.em.findOne(Product, { id });
   }
 
   async delete(id: number): Promise<void> {
-    const product = await this.repository.findOne({ id });
+    const product = await this.em.findOne(Product, { id });
     if (product) {
-      this.repository.getEntityManager().remove(product);
-      await this.repository.getEntityManager().flush();
+      this.em.remove(product);
+      await this.em.flush();
     }
   }
 }

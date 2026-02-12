@@ -1,17 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ForgotPasswordPage } from '@virteex/identity-ui/src/lib/pages/auth/forgot-password/forgot-password/forgot-password.page';
+import { ForgotPasswordPage } from './forgot-password.page';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideRouter } from '@angular/router';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthService } from '@virteex/identity-ui/src/lib/services/auth.service';
-import { LanguageService } from '@virteex/shared-ui/lib/core/services/language';
+import { AuthService } from '../../../../services/auth.service';
+import { LanguageService } from '@virteex/shared-ui';
 import { of, Observable } from 'rxjs';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { AuthLayoutComponent } from '@virteex/identity-ui/src/lib/pages/auth/components/auth-layout/auth-layout.component';
-import { AuthInputComponent } from '@virteex/identity-ui/src/lib/pages/auth/components/auth-input/auth-input.component';
-import { AuthButtonComponent } from '@virteex/identity-ui/src/lib/pages/auth/components/auth-button/auth-button.component';
-import { ReCaptchaV3Service } from 'ng-recaptcha-19';
+import { AuthLayoutComponent } from '../../components/auth-layout/auth-layout.component';
+import { AuthInputComponent } from '../../components/auth-input/auth-input.component';
+import { AuthButtonComponent } from '../../components/auth-button/auth-button.component';
+import { ReCaptchaV3Service, RECAPTCHA_V3_SITE_KEY } from 'ng-recaptcha-19';
+import { APP_CONFIG } from '@virteex/shared-config';
 import { vi } from 'vitest';
 
 class FakeLoader implements TranslateLoader {
@@ -53,6 +54,8 @@ describe('ForgotPasswordPage', () => {
         { provide: AuthService, useClass: MockAuthService },
         { provide: ReCaptchaV3Service, useClass: MockRecaptchaService },
         { provide: LanguageService, useClass: MockLanguageService },
+        { provide: APP_CONFIG, useValue: { recaptcha: { siteKey: 'mock-key' } } },
+        { provide: RECAPTCHA_V3_SITE_KEY, useValue: 'mock-key' }
       ]
     }).compileComponents();
 

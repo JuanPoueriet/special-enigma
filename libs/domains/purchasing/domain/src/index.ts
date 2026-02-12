@@ -5,3 +5,7 @@ export * from './lib/ports/supplier.repository.port';
 export * from './lib/ports/purchase-order.repository.port';
 export * from './lib/enums/supplier-type.enum';
 export * from './lib/enums/purchase-order-status.enum';
+export * from './lib/entities/requisition.entity';
+export * from './lib/entities/vendor-bill.entity';
+export * from './lib/repositories/requisition.repository';
+export * from './lib/repositories/vendor-bill.repository';

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { BANK_ACCOUNT_REPOSITORY, BankAccount, CashFlow } from '../../../domain/src/index';
+import { BankAccount, CashFlow } from '../../../domain/src/index';
 import { MikroOrmBankAccountRepository } from './repositories/mikro-orm-bank-account.repository';
 
 @Module({
@@ -9,12 +9,12 @@ import { MikroOrmBankAccountRepository } from './repositories/mikro-orm-bank-acc
   ],
   providers: [
     {
-      provide: BANK_ACCOUNT_REPOSITORY,
+      provide: 'BANK_ACCOUNT_REPOSITORY',
       useClass: MikroOrmBankAccountRepository,
     },
   ],
   exports: [
-    BANK_ACCOUNT_REPOSITORY,
+    'BANK_ACCOUNT_REPOSITORY',
     MikroOrmModule
   ],
 })

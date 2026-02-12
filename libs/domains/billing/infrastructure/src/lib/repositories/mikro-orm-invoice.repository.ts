@@ -22,4 +22,8 @@ export class MikroOrmInvoiceRepository implements InvoiceRepository {
   async findAll(): Promise<Invoice[]> {
       return this.repository.findAll();
   }
+
+  async findByTenantId(tenantId: string): Promise<Invoice[]> {
+    return this.repository.find({ tenantId });
+  }
 }

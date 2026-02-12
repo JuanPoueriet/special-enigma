@@ -1,8 +1,32 @@
 import { Module } from '@nestjs/common';
+import { CreateSupplierUseCase } from './use-cases/create-supplier.use-case';
+import { CreatePurchaseOrderUseCase } from './use-cases/create-purchase-order.use-case';
+import { CreateRequisitionUseCase } from './use-cases/create-requisition.use-case';
+import { GetRequisitionsUseCase } from './use-cases/get-requisitions.use-case';
+import { CreateVendorBillUseCase } from './use-cases/create-vendor-bill.use-case';
+import { UpdateVendorBillUseCase } from './use-cases/update-vendor-bill.use-case';
+import { GetVendorBillUseCase } from './use-cases/get-vendor-bill.use-case';
+import { PurchasingInfrastructureModule } from '../../../infrastructure/src/index';
 
 @Module({
-  imports: [],
-  providers: [],
-  exports: []
+  imports: [PurchasingInfrastructureModule],
+  providers: [
+    CreateSupplierUseCase,
+    CreatePurchaseOrderUseCase,
+    CreateRequisitionUseCase,
+    GetRequisitionsUseCase,
+    CreateVendorBillUseCase,
+    UpdateVendorBillUseCase,
+    GetVendorBillUseCase
+  ],
+  exports: [
+    CreateSupplierUseCase,
+    CreatePurchaseOrderUseCase,
+    CreateRequisitionUseCase,
+    GetRequisitionsUseCase,
+    CreateVendorBillUseCase,
+    UpdateVendorBillUseCase,
+    GetVendorBillUseCase
+  ]
 })
 export class PurchasingApplicationModule {}

@@ -30,8 +30,8 @@ import {
 } from 'lucide-angular';
 import { AuthService, UsersService, FileUtil } from '@virteex/shared-ui';
 import { NotificationService } from '@virteex/identity-domain';
-import { SecuritySettingsComponent } from '@virteex/identity-ui';
-import { PhoneVerificationModalComponent } from '@virteex/identity-ui';
+import { SecuritySettingsComponent } from '../components/security-settings/security-settings.component';
+import { PhoneVerificationModalComponent } from '../components/phone-verification-modal/phone-verification-modal.component';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslateModule } from '@ngx-translate/core';
 import { catchError, of } from 'rxjs';
