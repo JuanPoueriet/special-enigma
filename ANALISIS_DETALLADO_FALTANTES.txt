@@ -1,0 +1,106 @@
+INFORME DETALLADO DE ANÁLISIS DE BRECHAS FUNCIONALES Y COMERCIALES (VIRTEEX ERP)
+
+FECHA: 2024-05-22
+OBJETIVO: Identificar los elementos faltantes para alcanzar una funcionalidad del 100% (sin mocks) y preparación comercial.
+ALCANCE: Backend (Domain, Application, Infrastructure, Presentation) y Frontend (UI Libraries).
+
+---
+
+## 1. ANÁLISIS DETALLADO DEL BACKEND (FUNCIONALIDAD Y MOCKS)
+
+Se ha realizado una revisión exhaustiva de los repositorios, casos de uso y controladores de cada dominio. A continuación, se detallan los hallazgos críticos:
+
+### A. DOMINIO FISCAL (CRÍTICO - MOCK DETECTADO)
+- **Estado:** Parcialmente Implementado / Mock.
+- **Hallazgo:** El caso de uso `GetFiscalStatsUseCase` (`libs/domains/fiscal/application/src/lib/use-cases/get-fiscal-stats.use-case.ts`) devuelve datos estáticos (hardcoded) para `taxesPayable`, `pendingDeclarations`, etc.
+- **Impacto:** El Dashboard Fiscal es puramente visual y no refleja la realidad contable o fiscal de la empresa.
+- **Acción Requerida:** Implementar la lógica real que agregue datos de `Accounting` (Asientos Contables) y `Billing` (Facturas) para calcular los impuestos reales.
+
+### B. DOMINIO CRM (CRÍTICO - INCOMPLETO)
+- **Estado:** Incompleto (Solo Escritura).
+- **Hallazgo:** El backend solo implementa `CreateSaleUseCase`. No existe `GetSalesUseCase`, `ListSalesUseCase` ni el controlador correspondiente para listar ventas.
+- **Impacto:** Los usuarios pueden crear ventas pero no pueden verlas, editarlas ni gestionarlas. El módulo es funcionalmente inútil para la operación diaria.
+- **Acción Requerida:** Crear `GetSalesUseCase`, `ListSalesQuery` y los endpoints `GET /crm/sales` en el controlador.
+
+### C. DOMINIO TREASURY (TESORERÍA) (ALTO - INCOMPLETO)
+- **Estado:** Parcial (Solo Cuentas Bancarias).
+- **Hallazgo:** Solo existe el repositorio para `BankAccount`. Faltan los repositorios y casos de uso para `CashFlow` (Flujo de Caja) y `Transaction` (Transacciones Bancarias), a pesar de que las entidades de dominio existen.
+- **Impacto:** No se pueden registrar movimientos bancarios, conciliaciones ni ver el flujo de efectivo real.
+- **Acción Requerida:** Implementar `MikroOrmTransactionRepository`, `RegisterTransactionUseCase` y `GetCashFlowUseCase`.
+
+### D. DOMINIO BI (INTELIGENCIA DE NEGOCIOS) (MEDIO - LÓGICA TRIVIAL)
+- **Estado:** Funcional pero Trivial.
+- **Hallazgo:** `GenerateReportUseCase` existe y conecta con la base de datos, pero su lógica se limita a "contar" asientos contables (`journalEntryRepository.count()`). No genera reportes financieros reales (Balance General, Estado de Resultados).
+- **Acción Requerida:** Implementar lógica de agregación compleja (Sumas por cuenta, rangos de fecha, agrupación por tipo de cuenta) para generar reportes financieros útiles.
+
+### E. DOMINIO BILLING (FACTURACIÓN) (BAJO - MOCK MENOR)
+- **Estado:** Mayormente Real.
+- **Hallazgo:** Los planes de suscripción (`GetSubscriptionPlans`) vienen de base de datos, lo cual es correcto. Sin embargo, la lógica de cálculo de uso (`GetUsage`) no parece estar implementada en el backend, delegando o mockeando esto.
+
+---
+
+## 2. ANÁLISIS DETALLADO DEL FRONTEND (UI Y SERVICIOS)
+
+### A. BILLING UI (MOCK DETECTADO)
+- **Archivo:** `libs/domains/billing/ui/src/lib/core/services/billing.ts`
+- **Hallazgo:** El método `getUsage()` retorna un array estático: `[{ resource: 'Invoices', used: 10, ... }]`.
+- **Impacto:** El usuario siempre verá el mismo consumo, sin importar su actividad real.
+- **Acción Requerida:** Conectar este método a un endpoint real `/billing/usage` que calcule el consumo real del tenant.
+
+### B. CRM UI (FUNCIONALIDAD LIMITADA)
+- **Archivo:** `libs/domains/crm/ui/src/lib/core/services/crm.service.ts`
+- **Hallazgo:** El servicio solo tiene métodos `createSale` y `getProducts`. Falta `getSales()`.
+- **Impacto:** La interfaz de "Lista de Ventas" no tiene datos reales que consumir.
+- **Acción Requerida:** Implementar `getSales()` en el servicio y conectarlo al nuevo endpoint del backend.
+
+### C. CATALOG & PROJECTS UI
+- **Estado:** Aparentemente funcional.
+- **Observación:** Los servicios (`CatalogService`, `ProjectsService`) usan `HttpClient` correctamente y los controladores backend existen. No se detectaron mocks explícitos en el código revisado.
+
+---
+
+## 3. INFRAESTRUCTURA Y PREPARACIÓN COMERCIAL (NO FUNCIONAL)
+
+Para ser "Comercialmente Viable", la aplicación carece de robustez en observabilidad y manejo de errores en producción.
+
+### A. OBSERVABILIDAD (CRÍTICO - ZOMBIE STACK)
+- **Hallazgo:** El archivo `docker-compose.yml` define un stack completo de observabilidad (Jaeger, Prometheus, Grafana).
+- **Problema:** La aplicación (`apps/virteex-api-gateway`) **NO** instrumenta estas herramientas.
+  - No hay `OpenTelemetry SDK` inicializado.
+  - No hay métricas de Prometheus expuestas (`prom-client`).
+  - Los contenedores de Jaeger/Prometheus consumen recursos pero no reciben datos.
+- **Acción Requerida:** Integrar `nestjs-otel` o configurar OpenTelemetry manualmente en `main.ts` para enviar trazas a Jaeger y métricas a Prometheus.
+
+### B. LOGGING Y ERRORES (ALTO)
+- **Hallazgo:** Se usa `nestjs-pino`, lo cual es bueno para logs estructurados en consola.
+- **Problema:** No hay configuración para enviar estos logs a un sistema persistente (Elasticsearch, Loki, CloudWatch) ni integración con herramientas de monitoreo de errores (Sentry, Datadog).
+- **Impacto:** En producción, si ocurre un error, los logs se pierden al reiniciarse el contenedor. No hay alertas proactivas.
+- **Acción Requerida:** Configurar un transporte de Pino para enviar logs a un sistema centralizado e implementar un Interceptor global para reportar excepciones a Sentry.
+
+### C. ARQUITECTURA DE MÓDULOS (MEDIO - DEUDA TÉCNICA)
+- **Hallazgo:** Inconsistencia en `AppModule`.
+  - Algunos dominios importan `InfrastructureModule` explícitamente (`Billing`, `Projects`).
+  - Otros solo importan `PresentationModule` (`Accounting`, `Fiscal`), confiando en que este último importe la Infraestructura internamente.
+- **Riesgo:** Esto crea un acoplamiento confuso. Si `Presentation` deja de importar `Infrastructure`, la inyección de dependencias fallará en tiempo de ejecución (missing providers).
+- **Acción Requerida:** Estandarizar la importación de módulos en `AppModule` para que sea explícita y uniforme (Clean Architecture estricta).
+
+---
+
+## RESUMEN EJECUTIVO
+
+La aplicación **NO está lista para comercialización** (aprox. 70% funcional).
+
+1.  **Backend:** El núcleo transaccional (Accounting, Billing) es real, pero los módulos periféricos (Fiscal, Treasury, CRM) están incompletos o mockeados.
+2.  **Frontend:** Refleja las carencias del backend (CRM sin listas) y contiene mocks menores (Billing Usage).
+3.  **Infraestructura:** El stack de monitoreo es "decorativo" (no conectado).
+
+**Pasos Inmediatos para el 100%:**
+1.  Reemplazar el mock de `GetFiscalStatsUseCase` por lógica real.
+2.  Implementar `ListSales` en CRM (Backend y Frontend).
+3.  Implementar persistencia de `Transactions` en Treasury.
+4.  Conectar la aplicación NestJS al stack de Jaeger/Prometheus existente.
+
+### D. CI/CD (CRÍTICO - BLOQUEO ADMINISTRATIVO)
+- **Hallazgo:** La cuenta de GitHub está bloqueada por problemas de facturación (Billing Issue).
+- **Impacto:** Los pipelines de integración continua (CI) fallan inmediatamente. No se puede validar código automáticamente.
+- **Acción Requerida:** Resolver el estado de facturación de la cuenta de GitHub propietaria del repositorio.
