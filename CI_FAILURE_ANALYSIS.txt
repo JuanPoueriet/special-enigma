@@ -13,5 +13,17 @@ Durante el proceso de Verificación Continua (CI), se detectó que los flujos de
 - **Bloqueo de Despliegues:** No es posible desplegar automáticamente nuevas versiones.
 - **Riesgo de Regresión:** Las pruebas automáticas no se ejecutan, aumentando el riesgo de bugs en producción.
 
+## ACCIÓN DE MITIGACIÓN IMPLEMENTADA
+- **Deshabilitación de CI Automático:** Se han eliminado los disparadores automáticos (`push`, `pull_request`) en `.github/workflows/ci-cd.yml` para evitar fallos constantes en el repositorio.
+- **Verificación Local:** Se ha creado el script `verify_locally.sh` para permitir a los desarrolladores ejecutar las validaciones críticas (Lint, Test, Policies) localmente antes de hacer push.
+
+## HALLAZGOS DE VERIFICACIÓN LOCAL
+- Al ejecutar `verify_locally.sh`, se detectaron múltiples fallos de **Linting** (92 proyectos afectados), principalmente por violaciones de límites de módulo (`@nx/enforce-module-boundaries`).
+- **Acción Requerida:** El equipo de desarrollo debe corregir estos errores de linting localmente antes de reactivar el CI.
+
+## INSTRUCCIONES DE USO
+1. Ejecutar `./verify_locally.sh` antes de cada commit.
+2. Una vez resuelto el problema de facturación, restaurar los triggers en `.github/workflows/ci-cd.yml`.
+
 ## RECOMENDACIÓN
 - Contactar inmediatamente con el soporte de GitHub o revisar la configuración de facturación de la organización/usuario propietario del repositorio.
