@@ -9,7 +9,9 @@ export class GetCashFlowUseCase {
     private readonly transactionRepository: TransactionRepository
   ) {}
 
-  async execute(tenantId: string): Promise<Transaction[]> {
-    return this.transactionRepository.findAll(tenantId);
+  async execute(tenantId: string, startDate?: Date, endDate?: Date): Promise<any[]> {
+    const start = startDate || new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+    const end = endDate || new Date();
+    return this.transactionRepository.getCashFlowReport(tenantId, start, end);
   }
 }
