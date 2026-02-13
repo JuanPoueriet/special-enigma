@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { ConfigModule } from '@nestjs/config';
 import {
   User, Company, AuditLog, Session,
   UserRepository, CompanyRepository, AuditLogRepository, SessionRepository,
@@ -14,6 +15,8 @@ import { MikroOrmSessionRepository } from './persistence/mikro-orm-session.repos
 import { NodeCryptoAuthService } from './services/node-crypto-auth.service';
 import { NodemailerNotificationService } from './services/nodemailer-notification.service';
 import { DefaultRiskEngineService } from './services/risk-engine.service';
+import { MailQueueProducer } from './services/mail-queue.producer';
+import { MailProcessor } from './services/mail.processor';
 
 import {
   RegisterUserUseCase, LoginUserUseCase, VerifyMfaUseCase, StoragePort,
@@ -24,10 +27,15 @@ import { StorageAdapter } from './adapters/storage.adapter';
 
 @Module({
   imports: [
+    ConfigModule,
     MikroOrmModule.forFeature([User, Company, AuditLog, Session]),
     SharedInfrastructureStorageModule
   ],
   providers: [
+    // Queue Services
+    MailQueueProducer,
+    MailProcessor,
+
     // Ports Implementations
     { provide: UserRepository, useClass: MikroOrmUserRepository },
     { provide: CompanyRepository, useClass: MikroOrmCompanyRepository },

@@ -56,15 +56,22 @@ export class AuthController {
   @ApiOperation({ summary: 'Get client location' })
   async getLocation(@Req() req: Request): Promise<any> {
     try {
-      // In a real production environment, we might want to pass the client IP
-      // to the service if we are behind a proxy, e.g. https://ipapi.co/{ip}/json/
-      // For now, we just proxy the request to avoid CORS and hide API key if we had one.
-      const response = await fetch('https://ipapi.co/json/');
-      if (!response.ok) {
-         console.warn('Failed to fetch location from ipapi.co');
-         return { country_code: 'US' };
+      const ip = req.ip || req.headers['x-forwarded-for'] || '127.0.0.1';
+      // geoip.lookup might return null for private/local IPs
+      const geo = require('geoip-lite').lookup(ip);
+
+      if (!geo) {
+          // Default fallback for localhost or unknown IPs
+          return { country_code: 'US', city: 'Unknown', ip };
       }
-      return await response.json();
+
+      return {
+          country_code: geo.country,
+          city: geo.city,
+          region: geo.region,
+          timezone: geo.timezone,
+          ip
+      };
     } catch (error) {
       console.error('Error fetching location:', error);
       return { country_code: 'US' };

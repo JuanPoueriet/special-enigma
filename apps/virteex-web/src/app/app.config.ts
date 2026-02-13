@@ -6,6 +6,7 @@ import { provideRouter } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { appRoutes } from './app.routes';
 import { authInterceptor, errorInterceptor } from '@virteex/shared-util-auth';
+import { loadingInterceptor } from '@virteex/shared-util-http';
 import { APP_CONFIG, AppConfig } from '@virteex/shared-config';
 import { environment } from '../environments/environment';
 import { API_URL } from '@virteex/shared-ui';
@@ -14,7 +15,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
       provideBrowserGlobalErrorListeners(),
       provideRouter(appRoutes),
-      provideHttpClient(withInterceptors([authInterceptor, errorInterceptor])),
+      provideHttpClient(withInterceptors([loadingInterceptor, authInterceptor, errorInterceptor])),
       { provide: APP_CONFIG, useValue: environment },
       {
         provide: API_URL,

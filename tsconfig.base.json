@@ -444,6 +444,7 @@
       "@virteex/accounting-ui": ["libs/domains/accounting/ui/src/index.ts"],
       "@virteex/accounting-ui/*": ["libs/domains/accounting/ui/src/*"],
       "@virteex/shared-util-auth": ["libs/shared/util/auth/src/index.ts"],
+      "@virteex/shared-util-http": ["libs/shared/util/http/src/index.ts"],
       "@virteex/shared-util-auth/*": ["libs/shared/util/auth/src/*"],
       "@virteex/shared-util-server-config": [
         "libs/shared/util/server-config/src/index.ts"

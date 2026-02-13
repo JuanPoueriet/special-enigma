@@ -126,7 +126,11 @@
             @for (plan of availablePlans(); track plan.id) {
             <div class="plan-card" [class.selected]="selectedPlan() === plan.slug" (click)="selectPlan(plan.slug)">
                 <h4>{{ plan.name }}</h4>
-                <!-- TODO: Show price properly from limits or meta -->
+                <div class="plan-price-tag">
+                    <span class="currency">$</span>
+                    <span class="amount">{{ plan.price | number:'1.2-2' }}</span>
+                    <span class="period">/ {{ plan.billingCycle }}</span>
+                </div>
                 <p class="plan-desc">{{ plan.description }}</p>
                 @if (subscription()?.planId === plan.slug) { <div class="current-plan-chip">Plan Actual</div> }
             </div>

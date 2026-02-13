@@ -1,16 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
+import { SaleRepository } from '@virteex/crm-domain';
 
 @Injectable()
 export class GetTopProductsUseCase {
-  execute(tenantId: string) {
-    // Return aggregated data for top products.
-    // In a real scenario, this would query the Order/Invoice repositories.
-    return [
-      { name: 'Product A', value: 12000 },
-      { name: 'Product B', value: 8500 },
-      { name: 'Product C', value: 5000 },
-      { name: 'Product D', value: 3200 },
-      { name: 'Product E', value: 1500 }
-    ];
+  constructor(
+    @Inject(SaleRepository) private readonly saleRepository: SaleRepository
+  ) {}
+
+  async execute(tenantId: string) {
+    return this.saleRepository.getTopProducts(tenantId, 5);
   }
 }

@@ -20,4 +20,21 @@ export class MikroOrmSaleRepository implements SaleRepository {
   async findAll(tenantId: string): Promise<Sale[]> {
     return this.em.find(Sale, { tenantId }, { populate: ['items'], orderBy: { createdAt: 'DESC' } });
   }
+
+  async getTopProducts(tenantId: string, limit: number): Promise<{ name: string; value: number }[]> {
+    const qb = this.em.createQueryBuilder(Sale, 's');
+    const result = await qb
+      .select(['si.productName as name', 'sum(si.quantity * si.price) as value'])
+      .join('s.items', 'si')
+      .where({ 's.tenantId': tenantId, 's.status': 'COMPLETED' })
+      .groupBy('si.productName')
+      .orderBy({ value: 'DESC' })
+      .limit(limit)
+      .execute();
+
+    return result.map((r: any) => ({
+      name: r.name,
+      value: Number(r.value),
+    }));
+  }
 }

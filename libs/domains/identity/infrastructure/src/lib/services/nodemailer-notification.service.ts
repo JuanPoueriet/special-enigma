@@ -1,35 +1,19 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NotificationService, User } from '@virteex/identity-domain';
-import * as nodemailer from 'nodemailer';
+import { MailQueueProducer } from './mail-queue.producer';
 
 @Injectable()
 export class NodemailerNotificationService implements NotificationService {
   private readonly logger = new Logger(NodemailerNotificationService.name);
-  private transporter: nodemailer.Transporter;
 
-  constructor(private readonly configService: ConfigService) {
-    const host = this.configService.getOrThrow<string>('SMTP_HOST');
-    const port = this.configService.getOrThrow<number>('SMTP_PORT');
-    const user = this.configService.getOrThrow<string>('SMTP_USER');
-    const pass = this.configService.getOrThrow<string>('SMTP_PASSWORD');
-    const secure = this.configService.get<boolean>('SMTP_SECURE') ?? false;
-
-    this.transporter = nodemailer.createTransport({
-      host,
-      port,
-      secure,
-      auth: {
-        user,
-        pass,
-      },
-    });
-  }
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly mailQueueProducer: MailQueueProducer
+  ) {}
 
   async sendWelcomeEmail(user: User, tempPassword?: string): Promise<void> {
-    const from = this.configService.get<string>('SMTP_FROM') || '"Virteex ERP" <no-reply@virteex.com>';
-
-    this.logger.log(`Sending welcome email to ${user.email}`);
+    this.logger.log(`Queueing welcome email for ${user.email}`);
 
     let htmlContent = `
         <h1>Welcome to Virteex ERP</h1>
@@ -47,14 +31,13 @@ export class NodemailerNotificationService implements NotificationService {
       htmlContent += `<p>You can now login and start using the platform.</p>`;
     }
 
-    await this.transporter.sendMail({
-      from,
+    const textContent = `Welcome ${user.email} to Virteex ERP! Your company ${user.company.name} has been registered successfully.${tempPassword ? ' Your temporary password is: ' + tempPassword : ''}`;
+
+    await this.mailQueueProducer.addEmailJob({
       to: user.email,
       subject: 'Welcome to Virteex ERP',
-      text: `Welcome ${user.email} to Virteex ERP! Your company ${user.company.name} has been registered successfully.${tempPassword ? ' Your temporary password is: ' + tempPassword : ''}`,
+      text: textContent,
       html: htmlContent,
     });
-
-    this.logger.log(`Welcome email sent to ${user.email}`);
   }
 }
