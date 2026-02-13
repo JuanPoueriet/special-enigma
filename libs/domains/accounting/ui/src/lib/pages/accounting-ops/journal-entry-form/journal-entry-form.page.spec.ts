@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { JournalEntryForm } from '@virteex/accounting-ui/lib/pages/accounting-ops/journal-entry-form/journal-entry-form';
+import { JournalEntryForm } from './journal-entry-form';
 
 describe('JournalEntryForm', () => {
   let component: JournalEntryForm;

@@ -1,5 +1,5 @@
-import { InventoryMovement } from '@virteex/inventory-domain/lib/entities/inventory-movement.entity';
-import { Stock } from '@virteex/inventory-domain/lib/entities/stock.entity';
+import { InventoryMovement } from '../entities/inventory-movement.entity';
+import { Stock } from '../entities/stock.entity';
 
 export interface InventoryRepository {
   saveMovement(movement: InventoryMovement): Promise<void>;

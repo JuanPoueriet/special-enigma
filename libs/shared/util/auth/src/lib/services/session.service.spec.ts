@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { SessionService } from '@virteex/shared-util-auth/lib/services/session.service';
-import { TokenService } from '@virteex/shared-util-auth/lib/services/token.service';
+import { SessionService } from './session.service';
+import { TokenService } from './token.service';
 import { vi } from 'vitest';
 
 describe('SessionService', () => {

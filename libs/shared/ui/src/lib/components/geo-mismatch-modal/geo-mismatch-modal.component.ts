@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule, DOCUMENT } from '@angular/common';
-import { GeoLocationService } from '@virteex/shared-ui';
+import { GeoLocationService } from '../../..';
 import { Router } from '@angular/router';
 
 @Component({

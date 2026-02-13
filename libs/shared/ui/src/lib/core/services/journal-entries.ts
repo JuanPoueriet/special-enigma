@@ -4,7 +4,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { JournalEntry } from '@virteex/shared-ui/lib/core/models/journal-entry.model';
+import { JournalEntry } from '../models/journal-entry.model';
 
 // Usaremos un DTO (Data Transfer Object) para la creación,
 // ya que no necesitamos enviar todos los campos de JournalEntry.

@@ -1,0 +1,2607 @@
+
+ NX   Running target lint for 93 projects:
+
+- manufacturing-infrastructure
+- fixed-assets-infrastructure
+- manufacturing-presentation
+- accounting-infrastructure
+- fixed-assets-presentation
+- manufacturing-application
+- purchasing-infrastructure
+- fixed-assets-application
+- inventory-infrastructure
+- accounting-presentation
+- identity-infrastructure
+- manufacturing-contracts
+- projects-infrastructure
+- purchasing-presentation
+- treasury-infrastructure
+- accounting-application
+- billing-infrastructure
+- catalog-infrastructure
+- fixed-assets-contracts
+- inventory-presentation
+- payroll-infrastructure
+- purchasing-application
+- fiscal-infrastructure
+- identity-presentation
+- inventory-application
+- projects-presentation
+- shared-infrastructure-storage
+- treasury-presentation
+- accounting-contracts
+- admin-infrastructure
+- catalog-presentation
+- identity-application
+- manufacturing-domain
+- payroll-presentation
+- projects-application
+- purchasing-contracts
+- treasury-application
+- catalog-application
+- fiscal-presentation
+- fixed-assets-domain
+- inventory-contracts
+- payroll-application
+- admin-presentation
+- crm-infrastructure
+- fiscal-application
+- projects-contracts
+- treasury-contracts
+- accounting-domain
+- admin-application
+- bi-infrastructure
+- payroll-contracts
+- purchasing-domain
+- shared-util-server-config
+- crm-presentation
+- fiscal-contracts
+- inventory-domain
+- admin-contracts
+- bi-presentation
+- crm-application
+- identity-domain
+- projects-domain
+- treasury-domain
+- virteex-api-gateway-e2e
+- bi-application
+- billing-domain
+- catalog-domain
+- payroll-domain
+- crm-contracts
+- fiscal-domain
+- admin-domain
+- bi-contracts
+- identity-ui
+- virteex-api-gateway
+- virteex-plugin-host
+- crm-domain
+- shared-util-config
+- virteex-mobile-e2e
+- bi-domain
+- shared-validators
+- contracts
+- messaging
+- shared-util-auth
+- telemetry
+- virteex-site-e2e
+- virteex-desktop
+- virteex-web-e2e
+- virteex-mobile
+- finops
+- tenant
+- virteex-site
+- auth
+- virteex-web
+- shared-ui
+
+
+
+> nx run contracts:lint  [existing outputs match the cache, left as is]
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/shared/contracts/src/lib/plugin.interface.ts[24m[0m
+[0m   [2m3:26[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m14:18[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m14:32[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[33m[1m✖ 3 problems (0 errors, 3 warnings)[22m[39m[0m
+[0m[33m[1m[22m[39m[0m
+
+> nx run accounting-contracts:lint  [existing outputs match the cache, left as is]
+
+> eslint .
+
+
+> nx run telemetry:lint  [existing outputs match the cache, left as is]
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/kernel/telemetry/src/lib/telemetry.ts[24m[0m
+[0m  [2m73:66[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[33m[1m✖ 1 problem (0 errors, 1 warning)[22m[39m[0m
+[0m[33m[1m[22m[39m[0m
+
+> nx run accounting-domain:lint  [existing outputs match the cache, left as is]
+
+> eslint .
+
+
+> nx run identity-domain:lint
+
+
+Linting "identity-domain"...
+[0m[0m
+[0m[4m/app/libs/domains/identity/domain/jest.config.cts[24m[0m
+[0m  [2m1:1[22m  [33mwarning[39m  Unused eslint-disable directive (no problems were reported)[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/domain/src/lib/entities/audit-log.entity.ts[24m[0m
+[0m  [2m16:29[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m21:73[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/domain/src/lib/entities/company.entity.ts[24m[0m
+[0m  [2m27:29[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m30:29[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/domain/src/lib/ports/auth.service.ts[24m[0m
+[0m  [2m4:35[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m5:48[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[33m[1m✖ 7 problems (0 errors, 7 warnings)[22m[39m[0m
+[0m[33m[1m[22m[39m[33m[1m  0 errors and 1 warning potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[33m[1m[22m[39m[0m
+✖ 7 problems (0 errors, 7 warnings)
+
+  0 errors and 1 warning are potentially fixable with the `--fix` option.
+
+
+> nx run manufacturing-contracts:lint  [existing outputs match the cache, left as is]
+
+> eslint .
+
+
+> nx run projects-contracts:lint  [existing outputs match the cache, left as is]
+
+> eslint .
+
+
+> nx run fixed-assets-contracts:lint  [existing outputs match the cache, left as is]
+
+> eslint .
+
+
+> nx run treasury-contracts:lint  [existing outputs match the cache, left as is]
+
+> eslint .
+
+
+> nx run payroll-contracts:lint  [existing outputs match the cache, left as is]
+
+> eslint .
+
+
+> nx run auth:lint
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/kernel/auth/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "auth" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - jsonwebtoken  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[4m/app/libs/kernel/auth/src/lib/guards/jwt-auth.guard.ts[24m[0m
+[0m  [2m22:14[22m  [33mwarning[39m  'err' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[31m[1m✖ 2 problems (1 error, 1 warning)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/kernel/auth/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "auth" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - jsonwebtoken  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[4m/app/libs/kernel/auth/src/lib/guards/jwt-auth.guard.ts[24m[0m
+[0m  [2m22:14[22m  [33mwarning[39m  'err' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[31m[1m✖ 2 problems (1 error, 1 warning)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+Warning: command "eslint ." exited with non-zero status code
+> nx run identity-application:lint
+
+
+Linting "identity-application"...
+[0m[0m
+[0m[4m/app/libs/domains/identity/application/jest.config.cts[24m[0m
+[0m  [2m1:1[22m  [33mwarning[39m  Unused eslint-disable directive (no problems were reported)[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/application/src/lib/use-cases/login-user.use-case.spec.ts[24m[0m
+[0m  [2m13:7[22m  [33mwarning[39m  'sessionRepository' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/application/src/lib/use-cases/register-user.use-case.spec.ts[24m[0m
+[0m  [2m13:7[22m  [33mwarning[39m  'authService' is assigned a value but never used          [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m15:7[22m  [33mwarning[39m  'notificationService' is assigned a value but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/application/src/lib/use-cases/upload-avatar.use-case.ts[24m[0m
+[0m  [2m2:10[22m  [33mwarning[39m  'User' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/application/src/lib/use-cases/verify-mfa.use-case.ts[24m[0m
+[0m  [2m25:18[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m28:14[22m  [33mwarning[39m  'e' is defined but never used             [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[33m[1m✖ 7 problems (0 errors, 7 warnings)[22m[39m[0m
+[0m[33m[1m[22m[39m[33m[1m  0 errors and 1 warning potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[33m[1m[22m[39m[0m
+✖ 7 problems (0 errors, 7 warnings)
+
+  0 errors and 1 warning are potentially fixable with the `--fix` option.
+
+
+> nx run projects-domain:lint
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/projects/domain/package.json[24m[0m
+[0m   [2m8:3[22m  [31merror[39m  The "projects-domain" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @virteex/contracts  [2m@nx/dependency-checks[22m[0m
+[0m  [2m10:5[22m  [31merror[39m  The "@virteex/projects-contracts" package is not used by "projects-domain" project                                             [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 2 problems (2 errors, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  2 errors and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/projects/domain/package.json[24m[0m
+[0m   [2m8:3[22m  [31merror[39m  The "projects-domain" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @virteex/contracts  [2m@nx/dependency-checks[22m[0m
+[0m  [2m10:5[22m  [31merror[39m  The "@virteex/projects-contracts" package is not used by "projects-domain" project                                             [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 2 problems (2 errors, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  2 errors and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+Warning: command "eslint ." exited with non-zero status code
+> nx run payroll-domain:lint
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/payroll/domain/package.json[24m[0m
+[0m   [2m8:3[22m  [31merror[39m  The "payroll-domain" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @virteex/contracts[0m
+[0m    - uuid  [2m@nx/dependency-checks[22m[0m
+[0m  [2m10:5[22m  [31merror[39m  The "@virteex/payroll-contracts" package is not used by "payroll-domain" project                                                         [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 2 problems (2 errors, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  2 errors and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/payroll/domain/package.json[24m[0m
+[0m   [2m8:3[22m  [31merror[39m  The "payroll-domain" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @virteex/contracts[0m
+[0m    - uuid  [2m@nx/dependency-checks[22m[0m
+[0m  [2m10:5[22m  [31merror[39m  The "@virteex/payroll-contracts" package is not used by "payroll-domain" project                                                         [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 2 problems (2 errors, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  2 errors and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+Warning: command "eslint ." exited with non-zero status code
+> nx run manufacturing-domain:lint
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/manufacturing/domain/package.json[24m[0m
+[0m  [2m10:5[22m  [31merror[39m  The "@virteex/manufacturing-contracts" package is not used by "manufacturing-domain" project  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 1 problem (1 error, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/manufacturing/domain/package.json[24m[0m
+[0m  [2m10:5[22m  [31merror[39m  The "@virteex/manufacturing-contracts" package is not used by "manufacturing-domain" project  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 1 problem (1 error, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+Warning: command "eslint ." exited with non-zero status code
+> nx run fixed-assets-domain:lint
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/fixed-assets/domain/package.json[24m[0m
+[0m   [2m8:3[22m  [31merror[39m  The "fixed-assets-domain" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @virteex/contracts  [2m@nx/dependency-checks[22m[0m
+[0m  [2m10:5[22m  [31merror[39m  The "@virteex/fixed-assets-contracts" package is not used by "fixed-assets-domain" project                                         [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 2 problems (2 errors, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  2 errors and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/fixed-assets/domain/package.json[24m[0m
+[0m   [2m8:3[22m  [31merror[39m  The "fixed-assets-domain" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @virteex/contracts  [2m@nx/dependency-checks[22m[0m
+[0m  [2m10:5[22m  [31merror[39m  The "@virteex/fixed-assets-contracts" package is not used by "fixed-assets-domain" project                                         [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 2 problems (2 errors, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  2 errors and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+Warning: command "eslint ." exited with non-zero status code
+> nx run shared-ui:lint
+
+
+Linting "shared-ui"...
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/button.component.html[24m[0m
+[0m  [2m7:10[22m  [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/confirmation-modal/confirmation-modal.component.ts[24m[0m
+[0m  [2m43:13[22m  [31merror[39m  Output bindings, including aliases, should not be named as standard DOM events          [2m@angular-eslint/no-output-native[22m[0m
+[0m  [2m11:5[22m   [31merror[39m  click must be accompanied by either keyup, keydown or keypress event for accessibility  [2m@angular-eslint/template/click-events-have-key-events[22m[0m
+[0m  [2m11:5[22m   [31merror[39m  Elements with interaction handlers must be focusable                                    [2m@angular-eslint/template/interactive-supports-focus[22m[0m
+[0m  [2m12:11[22m  [31merror[39m  Use built-in control flow instead of directive ngIf                                     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m15:7[22m   [31merror[39m  click must be accompanied by either keyup, keydown or keypress event for accessibility  [2m@angular-eslint/template/click-events-have-key-events[22m[0m
+[0m  [2m15:7[22m   [31merror[39m  Elements with interaction handlers must be focusable                                    [2m@angular-eslint/template/interactive-supports-focus[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/geo-mismatch-modal/geo-mismatch-modal.component.html[24m[0m
+[0m  [2m1:7[22m  [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/global-search/global-search.page.ts[24m[0m
+[0m  [2m8:9[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/live-preview/live-preview.html[24m[0m
+[0m  [2m14:13[22m  [31merror[39m  A label component must be associated with a form element  [2m@angular-eslint/template/label-has-associated-control[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/modal/modal.component.ts[24m[0m
+[0m  [2m15:13[22m  [31merror[39m  Output bindings, including aliases, should not be named "on", nor prefixed with it (https://angular.dev/guide/components/outputs#choosing-event-names)  [2m@angular-eslint/no-output-on-prefix[22m[0m
+[0m  [2m16:13[22m  [31merror[39m  Output bindings, including aliases, should not be named "on", nor prefixed with it (https://angular.dev/guide/components/outputs#choosing-event-names)  [2m@angular-eslint/no-output-on-prefix[22m[0m
+[0m  [2m17:13[22m  [31merror[39m  Output bindings, including aliases, should not be named "on", nor prefixed with it (https://angular.dev/guide/components/outputs#choosing-event-names)  [2m@angular-eslint/no-output-on-prefix[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/notifications/notifications.page.html[24m[0m
+[0m  [2m22:17[22m  [31merror[39m  click must be accompanied by either keyup, keydown or keypress event for accessibility  [2m@angular-eslint/template/click-events-have-key-events[22m[0m
+[0m  [2m22:17[22m  [31merror[39m  Elements with interaction handlers must be focusable                                    [2m@angular-eslint/template/interactive-supports-focus[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/otp/otp.component.html[24m[0m
+[0m   [2m10:39[22m  [31merror[39m  Use built-in control flow instead of directive ngIf     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m33:32[22m  [31merror[39m  Use built-in control flow instead of directive ngForOf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m65:18[22m  [31merror[39m  Use built-in control flow instead of directive ngIf     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m67:20[22m  [31merror[39m  Use built-in control flow instead of directive ngIf     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m68:20[22m  [31merror[39m  Use built-in control flow instead of directive ngIf     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m86:23[22m  [31merror[39m  Use built-in control flow instead of directive ngIf     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m87:23[22m  [31merror[39m  Use built-in control flow instead of directive ngIf     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m88:23[22m  [31merror[39m  Use built-in control flow instead of directive ngIf     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m89:23[22m  [31merror[39m  Use built-in control flow instead of directive ngIf     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m102:18[22m  [31merror[39m  Use built-in control flow instead of directive ngIf     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/stat-card/stat-card.spec.ts[24m[0m
+[0m  [2m4:31[22m  [33mwarning[39m  'DollarSign' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/stat-card/stat-card.ts[24m[0m
+[0m  [2m15:18[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m18:37[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/ui/modal/ui-modal.component.html[24m[0m
+[0m   [2m1:49[22m  [31merror[39m  Use built-in control flow instead of directive ngIf                                     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m3:3[22m   [31merror[39m  click must be accompanied by either keyup, keydown or keypress event for accessibility  [2m@angular-eslint/template/click-events-have-key-events[22m[0m
+[0m   [2m3:3[22m   [31merror[39m  Elements with interaction handlers must be focusable                                    [2m@angular-eslint/template/interactive-supports-focus[22m[0m
+[0m  [2m16:34[22m  [31merror[39m  Use built-in control flow instead of directive ngIf                                     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m17:34[22m  [31merror[39m  Use built-in control flow instead of directive ngIf                                     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m20:14[22m  [31merror[39m  Use built-in control flow instead of directive ngIf                                     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m36:34[22m  [31merror[39m  Use built-in control flow instead of directive ngIf                                     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/components/ui/modal/ui-modal.component.ts[24m[0m
+[0m  [2m60:3[22m   [31merror[39m  Type string trivially inferred from a string literal, remove type annotation    [2m@typescript-eslint/no-inferrable-types[22m[0m
+[0m  [2m71:13[22m  [31merror[39m  Output bindings, including aliases, should not be named as standard DOM events  [2m@angular-eslint/no-output-native[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/guards/auth-guard.spec.ts[24m[0m
+[0m  [2m33:78[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m33:89[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m53:72[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m53:83[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/guards/country.guard.spec.ts[24m[0m
+[0m  [2m44:75[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m45:36[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m50:75[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m53:71[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m53:79[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/guards/language-init.guard.spec.ts[24m[0m
+[0m  [2m26:49[22m  [33mwarning[39m  Unexpected any. Specify a different type     [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m27:42[22m  [33mwarning[39m  Unexpected any. Specify a different type     [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m34:49[22m  [33mwarning[39m  Unexpected any. Specify a different type     [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m35:42[22m  [33mwarning[39m  Unexpected any. Specify a different type     [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m36:11[22m  [33mwarning[39m  'result' is assigned a value but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/guards/language-redirect.guard.spec.ts[24m[0m
+[0m  [2m31:11[22m  [33mwarning[39m  'result' is assigned a value but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m31:84[22m  [33mwarning[39m  Unexpected any. Specify a different type     [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m31:95[22m  [33mwarning[39m  Unexpected any. Specify a different type     [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m37:11[22m  [33mwarning[39m  'result' is assigned a value but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m37:84[22m  [33mwarning[39m  Unexpected any. Specify a different type     [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m37:95[22m  [33mwarning[39m  Unexpected any. Specify a different type     [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/interceptors/auth.interceptor.ts[24m[0m
+[0m  [2m73:24[22m  [33mwarning[39m  'response' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/services/auth-queue.service.spec.ts[24m[0m
+[0m  [2m3:10[22m  [33mwarning[39m  'take' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/services/auth-queue.service.ts[24m[0m
+[0m  [2m12:17[22m  [31merror[39m  Unexpected empty constructor  [2m@typescript-eslint/no-empty-function[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/services/auth.ts[24m[0m
+[0m    [2m9:3[22m   [33mwarning[39m  'throwError' is defined but never used                                                                                                                                                                                                                                                                                               [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m   [2m25:1[22m   [31merror[39m    Circular dependency between "shared-ui" and "shared-util-auth" detected: shared-ui -> shared-util-auth -> shared-ui[0m
+[0m[0m
+[0mCircular file chain:[0m
+[0m- libs/shared/ui/src/lib/core/services/auth.ts[0m
+[0m- [[0m
+[0m    libs/shared/util/auth/src/lib/interceptors/error.interceptor.ts,[0m
+[0m    libs/shared/util/auth/src/lib/services/session.service.ts[0m
+[0m  ]  [2m@nx/enforce-module-boundaries[22m[0m
+[0m   [2m74:10[22m  [33mwarning[39m  'args' is defined but never used                                                                                                                                                                                                                                                                                                     [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m   [2m74:16[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                             [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m   [2m74:22[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                             [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m102:15[22m  [31merror[39m    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject                                                                                                                                                               [2m@angular-eslint/prefer-inject[22m[0m
+[0m  [2m118:40[22m  [31merror[39m    Unexpected empty arrow function                                                                                                                                                                                                                                                                                                      [2m@typescript-eslint/no-empty-function[22m[0m
+[0m  [2m169:21[22m  [33mwarning[39m  'accessToken' is assigned a value but never used                                                                                                                                                                                                                                                                                     [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m202:40[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                             [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m206:28[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                             [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m248:52[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                             [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m296:58[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                             [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m308:59[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                             [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m440:24[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                             [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/services/billing.ts[24m[0m
+[0m  [2m74:26[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m75:26[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/services/country.service.ts[24m[0m
+[0m   [2m19:15[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m   [2m69:26[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m117:63[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m118:28[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/services/dashboard.ts[24m[0m
+[0m   [2m38:10[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m148:73[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m171:43[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m215:24[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/services/error-handler.service.ts[24m[0m
+[0m  [2m10:15[22m  [31merror[39m  Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  [2m@angular-eslint/prefer-inject[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/services/idle.service.ts[24m[0m
+[0m  [2m2:10[22m  [33mwarning[39m  'Router' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m4:21[22m  [33mwarning[39m  'take' is defined but never used    [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/services/journal-entries.ts[24m[0m
+[0m  [2m33:41[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m38:27[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/services/language.ts[24m[0m
+[0m  [2m31:36[22m  [31merror[39m  Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  [2m@angular-eslint/prefer-inject[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/services/notification-center.service.ts[24m[0m
+[0m  [2m26:5[22m  [31merror[39m  Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  [2m@angular-eslint/prefer-inject[22m[0m
+[0m  [2m27:5[22m  [31merror[39m  Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  [2m@angular-eslint/prefer-inject[22m[0m
+[0m  [2m28:5[22m  [31merror[39m  Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  [2m@angular-eslint/prefer-inject[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/services/theme.ts[24m[0m
+[0m  [2m23:5[22m  [31merror[39m  Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  [2m@angular-eslint/prefer-inject[22m[0m
+[0m  [2m24:5[22m  [31merror[39m  Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  [2m@angular-eslint/prefer-inject[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/services/tree.ts[24m[0m
+[0m  [2m25:17[22m  [31merror[39m    Unexpected empty constructor  [2m@typescript-eslint/no-empty-function[22m[0m
+[0m  [2m50:9[22m   [33mwarning[39m  Forbidden non-null assertion  [2m@typescript-eslint/no-non-null-assertion[22m[0m
+[0m  [2m50:9[22m   [33mwarning[39m  Forbidden non-null assertion  [2m@typescript-eslint/no-non-null-assertion[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/core/services/websocket.service.ts[24m[0m
+[0m  [2m18:17[22m  [31merror[39m    Unexpected empty constructor              [2m@typescript-eslint/no-empty-function[22m[0m
+[0m  [2m66:33[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/directives/has-permission.directive.ts[24m[0m
+[0m  [2m5:13[22m  [31merror[39m    The selector should start with one of these prefixes: "virteex"  [2m@angular-eslint/directive-selector[22m[0m
+[0m  [2m9:44[22m  [33mwarning[39m  Unexpected any. Specify a different type                         [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/pages/unauthorized/unauthorized.page.html[24m[0m
+[0m  [2m15:27[22m  [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/pages/unauthorized/unauthorized.page.ts[24m[0m
+[0m  [2m3:10[22m  [33mwarning[39m  'Router' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/services/common/config.service.ts[24m[0m
+[0m  [2m18:15[22m  [31merror[39m  Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  [2m@angular-eslint/prefer-inject[22m[0m
+[0m  [2m18:41[22m  [31merror[39m  Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  [2m@angular-eslint/prefer-inject[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/services/modal.service.ts[24m[0m
+[0m  [2m10:25[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                                                                                [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m21:5[22m   [31merror[39m    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  [2m@angular-eslint/prefer-inject[22m[0m
+[0m  [2m22:5[22m   [31merror[39m    Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  [2m@angular-eslint/prefer-inject[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/services/organization.service.ts[24m[0m
+[0m  [2m27:15[22m  [31merror[39m  Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  [2m@angular-eslint/prefer-inject[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/services/toast.service.ts[24m[0m
+[0m  [2m11:5[22m  [31merror[39m  Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  [2m@angular-eslint/prefer-inject[22m[0m
+[0m  [2m12:5[22m  [31merror[39m  Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject  [2m@angular-eslint/prefer-inject[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/ui/src/lib/validators/password.validator.ts[24m[0m
+[0m   [2m6:57[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m10:23[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[31m[1m✖ 114 problems (55 errors, 59 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+✖ 114 problems (55 errors, 59 warnings)
+
+  1 error and 0 warnings are potentially fixable with the `--fix` option.
+
+
+> nx run admin-domain:lint
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/admin/domain/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "admin-domain" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @mikro-orm/core  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 1 problem (1 error, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/admin/domain/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "admin-domain" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @mikro-orm/core  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 1 problem (1 error, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+Warning: command "eslint ." exited with non-zero status code
+> nx run treasury-domain:lint
+
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+Error: ENOENT: no such file or directory, open '/app/libs/domains/treasury/contracts/src/*'
+Occurred while linting /app/libs/domains/treasury/domain/src/lib/entities/transaction.entity.ts:3
+Rule: "@nx/enforce-module-boundaries"
+    at readFileSync (node:fs:440:20)
+    at getRelativeImportPath (/app/node_modules/@nx/eslint-plugin/src/utils/ast-utils.js:103:47)
+    at Object.fix (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:200:98)
+    at normalizeFixes (/app/node_modules/eslint/lib/linter/file-report.js:297:25)
+    at FileReport.addRuleMessage (/app/node_modules/eslint/lib/linter/file-report.js:559:8)
+    at FileContext.report (/app/node_modules/eslint/lib/linter/linter.js:1111:28)
+    at run (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:182:25)
+    at ImportDeclaration (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:498:17)
+    at ruleErrorHandler (/app/node_modules/eslint/lib/linter/linter.js:1173:33)
+    at /app/node_modules/eslint/lib/linter/source-code-visitor.js:76:46
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+Error: ENOENT: no such file or directory, open '/app/libs/domains/treasury/contracts/src/*'
+Occurred while linting /app/libs/domains/treasury/domain/src/lib/entities/transaction.entity.ts:3
+Rule: "@nx/enforce-module-boundaries"
+    at readFileSync (node:fs:440:20)
+    at getRelativeImportPath (/app/node_modules/@nx/eslint-plugin/src/utils/ast-utils.js:103:47)
+    at Object.fix (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:200:98)
+    at normalizeFixes (/app/node_modules/eslint/lib/linter/file-report.js:297:25)
+    at FileReport.addRuleMessage (/app/node_modules/eslint/lib/linter/file-report.js:559:8)
+    at FileContext.report (/app/node_modules/eslint/lib/linter/linter.js:1111:28)
+    at run (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:182:25)
+    at ImportDeclaration (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:498:17)
+    at ruleErrorHandler (/app/node_modules/eslint/lib/linter/linter.js:1173:33)
+    at /app/node_modules/eslint/lib/linter/source-code-visitor.js:76:46
+Warning: command "eslint ." exited with non-zero status code
+> nx run bi-domain:lint
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/bi/domain/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "bi-domain" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @mikro-orm/core  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/bi/domain/src/lib/entities/bi-report.entity.ts[24m[0m
+[0m  [2m15:10[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m20:49[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[31m[1m✖ 3 problems (1 error, 2 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/bi/domain/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "bi-domain" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @mikro-orm/core  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/bi/domain/src/lib/entities/bi-report.entity.ts[24m[0m
+[0m  [2m15:10[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m20:49[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[31m[1m✖ 3 problems (1 error, 2 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+Warning: command "eslint ." exited with non-zero status code
+> nx run accounting-infrastructure:lint  [existing outputs match the cache, left as is]
+
+> eslint .
+
+
+> nx run billing-domain:lint  [existing outputs match the cache, left as is]
+
+> eslint .
+
+
+> nx run purchasing-domain:lint
+
+
+Linting "purchasing-domain"...
+[0m[0m
+[0m[4m/app/libs/domains/purchasing/domain/jest.config.ts[24m[0m
+[0m  [2m1:1[22m  [33mwarning[39m  Unused eslint-disable directive (no problems were reported)[0m
+[0m[0m
+[0m[4m/app/libs/domains/purchasing/domain/src/lib/entities/requisition.entity.ts[24m[0m
+[0m  [2m31:11[22m   [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m33:110[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m40:51[22m   [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/purchasing/domain/src/lib/entities/vendor-bill.entity.ts[24m[0m
+[0m  [2m28:15[22m   [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m36:116[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m43:61[22m   [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[33m[1m✖ 7 problems (0 errors, 7 warnings)[22m[39m[0m
+[0m[33m[1m[22m[39m[33m[1m  0 errors and 1 warning potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[33m[1m[22m[39m[0m
+✖ 7 problems (0 errors, 7 warnings)
+
+  0 errors and 1 warning are potentially fixable with the `--fix` option.
+
+
+> nx run inventory-domain:lint  [existing outputs match the cache, left as is]
+
+> eslint .
+
+
+> nx run catalog-domain:lint  [existing outputs match the cache, left as is]
+
+> eslint .
+
+
+> nx run crm-domain:lint  [existing outputs match the cache, left as is]
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/crm/domain/src/lib/entities/sale.entity.ts[24m[0m
+[0m  [2m29:26[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[33m[1m✖ 1 problem (0 errors, 1 warning)[22m[39m[0m
+[0m[33m[1m[22m[39m[0m
+
+> nx run fiscal-domain:lint  [existing outputs match the cache, left as is]
+
+> eslint .
+
+(node:70786) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 14 exit listeners added to [process]. MaxListeners is 13. Use emitter.setMaxListeners() to increase limit
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+> nx run shared-util-config:lint
+
+
+Linting "shared-util-config"...
+[0m[0m
+[0m[4m/app/libs/shared/util/config/jest.config.ts[24m[0m
+[0m  [2m1:1[22m  [33mwarning[39m  Unused eslint-disable directive (no problems were reported)[0m
+[0m[0m
+[0m[33m[1m✖ 1 problem (0 errors, 1 warning)[22m[39m[0m
+[0m[33m[1m[22m[39m[33m[1m  0 errors and 1 warning potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[33m[1m[22m[39m[0m
+✖ 1 problem (0 errors, 1 warning)
+
+  0 errors and 1 warning are potentially fixable with the `--fix` option.
+
+
+> nx run shared-util-auth:lint
+
+
+Linting "shared-util-auth"...
+[0m[0m
+[0m[4m/app/libs/shared/util/auth/src/lib/guards/auth.guard.spec.ts[24m[0m
+[0m   [2m8:40[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m   [2m9:35[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m27:38[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m27:49[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m34:28[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m38:38[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m38:63[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/util/auth/src/lib/interceptors/auth.interceptor.spec.ts[24m[0m
+[0m  [2m12:42[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m12:60[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m13:30[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/util/auth/src/lib/interceptors/error.interceptor.ts[24m[0m
+[0m  [2m3:1[22m  [31merror[39m  Circular dependency between "shared-util-auth" and "shared-ui" detected: shared-util-auth -> shared-ui -> shared-util-auth[0m
+[0m[0m
+[0mCircular file chain:[0m
+[0m- libs/shared/util/auth/src/lib/interceptors/error.interceptor.ts[0m
+[0m- libs/shared/ui/src/lib/core/services/auth.ts  [2m@nx/enforce-module-boundaries[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/util/auth/src/lib/services/session.service.spec.ts[24m[0m
+[0m   [2m9:16[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m10:21[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m11:22[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m12:18[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/shared/util/auth/src/lib/services/session.service.ts[24m[0m
+[0m   [2m4:1[22m   [31merror[39m  Circular dependency between "shared-util-auth" and "shared-ui" detected: shared-util-auth -> shared-ui -> shared-util-auth[0m
+[0m[0m
+[0mCircular file chain:[0m
+[0m- libs/shared/util/auth/src/lib/services/session.service.ts[0m
+[0m- libs/shared/ui/src/lib/core/services/auth.ts  [2m@nx/enforce-module-boundaries[22m[0m
+[0m  [2m27:15[22m  [31merror[39m  Prefer using the inject() function over constructor parameter injection. Use Angular's migration schematic to automatically refactor: ng generate @angular/core:inject                                                                                       [2m@angular-eslint/prefer-inject[22m[0m
+[0m[0m
+[0m[31m[1m✖ 17 problems (3 errors, 14 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+✖ 17 problems (3 errors, 14 warnings)
+
+
+> nx run payroll-infrastructure:lint
+
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+Error: ENOENT: no such file or directory, open '/app/libs/domains/payroll/domain/src/*'
+Occurred while linting /app/libs/domains/payroll/infrastructure/src/lib/repositories/mikro-orm-employee.repository.ts:3
+Rule: "@nx/enforce-module-boundaries"
+    at readFileSync (node:fs:440:20)
+    at getRelativeImportPath (/app/node_modules/@nx/eslint-plugin/src/utils/ast-utils.js:103:47)
+    at Object.fix (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:200:98)
+    at normalizeFixes (/app/node_modules/eslint/lib/linter/file-report.js:297:25)
+    at FileReport.addRuleMessage (/app/node_modules/eslint/lib/linter/file-report.js:559:8)
+    at FileContext.report (/app/node_modules/eslint/lib/linter/linter.js:1111:28)
+    at run (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:182:25)
+    at ImportDeclaration (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:498:17)
+    at ruleErrorHandler (/app/node_modules/eslint/lib/linter/linter.js:1173:33)
+    at /app/node_modules/eslint/lib/linter/source-code-visitor.js:76:46
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+Error: ENOENT: no such file or directory, open '/app/libs/domains/payroll/domain/src/*'
+Occurred while linting /app/libs/domains/payroll/infrastructure/src/lib/repositories/mikro-orm-employee.repository.ts:3
+Rule: "@nx/enforce-module-boundaries"
+    at readFileSync (node:fs:440:20)
+    at getRelativeImportPath (/app/node_modules/@nx/eslint-plugin/src/utils/ast-utils.js:103:47)
+    at Object.fix (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:200:98)
+    at normalizeFixes (/app/node_modules/eslint/lib/linter/file-report.js:297:25)
+    at FileReport.addRuleMessage (/app/node_modules/eslint/lib/linter/file-report.js:559:8)
+    at FileContext.report (/app/node_modules/eslint/lib/linter/linter.js:1111:28)
+    at run (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:182:25)
+    at ImportDeclaration (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:498:17)
+    at ruleErrorHandler (/app/node_modules/eslint/lib/linter/linter.js:1173:33)
+    at /app/node_modules/eslint/lib/linter/source-code-visitor.js:76:46
+Warning: command "eslint ." exited with non-zero status code
+> nx run treasury-infrastructure:lint
+
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+Error: ENOENT: no such file or directory, open '/app/libs/domains/treasury/domain/src/*'
+Occurred while linting /app/libs/domains/treasury/infrastructure/src/lib/repositories/mikro-orm-bank-account.repository.ts:3
+Rule: "@nx/enforce-module-boundaries"
+    at readFileSync (node:fs:440:20)
+    at getRelativeImportPath (/app/node_modules/@nx/eslint-plugin/src/utils/ast-utils.js:103:47)
+    at Object.fix (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:200:98)
+    at normalizeFixes (/app/node_modules/eslint/lib/linter/file-report.js:297:25)
+    at FileReport.addRuleMessage (/app/node_modules/eslint/lib/linter/file-report.js:559:8)
+    at FileContext.report (/app/node_modules/eslint/lib/linter/linter.js:1111:28)
+    at run (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:182:25)
+    at ImportDeclaration (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:498:17)
+    at ruleErrorHandler (/app/node_modules/eslint/lib/linter/linter.js:1173:33)
+    at /app/node_modules/eslint/lib/linter/source-code-visitor.js:76:46
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+Error: ENOENT: no such file or directory, open '/app/libs/domains/treasury/domain/src/*'
+Occurred while linting /app/libs/domains/treasury/infrastructure/src/lib/repositories/mikro-orm-bank-account.repository.ts:3
+Rule: "@nx/enforce-module-boundaries"
+    at readFileSync (node:fs:440:20)
+    at getRelativeImportPath (/app/node_modules/@nx/eslint-plugin/src/utils/ast-utils.js:103:47)
+    at Object.fix (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:200:98)
+    at normalizeFixes (/app/node_modules/eslint/lib/linter/file-report.js:297:25)
+    at FileReport.addRuleMessage (/app/node_modules/eslint/lib/linter/file-report.js:559:8)
+    at FileContext.report (/app/node_modules/eslint/lib/linter/linter.js:1111:28)
+    at run (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:182:25)
+    at ImportDeclaration (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:498:17)
+    at ruleErrorHandler (/app/node_modules/eslint/lib/linter/linter.js:1173:33)
+    at /app/node_modules/eslint/lib/linter/source-code-visitor.js:76:46
+Warning: command "eslint ." exited with non-zero status code
+> nx run purchasing-contracts:lint
+
+
+Linting "purchasing-contracts"...
+[0m[0m
+[0m[4m/app/libs/domains/purchasing/contracts/src/lib/dtos/create-vendor-bill.dto.ts[24m[0m
+[0m  [2m17:18[22m  [31merror[39m  An interface declaring no members is equivalent to its supertype  [2m@typescript-eslint/no-empty-object-type[22m[0m
+[0m  [2m17:18[22m  [31merror[39m  An interface declaring no members is equivalent to its supertype  [2m@typescript-eslint/no-empty-interface[22m[0m
+[0m[0m
+[0m[31m[1m✖ 2 problems (2 errors, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+✖ 2 problems (2 errors, 0 warnings)
+
+  1 error and 0 warnings are potentially fixable with the `--fix` option.
+
+
+> nx run tenant:lint  [existing outputs match the cache, left as is]
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/kernel/tenant/src/lib/entities/tenant.entity.ts[24m[0m
+[0m  [2m22:29[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/kernel/tenant/src/lib/interceptors/tenant-rls.interceptor.spec.ts[24m[0m
+[0m  [2m64:11[22m  [33mwarning[39m  'obs' is assigned a value but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/kernel/tenant/src/lib/interceptors/tenant-rls.interceptor.ts[24m[0m
+[0m  [2m14:85[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/kernel/tenant/src/lib/subscribers/tenant-model.subscriber.ts[24m[0m
+[0m  [2m12:38[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/kernel/tenant/src/lib/tenant.service.ts[24m[0m
+[0m  [2m76:53[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m78:53[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[33m[1m✖ 6 problems (0 errors, 6 warnings)[22m[39m[0m
+[0m[33m[1m[22m[39m[0m
+
+> nx run crm-infrastructure:lint
+
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+Error: ENOENT: no such file or directory, open '/app/libs/domains/crm/domain/src/*'
+Occurred while linting /app/libs/domains/crm/infrastructure/src/lib/crm-infrastructure.module.ts:3
+Rule: "@nx/enforce-module-boundaries"
+    at readFileSync (node:fs:440:20)
+    at getRelativeImportPath (/app/node_modules/@nx/eslint-plugin/src/utils/ast-utils.js:103:47)
+    at Object.fix (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:200:98)
+    at normalizeFixes (/app/node_modules/eslint/lib/linter/file-report.js:297:25)
+    at FileReport.addRuleMessage (/app/node_modules/eslint/lib/linter/file-report.js:559:8)
+    at FileContext.report (/app/node_modules/eslint/lib/linter/linter.js:1111:28)
+    at run (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:182:25)
+    at ImportDeclaration (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:498:17)
+    at ruleErrorHandler (/app/node_modules/eslint/lib/linter/linter.js:1173:33)
+    at /app/node_modules/eslint/lib/linter/source-code-visitor.js:76:46
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+Error: ENOENT: no such file or directory, open '/app/libs/domains/crm/domain/src/*'
+Occurred while linting /app/libs/domains/crm/infrastructure/src/lib/crm-infrastructure.module.ts:3
+Rule: "@nx/enforce-module-boundaries"
+    at readFileSync (node:fs:440:20)
+    at getRelativeImportPath (/app/node_modules/@nx/eslint-plugin/src/utils/ast-utils.js:103:47)
+    at Object.fix (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:200:98)
+    at normalizeFixes (/app/node_modules/eslint/lib/linter/file-report.js:297:25)
+    at FileReport.addRuleMessage (/app/node_modules/eslint/lib/linter/file-report.js:559:8)
+    at FileContext.report (/app/node_modules/eslint/lib/linter/linter.js:1111:28)
+    at run (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:182:25)
+    at ImportDeclaration (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:498:17)
+    at ruleErrorHandler (/app/node_modules/eslint/lib/linter/linter.js:1173:33)
+    at /app/node_modules/eslint/lib/linter/source-code-visitor.js:76:46
+Warning: command "eslint ." exited with non-zero status code
+> nx run inventory-infrastructure:lint  [existing outputs match the cache, left as is]
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/inventory/infrastructure/src/lib/repositories/mikro-orm-inventory.repository.ts[24m[0m
+[0m  [2m19:18[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[33m[1m✖ 1 problem (0 errors, 1 warning)[22m[39m[0m
+[0m[33m[1m[22m[39m[0m
+
+> nx run inventory-contracts:lint  [existing outputs match the cache, left as is]
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/inventory/contracts/src/lib/inventory-contracts.ts[24m[0m
+[0m  [2m16:10[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[33m[1m✖ 1 problem (0 errors, 1 warning)[22m[39m[0m
+[0m[33m[1m[22m[39m[0m
+
+> nx run shared-infrastructure-storage:lint
+
+
+Linting "shared-infrastructure-storage"...
+
+✔ All files pass linting
+
+(node:70786) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 14 SIGINT listeners added to [process]. MaxListeners is 13. Use emitter.setMaxListeners() to increase limit
+(node:70786) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 14 SIGTERM listeners added to [process]. MaxListeners is 13. Use emitter.setMaxListeners() to increase limit
+(node:70786) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 14 SIGHUP listeners added to [process]. MaxListeners is 13. Use emitter.setMaxListeners() to increase limit
+
+> nx run purchasing-infrastructure:lint
+
+
+Linting "purchasing-infrastructure"...
+[0m[0m
+[0m[4m/app/libs/domains/purchasing/infrastructure/jest.config.ts[24m[0m
+[0m  [2m1:1[22m  [33mwarning[39m  Unused eslint-disable directive (no problems were reported)[0m
+[0m[0m
+[0m[4m/app/libs/domains/purchasing/infrastructure/src/lib/purchasing-infrastructure.module.ts[24m[0m
+[0m  [2m5:3[22m   [33mwarning[39m  'SUPPLIER_REPOSITORY' is defined but never used        [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m5:24[22m  [33mwarning[39m  'PURCHASE_ORDER_REPOSITORY' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m5:51[22m  [33mwarning[39m  'REQUISITION_REPOSITORY' is defined but never used     [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m5:75[22m  [33mwarning[39m  'VENDOR_BILL_REPOSITORY' is defined but never used     [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[33m[1m✖ 5 problems (0 errors, 5 warnings)[22m[39m[0m
+[0m[33m[1m[22m[39m[33m[1m  0 errors and 1 warning potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[33m[1m[22m[39m[0m
+✖ 5 problems (0 errors, 5 warnings)
+
+  0 errors and 1 warning are potentially fixable with the `--fix` option.
+
+
+> nx run crm-application:lint
+
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+Error: ENOENT: no such file or directory, open '/app/libs/domains/crm/infrastructure/src/*'
+Occurred while linting /app/libs/domains/crm/application/src/lib/crm-application.module.ts:2
+Rule: "@nx/enforce-module-boundaries"
+    at readFileSync (node:fs:440:20)
+    at getRelativeImportPath (/app/node_modules/@nx/eslint-plugin/src/utils/ast-utils.js:103:47)
+    at Object.fix (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:200:98)
+    at normalizeFixes (/app/node_modules/eslint/lib/linter/file-report.js:297:25)
+    at FileReport.addRuleMessage (/app/node_modules/eslint/lib/linter/file-report.js:559:8)
+    at FileContext.report (/app/node_modules/eslint/lib/linter/linter.js:1111:28)
+    at run (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:182:25)
+    at ImportDeclaration (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:498:17)
+    at ruleErrorHandler (/app/node_modules/eslint/lib/linter/linter.js:1173:33)
+    at /app/node_modules/eslint/lib/linter/source-code-visitor.js:76:46
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+Error: ENOENT: no such file or directory, open '/app/libs/domains/crm/infrastructure/src/*'
+Occurred while linting /app/libs/domains/crm/application/src/lib/crm-application.module.ts:2
+Rule: "@nx/enforce-module-boundaries"
+    at readFileSync (node:fs:440:20)
+    at getRelativeImportPath (/app/node_modules/@nx/eslint-plugin/src/utils/ast-utils.js:103:47)
+    at Object.fix (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:200:98)
+    at normalizeFixes (/app/node_modules/eslint/lib/linter/file-report.js:297:25)
+    at FileReport.addRuleMessage (/app/node_modules/eslint/lib/linter/file-report.js:559:8)
+    at FileContext.report (/app/node_modules/eslint/lib/linter/linter.js:1111:28)
+    at run (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:182:25)
+    at ImportDeclaration (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:498:17)
+    at ruleErrorHandler (/app/node_modules/eslint/lib/linter/linter.js:1173:33)
+    at /app/node_modules/eslint/lib/linter/source-code-visitor.js:76:46
+Warning: command "eslint ." exited with non-zero status code
+> nx run admin-application:lint
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/admin/application/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "admin-application" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @nestjs/common[0m
+[0m    - @virteex/admin-domain  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 1 problem (1 error, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/admin/application/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "admin-application" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @nestjs/common[0m
+[0m    - @virteex/admin-domain  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 1 problem (1 error, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+Warning: command "eslint ." exited with non-zero status code
+> nx run fiscal-application:lint
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/fiscal/application/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "fiscal-application" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @nestjs/common[0m
+[0m    - @virteex/fiscal-domain  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/fiscal/application/src/lib/use-cases/get-tax-rules.use-case.ts[24m[0m
+[0m  [2m5:11[22m  [33mwarning[39m  'tenantId' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[31m[1m✖ 2 problems (1 error, 1 warning)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/fiscal/application/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "fiscal-application" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @nestjs/common[0m
+[0m    - @virteex/fiscal-domain  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/fiscal/application/src/lib/use-cases/get-tax-rules.use-case.ts[24m[0m
+[0m  [2m5:11[22m  [33mwarning[39m  'tenantId' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[31m[1m✖ 2 problems (1 error, 1 warning)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+Warning: command "eslint ." exited with non-zero status code
+> nx run treasury-application:lint
+
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+Error: ENOENT: no such file or directory, open '/app/libs/domains/treasury/infrastructure/src/*'
+Occurred while linting /app/libs/domains/treasury/application/src/lib/treasury-application.module.ts:6
+Rule: "@nx/enforce-module-boundaries"
+    at readFileSync (node:fs:440:20)
+    at getRelativeImportPath (/app/node_modules/@nx/eslint-plugin/src/utils/ast-utils.js:103:47)
+    at Object.fix (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:200:98)
+    at normalizeFixes (/app/node_modules/eslint/lib/linter/file-report.js:297:25)
+    at FileReport.addRuleMessage (/app/node_modules/eslint/lib/linter/file-report.js:559:8)
+    at FileContext.report (/app/node_modules/eslint/lib/linter/linter.js:1111:28)
+    at run (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:182:25)
+    at ImportDeclaration (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:498:17)
+    at ruleErrorHandler (/app/node_modules/eslint/lib/linter/linter.js:1173:33)
+    at /app/node_modules/eslint/lib/linter/source-code-visitor.js:76:46
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+Error: ENOENT: no such file or directory, open '/app/libs/domains/treasury/infrastructure/src/*'
+Occurred while linting /app/libs/domains/treasury/application/src/lib/treasury-application.module.ts:6
+Rule: "@nx/enforce-module-boundaries"
+    at readFileSync (node:fs:440:20)
+    at getRelativeImportPath (/app/node_modules/@nx/eslint-plugin/src/utils/ast-utils.js:103:47)
+    at Object.fix (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:200:98)
+    at normalizeFixes (/app/node_modules/eslint/lib/linter/file-report.js:297:25)
+    at FileReport.addRuleMessage (/app/node_modules/eslint/lib/linter/file-report.js:559:8)
+    at FileContext.report (/app/node_modules/eslint/lib/linter/linter.js:1111:28)
+    at run (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:182:25)
+    at ImportDeclaration (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:498:17)
+    at ruleErrorHandler (/app/node_modules/eslint/lib/linter/linter.js:1173:33)
+    at /app/node_modules/eslint/lib/linter/source-code-visitor.js:76:46
+Warning: command "eslint ." exited with non-zero status code
+> nx run inventory-application:lint
+
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+Error: ENOENT: no such file or directory, open '/app/libs/domains/inventory/infrastructure/src/*'
+Occurred while linting /app/libs/domains/inventory/application/src/lib/inventory-application.module.ts:7
+Rule: "@nx/enforce-module-boundaries"
+    at readFileSync (node:fs:440:20)
+    at getRelativeImportPath (/app/node_modules/@nx/eslint-plugin/src/utils/ast-utils.js:103:47)
+    at Object.fix (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:200:98)
+    at normalizeFixes (/app/node_modules/eslint/lib/linter/file-report.js:297:25)
+    at FileReport.addRuleMessage (/app/node_modules/eslint/lib/linter/file-report.js:559:8)
+    at FileContext.report (/app/node_modules/eslint/lib/linter/linter.js:1111:28)
+    at run (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:182:25)
+    at ImportDeclaration (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:498:17)
+    at ruleErrorHandler (/app/node_modules/eslint/lib/linter/linter.js:1173:33)
+    at /app/node_modules/eslint/lib/linter/source-code-visitor.js:76:46
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+Error: ENOENT: no such file or directory, open '/app/libs/domains/inventory/infrastructure/src/*'
+Occurred while linting /app/libs/domains/inventory/application/src/lib/inventory-application.module.ts:7
+Rule: "@nx/enforce-module-boundaries"
+    at readFileSync (node:fs:440:20)
+    at getRelativeImportPath (/app/node_modules/@nx/eslint-plugin/src/utils/ast-utils.js:103:47)
+    at Object.fix (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:200:98)
+    at normalizeFixes (/app/node_modules/eslint/lib/linter/file-report.js:297:25)
+    at FileReport.addRuleMessage (/app/node_modules/eslint/lib/linter/file-report.js:559:8)
+    at FileContext.report (/app/node_modules/eslint/lib/linter/linter.js:1111:28)
+    at run (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:182:25)
+    at ImportDeclaration (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:498:17)
+    at ruleErrorHandler (/app/node_modules/eslint/lib/linter/linter.js:1173:33)
+    at /app/node_modules/eslint/lib/linter/source-code-visitor.js:76:46
+Warning: command "eslint ." exited with non-zero status code
+> nx run projects-application:lint
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/projects/application/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "projects-application" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @nestjs/common[0m
+[0m    - @virteex/projects-domain  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 1 problem (1 error, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/projects/application/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "projects-application" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @nestjs/common[0m
+[0m    - @virteex/projects-domain  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 1 problem (1 error, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+Warning: command "eslint ." exited with non-zero status code
+> nx run fiscal-infrastructure:lint
+
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+Error: ENOENT: no such file or directory, open '/app/libs/domains/fiscal/domain/src/*'
+Occurred while linting /app/libs/domains/fiscal/infrastructure/src/lib/adapters/fiscal-data.adapter.ts:3
+Rule: "@nx/enforce-module-boundaries"
+    at readFileSync (node:fs:440:20)
+    at getRelativeImportPath (/app/node_modules/@nx/eslint-plugin/src/utils/ast-utils.js:103:47)
+    at Object.fix (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:200:98)
+    at normalizeFixes (/app/node_modules/eslint/lib/linter/file-report.js:297:25)
+    at FileReport.addRuleMessage (/app/node_modules/eslint/lib/linter/file-report.js:559:8)
+    at FileContext.report (/app/node_modules/eslint/lib/linter/linter.js:1111:28)
+    at run (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:182:25)
+    at ImportDeclaration (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:498:17)
+    at ruleErrorHandler (/app/node_modules/eslint/lib/linter/linter.js:1173:33)
+    at /app/node_modules/eslint/lib/linter/source-code-visitor.js:76:46
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+Error: ENOENT: no such file or directory, open '/app/libs/domains/fiscal/domain/src/*'
+Occurred while linting /app/libs/domains/fiscal/infrastructure/src/lib/adapters/fiscal-data.adapter.ts:3
+Rule: "@nx/enforce-module-boundaries"
+    at readFileSync (node:fs:440:20)
+    at getRelativeImportPath (/app/node_modules/@nx/eslint-plugin/src/utils/ast-utils.js:103:47)
+    at Object.fix (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:200:98)
+    at normalizeFixes (/app/node_modules/eslint/lib/linter/file-report.js:297:25)
+    at FileReport.addRuleMessage (/app/node_modules/eslint/lib/linter/file-report.js:559:8)
+    at FileContext.report (/app/node_modules/eslint/lib/linter/linter.js:1111:28)
+    at run (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:182:25)
+    at ImportDeclaration (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:498:17)
+    at ruleErrorHandler (/app/node_modules/eslint/lib/linter/linter.js:1173:33)
+    at /app/node_modules/eslint/lib/linter/source-code-visitor.js:76:46
+Warning: command "eslint ." exited with non-zero status code
+> nx run manufacturing-application:lint
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/manufacturing/application/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "manufacturing-application" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @nestjs/common[0m
+[0m    - @virteex/manufacturing-domain  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 1 problem (1 error, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/manufacturing/application/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "manufacturing-application" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @nestjs/common[0m
+[0m    - @virteex/manufacturing-domain  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 1 problem (1 error, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+Warning: command "eslint ." exited with non-zero status code
+> nx run fixed-assets-application:lint
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/fixed-assets/application/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "fixed-assets-application" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @nestjs/common[0m
+[0m    - @virteex/fixed-assets-domain  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 1 problem (1 error, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/fixed-assets/application/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "fixed-assets-application" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @nestjs/common[0m
+[0m    - @virteex/fixed-assets-domain  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 1 problem (1 error, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+Warning: command "eslint ." exited with non-zero status code
+> nx run accounting-application:lint
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/accounting/application/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "accounting-application" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @virteex/accounting-infrastructure  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/accounting/application/src/lib/accounting-application.module.ts[24m[0m
+[0m  [2m6:1[22m  [31merror[39m  A project tagged with "type:application" can only depend on libs tagged with "type:domain", "type:contract", "type:util"  [2m@nx/enforce-module-boundaries[22m[0m
+[0m[0m
+[0m[31m[1m✖ 2 problems (2 errors, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/accounting/application/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "accounting-application" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @virteex/accounting-infrastructure  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/accounting/application/src/lib/accounting-application.module.ts[24m[0m
+[0m  [2m6:1[22m  [31merror[39m  A project tagged with "type:application" can only depend on libs tagged with "type:domain", "type:contract", "type:util"  [2m@nx/enforce-module-boundaries[22m[0m
+[0m[0m
+[0m[31m[1m✖ 2 problems (2 errors, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+Warning: command "eslint ." exited with non-zero status code
+> nx run payroll-application:lint
+
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+Error: ENOENT: no such file or directory, open '/app/libs/domains/payroll/infrastructure/src/*'
+Occurred while linting /app/libs/domains/payroll/application/src/lib/payroll-application.module.ts:4
+Rule: "@nx/enforce-module-boundaries"
+    at readFileSync (node:fs:440:20)
+    at getRelativeImportPath (/app/node_modules/@nx/eslint-plugin/src/utils/ast-utils.js:103:47)
+    at Object.fix (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:200:98)
+    at normalizeFixes (/app/node_modules/eslint/lib/linter/file-report.js:297:25)
+    at FileReport.addRuleMessage (/app/node_modules/eslint/lib/linter/file-report.js:559:8)
+    at FileContext.report (/app/node_modules/eslint/lib/linter/linter.js:1111:28)
+    at run (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:182:25)
+    at ImportDeclaration (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:498:17)
+    at ruleErrorHandler (/app/node_modules/eslint/lib/linter/linter.js:1173:33)
+    at /app/node_modules/eslint/lib/linter/source-code-visitor.js:76:46
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+Error: ENOENT: no such file or directory, open '/app/libs/domains/payroll/infrastructure/src/*'
+Occurred while linting /app/libs/domains/payroll/application/src/lib/payroll-application.module.ts:4
+Rule: "@nx/enforce-module-boundaries"
+    at readFileSync (node:fs:440:20)
+    at getRelativeImportPath (/app/node_modules/@nx/eslint-plugin/src/utils/ast-utils.js:103:47)
+    at Object.fix (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:200:98)
+    at normalizeFixes (/app/node_modules/eslint/lib/linter/file-report.js:297:25)
+    at FileReport.addRuleMessage (/app/node_modules/eslint/lib/linter/file-report.js:559:8)
+    at FileContext.report (/app/node_modules/eslint/lib/linter/linter.js:1111:28)
+    at run (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:182:25)
+    at ImportDeclaration (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:498:17)
+    at ruleErrorHandler (/app/node_modules/eslint/lib/linter/linter.js:1173:33)
+    at /app/node_modules/eslint/lib/linter/source-code-visitor.js:76:46
+Warning: command "eslint ." exited with non-zero status code
+> nx run purchasing-application:lint
+
+
+Linting "purchasing-application"...
+
+[0m[7m[1m[31m NX [39m[22m[27m[0m  [31mENOENT: no such file or directory, open '/app/libs/domains/purchasing/infrastructure/src/*'[39m
+
+Occurred while linting /app/libs/domains/purchasing/application/src/lib/purchasing-application.module.ts:9
+Rule: "@nx/enforce-module-boundaries"
+Error: ENOENT: no such file or directory, open '/app/libs/domains/purchasing/infrastructure/src/*'
+Occurred while linting /app/libs/domains/purchasing/application/src/lib/purchasing-application.module.ts:9
+Rule: "@nx/enforce-module-boundaries"
+    at readFileSync (node:fs:440:20)
+    at getRelativeImportPath (/app/node_modules/@nx/eslint-plugin/src/utils/ast-utils.js:103:47)
+    at Object.fix (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:200:98)
+    at normalizeFixes (/app/node_modules/eslint/lib/linter/file-report.js:297:25)
+    at FileReport.addRuleMessage (/app/node_modules/eslint/lib/linter/file-report.js:559:8)
+    at FileContext.report (/app/node_modules/eslint/lib/linter/linter.js:1111:28)
+    at run (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:182:25)
+    at ImportDeclaration (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:498:17)
+    at ruleErrorHandler (/app/node_modules/eslint/lib/linter/linter.js:1173:33)
+    at /app/node_modules/eslint/lib/linter/source-code-visitor.js:76:46
+
+
+> nx run bi-infrastructure:lint
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/bi/infrastructure/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "bi-infrastructure" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @nestjs/common[0m
+[0m    - @mikro-orm/nestjs[0m
+[0m    - @virteex/bi-domain[0m
+[0m    - @mikro-orm/postgresql  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 1 problem (1 error, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/bi/infrastructure/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "bi-infrastructure" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @nestjs/common[0m
+[0m    - @mikro-orm/nestjs[0m
+[0m    - @virteex/bi-domain[0m
+[0m    - @mikro-orm/postgresql  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 1 problem (1 error, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+Warning: command "eslint ." exited with non-zero status code
+> nx run catalog-application:lint  [existing outputs match the cache, left as is]
+
+> eslint .
+
+
+> nx run catalog-infrastructure:lint  [existing outputs match the cache, left as is]
+
+> eslint .
+
+
+> nx run bi-application:lint
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/bi/application/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "bi-application" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @nestjs/common[0m
+[0m    - @virteex/bi-domain[0m
+[0m    - @virteex/accounting-domain  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/bi/application/src/lib/use-cases/generate-report.use-case.ts[24m[0m
+[0m  [2m8:16[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/bi/application/src/lib/use-cases/get-top-products.use-case.ts[24m[0m
+[0m  [2m5:11[22m  [33mwarning[39m  'tenantId' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[31m[1m✖ 3 problems (1 error, 2 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/bi/application/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "bi-application" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @nestjs/common[0m
+[0m    - @virteex/bi-domain[0m
+[0m    - @virteex/accounting-domain  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/bi/application/src/lib/use-cases/generate-report.use-case.ts[24m[0m
+[0m  [2m8:16[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/bi/application/src/lib/use-cases/get-top-products.use-case.ts[24m[0m
+[0m  [2m5:11[22m  [33mwarning[39m  'tenantId' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[31m[1m✖ 3 problems (1 error, 2 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+Warning: command "eslint ." exited with non-zero status code
+> nx run identity-infrastructure:lint
+
+
+Linting "identity-infrastructure"...
+[0m[0m
+[0m[4m/app/libs/domains/identity/infrastructure/jest.config.cts[24m[0m
+[0m  [2m1:1[22m  [33mwarning[39m  Unused eslint-disable directive (no problems were reported)[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/infrastructure/src/lib/adapters/storage.adapter.ts[24m[0m
+[0m  [2m3:1[22m  [31merror[39m  A project tagged with "type:infrastructure" can only depend on libs tagged with "type:domain", "type:application", "type:contract", "type:util"  [2m@nx/enforce-module-boundaries[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/infrastructure/src/lib/identity-infrastructure.module.ts[24m[0m
+[0m  [2m22:1[22m  [31merror[39m  A project tagged with "type:infrastructure" can only depend on libs tagged with "type:domain", "type:application", "type:contract", "type:util"  [2m@nx/enforce-module-boundaries[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/infrastructure/src/lib/services/node-crypto-auth.service.ts[24m[0m
+[0m   [2m7:11[22m  [33mwarning[39m  'JwtPayload' is defined but never used    [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m49:32[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m54:45[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m57:14[22m  [33mwarning[39m  'error' is defined but never used         [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[31m[1m✖ 7 problems (2 errors, 5 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  0 errors and 1 warning potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+✖ 7 problems (2 errors, 5 warnings)
+
+  0 errors and 1 warning are potentially fixable with the `--fix` option.
+
+
+> nx run admin-presentation:lint
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/admin/presentation/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "admin-presentation" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @nestjs/common[0m
+[0m    - @virteex/admin-application[0m
+[0m    - @nestjs/swagger  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 1 problem (1 error, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/admin/presentation/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "admin-presentation" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @nestjs/common[0m
+[0m    - @virteex/admin-application[0m
+[0m    - @nestjs/swagger  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 1 problem (1 error, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+Warning: command "eslint ." exited with non-zero status code
+> nx run fiscal-presentation:lint
+
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+Error: ENOENT: no such file or directory, open '/app/libs/domains/fiscal/infrastructure/src/*'
+Occurred while linting /app/libs/domains/fiscal/presentation/src/lib/fiscal-presentation.module.ts:9
+Rule: "@nx/enforce-module-boundaries"
+    at readFileSync (node:fs:440:20)
+    at getRelativeImportPath (/app/node_modules/@nx/eslint-plugin/src/utils/ast-utils.js:103:47)
+    at Object.fix (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:200:98)
+    at normalizeFixes (/app/node_modules/eslint/lib/linter/file-report.js:297:25)
+    at FileReport.addRuleMessage (/app/node_modules/eslint/lib/linter/file-report.js:559:8)
+    at FileContext.report (/app/node_modules/eslint/lib/linter/linter.js:1111:28)
+    at run (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:182:25)
+    at ImportDeclaration (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:498:17)
+    at ruleErrorHandler (/app/node_modules/eslint/lib/linter/linter.js:1173:33)
+    at /app/node_modules/eslint/lib/linter/source-code-visitor.js:76:46
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+Error: ENOENT: no such file or directory, open '/app/libs/domains/fiscal/infrastructure/src/*'
+Occurred while linting /app/libs/domains/fiscal/presentation/src/lib/fiscal-presentation.module.ts:9
+Rule: "@nx/enforce-module-boundaries"
+    at readFileSync (node:fs:440:20)
+    at getRelativeImportPath (/app/node_modules/@nx/eslint-plugin/src/utils/ast-utils.js:103:47)
+    at Object.fix (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:200:98)
+    at normalizeFixes (/app/node_modules/eslint/lib/linter/file-report.js:297:25)
+    at FileReport.addRuleMessage (/app/node_modules/eslint/lib/linter/file-report.js:559:8)
+    at FileContext.report (/app/node_modules/eslint/lib/linter/linter.js:1111:28)
+    at run (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:182:25)
+    at ImportDeclaration (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:498:17)
+    at ruleErrorHandler (/app/node_modules/eslint/lib/linter/linter.js:1173:33)
+    at /app/node_modules/eslint/lib/linter/source-code-visitor.js:76:46
+Warning: command "eslint ." exited with non-zero status code
+> nx run catalog-presentation:lint
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/catalog/presentation/src/lib/controllers/catalog.controller.ts[24m[0m
+[0m  [2m24:40[22m  [31merror[39m  Type string trivially inferred from a string literal, remove type annotation  [2m@typescript-eslint/no-inferrable-types[22m[0m
+[0m[0m
+[0m[31m[1m✖ 1 problem (1 error, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/catalog/presentation/src/lib/controllers/catalog.controller.ts[24m[0m
+[0m  [2m24:40[22m  [31merror[39m  Type string trivially inferred from a string literal, remove type annotation  [2m@typescript-eslint/no-inferrable-types[22m[0m
+[0m[0m
+[0m[31m[1m✖ 1 problem (1 error, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+Warning: command "eslint ." exited with non-zero status code
+> nx run projects-infrastructure:lint
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/projects/infrastructure/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "projects-infrastructure" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @nestjs/common[0m
+[0m    - @mikro-orm/nestjs[0m
+[0m    - @virteex/projects-domain[0m
+[0m    - @mikro-orm/postgresql  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 1 problem (1 error, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/projects/infrastructure/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "projects-infrastructure" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @nestjs/common[0m
+[0m    - @mikro-orm/nestjs[0m
+[0m    - @virteex/projects-domain[0m
+[0m    - @mikro-orm/postgresql  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 1 problem (1 error, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+Warning: command "eslint ." exited with non-zero status code
+> nx run fixed-assets-presentation:lint
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/fixed-assets/presentation/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "fixed-assets-presentation" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @nestjs/common[0m
+[0m    - @nestjs/swagger[0m
+[0m    - @virteex/fixed-assets-application  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 1 problem (1 error, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/fixed-assets/presentation/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "fixed-assets-presentation" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @nestjs/common[0m
+[0m    - @nestjs/swagger[0m
+[0m    - @virteex/fixed-assets-application  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 1 problem (1 error, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+Warning: command "eslint ." exited with non-zero status code
+> nx run manufacturing-presentation:lint
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/manufacturing/presentation/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "manufacturing-presentation" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @nestjs/common[0m
+[0m    - @nestjs/swagger[0m
+[0m    - @virteex/manufacturing-application  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 1 problem (1 error, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/manufacturing/presentation/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "manufacturing-presentation" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @nestjs/common[0m
+[0m    - @nestjs/swagger[0m
+[0m    - @virteex/manufacturing-application  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 1 problem (1 error, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+Warning: command "eslint ." exited with non-zero status code
+> nx run manufacturing-infrastructure:lint
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/manufacturing/infrastructure/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "manufacturing-infrastructure" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @nestjs/common[0m
+[0m    - @mikro-orm/nestjs[0m
+[0m    - @virteex/manufacturing-domain[0m
+[0m    - @mikro-orm/postgresql  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 1 problem (1 error, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/manufacturing/infrastructure/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "manufacturing-infrastructure" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @nestjs/common[0m
+[0m    - @mikro-orm/nestjs[0m
+[0m    - @virteex/manufacturing-domain[0m
+[0m    - @mikro-orm/postgresql  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 1 problem (1 error, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+Warning: command "eslint ." exited with non-zero status code
+> nx run fixed-assets-infrastructure:lint
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/fixed-assets/infrastructure/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "fixed-assets-infrastructure" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @nestjs/common[0m
+[0m    - @mikro-orm/nestjs[0m
+[0m    - @virteex/fixed-assets-domain[0m
+[0m    - @mikro-orm/postgresql  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 1 problem (1 error, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/fixed-assets/infrastructure/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "fixed-assets-infrastructure" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @nestjs/common[0m
+[0m    - @mikro-orm/nestjs[0m
+[0m    - @virteex/fixed-assets-domain[0m
+[0m    - @mikro-orm/postgresql  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 1 problem (1 error, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+Warning: command "eslint ." exited with non-zero status code
+> nx run inventory-presentation:lint
+
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+Error: ENOENT: no such file or directory, open '/app/libs/domains/inventory/application/src/*'
+Occurred while linting /app/libs/domains/inventory/presentation/src/lib/controllers/inventory.controller.ts:3
+Rule: "@nx/enforce-module-boundaries"
+    at readFileSync (node:fs:440:20)
+    at getRelativeImportPath (/app/node_modules/@nx/eslint-plugin/src/utils/ast-utils.js:103:47)
+    at Object.fix (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:200:98)
+    at normalizeFixes (/app/node_modules/eslint/lib/linter/file-report.js:297:25)
+    at FileReport.addRuleMessage (/app/node_modules/eslint/lib/linter/file-report.js:559:8)
+    at FileContext.report (/app/node_modules/eslint/lib/linter/linter.js:1111:28)
+    at run (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:182:25)
+    at ImportDeclaration (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:498:17)
+    at ruleErrorHandler (/app/node_modules/eslint/lib/linter/linter.js:1173:33)
+    at /app/node_modules/eslint/lib/linter/source-code-visitor.js:76:46
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+Error: ENOENT: no such file or directory, open '/app/libs/domains/inventory/application/src/*'
+Occurred while linting /app/libs/domains/inventory/presentation/src/lib/controllers/inventory.controller.ts:3
+Rule: "@nx/enforce-module-boundaries"
+    at readFileSync (node:fs:440:20)
+    at getRelativeImportPath (/app/node_modules/@nx/eslint-plugin/src/utils/ast-utils.js:103:47)
+    at Object.fix (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:200:98)
+    at normalizeFixes (/app/node_modules/eslint/lib/linter/file-report.js:297:25)
+    at FileReport.addRuleMessage (/app/node_modules/eslint/lib/linter/file-report.js:559:8)
+    at FileContext.report (/app/node_modules/eslint/lib/linter/linter.js:1111:28)
+    at run (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:182:25)
+    at ImportDeclaration (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:498:17)
+    at ruleErrorHandler (/app/node_modules/eslint/lib/linter/linter.js:1173:33)
+    at /app/node_modules/eslint/lib/linter/source-code-visitor.js:76:46
+Warning: command "eslint ." exited with non-zero status code
+> nx run projects-presentation:lint
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/projects/presentation/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "projects-presentation" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @nestjs/common[0m
+[0m    - @nestjs/swagger[0m
+[0m    - @virteex/projects-application  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 1 problem (1 error, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/projects/presentation/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "projects-presentation" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @nestjs/common[0m
+[0m    - @nestjs/swagger[0m
+[0m    - @virteex/projects-application  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 1 problem (1 error, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+Warning: command "eslint ." exited with non-zero status code
+> nx run treasury-presentation:lint
+
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+Error: ENOENT: no such file or directory, open '/app/libs/domains/treasury/contracts/src/*'
+Occurred while linting /app/libs/domains/treasury/presentation/src/lib/controllers/treasury.controller.ts:3
+Rule: "@nx/enforce-module-boundaries"
+    at readFileSync (node:fs:440:20)
+    at getRelativeImportPath (/app/node_modules/@nx/eslint-plugin/src/utils/ast-utils.js:103:47)
+    at Object.fix (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:200:98)
+    at normalizeFixes (/app/node_modules/eslint/lib/linter/file-report.js:297:25)
+    at FileReport.addRuleMessage (/app/node_modules/eslint/lib/linter/file-report.js:559:8)
+    at FileContext.report (/app/node_modules/eslint/lib/linter/linter.js:1111:28)
+    at run (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:182:25)
+    at ImportDeclaration (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:498:17)
+    at ruleErrorHandler (/app/node_modules/eslint/lib/linter/linter.js:1173:33)
+    at /app/node_modules/eslint/lib/linter/source-code-visitor.js:76:46
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+Error: ENOENT: no such file or directory, open '/app/libs/domains/treasury/contracts/src/*'
+Occurred while linting /app/libs/domains/treasury/presentation/src/lib/controllers/treasury.controller.ts:3
+Rule: "@nx/enforce-module-boundaries"
+    at readFileSync (node:fs:440:20)
+    at getRelativeImportPath (/app/node_modules/@nx/eslint-plugin/src/utils/ast-utils.js:103:47)
+    at Object.fix (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:200:98)
+    at normalizeFixes (/app/node_modules/eslint/lib/linter/file-report.js:297:25)
+    at FileReport.addRuleMessage (/app/node_modules/eslint/lib/linter/file-report.js:559:8)
+    at FileContext.report (/app/node_modules/eslint/lib/linter/linter.js:1111:28)
+    at run (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:182:25)
+    at ImportDeclaration (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:498:17)
+    at ruleErrorHandler (/app/node_modules/eslint/lib/linter/linter.js:1173:33)
+    at /app/node_modules/eslint/lib/linter/source-code-visitor.js:76:46
+Warning: command "eslint ." exited with non-zero status code
+> nx run admin-infrastructure:lint
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/admin/infrastructure/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "admin-infrastructure" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @nestjs/common[0m
+[0m    - @mikro-orm/nestjs[0m
+[0m    - @virteex/admin-domain[0m
+[0m    - @mikro-orm/postgresql  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 1 problem (1 error, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/admin/infrastructure/package.json[24m[0m
+[0m  [2m8:3[22m  [31merror[39m  The "admin-infrastructure" project uses the following packages, but they are missing from "dependencies":[0m
+[0m    - @nestjs/common[0m
+[0m    - @mikro-orm/nestjs[0m
+[0m    - @virteex/admin-domain[0m
+[0m    - @mikro-orm/postgresql  [2m@nx/dependency-checks[22m[0m
+[0m[0m
+[0m[31m[1m✖ 1 problem (1 error, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+Warning: command "eslint ." exited with non-zero status code
+> nx run payroll-presentation:lint
+
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+Error: ENOENT: no such file or directory, open '/app/libs/domains/payroll/contracts/src/*'
+Occurred while linting /app/libs/domains/payroll/presentation/src/lib/controllers/payroll.controller.ts:3
+Rule: "@nx/enforce-module-boundaries"
+    at readFileSync (node:fs:440:20)
+    at getRelativeImportPath (/app/node_modules/@nx/eslint-plugin/src/utils/ast-utils.js:103:47)
+    at Object.fix (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:200:98)
+    at normalizeFixes (/app/node_modules/eslint/lib/linter/file-report.js:297:25)
+    at FileReport.addRuleMessage (/app/node_modules/eslint/lib/linter/file-report.js:559:8)
+    at FileContext.report (/app/node_modules/eslint/lib/linter/linter.js:1111:28)
+    at run (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:182:25)
+    at ImportDeclaration (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:498:17)
+    at ruleErrorHandler (/app/node_modules/eslint/lib/linter/linter.js:1173:33)
+    at /app/node_modules/eslint/lib/linter/source-code-visitor.js:76:46
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+Error: ENOENT: no such file or directory, open '/app/libs/domains/payroll/contracts/src/*'
+Occurred while linting /app/libs/domains/payroll/presentation/src/lib/controllers/payroll.controller.ts:3
+Rule: "@nx/enforce-module-boundaries"
+    at readFileSync (node:fs:440:20)
+    at getRelativeImportPath (/app/node_modules/@nx/eslint-plugin/src/utils/ast-utils.js:103:47)
+    at Object.fix (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:200:98)
+    at normalizeFixes (/app/node_modules/eslint/lib/linter/file-report.js:297:25)
+    at FileReport.addRuleMessage (/app/node_modules/eslint/lib/linter/file-report.js:559:8)
+    at FileContext.report (/app/node_modules/eslint/lib/linter/linter.js:1111:28)
+    at run (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:182:25)
+    at ImportDeclaration (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:498:17)
+    at ruleErrorHandler (/app/node_modules/eslint/lib/linter/linter.js:1173:33)
+    at /app/node_modules/eslint/lib/linter/source-code-visitor.js:76:46
+Warning: command "eslint ." exited with non-zero status code
+> nx run crm-presentation:lint
+
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+Error: ENOENT: no such file or directory, open '/app/libs/domains/crm/application/src/*'
+Occurred while linting /app/libs/domains/crm/presentation/src/lib/controllers/crm.controller.ts:3
+Rule: "@nx/enforce-module-boundaries"
+    at readFileSync (node:fs:440:20)
+    at getRelativeImportPath (/app/node_modules/@nx/eslint-plugin/src/utils/ast-utils.js:103:47)
+    at Object.fix (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:200:98)
+    at normalizeFixes (/app/node_modules/eslint/lib/linter/file-report.js:297:25)
+    at FileReport.addRuleMessage (/app/node_modules/eslint/lib/linter/file-report.js:559:8)
+    at FileContext.report (/app/node_modules/eslint/lib/linter/linter.js:1111:28)
+    at run (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:182:25)
+    at ImportDeclaration (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:498:17)
+    at ruleErrorHandler (/app/node_modules/eslint/lib/linter/linter.js:1173:33)
+    at /app/node_modules/eslint/lib/linter/source-code-visitor.js:76:46
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+Error: ENOENT: no such file or directory, open '/app/libs/domains/crm/application/src/*'
+Occurred while linting /app/libs/domains/crm/presentation/src/lib/controllers/crm.controller.ts:3
+Rule: "@nx/enforce-module-boundaries"
+    at readFileSync (node:fs:440:20)
+    at getRelativeImportPath (/app/node_modules/@nx/eslint-plugin/src/utils/ast-utils.js:103:47)
+    at Object.fix (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:200:98)
+    at normalizeFixes (/app/node_modules/eslint/lib/linter/file-report.js:297:25)
+    at FileReport.addRuleMessage (/app/node_modules/eslint/lib/linter/file-report.js:559:8)
+    at FileContext.report (/app/node_modules/eslint/lib/linter/linter.js:1111:28)
+    at run (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:182:25)
+    at ImportDeclaration (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:498:17)
+    at ruleErrorHandler (/app/node_modules/eslint/lib/linter/linter.js:1173:33)
+    at /app/node_modules/eslint/lib/linter/source-code-visitor.js:76:46
+Warning: command "eslint ." exited with non-zero status code
+> nx run bi-presentation:lint
+
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+Error: ENOENT: no such file or directory, open '/app/libs/domains/bi/infrastructure/src/*'
+Occurred while linting /app/libs/domains/bi/presentation/src/lib/bi-presentation.module.ts:8
+Rule: "@nx/enforce-module-boundaries"
+    at readFileSync (node:fs:440:20)
+    at getRelativeImportPath (/app/node_modules/@nx/eslint-plugin/src/utils/ast-utils.js:103:47)
+    at Object.fix (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:200:98)
+    at normalizeFixes (/app/node_modules/eslint/lib/linter/file-report.js:297:25)
+    at FileReport.addRuleMessage (/app/node_modules/eslint/lib/linter/file-report.js:559:8)
+    at FileContext.report (/app/node_modules/eslint/lib/linter/linter.js:1111:28)
+    at run (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:182:25)
+    at ImportDeclaration (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:498:17)
+    at ruleErrorHandler (/app/node_modules/eslint/lib/linter/linter.js:1173:33)
+    at /app/node_modules/eslint/lib/linter/source-code-visitor.js:76:46
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+Error: ENOENT: no such file or directory, open '/app/libs/domains/bi/infrastructure/src/*'
+Occurred while linting /app/libs/domains/bi/presentation/src/lib/bi-presentation.module.ts:8
+Rule: "@nx/enforce-module-boundaries"
+    at readFileSync (node:fs:440:20)
+    at getRelativeImportPath (/app/node_modules/@nx/eslint-plugin/src/utils/ast-utils.js:103:47)
+    at Object.fix (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:200:98)
+    at normalizeFixes (/app/node_modules/eslint/lib/linter/file-report.js:297:25)
+    at FileReport.addRuleMessage (/app/node_modules/eslint/lib/linter/file-report.js:559:8)
+    at FileContext.report (/app/node_modules/eslint/lib/linter/linter.js:1111:28)
+    at run (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:182:25)
+    at ImportDeclaration (/app/node_modules/@nx/eslint-plugin/src/rules/enforce-module-boundaries.js:498:17)
+    at ruleErrorHandler (/app/node_modules/eslint/lib/linter/linter.js:1173:33)
+    at /app/node_modules/eslint/lib/linter/source-code-visitor.js:76:46
+Warning: command "eslint ." exited with non-zero status code
+> nx run identity-presentation:lint
+
+
+Linting "identity-presentation"...
+[0m[0m
+[0m[4m/app/libs/domains/identity/presentation/jest.config.cts[24m[0m
+[0m  [2m1:1[22m  [33mwarning[39m  Unused eslint-disable directive (no problems were reported)[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/presentation/src/lib/controllers/users.controller.ts[24m[0m
+[0m   [2m3:8[22m   [33mwarning[39m  'UnauthorizedException' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m12:10[22m  [33mwarning[39m  'Request' is defined but never used                [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m25:34[22m  [33mwarning[39m  Unexpected any. Specify a different type           [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m31:37[22m  [33mwarning[39m  Unexpected any. Specify a different type           [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m37:28[22m  [33mwarning[39m  Unexpected any. Specify a different type           [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m44:28[22m  [33mwarning[39m  Unexpected any. Specify a different type           [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m44:55[22m  [33mwarning[39m  Unexpected any. Specify a different type           [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[33m[1m✖ 8 problems (0 errors, 8 warnings)[22m[39m[0m
+[0m[33m[1m[22m[39m[33m[1m  0 errors and 1 warning potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[33m[1m[22m[39m[0m
+✖ 8 problems (0 errors, 8 warnings)
+
+  0 errors and 1 warning are potentially fixable with the `--fix` option.
+
+
+> nx run purchasing-presentation:lint
+
+
+Linting "purchasing-presentation"...
+
+✔ All files pass linting
+
+
+> nx run billing-infrastructure:lint  [existing outputs match the cache, left as is]
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/billing/infrastructure/src/lib/providers/finkok-pac.provider.ts[24m[0m
+[0m  [2m35:20[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m81:23[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[33m[1m✖ 2 problems (0 errors, 2 warnings)[22m[39m[0m
+[0m[33m[1m[22m[39m[0m
+
+> nx run accounting-presentation:lint  [existing outputs match the cache, left as is]
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/domains/accounting/presentation/src/lib/controllers/accounting.controller.ts[24m[0m
+[0m  [2m2:33[22m  [33mwarning[39m  'ApiResponse' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[33m[1m✖ 1 problem (0 errors, 1 warning)[22m[39m[0m
+[0m[33m[1m[22m[39m[0m
+
+> nx run shared-util-server-config:lint
+
+
+Linting "shared-util-server-config"...
+
+✔ All files pass linting
+
+
+> nx run identity-ui:lint
+
+
+Linting "identity-ui"...
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/components/country-selector/country-selector.component.ts[24m[0m
+[0m  [2m21:7[22m   [31merror[39m  A label component must be associated with a form element  [2m@angular-eslint/template/label-has-associated-control[22m[0m
+[0m  [2m28:33[22m  [31merror[39m  Use built-in control flow instead of directive ngForOf    [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m35:13[22m  [31merror[39m  Use built-in control flow instead of directive ngIf       [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/components/auth-button/auth-button.component.html[24m[0m
+[0m   [2m9:9[22m   [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m12:10[22m  [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/components/auth-button/auth-button.component.ts[24m[0m
+[0m  [2m16:13[22m  [31merror[39m  Output bindings, including aliases, should not be named "on", nor prefixed with it (https://angular.dev/guide/components/outputs#choosing-event-names)  [2m@angular-eslint/no-output-on-prefix[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/components/auth-footer/auth-footer.component.html[24m[0m
+[0m  [2m23:30[22m  [31merror[39m  Use built-in control flow instead of directive ngForOf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m27:27[22m  [31merror[39m  Use built-in control flow instead of directive ngIf     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/components/auth-input/auth-input.component.html[24m[0m
+[0m   [2m2:11[22m  [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m6:33[22m  [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m17:11[22m  [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m35:8[22m   [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m40:13[22m  [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m41:13[22m  [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m46:9[22m   [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/components/auth-input/auth-input.component.ts[24m[0m
+[0m  [2m34:15[22m  [33mwarning[39m  'value' is defined but never used                                                                                                          [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m34:22[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                                                   [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m34:30[22m  [31merror[39m    Unexpected empty method 'onChange'                                                                                                         [2m@typescript-eslint/no-empty-function[22m[0m
+[0m  [2m35:21[22m  [31merror[39m    Unexpected empty method 'onTouched'                                                                                                        [2m@typescript-eslint/no-empty-function[22m[0m
+[0m  [2m37:3[22m   [33mwarning[39m  Lifecycle interface 'OnInit' should be implemented for method 'ngOnInit'. (https://angular.dev/style-guide#use-lifecycle-hook-interfaces)  [2m@angular-eslint/use-lifecycle-interface[22m[0m
+[0m  [2m50:21[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                                                   [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m54:24[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                                                   [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m59:25[22m  [33mwarning[39m  Unexpected any. Specify a different type                                                                                                   [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m64:5[22m   [31merror[39m    Expected an assignment or function call and instead saw an expression                                                                      [2m@typescript-eslint/no-unused-expressions[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/components/passkey-button/passkey-button.component.ts[24m[0m
+[0m  [2m37:15[22m  [31merror[39m  Output bindings, including aliases, should not be named "on", nor prefixed with it (https://angular.dev/guide/components/outputs#choosing-event-names)  [2m@angular-eslint/no-output-on-prefix[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/components/password-validator/password-validator.component.ts[24m[0m
+[0m  [2m36:12[22m  [33mwarning[39m  'level' is defined but never used                    [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m17:57[22m  [31merror[39m    Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/components/social-auth-buttons/social-auth-buttons.component.ts[24m[0m
+[0m  [2m13:13[22m  [31merror[39m  Output bindings, including aliases, should not be named "on", nor prefixed with it (https://angular.dev/guide/components/outputs#choosing-event-names)  [2m@angular-eslint/no-output-on-prefix[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/forgot-password/forgot-password/forgot-password.page.html[24m[0m
+[0m  [2m14:11[22m  [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m22:12[22m  [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m34:13[22m  [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/forgot-password/forgot-password/forgot-password.page.spec.ts[24m[0m
+[0m  [2m19:18[22m  [33mwarning[39m  'lang' is defined but never used          [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m19:44[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/forgot-password/forgot-password/forgot-password.page.ts[24m[0m
+[0m   [2m3:23[22m  [33mwarning[39m  'FormGroup' is defined but never used              [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m   [2m4:10[22m  [33mwarning[39m  'Router' is defined but never used                 [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m   [2m6:10[22m  [33mwarning[39m  'RECAPTCHA_V3_SITE_KEY' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m10:27[22m  [33mwarning[39m  'TranslateService' is defined but never used       [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m76:23[22m  [33mwarning[39m  Forbidden non-null assertion                       [2m@typescript-eslint/no-non-null-assertion[22m[0m
+[0m  [2m80:14[22m  [33mwarning[39m  'response' is defined but never used               [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m85:15[22m  [33mwarning[39m  'err' is defined but never used                    [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/login/login.page.html[24m[0m
+[0m    [2m3:9[22m   [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m91:15[22m  [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m102:25[22m  [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/login/login.page.spec.ts[24m[0m
+[0m  [2m12:44[22m  [33mwarning[39m  'TranslateService' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m22:18[22m  [33mwarning[39m  'lang' is defined but never used              [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m22:44[22m  [33mwarning[39m  Unexpected any. Specify a different type      [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/login/login.page.ts[24m[0m
+[0m  [2m133:28[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m158:22[22m  [33mwarning[39m  Forbidden non-null assertion              [2m@typescript-eslint/no-non-null-assertion[22m[0m
+[0m  [2m167:38[22m  [33mwarning[39m  Forbidden non-null assertion              [2m@typescript-eslint/no-non-null-assertion[22m[0m
+[0m  [2m171:15[22m  [33mwarning[39m  'err' is defined but never used           [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m185:31[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m193:28[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/register/register.page.html[24m[0m
+[0m   [2m22:38[22m  [31merror[39m  Use built-in control flow instead of directive ngForOf                                  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m23:9[22m   [31merror[39m  click must be accompanied by either keyup, keydown or keypress event for accessibility  [2m@angular-eslint/template/click-events-have-key-events[22m[0m
+[0m   [2m23:9[22m   [31merror[39m  Elements with interaction handlers must be focusable                                    [2m@angular-eslint/template/interactive-supports-focus[22m[0m
+[0m   [2m35:28[22m  [31merror[39m  Use built-in control flow instead of directive ngIf                                     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m48:13[22m  [31merror[39m  Use built-in control flow instead of directive ngIf                                     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m53:13[22m  [31merror[39m  Use built-in control flow instead of directive ngIf                                     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m58:13[22m  [31merror[39m  Use built-in control flow instead of directive ngIf                                     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m63:13[22m  [31merror[39m  Use built-in control flow instead of directive ngIf                                     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m71:12[22m  [31merror[39m  Use built-in control flow instead of directive ngIf                                     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m77:15[22m  [31merror[39m  Use built-in control flow instead of directive ngIf                                     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m79:42[22m  [31merror[39m  Use built-in control flow instead of directive ngIf                                     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m88:42[22m  [31merror[39m  Use built-in control flow instead of directive ngIf                                     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m102:11[22m  [31merror[39m  Use built-in control flow instead of directive ngIf                                     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/register/register.page.spec.ts[24m[0m
+[0m  [2m17:18[22m  [33mwarning[39m  'lang' is defined but never used          [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m17:44[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/register/register.page.ts[24m[0m
+[0m  [2m40:3[22m   [33mwarning[39m  'RECAPTCHA_V3_SITE_KEY' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m44:10[22m  [33mwarning[39m  'APP_CONFIG' is defined but never used             [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m44:22[22m  [33mwarning[39m  'AppConfig' is defined but never used              [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/register/steps/step-access/step-access.ts[24m[0m
+[0m  [2m11:42[22m  [33mwarning[39m  'FormControl' is defined but never used   [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m43:40[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/register/steps/step-account-info/step-account-info.html[24m[0m
+[0m  [2m87:12[22m  [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/register/steps/step-account-info/step-account-info.ts[24m[0m
+[0m  [2m3:42[22m  [33mwarning[39m  'FormGroupDirective' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/register/steps/step-account/step-account.html[24m[0m
+[0m  [2m7:9[22m  [31merror[39m  A label component must be associated with a form element  [2m@angular-eslint/template/label-has-associated-control[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/register/steps/step-account/step-account.ts[24m[0m
+[0m  [2m1:28[22m  [33mwarning[39m  'ChangeDetectionStrategy' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/register/steps/step-business/step-business.component.ts[24m[0m
+[0m  [2m111:17[22m  [31merror[39m  Unexpected empty constructor                              [2m@typescript-eslint/no-empty-function[22m[0m
+[0m   [2m28:11[22m  [31merror[39m  A label component must be associated with a form element  [2m@angular-eslint/template/label-has-associated-control[22m[0m
+[0m   [2m44:15[22m  [31merror[39m  Use built-in control flow instead of directive ngIf       [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m51:11[22m  [31merror[39m  A label component must be associated with a form element  [2m@angular-eslint/template/label-has-associated-control[22m[0m
+[0m   [2m63:44[22m  [31merror[39m  Use built-in control flow instead of directive ngForOf    [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m72:11[22m  [31merror[39m  A label component must be associated with a form element  [2m@angular-eslint/template/label-has-associated-control[22m[0m
+[0m   [2m84:40[22m  [31merror[39m  Use built-in control flow instead of directive ngForOf    [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/register/steps/step-business/step-business.html[24m[0m
+[0m  [2m20:11[22m  [31merror[39m  A label component must be associated with a form element  [2m@angular-eslint/template/label-has-associated-control[22m[0m
+[0m  [2m26:43[22m  [31merror[39m  Use built-in control flow instead of directive ngForOf    [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m32:17[22m  [31merror[39m  Use built-in control flow instead of directive ngIf       [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m39:11[22m  [31merror[39m  A label component must be associated with a form element  [2m@angular-eslint/template/label-has-associated-control[22m[0m
+[0m  [2m45:44[22m  [31merror[39m  Use built-in control flow instead of directive ngForOf    [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m51:17[22m  [31merror[39m  Use built-in control flow instead of directive ngIf       [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/register/steps/step-configuration/step-configuration.component.ts[24m[0m
+[0m    [2m2:28[22m  [33mwarning[39m  'Output' is defined but never used                        [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m    [2m2:36[22m  [33mwarning[39m  'EventEmitter' is defined but never used                  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m    [2m4:42[22m  [33mwarning[39m  'Validators' is defined but never used                    [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m    [2m6:26[22m  [33mwarning[39m  'CountryConfig' is defined but never used                 [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m115:25[22m  [33mwarning[39m  Unexpected any. Specify a different type                  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m176:26[22m  [33mwarning[39m  Unexpected any. Specify a different type                  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m   [2m33:11[22m  [31merror[39m    A label component must be associated with a form element  [2m@angular-eslint/template/label-has-associated-control[22m[0m
+[0m   [2m59:11[22m  [31merror[39m    A label component must be associated with a form element  [2m@angular-eslint/template/label-has-associated-control[22m[0m
+[0m   [2m75:20[22m  [31merror[39m    Use built-in control flow instead of directive ngIf       [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m79:15[22m  [31merror[39m    Use built-in control flow instead of directive ngIf       [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m82:15[22m  [31merror[39m    Use built-in control flow instead of directive ngIf       [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m88:15[22m  [31merror[39m    Use built-in control flow instead of directive ngIf       [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/register/steps/step-configuration/step-configuration.html[24m[0m
+[0m  [2m11:7[22m   [31merror[39m  A label component must be associated with a form element  [2m@angular-eslint/template/label-has-associated-control[22m[0m
+[0m  [2m16:11[22m  [31merror[39m  <img/> element must have a text alternative               [2m@angular-eslint/template/alt-text[22m[0m
+[0m  [2m23:33[22m  [31merror[39m  Use built-in control flow instead of directive ngForOf    [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/register/steps/step-configuration/step-configuration.spec.ts[24m[0m
+[0m  [2m13:27[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m14:19[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/register/steps/step-configuration/step-configuration.ts[24m[0m
+[0m  [2m32:22[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m36:26[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/register/steps/step-plan/step-plan.html[24m[0m
+[0m  [2m50:11[22m  [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/reset-password/reset-password.page/reset-password.page.html[24m[0m
+[0m  [2m14:11[22m  [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m19:11[22m  [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m28:12[22m  [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m57:15[22m  [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m62:13[22m  [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/reset-password/reset-password.page/reset-password.page.spec.ts[24m[0m
+[0m  [2m18:18[22m  [33mwarning[39m  'lang' is defined but never used          [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m18:44[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/set-password/set-password.page.html[24m[0m
+[0m  [2m14:11[22m  [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m19:12[22m  [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m48:15[22m  [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/set-password/set-password.page.spec.ts[24m[0m
+[0m  [2m18:18[22m  [33mwarning[39m  'lang' is defined but never used          [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m18:44[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/auth/set-password/set-password.page.ts[24m[0m
+[0m    [2m1:10[22m  [33mwarning[39m  'APP_CONFIG' is defined but never used    [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m104:16[22m  [33mwarning[39m  'token' is defined but never used         [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m105:56[22m  [33mwarning[39m  Forbidden non-null assertion              [2m@typescript-eslint/no-non-null-assertion[22m[0m
+[0m  [2m109:30[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/components/phone-verification-modal/phone-verification-modal.component.ts[24m[0m
+[0m  [2m12:13[22m  [31merror[39m  Output bindings, including aliases, should not be named as standard DOM events  [2m@angular-eslint/no-output-native[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/forgot-password/forgot-password.component.html[24m[0m
+[0m  [2m16:68[22m  [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m27:73[22m  [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m41:13[22m  [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m43:17[22m  [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m56:17[22m  [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m78:13[22m  [31merror[39m  Use built-in control flow instead of directive ngIf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/profile/my-profile.page.html[24m[0m
+[0m   [2m43:13[22m  [31merror[39m  A label component must be associated with a form element  [2m@angular-eslint/template/label-has-associated-control[22m[0m
+[0m   [2m49:13[22m  [31merror[39m  A label component must be associated with a form element  [2m@angular-eslint/template/label-has-associated-control[22m[0m
+[0m   [2m57:11[22m  [31merror[39m  A label component must be associated with a form element  [2m@angular-eslint/template/label-has-associated-control[22m[0m
+[0m   [2m67:11[22m  [31merror[39m  A label component must be associated with a form element  [2m@angular-eslint/template/label-has-associated-control[22m[0m
+[0m   [2m84:11[22m  [31merror[39m  A label component must be associated with a form element  [2m@angular-eslint/template/label-has-associated-control[22m[0m
+[0m   [2m91:44[22m  [31merror[39m  Use built-in control flow instead of directive ngForOf    [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m127:17[22m  [31merror[39m  A label component must be associated with a form element  [2m@angular-eslint/template/label-has-associated-control[22m[0m
+[0m  [2m134:17[22m  [31merror[39m  A label component must be associated with a form element  [2m@angular-eslint/template/label-has-associated-control[22m[0m
+[0m  [2m141:17[22m  [31merror[39m  A label component must be associated with a form element  [2m@angular-eslint/template/label-has-associated-control[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/profile/my-profile.page.spec.ts[24m[0m
+[0m  [2m13:20[22m  [33mwarning[39m  'lang' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/profile/my-profile.page.ts[24m[0m
+[0m  [2m148:18[22m  [33mwarning[39m  'res' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m182:22[22m  [33mwarning[39m  Forbidden non-null assertion     [2m@typescript-eslint/no-non-null-assertion[22m[0m
+[0m  [2m183:21[22m  [33mwarning[39m  Forbidden non-null assertion     [2m@typescript-eslint/no-non-null-assertion[22m[0m
+[0m  [2m184:30[22m  [33mwarning[39m  Forbidden non-null assertion     [2m@typescript-eslint/no-non-null-assertion[22m[0m
+[0m  [2m185:18[22m  [33mwarning[39m  Forbidden non-null assertion     [2m@typescript-eslint/no-non-null-assertion[22m[0m
+[0m  [2m186:18[22m  [33mwarning[39m  Forbidden non-null assertion     [2m@typescript-eslint/no-non-null-assertion[22m[0m
+[0m  [2m187:21[22m  [33mwarning[39m  Forbidden non-null assertion     [2m@typescript-eslint/no-non-null-assertion[22m[0m
+[0m  [2m223:19[22m  [33mwarning[39m  'err' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/register/register.component.html[24m[0m
+[0m   [2m16:47[22m  [31merror[39m  Use built-in control flow instead of directive ngIf     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m17:42[22m  [31merror[39m  Use built-in control flow instead of directive ngForOf  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m23:61[22m  [31merror[39m  Use built-in control flow instead of directive ngIf     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m28:65[22m  [31merror[39m  Use built-in control flow instead of directive ngIf     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m31:15[22m  [31merror[39m  Use built-in control flow instead of directive ngIf     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m40:15[22m  [31merror[39m  Use built-in control flow instead of directive ngIf     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m47:15[22m  [31merror[39m  Use built-in control flow instead of directive ngIf     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m63:15[22m  [31merror[39m  Use built-in control flow instead of directive ngIf     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m74:18[22m  [31merror[39m  Use built-in control flow instead of directive ngIf     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m79:36[22m  [31merror[39m  Use built-in control flow instead of directive ngIf     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m83:36[22m  [31merror[39m  Use built-in control flow instead of directive ngIf     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m86:30[22m  [31merror[39m  Use built-in control flow instead of directive ngIf     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m91:15[22m  [31merror[39m  Use built-in control flow instead of directive ngIf     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m98:13[22m  [31merror[39m  Use built-in control flow instead of directive ngIf     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m117:9[22m   [31merror[39m  Use built-in control flow instead of directive ngIf     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/register/register.component.ts[24m[0m
+[0m    [2m7:36[22m  [33mwarning[39m  'CountryInfo' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m170:16[22m  [33mwarning[39m  'res' is defined but never used          [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/roles/roles.page.html[24m[0m
+[0m  [2m49:1[22m  [31merror[39m  click must be accompanied by either keyup, keydown or keypress event for accessibility  [2m@angular-eslint/template/click-events-have-key-events[22m[0m
+[0m  [2m49:1[22m  [31merror[39m  Elements with interaction handlers must be focusable                                    [2m@angular-eslint/template/interactive-supports-focus[22m[0m
+[0m  [2m50:3[22m  [31merror[39m  click must be accompanied by either keyup, keydown or keypress event for accessibility  [2m@angular-eslint/template/click-events-have-key-events[22m[0m
+[0m  [2m50:3[22m  [31merror[39m  Elements with interaction handlers must be focusable                                    [2m@angular-eslint/template/interactive-supports-focus[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/roles/roles.page.ts[24m[0m
+[0m  [2m120:19[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m173:19[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m189:19[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/user-management/user-management.page.html[24m[0m
+[0m   [2m50:39[22m  [31merror[39m  Use built-in control flow instead of directive ngIf                                     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m61:61[22m  [31merror[39m  Use built-in control flow instead of directive ngIf                                     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m62:63[22m  [31merror[39m  Use built-in control flow instead of directive ngIf                                     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m63:65[22m  [31merror[39m  Use built-in control flow instead of directive ngIf                                     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m67:61[22m  [31merror[39m  Use built-in control flow instead of directive ngIf                                     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m68:63[22m  [31merror[39m  Use built-in control flow instead of directive ngIf                                     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m69:65[22m  [31merror[39m  Use built-in control flow instead of directive ngIf                                     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m74:61[22m  [31merror[39m  Use built-in control flow instead of directive ngIf                                     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m75:63[22m  [31merror[39m  Use built-in control flow instead of directive ngIf                                     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m76:65[22m  [31merror[39m  Use built-in control flow instead of directive ngIf                                     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m   [2m82:36[22m  [31merror[39m  Use built-in control flow instead of directive ngForOf                                  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m108:20[22m  [31merror[39m  Use built-in control flow instead of directive ngIf                                     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m124:42[22m  [31merror[39m  Use built-in control flow instead of directive ngForOf                                  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m125:23[22m  [31merror[39m  Use built-in control flow instead of directive ngIf                                     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m128:21[22m  [31merror[39m  Use built-in control flow instead of directive ngIf                                     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m150:13[22m  [31merror[39m  A label component must be associated with a form element                                [2m@angular-eslint/template/label-has-associated-control[22m[0m
+[0m  [2m154:13[22m  [31merror[39m  A label component must be associated with a form element                                [2m@angular-eslint/template/label-has-associated-control[22m[0m
+[0m  [2m159:11[22m  [31merror[39m  A label component must be associated with a form element                                [2m@angular-eslint/template/label-has-associated-control[22m[0m
+[0m  [2m163:11[22m  [31merror[39m  A label component must be associated with a form element                                [2m@angular-eslint/template/label-has-associated-control[22m[0m
+[0m  [2m166:38[22m  [31merror[39m  Use built-in control flow instead of directive ngForOf                                  [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m169:35[22m  [31merror[39m  Use built-in control flow instead of directive ngIf                                     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m170:13[22m  [31merror[39m  A label component must be associated with a form element                                [2m@angular-eslint/template/label-has-associated-control[22m[0m
+[0m  [2m203:28[22m  [31merror[39m  Use built-in control flow instead of directive ngIf                                     [2m@angular-eslint/template/prefer-control-flow[22m[0m
+[0m  [2m204:3[22m   [31merror[39m  click must be accompanied by either keyup, keydown or keypress event for accessibility  [2m@angular-eslint/template/click-events-have-key-events[22m[0m
+[0m  [2m204:3[22m   [31merror[39m  Elements with interaction handlers must be focusable                                    [2m@angular-eslint/template/interactive-supports-focus[22m[0m
+[0m  [2m205:3[22m   [31merror[39m  click must be accompanied by either keyup, keydown or keypress event for accessibility  [2m@angular-eslint/template/click-events-have-key-events[22m[0m
+[0m  [2m205:3[22m   [31merror[39m  Elements with interaction handlers must be focusable                                    [2m@angular-eslint/template/interactive-supports-focus[22m[0m
+[0m  [2m207:3[22m   [31merror[39m  click must be accompanied by either keyup, keydown or keypress event for accessibility  [2m@angular-eslint/template/click-events-have-key-events[22m[0m
+[0m  [2m207:3[22m   [31merror[39m  Elements with interaction handlers must be focusable                                    [2m@angular-eslint/template/interactive-supports-focus[22m[0m
+[0m  [2m208:3[22m   [31merror[39m  click must be accompanied by either keyup, keydown or keypress event for accessibility  [2m@angular-eslint/template/click-events-have-key-events[22m[0m
+[0m  [2m208:3[22m   [31merror[39m  Elements with interaction handlers must be focusable                                    [2m@angular-eslint/template/interactive-supports-focus[22m[0m
+[0m  [2m209:3[22m   [31merror[39m  click must be accompanied by either keyup, keydown or keypress event for accessibility  [2m@angular-eslint/template/click-events-have-key-events[22m[0m
+[0m  [2m209:3[22m   [31merror[39m  Elements with interaction handlers must be focusable                                    [2m@angular-eslint/template/interactive-supports-focus[22m[0m
+[0m  [2m211:3[22m   [31merror[39m  click must be accompanied by either keyup, keydown or keypress event for accessibility  [2m@angular-eslint/template/click-events-have-key-events[22m[0m
+[0m  [2m211:3[22m   [31merror[39m  Elements with interaction handlers must be focusable                                    [2m@angular-eslint/template/interactive-supports-focus[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/user-management/user-management.page.spec.ts[24m[0m
+[0m  [2m36:7[22m  [33mwarning[39m  'usersService' is assigned a value but never used         [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m37:7[22m  [33mwarning[39m  'notificationService' is assigned a value but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4m/app/libs/domains/identity/ui/src/lib/pages/user-management/user-management.page.ts[24m[0m
+[0m  [2m293:17[22m  [33mwarning[39m  'err' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m311:17[22m  [33mwarning[39m  'err' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[31m[1m✖ 213 problems (143 errors, 70 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[31m[1m  0 errors and 1 warning potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+✖ 213 problems (143 errors, 70 warnings)
+
+  0 errors and 1 warning are potentially fixable with the `--fix` option.
+
+
+> nx run virteex-web:lint
+
+
+Linting "virteex-web"...
+
+✔ All files pass linting
+
+
+> nx run virteex-site:lint
+
+
+Linting "virteex-site"...
+
+✔ All files pass linting
+
+
+> nx run messaging:lint  [existing outputs match the cache, left as is]
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/kernel/messaging/jest.config.cts[24m[0m
+[0m  [2m1:1[22m  [33mwarning[39m  Unused eslint-disable directive (no problems were reported)[0m
+[0m[0m
+[0m[4m/app/libs/kernel/messaging/src/lib/entities/outbox-event.entity.ts[24m[0m
+[0m  [2m19:28[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[33m[1m✖ 2 problems (0 errors, 2 warnings)[22m[39m[0m
+[0m[33m[1m[22m[39m[33m[1m  0 errors and 1 warning potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[33m[1m[22m[39m[0m
+
+> nx run crm-contracts:lint  [existing outputs match the cache, left as is]
+
+> eslint .
+
+
+> nx run virteex-web-e2e:lint  [existing outputs match the cache, left as is]
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/apps/virteex-web-e2e/src/app.spec.ts[24m[0m
+[0m  [2m18:3[22m  [33mwarning[39m  Test has no assertions              [2mplaywright/expect-expect[22m[0m
+[0m  [2m41:3[22m  [33mwarning[39m  Test has no assertions              [2mplaywright/expect-expect[22m[0m
+[0m  [2m58:5[22m  [33mwarning[39m  Avoid having conditionals in tests  [2mplaywright/no-conditional-in-test[22m[0m
+[0m  [2m63:5[22m  [33mwarning[39m  Avoid having conditionals in tests  [2mplaywright/no-conditional-in-test[22m[0m
+[0m  [2m69:5[22m  [33mwarning[39m  Avoid having conditionals in tests  [2mplaywright/no-conditional-in-test[22m[0m
+[0m  [2m76:3[22m  [33mwarning[39m  Test has no assertions              [2mplaywright/expect-expect[22m[0m
+[0m[0m
+[0m[33m[1m✖ 6 problems (0 errors, 6 warnings)[22m[39m[0m
+[0m[33m[1m[22m[39m[0m
+
+> nx run fiscal-contracts:lint  [existing outputs match the cache, left as is]
+
+> eslint .
+
+
+> nx run virteex-plugin-host:lint  [existing outputs match the cache, left as is]
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/apps/virteex-plugin-host/src/sandbox.service.ts[24m[0m
+[0m  [2m44:37[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m62:19[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/apps/virteex-plugin-host/src/services/plugin-admission.service.ts[24m[0m
+[0m   [2m7:13[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m45:48[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m45:90[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m75:47[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m75:89[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/app/apps/virteex-plugin-host/src/typings.d.ts[24m[0m
+[0m   [2m3:27[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m   [2m4:33[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m   [2m5:47[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m17:37[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m17:51[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m18:41[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m18:47[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m22:33[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m22:48[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m23:36[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m23:42[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m24:18[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m28:26[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m28:41[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m29:19[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[33m[1m✖ 22 problems (0 errors, 22 warnings)[22m[39m[0m
+[0m[33m[1m[22m[39m[0m
+
+> nx run shared-validators:lint  [existing outputs match the cache, left as is]
+
+> eslint .
+
+
+> nx run admin-contracts:lint  [existing outputs match the cache, left as is]
+
+> eslint .
+
+
+> nx run virteex-mobile-e2e:lint  [existing outputs match the cache, left as is]
+
+> eslint .
+
+
+> nx run virteex-api-gateway:lint
+
+> eslint .
+
+
+> nx run bi-contracts:lint  [existing outputs match the cache, left as is]
+
+> eslint .
+
+
+> nx run virteex-site-e2e:lint  [existing outputs match the cache, left as is]
+
+> eslint .
+
+
+> nx run virteex-mobile:lint
+
+
+Linting "virteex-mobile"...
+
+✔ All files pass linting
+
+
+> nx run finops:lint  [existing outputs match the cache, left as is]
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/libs/kernel/finops/src/lib/finops.service.ts[24m[0m
+[0m  [2m14:45[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[33m[1m✖ 1 problem (0 errors, 1 warning)[22m[39m[0m
+[0m[33m[1m[22m[39m[0m
+
+> nx run virteex-desktop:lint
+
+> eslint apps/virteex-desktop/**/*.ts
+
+
+> nx run virteex-api-gateway-e2e:lint
+
+> eslint .
+
+[0m[0m
+[0m[4m/app/apps/virteex-api-gateway-e2e/src/support/global-teardown.ts[24m[0m
+[0m  [2m2:1[22m  [33mwarning[39m  Unused eslint-disable directive (no problems were reported)[0m
+[0m[0m
+[0m[4m/app/apps/virteex-api-gateway-e2e/src/support/test-setup.ts[24m[0m
+[0m  [2m1:1[22m  [33mwarning[39m  Unused eslint-disable directive (no problems were reported)[0m
+[0m[0m
+[0m[33m[1m✖ 2 problems (0 errors, 2 warnings)[22m[39m[0m
+[0m[33m[1m[22m[39m[33m[1m  0 errors and 2 warnings potentially fixable with the `--fix` option.[22m[39m[0m
+[0m[33m[1m[22m[39m[0m
+
+
+
+ NX   Running target lint for 93 projects failed
+
+Failed tasks:
+
+- auth:lint
+- projects-domain:lint
+- payroll-domain:lint
+- manufacturing-domain:lint
+- fixed-assets-domain:lint
+- shared-ui:lint
+- admin-domain:lint
+- treasury-domain:lint
+- bi-domain:lint
+- shared-util-auth:lint
+- payroll-infrastructure:lint
+- treasury-infrastructure:lint
+- purchasing-contracts:lint
+- crm-infrastructure:lint
+- crm-application:lint
+- admin-application:lint
+- fiscal-application:lint
+- treasury-application:lint
+- inventory-application:lint
+- projects-application:lint
+- fiscal-infrastructure:lint
+- manufacturing-application:lint
+- fixed-assets-application:lint
+- accounting-application:lint
+- payroll-application:lint
+- purchasing-application:lint
+- bi-infrastructure:lint
+- bi-application:lint
+- identity-infrastructure:lint
+- admin-presentation:lint
+- fiscal-presentation:lint
+- catalog-presentation:lint
+- projects-infrastructure:lint
+- fixed-assets-presentation:lint
+- manufacturing-presentation:lint
+- manufacturing-infrastructure:lint
+- fixed-assets-infrastructure:lint
+- inventory-presentation:lint
+- projects-presentation:lint
+- treasury-presentation:lint
+- admin-infrastructure:lint
+- payroll-presentation:lint
+- crm-presentation:lint
+- bi-presentation:lint
+- identity-ui:lint

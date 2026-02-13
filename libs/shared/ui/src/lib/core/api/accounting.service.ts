@@ -4,7 +4,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { Account } from '@virteex/shared-ui/lib/core/models/account.model';
+import { Account } from '../models/account.model';
 
 @Injectable({
   providedIn: 'root'

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { JournalEntries } from '@virteex/accounting-ui/lib/pages/accounting-ops/journal-entries/journal-entries.page';
+import { JournalEntries } from './journal-entries.page';
 
 describe('JournalEntries', () => {
   let component: JournalEntries;

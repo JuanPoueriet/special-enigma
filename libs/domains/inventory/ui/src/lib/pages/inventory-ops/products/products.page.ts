@@ -2,11 +2,11 @@ import { Component, ChangeDetectionStrategy, inject, OnInit, signal, computed } 
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { LucideAngularModule, PlusCircle, MoreHorizontal, AlertCircle, Search } from 'lucide-angular';
-import { Product } from '@virteex/inventory-ui/lib/core/models/product.model';
-import { InventoryService } from '@virteex/inventory-ui/lib/core/api/inventory.service';
-import { NotificationService } from '@virteex/inventory-ui/lib/core/services/notification';
-import { HasPermissionDirective } from '@virteex/inventory-ui/lib/shared/directives/has-permission.directive';
-import { Product } from '@virteex/inventory-ui/lib/core/models/product.model';
+import { Product } from '../../../core/models/product.model';
+import { InventoryService } from '../../../core/api/inventory.service';
+import { NotificationService } from '../../../core/services/notification';
+import { HasPermissionDirective } from '../../../shared/directives/has-permission.directive';
+import { Product } from '../../../core/models/product.model';
 
 @Component({
   selector: 'virteex-products-page',

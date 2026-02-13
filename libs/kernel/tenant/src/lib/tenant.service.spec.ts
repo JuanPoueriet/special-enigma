@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { EntityManager } from '@mikro-orm/core';
-import { TenantService } from '@virteex/tenant/lib/tenant.service';
-import { TenantMode } from '@virteex/tenant/lib/interfaces/tenant-config.interface';
+import { TenantService } from './tenant.service';
+import { TenantMode } from './interfaces/tenant-config.interface';
 
 describe('TenantService', () => {
   let service: TenantService;

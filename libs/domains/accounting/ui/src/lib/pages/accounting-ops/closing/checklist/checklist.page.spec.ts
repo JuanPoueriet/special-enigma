@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Checklist } from '@virteex/accounting-ui/lib/pages/accounting-ops/closing/checklist/checklist.page';
+import { Checklist } from './checklist.page';
 
 describe('Checklist', () => {
   let component: Checklist;

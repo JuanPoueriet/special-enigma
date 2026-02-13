@@ -1,4 +1,4 @@
-import { fiscalPresentation } from '@virteex/fiscal-presentation/lib/fiscal-presentation';
+import { fiscalPresentation } from './fiscal-presentation';
 
 describe('fiscalPresentation', () => {
   it('should work', () => {

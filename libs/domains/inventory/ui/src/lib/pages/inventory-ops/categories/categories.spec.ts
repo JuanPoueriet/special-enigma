@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Categories } from '@virteex/inventory-ui/lib/pages/inventory-ops/categories/categories.page';
+import { Categories } from './categories.page';
 
 describe('Categories', () => {
   let component: Categories;

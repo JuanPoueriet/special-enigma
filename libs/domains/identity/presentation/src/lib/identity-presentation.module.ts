@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
-import { AuthController } from '@virteex/identity-presentation/lib/controllers/auth.controller';
+import { AuthController } from './controllers/auth.controller';
+import { UsersController } from './controllers/users.controller';
 import { IdentityInfrastructureModule } from '@virteex/identity-infrastructure';
 
 @Module({
   imports: [IdentityInfrastructureModule],
-  controllers: [AuthController],
+  controllers: [AuthController, UsersController],
   providers: [],
   exports: [],
 })

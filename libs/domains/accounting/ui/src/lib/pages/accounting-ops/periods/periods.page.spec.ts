@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Periods } from '@virteex/accounting-ui/lib/pages/accounting-ops/periods/periods.page';
+import { Periods } from './periods.page';
 
 describe('Periods', () => {
   let component: Periods;

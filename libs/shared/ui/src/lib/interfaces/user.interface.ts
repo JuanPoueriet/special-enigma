@@ -1,5 +1,5 @@
-import { Role } from '@virteex/shared-ui';
-import { UserStatus } from '@virteex/shared-ui/lib/enums/user-status.enum';
+import { Role } from '../..';
+import { UserStatus } from '../enums/user-status.enum';
 
 export interface Organization {
   id: string;

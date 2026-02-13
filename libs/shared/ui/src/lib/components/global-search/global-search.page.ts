@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy, inject, signal, OnInit } from '@ang
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { LucideAngularModule, Search, FileText, Package, User } from 'lucide-angular';
-import { SearchService, SearchResultGroup as BaseSearchResultGroup } from '@virteex/shared-ui/lib/core/services/search.service';
+import { SearchService, SearchResultGroup as BaseSearchResultGroup } from '../../core/services/search.service';
 
 interface SearchResultGroup extends BaseSearchResultGroup {
   icon: any;

@@ -17,8 +17,8 @@ import {
   Menu as MenuIcon, Maximize, FileDown, FileSpreadsheet, Printer
 } from 'lucide-angular';
 
-import { DashboardWidget, DashboardService, ChartType } from '@virteex/bi-ui/lib/core/services/dashboard';
-import { BrandingService } from '@virteex/bi-ui/lib/core/services/branding';
+import { DashboardWidget, DashboardService, ChartType } from '../../../../core/services/dashboard';
+import { BrandingService } from '../../../../core/services/branding';
 
 type ExportingChart = Highcharts.Chart & {
   print: () => void;

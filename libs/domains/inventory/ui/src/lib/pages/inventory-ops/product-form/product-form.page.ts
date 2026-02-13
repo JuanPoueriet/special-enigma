@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LucideAngularModule, Save, Image } from 'lucide-angular';
-import { InventoryService, CreateProductDto, UpdateProductDto } from '@virteex/inventory-ui/lib/core/api/inventory.service';
-import { NotificationService } from '@virteex/inventory-ui/lib/core/services/notification';
-import { Product } from '@virteex/inventory-ui/lib/core/models/product.model';
-import { HasPermissionDirective } from '@virteex/inventory-ui/lib/shared/directives/has-permission.directive';
+import { InventoryService, CreateProductDto, UpdateProductDto } from '../../../core/api/inventory.service';
+import { NotificationService } from '../../../core/services/notification';
+import { Product } from '../../../core/models/product.model';
+import { HasPermissionDirective } from '../../../shared/directives/has-permission.directive';
 
 @Component({
   selector: 'virteex-product-form-page',

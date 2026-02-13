@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ComparisonChart } from '@virteex/bi-ui/lib/pages/dashboard-main/widgets/comparison-chart/comparison-chart';
+import { ComparisonChart } from './comparison-chart';
 
 describe('ComparisonChart', () => {
   let component: ComparisonChart;

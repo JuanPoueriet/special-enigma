@@ -1,7 +1,7 @@
 import { APP_CONFIG } from '@virteex/shared-config';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Journal } from '@virteex/shared-ui/lib/core/models/journal.model';
+import { Journal } from '../models/journal.model';
 import { Observable } from 'rxjs';
 
 @Injectable({

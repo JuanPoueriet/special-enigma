@@ -1,6 +1,6 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PaymentService } from '@virteex/billing-ui/lib/pages/payments/services/payment.service';
+import { PaymentService } from '../../services/payment.service';
 import { Router } from '@angular/router';
 
 @Component({

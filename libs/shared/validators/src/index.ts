@@ -1,2 +1,2 @@
-export * from '@virteex/shared-validators/src/lib/cpf.validator';
-export * from '@virteex/shared-validators/src/lib/rfc.validator';
+export * from './src/lib/cpf.validator';
+export * from './src/lib/rfc.validator';

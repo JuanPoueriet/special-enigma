@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Orders } from '@virteex/purchasing-ui/lib/pages/purchasing/orders/orders.page';
+import { Orders } from './orders.page';
 
 describe('Orders', () => {
   let component: Orders;

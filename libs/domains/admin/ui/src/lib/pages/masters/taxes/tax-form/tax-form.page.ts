@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LucideAngularModule, Save } from 'lucide-angular';
-import { TaxesService, CreateTaxDto, UpdateTaxDto } from '@virteex/admin-ui/lib/core/api/taxes.service';
-import { NotificationService } from '@virteex/admin-ui/lib/core/services/notification';
-import { TaxType } from '@virteex/admin-ui/lib/core/models/tax.model';
+import { TaxesService, CreateTaxDto, UpdateTaxDto } from '../../../../core/api/taxes.service';
+import { NotificationService } from '../../../../core/services/notification';
+import { TaxType } from '../../../../core/models/tax.model';
 
 @Component({
   selector: 'virteex-tax-form-page',

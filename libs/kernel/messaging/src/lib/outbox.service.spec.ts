@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { OutboxService } from '@virteex/messaging/lib/outbox.service';
+import { OutboxService } from './outbox.service';
 import { EntityManager } from '@mikro-orm/core';
 
 describe('OutboxService', () => {

@@ -1,5 +1,5 @@
-import { Stock } from '@virteex/inventory-domain/lib/entities/stock.entity';
-import { Warehouse } from '@virteex/inventory-domain/lib/entities/warehouse.entity';
+import { Stock } from './stock.entity';
+import { Warehouse } from './warehouse.entity';
 
 describe('Stock Entity', () => {
   let warehouse: Warehouse;

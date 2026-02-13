@@ -1,33 +1,33 @@
 import { Component, ChangeDetectionStrategy, inject, OnInit, signal, computed, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GridsterModule, GridsterConfig, GridType, CompactType, DisplayGrid } from 'angular-gridster2';
-import { DashboardService, DashboardWidget } from '@virteex/bi-ui/lib/core/services/dashboard';
+import { DashboardService, DashboardWidget } from '../../core/services/dashboard';
 
 // ✅ CORRECCIÓN: Se importan TODOS los componentes de widgets que se usarán en la plantilla
-import { KpiCard } from '@virteex/bi-ui/lib/shared/components/kpi-card/kpi-card';
-import { StatCard } from '@virteex/bi-ui/lib/shared/components/stat-card/stat-card';
-import { ComparisonChart } from '@virteex/bi-ui/lib/pages/dashboard-main/widgets/comparison-chart/comparison-chart';
-import { AlertsPanel } from '@virteex/bi-ui/lib/pages/dashboard-main/widgets/alerts-panel/alerts-panel';
-import { SalesChart } from '@virteex/bi-ui/lib/pages/dashboard-main/widgets/sales-chart/sales-chart';
-import { InvoiceStatus } from '@virteex/bi-ui/lib/pages/dashboard-main/widgets/invoice-status/invoice-status';
-import { LowStockProducts } from '@virteex/bi-ui/lib/pages/dashboard-main/widgets/low-stock-products/low-stock-products';
-import { TopProductsChart } from '@virteex/bi-ui/lib/pages/dashboard-main/widgets/top-products-chart/top-products-chart';
-import { RecentActivity } from '@virteex/bi-ui/lib/pages/dashboard-main/widgets/recent-activity/recent-activity';
+import { KpiCard } from '../../shared/components/kpi-card/kpi-card';
+import { StatCard } from '../../shared/components/stat-card/stat-card';
+import { ComparisonChart } from './widgets/comparison-chart/comparison-chart';
+import { AlertsPanel } from './widgets/alerts-panel/alerts-panel';
+import { SalesChart } from './widgets/sales-chart/sales-chart';
+import { InvoiceStatus } from './widgets/invoice-status/invoice-status';
+import { LowStockProducts } from './widgets/low-stock-products/low-stock-products';
+import { TopProductsChart } from './widgets/top-products-chart/top-products-chart';
+import { RecentActivity } from './widgets/recent-activity/recent-activity';
 import { LucideAngularModule, LayoutDashboard, Settings, Plus, X, Trash } from 'lucide-angular';
-import { AuthService } from '@virteex/bi-ui/lib/core/services/auth';
-import { CashflowChart } from "@virteex/bi-ui/lib/pages/dashboard-main/widgets/cashflow-chart/cashflow-chart";
-import { ExpensesChart } from "@virteex/bi-ui/lib/pages/dashboard-main/widgets/expenses-chart/expenses-chart";
-import { ArAgingChart } from "@virteex/bi-ui/lib/pages/dashboard-main/widgets/ar-aging-chart/ar-aging-chart";
-import { FinancialRatios } from "@virteex/bi-ui/lib/pages/dashboard-main/widgets/financial-ratios/financial-ratios";
-import { KpiRoe } from "@virteex/bi-ui/lib/pages/dashboard-main/widgets/kpi-roe/kpi-roe";
-import { KpiRoa } from '@virteex/bi-ui/lib/pages/dashboard-main/widgets/kpi-roa/kpi-roa';
-import { KpiCurrentRatio } from '@virteex/bi-ui/lib/pages/dashboard-main/widgets/kpi-current-ratio/kpi-current-ratio';
-import { KpiQuickRatio } from '@virteex/bi-ui/lib/pages/dashboard-main/widgets/kpi-quick-ratio/kpi-quick-ratio';
-import { KpiWorkingCapital } from '@virteex/bi-ui/lib/pages/dashboard-main/widgets/kpi-working-capital/kpi-working-capital';
-import { KpiLeverageComponent } from '@virteex/bi-ui/lib/pages/dashboard-main/widgets/kpi-leverage/kpi-leverage';
-import { KpiNetMarginComponent } from '@virteex/bi-ui/lib/pages/dashboard-main/widgets/kpi-net-margin/kpi-net-margin';
-import { KpiEbitdaComponent } from '@virteex/bi-ui/lib/pages/dashboard-main/widgets/kpi-ebitda/kpi-ebitda';
-import { KpiFcfComponent } from '@virteex/bi-ui/lib/pages/dashboard-main/widgets/kpi-fcf/kpi-fcf';
+import { AuthService } from '../../core/services/auth';
+import { CashflowChart } from "./widgets/cashflow-chart/cashflow-chart";
+import { ExpensesChart } from "./widgets/expenses-chart/expenses-chart";
+import { ArAgingChart } from "./widgets/ar-aging-chart/ar-aging-chart";
+import { FinancialRatios } from "./widgets/financial-ratios/financial-ratios";
+import { KpiRoe } from "./widgets/kpi-roe/kpi-roe";
+import { KpiRoa } from './widgets/kpi-roa/kpi-roa';
+import { KpiCurrentRatio } from './widgets/kpi-current-ratio/kpi-current-ratio';
+import { KpiQuickRatio } from './widgets/kpi-quick-ratio/kpi-quick-ratio';
+import { KpiWorkingCapital } from './widgets/kpi-working-capital/kpi-working-capital';
+import { KpiLeverageComponent } from './widgets/kpi-leverage/kpi-leverage';
+import { KpiNetMarginComponent } from './widgets/kpi-net-margin/kpi-net-margin';
+import { KpiEbitdaComponent } from './widgets/kpi-ebitda/kpi-ebitda';
+import { KpiFcfComponent } from './widgets/kpi-fcf/kpi-fcf';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({

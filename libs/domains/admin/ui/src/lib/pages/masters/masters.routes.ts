@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { MastersLayout } from '@virteex/admin-ui/lib/pages/masters/layout/masters.layout';
+import { MastersLayout } from './layout/masters.layout';
 
 export const MASTERS_ROUTES: Routes = [
     {

@@ -453,6 +453,12 @@
       ],
       "@virteex/shared-config": ["libs/shared/util/config/src/index.ts"],
       "@virteex/shared-config/*": ["libs/shared/util/config/src/*"],
+      "@virteex/shared-infrastructure-storage": [
+        "libs/shared/infrastructure/storage/src/index.ts"
+      ],
+      "@virteex/shared-infrastructure-storage/*": [
+        "libs/shared/infrastructure/storage/src/*"
+      ],
       "@virteex/finops": ["libs/kernel/finops/src/index.ts"],
       "@virteex/finops/*": ["libs/kernel/finops/src/*"]
     }

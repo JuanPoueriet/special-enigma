@@ -1,4 +1,4 @@
-import { Account } from '@virteex/accounting-domain/lib/entities/account.entity';
+import { Account } from '../entities/account.entity';
 
 export interface AccountRepository {
   create(account: Account): Promise<Account>;

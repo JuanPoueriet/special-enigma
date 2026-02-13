@@ -1,4 +1,4 @@
-import { Company } from '@virteex/identity-domain/lib/entities/company.entity';
+import { Company } from '../entities/company.entity';
 
 export abstract class CompanyRepository {
   abstract save(company: Company): Promise<void>;

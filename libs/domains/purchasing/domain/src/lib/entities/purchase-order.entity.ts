@@ -1,7 +1,7 @@
 import { Entity, PrimaryKey, Property, Enum, ManyToOne, OneToMany, Collection, Cascade } from '@mikro-orm/core';
-import { PurchaseOrderStatus } from '@virteex/purchasing-domain/lib/enums/purchase-order-status.enum';
-import { Supplier } from '@virteex/purchasing-domain/lib/entities/supplier.entity';
-import type { PurchaseOrderItem } from '@virteex/purchasing-domain/lib/entities/purchase-order-item.entity';
+import { PurchaseOrderStatus } from '../enums/purchase-order-status.enum';
+import { Supplier } from './supplier.entity';
+import type { PurchaseOrderItem } from './purchase-order-item.entity';
 
 @Entity()
 export class PurchaseOrder {

@@ -24,8 +24,8 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Product } from '@virteex/crm-ui/lib/core/models/product.model';
-import { CrmService } from '@virteex/crm-ui/lib/core/services/crm.service';
+import { Product } from '../../../core/models/product.model';
+import { CrmService } from '../../../core/services/crm.service';
 
 @Component({
   selector: 'virteex-pos-page',

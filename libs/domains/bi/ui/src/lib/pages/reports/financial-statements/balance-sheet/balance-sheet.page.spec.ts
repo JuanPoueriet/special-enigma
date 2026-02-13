@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BalanceSheet } from '@virteex/bi-ui/lib/pages/reports/financial-statements/balance-sheet/balance-sheet.page';
+import { BalanceSheet } from './balance-sheet.page';
 
 describe('BalanceSheet', () => {
   let component: BalanceSheet;
