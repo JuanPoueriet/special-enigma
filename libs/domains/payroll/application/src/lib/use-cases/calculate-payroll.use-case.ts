@@ -1,4 +1,4 @@
-import { Injectable, Inject, NotFoundException } from '@nestjs/common';
+import { Injectable, Inject, NotFoundException, BadRequestException, ConflictException } from '@nestjs/common';
 import { PayrollStatus, PayrollType, PayrollDetailType } from '@virteex/contracts';
 import {
   EmployeeRepository,
@@ -25,6 +25,14 @@ export class CalculatePayrollUseCase {
     const start = new Date(periodStart);
     const end = new Date(periodEnd);
 
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+      throw new BadRequestException('Invalid period dates');
+    }
+
+    if (start > end) {
+      throw new BadRequestException('Start date must be before end date');
+    }
+
     const employee = await this.employeeRepository.findById(employeeId);
     if (!employee) {
       throw new NotFoundException(`Employee with ID ${employeeId} not found`);
@@ -37,11 +45,16 @@ export class CalculatePayrollUseCase {
     // Check if payroll already exists for this period
     const existing = await this.payrollRepository.findByEmployeeAndPeriod(employeeId, start, end);
     if (existing) {
-      throw new Error(`Payroll for employee ${employeeId} in period ${start.toISOString()} - ${end.toISOString()} already exists`);
+      throw new ConflictException(`Payroll for employee ${employeeId} in period ${start.toISOString()} - ${end.toISOString()} already exists`);
     }
 
-    // Calculate base salary for the period (assuming semi-monthly for now)
-    const baseAmount = employee.salary / 2;
+    // Calculate days worked (inclusive)
+    const timeDiff = end.getTime() - start.getTime();
+    const daysWorked = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
+
+    // Calculate base salary based on days worked (assuming 30 days month standard)
+    const dailySalary = employee.salary / 30;
+    const baseAmount = Number((dailySalary * daysWorked).toFixed(2));
 
     // Create Payroll
     const payroll = new Payroll(tenantId, employee, start, end, new Date());
@@ -60,7 +73,7 @@ export class CalculatePayrollUseCase {
     // Update totals
     payroll.totalEarnings = baseAmount;
     payroll.totalDeductions = taxAmount;
-    payroll.netPay = baseAmount - taxAmount;
+    payroll.netPay = Number((baseAmount - taxAmount).toFixed(2));
 
     await this.payrollRepository.save(payroll);
 

@@ -1,9 +1,11 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { CreateProductionOrderUseCase, CreateProductionOrderDto, GetProductionOrdersUseCase } from '@virteex/manufacturing-application';
+import { JwtAuthGuard } from '@virteex/auth';
 
 @ApiTags('Manufacturing')
 @Controller('manufacturing')
+@UseGuards(JwtAuthGuard)
 export class ManufacturingController {
   constructor(
     private readonly createUseCase: CreateProductionOrderUseCase,

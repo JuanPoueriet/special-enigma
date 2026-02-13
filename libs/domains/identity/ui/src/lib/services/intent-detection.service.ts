@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, catchError, shareReplay } from 'rxjs/operators';
-import { ToastService } from '@virteex/shared-ui';
+import { ToastService, API_URL } from '@virteex/shared-ui';
 
 export interface ContextSignal {
   source: 'url' | 'ip' | 'browser' | 'cookie';
@@ -23,15 +23,18 @@ export interface ContextAnalysis {
 export class IntentDetectionService {
   private http = inject(HttpClient);
   private toast = inject(ToastService);
+  private apiUrl = inject(API_URL);
   private ipInfo$: Observable<{ country_code: string }>;
 
   constructor() {
     // Cache the IP info request
-    this.ipInfo$ = this.http.get<{ country_code: string }>('https://ipapi.co/json/').pipe(
+    // Call our backend proxy instead of external API directly
+    this.ipInfo$ = this.http.get<{ country_code: string }>(`${this.apiUrl}/auth/location`).pipe(
         catchError(() => {
-          this.toast.showError('Unable to detect location. Using default.');
+          // Silent fallback or less intrusive logging as per robust requirements
+          console.warn('Unable to detect location via backend. Using default.');
           return of({ country_code: 'US' });
-        }), // Fallback if API fails or blocked
+        }),
         shareReplay(1)
     );
   }

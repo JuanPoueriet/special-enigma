@@ -7,7 +7,9 @@ import {
   WarehouseRepository,
   InventoryMovement,
   Stock,
-  InventoryMovementType
+  InventoryMovementType,
+  InsufficientStockException,
+  WarehouseNotFoundException
 } from '@virteex/inventory-domain';
 
 export class RegisterMovementDto {
@@ -51,7 +53,7 @@ export class RegisterMovementUseCase {
     // 1. Validate Warehouse
     const warehouse = await this.warehouseRepo.findById(dto.warehouseId);
     if (!warehouse) {
-      throw new Error('Warehouse not found');
+      throw new WarehouseNotFoundException(dto.warehouseId);
     }
 
     // Strict Tenant Check
@@ -81,7 +83,7 @@ export class RegisterMovementUseCase {
     // 4. Create Stock if not exists
     if (!stock) {
       if (dto.type === InventoryMovementType.OUT) {
-         throw new Error('Insufficient stock (No stock record)');
+         throw new InsufficientStockException(dto.productId, dto.warehouseId);
       }
       stock = new Stock(dto.tenantId, dto.productId, warehouse, '0', location || undefined);
     } else {
@@ -95,7 +97,11 @@ export class RegisterMovementUseCase {
     if (dto.type === InventoryMovementType.IN) {
       stock.addQuantity(dto.quantity);
     } else if (dto.type === InventoryMovementType.OUT) {
-      stock.removeQuantity(dto.quantity);
+      try {
+        stock.removeQuantity(dto.quantity);
+      } catch (error) {
+         throw new InsufficientStockException(dto.productId, dto.warehouseId);
+      }
     }
 
     // 6. Create Movement
