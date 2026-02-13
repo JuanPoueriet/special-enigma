@@ -1,3 +1,8 @@
+@if (loadingService.isLoading()) {
+  <div class="global-loading-overlay">
+    <div class="spinner"></div>
+  </div>
+}
 <router-outlet></router-outlet>
 <!-- Add title for test -->
 <h1 style="display: none;">Welcome {{title}}</h1>

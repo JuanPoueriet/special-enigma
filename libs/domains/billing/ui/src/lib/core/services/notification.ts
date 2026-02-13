@@ -1,21 +1,23 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { ToastService } from '@virteex/shared-ui';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NotificationService {
+  private toastService = inject(ToastService);
+
   showSuccess(message: string): void {
-    console.log('SUCCESS:', message);
-    // Ideally integrate with a toast library or custom component
-    alert(message);
+    this.toastService.showSuccess(message);
   }
 
   showError(message: string): void {
-    console.error('ERROR:', message);
-    alert(message);
+    this.toastService.showError(message);
   }
 
   showInfo(message: string): void {
     console.info('INFO:', message);
+    // Optionally add showInfo to ToastService if needed, falling back to success style or implementing info style
+    this.toastService.showSuccess(message);
   }
 }

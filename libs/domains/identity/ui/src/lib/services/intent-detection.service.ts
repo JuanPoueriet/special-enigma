@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { map, catchError, shareReplay } from 'rxjs/operators';
+import { map, catchError, shareReplay, retry } from 'rxjs/operators';
 import { ToastService, API_URL } from '@virteex/shared-ui';
 
 export interface ContextSignal {
@@ -30,9 +30,10 @@ export class IntentDetectionService {
     // Cache the IP info request
     // Call our backend proxy instead of external API directly
     this.ipInfo$ = this.http.get<{ country_code: string }>(`${this.apiUrl}/auth/location`).pipe(
-        catchError(() => {
+        retry(2), // Robustness: Retry failed requests
+        catchError((err) => {
           // Silent fallback or less intrusive logging as per robust requirements
-          console.warn('Unable to detect location via backend. Using default.');
+          console.warn('Unable to detect location via backend. Using default "US". Error:', err);
           return of({ country_code: 'US' });
         }),
         shareReplay(1)

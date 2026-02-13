@@ -61,7 +61,6 @@ export class InvoiceDetailPage implements OnInit {
     window.print();
   }
 
-  // --- NUEVO MÉTODO ---
   downloadPdf(): void {
     this.invoicesService.downloadInvoicePdf(this.id).subscribe({
       next: (blob) => {
@@ -79,7 +78,6 @@ export class InvoiceDetailPage implements OnInit {
       }
     });
   }
-  // --- FIN DEL NUEVO MÉTODO ---
 
   createCreditNote(invoiceId: string): void {
       if(confirm('¿Estás seguro de que quieres anular esta factura con una nota de crédito? Esta acción no se puede deshacer.')) {

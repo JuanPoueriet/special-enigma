@@ -1,13 +1,15 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { StoragePort } from '../ports/storage.port';
 import * as fs from 'fs';
 import * as path from 'path';
 
 @Injectable()
-export class StorageService {
-  private readonly logger = new Logger(StorageService.name);
+export class FileSystemStorageAdapter extends StoragePort {
+  private readonly logger = new Logger(FileSystemStorageAdapter.name);
   private readonly uploadDir = 'uploads';
 
   constructor() {
+    super();
     this.ensureUploadDir();
   }
 
