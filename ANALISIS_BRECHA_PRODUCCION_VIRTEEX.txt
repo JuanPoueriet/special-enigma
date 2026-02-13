@@ -1,0 +1,133 @@
+# INFORME DETALLADO DE BRECHA PARA PRODUCCIÓN - VIRTEEX ERP
+
+Este informe detalla exhaustivamente los componentes, configuraciones y funcionalidades que faltan o son insuficientes para que la aplicación Virteex sea 100% funcional y comercialmente viable. Se ha realizado un análisis profundo del código fuente, arquitectura y patrones de diseño.
+
+---
+
+## 1. INFRAESTRUCTURA TRANSVERSAL Y ARQUITECTURA
+
+### 1.1. ALMACENAMIENTO DE ARCHIVOS (STORAGE)
+**Estado Actual:**
+- El servicio `StorageService` (`libs/shared/infrastructure/storage/src/lib/storage.service.ts`) implementa una estrategia de almacenamiento local usando el sistema de archivos del servidor (`fs.promises.writeFile`).
+- Los archivos se guardan en una carpeta `uploads/` en la raíz del proyecto.
+
+**Problema Crítico:**
+- En un entorno de producción (especialmente en contenedores como Docker/Kubernetes o plataformas Serverless), el sistema de archivos es efímero. Si el contenedor se reinicia, los archivos se pierden.
+- No escala horizontalmente: Si hay múltiples instancias del backend, un archivo subido a la Instancia A no estará disponible en la Instancia B.
+
+**Requerimiento para Producción:**
+- Implementar un proveedor de almacenamiento en la nube (AWS S3, Google Cloud Storage, Azure Blob Storage).
+- Configurar URLs firmadas (Signed URLs) o un CDN para servir los archivos de manera segura y eficiente.
+
+### 1.2. NOTIFICACIONES (EMAIL)
+**Estado Actual:**
+- El servicio `NodemailerNotificationService` (`libs/domains/identity/infrastructure/src/lib/services/nodemailer-notification.service.ts`) está correctamente implementado para usar SMTP.
+- Depende de variables de entorno (`SMTP_HOST`, `SMTP_PORT`, etc.).
+
+**Riesgo:**
+- No hay un mecanismo de reintento (retry mechanism) o cola de mensajes (Message Queue) para el envío de correos. Si el servidor SMTP falla momentáneamente, el correo se pierde y la operación del usuario podría fallar o quedar en un estado inconsistente.
+
+**Requerimiento para Producción:**
+- Implementar una cola de tareas (BullMQ o similar) para procesar el envío de correos en segundo plano (asíncronamente) y manejar reintentos automáticos.
+
+### 1.3. SEGURIDAD Y AUTENTICACIÓN
+**Estado Actual:**
+- `JwtAuthGuard` está configurado globalmente en `app.module.ts` y verifica correctamente la firma del token JWT.
+- Se usa `helmet` y `cors` en `main.ts`, lo cual es positivo.
+
+**Brecha Identificada:**
+- El controlador `AuthController` en Identity usa una llamada externa a `https://ipapi.co/json/` sin una API Key.
+- **Archivo:** `libs/domains/identity/presentation/src/lib/controllers/auth.controller.ts`
+- **Impacto:** En producción, las direcciones IP del servidor pueden ser bloqueadas o limitadas por `ipapi.co` (rate limiting), causando fallos en el registro/login o demoras significativas.
+
+**Requerimiento para Producción:**
+- Obtener una licencia comercial de IP Geolocation o usar una base de datos local (MaxMind GeoIP) para evitar dependencias externas frágiles en el flujo crítico de autenticación.
+
+---
+
+## 2. ANÁLISIS POR DOMINIO (BACKEND)
+
+### 2.1. BUSINESS INTELLIGENCE (BI) - DATOS SIMULADOS
+**Estado Actual:**
+- El Caso de Uso `GetTopProductsUseCase` devuelve datos estáticos (hardcoded).
+- **Archivo:** `libs/domains/bi/application/src/lib/use-cases/get-top-products.use-case.ts`
+- **Código:** `return [{ name: 'Product A', value: 12000 }, ...];`
+
+**Problema Crítico:**
+- El dashboard principal mostrará información falsa. No hay integración real con los dominios de Ventas (CRM) o Facturación (Billing).
+
+**Requerimiento para Producción:**
+- Implementar una consulta SQL compleja o una Vista Materializada que agregue los datos reales de las tablas de `Invoice` o `SaleItem`.
+- Inyectar el repositorio correcto (`SalesRepository` o `InvoiceRepository`) en este caso de uso.
+
+### 2.2. BILLING (FACTURACIÓN) - FUNCIONALIDAD INCOMPLETA
+**Estado Actual:**
+- Se encontraron comentarios `TODO` en el código fuente que indican lógica pendiente.
+- **Archivo:** `libs/domains/billing/ui/src/lib/pages/invoices/detail/detail.page.ts` contiene bloques de código comentados como `// --- NUEVO MÉTODO ---`.
+- **Archivo:** `libs/domains/billing/ui/src/lib/pages/settings/billing.page.html` tiene un comentario `<!-- TODO: Show price properly from limits or meta -->`.
+
+**Problema Crítico:**
+- La interfaz de configuración de facturación no muestra los precios reales, lo que impide que el usuario entienda su plan actual o límites.
+
+**Requerimiento para Producción:**
+- Finalizar la implementación de la lógica de precios en el frontend.
+- Asegurar que el backend exponga los metadatos de límites y precios correctamente.
+
+### 2.3. IDENTITY (IDENTIDAD) - INTENT DETECTION MOCK
+**Estado Actual:**
+- El servicio de detección de intención (`IntentDetectionService`) en el frontend devuelve un observable simulado.
+- **Archivo:** `libs/domains/identity/ui/src/lib/services/intent-detection.service.ts`
+- **Código:** `return of({ country_code: 'US' });`
+
+**Problema Crítico:**
+- La aplicación asume siempre que el usuario está en 'US', lo que afecta la localización (moneda, idioma, impuestos) automática durante el registro.
+
+**Requerimiento para Producción:**
+- Conectar este servicio al endpoint `/auth/location` (que ya existe en el backend) o a un servicio de geolocalización del navegador real.
+
+---
+
+## 3. ANÁLISIS DE FRONTEND (VISUAL Y UX)
+
+### 3.1. SISTEMA DE NOTIFICACIONES (TOASTS)
+**Estado Actual:**
+- El servicio `NotificationService` en Billing (`libs/domains/billing/ui/src/lib/core/services/notification.ts`) utiliza `alert(message)` y `console.log`.
+
+**Problema Crítico (UX):**
+- El uso de `alert()` nativo del navegador es inaceptable para una aplicación comercial ("Commercial Grade"). Interrumpe el flujo del usuario y luce poco profesional.
+
+**Requerimiento para Producción:**
+- Implementar una librería de notificaciones tipo "Toast" o "Snackbar" (ej. `ngx-toastr`, `MatSnackBar` o `HotToast`).
+- Reemplazar todas las llamadas a `alert()` por el nuevo servicio de notificaciones visuales no intrusivas.
+
+### 3.2. MANEJO DE ESTADOS DE CARGA (LOADING STATES)
+**Estado Actual:**
+- Varios componentes (ej. `DashboardComponent` en BI) no parecen tener un manejo robusto de `isLoading` o `error` states visibles al usuario.
+- Si la API falla, la interfaz podría quedar en blanco o mostrar datos antiguos sin feedback.
+
+**Requerimiento para Producción:**
+- Implementar "Skeletons" o "Spinners" globales para todas las llamadas HTTP.
+- Implementar un interceptor HTTP global para manejar errores 401, 403, 500 y mostrar mensajes amigables al usuario.
+
+---
+
+## 4. RESUMEN DE ACCIONES REQUERIDAS
+
+Para llevar Virteex a un estado 100% funcional y comercial, se deben ejecutar las siguientes acciones prioritarias:
+
+1.  **Eliminar Mocks:**
+    -   Reescribir `GetTopProductsUseCase` (BI) para consultar datos reales.
+    -   Reemplazar `IntentDetectionService` (Identity UI) por una llamada HTTP real.
+
+2.  **Infraestructura:**
+    -   Reemplazar `StorageService` local por una implementación S3/Cloud.
+    -   Añadir API Key o base de datos local para geolocalización en `AuthController`.
+
+3.  **Experiencia de Usuario (UX):**
+    -   Reemplazar `alert()` por un sistema de Toasts profesional.
+    -   Resolver los `TODO` en el módulo de Billing para mostrar precios reales.
+
+4.  **Robustez:**
+    -   Implementar colas para el envío de correos electrónicos.
+
+Este informe se basa en la evidencia encontrada en los archivos fuente del repositorio actual.
