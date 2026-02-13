@@ -1,0 +1,112 @@
+# INFORME DETALLADO DE ESTADO Y BRECHA COMERCIAL - VIRTEEX ERP
+
+FECHA: 2024-05-22
+OBJETIVO: Identificar todas las carencias para alcanzar un estado "100% Funcional y Comercial" (Sin Mocks, Producción).
+
+## 1. RESUMEN EJECUTIVO
+
+La aplicación **Virteex ERP** se encuentra en un estado **Híbrido (Funcional/Prototipo)**. Mientras que la arquitectura base (NestJS + Angular Monorepo) es sólida y moderna, existen dominios críticos que operan con lógica simulada ("Mocks") o implementaciones ingenuas que no soportarían un escenario comercial real.
+
+**Estado General:** ~60% Funcional Real / ~40% Mock o Lógica Simplista.
+
+---
+
+## 2. ANÁLISIS DETALLADO POR DOMINIO
+
+### A. DOMINIO: IDENTITY (Identidad y Acceso)
+**Estado: ALTO (Listo para Prod con ajustes menores)**
+*   **Backend:** Implementación real de `Login`, `Register` y `MFA` (TOTP). El uso de `verify-mfa.use-case.ts` es correcto y seguro.
+*   **Frontend:** Formularios funcionales.
+*   **Brecha:**
+    *   La página `MyProfilePage` utiliza `of([])` para cargar "Job Titles", lo cual es un dato harcodeado que debería venir de un catálogo de la empresa.
+    *   La validación de JWT es manual (`jwt.verify`) en lugar de usar `PassportStrategy`, lo cual es propenso a errores si no se mantienen las verificaciones de expiración/audiencia.
+
+### B. DOMINIO: CRM (Gestión de Relaciones con Clientes)
+**Estado: CRÍTICO (Prototipo)**
+*   **Backend:**
+    *   **LÓGICA HARCODEADA:** El `CreateSaleUseCase` establece forzosamente `sale.status = 'COMPLETED'`. Esto asume que toda venta es inmediata (tipo Punto de Venta). Un CRM comercial requiere un flujo de estados: `Borrador -> Negociación -> Cerrada/Ganada` o `Perdida`.
+    *   Falta lógica de seguimiento de oportunidades y conversión de Leads.
+*   **Frontend:**
+    *   Componentes visuales presentes, pero la integración es simplista.
+
+### C. DOMINIO: BILLING (Facturación)
+**Estado: MEDIO (Funcional pero Frágil)**
+*   **Backend:**
+    *   **Integración PAC Real:** Existe `FinkokPacProvider` con construcción SOAP real para timbrado.
+    *   **RIESGO DE SEGURIDAD:** El proveedor tiene fallbacks harcodeados a `mock_user` y `mock_pass` si no existen las variables de entorno. Esto debe eliminarse en producción para forzar el fallo si no hay configuración.
+    *   **Configuración:** `TAX_ID` se lee directamente de `process.env`, lo cual impide soporte multi-tenant real (cada tenant debería tener su propio RFC/Key).
+*   **Frontend:**
+    *   Servicios como `InvoicesService` usan `HttpClient` real.
+
+### D. DOMINIO: PAYROLL (Nómina)
+**Estado: BAJO (Lógica Ingenua / No Comercial)**
+*   **Backend:**
+    *   **Cálculo Simplista:** `CalculatePayrollUseCase` divide el salario mensual entre 30 días fijos. No considera variaciones de días del mes (28, 31), incidencias (faltas, retardos), horas extra, ni tablas de ISR progresivas complejas (aunque llama a un `TaxService`, la lógica orquestadora es lineal).
+    *   No hay manejo de versiones de nómina (timbrado vs cálculo previo).
+*   **Frontend:**
+    *   Formularios existentes.
+
+### E. DOMINIO: ADMIN (Administración del Sistema)
+**Estado: MOCK TOTAL (No Funcional)**
+*   **Frontend:**
+    *   **HALLAZGO CRÍTICO:** La página `CustomerFormPage` (`libs/domains/admin/ui`) contiene `console.log('Saving customer data...')` y navega inmediatamente. **No llama a ningún servicio backend.**
+    *   Esto significa que la creación de clientes desde el panel de admin es una ilusión.
+*   **Backend:**
+    *   Existen endpoints, pero el frontend no los está consumiendo en este módulo específico.
+
+### F. DOMINIO: BI (Business Intelligence)
+**Estado: MEDIO-ALTO**
+*   **Backend:** `GetTopProductsUseCase` delega correctamente al repositorio.
+*   **Frontend:** `TopProductsChart` hace la llamada real a `BiService`. Existe código de fallback "legacy" que podría causar confusión, pero la línea principal es funcional.
+
+---
+
+## 3. BRECHAS DE ARQUITECTURA (CROSS-CUTTING)
+
+### Backend (NestJS)
+1.  **Base de Datos (MikroORM):**
+    *   La configuración en `mikro-orm.config.ts` no habilita explícitamente **SSL** para conexiones Postgres, lo cual fallará en cualquier despliegue en la nube (AWS RDS, Azure, Heroku).
+    *   No hay configuración visible de **Connection Pooling**, crítico para soportar concurrencia comercial.
+2.  **Seguridad:**
+    *   Se usa `Helmet` y `ValidationPipe` (Correcto).
+    *   La autenticación manual en `JwtAuthGuard` es funcional pero menos estandarizada que `@nestjs/passport`.
+
+### Frontend (Angular)
+1.  **Manejo de Errores Global:**
+    *   Existe `loading.interceptor.ts` pero **NO existe un `error.interceptor.ts`**.
+    *   En un entorno comercial, si la API falla (401, 500), el usuario se quedará "colgado" o sin feedback visual. Se requiere un interceptor que muestre Toasts/Alertas automáticas.
+2.  **Estado Global:**
+    *   Uso mixto de Servicios con Signals y Observables directos. Se recomienda estandarizar para evitar "Race Conditions".
+
+---
+
+## 4. PLAN DE ACCIÓN PARA "100% FUNCIONAL"
+
+Para llevar esta aplicación a un nivel comercial y eliminar los mocks, se deben ejecutar las siguientes tareas prioritarias:
+
+1.  **Eliminar Mocks en Admin:**
+    *   Reescribir `CustomerFormPage` para inyectar `CustomerService` y conectar con el endpoint `POST /customers`.
+    *   Hacer lo mismo para cualquier otro catálogo en `libs/domains/admin`.
+
+2.  **Implementar Máquina de Estados en CRM:**
+    *   Modificar `CreateSaleUseCase` para iniciar en estado `DRAFT`.
+    *   Crear endpoints para transiciones: `approve-sale`, `cancel-sale`, `complete-sale`.
+
+3.  **Robustecer Nómina (Payroll):**
+    *   Reemplazar la división simple `/30` por un servicio de `PayrollPeriodCalculator` que considere calendarios reales.
+    *   Integrar incidencias reales antes de calcular el neto.
+
+4.  **Refactorizar Billing para Multi-Tenant:**
+    *   Eliminar `process.env['TAX_ID']` del `FinkokPacProvider`.
+    *   Inyectar la configuración del PAC dinámicamente basada en el `tenantId` del usuario autenticado.
+
+5.  **Infraestructura Frontend:**
+    *   Crear y registrar `GlobalErrorInterceptor` para capturar errores HTTP y mostrarlos en el `ToastService`.
+
+6.  **Hardening de Base de Datos:**
+    *   Agregar opciones de SSL (`driverOptions: { connection: { ssl: { rejectUnauthorized: false } } }`) condicionales a producción en `mikro-orm.config.ts`.
+
+---
+
+**CONCLUSIÓN:**
+La aplicación tiene un buen esqueleto ("Walking Skeleton") pero sus extremidades funcionales (CRM, Nómina, Admin) son prototipos o simulaciones. Se requiere un esfuerzo de desarrollo de aprox. 2-3 semanas (estimado) para reemplazar la lógica ingenua y los mocks por reglas de negocio reales y conectividad total.
