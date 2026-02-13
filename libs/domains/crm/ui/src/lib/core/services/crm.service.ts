@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { API_URL } from '@virteex/shared-ui';
 import { Product } from '../models/product.model';
-import { Sale } from '../models/sale.model';
+import { Sale, CreateSaleDto } from '../models/sale.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +12,8 @@ export class CrmService {
   private http = inject(HttpClient);
   private apiUrl = inject(API_URL);
 
-  createSale(payload: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/crm/sales`, payload);
+  createSale(payload: CreateSaleDto): Observable<Sale> {
+    return this.http.post<Sale>(`${this.apiUrl}/crm/sales`, payload);
   }
 
   getProducts(): Observable<Product[]> {

@@ -4,3 +4,4 @@ export * from './lib/guards/tenant.guard';
 export * from './lib/auth.module';
 export * from './lib/storage/tenant-context.storage';
 export * from './lib/guards/jwt-auth.guard';
+export * from './lib/decorators/public.decorator';
