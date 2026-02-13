@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { authGuard } from '@virteex/shared-util-auth/lib/guards/auth.guard';
-import { SessionService } from '@virteex/shared-util-auth/lib/services/session.service';
+import { authGuard } from './auth.guard';
+import { SessionService } from '../services/session.service';
 import { vi } from 'vitest';
 
 describe('authGuard', () => {

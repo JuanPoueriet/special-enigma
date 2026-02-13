@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthButtonComponent } from '@virteex/identity-ui/lib/pages/auth/components/auth-button/auth-button.component';
+import { AuthButtonComponent } from '../auth-button/auth-button.component';
 
 @Component({
   selector: 'virteex-passkey-button',

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Currencies } from '@virteex/admin-ui/lib/pages/masters/currencies/currencies.page';
+import { Currencies } from './currencies.page';
 
 describe('Currencies', () => {
   let component: Currencies;

@@ -4,7 +4,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { Customer } from '@virteex/shared-ui/lib/core/models/customer.model';
+import { Customer } from '../models/customer.model';
 
 export type CreateCustomerDto = Omit<Customer, 'id' | 'organizationId' | 'createdAt' | 'updatedAt' | 'totalBilled'>;
 export type UpdateCustomerDto = Partial<CreateCustomerDto>;

@@ -1,5 +1,5 @@
 import { Entity, PrimaryKey, Property, Enum } from '@mikro-orm/core';
-import { TenantMode } from '@virteex/tenant/lib/interfaces/tenant-config.interface';
+import { TenantMode } from '../interfaces/tenant-config.interface';
 
 @Entity({ tableName: 'tenants' }) // Central catalog table
 export class Tenant {

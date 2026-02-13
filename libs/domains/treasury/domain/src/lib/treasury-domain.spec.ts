@@ -1,4 +1,4 @@
-import { treasuryDomain } from '@virteex/treasury-domain/lib/treasury-domain';
+import { treasuryDomain } from './treasury-domain';
 
 describe('treasuryDomain', () => {
   it('should work', () => {

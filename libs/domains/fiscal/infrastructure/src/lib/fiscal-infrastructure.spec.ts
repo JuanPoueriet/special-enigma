@@ -1,4 +1,4 @@
-import { fiscalInfrastructure } from '@virteex/fiscal-infrastructure/lib/fiscal-infrastructure';
+import { fiscalInfrastructure } from './fiscal-infrastructure';
 
 describe('fiscalInfrastructure', () => {
   it('should work', () => {

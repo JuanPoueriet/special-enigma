@@ -4,11 +4,11 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LucideAngularModule, Save, Plus, Trash2 } from 'lucide-angular';
-import { PriceListsService, CreatePriceListDto, UpdatePriceListDto } from '@virteex/admin-ui/lib/core/api/price-lists.service';
-import { InventoryService } from '@virteex/admin-ui/lib/core/api/inventory.service';
-import { NotificationService } from '@virteex/admin-ui/lib/core/services/notification';
-import { Product } from '@virteex/admin-ui/lib/core/models/product.model';
-import { PriceListItem, PriceListStatus } from '@virteex/admin-ui/lib/core/models/price-list.model';
+import { PriceListsService, CreatePriceListDto, UpdatePriceListDto } from '../../../../core/api/price-lists.service';
+import { InventoryService } from '../../../../core/api/inventory.service';
+import { NotificationService } from '../../../../core/services/notification';
+import { Product } from '../../../../core/models/product.model';
+import { PriceListItem, PriceListStatus } from '../../../../core/models/price-list.model';
 
 @Component({
   selector: 'virteex-price-list-form-page',

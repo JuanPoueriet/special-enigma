@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LivePreview } from '@virteex/shared-ui/lib/components/live-preview/live-preview';
+import { LivePreview } from './live-preview';
 
 describe('LivePreview', () => {
   let component: LivePreview;

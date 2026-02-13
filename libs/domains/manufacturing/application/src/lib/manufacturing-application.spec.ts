@@ -1,4 +1,4 @@
-import { manufacturingApplication } from '@virteex/manufacturing-application/lib/manufacturing-application';
+import { manufacturingApplication } from './manufacturing-application';
 
 describe('manufacturingApplication', () => {
   it('should work', () => {

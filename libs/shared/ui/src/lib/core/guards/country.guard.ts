@@ -1,9 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable, catchError, map, of, tap } from 'rxjs';
-import { CountryService } from '@virteex/shared-ui';
-import { LanguageService } from '@virteex/shared-ui';
-import { GeoLocationService } from '@virteex/shared-ui';
+import { CountryService } from '../../..';
+import { LanguageService } from '../../..';
+import { GeoLocationService } from '../../..';
 
 @Injectable({
   providedIn: 'root'

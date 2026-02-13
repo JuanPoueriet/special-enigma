@@ -1,4 +1,4 @@
-import { Supplier } from '@virteex/purchasing-domain/lib/entities/supplier.entity';
+import { Supplier } from '../entities/supplier.entity';
 
 export interface ISupplierRepository {
   save(supplier: Supplier): Promise<void>;

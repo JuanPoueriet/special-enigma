@@ -1,5 +1,5 @@
 import { Module, Global } from '@nestjs/common';
-import { TelemetryService } from '@virteex/telemetry/lib/telemetry';
+import { TelemetryService } from './telemetry';
 
 @Global()
 @Module({

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { List } from '@virteex/billing-ui/lib/pages/invoices/list/list.page';
+import { List } from './list.page';
 
 describe('List', () => {
   let component: List;

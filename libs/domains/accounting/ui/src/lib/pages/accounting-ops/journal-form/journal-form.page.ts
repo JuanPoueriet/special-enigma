@@ -1,9 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { JournalsService } from '@virteex/accounting-ui/lib/core/api/journals.service';
-import { NotificationService } from '@virteex/accounting-ui/lib/core/services/notification';
-import { Journal } from '@virteex/accounting-ui/lib/core/models/journal.model';
+import { JournalsService } from '../../../core/api/journals.service';
+import { NotificationService } from '../../../core/services/notification';
+import { Journal } from '../../../core/models/journal.model';
 // import { JournalsService } from '@app/core/api/journals.service';
 // import { Journal } from '@app/core/models/journal.model';
 // import { NotificationService } from '@app/core/services/notification';

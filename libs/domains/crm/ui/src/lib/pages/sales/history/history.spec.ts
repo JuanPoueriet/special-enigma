@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { History } from '@virteex/crm-ui/lib/pages/sales/history/history.page';
+import { History } from './history.page';
 
 describe('History', () => {
   let component: History;

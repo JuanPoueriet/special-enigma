@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PaymentTerms } from '@virteex/admin-ui/lib/pages/masters/payment-terms/payment-terms.page';
+import { PaymentTerms } from './payment-terms.page';
 
 describe('PaymentTerms', () => {
   let component: PaymentTerms;

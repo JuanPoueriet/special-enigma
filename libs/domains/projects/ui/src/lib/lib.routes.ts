@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
-import { DashboardComponent } from '@virteex/projects-ui/lib/pages/dashboard/dashboard.component';
-import { ListComponent } from '@virteex/projects-ui/lib/pages/list/list.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { ListComponent } from './pages/list/list.component';
 
 export const projectsRoutes: Route[] = [
   { path: '', component: DashboardComponent },

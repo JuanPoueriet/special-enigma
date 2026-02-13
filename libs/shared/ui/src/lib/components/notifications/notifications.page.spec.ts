@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NotificationsPage } from '@virteex/shared-ui/src/lib/components/notifications/notifications.page';
-import { NotificationCenterService, Notification } from '@virteex/shared-ui/lib/core/services/notification-center.service';
+import { NotificationsPage } from '../../../src/lib/components/notifications/notifications.page';
+import { NotificationCenterService, Notification } from '../../core/services/notification-center.service';
 import { signal } from '@angular/core';
 import { vi } from 'vitest';
 

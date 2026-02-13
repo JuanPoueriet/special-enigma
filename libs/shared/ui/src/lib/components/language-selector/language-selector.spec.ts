@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { LanguageSelector } from '@virteex/shared-ui/src/lib/components/language-selector/language-selector';
-import { LanguageService } from '@virteex/shared-ui/src/lib/core/services/language';
+import { LanguageSelector } from '../../../src/lib/components/language-selector/language-selector';
+import { LanguageService } from '../../../src/lib/core/services/language';
 import { vi } from 'vitest';
 
 describe('LanguageSelector', () => {

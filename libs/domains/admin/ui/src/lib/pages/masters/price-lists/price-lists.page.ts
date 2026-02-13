@@ -2,9 +2,9 @@ import { Component, ChangeDetectionStrategy, signal, inject, OnInit } from '@ang
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LucideAngularModule, PlusCircle, Filter, MoreHorizontal } from 'lucide-angular';
-import { PriceList } from '@virteex/admin-ui/lib/core/models/price-list.model';
-import { PriceListsService } from '@virteex/admin-ui/lib/core/api/price-lists.service';
-import { NotificationService } from '@virteex/admin-ui/lib/core/services/notification';
+import { PriceList } from '../../../core/models/price-list.model';
+import { PriceListsService } from '../../../core/api/price-lists.service';
+import { NotificationService } from '../../../core/services/notification';
 
 @Component({
   selector: 'virteex-price-lists-page',

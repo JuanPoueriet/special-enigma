@@ -4,8 +4,8 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { GeneralLedger } from '@virteex/shared-ui/lib/core/models/general-ledger.model';
-import { Ledger } from '@virteex/shared-ui/lib/core/models/ledger.model';
+import { GeneralLedger } from '../models/general-ledger.model';
+import { Ledger } from '../models/ledger.model';
 
 // FIX: Definir y exportar los DTOs para la creación y actualización.
 // Se basan en la entidad Ledger, pero como Partial para permitir campos opcionales.

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ExpensesChart } from '@virteex/bi-ui/lib/pages/dashboard-main/widgets/expenses-chart/expenses-chart';
+import { ExpensesChart } from './expenses-chart';
 
 describe('ExpensesChart', () => {
   let component: ExpensesChart;

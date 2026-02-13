@@ -8,8 +8,8 @@ import {
   WAREHOUSE_REPOSITORY,
   INVENTORY_REPOSITORY
 } from '@virteex/inventory-domain';
-import { MikroOrmWarehouseRepository } from '@virteex/inventory-infrastructure/lib/repositories/mikro-orm-warehouse.repository';
-import { MikroOrmInventoryRepository } from '@virteex/inventory-infrastructure/lib/repositories/mikro-orm-inventory.repository';
+import { MikroOrmWarehouseRepository } from './repositories/mikro-orm-warehouse.repository';
+import { MikroOrmInventoryRepository } from './repositories/mikro-orm-inventory.repository';
 
 @Module({
   imports: [

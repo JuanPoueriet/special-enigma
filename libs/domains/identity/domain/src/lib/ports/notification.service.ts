@@ -1,5 +1,5 @@
-import { User } from '@virteex/identity-domain/lib/entities/user.entity';
+import { User } from '../entities/user.entity';
 
 export abstract class NotificationService {
-  abstract sendWelcomeEmail(user: User): Promise<void>;
+  abstract sendWelcomeEmail(user: User, tempPassword?: string): Promise<void>;
 }

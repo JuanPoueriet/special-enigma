@@ -1,8 +1,8 @@
 import { Injectable, NestMiddleware, UnauthorizedException, OnModuleInit } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import { createHmac, timingSafeEqual } from 'crypto';
-import { TenantContext } from '@virteex/auth/lib/interfaces/tenant-context.interface';
-import { runWithTenantContext } from '@virteex/auth/lib/storage/tenant-context.storage';
+import { TenantContext } from '../interfaces/tenant-context.interface';
+import { runWithTenantContext } from '../storage/tenant-context.storage';
 import { TelemetryService } from '@virteex/telemetry';
 
 @Injectable()

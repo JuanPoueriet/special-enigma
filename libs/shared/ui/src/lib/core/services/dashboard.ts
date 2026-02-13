@@ -1,6 +1,6 @@
 import { Injectable, signal, inject } from '@angular/core';
 import { GridsterItem } from 'angular-gridster2';
-import { Kpi } from '@virteex/shared-ui/lib/core/models/finance';
+import { Kpi } from '../models/finance';
 
 // >>> ÚNICO IMPORT NUEVO PARA TRADUCCIÓN <<<
 import { TranslateService } from '@ngx-translate/core';

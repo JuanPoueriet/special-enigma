@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { Tax } from '@virteex/shared-ui/lib/core/models/tax.model';
+import { Tax } from '../models/tax.model';
 
 export type CreateTaxDto = Omit<Tax, 'id' | 'organizationId' | 'createdAt' | 'updatedAt'>;
 export type UpdateTaxDto = Partial<CreateTaxDto>;

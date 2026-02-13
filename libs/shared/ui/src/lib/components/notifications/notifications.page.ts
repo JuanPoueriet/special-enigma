@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule, Check, BellOff } from 'lucide-angular';
-import { NotificationCenterService, Notification } from '@virteex/shared-ui/lib/core/services/notification-center.service';
+import { NotificationCenterService, Notification } from '../../core/services/notification-center.service';
 
 interface NotificationGroup {
   period: string;

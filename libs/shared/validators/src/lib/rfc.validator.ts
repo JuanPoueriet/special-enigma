@@ -1,4 +1,4 @@
-import { DocumentValidator, ValidationResult } from '@virteex/shared-validators/lib/cpf.validator';
+import { DocumentValidator, ValidationResult } from './cpf.validator';
 
 export class RFCValidator implements DocumentValidator {
   validate(rfc: string): ValidationResult {

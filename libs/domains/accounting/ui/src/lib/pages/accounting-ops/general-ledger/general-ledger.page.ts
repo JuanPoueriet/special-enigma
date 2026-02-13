@@ -5,9 +5,9 @@ import { FormsModule } from '@angular/forms';
 import { LucideAngularModule, Filter, FileDown, Calendar, UserCog, PowerOff, Ban, Trash2, Edit, Key } from 'lucide-angular';
 import { ActivatedRoute } from '@angular/router';
 import { finalize, switchMap } from 'rxjs/operators';
-import { GeneralLedgerLine, GeneralLedger as GeneralLedgerData } from '@virteex/accounting-ui/lib/core/models/general-ledger.model';
-import { LedgersService } from '@virteex/accounting-ui/lib/core/api/ledgers.service';
-import { NotificationService } from '@virteex/accounting-ui/lib/core/services/notification';
+import { GeneralLedgerLine, GeneralLedger as GeneralLedgerData } from '../../../core/models/general-ledger.model';
+import { LedgersService } from '../../../core/api/ledgers.service';
+import { NotificationService } from '../../../core/services/notification';
 import { EMPTY } from 'rxjs';
 
 @Component({

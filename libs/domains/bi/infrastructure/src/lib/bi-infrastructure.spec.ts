@@ -1,4 +1,4 @@
-import { biInfrastructure } from '@virteex/bi-infrastructure/lib/bi-infrastructure';
+import { biInfrastructure } from './bi-infrastructure';
 
 describe('biInfrastructure', () => {
   it('should work', () => {

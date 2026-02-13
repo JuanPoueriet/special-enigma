@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Router } from '@angular/router';
-import { AuthService } from '@virteex/shared-ui/src/lib/core/services/auth';
-import { API_URL } from '@virteex/shared-ui/src/lib/core/tokens/api-url.token';
-import { NotificationService } from '@virteex/shared-ui/src/lib/core/services/notification';
-import { WebSocketService } from '@virteex/shared-ui/src/lib/core/services/websocket.service';
-import { ModalService } from '@virteex/shared-ui/src/lib/services/modal.service';
-import { ErrorHandlerService } from '@virteex/shared-ui/src/lib/core/services/error-handler.service';
+import { AuthService } from '../../../src/lib/core/services/auth';
+import { API_URL } from '../../../src/lib/core/tokens/api-url.token';
+import { NotificationService } from '../../../src/lib/core/services/notification';
+import { WebSocketService } from '../../../src/lib/core/services/websocket.service';
+import { ModalService } from '../../../src/lib/services/modal.service';
+import { ErrorHandlerService } from '../../../src/lib/core/services/error-handler.service';
 import { Subject } from 'rxjs';
 import { vi } from 'vitest';
 

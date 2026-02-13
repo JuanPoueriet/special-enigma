@@ -1,4 +1,4 @@
-import { adminPresentation } from '@virteex/admin-presentation/lib/admin-presentation';
+import { adminPresentation } from './admin-presentation';
 
 describe('adminPresentation', () => {
   it('should work', () => {

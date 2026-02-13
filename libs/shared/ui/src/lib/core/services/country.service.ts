@@ -3,7 +3,7 @@ import { Injectable, signal, inject, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { catchError, Observable, of, tap, map } from 'rxjs';
-import { GeoLocationService } from '@virteex/shared-ui/lib/core/services/geo-location.service';
+import { GeoLocationService } from './geo-location.service';
 
 export interface CountryConfig {
   code: string;
