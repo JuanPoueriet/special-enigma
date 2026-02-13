@@ -1,0 +1,83 @@
+# INFORME DETALLADO DE ESTADO Y BRECHAS PARA VIABILIDAD COMERCIAL - VIRTEEX ERP
+
+Este informe detalla exhaustivamente las deficiencias técnicas y funcionales que impiden que la aplicación "Virteex" sea considerada 100% funcional y comercialmente viable. Se ha realizado un análisis estático y lógico profundo de cada dominio y capa de la aplicación.
+
+## 1. ANÁLISIS POR DOMINIO DE NEGOCIO
+
+### 1.1. DOMINIO: BILLING (FACTURACIÓN Y COBRANZA)
+**Estado General:** INCOMPLETO
+*   **Frontend (Capa Visual y Servicios):**
+    *   **Servicio de Pagos (`PaymentService`):** Se detectó que el archivo `libs/domains/billing/ui/src/lib/pages/payments/services/payment.service.ts` es un **MOCK**. El método `processPayment` solo imprime en consola (`console.log`). No hay integración con pasarelas de pago reales (Stripe, PayPal, OpenPay, etc.).
+    *   **Servicio de Facturas (`InvoicesService`):** Implementado correctamente con `HttpClient` conectando al backend.
+*   **Backend (Lógica y Persistencia):**
+    *   No se encontraron adaptadores para proveedores de facturación electrónica (PAC para México o equivalentes). Una aplicación comercial requiere timbrado real.
+
+### 1.2. DOMINIO: MANUFACTURING (MANUFACTURA)
+**Estado General:** DEFICIENTE (Lógica de Negocio Incompleta)
+*   **Backend (Application Layer):**
+    *   **Caso de Uso `CreateProductionOrderUseCase`:** El archivo `libs/domains/manufacturing/application/src/lib/use-cases/create-production-order.use-case.ts` es funcionalmente incorrecto para un entorno comercial. Simplemente guarda la orden en la base de datos **sin validar ni reservar existencias** de materias primas en el inventario. Esto permitiría crear órdenes de producción imposibles de cumplir.
+*   **Frontend:**
+    *   Integración HTTP correcta en `ManufacturingService`.
+
+### 1.3. DOMINIO: TREASURY (TESORERÍA)
+**Estado General:** BÁSICO
+*   **Backend (Application Layer):**
+    *   **Caso de Uso `GetCashFlowUseCase`:** El archivo `libs/domains/treasury/application/src/lib/use-cases/get-cash-flow.use-case.ts` devuelve un volcado crudo (`findAll`) de todas las transacciones. Un reporte de flujo de caja comercial requiere:
+        1.  Agrupación por períodos (diario, semanal, mensual).
+        2.  Cálculo de saldos acumulados.
+        3.  Categorización de entradas y salidas.
+        4.  Proyección (forecasting).
+    *   Actualmente, este endpoint colapsará con un volumen de datos real.
+
+### 1.4. DOMINIO: ACCOUNTING (CONTABILIDAD)
+**Estado General:** FUNCIONAL PERO DÉBIL EN TIPADO
+*   **Backend:**
+    *   Repositorios (`MikroOrmAccountRepository`) implementados correctamente con `EntityManager`.
+*   **Frontend:**
+    *   **Servicio `AccountingService`:** El archivo `libs/domains/accounting/ui/src/lib/services/accounting.service.ts` utiliza tipos `any[]` en los retornos de `getAccounts` y `getJournalEntries`. Esto elimina la seguridad de tipos en el frontend, aumentando el riesgo de errores en tiempo de ejecución al renderizar tablas o reportes.
+
+### 1.5. DOMINIO: INVENTORY (INVENTARIO)
+**Estado General:** ROBUSTO
+*   **Backend:**
+    *   **Caso de Uso `RegisterMovementUseCase`:** Excelente implementación. Valida la existencia del almacén, comprueba la tenencia (tenant), verifica stocks antes de salidas (evita stock negativo) y actualiza tanto el stock actual como el histórico de movimientos en una transacción.
+*   **Frontend:**
+    *   Servicios (`InventoryService`, `ProductService`) correctamente integrados con la API.
+
+### 1.6. DOMINIO: IDENTITY (IDENTIDAD Y ACCESO)
+**Estado General:** ROBUSTO CON DEUDA TÉCNICA MENOR
+*   **Backend:**
+    *   **Seguridad:** Implementación correcta de `JwtAuthGuard`.
+    *   **Detección de Fraude:** `IntentDetectionService` implementado con lógica real de comparación de geolocalización (IP vs URL) y proxy al backend.
+    *   **Deuda Técnica:** En `JwtAuthGuard`, la lectura del secreto (`JWT_SECRET`) se hace accediendo directamente a `process.env` en lugar de inyectar `ConfigService`. Esto dificulta las pruebas unitarias y la gestión centralizada de configuración.
+
+### 1.7. DOMINIO: CRM
+**Estado General:** COMPLETO
+*   **Backend y Frontend:** Servicios como `CrmService` están completamente integrados mediante `HttpClient` y DTOs tipados. No se detectaron mocks evidentes.
+
+## 2. ANÁLISIS DE INFRAESTRUCTURA Y CROSS-CUTTING CONCERNS
+
+### 2.1. SEGURIDAD Y RED (API GATEWAY)
+*   **Puntos Positivos:**
+    *   **Rate Limiting:** `ThrottlerModule` está configurado globalmente (100 requests / 60s). Vital para evitar ataques DDoS básicos.
+    *   **Headers de Seguridad:** `Helmet` está activo.
+    *   **Validación:** `ValidationPipe` está configurado con `whitelist: true` y `forbidNonWhitelisted: true`, previniendo la inyección de campos no deseados en los DTOs.
+    *   **CORS:** Configurable vía variables de entorno.
+*   **Brechas Detectadas:**
+    *   **Health Checks:** No se encontró implementación de `Terminus` o endpoint `/health`. Indispensable para orquestadores (Kubernetes, AWS ECS) y monitoreo de uptime.
+
+### 2.2. OBSERVABILIDAD
+*   **Logs:** Implementación correcta con `nestjs-pino` para logs estructurados en formato JSON (estándar comercial).
+*   **Tracing:** Configuración de OpenTelemetry (`otelSDK`) presente en `tracing.ts`.
+
+## 3. CONCLUSIÓN Y HOJA DE RUTA PARA "100% FUNCIONAL"
+
+Para que Virteex sea un producto comercial viable, se deben ejecutar las siguientes acciones obligatorias:
+
+1.  **Eliminar Mock de Pagos:** Reescribir `PaymentService` en el dominio de Billing para integrar una pasarela de pagos real (Stripe/PayPal) y manejar webhooks de confirmación.
+2.  **Lógica de Manufactura:** Reescribir `CreateProductionOrderUseCase` para que descuente inventario atómicamente al crear una orden, o implemente un estado de "Reserva".
+3.  **Reportes Financieros:** Reescribir `GetCashFlowUseCase` para realizar agregaciones en base de datos (SQL `GROUP BY`) y no en memoria, soportando rangos de fechas.
+4.  **Tipado en Contabilidad:** Refactorizar `AccountingService` en el frontend para usar interfaces estrictas (`Account`, `JournalEntry`) en lugar de `any`.
+5.  **Health Check:** Agregar módulo `Terminus` en el API Gateway.
+6.  **Refactor de Auth Guard:** Inyectar `ConfigService` en `JwtAuthGuard`.
+
+Este informe certifica que, salvo las excepciones críticas mencionadas (Pagos, Manufactura, CashFlow), la arquitectura base (Monorepo, Clean Architecture, NestJS, Angular, MikroORM) es sólida y profesional.
