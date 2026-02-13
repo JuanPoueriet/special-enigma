@@ -12,6 +12,9 @@ export class ProductionOrder {
   productSku!: string;
 
   @Property()
+  warehouseId!: string;
+
+  @Property()
   quantity!: number;
 
   @Property()
@@ -20,8 +23,9 @@ export class ProductionOrder {
   @Property()
   dueDate!: Date;
 
-  constructor(tenantId: string, productSku: string, quantity: number, dueDate: Date) {
+  constructor(tenantId: string, warehouseId: string, productSku: string, quantity: number, dueDate: Date) {
     this.tenantId = tenantId;
+    this.warehouseId = warehouseId;
     this.productSku = productSku;
     this.quantity = quantity;
     this.dueDate = dueDate;

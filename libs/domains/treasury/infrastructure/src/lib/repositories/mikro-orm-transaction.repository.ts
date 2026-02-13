@@ -20,4 +20,22 @@ export class MikroOrmTransactionRepository implements TransactionRepository {
   async findAll(tenantId: string): Promise<Transaction[]> {
     return this.em.find(Transaction, { tenantId }, { orderBy: { date: 'DESC' } });
   }
+
+  async getCashFlowReport(tenantId: string, startDate: Date, endDate: Date): Promise<any[]> {
+    const qb = this.em.createQueryBuilder(Transaction, 't');
+    const results = await qb
+      .select([
+        'DATE(t.date) as date',
+        "SUM(CASE WHEN t.type = 'DEPOSIT' THEN t.amount ELSE 0 END) as income",
+        "SUM(CASE WHEN t.type = 'WITHDRAWAL' THEN t.amount ELSE 0 END) as expense"
+      ])
+      .where({ tenantId })
+      .andWhere('t.date >= ?', [startDate])
+      .andWhere('t.date <= ?', [endDate])
+      .groupBy('DATE(t.date)')
+      .orderBy({ 'DATE(t.date)': 'ASC' })
+      .execute();
+
+    return results;
+  }
 }

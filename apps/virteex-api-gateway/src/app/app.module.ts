@@ -7,8 +7,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ServerConfigModule } from '@virteex/shared-util-server-config';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { LoggerModule } from 'nestjs-pino';
+import { TerminusModule } from '@nestjs/terminus';
 import { JwtAuthGuard } from '@virteex/auth';
 import { AppController } from './app.controller';
+import { HealthController } from './health.controller';
 import { AppService } from './app.service';
 
 // Domain Modules - Infrastructure
@@ -56,6 +58,7 @@ import { CatalogPresentationModule } from '@virteex/catalog-presentation';
           : undefined,
       },
     }),
+    TerminusModule,
     ServerConfigModule,
     ThrottlerModule.forRoot([
       {
@@ -122,7 +125,7 @@ import { CatalogPresentationModule } from '@virteex/catalog-presentation';
     FiscalPresentationModule,
     CatalogPresentationModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, HealthController],
   providers: [
     AppService,
     {
