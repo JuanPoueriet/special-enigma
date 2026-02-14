@@ -20,6 +20,7 @@
         "outputPath": "dist/libs/domains/identity/infrastructure",
         "main": "libs/domains/identity/infrastructure/src/index.ts",
         "tsConfig": "libs/domains/identity/infrastructure/tsconfig.lib.json",
+        "rootDir": ".",
         "assets": [
           "libs/domains/identity/infrastructure/*.md"
         ]
