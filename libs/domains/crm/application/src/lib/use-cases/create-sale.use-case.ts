@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { Sale, SaleItem, SaleRepository } from '../../../../domain/src';
+import { Sale, SaleItem, SaleRepository, SaleStatus } from '../../../../domain/src';
 import Decimal from 'decimal.js';
 
 export interface CreateSaleDto {
@@ -38,7 +38,7 @@ export class CreateSaleUseCase {
     }
 
     sale.total = total.toString();
-    sale.status = 'COMPLETED'; // Assuming immediate completion for POS
+    sale.status = SaleStatus.DRAFT;
 
     return this.repository.create(sale);
   }

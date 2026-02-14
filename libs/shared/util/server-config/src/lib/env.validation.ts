@@ -57,7 +57,7 @@ export class EnvironmentVariables {
   // No default value for sensitive password in production context
   // But for dev we might want it optional or empty string, but validator requires minlength 1.
   // I will remove the default value so it must be provided in .env
-  SMTP_PASSWORD: string;
+  SMTP_PASSWORD!: string;
 
   @IsString()
   @IsOptional()
@@ -70,7 +70,7 @@ export class EnvironmentVariables {
   @IsString()
   @MinLength(1)
   // Making JWT_SECRET required without default
-  JWT_SECRET: string;
+  JWT_SECRET!: string;
 
   @IsString()
   @IsOptional()

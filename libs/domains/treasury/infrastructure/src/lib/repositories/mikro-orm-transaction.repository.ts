@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { EntityManager } from '@mikro-orm/core';
+import { EntityManager } from '@mikro-orm/postgresql';
 import { Transaction } from '../../../../domain/src/lib/entities/transaction.entity';
 import { TransactionRepository } from '../../../../domain/src/lib/repositories/transaction.repository';
 

@@ -14,6 +14,14 @@ const config: Options = {
   password: process.env.DB_PASSWORD || (isPostgres ? 'postgres' : undefined),
   host: process.env.DB_HOST || (isPostgres ? 'localhost' : undefined),
   port: isPostgres ? parseInt(process.env.DB_PORT || '5432', 10) : undefined,
+  driverOptions:
+    isPostgres && process.env.NODE_ENV === 'production'
+      ? {
+          connection: {
+            ssl: { rejectUnauthorized: false },
+          },
+        }
+      : undefined,
   entities: ['./libs/domains/**/domain/src/lib/entities/*.entity.ts'],
   entitiesTs: ['./libs/domains/**/domain/src/lib/entities/*.entity.ts'],
   migrations: {

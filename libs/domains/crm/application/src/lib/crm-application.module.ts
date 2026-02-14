@@ -2,10 +2,31 @@ import { Module } from '@nestjs/common';
 import { CrmInfrastructureModule } from '../../../infrastructure/src/index';
 import { CreateSaleUseCase } from './use-cases/create-sale.use-case';
 import { ListSalesUseCase } from './use-cases/list-sales.use-case';
+import { CreateCustomerUseCase } from './use-cases/create-customer.use-case';
+import { ListCustomersUseCase } from './use-cases/list-customers.use-case';
+import { ApproveSaleUseCase } from './use-cases/approve-sale.use-case';
+import { CancelSaleUseCase } from './use-cases/cancel-sale.use-case';
+import { CompleteSaleUseCase } from './use-cases/complete-sale.use-case';
 
 @Module({
   imports: [CrmInfrastructureModule],
-  providers: [CreateSaleUseCase, ListSalesUseCase],
-  exports: [CreateSaleUseCase, ListSalesUseCase],
+  providers: [
+    CreateSaleUseCase,
+    ListSalesUseCase,
+    CreateCustomerUseCase,
+    ListCustomersUseCase,
+    ApproveSaleUseCase,
+    CancelSaleUseCase,
+    CompleteSaleUseCase
+  ],
+  exports: [
+    CreateSaleUseCase,
+    ListSalesUseCase,
+    CreateCustomerUseCase,
+    ListCustomersUseCase,
+    ApproveSaleUseCase,
+    CancelSaleUseCase,
+    CompleteSaleUseCase
+  ],
 })
 export class CrmApplicationModule {}
