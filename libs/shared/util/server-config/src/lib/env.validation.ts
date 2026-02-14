@@ -1,4 +1,4 @@
-import { plainToClass } from 'class-transformer';
+import { plainToClass, Type, Transform } from 'class-transformer';
 import { IsBoolean, IsNumber, IsOptional, IsString, MinLength, validateSync } from 'class-validator';
 
 export class EnvironmentVariables {
@@ -8,6 +8,7 @@ export class EnvironmentVariables {
 
   @IsNumber()
   @IsOptional()
+  @Type(() => Number)
   PORT = 3000;
 
   @IsString()
@@ -17,6 +18,7 @@ export class EnvironmentVariables {
 
   @IsNumber()
   @IsOptional()
+  @Type(() => Number)
   DB_PORT = 5432;
 
   @IsString()
@@ -36,6 +38,7 @@ export class EnvironmentVariables {
 
   @IsBoolean()
   @IsOptional()
+  @Transform(({ value }) => value === 'true' || value === true)
   DB_SSL_ENABLED = false;
 
   @IsString()
@@ -45,6 +48,7 @@ export class EnvironmentVariables {
 
   @IsNumber()
   @IsOptional()
+  @Type(() => Number)
   SMTP_PORT = 587;
 
   @IsString()
@@ -65,6 +69,7 @@ export class EnvironmentVariables {
 
   @IsBoolean()
   @IsOptional()
+  @Transform(({ value }) => value === 'true' || value === true)
   SMTP_SECURE = false;
 
   @IsString()

@@ -9,7 +9,7 @@ import { PayrollController } from './controllers/payroll.controller';
     PayrollInfrastructureModule
   ],
   controllers: [PayrollController],
-  providers: [CalculatePayrollUseCase],
+  providers: [],
   exports: [PayrollApplicationModule, PayrollInfrastructureModule]
 })
 export class PayrollPresentationModule {}
