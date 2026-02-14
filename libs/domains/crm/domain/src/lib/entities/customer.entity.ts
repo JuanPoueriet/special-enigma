@@ -28,6 +28,27 @@ export class Customer {
   @Property({ nullable: true })
   phone?: string;
 
+  @Property({ nullable: true })
+  taxId?: string;
+
+  @Property({ nullable: true })
+  contactPerson?: string;
+
+  @Property({ nullable: true })
+  address?: string;
+
+  @Property({ nullable: true })
+  city?: string;
+
+  @Property({ nullable: true })
+  stateOrProvince?: string;
+
+  @Property({ nullable: true })
+  postalCode?: string;
+
+  @Property({ nullable: true })
+  country?: string;
+
   @OneToMany('Opportunity', 'customer', { cascade: [Cascade.ALL] })
   opportunities = new Collection<Opportunity>(this);
 

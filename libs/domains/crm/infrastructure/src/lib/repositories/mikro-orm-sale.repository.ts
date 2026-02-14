@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { EntityManager } from '@mikro-orm/core';
+import { EntityManager } from '@mikro-orm/postgresql';
 import { Sale } from '../../../../domain/src/index';
 import { SaleRepository } from '../../../../domain/src/lib/repositories/sale.repository';
 
@@ -19,6 +19,11 @@ export class MikroOrmSaleRepository implements SaleRepository {
 
   async findAll(tenantId: string): Promise<Sale[]> {
     return this.em.find(Sale, { tenantId }, { populate: ['items'], orderBy: { createdAt: 'DESC' } });
+  }
+
+  async update(sale: Sale): Promise<Sale> {
+    await this.em.flush();
+    return sale;
   }
 
   async getTopProducts(tenantId: string, limit: number): Promise<{ name: string; value: number }[]> {

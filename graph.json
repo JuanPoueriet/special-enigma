@@ -2590,6 +2590,55 @@
           "implicitDependencies": []
         }
       },
+      "shared-infrastructure-storage": {
+        "name": "shared-infrastructure-storage",
+        "type": "lib",
+        "data": {
+          "root": "libs/shared/infrastructure/storage",
+          "targets": {
+            "lint": {
+              "executor": "@nx/eslint:lint",
+              "options": {},
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "executor": "@nx/js:tsc",
+              "outputs": [
+                "{options.outputPath}"
+              ],
+              "options": {
+                "outputPath": "dist/libs/shared/infrastructure/storage",
+                "main": "libs/shared/infrastructure/storage/src/index.ts",
+                "tsConfig": "libs/shared/infrastructure/storage/tsconfig.lib.json",
+                "assets": [
+                  "libs/shared/infrastructure/storage/*.md"
+                ]
+              },
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "production",
+                "^production"
+              ]
+            }
+          },
+          "name": "shared-infrastructure-storage",
+          "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+          "sourceRoot": "libs/shared/infrastructure/storage/src",
+          "prefix": "virteex",
+          "projectType": "library",
+          "tags": [
+            "type:infrastructure",
+            "scope:shared"
+          ],
+          "implicitDependencies": []
+        }
+      },
       "treasury-presentation": {
         "name": "treasury-presentation",
         "type": "lib",
@@ -10007,6 +10056,11 @@
           "source": "manufacturing-infrastructure",
           "target": "manufacturing-domain",
           "type": "static"
+        },
+        {
+          "source": "manufacturing-infrastructure",
+          "target": "inventory-domain",
+          "type": "static"
         }
       ],
       "fixed-assets-infrastructure": [
@@ -10020,6 +10074,11 @@
         {
           "source": "manufacturing-presentation",
           "target": "manufacturing-application",
+          "type": "static"
+        },
+        {
+          "source": "manufacturing-presentation",
+          "target": "auth",
           "type": "static"
         }
       ],
@@ -10091,6 +10150,11 @@
         {
           "source": "identity-infrastructure",
           "target": "identity-application",
+          "type": "static"
+        },
+        {
+          "source": "identity-infrastructure",
+          "target": "shared-infrastructure-storage",
           "type": "static"
         }
       ],
@@ -10236,6 +10300,11 @@
           "source": "identity-presentation",
           "target": "identity-infrastructure",
           "type": "static"
+        },
+        {
+          "source": "identity-presentation",
+          "target": "auth",
+          "type": "static"
         }
       ],
       "inventory-application": [
@@ -10262,6 +10331,7 @@
           "type": "static"
         }
       ],
+      "shared-infrastructure-storage": [],
       "treasury-presentation": [
         {
           "source": "treasury-presentation",
@@ -10508,6 +10578,11 @@
           "source": "crm-application",
           "target": "crm-domain",
           "type": "static"
+        },
+        {
+          "source": "crm-application",
+          "target": "contracts",
+          "type": "static"
         }
       ],
       "identity-domain": [],
@@ -10551,6 +10626,11 @@
         {
           "source": "bi-application",
           "target": "accounting-domain",
+          "type": "static"
+        },
+        {
+          "source": "bi-application",
+          "target": "crm-domain",
           "type": "static"
         }
       ],
@@ -10603,6 +10683,11 @@
         {
           "source": "virteex-api-gateway",
           "target": "shared-util-server-config",
+          "type": "static"
+        },
+        {
+          "source": "virteex-api-gateway",
+          "target": "auth",
           "type": "static"
         },
         {

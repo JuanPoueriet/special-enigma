@@ -21,6 +21,23 @@ export class UsersController {
     private readonly uploadAvatar: UploadAvatarUseCase
   ) {}
 
+  @Get('job-titles')
+  async getJobTitles(): Promise<string[]> {
+    return [
+      'CEO',
+      'CTO',
+      'CFO',
+      'Manager',
+      'Developer',
+      'Designer',
+      'Product Owner',
+      'Scrum Master',
+      'HR Specialist',
+      'Sales Representative',
+      'Accountant',
+    ];
+  }
+
   @Get('profile')
   async getMyProfile(@Req() req: any): Promise<User> {
     const userId = req.user?.sub;

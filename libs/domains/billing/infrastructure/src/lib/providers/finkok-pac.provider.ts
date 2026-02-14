@@ -13,9 +13,15 @@ export class FinkokPacProvider implements PacProvider {
   });
 
   constructor() {
-    this.username = process.env['FINKOK_USERNAME'] || 'mock_user';
-    this.password = process.env['FINKOK_PASSWORD'] || 'mock_pass';
+    this.username = process.env['FINKOK_USERNAME']!;
+    this.password = process.env['FINKOK_PASSWORD']!;
     this.url = process.env['FINKOK_URL'] || 'https://demo-facturacion.finkok.com/servicios/soap/stamp';
+
+    if (!this.username || !this.password) {
+      throw new Error(
+        'Finkok credentials (FINKOK_USERNAME, FINKOK_PASSWORD) are missing from environment.'
+      );
+    }
   }
 
   async stamp(xml: string): Promise<FiscalStamp> {

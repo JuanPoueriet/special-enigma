@@ -5,8 +5,17 @@ import {
   OneToMany,
   Collection,
   ManyToOne,
+  Enum
 } from '@mikro-orm/core';
 import { v4 } from 'uuid';
+
+export enum SaleStatus {
+  DRAFT = 'DRAFT',
+  NEGOTIATION = 'NEGOTIATION',
+  APPROVED = 'APPROVED',
+  COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED'
+}
 
 @Entity()
 export class Sale {
@@ -22,8 +31,8 @@ export class Sale {
   @Property({ type: 'decimal', precision: 10, scale: 2 })
   total!: string;
 
-  @Property()
-  status: 'PENDING' | 'COMPLETED' | 'CANCELLED' = 'PENDING';
+  @Enum(() => SaleStatus)
+  status: SaleStatus = SaleStatus.DRAFT;
 
   @OneToMany('SaleItem', 'sale', { cascade: [] })
   items = new Collection<any>(this);
