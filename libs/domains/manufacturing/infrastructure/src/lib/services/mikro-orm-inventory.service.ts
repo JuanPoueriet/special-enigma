@@ -15,7 +15,7 @@ export class MikroOrmInventoryService implements InventoryService {
     });
 
     if (!stock) {
-      throw new InsufficientStockException('Stock record not found');
+      throw new InsufficientStockException(productSku, warehouseId);
     }
 
     stock.removeQuantity(quantity.toString());

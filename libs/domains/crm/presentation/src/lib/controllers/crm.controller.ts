@@ -1,13 +1,28 @@
-import { Controller, Post, Get, Body, Query } from '@nestjs/common';
+import { Controller, Post, Get, Body, Query, Param } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { CreateSaleUseCase, CreateSaleDto, ListSalesUseCase } from '../../../../application/src';
+import {
+  CreateSaleUseCase,
+  CreateSaleDto,
+  ListSalesUseCase,
+  CreateCustomerUseCase,
+  CreateCustomerDto,
+  ListCustomersUseCase,
+  ApproveSaleUseCase,
+  CancelSaleUseCase,
+  CompleteSaleUseCase
+} from '../../../../application/src';
 
 @ApiTags('CRM')
 @Controller('crm')
 export class CrmController {
   constructor(
     private readonly createSaleUseCase: CreateSaleUseCase,
-    private readonly listSalesUseCase: ListSalesUseCase
+    private readonly listSalesUseCase: ListSalesUseCase,
+    private readonly createCustomerUseCase: CreateCustomerUseCase,
+    private readonly listCustomersUseCase: ListCustomersUseCase,
+    private readonly approveSaleUseCase: ApproveSaleUseCase,
+    private readonly cancelSaleUseCase: CancelSaleUseCase,
+    private readonly completeSaleUseCase: CompleteSaleUseCase
   ) {}
 
   @Post('sales')
@@ -22,5 +37,40 @@ export class CrmController {
   @ApiResponse({ status: 200, description: 'List of sales.' })
   async listSales(@Query('tenantId') tenantId: string) {
     return this.listSalesUseCase.execute(tenantId || 'default');
+  }
+
+  @Post('sales/:id/approve')
+  @ApiOperation({ summary: 'Approve a sale' })
+  @ApiResponse({ status: 200, description: 'The sale has been approved.' })
+  async approveSale(@Param('id') id: string) {
+    return this.approveSaleUseCase.execute(id);
+  }
+
+  @Post('sales/:id/cancel')
+  @ApiOperation({ summary: 'Cancel a sale' })
+  @ApiResponse({ status: 200, description: 'The sale has been cancelled.' })
+  async cancelSale(@Param('id') id: string) {
+    return this.cancelSaleUseCase.execute(id);
+  }
+
+  @Post('sales/:id/complete')
+  @ApiOperation({ summary: 'Complete a sale' })
+  @ApiResponse({ status: 200, description: 'The sale has been completed.' })
+  async completeSale(@Param('id') id: string) {
+    return this.completeSaleUseCase.execute(id);
+  }
+
+  @Post('customers')
+  @ApiOperation({ summary: 'Create a new customer' })
+  @ApiResponse({ status: 201, description: 'The customer has been successfully created.' })
+  async createCustomer(@Body() dto: CreateCustomerDto) {
+    return this.createCustomerUseCase.execute(dto);
+  }
+
+  @Get('customers')
+  @ApiOperation({ summary: 'List customers' })
+  @ApiResponse({ status: 200, description: 'List of customers.' })
+  async listCustomers(@Query('tenantId') tenantId: string) {
+    return this.listCustomersUseCase.execute(tenantId || 'default');
   }
 }

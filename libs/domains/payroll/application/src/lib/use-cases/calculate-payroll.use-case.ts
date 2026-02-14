@@ -8,7 +8,8 @@ import {
   Payroll,
   PayrollDetail,
   TaxService,
-  TAX_SERVICE
+  TAX_SERVICE,
+  PayrollPeriodCalculator
 } from '../../../../domain/src/index';
 import { CalculatePayrollDto } from '../../../../contracts/src/index';
 
@@ -17,7 +18,8 @@ export class CalculatePayrollUseCase {
   constructor(
     @Inject(EMPLOYEE_REPOSITORY) private employeeRepository: EmployeeRepository,
     @Inject(PAYROLL_REPOSITORY) private payrollRepository: PayrollRepository,
-    @Inject(TAX_SERVICE) private taxService: TaxService
+    @Inject(TAX_SERVICE) private taxService: TaxService,
+    private payrollCalculator: PayrollPeriodCalculator
   ) {}
 
   async execute(dto: CalculatePayrollDto): Promise<Payroll> {
@@ -48,13 +50,21 @@ export class CalculatePayrollUseCase {
       throw new ConflictException(`Payroll for employee ${employeeId} in period ${start.toISOString()} - ${end.toISOString()} already exists`);
     }
 
-    // Calculate days worked (inclusive)
-    const timeDiff = end.getTime() - start.getTime();
-    const daysWorked = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
+    // Calculate days worked (inclusive) using Service
+    // const timeDiff = end.getTime() - start.getTime();
+    // const daysWorked = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
 
     // Calculate base salary based on days worked (assuming 30 days month standard)
-    const dailySalary = employee.salary / 30;
-    const baseAmount = Number((dailySalary * daysWorked).toFixed(2));
+    // const dailySalary = employee.salary / 30;
+    // const baseAmount = Number((dailySalary * daysWorked).toFixed(2));
+
+    const incidencesDays = 0; // Placeholder for future incidence integration
+    const baseAmount = this.payrollCalculator.calculateProportionalSalary(
+      employee.salary,
+      start,
+      end,
+      incidencesDays
+    );
 
     // Create Payroll
     const payroll = new Payroll(tenantId, employee, start, end, new Date());

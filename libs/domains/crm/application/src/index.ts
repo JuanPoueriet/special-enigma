@@ -1,3 +1,8 @@
 export { CreateSaleUseCase, CreateSaleDto } from './lib/use-cases/create-sale.use-case';
 export { ListSalesUseCase } from './lib/use-cases/list-sales.use-case';
+export { CreateCustomerUseCase, CreateCustomerDto } from './lib/use-cases/create-customer.use-case';
+export { ListCustomersUseCase } from './lib/use-cases/list-customers.use-case';
+export { ApproveSaleUseCase } from './lib/use-cases/approve-sale.use-case';
+export { CancelSaleUseCase } from './lib/use-cases/cancel-sale.use-case';
+export { CompleteSaleUseCase } from './lib/use-cases/complete-sale.use-case';
 export { CrmApplicationModule } from './lib/crm-application.module';

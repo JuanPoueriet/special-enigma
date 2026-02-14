@@ -6,7 +6,7 @@ import * as nodemailer from 'nodemailer';
 @Injectable()
 export class MailProcessor implements OnModuleInit {
   private readonly logger = new Logger(MailProcessor.name);
-  private worker: Worker;
+  private worker!: Worker;
   private transporter: nodemailer.Transporter;
 
   constructor(private readonly configService: ConfigService) {

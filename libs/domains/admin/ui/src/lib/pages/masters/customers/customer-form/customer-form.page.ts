@@ -1,8 +1,11 @@
-import { Component, ChangeDetectionStrategy, inject, OnInit, signal, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, OnInit, signal, Input, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LucideAngularModule, Save, Building2, User, Mail, Phone, Hash, MapPin } from 'lucide-angular';
+import { CustomerService } from '../../../../core/services/customer.service';
+import { ToastService, AuthService } from '@virteex/shared-ui';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'virteex-customer-form-page',
@@ -17,11 +20,16 @@ export class CustomerFormPage implements OnInit {
 
   private fb = inject(FormBuilder);
   private router = inject(Router);
+  private customerService = inject(CustomerService);
+  private toastService = inject(ToastService);
+  private authService = inject(AuthService);
+  private destroyRef = inject(DestroyRef);
 
   protected readonly SaveIcon = Save;
 
   customerForm!: FormGroup;
   isEditMode = signal(false);
+  isLoading = signal(false);
 
   ngOnInit(): void {
     this.customerForm = this.fb.group({
@@ -46,8 +54,25 @@ export class CustomerFormPage implements OnInit {
 
   saveCustomer(): void {
     if (this.customerForm.valid) {
-      console.log('Saving customer data:', this.customerForm.value);
-      this.router.navigate(['/app/masters/customers']);
+      this.isLoading.set(true);
+      const user = this.authService.currentUser();
+      const payload = {
+        ...this.customerForm.value,
+        tenantId: user?.tenantId || 'default',
+      };
+
+      this.customerService.create(payload)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: () => {
+            this.toastService.showSuccess('Customer saved successfully');
+            this.router.navigate(['/app/masters/customers']);
+          },
+          error: (err) => {
+            console.error(err);
+            this.isLoading.set(false);
+          }
+        });
     }
   }
 }
