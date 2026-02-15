@@ -13,8 +13,8 @@ export class EnvironmentVariables {
 
   @IsString()
   @MinLength(1)
-  @IsOptional()
-  DB_HOST = 'localhost';
+  // DB_* variables are now strictly required without defaults for security
+  DB_HOST!: string;
 
   @IsNumber()
   @IsOptional()
@@ -23,18 +23,15 @@ export class EnvironmentVariables {
 
   @IsString()
   @MinLength(1)
-  @IsOptional()
-  DB_USER = 'postgres';
+  DB_USER!: string;
 
   @IsString()
   @MinLength(1)
-  @IsOptional()
-  DB_PASSWORD = 'postgres';
+  DB_PASSWORD!: string;
 
   @IsString()
   @MinLength(1)
-  @IsOptional()
-  DB_NAME = 'virteex';
+  DB_NAME!: string;
 
   @IsBoolean()
   @IsOptional()
@@ -43,8 +40,7 @@ export class EnvironmentVariables {
 
   @IsString()
   @MinLength(1)
-  @IsOptional()
-  SMTP_HOST = 'smtp.example.com';
+  SMTP_HOST!: string;
 
   @IsNumber()
   @IsOptional()
@@ -53,8 +49,7 @@ export class EnvironmentVariables {
 
   @IsString()
   @MinLength(1)
-  @IsOptional()
-  SMTP_USER = 'user';
+  SMTP_USER!: string;
 
   @IsString()
   @MinLength(1)

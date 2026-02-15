@@ -8,6 +8,7 @@ import { User } from '@virteex/identity-domain';
 import { Request } from 'express';
 import { Public } from '@virteex/auth';
 import { ApiOperation } from '@nestjs/swagger';
+import * as geoip from 'geoip-lite';
 
 @Controller('auth')
 export class AuthController {
@@ -56,13 +57,23 @@ export class AuthController {
   @ApiOperation({ summary: 'Get client location' })
   async getLocation(@Req() req: Request): Promise<any> {
     try {
-      const ip = req.ip || req.headers['x-forwarded-for'] || '127.0.0.1';
+      let ip: string = req.ip || '127.0.0.1';
+      const forwarded = req.headers['x-forwarded-for'];
+      if (forwarded) {
+          if (Array.isArray(forwarded)) {
+              ip = forwarded[0];
+          } else {
+              ip = forwarded.split(',')[0].trim();
+          }
+      }
+
       // geoip.lookup might return null for private/local IPs
-      const geo = require('geoip-lite').lookup(ip);
+      const geo = geoip.lookup(ip);
 
       if (!geo) {
           // Default fallback for localhost or unknown IPs
-          return { country_code: 'US', city: 'Unknown', ip };
+          // Returning null country_code to indicate failure/unknown
+          return { country_code: null, city: 'Unknown', ip };
       }
 
       return {
@@ -74,7 +85,7 @@ export class AuthController {
       };
     } catch (error) {
       console.error('Error fetching location:', error);
-      return { country_code: 'US' };
+      return { country_code: null };
     }
   }
 }

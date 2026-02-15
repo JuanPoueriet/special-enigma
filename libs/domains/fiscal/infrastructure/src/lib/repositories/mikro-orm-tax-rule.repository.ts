@@ -16,6 +16,11 @@ export class MikroOrmTaxRuleRepository implements TaxRuleRepository {
   }
 
   async createDefaultRules(tenantId: string): Promise<TaxRule[]> {
+    const existingCount = await this.em.count(TaxRule, { tenantId });
+    if (existingCount > 0) {
+      return [];
+    }
+
     const rules = [
       new TaxRule(tenantId, 'IVA 16%', 'IVA', '0.1600', 'General'),
       new TaxRule(tenantId, 'ISR Retención 10%', 'ISR_RET', '0.1000', 'Professional Services'),

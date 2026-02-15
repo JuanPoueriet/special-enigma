@@ -77,13 +77,7 @@ export class CashflowChart {
     }
 
     cashFlowData = toSignal(
-        this.dashboardApiService.getConsolidatedCashFlowWaterfall().pipe(
-            catchError(err => {
-                console.error('Error fetching cash flow data:', err);
-                // Return a specific error object or an empty DTO to handle errors gracefully
-                return of({ error: true });
-            })
-        )
+        this.dashboardApiService.getConsolidatedCashFlowWaterfall()
     );
 
     // Effect para la actualización en tiempo real
