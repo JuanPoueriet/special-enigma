@@ -34,4 +34,12 @@ export class CustomerService {
   findAll(tenantId?: string): Observable<Customer[]> {
     return this.http.get<Customer[]>(this.apiUrl, { params: tenantId ? { tenantId } : {} });
   }
+
+  getById(id: string): Observable<Customer> {
+    return this.http.get<Customer>(`${this.apiUrl}/${id}`);
+  }
+
+  update(id: string, customer: Customer): Observable<Customer> {
+    return this.http.put<Customer>(`${this.apiUrl}/${id}`, customer);
+  }
 }

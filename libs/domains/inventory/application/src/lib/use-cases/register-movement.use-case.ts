@@ -9,7 +9,9 @@ import {
   Stock,
   InventoryMovementType,
   InsufficientStockException,
-  WarehouseNotFoundException
+  WarehouseNotFoundException,
+  PRODUCT_GATEWAY,
+  ProductGateway
 } from '@virteex/inventory-domain';
 
 export class RegisterMovementDto {
@@ -46,10 +48,22 @@ export class RegisterMovementDto {
 export class RegisterMovementUseCase {
   constructor(
     @Inject(INVENTORY_REPOSITORY) private readonly inventoryRepo: InventoryRepository,
-    @Inject(WAREHOUSE_REPOSITORY) private readonly warehouseRepo: WarehouseRepository
+    @Inject(WAREHOUSE_REPOSITORY) private readonly warehouseRepo: WarehouseRepository,
+    @Inject(PRODUCT_GATEWAY) private readonly productGateway: ProductGateway
   ) {}
 
   async execute(dto: RegisterMovementDto): Promise<void> {
+    // 0. Validate Product existence and Tenant match (Cross-Domain Check)
+    const productExists = await this.productGateway.exists(dto.productId);
+    if (!productExists) {
+      throw new Error(`Product with ID ${dto.productId} not found`);
+    }
+
+    const productTenantId = await this.productGateway.getTenantId(dto.productId);
+    if (productTenantId && productTenantId !== dto.tenantId) {
+        throw new Error('Product does not belong to the tenant');
+    }
+
     // 1. Validate Warehouse
     const warehouse = await this.warehouseRepo.findById(dto.warehouseId);
     if (!warehouse) {

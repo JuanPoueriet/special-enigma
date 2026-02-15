@@ -6,7 +6,7 @@ export class PayrollPeriodCalculator {
    * Calculates the proportional salary for a given period, considering incidences.
    * Uses standard daily salary (monthly / 30) as per Mexican labor law common practice.
    */
-  calculateProportionalSalary(monthlySalary: number, start: Date, end: Date, incidenceDays: number = 0): number {
+  calculateProportionalSalary(monthlySalary: number, start: Date, end: Date, incidenceDays = 0): number {
     const daysInPeriod = this.calculateDays(start, end);
     const payableDays = daysInPeriod - incidenceDays;
 
