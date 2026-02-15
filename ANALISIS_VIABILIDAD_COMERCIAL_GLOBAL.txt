@@ -1,0 +1,118 @@
+# INFORME DETALLADO DE VIABILIDAD COMERCIAL GLOBAL
+
+## 1. RESUMEN EJECUTIVO
+La aplicación actual, aunque funcional en ciertos aspectos básicos, está **ESTRICTAMENTE ACOPLADA AL MERCADO MEXICANO** y contiene lógica dura (hardcoded) que impide su comercialización inmediata en cualquier otro país de Latinoamérica (LATAM) o Estados Unidos (USA).
+
+Para lograr una funcionalidad del 100% en los mercados objetivos, se requiere una refactorización arquitectónica mayor para desacoplar la lógica fiscal local (México) e implementar un sistema de estrategias fiscales por región/país.
+
+---
+
+## 2. ANÁLISIS POR DOMINIO (BACKEND & FRONTEND)
+
+### A. FACTURACIÓN (BILLING)
+**Estado Actual:** Funcional solo para México (SAT).
+**Hallazgos Críticos:**
+1.  **Proveedor PAC Hardcoded:**
+    *   Archivo: `libs/domains/billing/infrastructure/src/lib/providers/finkok-pac.provider.ts`
+    *   Problema: La clase `FinkokPacProvider` implementa directamente la conexión con Finkok (un PAC exclusivo de México). No existe mecanismo para cambiar a proveedores de otros países (ej. DIAN en Colombia, AFIP en Argentina, SII en Chile).
+2.  **Reglas de Impuestos Hardcoded:**
+    *   Archivo: `libs/domains/billing/ui/src/lib/pages/invoices/new/new.page.ts` (Referencia cruzada con lógica de backend).
+    *   Problema: Se asume una tasa de impuesto del 16% (`0.16`) por defecto.
+    *   Impacto: Inviable para USA (Sales Tax varía por Condado/Estado de 0% a 10%+), inviable para Brasil (ICMS complejo), inviable para fronteras (8% en México).
+
+**Requerimientos para Comercialización:**
+*   **LATAM:** Implementar Facturación Electrónica nativa para cada país (Chile, Brasil, Argentina, Colombia, Perú, etc.).
+*   **USA:** Integración con servicios como Avalara o TaxJar para cálculo automático de Sales Tax basado en Zip Code.
+
+### B. NÓMINA (PAYROLL)
+**Estado Actual:** Funcional solo para México.
+**Hallazgos Críticos:**
+1.  **Servicio de Impuestos Mexicano:**
+    *   Archivo: `libs/domains/payroll/infrastructure/src/lib/services/mexican-tax.service.ts`
+    *   Problema: La lógica de cálculo de retenciones (ISR, IMSS) está hardcoded en este servicio.
+    *   Impacto: Totalmente inútil para USA (W2, 401k, State Tax) y otros países de LATAM con leyes laborales distintas.
+2.  **Cálculo de Periodo:**
+    *   Archivo: `libs/domains/payroll/domain/src/lib/services/payroll-period-calculator.service.ts`
+    *   Problema: Asume "Salario Diario Integrado" y reglas de días pagados comunes en México.
+
+**Requerimientos para Comercialización:**
+*   **General:** Abstraer `ITaxStrategy` e implementar `USPayrollStrategy`, `BrazilPayrollStrategy`, etc.
+
+### C. CRM & PUNTO DE VENTA (POS)
+**Estado Actual:** Funcionalidad básica con bloqueos regionales.
+**Hallazgos Críticos:**
+1.  **Cálculo de Impuestos en Frontend:**
+    *   Archivo: `libs/domains/crm/ui/src/lib/pages/sales/pos/pos.page.ts`
+    *   Línea: `taxAmount = computed(() => this.subtotal() * 0.16); // 16% IVA`
+    *   Problema: El POS cobra 16% de impuestos a todos los clientes, independientemente de su ubicación. Esto es ilegal en USA y la mayoría de países.
+2.  **Textos en Español (Hardcoded):**
+    *   Archivo: `libs/domains/crm/ui/src/lib/pages/sales/pos/pos.page.ts`
+    *   Línea: `this.toast.showSuccess('Venta realizada con éxito');`
+    *   Problema: La interfaz no está traducida. Un usuario en USA o Brasil verá mensajes en español mexicano.
+
+**Requerimientos para Comercialización:**
+*   **Global:** El POS debe consultar al Backend para obtener la tasa de impuesto basada en la ubicación del cliente o de la tienda.
+
+### D. INTELIGENCIA DE NEGOCIOS (BI)
+**Estado Actual:** NO FUNCIONAL (Datos Simulados/Mocks).
+**Hallazgos Críticos:**
+1.  **Datos Falsos (Mocks) en Gráficos:**
+    *   Archivos:
+        *   `libs/domains/bi/ui/src/lib/pages/dashboard-main/widgets/invoice-status/invoice-status.ts`
+        *   `libs/domains/bi/ui/src/lib/pages/dashboard-main/widgets/ar-aging-chart/ar-aging-chart.ts`
+        *   `libs/domains/bi/ui/src/lib/pages/dashboard-main/widgets/expenses-chart/expenses-chart.ts`
+    *   Problema: Se utilizan arrays estáticos `const data = [...]` para renderizar los gráficos.
+    *   Impacto: El dashboard se ve bonito pero no refleja la realidad del negocio. No es comercializable.
+
+**Requerimientos para Comercialización:**
+*   **Global:** Conectar todos los widgets a endpoints reales del Backend (`BiService`) que agreguen datos de Ventas, Gastos y Nómina.
+
+---
+
+## 3. ANÁLISIS TRANSVERSAL (CROSS-CUTTING)
+
+### INTERNACIONALIZACIÓN (I18N)
+*   **Estado:** Librería instalada (`@ngx-translate/core`) pero NO implementada consistentemente.
+*   **Impacto:**
+    *   **Brasil:** Requiere traducción completa al Portugués.
+    *   **USA:** Requiere traducción completa al Inglés.
+    *   **Haití:** Requiere traducción al Francés/Criollo.
+*   **Acción:** Eliminar todos los strings hardcoded en archivos `.ts` y `.html` y moverlos a archivos JSON de traducción (`es.json`, `en.json`, `pt.json`).
+
+### MONEDA (MULTI-CURRENCY)
+*   **Estado:** Inexistente. Se asume una sola moneda (implícitamente MXN).
+*   **Impacto:**
+    *   No se puede vender en países con monedas diferentes sin riesgo de errores financieros graves.
+    *   Falta manejo de tipo de cambio para reportes consolidados.
+
+### IDENTIDAD Y DATOS (REGIONAL)
+*   **Validaciones:**
+    *   Los campos de "RFC" (México) no sirven para "SSN/EIN" (USA) o "CUIT" (Argentina).
+    *   El formato de direcciones (Calle, Número, Colonia, CP) es muy específico de México. USA requiere (Street, City, State, Zip).
+
+---
+
+## 4. ANÁLISIS DE DATOS (MODELO DE BASE DE DATOS)
+
+### ENTIDAD CLIENTE (CUSTOMER)
+*   **Archivo:** `libs/domains/crm/domain/src/lib/entities/customer.entity.ts`
+*   **Estado:** El modelo de datos es **GENÉRICO Y VIABLE**.
+    *   Usa `taxId` en lugar de `RFC` (bueno).
+    *   Usa `stateOrProvince` en lugar de `Estado` (bueno).
+    *   Usa `postalCode` (bueno).
+*   **Conclusión:** No se requieren cambios estructurales mayores en la base de datos para soportar múltiples países. El problema reside casi exclusivamente en la **Lógica de Negocio** y la **Capa de Presentación**.
+
+---
+
+## 5. CONCLUSIÓN Y HOJA DE RUTA
+
+Para comercializar este software en los países listados, la aplicación requiere una **REINGENIERÍA DE LOCALIZACIÓN** inmediata. No es solo "traducir textos", sino abstraer la lógica de negocio fiscal.
+
+### Pasos Críticos para Viabilidad 100%:
+1.  **Eliminar Mocks en BI:** Conectar Dashboard a datos reales.
+2.  **Arquitectura Multi-País:** Implementar patrón Strategy para `TaxService` y `InvoiceProvider`.
+3.  **Configuración de Tenant:** Permitir configurar "País de Operación" al crear una cuenta, lo cual inyectará las dependencias correctas (ej. si es USA, usar `AvalaraProvider`; si es México, usar `FinkokProvider`).
+4.  **Frontend Dinámico:** Eliminar `0.16` hardcoded y reemplazar por llamada a API `getTaxRate()`.
+5.  **Traducción Completa:** Extraer todos los textos a archivos de recursos.
+
+**Sin estos cambios, el software es legal y funcionalmente inviable fuera de México.**
