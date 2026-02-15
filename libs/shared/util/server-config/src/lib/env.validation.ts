@@ -59,8 +59,8 @@ export class EnvironmentVariables {
   SMTP_PASSWORD!: string;
 
   @IsString()
-  @IsOptional()
-  SMTP_FROM = 'noreply@virteex.com';
+  @MinLength(1)
+  SMTP_FROM!: string;
 
   @IsBoolean()
   @IsOptional()

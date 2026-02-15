@@ -15,11 +15,11 @@ export class FinkokPacProvider implements PacProvider {
   constructor() {
     this.username = process.env['FINKOK_USERNAME']!;
     this.password = process.env['FINKOK_PASSWORD']!;
-    this.url = process.env['FINKOK_URL'] || 'https://demo-facturacion.finkok.com/servicios/soap/stamp';
+    this.url = process.env['FINKOK_URL']!;
 
-    if (!this.username || !this.password) {
+    if (!this.username || !this.password || !this.url) {
       throw new Error(
-        'Finkok credentials (FINKOK_USERNAME, FINKOK_PASSWORD) are missing from environment.'
+        'Finkok credentials (FINKOK_USERNAME, FINKOK_PASSWORD, FINKOK_URL) are missing from environment.'
       );
     }
   }
@@ -66,7 +66,8 @@ export class FinkokPacProvider implements PacProvider {
            const xmlResult = result.xml;
            const uuid = result.UUID;
            const selloSAT = result.SatSeal;
-           const selloCFD = result.codestatus || ''; // Attempt to find real seal if available, or empty.
+           // Attempt to find real seal if available, or empty.
+           const selloCFD = result.Seal || result.seal || result.sello || '';
            const fechaTimbrado = result.Date;
 
            if (!xmlResult || !uuid) {

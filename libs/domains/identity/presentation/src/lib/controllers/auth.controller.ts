@@ -71,6 +71,16 @@ export class AuthController {
       const geo = geoip.lookup(ip);
 
       if (!geo) {
+          // Robust fallback for development or private networks
+          if (process.env.NODE_ENV !== 'production') {
+             return {
+                 country_code: 'MX', // Default to Mexico for dev
+                 city: 'Development City',
+                 region: 'DEV',
+                 timezone: 'America/Mexico_City',
+                 ip
+             };
+          }
           // Default fallback for localhost or unknown IPs
           // Returning null country_code to indicate failure/unknown
           return { country_code: null, city: 'Unknown', ip };

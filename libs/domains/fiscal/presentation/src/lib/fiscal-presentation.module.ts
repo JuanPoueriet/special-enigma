@@ -4,7 +4,8 @@ import {
   FiscalApplicationModule,
   CreateDeclarationUseCase,
   GetFiscalStatsUseCase,
-  GetTaxRulesUseCase
+  GetTaxRulesUseCase,
+  CreateTaxRuleUseCase
 } from '@virteex/fiscal-application';
 import { FiscalInfrastructureModule } from '../../../infrastructure/src/index';
 
@@ -14,7 +15,8 @@ import { FiscalInfrastructureModule } from '../../../infrastructure/src/index';
   providers: [
     CreateDeclarationUseCase,
     GetFiscalStatsUseCase,
-    GetTaxRulesUseCase
+    GetTaxRulesUseCase,
+    CreateTaxRuleUseCase
   ]
 })
 export class FiscalPresentationModule {}
