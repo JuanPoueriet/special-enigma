@@ -1,0 +1,76 @@
+# INFORME DETALLADO DE ANÁLISIS DE FUNCIONALIDAD Y PREPARACIÓN COMERCIAL
+
+Este informe detalla las discrepancias, funcionalidades simuladas ("mocks"), datos estáticos ("hardcoded") y riesgos de seguridad encontrados en la aplicación Virteex. El objetivo es identificar qué falta para que la aplicación sea 100% funcional y comercialmente viable.
+
+## 1. DOMINIO: IDENTITY (Identidad y Usuarios)
+
+### Backend (NestJS)
+**Archivo:** `libs/domains/identity/presentation/src/lib/controllers/users.controller.ts`
+- **Problema:** El método `getJobTitles()` retorna un array estático de cadenas (`['CEO', 'CTO', ...]`) en lugar de consultar una tabla de base de datos o configuración dinámica.
+- **Impacto:** Imposible gestionar cargos nuevos o personalizados sin redesplegar el backend.
+- **Acción Requerida:** Crear entidad `JobTitle`, repositorio y CRUD correspondiente.
+
+**Archivo:** `libs/domains/identity/presentation/src/lib/controllers/auth.controller.ts`
+- **Problema:** El método `getLocation()` utiliza `geoip-lite` con una base de datos local que puede estar desactualizada y retorna `null` para IPs privadas o localhost sin una estrategia clara para desarrollo vs producción.
+- **Impacto:** Funcionalidades dependientes de geolocalización (prevención de fraude, configuración regional automática) fallarán silenciosamente en entornos locales o corporativos privados.
+
+### Frontend (Angular)
+**Archivo:** `libs/domains/identity/ui/src/lib/services/intent-detection.service.ts`
+- **Problema:** El manejo de errores en `ipInfo$` retorna un observable con `{ country_code: null }` (`of({ country_code: null })`).
+- **Impacto:** La interfaz de usuario no informa al usuario si la detección de ubicación falló, asumiendo una ubicación por defecto que podría ser incorrecta para temas fiscales o de moneda.
+
+**Archivo:** `libs/domains/identity/ui/src/lib/pages/profile/my-profile.page.ts`
+- **Problema:** La carga de `jobTitles` utiliza `catchError` que retorna un array vacío `of([])` y solo loguea a consola.
+- **Impacto:** Si el endpoint falla, el usuario verá un dropdown vacío sin feedback visual de error.
+
+## 2. DOMINIO: BILLING (Facturación)
+
+### Infraestructura (Backend)
+**Archivo:** `libs/domains/billing/infrastructure/src/lib/providers/finkok-pac.provider.ts`
+- **Problema Crítico 1 (Seguridad):** La URL del servicio SOAP se asigna con un fallback hardcoded a la URL de demostración:
+  `this.url = process.env['FINKOK_URL'] || 'https://demo-facturacion.finkok.com/servicios/soap/stamp';`
+  Esto es un riesgo grave si la variable de entorno se omite accidentalmente en producción.
+- **Problema Crítico 2 (Lógica):** La asignación del sello CFD parece incorrecta:
+  `const selloCFD = result.codestatus || '';`
+  `codestatus` usualmente refiere al código de estado de la respuesta, no al sello digital criptográfico. Esto podría generar facturas inválidas ante el SAT.
+
+### Frontend (Angular)
+**Archivo:** `libs/domains/billing/ui/src/lib/pages/settings/billing.page.scss`
+- **Problema Menor:** Uso de colores hardcoded (`#...`) en lugar de variables CSS/SCSS del sistema de diseño.
+- **Impacto:** Inconsistencia visual y dificultad para temas (Dark Mode).
+
+## 3. DOMINIO: FISCAL (Impuestos)
+
+### Aplicación (Backend Use Cases)
+**Archivo:** `libs/domains/fiscal/application/src/lib/use-cases/get-tax-rules.use-case.ts`
+- **Problema:** El caso de uso crea reglas por defecto (`createDefaultRules`) si no existen.
+  `const rules = [ new TaxRule(..., 'IVA 16%', ...), ... ];`
+- **Impacto:** Las reglas fiscales son estáticas en código. Si la ley cambia (ej. IVA cambia al 15%), se requiere un cambio de código y redespliegue. No hay interfaz administrativa detectada para gestionar estas reglas.
+
+## 4. DOMINIO: PURCHASING (Compras)
+
+### Frontend (Angular)
+**Archivo:** `libs/domains/purchasing/ui/src/lib/pages/accounts-payable/form/form.page.ts`
+- **Observación:** El método `checkMode()` retorna `of(null)` cuando no hay ID en la URL.
+- **Análisis:** Esto es técnicamente correcto para el flujo de "Crear Nuevo", pero debe auditarse para asegurar que no se estén ocultando inicializaciones necesarias (como cargar valores por defecto de configuración).
+
+## 5. DOMINIO: BI (Business Intelligence)
+
+### Frontend (Angular)
+**Archivo:** `libs/domains/bi/ui/src/lib/pages/dashboard-main/widgets/top-products-chart/top-products-chart.ts`
+- **Observación:** Comentarios explícitos en el código indican: `// Use real data if available. Do not fallback to mock data.`
+- **Estado:** Aunque el código actual parece llamar al servicio real, la presencia de estos comentarios sugiere una implementación reciente o inestable que debe ser verificada con datos reales de producción para asegurar que el gráfico no se rompa con datasets vacíos.
+
+## 6. INFRAESTRUCTURA Y SEGURIDAD GENERAL
+
+### Base de Datos (MikroORM)
+- **Configuración:** Se ha detectado (en memoria) el uso de `rejectUnauthorized: false` para conexiones SSL a PostgreSQL.
+- **Riesgo:** Permite ataques de Man-in-the-Middle (MitM) entre el backend y la base de datos. Para producción comercial, esto debe configurarse con certificados CA válidos.
+
+### Variables de Entorno
+- **Configuración:** `EnvironmentVariables` (según memoria) define valores por defecto inseguros para credenciales críticas (DB password, SMTP user).
+- **Acción:** Eliminar todos los valores por defecto para variables sensibles en `env.validation.ts` para forzar que el despliegue falle si no se configuran correctamente.
+
+---
+**CONCLUSIÓN:**
+La aplicación es funcional en sus flujos principales, pero **no está lista para comercialización** debido a riesgos de seguridad en la configuración de proveedores externos (Finkok), datos maestros hardcoded (Job Titles, Tax Rules) y configuraciones de SSL permisivas. Se requiere una refactorización de los puntos mencionados para garantizar robustez, seguridad y mantenibilidad.
