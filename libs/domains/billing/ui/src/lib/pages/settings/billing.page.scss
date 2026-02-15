@@ -64,11 +64,11 @@
 }
 
 .plan-status.activo {
-    border-left: 4px solid #4ade80;
+    border-left: 4px solid var(--success-400);
 }
 
 .plan-status.prueba {
-    border-left: 4px solid #fb923c;
+    border-left: 4px solid var(--warning-400);
 }
 
 // Estilos para el método de pago
@@ -154,16 +154,16 @@
         background-color: var(--accent-primary); // Default
 
         &.warning {
-            background-color: #f59e0b;
+            background-color: var(--warning-500);
         }
 
         &.critical {
-            background-color: #dc2626;
+            background-color: var(--danger-600);
         }
     }
 
     .warning-text {
-        color: #d97706;
+        color: var(--warning-600);
         font-size: 0.8rem;
         margin-top: 0.25rem;
         display: flex;
@@ -222,7 +222,7 @@
     }
 
     .plan-badge.trial {
-        color: #34A853;
+        color: var(--success-500);
     }
 
     h4 {

@@ -7,7 +7,7 @@ import {
   GetUserProfileUseCase, UpdateUserProfileUseCase, InviteUserUseCase, UploadAvatarUseCase,
   UpdateUserDto, InviteUserDto
 } from '@virteex/identity-application';
-import { User } from '@virteex/identity-domain';
+import { User, JobTitleRepository } from '@virteex/identity-domain';
 import { JwtAuthGuard } from '@virteex/auth';
 import { Request } from 'express';
 
@@ -18,24 +18,15 @@ export class UsersController {
     private readonly getProfile: GetUserProfileUseCase,
     private readonly updateProfile: UpdateUserProfileUseCase,
     private readonly inviteUser: InviteUserUseCase,
-    private readonly uploadAvatar: UploadAvatarUseCase
+    private readonly uploadAvatar: UploadAvatarUseCase,
+    private readonly jobTitleRepository: JobTitleRepository
   ) {}
 
   @Get('job-titles')
   async getJobTitles(): Promise<string[]> {
-    return [
-      'CEO',
-      'CTO',
-      'CFO',
-      'Manager',
-      'Developer',
-      'Designer',
-      'Product Owner',
-      'Scrum Master',
-      'HR Specialist',
-      'Sales Representative',
-      'Accountant',
-    ];
+    await this.jobTitleRepository.ensureDefaults();
+    const titles = await this.jobTitleRepository.findAll();
+    return titles.map(t => t.title);
   }
 
   @Get('profile')

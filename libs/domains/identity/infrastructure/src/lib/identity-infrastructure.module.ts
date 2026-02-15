@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { ConfigModule } from '@nestjs/config';
 import {
-  User, Company, AuditLog, Session,
-  UserRepository, CompanyRepository, AuditLogRepository, SessionRepository,
+  User, Company, AuditLog, Session, JobTitle,
+  UserRepository, CompanyRepository, AuditLogRepository, SessionRepository, JobTitleRepository,
   AuthService, NotificationService, RiskEngineService
 } from '@virteex/identity-domain';
 
@@ -11,6 +11,7 @@ import { MikroOrmUserRepository } from './persistence/mikro-orm-user.repository'
 import { MikroOrmCompanyRepository } from './persistence/mikro-orm-company.repository';
 import { MikroOrmAuditLogRepository } from './persistence/mikro-orm-audit-log.repository';
 import { MikroOrmSessionRepository } from './persistence/mikro-orm-session.repository';
+import { MikroOrmJobTitleRepository } from './persistence/mikro-orm-job-title.repository';
 
 import { NodeCryptoAuthService } from './services/node-crypto-auth.service';
 import { NodemailerNotificationService } from './services/nodemailer-notification.service';
@@ -28,7 +29,7 @@ import { StorageAdapter } from './adapters/storage.adapter';
 @Module({
   imports: [
     ConfigModule,
-    MikroOrmModule.forFeature([User, Company, AuditLog, Session]),
+    MikroOrmModule.forFeature([User, Company, AuditLog, Session, JobTitle]),
     SharedInfrastructureStorageModule
   ],
   providers: [
@@ -41,6 +42,7 @@ import { StorageAdapter } from './adapters/storage.adapter';
     { provide: CompanyRepository, useClass: MikroOrmCompanyRepository },
     { provide: AuditLogRepository, useClass: MikroOrmAuditLogRepository },
     { provide: SessionRepository, useClass: MikroOrmSessionRepository },
+    { provide: JobTitleRepository, useClass: MikroOrmJobTitleRepository },
 
     { provide: AuthService, useClass: NodeCryptoAuthService },
     { provide: NotificationService, useClass: NodemailerNotificationService },
@@ -70,6 +72,7 @@ import { StorageAdapter } from './adapters/storage.adapter';
     CompanyRepository,
     AuditLogRepository,
     SessionRepository,
+    JobTitleRepository,
     AuthService,
     RiskEngineService
   ]

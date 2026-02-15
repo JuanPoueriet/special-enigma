@@ -2,7 +2,8 @@ import { Controller, Post, Body, Get, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import {
   CreateDeclarationUseCase, CreateDeclarationDto,
-  GetFiscalStatsUseCase, GetTaxRulesUseCase
+  GetFiscalStatsUseCase, GetTaxRulesUseCase,
+  CreateTaxRuleUseCase, CreateTaxRuleDto
 } from '@virteex/fiscal-application';
 
 @ApiTags('Fiscal')
@@ -11,7 +12,8 @@ export class FiscalController {
   constructor(
     private readonly createUseCase: CreateDeclarationUseCase,
     private readonly getStatsUseCase: GetFiscalStatsUseCase,
-    private readonly getTaxRulesUseCase: GetTaxRulesUseCase
+    private readonly getTaxRulesUseCase: GetTaxRulesUseCase,
+    private readonly createTaxRuleUseCase: CreateTaxRuleUseCase
   ) {}
 
   @Get('health')
@@ -36,5 +38,11 @@ export class FiscalController {
   @ApiOperation({ summary: 'Get Tax Rules' })
   getTaxRules(@Query('tenantId') tenantId: string) {
     return this.getTaxRulesUseCase.execute(tenantId || 'default');
+  }
+
+  @Post('tax-rules')
+  @ApiOperation({ summary: 'Create Tax Rule' })
+  createTaxRule(@Body() dto: CreateTaxRuleDto) {
+    return this.createTaxRuleUseCase.execute(dto);
   }
 }

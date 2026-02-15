@@ -22,7 +22,8 @@ const config: Options = {
     isPostgres && process.env.NODE_ENV === 'production'
       ? {
           connection: {
-            ssl: { rejectUnauthorized: false },
+            // Secure by default (rejectUnauthorized: true). Allow override via env if strictly needed (e.g. self-signed in internal network)
+            ssl: { rejectUnauthorized: process.env.DB_SSL_REJECT_UNAUTHORIZED !== 'false' },
           },
         }
       : undefined,

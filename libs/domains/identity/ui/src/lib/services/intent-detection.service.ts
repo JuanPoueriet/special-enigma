@@ -34,6 +34,8 @@ export class IntentDetectionService {
         catchError((err) => {
           // Silent fallback or less intrusive logging as per robust requirements
           console.warn('Unable to detect location via backend. Using default null. Error:', err);
+          // Notify user about the limitation but allow proceeding
+          this.toast.showWarning('SECURITY.LOCATION_DETECTION_UNAVAILABLE');
           return of({ country_code: null });
         }),
         shareReplay(1)

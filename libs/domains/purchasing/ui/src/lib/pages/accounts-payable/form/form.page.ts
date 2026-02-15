@@ -78,6 +78,7 @@ export class VendorBillFormPage implements OnInit {
           return this.accountsPayableService.getVendorBillById(id);
         }
         // Valid case: Return null when creating a new bill (no ID to fetch)
+        console.debug('Initializing Vendor Bill Form in CREATE mode');
         return of(null);
       })
     ).subscribe(bill => {

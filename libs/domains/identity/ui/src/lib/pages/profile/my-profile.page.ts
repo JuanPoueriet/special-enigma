@@ -95,6 +95,7 @@ export class MyProfilePage implements OnInit {
     this.usersService.getJobTitles().pipe(
       catchError((err) => {
         console.error('Failed to load job titles', err);
+        this.notificationService.showError('SETTINGS.PROFILE.ERRORS.LOAD_JOB_TITLES');
         return of([] as string[]);
       })
     ),

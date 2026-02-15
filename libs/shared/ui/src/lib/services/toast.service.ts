@@ -23,6 +23,10 @@ export class ToastService {
     this.show(message, 'success');
   }
 
+  showWarning(message: string) {
+    this.show(message, 'warning');
+  }
+
   private ensureContainer() {
     if (!this.container) {
       this.container = this.renderer.createElement('div');
@@ -38,7 +42,7 @@ export class ToastService {
     }
   }
 
-  private show(message: string, type: 'error' | 'success') {
+  private show(message: string, type: 'error' | 'success' | 'warning') {
     this.ensureContainer();
     const toast = this.renderer.createElement('div');
     const text = this.renderer.createText(message);
@@ -56,6 +60,8 @@ export class ToastService {
 
     if (type === 'error') {
         this.renderer.setStyle(toast, 'background-color', '#dc2626'); // Red-600
+    } else if (type === 'warning') {
+        this.renderer.setStyle(toast, 'background-color', '#ca8a04'); // Yellow-600
     } else {
         this.renderer.setStyle(toast, 'background-color', '#16a34a'); // Green-600
     }
