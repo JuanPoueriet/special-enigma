@@ -1,0 +1,94 @@
+[Potential Stub (True)] ./libs/domains/billing/infrastructure/src/lib/providers/finkok-pac.provider.ts:161 -> return true;
+[Potential Stub (True)] ./libs/domains/billing/domain/src/lib/entities/subscription.entity.ts:52 -> return true;
+[Potential Stub (True)] ./libs/domains/billing/ui/src/lib/pages/invoices/new/new.page.ts:119 -> if (!productId) return true;
+[Potential Stub (True)] ./libs/domains/billing/ui/src/lib/pages/invoices/new/new.page.ts:125 -> return true;
+[Console Log] ./libs/domains/billing/ui/src/lib/pages/settings/billing.page.ts:53 -> // console.log('Plan actualizado con éxito');
+[TODO Comment] ./libs/domains/bi/ui/src/lib/pages/dashboard-main/dashboard.page.ts:6 -> // ✅ CORRECCIÓN: Se importan TODOS los componentes de widgets que se usarán en la plantilla
+[Potential Stub (Empty Array)] ./libs/domains/bi/ui/src/lib/pages/dashboard-main/widgets/top-products-chart/top-products-chart.ts:231 -> return [];
+[Hardcoded Data Array] ./libs/domains/bi/ui/src/lib/pages/dashboard-main/widgets/invoice-status/invoice-status.ts:91 -> const data = [
+[Potential Stub (Empty Array)] ./libs/domains/bi/ui/src/lib/pages/dashboard-main/widgets/invoice-status/invoice-status.ts:131 -> return [];
+[Hardcoded Data Array] ./libs/domains/bi/ui/src/lib/pages/dashboard-main/widgets/ar-aging-chart/ar-aging-chart.ts:81 -> const data = [
+[Hardcoded Data Array] ./libs/domains/bi/ui/src/lib/pages/dashboard-main/widgets/expenses-chart/expenses-chart.ts:92 -> const data = [
+[Potential Stub (Empty Array)] ./libs/domains/bi/ui/src/lib/pages/dashboard-main/widgets/expenses-chart/expenses-chart.ts:132 -> return [];
+[Potential Stub (True)] ./libs/domains/payroll/infrastructure/src/lib/providers/finkok-pac.provider.ts:158 -> return true;
+[Potential Stub (Null)] ./libs/domains/inventory/infrastructure/src/lib/adapters/catalog-product.adapter.ts:20 -> if (isNaN(id)) return null;
+[Potential Stub (Null)] ./libs/domains/admin/ui/src/lib/pages/data-imports/data-imports.page.ts:65 -> return null;
+[Console Log] ./libs/domains/admin/ui/src/lib/pages/data-imports/data-imports.page.ts:85 -> // console.log(`Uploading ${this.selectedFile()!.name} for data type ${this.selectedDataTypeId()}`);
+[Console Log] ./libs/domains/admin/ui/src/lib/pages/data-exports/data-exports.page.ts:70 -> // console.log('Generating export with options:', this.exportForm.value);
+[Potential Stub (Null)] ./libs/domains/identity/infrastructure/src/lib/adapters/geo-ip-lite.adapter.ts:10 -> return null;
+[Console Log] ./libs/domains/identity/ui/src/lib/pages/auth/register/register.page.ts:139 -> // console.log('[Register] Aplicando configuración de país:', config.code);
+[Potential Stub (Null)] ./libs/domains/identity/ui/src/lib/pages/auth/register/steps/step-access/step-access.ts:78 -> return null;
+[Potential Stub (True)] ./libs/domains/identity/ui/src/lib/pages/register/register.component.ts:143 -> default: return true;
+[Potential Stub (True)] ./libs/domains/identity/ui/src/lib/services/intent-detection.service.ts:122 -> if (inRegion(latam)) return true;
+[Potential Stub (True)] ./libs/domains/identity/ui/src/lib/services/intent-detection.service.ts:123 -> if (inRegion(northAm)) return true;
+[Potential Stub (True)] ./libs/domains/identity/ui/src/lib/services/intent-detection.service.ts:124 -> if (inRegion(europe)) return true;
+[TODO Comment] ./libs/domains/projects/contracts/src/lib/enums/task-status.enum.ts:2 -> TODO = 'TODO',
+[TODO Comment] ./libs/domains/projects/domain/src/lib/entities/task.entity.ts:20 -> status: TaskStatus = TaskStatus.TODO;
+[Potential Stub (Empty Array)] ./libs/domains/fiscal/infrastructure/src/lib/repositories/mikro-orm-tax-rule.repository.ts:21 -> return [];
+[Potential Stub (Empty Array)] ./libs/domains/accounting/ui/src/lib/core/services/journal-entries.ts:8 -> return [];
+[Console Log] ./libs/domains/accounting/ui/src/lib/core/services/notification.ts:8 -> // console.log('SUCCESS:', message);
+[Potential Stub (Null)] ./libs/domains/accounting/ui/src/lib/pages/accounting-ops/journal-entry-form/journal-entry-form.page.ts:20 -> return null; // No hay líneas para validar
+[Potential Stub (Null)] ./libs/domains/accounting/ui/src/lib/pages/accounting-ops/journal-entry-form/journal-entry-form.page.ts:46 -> return null;
+[Console Log] ./libs/domains/accounting/ui/src/lib/pages/accounting-ops/periods/periods.page.ts:49 -> // console.log(`Toggling status for period: ${periodToUpdate.month}`);
+[Console Log] ./libs/domains/accounting/ui/src/lib/pages/accounting-ops/journal-form/journal-form.page.ts:56 -> // console.log('Journal updated successfully');
+[Console Log] ./libs/domains/accounting/ui/src/lib/pages/accounting-ops/journal-form/journal-form.page.ts:61 -> // console.log('Journal created successfully');
+[Potential Stub (True)] ./libs/kernel/auth/src/lib/guards/jwt-auth.guard.ts:17 -> return true;
+[Potential Stub (True)] ./libs/kernel/auth/src/lib/guards/jwt-auth.guard.ts:39 -> return true;
+[Potential Stub (True)] ./libs/kernel/auth/src/lib/guards/tenant.guard.ts:17 -> return true;
+[TODO Comment] ./libs/shared/contracts/src/index.ts:11 -> export enum TaskStatus { TODO = 'TODO', IN_PROGRESS = 'IN_PROGRESS', REVIEW = 'REVIEW', DONE = 'DONE
+[Potential Stub (True)] ./libs/shared/util/auth/src/lib/guards/auth.guard.ts:10 -> return true;
+[Potential Stub (Null)] ./libs/shared/ui/src/lib/utils/file.util.ts:30 -> return null;
+[Potential Stub (True)] ./libs/shared/ui/src/lib/core/guards/country.guard.ts:54 -> return true;
+[Potential Stub (True)] ./libs/shared/ui/src/lib/core/guards/language-init.guard.ts:28 -> return true;
+[Potential Stub (True)] ./libs/shared/ui/src/lib/core/guards/auth-guard.ts:27 -> return true;
+[Potential Stub (True)] ./libs/shared/ui/src/lib/core/guards/public.guard.ts:24 -> return true;
+[Potential Stub (True)] ./libs/shared/ui/src/lib/core/guards/permissions-guard.ts:13 -> return true;
+[TODO Comment] ./libs/shared/ui/src/lib/core/guards/permissions-guard.ts:16 -> // Comprueba si el usuario tiene TODOS los permisos requeridos.
+[Potential Stub (True)] ./libs/shared/ui/src/lib/core/guards/permissions-guard.ts:20 -> return true;
+[TODO Comment] ./libs/shared/ui/src/lib/core/services/chart-of-accounts.ts:54 -> // --- MÉTODOS DE LECTURA (GET) ---
+[TODO Comment] ./libs/shared/ui/src/lib/core/services/chart-of-accounts.ts:78 -> // --- MÉTODOS DE ESCRITURA (POST, PATCH) ---
+[TODO Comment] ./libs/shared/ui/src/lib/core/services/chart-of-accounts.ts:99 -> // --- MÉTODOS DE VERSIONADO ---
+[TODO Comment] ./libs/shared/ui/src/lib/core/services/chart-of-accounts.ts:119 -> // --- MÉTODOS PARA OPERACIONES COMPLEJAS Y DE SEGURIDAD ---
+[TODO Comment] ./libs/shared/ui/src/lib/core/services/chart-of-accounts.ts:142 -> // --- MÉTODOS PARA OPERACIONES MASIVAS ---
+[TODO Comment] ./libs/shared/ui/src/lib/core/services/tree.ts:10 -> * MÉTODOS PRINCIPALES:
+[Potential Stub (Empty Array)] ./libs/shared/ui/src/lib/core/services/tree.ts:36 -> return [];
+[Console Log] ./libs/shared/ui/src/lib/core/services/language.ts:119 -> // console.log(`Preferencia de idioma del usuario ${userId} sincronizada a '${lang}'.`);
+[TODO Comment] ./libs/shared/ui/src/lib/core/services/billing.ts:38 -> // TODO: Fetch real subscription from Organization details or dedicated endpoint
+[Console Log] ./libs/shared/ui/src/lib/core/services/billing.ts:96 -> // console.log('Cambiando al plan:', newPlanId);
+[Potential Stub (True)] ./libs/shared/ui/src/lib/core/services/billing.ts:110 -> return true;
+[Console Log] ./libs/shared/ui/src/lib/core/services/country.service.ts:90 -> // console.log(`[Localization] Configuración cargada para ${config.name}`, config);
+[Potential Stub (True)] ./libs/shared/ui/src/lib/core/services/auth.ts:224 -> return true;
+[Console Log] ./libs/shared/ui/src/lib/core/services/notification.ts:10 -> // console.log(`SUCCESS: ${message}`);
+[Console Log] ./libs/shared/ui/src/lib/core/services/websocket.service.ts:26 -> // console.log('Attempting to connect WebSocket...');
+[Console Log] ./libs/shared/ui/src/lib/core/services/websocket.service.ts:32 -> // console.log('WebSocket connected successfully!', this.socket?.id);
+[Console Log] ./libs/shared/ui/src/lib/core/services/websocket.service.ts:37 -> this.socket.on('disconnect', (reason) => { /* console.log('WebSocket disconnected:', reason) */ });
+[Console Log] ./libs/shared/ui/src/lib/core/services/websocket.service.ts:43 -> // console.log('Disconnecting WebSocket...');
+[Potential Stub (Null)] ./libs/shared/ui/src/lib/validators/password.validator.ts:8 -> if (!value) return null;
+[Console Log] ./apps/virteex-api-gateway/src/tracing.ts:30 -> () => console.log('SDK shut down successfully'),
+[Console Log] ./apps/virteex-api-gateway/src/tracing.ts:31 -> (err) => console.log('Error shutting down SDK', err)
+[Hardcoded Data Array] ./apps/virteex-api-gateway/src/app/seeds/initial-seeder.service.ts:119 -> const data = [
+[Console Log] ./apps/virteex-plugin-host/src/main.ts:65 -> console.log(`Plugin Host Service listening on port ${port}`);
+[Console Log] ./apps/virteex-plugin-host/src/services/plugin-admission.service.ts:16 -> console.log(`[Admission] Starting validation pipeline for ${pluginPackage.name}...`);
+[Console Log] ./apps/virteex-site/src/server.ts:59 -> console.log(`Node Express server listening on http://localhost:${port}`);
+[Console Log] ./apps/virteex-api-gateway-e2e/src/support/global-teardown.ts:9 -> console.log(globalThis.__TEARDOWN_MESSAGE__);
+[Console Log] ./apps/virteex-api-gateway-e2e/src/support/global-setup.ts:8 -> console.log('\nSetting up...\n');
+[TODO Comment] ./apps/virteex-desktop/src/app/constants.ts:4 -> export const updateServerUrl = 'https://deployment-server-url.com'; // TODO: insert your update serv
+[Potential Stub (True)] ./apps/virteex-desktop/src/app/events/squirrel.events.ts:38 -> return true;
+[Potential Stub (True)] ./apps/virteex-desktop/src/app/events/squirrel.events.ts:44 -> return true;
+[Potential Stub (True)] ./apps/virteex-desktop/src/app/events/squirrel.events.ts:48 -> return true;
+[Console Log] ./apps/virteex-desktop/src/app/events/update.events.ts:17 -> console.log('Initializing auto update service...\n');
+[Console Log] ./apps/virteex-desktop/src/app/events/update.events.ts:51 -> console.log('Checking for updates...\n');
+[Console Log] ./apps/virteex-desktop/src/app/events/update.events.ts:55 -> console.log('New update available!\n');
+[Console Log] ./apps/virteex-desktop/src/app/events/update.events.ts:59 -> console.log('Up to date!\n');
+[Console Log] ./apps/virteex-desktop/src/app/events/update.events.ts:63 -> console.log('Application update is about to begin...\n');
+[Console Log] ./apps/virteex-desktop/src/app/events/electron.events.ts:17 -> console.log(`Fetching application version... [v${environment.version}]`);
+[Console Log] ./tools/seed-tax-tables.ts:84 -> console.log('Seeding Tax Tables...');
+[Console Log] ./tools/seed-tax-tables.ts:105 -> console.log('Tax Tables Seeded.');
+[Mock Class Definition] ./tools/audit_viability.py:8 -> (r'class .*Mock.*', 'Mock Class Definition'),
+[TODO Comment] ./tools/audit_viability.py:9 -> (r'TODO', 'TODO Comment'),
+[FIXME Comment] ./tools/audit_viability.py:10 -> (r'FIXME', 'FIXME Comment'),
+[Not Implemented Error] ./tools/audit_viability.py:11 -> (r'NotImplemented', 'Not Implemented Error'),
+[Potential Stub (True)] ./tools/audit_viability.py:13 -> (r'return true;', 'Potential Stub (True)'),
+[Potential Stub (Null)] ./tools/audit_viability.py:14 -> (r'return null;', 'Potential Stub (Null)'),
+[Faker Import] ./tools/audit_viability.py:16 -> (r'import .*faker.*', 'Faker Import'),
+[Explicit Mock Data Variable] ./tools/audit_viability.py:18 -> (r'const MOCK_DATA', 'Explicit Mock Data Variable')

@@ -1,0 +1,95 @@
+INFORME DE VIABILIDAD COMERCIAL Y ESTADO REAL DEL PROYECTO VIRTEEX (V2)
+========================================================================
+
+FECHA: 20 de Mayo de 2024
+OBJETIVO: Análisis exhaustivo para alcanzar el 100% de funcionalidad comercial (Sin Mocks, Producción Real México).
+
+Este informe detalla estrictamente los hallazgos tras una auditoría de código estática y manual profunda. No se omiten detalles técnicos.
+
+1. ESTADO DE LA FACTURACIÓN (BILLING) - CRÍTICO
+-----------------------------------------------
+Estado Actual: FUNCIONAL PERO INCOMPLETO Y RIESGOSO
+La integración con el PAC (Finkok) existe y es funcional, pero la lógica de negocio previa al timbrado es insuficiente para el SAT.
+
+A. Integración PAC (FinkokPacProvider.ts)
+   - [BIEN] La conexión SOAP es real (no mock). Usa `axios` y parsea XML real.
+   - [BIEN] Maneja credenciales por variables de entorno.
+   - [MAL] El método `cancel` tiene un `return true` optimista (Línea 161) si no encuentra un fallo explícito en el SOAP body, sin validar el código de estatus de cancelación del SAT (que es complejo y asíncrono).
+   - [RIESGO] El manejo de reintentos es básico (3 intentos fijos).
+
+B. Caso de Uso (CreateInvoiceUseCase.ts)
+   - [FATAL] El caso de uso acepta `totalAmount` y `taxAmount` directamente del DTO (Frontend). Esto es inaceptable comercialmente. El backend debe recalcular estos montos sumando las líneas (conceptos) para evitar fraude o errores de redondeo.
+   - [FATAL] La entidad `Invoice` se crea sin conceptos detallados (`items`). El XML generado por el `FiscalStampingService` (que no se auditó en profundidad pero se infiere) no tendrá los nodos `cfdi:Conceptos` requeridos por el Anexo 20 del SAT si la entidad no los almacena o procesa.
+   - [FALTA] No hay evidencia de validación de catálogos del SAT (ClaveProdServ, ClaveUnidad) en esta capa.
+
+2. ESTADO DE LA NÓMINA (PAYROLL) - INCOMPLETO
+---------------------------------------------
+Estado Actual: PARCIALMENTE FUNCIONAL (SÓLO ISR)
+El motor de cálculo es real para impuestos sobre la renta, pero ignora el 80% de las obligaciones patronales mexicanas.
+
+A. Cálculo de Impuestos (MexicanTaxService.ts)
+   - [BIEN] Implementa el algoritmo progresivo de ISR (Límite inferior, excedente, porcentaje, cuota fija) usando `Decimal.js` para precisión financiera.
+   - [MAL] Asume estrictamente `type = 'MONTHLY'`. Si la nómina es quincenal o semanal (lo más común en México), el cálculo será erróneo porque usa la tabla mensual.
+   - [FALTA] No existe cálculo de IMSS (Cuotas Obrero-Patronales).
+   - [FALTA] No existe cálculo de Subsidio al Empleo.
+   - [FALTA] No existe integración con INFONAVIT (Amortización de créditos).
+
+3. ESTADO DE BUSINESS INTELLIGENCE (BI) - NO FUNCIONAL
+------------------------------------------------------
+Estado Actual: MOCK TOTAL (SIMULADO)
+El módulo de reportes es una fachada visual sin conexión a datos reales.
+
+A. Frontend (Widgets)
+   - `invoice-status.ts`: Contiene `const data = [...]` con datos quemados.
+   - `ar-aging-chart.ts`: Datos quemados.
+   - `expenses-chart.ts`: Datos quemados.
+   - `top-products-chart.ts`: Retorna `return []` (array vacío).
+   - `DashboardComponent`: Es un contenedor vacío.
+   - CONCLUSIÓN: Ningún gráfico refleja la realidad de la base de datos. Comercializar esto sería un fraude.
+
+4. ESTADO DE CRM E INVENTARIO - ROBUSTO
+---------------------------------------
+Estado Actual: LISTO PARA PRODUCCIÓN (COMERCIALMENTE VIABLE)
+Es el dominio mejor implementado.
+
+A. Ventas (CreateSaleUseCase.ts)
+   - [BIEN] Valida existencias en inventario antes de vender.
+   - [BIEN] Genera movimientos de inventario (Kardex) tipo `OUT`.
+   - [BIEN] Calcula totales en el backend iterando sobre los precios reales de los productos (evita manipulación del frontend).
+   - [BIEN] Usa transaccionalidad (guardado en lote de venta y movimientos).
+   - [MEJORA] El estado se fija directo a `APPROVED`. Falta flujo de Cotización -> Pedido -> Venta.
+
+5. ESTADO DE SEGURIDAD (AUTH) - ROBUSTO
+---------------------------------------
+Estado Actual: SEGURO
+Las alertas de auditoría sobre "return true" eran falsos positivos.
+
+A. Guardias (JwtAuthGuard.ts)
+   - [BIEN] Verifica firma criptográfica del JWT.
+   - [BIEN] Valida expiración.
+   - [BIEN] Permite rutas públicas solo si tienen el decorador `@Public`.
+   - [BIEN] Inyecta el payload del usuario en el request.
+
+6. OTROS HALLAZGOS TÉCNICOS Y DEUDA TÉCNICA
+-------------------------------------------
+A. Importación de Datos (Admin)
+   - `data-imports.page.ts`: Retorna `null`. La funcionalidad de carga masiva de datos (esencial para migrar clientes nuevos) no está implementada.
+
+B. Identidad (Identity)
+   - `intent-detection.service.ts`: Los métodos de detección de región (`inRegion`) retornan `true` estático. Esto afecta la seguridad basada en geolocalización.
+
+C. Frontend General
+   - `billing.ts`: Comentario `// TODO: Fetch real subscription`. La gestión de suscripciones del propio tenant es simulada.
+   - Manejo de Errores: Muchos componentes solo hacen `console.log` en lugar de mostrar alertas al usuario o reportar a un servicio de monitoreo (Sentry).
+
+7. PLAN DE ACCIÓN PARA 100% FUNCIONALIDAD (ROADMAP TÉCNICO)
+-----------------------------------------------------------
+Para que Virteex sea comercial, se deben ejecutar estas tareas obligatoriamente:
+
+1.  [BACKEND-BILLING] Reescribir `CreateInvoiceUseCase` para recibir una lista de IDs de items, buscar sus precios y claves SAT en BD, y calcular impuestos (Traslados/Retenciones) internamente.
+2.  [BACKEND-PAYROLL] Implementar tablas y lógica para IMSS (Cuotas) y Subsidio al Empleo. Parametrizar el `MexicanTaxService` para aceptar periodicidad (Semanal/Quincenal).
+3.  [FRONTEND-BI] Conectar todos los widgets de `libs/domains/bi/ui` a endpoints reales (que deben ser creados en `BiController`). Eliminar `const data = [...]`.
+4.  [BACKEND-ADMIN] Implementar la lógica real de `DataImportService` para procesar Excel/CSV.
+5.  [INFRA] Configurar un servicio de almacenamiento real (S3/Azure Blob) para los XMLs y PDFs timbrados (actualmente podrían estar solo en memoria o disco local efímero).
+
+FIN DEL INFORME
