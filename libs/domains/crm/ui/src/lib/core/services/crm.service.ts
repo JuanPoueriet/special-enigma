@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { API_URL } from '@virteex/shared-ui';
 import { Product } from '../models/product.model';
 import { Sale, CreateSaleDto } from '../models/sale.model';
+import { Customer } from '../models/customer.model';
 
 @Injectable({
   providedIn: 'root',
@@ -22,5 +23,17 @@ export class CrmService {
 
   getSales(tenantId: string = 'default'): Observable<Sale[]> {
     return this.http.get<Sale[]>(`${this.apiUrl}/crm/sales?tenantId=${tenantId}`);
+  }
+
+  approveSale(id: string): Observable<Sale> {
+    return this.http.post<Sale>(`${this.apiUrl}/crm/sales/${id}/approve`, {});
+  }
+
+  completeSale(id: string): Observable<Sale> {
+    return this.http.post<Sale>(`${this.apiUrl}/crm/sales/${id}/complete`, {});
+  }
+
+  getCustomers(tenantId: string = 'default'): Observable<Customer[]> {
+    return this.http.get<Customer[]>(`${this.apiUrl}/crm/customers?tenantId=${tenantId}`);
   }
 }

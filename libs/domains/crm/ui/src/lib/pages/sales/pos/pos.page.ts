@@ -26,6 +26,8 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Product } from '../../../core/models/product.model';
 import { CrmService } from '../../../core/services/crm.service';
+import { CreateSaleDto } from '../../../core/models/sale.model';
+import { Customer } from '../../../core/models/customer.model';
 
 @Component({
   selector: 'virteex-pos-page',
@@ -47,15 +49,17 @@ export class PosPage implements OnInit {
   protected readonly CreditCardIcon = CreditCard;
 
   allProducts = signal<Product[]>([]);
+  customers = signal<Customer[]>([]);
   isLoading = signal(false);
 
   saleForm!: FormGroup;
 
-  private formChanges = toSignal(this.saleForm.valueChanges, {
+  private formChanges = toSignal(this.saleForm?.valueChanges || { subscribe: () => {} }, {
     initialValue: {},
   });
 
   subtotal = computed(() => {
+    if (!this.saleForm) return 0;
     return this.cartItems.controls.reduce((acc, control) => {
       const quantity = control.get('quantity')?.value || 0;
       const price = control.get('price')?.value || 0;
@@ -69,10 +73,11 @@ export class PosPage implements OnInit {
   ngOnInit(): void {
     this.saleForm = this.fb.group({
       cartItems: this.fb.array([]),
-      customer: ['Cliente General'],
+      customer: [''], // Will hold customer ID
     });
 
     this.loadProducts();
+    this.loadCustomers();
   }
 
   loadProducts(): void {
@@ -84,8 +89,19 @@ export class PosPage implements OnInit {
       },
       error: () => {
         this.isLoading.set(false);
-        // Handle error toast
       },
+    });
+  }
+
+  loadCustomers(): void {
+    this.crmService.getCustomers().subscribe({
+        next: (customers) => {
+            this.customers.set(customers);
+            if (customers.length > 0) {
+                this.saleForm.get('customer')?.setValue(customers[0].id);
+            }
+        },
+        error: (err) => console.error('Error loading customers', err)
     });
   }
 
@@ -133,21 +149,27 @@ export class PosPage implements OnInit {
   completeSale(): void {
     if (this.saleForm.valid && this.cartItems.length > 0) {
       this.isLoading.set(true);
-      const salePayload = {
-        customerName: this.saleForm.get('customer')?.value,
+
+      const customerId = this.saleForm.get('customer')?.value;
+
+      const salePayload: CreateSaleDto = {
+        customerId: customerId,
         items: this.cartItems.value.map((item: any) => ({
           productId: item.productId,
           productName: item.name,
           price: item.price,
           quantity: item.quantity,
         })),
-        tenantId: 'default', // Should come from session
       };
 
       this.crmService.createSale(salePayload).subscribe({
         next: () => {
           this.cartItems.clear();
-          this.saleForm.get('customer')?.setValue('Cliente General');
+          // Reset customer to first if available
+          const customers = this.customers();
+          if (customers.length > 0) {
+              this.saleForm.get('customer')?.setValue(customers[0].id);
+          }
           this.isLoading.set(false);
           alert('Venta realizada con éxito');
         },

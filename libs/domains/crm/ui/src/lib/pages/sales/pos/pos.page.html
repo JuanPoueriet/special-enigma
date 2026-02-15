@@ -1,4 +1,4 @@
-<div class="pos-layout">
+<div class="pos-layout" [formGroup]="saleForm" *ngIf="saleForm">
     <div class="product-catalog">
         <div class="catalog-header">
             <div class="search-bar">
@@ -25,7 +25,17 @@
     <div class="sale-ticket card">
         <div class="ticket-header">
             <h3>Orden Actual</h3>
-            <div class="customer-info">Cliente: <strong>{{ saleForm.get('customer')?.value }}</strong></div>
+            <div class="customer-selection">
+                <label>Cliente:</label>
+                <select formControlName="customer">
+                    @for (customer of customers(); track customer.id) {
+                        <option [value]="customer.id">{{ customer.companyName || customer.firstName + ' ' + customer.lastName }}</option>
+                    }
+                    @empty {
+                        <option value="" disabled>No hay clientes</option>
+                    }
+                </select>
+            </div>
         </div>
         <div class="ticket-body" formArrayName="cartItems">
             @if(cartItems.controls.length > 0) {
@@ -58,9 +68,9 @@
         </div>
         <div class="ticket-footer">
             <div class="summary-row"><span>Subtotal</span><span>{{ subtotal() | number:'1.2-2' }}</span></div>
-            <div class="summary-row"><span>Impuestos (18%)</span><span>{{ taxAmount() | number:'1.2-2' }}</span></div>
+            <div class="summary-row"><span>Impuestos (16%)</span><span>{{ taxAmount() | number:'1.2-2' }}</span></div>
             <div class="summary-total"><span>Total a Pagar</span><span>${{ total() | number:'1.2-2' }}</span></div>
-            <button class="primary-button charge-btn" (click)="completeSale()" [disabled]="cartItems.length === 0">
+            <button class="primary-button charge-btn" (click)="completeSale()" [disabled]="cartItems.length === 0 || !saleForm.get('customer')?.value">
                 <lucide-icon [img]="CreditCardIcon" size="18"></lucide-icon>
                 <span>Cobrar</span>
             </button>

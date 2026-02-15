@@ -1,5 +1,5 @@
-@use '../../../../assets/styles/variables' as *;
-@use '../../../../assets/styles/forms' as mixins;
+@use '../../../../../../../../shared/ui/src/lib/styles/migrated/variables' as *;
+@use '../../../../../../../../shared/ui/src/lib/styles/migrated/forms' as mixins;
 
 :host {
     display: block;

@@ -1,9 +1,18 @@
 export interface SaleItem {
-  id: string;
+  id?: string;
   productId: string;
-  productName: string;
-  price: string;
-  quantity: string;
+  productName?: string;
+  price: string | number;
+  quantity: string | number;
+}
+
+export interface CreateSaleDto {
+  customerId: string;
+  items: {
+    productId: string;
+    quantity: number;
+    price: number;
+  }[];
 }
 
 export interface Sale {
@@ -11,7 +20,7 @@ export interface Sale {
   tenantId: string;
   customerName: string;
   total: string;
-  status: string;
+  status: 'DRAFT' | 'NEGOTIATION' | 'APPROVED' | 'COMPLETED' | 'CANCELLED';
   items: SaleItem[];
   createdAt: string;
 }

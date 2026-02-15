@@ -1,16 +1,9 @@
-import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { LucideAngularModule, PlusCircle, MoreHorizontal, FileDown } from 'lucide-angular';
-
-export interface Sale {
-  id: string;
-  date: string;
-  customer: string;
-  total: number;
-  paymentMethod: 'Efectivo' | 'Tarjeta' | 'Transferencia';
-  status: 'Completada' | 'Pendiente' | 'Cancelada';
-}
+import { LucideAngularModule, PlusCircle, MoreHorizontal, FileDown, CheckCircle, CheckSquare } from 'lucide-angular';
+import { CrmService } from '../../../core/services/crm.service';
+import { Sale } from '../../../core/models/sale.model';
 
 @Component({
   selector: 'virteex-history-page',
@@ -20,23 +13,50 @@ export interface Sale {
   styleUrls: ['./history.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HistoryPage {
+export class HistoryPage implements OnInit {
   protected readonly PlusCircleIcon = PlusCircle;
   protected readonly MoreHorizontalIcon = MoreHorizontal;
   protected readonly FileDownIcon = FileDown;
+  protected readonly CheckCircleIcon = CheckCircle;
+  protected readonly CheckSquareIcon = CheckSquare;
 
-  sales = signal<Sale[]>([
-    { id: 'V-2025-001', date: '20/07/2025', customer: 'Cliente Ejemplo S.R.L.', total: 350.00, paymentMethod: 'Tarjeta', status: 'Completada' },
-    { id: 'V-2025-002', date: '20/07/2025', customer: 'Ana Pérez', total: 120.50, paymentMethod: 'Efectivo', status: 'Completada' },
-    { id: 'V-2025-003', date: '19/07/2025', customer: 'Proyectos Globales', total: 1500.75, paymentMethod: 'Transferencia', status: 'Pendiente' },
-    { id: 'V-2025-004', date: '18/07/2025', customer: 'Juan Rodríguez', total: 75.00, paymentMethod: 'Efectivo', status: 'Cancelada' },
-  ]);
+  private readonly crmService = inject(CrmService);
 
-  getStatusClass(status: Sale['status']): string {
+  sales = signal<Sale[]>([]);
+
+  ngOnInit() {
+    this.loadSales();
+  }
+
+  loadSales() {
+    this.crmService.getSales().subscribe({
+      next: (sales) => this.sales.set(sales),
+      error: (err) => console.error('Error loading sales', err)
+    });
+  }
+
+  approveSale(id: string) {
+    this.crmService.approveSale(id).subscribe({
+      next: () => this.loadSales(),
+      error: (err) => console.error('Error approving sale', err)
+    });
+  }
+
+  completeSale(id: string) {
+    this.crmService.completeSale(id).subscribe({
+      next: () => this.loadSales(),
+      error: (err) => console.error('Error completing sale', err)
+    });
+  }
+
+  getStatusClass(status: string): string {
     switch (status) {
-      case 'Completada': return 'status-completed';
-      case 'Pendiente': return 'status-pending';
-      case 'Cancelada': return 'status-cancelled';
+      case 'COMPLETED': return 'status-completed';
+      case 'APPROVED': return 'status-approved';
+      case 'DRAFT': return 'status-draft';
+      case 'NEGOTIATION': return 'status-pending';
+      case 'CANCELLED': return 'status-cancelled';
+      default: return 'status-pending';
     }
   }
 }
