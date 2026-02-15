@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { RiskEngineService } from '@virteex/identity-domain';
+import * as geoip from 'geoip-lite';
 
 @Injectable()
 export class DefaultRiskEngineService implements RiskEngineService {
@@ -32,9 +33,20 @@ export class DefaultRiskEngineService implements RiskEngineService {
     let score = 0;
 
     // 1. IP Logic
-    // In a real scenario, we would use a GeoIP database (MaxMind) here.
-    // Since we cannot integrate external paid APIs here, we skip fake "190.x.x.x" checks.
-    // However, we can check for local/private IPs if needed, but for now we trust the gateway passed IP.
+    const geo = geoip.lookup(context.ip);
+
+    if (geo) {
+        // Example logic: high risk countries
+        const highRiskCountries = ['KP', 'IR', 'SY', 'CU']; // Example set
+        if (highRiskCountries.includes(geo.country)) {
+            score += 50;
+            this.logger.warn(`High risk country detected: ${geo.country}`);
+        }
+    } else {
+        // Only if it's a public IP and lookup fails do we consider it suspicious,
+        // but for local IPs (null result) we might ignore or treat as safe in dev.
+        // We'll trust the gateway IP generally if it's private.
+    }
 
     // 2. Email Domain Check (Real Heuristic)
     if (context.email) {

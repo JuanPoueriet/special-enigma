@@ -1,4 +1,5 @@
 import { Injectable, Inject, NotFoundException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import {
   InvoiceRepository,
   INVOICE_REPOSITORY,
@@ -20,7 +21,8 @@ export interface UsageItem {
 export class GetUsageUseCase {
   constructor(
     @Inject(INVOICE_REPOSITORY) private readonly invoiceRepository: InvoiceRepository,
-    @Inject(SUBSCRIPTION_REPOSITORY) private readonly subscriptionRepository: SubscriptionRepository
+    @Inject(SUBSCRIPTION_REPOSITORY) private readonly subscriptionRepository: SubscriptionRepository,
+    private readonly configService: ConfigService
   ) {}
 
   async execute(tenantId: string): Promise<UsageItem[]> {
@@ -28,7 +30,12 @@ export class GetUsageUseCase {
     const subscription = await this.subscriptionRepository.findByTenantId(tenantId);
 
     // Default Limits if no subscription (e.g., Free Tier or Trial fallback)
-    let limits = { invoices: 10, users: 1, storage: 50 }; // Very restrictive default
+    // Configuration allows changing these without recompilation
+    let limits = {
+      invoices: this.configService.get<number>('DEFAULT_INVOICE_LIMIT', 10),
+      users: this.configService.get<number>('DEFAULT_USER_LIMIT', 1),
+      storage: this.configService.get<number>('DEFAULT_STORAGE_LIMIT', 50)
+    };
 
     if (subscription && subscription.isValid() && subscription.plan) {
        limits = subscription.plan.limits;

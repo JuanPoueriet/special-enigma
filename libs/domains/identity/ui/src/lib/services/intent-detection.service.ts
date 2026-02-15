@@ -12,7 +12,7 @@ export interface ContextSignal {
 
 export interface ContextAnalysis {
   action: 'proceed' | 'suggest' | 'confirm' | 'verify' | 'require_selection';
-  detectedCountry: string;
+  detectedCountry: string | null;
   targetCountry: string;
   discrepancyLevel: 'none' | 'low' | 'medium' | 'high';
 }
@@ -24,17 +24,17 @@ export class IntentDetectionService {
   private http = inject(HttpClient);
   private toast = inject(ToastService);
   private apiUrl = inject(API_URL);
-  private ipInfo$: Observable<{ country_code: string }>;
+  private ipInfo$: Observable<{ country_code: string | null }>;
 
   constructor() {
     // Cache the IP info request
     // Call our backend proxy instead of external API directly
-    this.ipInfo$ = this.http.get<{ country_code: string }>(`${this.apiUrl}/auth/location`).pipe(
+    this.ipInfo$ = this.http.get<{ country_code: string | null }>(`${this.apiUrl}/auth/location`).pipe(
         retry(2), // Robustness: Retry failed requests
         catchError((err) => {
           // Silent fallback or less intrusive logging as per robust requirements
-          console.warn('Unable to detect location via backend. Using default "US". Error:', err);
-          return of({ country_code: 'US' });
+          console.warn('Unable to detect location via backend. Using default null. Error:', err);
+          return of({ country_code: null });
         }),
         shareReplay(1)
     );
@@ -43,15 +43,20 @@ export class IntentDetectionService {
   analyzeContext(urlCountry: string): Observable<ContextAnalysis> {
     return this.ipInfo$.pipe(
         map(info => {
-            const ipCountry = info.country_code || 'US';
-            return this.calculateAnalysis(urlCountry.toUpperCase(), ipCountry.toUpperCase());
+            const ipCountry = info.country_code; // Can be null
+            return this.calculateAnalysis(urlCountry.toUpperCase(), ipCountry ? ipCountry.toUpperCase() : null);
         })
     );
   }
 
-  private calculateAnalysis(urlCountry: string, ipCountry: string): ContextAnalysis {
+  private calculateAnalysis(urlCountry: string, ipCountry: string | null): ContextAnalysis {
     let discrepancyLevel: 'none' | 'low' | 'medium' | 'high' = 'none';
     let action: ContextAnalysis['action'] = 'proceed';
+
+    if (!ipCountry) {
+        // If we can't detect IP country, we might proceed with caution or ask for confirmation
+        return { action: 'proceed', detectedCountry: null, targetCountry: urlCountry, discrepancyLevel: 'none' };
+    }
 
     if (ipCountry === urlCountry) {
         return { action: 'proceed', detectedCountry: ipCountry, targetCountry: urlCountry, discrepancyLevel: 'none' };

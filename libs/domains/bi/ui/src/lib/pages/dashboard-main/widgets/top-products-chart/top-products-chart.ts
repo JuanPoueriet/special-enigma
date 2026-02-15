@@ -161,11 +161,9 @@ export class TopProductsChart implements OnInit {
     const chartType = (this.widget.chartType || 'bar') as ChartType;
     const data = this.realData();
 
-    // Use real data if available, fallback to mock/widget config
-    const categories: string[] = data.length > 0 ? data.map(d => d.name) :
-      (this.widget?.data as any)?.categories ?? ['Laptop Pro', 'Mouse Ergo', 'Monitor UW', 'Teclado RGB', 'Webcam HD'];
-    const values: number[] = data.length > 0 ? data.map(d => d.value) :
-      (this.widget?.data as any)?.values ?? [120, 95, 88, 75, 60];
+    // Use real data if available. Do not fallback to mock data.
+    const categories: string[] = data.length > 0 ? data.map(d => d.name) : [];
+    const values: number[] = data.length > 0 ? data.map(d => d.value) : [];
 
     const palette = this.getPaletteFromTheme();
     const theme = this.getThemeOptions();
