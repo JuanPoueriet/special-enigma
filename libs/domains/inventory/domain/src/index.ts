@@ -4,5 +4,6 @@ export * from './lib/entities/warehouse.entity';
 export * from './lib/entities/location.entity';
 export * from './lib/ports/inventory.repository';
 export * from './lib/ports/warehouse.repository';
-export * from './lib/exceptions/insufficient-stock.exception';
-export * from './lib/exceptions/warehouse-not-found.exception';
+export * from './lib/ports/product.gateway';
+export * from './lib/exceptions/insufficient-stock.exception'; // Added
+export * from './lib/exceptions/warehouse-not-found.exception'; // Added

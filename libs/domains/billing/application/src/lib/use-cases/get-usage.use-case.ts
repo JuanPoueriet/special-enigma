@@ -1,5 +1,11 @@
-import { Injectable, Inject } from '@nestjs/common';
-import { InvoiceRepository, INVOICE_REPOSITORY } from '@virteex/billing-domain';
+import { Injectable, Inject, NotFoundException } from '@nestjs/common';
+import {
+  InvoiceRepository,
+  INVOICE_REPOSITORY,
+  SubscriptionRepository,
+  SUBSCRIPTION_REPOSITORY,
+  SubscriptionPlan
+} from '@virteex/billing-domain';
 
 export interface UsageItem {
   resource: string;
@@ -13,22 +19,29 @@ export interface UsageItem {
 @Injectable()
 export class GetUsageUseCase {
   constructor(
-    @Inject(INVOICE_REPOSITORY) private readonly invoiceRepository: InvoiceRepository
+    @Inject(INVOICE_REPOSITORY) private readonly invoiceRepository: InvoiceRepository,
+    @Inject(SUBSCRIPTION_REPOSITORY) private readonly subscriptionRepository: SubscriptionRepository
   ) {}
 
   async execute(tenantId: string): Promise<UsageItem[]> {
     const invoices = await this.invoiceRepository.findByTenantId(tenantId);
+    const subscription = await this.subscriptionRepository.findByTenantId(tenantId);
 
-    // In a real app, limits come from Subscription Plan.
-    // For now, hardcode limit or fetch from plan if easy.
-    // I'll assume 100 limit for now to match UI expectation but with real usage count.
+    // Default Limits if no subscription (e.g., Free Tier or Trial fallback)
+    let limits = { invoices: 10, users: 1, storage: 50 }; // Very restrictive default
+
+    if (subscription && subscription.isValid() && subscription.plan) {
+       limits = subscription.plan.limits;
+    }
+
+    const isUnlimited = limits.invoices === -1;
 
     return [{
       resource: 'Invoices',
       used: invoices.length,
-      limit: 100,
+      limit: isUnlimited ? Infinity : limits.invoices,
       type: 'numeric',
-      isUnlimited: false,
+      isUnlimited: isUnlimited,
       isEnabled: true
     }];
   }

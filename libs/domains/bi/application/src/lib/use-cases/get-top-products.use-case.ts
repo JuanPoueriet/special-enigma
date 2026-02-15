@@ -1,12 +1,13 @@
 import { Injectable, Inject } from '@nestjs/common';
+import { SalesPort, SALES_PORT } from '@virteex/bi-domain';
 
 @Injectable()
 export class GetTopProductsUseCase {
   constructor(
-    @Inject('SaleRepository') private readonly saleRepository: any
+    @Inject(SALES_PORT) private readonly salesPort: SalesPort
   ) {}
 
   async execute(tenantId: string) {
-    return this.saleRepository.getTopProducts(tenantId, 5);
+    return this.salesPort.getTopProducts(tenantId, 5);
   }
 }

@@ -1,14 +1,25 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
+import { TaxRuleRepository, TAX_RULE_REPOSITORY } from '@virteex/fiscal-domain';
 
 @Injectable()
 export class GetTaxRulesUseCase {
-  execute(tenantId: string) {
-    // Assuming a static set of rules for the tenant's jurisdiction (e.g., Mexico)
-    return [
-      { id: '1', name: 'IVA 16%', rate: 0.16, type: 'IVA', appliesTo: 'General' },
-      { id: '2', name: 'ISR Retención 10%', rate: 0.10, type: 'ISR_RET', appliesTo: 'Professional Services' },
-      { id: '3', name: 'IVA Retención 10.6667%', rate: 0.106667, type: 'IVA_RET', appliesTo: 'Professional Services' },
-      { id: '4', name: 'IEPS 8%', rate: 0.08, type: 'IEPS', appliesTo: 'High Calorie Food' }
-    ];
+  constructor(
+    @Inject(TAX_RULE_REPOSITORY) private readonly taxRuleRepository: TaxRuleRepository
+  ) {}
+
+  async execute(tenantId: string) {
+    let rules = await this.taxRuleRepository.findAll(tenantId);
+
+    if (!rules || rules.length === 0) {
+      rules = await this.taxRuleRepository.createDefaultRules(tenantId);
+    }
+
+    return rules.map(r => ({
+      id: r.id,
+      name: r.name,
+      rate: Number(r.rate),
+      type: r.type,
+      appliesTo: r.appliesTo
+    }));
   }
 }

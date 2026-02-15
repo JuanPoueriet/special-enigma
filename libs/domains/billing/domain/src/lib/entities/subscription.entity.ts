@@ -1,31 +1,33 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, PrimaryKey, Property, ManyToOne, Enum } from '@mikro-orm/core';
 import { v4 } from 'uuid';
+import { SubscriptionPlan } from './subscription-plan.entity';
+
+export enum SubscriptionStatus {
+  ACTIVE = 'ACTIVE',
+  CANCELED = 'CANCELED',
+  EXPIRED = 'EXPIRED',
+  TRIAL = 'TRIAL'
+}
 
 @Entity()
 export class Subscription {
-  @PrimaryKey()
+  @PrimaryKey({ type: 'uuid' })
   id: string = v4();
 
   @Property()
   tenantId!: string;
 
-  @Property()
-  planId!: string;
+  @ManyToOne(() => SubscriptionPlan)
+  plan!: SubscriptionPlan;
+
+  @Enum(() => SubscriptionStatus)
+  status: SubscriptionStatus = SubscriptionStatus.ACTIVE;
 
   @Property()
-  status: 'Active' | 'Inactive' | 'Trial' = 'Active';
-
-  @Property({ type: 'decimal', precision: 10, scale: 2 })
-  price!: string;
-
-  @Property()
-  billingCycle!: string;
-
-  @Property()
-  nextBillingDate!: Date;
+  startDate: Date = new Date();
 
   @Property({ nullable: true })
-  trialEndsDate?: Date;
+  endDate?: Date;
 
   @Property()
   createdAt: Date = new Date();
@@ -33,19 +35,20 @@ export class Subscription {
   @Property({ onUpdate: () => new Date() })
   updatedAt: Date = new Date();
 
-  constructor(
-    tenantId: string,
-    planId: string,
-    price: string,
-    billingCycle: string,
-    nextBillingDate: Date,
-    status: 'Active' | 'Inactive' | 'Trial' = 'Active'
-  ) {
+  constructor(tenantId: string, plan: SubscriptionPlan, status: SubscriptionStatus = SubscriptionStatus.ACTIVE) {
     this.tenantId = tenantId;
-    this.planId = planId;
-    this.price = price;
-    this.billingCycle = billingCycle;
-    this.nextBillingDate = nextBillingDate;
+    this.plan = plan;
     this.status = status;
+  }
+
+  isValid(): boolean {
+    const now = new Date();
+    if (this.status !== SubscriptionStatus.ACTIVE && this.status !== SubscriptionStatus.TRIAL) {
+      return false;
+    }
+    if (this.endDate && this.endDate < now) {
+      return false;
+    }
+    return true;
   }
 }

@@ -1,6 +1,12 @@
 import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
 import { v4 } from 'uuid';
 
+export interface PlanLimits {
+  invoices: number; // -1 for unlimited
+  users: number;
+  storage: number; // in MB
+}
+
 @Entity()
 export class SubscriptionPlan {
   @PrimaryKey()
@@ -18,17 +24,29 @@ export class SubscriptionPlan {
   @Property()
   description!: string;
 
-  @Property()
-  features!: string; // JSON string or array
+  @Property({ type: 'json' })
+  features: string[] = [];
+
+  @Property({ type: 'json' })
+  limits: PlanLimits = { invoices: 100, users: 1, storage: 100 }; // Default limits
 
   @Property()
   isActive = true;
 
-  constructor(slug: string, name: string, price: string, description: string, features: string[]) {
+  @Property()
+  createdAt: Date = new Date();
+
+  @Property({ onUpdate: () => new Date() })
+  updatedAt: Date = new Date();
+
+  constructor(slug: string, name: string, price: string, description: string, features: string[], limits?: PlanLimits) {
     this.slug = slug;
     this.name = name;
     this.price = price;
     this.description = description;
-    this.features = JSON.stringify(features);
+    this.features = features;
+    if (limits) {
+      this.limits = limits;
+    }
   }
 }

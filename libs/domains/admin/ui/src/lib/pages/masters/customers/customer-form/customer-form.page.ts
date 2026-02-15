@@ -47,9 +47,25 @@ export class CustomerFormPage implements OnInit {
 
     if (this.id) {
       this.isEditMode.set(true);
-      // Lógica para cargar los datos del cliente por ID
-      console.log('Edit mode for customer with ID:', this.id);
+      this.loadCustomer(this.id);
     }
+  }
+
+  loadCustomer(id: string): void {
+    this.isLoading.set(true);
+    this.customerService.getById(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (customer) => {
+          this.customerForm.patchValue(customer);
+          this.isLoading.set(false);
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastService.showError('Error loading customer');
+          this.isLoading.set(false);
+        }
+      });
   }
 
   saveCustomer(): void {
@@ -61,15 +77,20 @@ export class CustomerFormPage implements OnInit {
         tenantId: user?.tenantId || 'default',
       };
 
-      this.customerService.create(payload)
+      const request$ = this.id
+        ? this.customerService.update(this.id, payload)
+        : this.customerService.create(payload);
+
+      request$
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           next: () => {
-            this.toastService.showSuccess('Customer saved successfully');
+            this.toastService.showSuccess(`Customer ${this.id ? 'updated' : 'saved'} successfully`);
             this.router.navigate(['/app/masters/customers']);
           },
           error: (err) => {
             console.error(err);
+            this.toastService.showError('Error saving customer');
             this.isLoading.set(false);
           }
         });
