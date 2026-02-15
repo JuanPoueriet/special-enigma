@@ -1,0 +1,145 @@
+
+--- Mocks (19) ---
+./libs/domains/billing/infrastructure/src/lib/providers/mock-pac.provider.ts:6: export class MockPacProvider implements PacProvider {
+./libs/domains/identity/ui/src/lib/pages/auth/reset-password/reset-password.page/reset-password.page.spec.ts:23: class MockAuthService {
+./libs/domains/identity/ui/src/lib/pages/auth/reset-password/reset-password.page/reset-password.page.spec.ts:26: class MockLanguageService {
+./libs/domains/identity/ui/src/lib/pages/auth/login/login.page.spec.ts:28: class MockAuthService {
+./libs/domains/identity/ui/src/lib/pages/auth/login/login.page.spec.ts:33: class MockRecaptchaService {
+./libs/domains/identity/ui/src/lib/pages/auth/login/login.page.spec.ts:36: class MockCountryService {
+./libs/domains/identity/ui/src/lib/pages/auth/login/login.page.spec.ts:40: class MockLanguageService {
+./libs/domains/identity/ui/src/lib/pages/auth/register/register.page.spec.ts:23: class MockAuthService {
+./libs/domains/identity/ui/src/lib/pages/auth/register/register.page.spec.ts:28: class MockRecaptchaService {
+./libs/domains/identity/ui/src/lib/pages/auth/register/register.page.spec.ts:31: class MockCountryService {
+./libs/domains/identity/ui/src/lib/pages/auth/register/register.page.spec.ts:38: class MockUsersService {
+./libs/domains/identity/ui/src/lib/pages/auth/register/register.page.spec.ts:41: class MockLanguageService {
+./libs/domains/identity/ui/src/lib/pages/auth/register/register.page.spec.ts:45: class MockGeoLocationService {
+./libs/domains/identity/ui/src/lib/pages/auth/register/register.page.spec.ts:50: class MockConfigService {
+./libs/domains/identity/ui/src/lib/pages/auth/forgot-password/forgot-password/forgot-password.page.spec.ts:24: class MockAuthService {
+./libs/domains/identity/ui/src/lib/pages/auth/forgot-password/forgot-password/forgot-password.page.spec.ts:27: class MockRecaptchaService {
+./libs/domains/identity/ui/src/lib/pages/auth/forgot-password/forgot-password/forgot-password.page.spec.ts:30: class MockLanguageService {
+./libs/domains/identity/ui/src/lib/pages/auth/set-password/set-password.page.spec.ts:23: class MockAuthService {
+./libs/domains/identity/ui/src/lib/pages/auth/set-password/set-password.page.spec.ts:27: class MockRecaptchaService {
+
+--- TODOs (20) ---
+./libs/domains/billing/ui/src/lib/pages/invoices/new/new.page.ts:130: this.notificationService.showError('Por favor, completa todos los campos requeridos.');
+./libs/domains/billing/ui/src/lib/pages/payments/components/plan-selection/plan-selection.component.ts:81: <li class="flex"><span class="mr-2">✔️</span> Todo Incluido</li>
+./libs/domains/billing/ui/src/lib/pages/settings/billing.page.html:28: <h3>Método de Pago</h3>
+./libs/domains/purchasing/ui/src/lib/pages/accounts-payable/form/form.page.ts:94: this.toastService.showError('Por favor, completa todos los campos requeridos.');
+./libs/domains/crm/ui/src/lib/pages/sales/history/history.page.html:27: <th>Método de Pago</th>
+./libs/domains/bi/ui/src/lib/pages/dashboard-main/dashboard.page.ts:6: // ✅ CORRECCIÓN: Se importan TODOS los componentes de widgets que se usarán en la plantilla
+./libs/domains/bi/ui/src/lib/pages/dashboard-main/dashboard.page.ts:40: // ✅ CORRECCIÓN: Se añaden todos los widgets a la lista de imports
+./libs/domains/bi/ui/src/lib/pages/dashboard-main/widgets/invoice-status/invoice-status.ts:24: // Extiende tipos que Highcharts no declara en Chart para los métodos de exportación
+./libs/domains/inventory/ui/src/lib/pages/inventory-ops/products/products.page.html:5: <p>Gestiona todos los productos y servicios de tu empresa.</p>
+./libs/domains/identity/ui/src/lib/pages/auth/register/steps/step-access/step-access.ts:82: // Método seguro para obtener valor del campo de contraseña
+./libs/domains/identity/ui/src/lib/pages/auth/register/steps/step-access/step-access.ts:87: // Métodos para verificar requisitos de contraseña
+./libs/domains/projects/contracts/src/lib/enums/task-status.enum.ts:2: TODO = 'TODO',
+./libs/domains/projects/domain/src/lib/entities/task.entity.ts:20: status: TaskStatus = TaskStatus.TODO;
+./libs/domains/accounting/ui/src/lib/pages/accounting-ops/journal-entry-form/journal-entry-form.page.ts:97: requiredFieldsError: 'Por favor, completa todos los campos requeridos.'
+./libs/domains/accounting/ui/src/lib/pages/accounting-ops/account-form/account-form.page.ts:33: // --- Propiedades y Métodos Añadidos para Corregir Errores ---
+./libs/domains/accounting/ui/src/lib/pages/accounting-ops/account-form/account-form.page.ts:141: this.notificationService.showError('Por favor, complete todos los campos requeridos.');
+./libs/domains/accounting/ui/src/lib/pages/accounting-ops/merge-tool/merge-tool.ts:14: *   en tu proyecto. Si quieres integrar con servicios reales, reemplaza los métodos
+./libs/domains/accounting/ui/src/lib/pages/accounting-ops/bulk-operations/bulk-operations.ts:126: * En una aplicación real, este método podría apuntar a un archivo estático
+./libs/domains/accounting/ui/src/lib/pages/accounting-ops/chart-of-accounts/chart-of-accounts.page.html:38: <option value="ALL">Todos los Estados</option>
+./libs/domains/accounting/ui/src/lib/pages/accounting-ops/chart-of-accounts/chart-of-accounts.page.html:43: <option value="ALL">Todos los Tipos</option>
+
+--- Hardcoded Returns (31) ---
+./libs/domains/billing/infrastructure/src/lib/providers/mock-pac.provider.ts:33: return true;
+./libs/domains/billing/infrastructure/src/lib/providers/finkok-pac.provider.ts:145: return true;
+./libs/domains/billing/domain/src/lib/entities/subscription.entity.ts:47: return false;
+./libs/domains/billing/domain/src/lib/entities/subscription.entity.ts:50: return false;
+./libs/domains/billing/domain/src/lib/entities/subscription.entity.ts:52: return true;
+./libs/domains/billing/ui/src/lib/pages/invoices/new/new.page.ts:119: if (!productId || !qty) return true;
+./libs/domains/billing/ui/src/lib/pages/invoices/new/new.page.ts:123: return false;
+./libs/domains/billing/ui/src/lib/pages/invoices/new/new.page.ts:125: return true;
+./libs/domains/bi/ui/src/lib/pages/dashboard-main/widgets/top-products-chart/top-products-chart.ts:112: if (typeof window === 'undefined') return {};
+./libs/domains/bi/ui/src/lib/pages/dashboard-main/widgets/top-products-chart/top-products-chart.ts:231: return [];
+./libs/domains/bi/ui/src/lib/pages/dashboard-main/widgets/invoice-status/invoice-status.ts:134: return [];
+./libs/domains/bi/ui/src/lib/pages/dashboard-main/widgets/invoice-status/invoice-status.ts:142: if (typeof window === 'undefined') return {};
+./libs/domains/bi/ui/src/lib/pages/dashboard-main/widgets/ar-aging-chart/ar-aging-chart.ts:113: if (typeof window === 'undefined') return {};
+./libs/domains/bi/ui/src/lib/pages/dashboard-main/widgets/cashflow-chart/cashflow-chart.ts:144: if (typeof window === 'undefined') return {};
+./libs/domains/bi/ui/src/lib/pages/dashboard-main/widgets/expenses-chart/expenses-chart.ts:127: return [];
+./libs/domains/bi/ui/src/lib/pages/dashboard-main/widgets/expenses-chart/expenses-chart.ts:131: if (typeof window === 'undefined') return {};
+./libs/domains/inventory/infrastructure/src/lib/adapters/catalog-product.adapter.ts:13: if (isNaN(id)) return false;
+./libs/domains/inventory/infrastructure/src/lib/adapters/catalog-product.adapter.ts:20: if (isNaN(id)) return null;
+./libs/domains/admin/ui/src/lib/pages/data-imports/data-imports.page.ts:65: return null;
+./libs/domains/identity/infrastructure/src/lib/adapters/geo-ip-lite.adapter.ts:10: return null;
+./libs/domains/identity/infrastructure/src/lib/services/node-crypto-auth.service.ts:70: return false;
+./libs/domains/identity/ui/src/lib/pages/auth/register/steps/step-access/step-access.ts:78: return null;
+./libs/domains/identity/ui/src/lib/pages/register/register.component.ts:143: default: return true;
+./libs/domains/identity/ui/src/lib/services/intent-detection.service.ts:122: if (inRegion(latam)) return true;
+./libs/domains/identity/ui/src/lib/services/intent-detection.service.ts:123: if (inRegion(northAm)) return true;
+./libs/domains/identity/ui/src/lib/services/intent-detection.service.ts:124: if (inRegion(europe)) return true;
+./libs/domains/identity/ui/src/lib/services/intent-detection.service.ts:126: return false;
+./libs/domains/fiscal/infrastructure/src/lib/repositories/mikro-orm-tax-rule.repository.ts:21: return [];
+./libs/domains/accounting/ui/src/lib/core/services/journal-entries.ts:8: return [];
+./libs/domains/accounting/ui/src/lib/pages/accounting-ops/journal-entry-form/journal-entry-form.page.ts:20: return null; // No hay líneas para validar
+./libs/domains/accounting/ui/src/lib/pages/accounting-ops/journal-entry-form/journal-entry-form.page.ts:46: return null;
+
+--- Console Logs (8) ---
+./libs/domains/billing/ui/src/lib/pages/settings/billing.page.ts:53: // console.log('Plan actualizado con éxito');
+./libs/domains/admin/ui/src/lib/pages/data-imports/data-imports.page.ts:85: // console.log(`Uploading ${this.selectedFile()!.name} for data type ${this.selectedDataTypeId()}`);
+./libs/domains/admin/ui/src/lib/pages/data-exports/data-exports.page.ts:70: // console.log('Generating export with options:', this.exportForm.value);
+./libs/domains/identity/ui/src/lib/pages/auth/register/register.page.ts:139: // console.log('[Register] Aplicando configuración de país:', config.code);
+./libs/domains/accounting/ui/src/lib/core/services/notification.ts:8: // console.log('SUCCESS:', message);
+./libs/domains/accounting/ui/src/lib/pages/accounting-ops/periods/periods.page.ts:49: // console.log(`Toggling status for period: ${periodToUpdate.month}`);
+./libs/domains/accounting/ui/src/lib/pages/accounting-ops/journal-form/journal-form.page.ts:56: // console.log('Journal updated successfully');
+./libs/domains/accounting/ui/src/lib/pages/accounting-ops/journal-form/journal-form.page.ts:61: // console.log('Journal created successfully');
+
+--- In-Memory Repos (0) ---
+
+--- Any Types (55) ---
+./libs/domains/billing/infrastructure/src/lib/providers/finkok-pac.provider.ts:41: let lastError: any;
+./libs/domains/billing/infrastructure/src/lib/providers/finkok-pac.provider.ts:88: } catch (error: any) {
+./libs/domains/billing/ui/src/lib/core/services/billing.ts:83: addPaymentMethod(paymentMethod: any, tenantId: string = 'default') {
+./libs/domains/billing/ui/src/lib/pages/invoices/new/new.page.ts:141: lineItems: formValue.lineItems.map((item: any) => ({
+./libs/domains/purchasing/application/src/lib/use-cases/create-supplier.use-case.spec.ts:8: let mockRepo: any;
+./libs/domains/purchasing/domain/src/lib/entities/requisition.entity.ts:31: items!: any[]; // Using json for simplicity as per quick implementation, ideally separate entity
+./libs/domains/purchasing/domain/src/lib/entities/requisition.entity.ts:33: constructor(tenantId: string, reqNumber: string, requester: string, department: string, date: Date, items: any[]) {
+./libs/domains/purchasing/domain/src/lib/entities/requisition.entity.ts:40: this.total = items.reduce((sum: number, item: any) => sum + (item.quantity * item.unitPrice), 0).toFixed(2);
+./libs/domains/purchasing/domain/src/lib/entities/vendor-bill.entity.ts:28: lineItems!: any[];
+./libs/domains/purchasing/domain/src/lib/entities/vendor-bill.entity.ts:36: constructor(tenantId: string, supplierId: string, billNumber: string, issueDate: Date, dueDate: Date, lineItems: any[]) {
+./libs/domains/purchasing/domain/src/lib/entities/vendor-bill.entity.ts:43: this.totalAmount = lineItems.reduce((sum: number, item: any) => sum + (item.quantity * item.price), 0).toFixed(2);
+./libs/domains/crm/infrastructure/src/lib/repositories/mikro-orm-sale.repository.ts:40: return result.map((r: any) => ({
+./libs/domains/crm/ui/src/lib/pages/sales/pos/pos.page.ts:151: getItemTotal(item: any): number {
+./libs/domains/crm/ui/src/lib/pages/sales/pos/pos.page.ts:163: items: this.cartItems.value.map((item: any) => ({
+./libs/domains/bi/application/src/lib/use-cases/generate-report.use-case.ts:8: parameters?: any;
+./libs/domains/bi/domain/src/lib/entities/bi-report.entity.ts:15: data!: any;
+./libs/domains/bi/domain/src/lib/entities/bi-report.entity.ts:20: constructor(name: string, type: string, data: any) {
+./libs/domains/bi/ui/src/lib/pages/dashboard-main/widgets/top-products-chart/top-products-chart.ts:33: exportChart: (opts?: any, chartOpts?: Highcharts.Options) => void;
+./libs/domains/bi/ui/src/lib/pages/dashboard-main/widgets/recent-activity/recent-activity.ts:9: icon: any; // Se pasará el objeto del ícono directamente
+./libs/domains/bi/ui/src/lib/pages/dashboard-main/widgets/invoice-status/invoice-status.ts:27: exportChart: (opts?: any, chartOpts?: Highcharts.Options) => void;
+./libs/domains/bi/ui/src/lib/pages/dashboard-main/widgets/ar-aging-chart/ar-aging-chart.ts:25: exportChart: (opts?: any, chartOpts?: Highcharts.Options) => void;
+./libs/domains/bi/ui/src/lib/pages/dashboard-main/widgets/cashflow-chart/cashflow-chart.ts:32: exportChart: (opts?: any, chartOpts?: Highcharts.Options) => void;
+./libs/domains/bi/ui/src/lib/pages/dashboard-main/widgets/expenses-chart/expenses-chart.ts:26: exportChart: (opts?: any, chartOpts?: Highcharts.Options) => void;
+./libs/domains/inventory/contracts/src/lib/inventory-contracts.ts:16: items: any[]; // Define properly if needed
+./libs/domains/inventory/infrastructure/src/lib/repositories/mikro-orm-inventory.repository.ts:19: const where: any = { warehouse: warehouseId, productId };
+./libs/domains/admin/ui/src/lib/pages/documents/documents.page.ts:14: //   icon: any;
+./libs/domains/admin/ui/src/lib/pages/documents/documents.page.ts:45: //   getIconForFileType(type: FileItemType): any {
+./libs/domains/admin/ui/src/lib/pages/documents/repository/repository.page.ts:14: icon: any;
+./libs/domains/admin/ui/src/lib/pages/documents/repository/repository.page.ts:43: getIconForFileType(type: FileItemType): any {
+./libs/domains/identity/infrastructure/src/lib/adapters/storage.adapter.ts:7: constructor(@Inject(SharedStorageService) private readonly storageService: any) {}
+./libs/domains/identity/infrastructure/src/lib/services/node-crypto-auth.service.ts:49: async generateToken(payload: any): Promise<string> {
+./libs/domains/identity/application/src/lib/use-cases/verify-mfa.use-case.ts:25: let payload: any;
+./libs/domains/identity/domain/src/lib/ports/auth.service.ts:4: abstract generateToken(payload: any): Promise<string>;
+./libs/domains/identity/ui/src/lib/pages/auth/components/auth-input/auth-input.component.ts:34: onChange = (value: any) => {};
+./libs/domains/identity/ui/src/lib/pages/auth/components/auth-input/auth-input.component.ts:50: writeValue(value: any): void {
+./libs/domains/identity/ui/src/lib/pages/auth/components/auth-input/auth-input.component.ts:54: registerOnChange(fn: any): void {
+./libs/domains/identity/ui/src/lib/pages/auth/components/auth-input/auth-input.component.ts:59: registerOnTouched(fn: any): void {
+./libs/domains/identity/ui/src/lib/pages/auth/login/login.page.ts:133: next: (response: any) => {
+./libs/domains/identity/ui/src/lib/pages/auth/login/login.page.ts:185: private handleSuccess(user: any): void {
+./libs/domains/identity/ui/src/lib/pages/auth/login/login.page.ts:193: private handleError(err: any): void {
+./libs/domains/identity/ui/src/lib/pages/auth/register/steps/step-configuration/step-configuration.ts:32: onFlagError(event: any) {
+./libs/domains/identity/ui/src/lib/pages/auth/register/steps/step-configuration/step-configuration.ts:36: onCountryChange(event: any) {
+./libs/domains/identity/ui/src/lib/pages/auth/register/steps/step-configuration/step-configuration.component.ts:176: onCountryChange(event: any) {
+./libs/domains/identity/ui/src/lib/pages/auth/register/steps/step-configuration/step-configuration.spec.ts:13: let mockCountryService: any;
+./libs/domains/identity/ui/src/lib/pages/auth/register/steps/step-configuration/step-configuration.spec.ts:14: let mockRouter: any;
+./libs/domains/identity/ui/src/lib/pages/auth/register/steps/step-access/step-access.ts:43: private passwordChangesSubscription: any;
+./libs/domains/identity/ui/src/lib/pages/auth/set-password/set-password.page.ts:109: error: (err: any) => {
+./libs/domains/identity/presentation/src/lib/controllers/users.controller.ts:33: async getMyProfile(@Req() req: any): Promise<User> {
+./libs/domains/identity/presentation/src/lib/controllers/users.controller.ts:39: async updateMyProfile(@Req() req: any, @Body() dto: UpdateUserDto): Promise<User> {
+./libs/domains/identity/presentation/src/lib/controllers/users.controller.ts:45: async invite(@Req() req: any, @Body() dto: InviteUserDto): Promise<User> {
+./libs/domains/identity/presentation/src/lib/controllers/users.controller.ts:52: async upload(@Req() req: any, @UploadedFile() file: any): Promise<{ url: string }> {
+./libs/domains/accounting/ui/src/lib/pages/accounting-ops/journal-entry-form/journal-entry-form.page.ts:202: calculateTotals(linesValue: any[]): void {
+./libs/domains/accounting/ui/src/lib/pages/accounting-ops/merge-tool/merge-tool.ts:183: } catch (e: any) {
+./libs/domains/accounting/ui/src/lib/pages/accounting-ops/merge-tool/merge-tool.ts:199: } catch (e: any) {
+./libs/domains/accounting/ui/src/lib/pages/accounting-ops/chart-of-accounts/chart-of-accounts.page.ts:47: onFilterChange(filter: 'status' | 'type', value: any): void {

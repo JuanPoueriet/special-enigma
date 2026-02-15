@@ -1,0 +1,98 @@
+INFORME DETALLADO DE GAP COMERCIAL Y FUNCIONAL - VIRTEEX
+========================================================
+
+FECHA: 2024-05-23
+ESTADO ACTUAL: PROTOTIPO AVANZADO / MVP
+OBJETIVO: PRODUCTO COMERCIAL 100% FUNCIONAL (SIN MOCKS)
+
+Este informe detalla exhaustivamente las deficiencias, código incompleto, simulaciones (mocks) y falta de integración que impiden que la aplicación "Virteex" sea un producto comercial viable, específicamente para el mercado mexicano (debido a referencias a SAT/PAC).
+
+--------------------------------------------------------------------------------
+1. ANÁLISIS DE INFRAESTRUCTURA TRANSVERSAL
+--------------------------------------------------------------------------------
+
+A. GESTIÓN DE DEPENDENCIAS Y MOCKS
+   - Hallazgo Crítico: Existencia de `MockPacProvider` en `libs/domains/billing/infrastructure`.
+   - Impacto: Imposible emitir facturas legales. El sistema simula el timbrado.
+   - Acción Requerida: Eliminar `MockPacProvider` y promover `FinkokPacProvider` como única implementación.
+   - Riesgo de Código: `FinkokPacProvider` devuelve `true` hardcoded en líneas de cancelación si no hay respuesta clara, y usa `any` para el manejo de errores, lo que puede ocultar fallos de comunicación con el SAT.
+
+B. MANEJO DE CONFIGURACIÓN Y SECRETOS
+   - Hallazgo: `FinkokPacProvider` lee `TAX_ID` directamente de `process.env['TAX_ID']`.
+   - Impacto: El sistema NO es multi-tenant. Todos los clientes usarían el RFC de la empresa dueña del software para cancelar facturas.
+   - Acción Requerida: El `TAX_ID` (RFC) y certificado (CSD) deben leerse de la configuración del `Tenant` en la base de datos (tabla `FiscalConfig` o `CompanySettings`).
+
+C. SEGURIDAD Y TIPADO
+   - Hallazgo: Uso excesivo de `any` en Controladores (`req: any`) y DTOs (`items: any[]` en Purchasing/CRM).
+   - Impacto: Vulnerabilidad a inyección de datos corruptos. Si un frontend envía una estructura incorrecta, el backend podría crashear o corromper la BD.
+   - Hallazgo: `NodeCryptoAuthService` tiene retornos hardcoded (`return false`) en validaciones.
+
+--------------------------------------------------------------------------------
+2. ANÁLISIS POR DOMINIO (BACKEND)
+--------------------------------------------------------------------------------
+
+A. DOMINIO DE FACTURACIÓN (BILLING) - CRÍTICO
+   1. Proveedor PAC (Timbrado):
+      - La clase `FinkokPacProvider` construye XMLs mediante concatenación de strings (`soapEnvelope = ...`). Esto es propenso a errores con caracteres especiales (&, <, >). Debe usarse un builder XML robusto.
+      - La lógica de cancelación usa `.replace('stamp', 'cancel')` en la URL, lo cual es frágil si el proveedor cambia sus endpoints.
+   2. Ciclo de Vida de la Factura:
+      - Falta la integración automática con Contabilidad. Al timbrar una factura, no se dispara el evento para crear la Póliza de Ingresos (Cargo a Clientes, Abono a Ventas/IVA).
+
+B. DOMINIO DE NÓMINA (PAYROLL) - CRÍTICO
+   1. Cálculo vs. Timbrado:
+      - `CalculatePayrollUseCase` existe y calcula impuestos, pero guarda la nómina en estado `DRAFT`.
+      - FALTA TOTALMENTE: `StampPayrollUseCase` (Timbrar Nómina). No existe la lógica para convertir el objeto `Payroll` a un XML CFDI 4.0 con el complemento de nómina 1.2.
+      - FALTA: `DispersePayrollUseCase` para generar los archivos de dispersión bancaria.
+   2. Integración Contable:
+      - El cálculo de nómina no genera la Póliza de Diario (Cargo a Gasto por Sueldos/Impuestos, Abono a Bancos/Impuestos por Pagar). Sin esto, la nómina es una isla administrativa.
+
+C. DOMINIO DE CONTABILIDAD (ACCOUNTING) - CRÍTICO
+   1. Funcionalidad Aislada:
+      - Existe `RecordJournalEntryUseCase` y valida correctamente el principio de partida doble (Debe = Haber).
+      - PROBLEMA MAYOR: Nadie llama a este caso de uso. El sistema de facturación, inventarios y nómina NO están inyectando este servicio. La contabilidad está vacía a menos que se capture manual.
+   2. Catálogo de Cuentas:
+      - No se detectó un "Seeder" robusto del catálogo de cuentas estándar del SAT (Código Agrupador). Sin esto, la contabilidad electrónica no es válida.
+
+D. DOMINIO CRM Y VENTAS
+   1. Gestión de Inventarios:
+      - `CreateSaleUseCase` descuenta inventario (`stock.removeQuantity`) y crea movimiento (`InventoryMovement`). Esto es funcional.
+      - DEFICIENCIA: Selecciona el primer almacén que encuentra (`warehouses[0]`). En un escenario real con múltiples sucursales, esto romperá el inventario al descontar del almacén incorrecto.
+   2. Transaccionalidad:
+      - Las operaciones de base de datos no están envueltas en una transacción atómica. Si falla el `saveMovement` después de `saveStock`, el inventario queda inconsistente.
+
+E. DOMINIO DE INVENTARIOS (INVENTORY)
+   1. Costeo:
+      - No se evidencia lógica de valuación de inventario (Promedio Ponderado, PEPS). Solo se mueve cantidad. Sin valor monetario exacto, el Costo de Ventas en contabilidad será erróneo.
+
+--------------------------------------------------------------------------------
+3. ANÁLISIS DE FRONTEND (VISUAL Y UX)
+--------------------------------------------------------------------------------
+
+A. COMPONENTES CON DATOS HARDCODED
+   - `Billing/NewInvoicePage`:
+     - Tasa de impuesto por defecto (quizás 18% o 0%). Debe venir de la configuración del producto o del cliente.
+     - Validación de stock visual es permisiva (`return true` si faltan datos).
+   - `BI/Dashboard`:
+     - Múltiples widgets (`expenses-chart`, `invoice-status`) retornan `[]` o `{}` vacío si hay error o SSR, sin mostrar feedback al usuario.
+     - Gráficos dependen de `typeof window === 'undefined'` lo que sugiere problemas con el renderizado del lado del servidor (SSR).
+
+B. MANEJO DE ERRORES Y FEEDBACK
+   - Se encontraron múltiples `console.log` en producción (`Plan actualizado`, `Uploading file`). Esto debe reemplazarse por un servicio de `Toast/Notification` consistente.
+   - En `NewInvoicePage`, el manejo de errores es genérico. Si falla el timbrado por un error del SAT, el usuario solo verá "Error al crear la factura", sin el detalle técnico necesario para corregir (ej. "RFC Receptor inválido").
+
+C. FORMULARIOS
+   - Uso de `any` en `FormGroup` values (`map((item: any) => ...)`). Esto desactiva la validación de tipos en tiempo de compilación, permitiendo enviar datos inválidos al backend (ej. texto en lugar de número).
+
+--------------------------------------------------------------------------------
+4. CONCLUSIÓN Y RUTA DE REMEDIACIÓN
+--------------------------------------------------------------------------------
+
+Para que Virteex sea comercial, se requiere ejecutar el siguiente plan de remediación inmediata:
+
+1.  **Eliminar Mocks:** Borrar `MockPacProvider` y configurar `FinkokPacProvider` con inyección de dependencias basada en configuración del Tenant (BD), no Env Vars globales.
+2.  **Orquestador Contable:** Implementar un `AccountingEventListener` que escuche eventos de dominio (`InvoiceCreated`, `PayrollStamped`, `InventoryMoved`) y llame a `RecordJournalEntryUseCase`.
+3.  **Motor de Nómina:** Implementar `StampPayrollUseCase` integrando el complemento de nómina 1.2 del SAT.
+4.  **Robustez CRM:** Corregir `CreateSaleUseCase` para aceptar `warehouseId` desde el frontend y envolver la lógica en una transacción de base de datos.
+5.  **Limpieza Frontend:** Tipar estrictamente los formularios, eliminar `console.log` y conectar los selectores de impuestos/almacenes a los catálogos reales del backend.
+
+FIN DEL INFORME.
