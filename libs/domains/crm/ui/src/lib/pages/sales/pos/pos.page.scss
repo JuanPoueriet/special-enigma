@@ -1,9 +1,9 @@
-@use '../../../../assets/styles/variables' as *;
-@use '../../../../assets/styles/forms' as mixins;
+@use '../../../../../../../../shared/ui/src/lib/styles/migrated/variables' as *;
+@use '../../../../../../../../shared/ui/src/lib/styles/migrated/forms' as mixins;
 
 :host {
     display: block;
-    height: calc(100vh - 60px); // Altura total menos el header principal
+    height: calc(100vh - 60px);
 }
 
 .pos-layout {
@@ -232,12 +232,4 @@
         width: 100%;
         margin-top: 1rem;
     }
-}
-
-.cart-item {
-  // ...
-  .remove-btn {
-    @include mixins.icon-button; // Ahora encontrará el mixin
-    color: #f87171;
-  }
 }

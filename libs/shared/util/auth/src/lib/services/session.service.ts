@@ -42,12 +42,19 @@ export class SessionService {
   private async restoreSession(): Promise<void> {
     const token = this.tokenService.getAccessToken();
     if (token) {
+      // Optimistic restore to pass AuthGuard immediately
+      try {
+        const user = this.decodeToken(token);
+        this._user.set(user);
+      } catch (e) {
+        console.error('Invalid token format', e);
+        this.logout();
+        return;
+      }
+
       try {
         // Validate with backend
         await firstValueFrom(this.http.get(`${this.apiUrl}/auth/validate`));
-
-        const user = this.decodeToken(token);
-        this._user.set(user);
       } catch (e) {
         console.error('Invalid token or session expired', e);
         this.logout();

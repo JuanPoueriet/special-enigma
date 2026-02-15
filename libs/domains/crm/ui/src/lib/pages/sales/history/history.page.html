@@ -5,9 +5,9 @@
             <p>Consulta, filtra y gestiona todas las transacciones registradas.</p>
         </div>
         <div class="header-actions">
-            <button class="secondary-button">
+            <button class="secondary-button" (click)="loadSales()">
                 <lucide-icon [img]="FileDownIcon" size="16"></lucide-icon>
-                <span>Exportar</span>
+                <span>Recargar</span>
             </button>
             <a routerLink="/app/sales/pos" class="primary-button">
                 <lucide-icon [img]="PlusCircleIcon" size="16"></lucide-icon>
@@ -26,23 +26,29 @@
                     <th class="text-right">Total</th>
                     <th>Método de Pago</th>
                     <th>Estado</th>
-                    <th class="actions-column"></th>
+                    <th class="actions-column">Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 @for (sale of sales(); track sale.id) {
                 <tr>
                     <td><a href="#" class="table-link">{{ sale.id }}</a></td>
-                    <td>{{ sale.date }}</td>
-                    <td>{{ sale.customer }}</td>
+                    <td>{{ sale.createdAt | date:'shortDate' }}</td>
+                    <td>{{ sale.customerName }}</td>
                     <td class="text-right">{{ sale.total | number:'1.2-2' }}</td>
-                    <td>{{ sale.paymentMethod }}</td>
+                    <td>-</td>
                     <td>
                         <span class="status-badge" [ngClass]="getStatusClass(sale.status)">
                             {{ sale.status }}
                         </span>
                     </td>
                     <td class="actions-column">
+                        <button class="icon-button" *ngIf="sale.status === 'DRAFT' || sale.status === 'NEGOTIATION'" (click)="approveSale(sale.id)" title="Aprobar">
+                            <lucide-icon [img]="CheckSquareIcon" size="18"></lucide-icon>
+                        </button>
+                        <button class="icon-button" *ngIf="sale.status === 'APPROVED'" (click)="completeSale(sale.id)" title="Completar">
+                            <lucide-icon [img]="CheckCircleIcon" size="18"></lucide-icon>
+                        </button>
                         <button class="icon-button">
                             <lucide-icon [img]="MoreHorizontalIcon" size="18"></lucide-icon>
                         </button>
