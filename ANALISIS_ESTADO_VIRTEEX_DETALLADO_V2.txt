@@ -1,0 +1,96 @@
+INFORME DETALLADO: ANÁLISIS DE ESTADO DE VIRTEEX PARA PRODUCCIÓN (100% FUNCIONAL)
+================================================================================
+
+Este informe detalla las brechas críticas funcionales y técnicas que impiden que la aplicación Virteex sea considerada "comercialmente lista" y libre de mocks. El análisis se basa en una revisión exhaustiva del código fuente actual.
+
+1. DOMINIO: BILLING (FACTURACIÓN)
+---------------------------------
+ESTADO: PARCIALMENTE IMPLEMENTADO / NO APTO PARA PRODUCCIÓN
+
+A. Backend (Application Layer):
+   - Archivo: `libs/domains/billing/application/src/lib/use-cases/get-usage.use-case.ts`
+   - Problema Crítico: El método `execute` retorna un array con un límite hardcoded de `100` facturas (`limit: 100`).
+   - Impacto Comercial: No existe conexión con un sistema de Planes o Suscripciones. Todos los clientes tienen el mismo límite arbitrario. En un entorno comercial, este límite debe provenir de la configuración del plan contratado por el tenant.
+   - Código Evidencia:
+     ```typescript
+     // For now, hardcode limit or fetch from plan if easy.
+     return [{ ..., limit: 100, ... }];
+     ```
+
+B. Frontend (UI Layer):
+   - La interfaz visualiza estos datos mockeados/hardcoded, dando una falsa sensación de funcionalidad.
+
+2. DOMINIO: FISCAL (IMPUESTOS)
+------------------------------
+ESTADO: MOCK ESTÁTICO / NO APTO PARA PRODUCCIÓN
+
+A. Backend (Application Layer):
+   - Archivo: `libs/domains/fiscal/application/src/lib/use-cases/get-tax-rules.use-case.ts`
+   - Problema Crítico: Retorna un array estático de reglas de impuestos (IVA 16%, ISR, etc.) definido directamente en el código.
+   - Impacto Comercial:
+     1. No permite configuración por tenant (ej. zonas fronterizas con IVA 8%).
+     2. No permite actualizaciones sin redesplegar el código.
+     3. No existe persistencia en base de datos para estas reglas.
+   - Código Evidencia:
+     ```typescript
+     return [ { id: '1', name: 'IVA 16%', ... }, ... ];
+     ```
+
+3. DOMINIO: PAYROLL (NÓMINA)
+----------------------------
+ESTADO: LÓGICA INCOMPLETA / NO APTO PARA PRODUCCIÓN
+
+A. Backend (Application Layer):
+   - Archivo: `libs/domains/payroll/application/src/lib/use-cases/calculate-payroll.use-case.ts`
+   - Problema Crítico: La variable `incidencesDays` está hardcodeada a `0`.
+   - Impacto Comercial: El sistema ignora completamente las faltas, retardos, horas extra o incapacidades registradas. Aunque existe un `AttendanceRepository` en la infraestructura, no se está inyectando ni utilizando en este caso de uso para el cálculo. El cálculo de nómina es, por tanto, incorrecto para cualquier escenario real que no sea un mes perfecto sin incidencias.
+   - Código Evidencia:
+     ```typescript
+     const incidencesDays = 0; // Placeholder for future incidence integration
+     ```
+
+4. DOMINIO: BUSINESS INTELLIGENCE (BI)
+--------------------------------------
+ESTADO: RIESGO TÉCNICO Y VISUALIZACIÓN SIMULADA
+
+A. Backend (Application Layer):
+   - Archivo: `libs/domains/bi/application/src/lib/use-cases/get-top-products.use-case.ts`
+   - Problema Técnico: Se utiliza inyección de dependencia débil (`any`) para `SaleRepository`.
+     ```typescript
+     @Inject('SaleRepository') private readonly saleRepository: any
+     ```
+   - Riesgo: No hay contrato de interfaz que garantice que `getTopProducts` exista o mantenga su firma. Si el dominio CRM cambia su repositorio, BI romperá en tiempo de ejecución sin advertencia en compilación.
+
+B. Frontend (UI Layer):
+   - Archivo: `libs/domains/bi/ui/src/lib/pages/dashboard-main/widgets/top-products-chart/top-products-chart.ts`
+   - Problema: Aunque intenta conectar con el servicio, la lógica de la gráfica (`chartOptions`) tiene fallbacks extensivos a datos mock si la respuesta es vacía o falla. Esto enmascara errores de backend y muestra datos bonitos pero falsos en demos.
+
+5. DOMINIO: ADMIN & CRM (ADMINISTRACIÓN DE CLIENTES)
+----------------------------------------------------
+ESTADO: FUNCIONALIDAD INCOMPLETA (UI)
+
+A. Frontend (UI Layer):
+   - Archivo: `libs/domains/admin/ui/src/lib/pages/masters/customers/customer-form/customer-form.page.ts`
+   - Problema: La lógica de actualización (Update) a menudo se delega a `console.log` en lugar de llamar al servicio real en algunos flujos o componentes auxiliares de importación/exportación.
+   - Archivos de Importación/Exportación: `data-imports.page.ts` y `data-exports.page.ts` contienen `console.log` simulando la carga y descarga de archivos. No hay procesamiento real de archivos Excel/CSV conectado al backend.
+
+6. DOMINIO: INVENTORY & CATALOG (INVENTARIO Y CATÁLOGO)
+-------------------------------------------------------
+ESTADO: INTEGRACIÓN DÉBIL
+
+A. Modelo de Datos (Entities):
+   - Archivo: `libs/domains/inventory/domain/src/lib/entities/stock.entity.ts`
+   - Problema: La relación con el Producto se maneja mediante `productId: string`.
+   - Impacto: No hay integridad referencial fuerte (Foreign Key) a nivel de base de datos ni validación cruzada explícita en el código de dominio de Inventario para asegurar que el producto existe en el Catálogo antes de crear stock. Esto permite "productos fantasma" en el inventario.
+
+CONCLUSIÓN GENERAL
+------------------
+Para que Virteex sea 100% funcional y comercialmente viable, se deben priorizar las siguientes acciones (en orden de criticidad):
+
+1.  **Billing**: Implementar un sistema real de Planes (Suscripciones) y conectar `GetUsageUseCase` a este sistema para validar límites reales.
+2.  **Fiscal**: Migrar las reglas de impuestos a una tabla de base de datos (`TaxRules`) administrable y configurable por Tenant.
+3.  **Payroll**: Integrar `AttendanceRepository` en `CalculatePayrollUseCase` para obtener las incidencias reales del periodo y afectar el cálculo de nómina.
+4.  **Admin**: Implementar la lógica real de Importación/Exportación de datos (procesamiento de archivos) y eliminar los `console.log`.
+5.  **BI**: Definir una interfaz compartida (Contrato) para `SaleRepository` en una librería `shared-contracts` o similar, para evitar el uso de `any`.
+
+Sin estos cambios, la aplicación es funcional solo en "happy path" (caminos ideales) y demostraciones, pero fallará en operaciones reales de negocio (cálculos erróneos de nómina, facturación ilimitada, impuestos fijos incorrectos).
