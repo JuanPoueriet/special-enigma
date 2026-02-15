@@ -87,7 +87,7 @@ export class CountryService {
         return config;
       }),
       tap(config => {
-        console.log(`[Localization] Configuración cargada para ${config.name}`, config);
+        // console.log(`[Localization] Configuración cargada para ${config.name}`, config);
         this.currentCountry.set(config);
       }),
       catchError(err => {

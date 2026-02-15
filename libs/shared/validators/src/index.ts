@@ -1,2 +1,2 @@
-export * from './src/lib/cpf.validator';
-export * from './src/lib/rfc.validator';
+export * from './lib/cpf.validator';
+export * from './lib/rfc.validator';

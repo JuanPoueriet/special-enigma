@@ -1,4 +1,5 @@
-export { CreateSaleUseCase, CreateSaleDto } from './lib/use-cases/create-sale.use-case';
+export { CreateSaleUseCase } from './lib/use-cases/create-sale.use-case';
+export { CreateSaleDto } from './lib/dtos/create-sale.dto';
 export { ListSalesUseCase } from './lib/use-cases/list-sales.use-case';
 export { CreateCustomerUseCase, CreateCustomerDto } from './lib/use-cases/create-customer.use-case';
 export { ListCustomersUseCase } from './lib/use-cases/list-customers.use-case';

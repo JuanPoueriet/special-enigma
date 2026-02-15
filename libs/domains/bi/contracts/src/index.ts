@@ -1,1 +1,1 @@
-export * from './src/lib/bi-contracts';
+export * from './lib/bi-contracts';

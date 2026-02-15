@@ -93,7 +93,7 @@ export class BillingService {
   }
 
   changePlan(newPlanId: string): Observable<boolean> {
-    console.log('Cambiando al plan:', newPlanId);
+    // console.log('Cambiando al plan:', newPlanId);
     // In a real app, this would call POST /payment/checkout-session with the priceId from the plan
     const plan = this.plans().find(p => p.slug === newPlanId || p.id === newPlanId);
     if (!plan) return of(false);
