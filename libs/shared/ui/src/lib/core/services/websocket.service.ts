@@ -23,24 +23,24 @@ export class WebSocketService implements OnDestroy {
     }
 
     const baseUrl = this.config.apiUrl.split('/api')[0];
-    console.log('Attempting to connect WebSocket...');
+    // console.log('Attempting to connect WebSocket...');
     this.socket = io(baseUrl, {
       withCredentials: true,
     });
 
     this.socket.on('connect', () => {
-      console.log('WebSocket connected successfully!', this.socket?.id);
+      // console.log('WebSocket connected successfully!', this.socket?.id);
       // Notificar a los suscriptores que la conexión está lista
       this.connectionReady.next();
     });
 
-    this.socket.on('disconnect', (reason) => console.log('WebSocket disconnected:', reason));
+    this.socket.on('disconnect', (reason) => { /* console.log('WebSocket disconnected:', reason) */ });
     this.socket.on('connect_error', (err) => console.error('WebSocket connection error:', err.message));
   }
 
   disconnect(): void {
     if (this.socket) {
-      console.log('Disconnecting WebSocket...');
+      // console.log('Disconnecting WebSocket...');
       this.socket.disconnect();
       this.socket = null;
     }

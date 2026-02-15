@@ -26,6 +26,9 @@ export class Sale {
   tenantId!: string;
 
   @Property()
+  customerId!: string;
+
+  @Property()
   customerName!: string;
 
   @Property({ type: 'decimal', precision: 10, scale: 2 })
@@ -40,8 +43,9 @@ export class Sale {
   @Property()
   createdAt: Date = new Date();
 
-  constructor(tenantId: string, customerName: string, total: string) {
+  constructor(tenantId: string, customerId: string, customerName: string, total: string) {
     this.tenantId = tenantId;
+    this.customerId = customerId;
     this.customerName = customerName;
     this.total = total;
   }

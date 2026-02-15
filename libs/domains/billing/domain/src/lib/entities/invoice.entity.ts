@@ -1,9 +1,10 @@
 import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import { v4 } from 'uuid';
 
 @Entity()
 export class Invoice {
-  @PrimaryKey()
-  id!: string;
+  @PrimaryKey({ type: 'uuid' })
+  id: string = v4();
 
   @Property()
   tenantId!: string;
@@ -22,6 +23,16 @@ export class Invoice {
 
   @Property()
   status!: string;
+
+  // Fiscal Stamping Fields
+  @Property({ nullable: true })
+  fiscalUuid?: string;
+
+  @Property({ nullable: true, type: 'text' })
+  xmlContent?: string;
+
+  @Property({ nullable: true })
+  stampedAt?: Date;
 
   constructor(tenantId: string, customerId: string, totalAmount: string, taxAmount: string) {
     this.tenantId = tenantId;

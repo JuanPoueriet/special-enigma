@@ -136,7 +136,7 @@ export class RegisterPage implements OnInit {
     effect(() => {
       const config = this.currentCountryConfig();
       if (config && this.registerForm) {
-        console.log('[Register] Aplicando configuración de país:', config.code);
+        // console.log('[Register] Aplicando configuración de país:', config.code);
 
         // Actualizar Regex del Tax ID (RNC/NIT/EIN)
         const taxIdControl = this.registerForm.get('configuration.taxId');

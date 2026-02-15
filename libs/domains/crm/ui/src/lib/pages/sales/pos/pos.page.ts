@@ -28,6 +28,7 @@ import { Product } from '../../../core/models/product.model';
 import { CrmService } from '../../../core/services/crm.service';
 import { CreateSaleDto } from '../../../core/models/sale.model';
 import { Customer } from '../../../core/models/customer.model';
+import { ToastService } from '@virteex/shared-ui';
 
 @Component({
   selector: 'virteex-pos-page',
@@ -40,6 +41,7 @@ import { Customer } from '../../../core/models/customer.model';
 export class PosPage implements OnInit {
   private fb = inject(FormBuilder);
   private crmService = inject(CrmService);
+  private toast = inject(ToastService);
 
   protected readonly SearchIcon = Search;
   protected readonly XIcon = X;
@@ -89,6 +91,7 @@ export class PosPage implements OnInit {
       },
       error: () => {
         this.isLoading.set(false);
+        this.toast.showError('Error al cargar productos');
       },
     });
   }
@@ -101,7 +104,10 @@ export class PosPage implements OnInit {
                 this.saleForm.get('customer')?.setValue(customers[0].id);
             }
         },
-        error: (err) => console.error('Error loading customers', err)
+        error: (err) => {
+          console.error('Error loading customers', err);
+          this.toast.showError('Error al cargar clientes');
+        }
     });
   }
 
@@ -156,7 +162,7 @@ export class PosPage implements OnInit {
         customerId: customerId,
         items: this.cartItems.value.map((item: any) => ({
           productId: item.productId,
-          productName: item.name,
+          // productName removed to match DTO
           price: item.price,
           quantity: item.quantity,
         })),
@@ -171,10 +177,10 @@ export class PosPage implements OnInit {
               this.saleForm.get('customer')?.setValue(customers[0].id);
           }
           this.isLoading.set(false);
-          alert('Venta realizada con éxito');
+          this.toast.showSuccess('Venta realizada con éxito');
         },
         error: () => {
-          alert('Error al procesar la venta');
+          this.toast.showError('Error al procesar la venta');
           this.isLoading.set(false);
         },
       });

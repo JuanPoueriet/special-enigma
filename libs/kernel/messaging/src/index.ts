@@ -1,3 +1,3 @@
-export * from './src/lib/messaging.module';
-export * from './src/lib/outbox.service';
-export * from './src/lib/entities/outbox-event.entity';
+export * from './lib/messaging.module';
+export * from './lib/outbox.service';
+export * from './lib/entities/outbox-event.entity';

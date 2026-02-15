@@ -7,7 +7,7 @@ export class NotificationService {
   private notifications: string[] = [];
 
   showSuccess(message: string): void {
-    console.log(`SUCCESS: ${message}`);
+    // console.log(`SUCCESS: ${message}`);
     // En una implementación real mostraría un toast/alert
     alert(`✅ ${message}`);
   }

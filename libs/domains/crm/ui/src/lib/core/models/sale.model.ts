@@ -11,13 +11,15 @@ export interface CreateSaleDto {
   items: {
     productId: string;
     quantity: number;
-    price: number;
+    price?: number;
   }[];
+  tenantId?: string;
 }
 
 export interface Sale {
   id: string;
   tenantId: string;
+  customerId: string;
   customerName: string;
   total: string;
   status: 'DRAFT' | 'NEGOTIATION' | 'APPROVED' | 'COMPLETED' | 'CANCELLED';

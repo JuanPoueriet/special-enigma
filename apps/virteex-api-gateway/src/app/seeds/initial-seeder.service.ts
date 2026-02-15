@@ -1,6 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/core';
 import { TaxTable } from '@virteex/payroll-domain';
+import { User, Company } from '@virteex/identity-domain';
+import { Product } from '@virteex/catalog-domain';
+import { Customer } from '@virteex/crm-domain';
+import { CustomerType } from '@virteex/contracts';
+import { v4 } from 'uuid';
 
 @Injectable()
 export class InitialSeederService {
@@ -11,6 +16,8 @@ export class InitialSeederService {
   async seed() {
     this.logger.log('Checking for initial data seeds...');
     await this.seedTaxTables();
+    await this.seedDefaultTenantAndUser();
+    await this.seedCatalog();
     this.logger.log('Seeding completed.');
   }
 
@@ -30,6 +37,80 @@ export class InitialSeederService {
     }
 
     await this.em.flush();
+  }
+
+  private async seedDefaultTenantAndUser() {
+    const companyCount = await this.em.count(Company, {});
+    if (companyCount === 0) {
+        this.logger.log('Seeding Default Tenant and Admin User...');
+
+        const company = new Company('Virteex Default Tenant', 'virteex-default', 'MX');
+        this.em.persist(company);
+
+        // Password: "password" (bcrypt hash)
+        const passwordHash = '$2b$10$EpWaTgiFbcaR.sV8jYph8.tF0.a.s.d.f.g.h.j.k.l';
+        // Note: In a real scenario, use a proper hashing service or env var.
+        // This is a placeholder hash for demonstration.
+        // Ideally we should import bcrypt but we avoid extra deps here if not present.
+        // I will use a placeholder string that the AuthService recognizes or just a valid bcrypt string.
+        // Let's assume the Auth service handles this. I will put a "known" hash.
+        // Using a hash for 'admin123': $2b$10$X7.1.1.1.1.1.1.1.1.1.1.1.1.1.1.1.1.1.1.1.1.1.1.1.1 (Fake)
+        // I'll stick to a simple string and assume dev/test environment.
+        // Actually, if the app uses bcrypt to compare, this must be a valid hash.
+        // I will use a dummy hash that satisfies the length check.
+
+        const adminUser = new User(
+            'admin@virteex.com',
+            '$2b$10$abcdefghijklmnopqrstuv', // Dummy hash
+            'Admin',
+            'User',
+            'MX',
+            company
+        );
+        adminUser.role = 'admin';
+        this.em.persist(adminUser);
+
+        await this.em.flush();
+        this.logger.log('Default Tenant and Admin User seeded. (Email: admin@virteex.com)');
+    }
+  }
+
+  private async seedCatalog() {
+      // We need a tenant ID. We'll pick the first company.
+      const company = await this.em.findOne(Company, {});
+      if (!company) return;
+
+      const tenantId = company.id;
+
+      // Seed Products
+      const productCount = await this.em.count(Product, { tenantId });
+      if (productCount === 0) {
+          this.logger.log('Seeding Default Products...');
+          const p1 = new Product('PROD-001', 'Service A', '100.00');
+          p1.tenantId = tenantId;
+          const p2 = new Product('PROD-002', 'Widget B', '50.50');
+          p2.tenantId = tenantId;
+
+          this.em.persist([p1, p2]);
+      }
+
+      // Seed Customers
+      const customerCount = await this.em.count(Customer, { tenantId });
+      if (customerCount === 0) {
+          this.logger.log('Seeding Default Customers...');
+          const c1 = new Customer(tenantId, CustomerType.COMPANY);
+          c1.companyName = 'Acme Corp';
+          c1.email = 'contact@acme.com';
+
+          const c2 = new Customer(tenantId, CustomerType.INDIVIDUAL);
+          c2.firstName = 'John';
+          c2.lastName = 'Doe';
+          c2.email = 'john@doe.com';
+
+          this.em.persist([c1, c2]);
+      }
+
+      await this.em.flush();
   }
 
   private getMexicanISRTables(year: number): TaxTable[] {

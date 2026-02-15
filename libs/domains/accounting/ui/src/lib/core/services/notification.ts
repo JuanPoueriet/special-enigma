@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class NotificationService {
   showSuccess(message: string): void {
-    console.log('SUCCESS:', message);
+    // console.log('SUCCESS:', message);
     // Ideally integrate with a toast library or custom component
     alert(message);
   }
