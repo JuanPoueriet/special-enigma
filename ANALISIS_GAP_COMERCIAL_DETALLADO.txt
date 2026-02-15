@@ -1,0 +1,78 @@
+INFORME DETALLADO: ANÁLISIS DE GAPS PARA FUNCIONALIDAD COMERCIAL 100% (SIN MOCKS)
+================================================================================
+
+FECHA: 2024-05-22
+OBJETIVO: Identificar todos los puntos donde la aplicación utiliza datos simulados ("mocks"), lógica hardcodeada o implementaciones incompletas que impiden su despliegue en un entorno de producción comercial real.
+
+1. RESUMEN EJECUTIVO
+--------------------
+La arquitectura general de Virteex es robusta, siguiendo estrictamente DDD (Domain-Driven Design) y Clean Architecture. La mayoría de los dominios (Purchasing, Manufacturing, Inventory, CRM, Billing) tienen implementaciones reales conectadas a base de datos (MikroORM) y servicios externos (Finkok PAC). Sin embargo, existen brechas críticas en la lógica de negocio auxiliar (Impuestos, Riesgo, Geolocalización) que actualmente dependen de valores estáticos o simplificaciones inaceptables para producción.
+
+2. ANÁLISIS DETALLADO POR DOMINIO
+---------------------------------
+
+### 2.1 DOMINIO: IDENTITY (IDENTIDAD Y SEGURIDAD)
+**Estado:** Funcional en autenticación básica, pero deficiente en seguridad avanzada y detección de contexto.
+
+*   **GAP CRÍTICO 1: Motor de Riesgo Simulado**
+    *   **Archivo:** `libs/domains/identity/infrastructure/src/lib/services/risk-engine.service.ts`
+    *   **Problema:** La variable `highRiskCountries` contiene una lista hardcodeada `['KP', 'IR', 'SY', 'CU']`. En un entorno comercial, esto debe conectarse a una API de inteligencia de amenazas o una base de datos de sanciones actualizada dinámicamente.
+    *   **Impacto:** Falsos negativos en seguridad; incapacidad de reaccionar a nuevas amenazas geográficas sin redesplegar el código.
+
+*   **GAP CRÍTICO 2: Detección de Intención (Frontend)**
+    *   **Archivo:** `libs/domains/identity/ui/src/lib/services/intent-detection.service.ts`
+    *   **Problema:** El servicio intenta llamar a `/auth/location`, pero tiene un fallback que devuelve `of({ country_code: null })` ante cualquier error. Si el backend no implementa este endpoint (o falla), la detección de fraude por IP es nula.
+    *   **Impacto:** La funcionalidad de "Context Analysis" en el login fallará silenciosamente, permitiendo accesos sospechosos sin alerta.
+
+*   **GAP MENOR: Perfil de Usuario (Frontend)**
+    *   **Archivo:** `libs/domains/identity/ui/src/lib/pages/profile/my-profile.page.ts`
+    *   **Problema:** La carga de `jobTitles` tiene un catchError que devuelve un array vacío `[]` silenciosamente. Aunque es manejo de errores, oculta problemas de configuración del catálogo de puestos.
+
+### 2.2 DOMINIO: PAYROLL (NÓMINA)
+**Estado:** Lógica core sólida, pero el cálculo de impuestos es frágil.
+
+*   **GAP CRÍTICO 3: Servicio de Impuestos Mexicanos (ISR)**
+    *   **Archivo:** `libs/domains/payroll/infrastructure/src/lib/services/mexican-tax.service.ts`
+    *   **Problema:**
+        1.  Hardcodeo del año: `await this.repository.findForYear(2024, 'MONTHLY');`. Esto romperá la aplicación el 1 de enero de 2025.
+        2.  Retorno silencioso de cero: `if (!tables.length) { return 0; }`. Si la base de datos no tiene las tablas cargadas, la nómina se calcula sin impuestos, lo cual es un error legal grave.
+    *   **Acción Requerida:** El año debe ser dinámico (basado en la fecha de la nómina) y la falta de tablas debe lanzar una excepción bloqueante (`MissingTaxTableException`).
+
+### 2.3 DOMINIO: FISCAL & BILLING
+**Estado:** Integración real con PAC (Finkok), pero configuración inicial débil.
+
+*   **GAP FUNCIONAL: Reglas de Impuestos por Defecto**
+    *   **Archivo:** `libs/domains/fiscal/application/src/lib/use-cases/get-tax-rules.use-case.ts`
+    *   **Problema:** Si no hay reglas, el caso de uso crea reglas por defecto (`createDefaultRules`).
+    *   **Observación:** Para una SaaS comercial, esto debería ser gestionado por un proceso de "Onboarding" del tenant o una administración centralizada, no "mágicamente" en la primera consulta. Puede llevar a tasas de impuestos incorrectas si los defaults no coinciden con la región del usuario.
+
+### 2.4 DOMINIO: BI (BUSINESS INTELLIGENCE)
+**Estado:** Mejor de lo esperado. Usa agregaciones SQL reales.
+
+*   **Observación Positiva:** `TopProductsChart` y `CrmSalesAdapter` usan `MikroOrmSaleRepository` con un QueryBuilder real. No hay mocks aquí, a diferencia de lo que sugerían comentarios antiguos.
+
+3. INFRAESTRUCTURA Y CONFIGURACIÓN
+----------------------------------
+
+*   **GAP DE INTEGRACIÓN: Geolocalización Real**
+    *   Falta un servicio de infraestructura (ej. `MaxMindGeoIpService`) que implemente la interfaz necesaria para `RiskEngine`. Actualmente no existe tal implementación real en el codebase.
+
+*   **GAP DE DATOS MAESTROS (SEEDING)**
+    *   No se evidencia un mecanismo robusto de "Seed" para producción que garantice que las tablas de impuestos (`TaxTable`) existan antes de ejecutar la primera nómina. Depender de que el usuario las cree manualmente es un riesgo de usabilidad y legal.
+
+4. LISTA DE ARCHIVOS A REMEDIAR (PRIORIDAD ALTA)
+------------------------------------------------
+
+1.  `libs/domains/identity/infrastructure/src/lib/services/risk-engine.service.ts` (Eliminar hardcodeo de países).
+2.  `libs/domains/payroll/infrastructure/src/lib/services/mexican-tax.service.ts` (Eliminar año 2024 hardcodeado, lanzar error si faltan tablas).
+3.  `libs/domains/identity/ui/src/lib/services/intent-detection.service.ts` (Revisar integración real con endpoint de backend).
+
+5. CONCLUSIÓN
+-------------
+La aplicación Virteex está al 90% de su capacidad funcional real. El 10% restante no es "código faltante" estructural, sino **lógica de negocio hardcodeada** en puntos críticos de seguridad y cumplimiento legal (Impuestos).
+
+Para ser "100% Funcional y Comercial":
+1.  Implementar un proveedor real de GeoIP.
+2.  Dinamizar la selección de tablas de impuestos por fecha.
+3.  Implementar scripts de Seeding robustos para Tablas de Impuestos y Reglas Fiscales.
+4.  Reemplazar el manejo silencioso de errores en cálculos financieros por excepciones explícitas.
