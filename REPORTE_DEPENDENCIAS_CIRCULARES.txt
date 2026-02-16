@@ -1,0 +1,95 @@
+Se encontraron 18 cadenas de dependencias circulares:
+
+Ciclo 1:
+  -> libs/domains/payroll/domain/src/lib/entities/employee.entity.ts
+  -> libs/domains/payroll/domain/src/lib/entities/payroll.entity.ts
+  -> libs/domains/payroll/domain/src/lib/entities/employee.entity.ts (cierra el ciclo)
+
+Ciclo 2:
+  -> libs/domains/payroll/domain/src/lib/entities/payroll.entity.ts
+  -> libs/domains/payroll/domain/src/lib/entities/payroll-detail.entity.ts
+  -> libs/domains/payroll/domain/src/lib/entities/payroll.entity.ts (cierra el ciclo)
+
+Ciclo 3:
+  -> libs/domains/payroll/domain/src/lib/entities/employee.entity.ts
+  -> libs/domains/payroll/domain/src/lib/entities/attendance.entity.ts
+  -> libs/domains/payroll/domain/src/lib/entities/employee.entity.ts (cierra el ciclo)
+
+Ciclo 4:
+  -> libs/domains/identity/domain/src/lib/entities/user.entity.ts
+  -> libs/domains/identity/domain/src/lib/entities/company.entity.ts
+  -> libs/domains/identity/domain/src/lib/entities/user.entity.ts (cierra el ciclo)
+
+Ciclo 5:
+  -> libs/domains/crm/domain/src/lib/entities/customer.entity.ts
+  -> libs/domains/crm/domain/src/lib/entities/opportunity.entity.ts
+  -> libs/domains/crm/domain/src/lib/entities/customer.entity.ts (cierra el ciclo)
+
+Ciclo 6:
+  -> libs/domains/billing/domain/src/lib/entities/invoice.entity.ts
+  -> libs/domains/billing/domain/src/lib/entities/invoice-item.entity.ts
+  -> libs/domains/billing/domain/src/lib/entities/invoice.entity.ts (cierra el ciclo)
+
+Ciclo 7:
+  -> libs/domains/projects/domain/src/lib/entities/project.entity.ts
+  -> libs/domains/projects/domain/src/lib/entities/task.entity.ts
+  -> libs/domains/projects/domain/src/lib/entities/project.entity.ts (cierra el ciclo)
+
+Ciclo 8:
+  -> libs/domains/inventory/domain/src/lib/entities/warehouse.entity.ts
+  -> libs/domains/inventory/domain/src/lib/entities/location.entity.ts
+  -> libs/domains/inventory/domain/src/lib/entities/warehouse.entity.ts (cierra el ciclo)
+
+Ciclo 9:
+  -> libs/domains/accounting/domain/src/lib/entities/journal-entry.entity.ts
+  -> libs/domains/accounting/domain/src/lib/entities/journal-entry-line.entity.ts
+  -> libs/domains/accounting/domain/src/lib/entities/journal-entry.entity.ts (cierra el ciclo)
+
+Ciclo 10:
+  -> libs/domains/treasury/domain/src/lib/entities/bank-account.entity.ts
+  -> libs/domains/treasury/domain/src/lib/entities/cash-flow.entity.ts
+  -> libs/domains/treasury/domain/src/lib/entities/bank-account.entity.ts (cierra el ciclo)
+
+Ciclo 11:
+  -> libs/domains/purchasing/domain/src/lib/entities/purchase-order.entity.ts
+  -> libs/domains/purchasing/domain/src/lib/entities/purchase-order-item.entity.ts
+  -> libs/domains/purchasing/domain/src/lib/entities/purchase-order.entity.ts (cierra el ciclo)
+
+Ciclo 12:
+  -> libs/shared/ui/src/index.ts
+  -> libs/shared/ui/src/lib/core/api/users.service.ts
+  -> libs/shared/ui/src/index.ts (cierra el ciclo)
+
+Ciclo 13:
+  -> libs/shared/ui/src/index.ts
+  -> libs/shared/ui/src/lib/interfaces/user.interface.ts
+  -> libs/shared/ui/src/index.ts (cierra el ciclo)
+
+Ciclo 14:
+  -> libs/shared/ui/src/index.ts
+  -> libs/shared/ui/src/lib/directives/has-permission.directive.ts
+  -> libs/shared/ui/src/index.ts (cierra el ciclo)
+
+Ciclo 15:
+  -> libs/shared/ui/src/index.ts
+  -> libs/shared/ui/src/lib/core/services/auth.ts
+  -> libs/shared/util/auth/src/index.ts
+  -> libs/shared/util/auth/src/lib/services/session.service.ts
+  -> libs/shared/ui/src/index.ts (cierra el ciclo)
+
+Ciclo 16:
+  -> libs/shared/ui/src/index.ts
+  -> libs/shared/ui/src/lib/core/services/auth.ts
+  -> libs/shared/util/auth/src/index.ts
+  -> libs/shared/util/auth/src/lib/interceptors/error.interceptor.ts
+  -> libs/shared/ui/src/index.ts (cierra el ciclo)
+
+Ciclo 17:
+  -> libs/shared/ui/src/index.ts
+  -> libs/shared/ui/src/lib/components/geo-mismatch-modal/geo-mismatch-modal.component.ts
+  -> libs/shared/ui/src/index.ts (cierra el ciclo)
+
+Ciclo 18:
+  -> libs/domains/fixed-assets/domain/src/lib/entities/asset.entity.ts
+  -> libs/domains/fixed-assets/domain/src/lib/entities/depreciation.entity.ts
+  -> libs/domains/fixed-assets/domain/src/lib/entities/asset.entity.ts (cierra el ciclo)
