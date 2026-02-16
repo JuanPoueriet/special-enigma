@@ -1,0 +1,118 @@
+
+# INFORME DETALLADO DE ESTADO Y VIABILIDAD COMERCIAL - VIRTEEX
+**Fecha:** 28 de Mayo de 2024
+**Autor:** Jules (AI Software Engineer)
+**Objetivo:** Análisis estricto para funcionalidad 100% (cero mocks) y viabilidad comercial.
+
+---
+
+## 1. RESUMEN EJECUTIVO
+La aplicación **NO es comercialmente viable** en su estado actual. Aunque la arquitectura base (Nx monorepo, NestJS, Clean Architecture) es sólida, la implementación de la lógica de negocio crítica para el mercado mexicano (Facturación y Nómina) es superficial, insegura o está simulada (hardcoded).
+
+Existen bloqueos críticos que impedirían cualquier operación real con el SAT (Servicio de Administración Tributaria), incluyendo la falta de cálculo de impuestos reales en nómina, la construcción insegura de cadenas originales para firmado digital y el uso de datos fiscales "quemados" en el código.
+
+---
+
+## 2. ANÁLISIS POR DOMINIO (BACKEND & CORE)
+
+### 2.1. DOMINIO DE FACTURACIÓN (BILLING)
+**Estado:** CRÍTICO
+**Hallazgos:**
+1.  **Generación de Cadena Original Insegura:**
+    *   **Archivo:** `libs/domains/billing/domain/src/lib/services/fiscal-stamping.service.ts`
+    *   **Problema:** La `cadenaOriginal` se construye mediante concatenación manual de strings (`||4.0|...`).
+    *   **Impacto Comercial:** Esto viola el estándar del Anexo 20. Cualquier error de espaciado o formato invalida el sello digital. **Se DEBE usar una transformación XSLT oficial del SAT.**
+2.  **Manejo de Errores de Firmado Silencioso:**
+    *   **Archivo:** `libs/domains/billing/domain/src/lib/services/fiscal-stamping.service.ts`
+    *   **Problema:** El bloque `try/catch` alrededor de la firma RSA (`crypto.createSign`) captura el error con `Logger.error` pero **no detiene el flujo**.
+    *   **Impacto:** El sistema podría intentar timbrar un XML con un sello vacío, resultando en rechazo inmediato por el PAC o, peor, un XML inválido almacenado como "bueno".
+3.  **Reglas de Impuestos Hardcoded:**
+    *   **Archivo:** `libs/domains/fiscal/infrastructure/src/lib/repositories/mikro-orm-tax-rule.repository.ts`
+    *   **Problema:** El método `createDefaultRules` inserta reglas fijas (IVA 16%, Retenciones).
+    *   **Impacto:** Imposible soportar clientes en Zona Fronteriza Norte (IVA 8%) o regímenes especiales sin modificar el código fuente.
+
+### 2.2. DOMINIO DE NÓMINA (PAYROLL)
+**Estado:** NO FUNCIONAL / BLOQUEANTE
+**Hallazgos:**
+1.  **Motor de Cálculo Inexistente:**
+    *   **Archivo:** `libs/domains/payroll/domain/src/lib/services/payroll-period-calculator.service.ts`
+    *   **Problema:** Solo calcula la proporción de salario diario. **No existe lógica para ISR (Tablas ISR), IMSS, Subsidio al Empleo, ni deducciones estatuarias.**
+    *   **Impacto Comercial:** Inutilizable. Ninguna empresa mexicana puede usar esto legalmente.
+2.  **Datos del Emisor "Quemados" (Hardcoded):**
+    *   **Archivo:** `libs/domains/payroll/application/src/lib/use-cases/stamp-payroll.use-case.ts`
+    *   **Problema:** El XML de nómina usa siempre:
+        *   RFC Emisor: `XAXX010101000` (Genérico)
+        *   Nombre: `VIRTEEX EMPLOYER`
+        *   CP: `00000`
+        *   Régimen: `601`
+    *   **Impacto:** Todos los timbrados saldrán a nombre de Virteex (o prueba), ignorando la configuración real del `Tenant` (cliente).
+3.  **Estructura XML de Nómina Inválida:**
+    *   **Problema:** El complemento `nomina12:Nomina` se construye solo con totales.
+    *   **Impacto:** El SAT exige el desglose detallado de `Percepciones` y `Deducciones` (Clave SAT, Importe Gravado, Importe Exento). Sin esto, el CFDI no es deducible y será rechazado.
+
+### 2.3. DOMINIO CRM & INVENTARIOS
+**Estado:** PARCIALMENTE FUNCIONAL
+**Hallazgos:**
+1.  **Validación de Stock:**
+    *   **Archivo:** `libs/domains/billing/ui/src/lib/pages/invoices/new/new.page.ts`
+    *   **Problema:** La validación depende de que el frontend tenga la lista completa de productos y su stock (`product.stock`). En sistemas con alta concurrencia, esto generará condiciones de carrera (vender lo que ya no existe) si no se valida doblemente en el backend. (Nota: El backend `CreateSaleUseCase` SÍ lo valida, lo cual es positivo, pero la UI puede dar falsos positivos).
+
+---
+
+## 3. ANÁLISIS DE FRONTEND (VIRTEEX WEB)
+
+### 3.1. SIMULACIONES (MOCKS) Y DATOS FICTICIOS
+1.  **Billing Service (Suscripciones):**
+    *   **Archivo:** `libs/shared/ui/src/lib/core/services/billing.ts`
+    *   **Problema:** La señal `currentSubscription` está inicializada con datos fijos ("Plan Profesional").
+    *   **Impacto:** El usuario siempre verá que tiene un plan activo, incluso si no ha pagado. El método `changePlan` es solo un stub que no conecta con una pasarela de pagos real (Stripe/Openpay).
+2.  **Catálogos Fiscales Hardcoded:**
+    *   **Archivo:** `libs/domains/billing/ui/src/lib/pages/invoices/new/new.page.ts`
+    *   **Problema:** Las listas `paymentForms`, `paymentMethods`, `cfdiUsages` están escritas en el código del componente.
+    *   **Impacto:** Si el SAT actualiza el catálogo (ej. agrega un nuevo uso de CFDI), se requiere recompilar y desplegar la aplicación. Deberían venir de un `CatalogService` conectado a la base de datos.
+
+### 3.2. UX / UI
+1.  **Falta de Feedback Real:**
+    *   Los widgets del Dashboard (`TopProducts`, etc.) manejan estados de carga básicos, pero si el servicio falla (retorna 500), no hay evidencia clara de manejo de error en la UI más allá de un log en consola o una gráfica vacía.
+
+---
+
+## 4. INFRAESTRUCTURA Y CALIDAD DE CÓDIGO
+
+### 4.1. CÓDIGO BASURA Y LOGS
+1.  **Console.log en Producción:**
+    *   **Archivos:** `tracing.ts`, `websocket.service.ts`, `update.events.ts` (Desktop).
+    *   **Problema:** Uso extensivo de `console.log`.
+    *   **Impacto:** Afecta el rendimiento en el navegador y ensucia los logs del servidor, dificultando la depuración real. Debe usarse un `Logger` inyectable configurado por niveles (INFO, WARN, ERROR).
+
+### 4.2. MOCKS EN SERVICIOS CORE
+1.  **Tenant Service:**
+    *   **Archivo:** `libs/kernel/tenant/src/lib/tenant.service.ts`
+    *   **Problema:** Comentario `// Mock fallback (Legacy)`.
+    *   **Impacto:** Riesgo de que la resolución del inquilino (Tenant) falle y caiga en un modo inseguro o incorrecto, mezclando datos de clientes.
+
+---
+
+## 5. RECOMENDACIONES URGENTES (ROADMAP DE CORRECCIÓN)
+
+Para alcanzar el nivel "100% Funcional y Comercial", se deben ejecutar las siguientes acciones obligatorias:
+
+1.  **[CRÍTICO] Implementar Motor de Cálculo de Nómina Real:**
+    *   Crear tablas de ISR (quincenal/mensual) en Base de Datos.
+    *   Implementar lógica de cálculo de IMSS (Cuotas obrero-patronales).
+    *   Sustituir `PayrollPeriodCalculator` por un servicio robusto.
+2.  **[CRÍTICO] Corregir Timbrado (FiscalStamping):**
+    *   Eliminar la concatenación manual de strings.
+    *   Implementar librería de XSLT (ej. `xslt-processor`) con los archivos `.xslt` oficiales del SAT para generar la Cadena Original.
+    *   Asegurar que la llave privada (CSD) se desencripte y use correctamente.
+3.  **[ALTO] Eliminar Hardcoding en Nómina:**
+    *   El `StampPayrollUseCase` debe leer el RFC, Nombre y Régimen del `TenantConfigRepository`, NO usar strings fijos.
+4.  **[MEDIO] Conectar Billing Service:**
+    *   Implementar endpoints reales para leer el estado de suscripción del cliente desde la base de datos o pasarela de pagos (Stripe).
+5.  **[MEDIO] Limpieza de Código:**
+    *   Eliminar todos los `console.log` y reemplazarlos por `Logger`.
+    *   Centralizar catálogos del SAT en el Backend y exponerlos vía API al Frontend.
+
+---
+**Conclusión:**
+La aplicación es un prototipo avanzado con arquitectura correcta, pero **vacía en su lógica de negocio fiscal y legal**. No se puede comercializar en México sin reescribir el 100% del motor de nómina y corregir la seguridad del timbrado de facturas.
