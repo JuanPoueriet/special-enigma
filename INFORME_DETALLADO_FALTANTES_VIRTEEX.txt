@@ -1,0 +1,75 @@
+INFORME DETALLADO DE FALTANTES PARA VIABILIDAD COMERCIAL (VIRTEEX)
+FECHA: 2024-05-29
+OBJETIVO: Alcanzar 100% de funcionalidad comercial para LATAM y USA (Sin Mocks, Sin Hardcoding)
+
+1. INTRODUCCIÓN Y ALCANCE
+
+Este informe detalla exhaustivamente las deficiencias técnicas, arquitectónicas y funcionales que impiden que la aplicación Virteex sea comercializada en el mercado de Latinoamérica y Estados Unidos. El análisis se ha realizado a nivel de código fuente, revisando tanto el backend (Node.js/NestJS) como el frontend (Angular), así como la infraestructura y configuración de seguridad.
+
+El estado actual de la aplicación es de "Prototipo Avanzado enfocado en México", con múltiples simulaciones (mocks) y lógica fiscal hardcodeada que hace inviable su uso fuera de un entorno de demostración controlado o fuera de la legislación mexicana.
+
+2. ANÁLISIS ARQUITECTÓNICO (BACKEND)
+
+2.1. Dominio de Nómina (Payroll) - CRÍTICO
+El dominio de nómina presenta la mayor deuda técnica para la internacionalización.
+- **Servicio de Cálculo Hardcodeado:** El archivo `libs/domains/payroll/domain/src/lib/services/payroll-calculation.service.ts` implementa directamente la lógica de impuestos mexicanos (ISR y IMSS) con tasas fijas (e.g., `0.02375` para cuota base IMSS, `0.004` para excedente). Esto viola el principio de Abierto/Cerrado.
+- **Uso Incorrecto de Estrategias:** Aunque existe una interfaz `TaxStrategyFactory` y una implementación `USPayrollStrategy`, el servicio principal `PayrollCalculationService` no las utiliza, inyectando directamente `TaxTableRepository` (tablas de ISR mexicano).
+- **Estrategia USA Incompleta:** La clase `USPayrollStrategy` es un MVP simplificado que solo calcula impuestos federales aproximados, ignorando impuestos estatales (State Tax), FICA (Social Security + Medicare) y deducciones 401(k), lo cual es ilegal para una nómina real en USA.
+
+2.2. Dominio de Facturación (Billing) - ALTO
+- **Dependencia de CFDI (México):** El servicio `FiscalStampingService` y los archivos XSLT (`cadenaoriginal_4_0.xslt`) están diseñados exclusivamente para el SAT de México. No existe una abstracción clara para facturación electrónica en otros países (e.g., DIAN en Colombia, SUNAT en Perú, o Invoices simples en USA).
+- **TaxCalculatorService Acoplado:** En `libs/domains/billing/domain/src/lib/services/tax-calculator.service.ts`, las estrategias de impuestos se instancian manualmente en el constructor (`new MxTaxStrategy`, `new BrTaxStrategy`). Esto impide la inyección de dependencias limpia y la extensión sin modificar el código core.
+- **Estrategia Brasil (Mock):** La clase `BrTaxStrategy` contiene tasas fijas (`ICMS 0.18`, `IPI 0.05`) que no reflejan la realidad fiscal compleja de Brasil, donde las tasas varían por estado de origen y destino.
+
+2.3. Dominio CRM - MEDIO
+- **Entidad Customer:** La entidad `Customer` (`libs/domains/crm/domain/src/lib/entities/customer.entity.ts`) es genérica y aceptable (`taxId` en lugar de `rfc`), pero carece de validaciones específicas por país. Un `taxId` en USA (EIN) tiene formato diferente a México (RFC) o Brasil (CNPJ). Estas validaciones no existen en el backend.
+
+3. ANÁLISIS DE FRONTEND (UX/UI - VIRTEEX WEB)
+
+3.1. Internacionalización (i18n) - CRÍTICO
+- **Ausencia de Traducciones:** La aplicación NO utiliza librerías de internacionalización de manera efectiva en las vistas. Archivos como `libs/domains/billing/ui/src/lib/pages/invoices/new/new.page.html` contienen cadenas de texto en español duro ("Crear Nueva Factura", "Cliente", "Fecha de Emisión").
+- **Imposibilidad de Venta en USA/Brasil:** Sin un sistema de `TranslatePipe` o `Transloco` implementado en todas las plantillas HTML, la aplicación es inutilizable para usuarios que no hablen español.
+
+3.2. Componentes Visuales Acoplados a México - ALTO
+- **Formularios de Facturación:** La página `NewInvoicePage` incluye campos obligatorios específicos de la legislación mexicana que confunden a usuarios de otros países:
+    - "Uso de CFDI" (Concepto exclusivo del SAT).
+    - "Forma de Pago" y "Método de Pago" (Catálogos SAT).
+- **Validaciones Locales:** La validación de formularios asume reglas locales (e.g., longitud de códigos postales, formato de teléfonos) que fallarán con datos internacionales.
+
+4. HALLAZGOS DE AUDITORÍA DE CÓDIGO (AUTOMATIZADA)
+
+Se han detectado 114 incidencias que comprometen la calidad comercial:
+
+4.1. Mocks y Simulaciones (Bloqueantes)
+- `libs/domains/fiscal/infrastructure/src/lib/repositories/mikro-orm-tax-rule.repository.ts`: Contiene `return []` si existen reglas, lo cual es comportamiento simulado.
+- `libs/domains/accounting/ui/src/lib/core/services/journal-entries.ts`: El método `getEntries()` retorna `[]` vacío siempre.
+- `libs/kernel/auth/src/lib/guards/jwt-auth.guard.ts`: Retorna `true` incondicionalmente en ciertos flujos, bypass de seguridad potencial si no se configura correctamente el contexto.
+- `libs/shared/ui/src/lib/core/guards/country.guard.ts`: Múltiples `return true` que saltan validaciones de geolocalización.
+
+4.2. Valores Hardcodeados (Deuda Técnica)
+- **Impuestos:** Múltiples referencias a `0.16` (IVA México) hardcodeadas en `libs/domains/fiscal` y `libs/shared/ui` (incluso en animaciones CSS que coinciden con el valor, aunque eso es coincidencia, el riesgo en lógica de negocio es real).
+- **Moneda:** Referencias explícitas a `'MXN'` y `'USD'` como strings mágicos en `libs/domains/treasury` y `libs/shared/ui`. No hay soporte real para multimoneda dinámico (e.g., BRL, COP).
+- **Nombres Fiscales:** Cadenas `'IVA'`, `'ISR'`, `'RFC'` dispersas en el código.
+
+4.3. Tareas Pendientes (TODOs/FIXMEs)
+- Se encontraron numerosos comentarios `TODO` en `libs/domains/accounting`, indicando características incompletas en el módulo contable (e.g., "reemplaza los métodos simulados", "apuntar a un archivo real").
+
+5. INFRAESTRUCTURA Y SEGURIDAD
+
+5.1. Gestión de Secretos - RIESGO ALTO
+- El archivo `apps/virteex-api-gateway/.env` contiene `JWT_SECRET=super-secret-development-key...` y está commiteado en el repositorio. Esto es una vulnerabilidad crítica de seguridad si se despliega así en producción.
+
+5.2. Multi-tenancy
+- La implementación en `libs/kernel/tenant` usando `TenantRlsInterceptor` y `SET LOCAL app.current_tenant` es arquitectónicamente correcta para aislamiento de datos en PostgreSQL (Row Level Security). Sin embargo, su dependencia de `getTenantContext()` global debe ser revisada para asegurar que no haya fugas de contexto en operaciones asíncronas complejas.
+
+6. CONCLUSIÓN Y RECOMENDACIONES
+
+Para que Virteex sea un producto comercial viable en LATAM y USA, se requiere una refactorización mayor (estimada en 4-6 semanas de trabajo intensivo):
+
+1.  **Eliminación de Mocks:** Reemplazar todos los `return []` y `return true` identificados por consultas reales a base de datos.
+2.  **Abstracción Fiscal:** Refactorizar `PayrollCalculationService` y `FiscalStampingService` para usar estrictamente el patrón Strategy, moviendo la lógica mexicana a `MexicanPayrollStrategy` y `MexicanInvoicingStrategy`, y creando implementaciones reales para USA (TaxJar/Avalara integration) y otros países.
+3.  **Implementación de i18n:** Instalar `ngx-translate` (o similar), extraer todos los textos duros a archivos JSON (`es.json`, `en.json`, `pt.json`) y usar pipes en todas las vistas.
+4.  **Configuración Dinámica de UI:** Crear un servicio `FormConfigurationService` que, basado en el `tenant.country`, indique qué campos mostrar (e.g., ocultar "Uso CFDI" si el país no es México).
+5.  **Seguridad:** Eliminar `.env` del control de versiones y usar gestión de secretos (Vault/AWS Secrets Manager) para producción.
+
+Este software NO está listo para venta. Es un MVP funcional para México con deuda técnica severa para internacionalización.
