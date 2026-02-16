@@ -1,0 +1,97 @@
+INFORME DE ANÁLISIS EXHAUSTIVO: ESTADO FUNCIONAL Y COMERCIAL DE VIRTEEX
+FECHA: 2025-05-24
+AUTOR: Jules (AI Agent)
+OBJETIVO: Identificar brechas para alcanzar funcionalidad 100% y viabilidad comercial (Sin Mocks).
+
+================================================================================
+RESUMEN EJECUTIVO (ESTRICTAMENTE TÉCNICO)
+================================================================================
+La aplicación Virteex presenta una arquitectura sólida basada en DDD y Monorepo Nx, pero su lógica de negocio crítica (Fiscal, Nómina, Facturación) depende en gran medida de valores hardcodeados, simulaciones (mocks) y lógicas simplificadas que impiden legalmente su operación comercial en México (SAT CFDI 4.0) y Estados Unidos.
+
+A continuación, se detalla el análisis archivo por archivo y línea por línea de los hallazgos críticos.
+
+================================================================================
+1. DOMINIO DE FACTURACIÓN (BILLING) - CRÍTICO
+================================================================================
+
+1.1. Proveedor de Timbrado (PAC) - Simulaciones y Errores de Lógica
+   Archivo: libs/domains/billing/infrastructure/src/lib/providers/finkok-pac.provider.ts
+   - Lógica de Cancelación Falsa (Línea 168): El método `cancel` retorna `true` incondicionalmente si recibe una respuesta estructuralmente válida de Finkok, sin validar el contenido de `cancelResult`.
+     -> Impacto: El sistema marcará facturas como canceladas aunque el SAT rechace la cancelación (e.g., documentos no cancelables).
+   - URLs Hardcodeadas (Línea 144): La URL de cancelación se deriva mediante reemplazo de strings (`replace('/stamp', '/cancel')`). Si la configuración de entorno cambia, esto romperá producción.
+   - Namespaces Fijos (Línea 38): `@_xmlns:apps` está fijo a `http://facturacion.finkok.com/stamp`. Esto impide cambiar de entorno (Demo vs Prod) limpiamente sin tocar código.
+
+1.2. Interfaz de Facturación (Frontend) - Cálculos y Validaciones Deficientes
+   Archivo: libs/domains/billing/ui/src/lib/pages/invoices/new/new.page.ts
+   - Impuestos Hardcodeados (Líneas 89, 110): Se asume un `taxRate` fijo de 0.16 (16%) para todos los productos.
+     -> Impacto: Imposible facturar productos con Tasa 0%, Exentos (e.g., Medicinas, Libros) o Frontera (8%).
+   - Cálculo de Impuestos Local Simplista (Línea 149): `tax += lineTotal * taxRate`. Ignora completamente IEPS, Retenciones de ISR/IVA y tasas locales.
+   - Pérdida de Datos en Envío (Línea 196): El payload `CreateInvoiceDto` enviado al backend ignora la tasa de impuesto editada por el usuario en el formulario. El backend recalculará con sus propios datos, creando discrepancia entre lo que ve el usuario y lo que se factura.
+   - Validación de Stock Incompleta (Línea 159): `validateStock` retorna `true` si no hay `productId` seleccionado, permitiendo líneas vacías.
+
+================================================================================
+2. DOMINIO DE NÓMINA (PAYROLL) - CRÍTICO
+================================================================================
+
+2.1. Estrategia Fiscal Mexicana - Valores Legales Hardcodeados
+   Archivo: libs/domains/payroll/infrastructure/src/lib/strategies/mexican-tax.strategy.ts
+   - UMA Estática (Línea 5): `const DEFAULT_UMA = 108.57`. Este valor cambia anualmente en febrero. Al estar en código, requiere un despliegue para actualizarse.
+   - Cuotas IMSS Fijas (Líneas 6-7): `IMSS_BASE_RATE` y `IMSS_EXCESS_RATE` fijos. No permite configuraciones patronales específicas o actualizaciones de ley.
+   - Días por Periodo Fijos (Línea 85): Asume `MONTHLY = 30`, `WEEKLY = 7`. Ignora años bisiestos y meses de 31/28 días, afectando el cálculo exacto del SBC.
+
+2.2. Estrategia Fiscal USA - Lógica No Comercial
+   Archivo: libs/domains/payroll/infrastructure/src/lib/strategies/us-payroll.strategy.ts
+   - Tablas de Impuestos Hardcodeadas (Líneas 34-40): Las tablas de ISR Federal 2024 están "quemadas" en el código con `if/else`.
+     -> Impacto: Inmantenible. Requiere cambio de código cada año fiscal. Debe ser Database-Driven.
+   - Tasas FICA Fijas (Líneas 46-50): Seguro Social y Medicare fijos.
+
+2.3. Caso de Uso de Timbrado - Datos Falsos en XML (Mocking)
+   Archivo: libs/domains/payroll/application/src/lib/use-cases/stamp-payroll.use-case.ts
+   - CURP Hardcodeada (Línea 108): `payroll.employee?.curp || 'AAA010101AAA000000'`.
+     -> Impacto: El SAT rechazará inmediatamente cualquier timbrado que use este fallback en producción.
+   - Régimen y Contrato Fijos (Líneas 109-113): Todos los empleados se timbran como "Sueldos y Salarios" (02), "Indeterminado" (01) y "Quincenal" (04).
+     -> Impacto: Ilegal para empleados eventuales, semanales, o asimilados a salarios.
+   - Falta de Nodos Obligatorios (Línea 78): Se asume que todo ingreso es `Gravado` y nada es `Exento`. Ilegal para Aguinaldo, Prima Vacacional, etc.
+   - Mapeo de Conceptos Simplista (Línea 150): Mapea conceptos basándose en strings (`includes('sueldo')`). Extremadamente frágil. Si el concepto se llama "Salario Base", funciona; si se llama "Pago Normal", falla.
+
+================================================================================
+3. SEGURIDAD E INFRAESTRUCTURA
+================================================================================
+
+3.1. Secretos Expuestos
+   Archivo: apps/virteex-web/src/environments/environment.ts
+   - Claves Públicas (Línea 7): `siteKey` de reCAPTCHA expuesta (aceptable si es pública, pero debe revisarse).
+   - Tokens en Código: Se detectaron "placeholders" que sugieren que en algún momento hubo secretos reales o que se planea usarlos así.
+
+3.2. Auditoría de Código (Tooling)
+   - Stubs Detectados: 61 ocurrencias de `return true/null` en repositorios y providers.
+     -> Ejemplo: `mikro-orm-crm-customer.repository.ts` retorna `null` en métodos de búsqueda, rompiendo la funcionalidad de CRM.
+   - Alertas en UI: 7 ocurrencias de `alert()` en componentes (`plan-selection.component.ts`), lo cual es una mala práctica de UX (bloqueante).
+
+================================================================================
+4. RECOMENDACIONES TÉCNICAS INMEDIATAS
+================================================================================
+
+Para lograr el estado "100% Funcional y Comercial", se deben ejecutar las siguientes acciones obligatorias:
+
+1.  **Refactorización de Estrategias Fiscales:**
+    -   Migrar las tablas de ISR (MX/USA) y tasas de IMSS/FICA a una base de datos (`tax_tables`, `fiscal_configuration`).
+    -   Inyectar estos valores en `MexicanTaxStrategy` y `USPayrollStrategy` en tiempo de ejecución, eliminando las constantes.
+
+2.  **Corrección del Timbrado de Nómina:**
+    -   Implementar el Catálogo del SAT completo en base de datos.
+    -   Eliminar hardcoding de `TipoRegimen`, `TipoContrato`, `PeriodicidadPago`. Estos deben venir de la entidad `Employee` o `Contract`.
+    -   Calcular correctamente Importe Gravado vs Exento según la ley (LISR) para cada concepto.
+
+3.  **Integridad de Facturación:**
+    -   Modificar `CreateInvoiceDto` para aceptar desglose de impuestos calculado o forzar recalculo preciso en backend usando tablas vigentes.
+    -   Corregir `FinkokPacProvider.cancel` para parsear la respuesta XML y lanzar excepción si el estatus no es "Cancelado".
+
+4.  **Limpieza de Frontend:**
+    -   Reemplazar `alert()` por `NotificationService`.
+    -   Implementar manejo dinámico de impuestos en `NewInvoicePage`.
+    -   Internacionalización real: Eliminar strings en español hardcodeados en HTML/TS.
+
+ESTADO FINAL: NO COMERCIAL (REQUIERE INTERVENCIÓN URGENTE)
+================================================================================
+Fin del Informe.
