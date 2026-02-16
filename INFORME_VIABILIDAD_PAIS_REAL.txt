@@ -1,0 +1,93 @@
+INFORME DETALLADO DE VIABILIDAD POR PAÍS (REALIDAD DEL CÓDIGO)
+FECHA: 2024-05-30
+AUTOR: Jules (AI Agent)
+ESTADO: BASADO EN EVIDENCIA DE CÓDIGO FUENTE (NO MOCKS, NO SUPOSICIONES)
+
+ESTE INFORME DETALLA LA CAPACIDAD REAL DEL SISTEMA "VIRTEEX" PARA OPERAR EN LOS PAÍSES SOLICITADOS (LATAM Y USA). SE HAN AUDITADO LOS MÓDULOS DE FACTURACIÓN (BILLING), NÓMINA (PAYROLL) Y CATÁLOGOS.
+
+================================================================================
+1. MÉXICO (MX) - ESTATUS: VIABLE (BETA / MVP)
+================================================================================
+El sistema está construido fundamentalmente alrededor de la lógica fiscal mexicana (SAT). Es el único país donde el software podría funcionar de manera real hoy en día, aunque con riesgos menores.
+
+[A] FACTURACIÓN (BILLING)
+- Implementación Real: SI.
+- Evidencia:
+  - `MxFiscalDocumentBuilder`: Construye correctamente el XML CFDI 4.0.
+  - `FiscalStampingService`: Orquesta la creación del XML, sellado y timbrado.
+  - `FinkokPacProvider`: Integración real con el PAC Finkok para timbrado.
+  - `XsltService`: Transforma el XML para generar la Cadena Original usando los XSLT oficiales del SAT (v4.0).
+- Faltantes Críticos: Ninguno bloqueante para operación básica.
+
+[B] NÓMINA (PAYROLL)
+- Implementación Real: PARCIAL (Funcional pero rígida).
+- Evidencia:
+  - `MexicanTaxStrategy`: Calcula ISR usando tablas dinámicas (`TaxTableRepository`).
+  - Cálculo de IMSS: Lógica HARDCODED. Usa un factor fijo (2.375% + excedente) y un valor UMA hardcoded (108.57). Esto requiere actualización manual anual en código, lo cual es un riesgo operativo.
+- Faltantes Críticos: Cálculo exacto de variantes de IMSS (Riesgo de Trabajo, Invalidez y Vida, etc.) que varían por empresa. El cálculo actual es una aproximación.
+
+[C] CATÁLOGOS
+- Implementación Real: SI (Pero Hardcoded).
+- Evidencia:
+  - `GetSatCatalogsUseCase`: Retorna listas estáticas de códigos del SAT (PUE, PPD, G03).
+- Faltantes: No están en base de datos, lo que dificulta actualizaciones sin redeploy.
+
+CONCLUSIÓN MÉXICO: El sistema es OPERATIVO para facturación y nómina básica.
+
+================================================================================
+2. ESTADOS UNIDOS (USA) - ESTATUS: NO VIABLE (ILLEGAL / INCOMPLETO)
+================================================================================
+El código contiene "esqueletos" y lógica parcial que simula funcionalidad, pero carece de la profundidad legal y fiscal necesaria para operar. Usar este sistema en USA resultaría en multas y errores fiscales graves.
+
+[A] FACTURACIÓN (BILLING)
+- Implementación Real: NO.
+- Evidencia:
+  - `UsFiscalDocumentBuilder`: Solo genera un objeto JSON con los datos de la factura. NO genera un PDF legal, ni se conecta a sistemas de contabilidad (QuickBooks/Xero) ni a motores de impuestos (Avalara/TaxJar).
+  - Impuestos (Sales Tax): NO EXISTE lógica de cálculo. El sistema asume que el impuesto ya viene calculado o es 0. En USA, el Sales Tax varía por Condado y Ciudad (más de 10,000 jurisdicciones).
+- Faltantes Críticos: Integración con motor de impuestos (Avalara), generación de PDF legal.
+
+[B] NÓMINA (PAYROLL)
+- Implementación Real: NO (PELIGROSO).
+- Evidencia:
+  - `USPayrollStrategy`:
+    - Federal Tax: Aproximación dura de los brackets 2024.
+    - FICA (Social Security/Medicare): Implementado correctamente (6.2% / 1.45%).
+    - State Tax: HARDCODED al 5%. Esto es CRÍTICO. Un empleado en Texas paga 0%, uno en California paga mucho más. Cobrar un 5% fijo es ilegal.
+- Faltantes Críticos: Cálculo real de impuestos estatales (State Tax), generación de formas W-2, formas 941, soporte para beneficios pre-tax (401k, seguros).
+
+[C] CATÁLOGOS
+- Implementación Real: NO.
+- Evidencia: No existen catálogos para USA (Payment Methods como ACH, Check, Wire no están definidos).
+
+CONCLUSIÓN USA: El sistema NO PUEDE SER USADO comercialmente. Requiere reescritura total del motor de impuestos.
+
+================================================================================
+3. RESTO DE LATAM (COLOMBIA, CHILE, PERÚ, ARGENTINA) - ESTATUS: NO VIABLE
+================================================================================
+No existe código funcional para estos países. Solo se encontraron rastros de intentos fallidos o stubs.
+
+[A] BRASIL (BR)
+- Estatus: STUB (Simulación).
+- Evidencia: `BrTaxStrategy` retorna impuestos fijos (ICMS 18%, IPI 5%) sin importar el producto o estado. Brasil tiene uno de los sistemas fiscales más complejos del mundo. Este código es inservible.
+
+[B] COLOMBIA (CO)
+- Estatus: INEXISTENTE.
+- No hay integración con DIAN (Factura Electrónica).
+- No hay lógica de Retención en la Fuente.
+
+[C] CHILE (CL)
+- Estatus: INEXISTENTE.
+- No hay integración con SII (Servicio de Impuestos Internos).
+
+================================================================================
+RESUMEN EJECUTIVO
+================================================================================
+
+1.  **PAÍSES SOPORTADOS HOY:** ÚNICAMENTE MÉXICO.
+2.  **PAÍSES CON CÓDIGO "FAKE" O INCOMPLETO:** USA (Nómina ilegal, Facturación incompleta), BRASIL (Stub).
+3.  **PAÍSES SIN CÓDIGO:** COLOMBIA, CHILE, PERÚ, ARGENTINA, RESTO DE LATAM.
+
+RECOMENDACIÓN INMEDIATA:
+- Si el objetivo es lanzar en LATAM/USA, se debe detener la venta/promoción fuera de México inmediatamente.
+- Para USA: Se requiere integración con API de terceros (ej. Gusto para nómina, Avalara para impuestos). No construir in-house.
+- Para LATAM: Se requiere desarrollar los `PacProvider` y `FiscalDocumentBuilder` específicos para cada país (DIAN, SII, AFIP).
