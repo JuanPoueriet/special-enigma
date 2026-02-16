@@ -1,0 +1,77 @@
+INFORME DETALLADO DE ESTADO - PROYECTO VIRTEEX
+================================================
+FECHA: 2024-05-26
+OBJETIVO: Análisis de brechas para funcionalidad 100% y viabilidad comercial (Sin Mocks).
+
+1. RESUMEN EJECUTIVO
+--------------------
+La aplicación Virteex presenta una arquitectura sólida basada en principios DDD (Domain-Driven Design) y Clean Architecture, utilizando NestJS para el backend y Angular para el frontend dentro de un monorepo Nx.
+
+Sin embargo, tras una auditoría exhaustiva del código fuente, se determina que la aplicación NO es comercialmente viable en su estado actual, principalmente debido a:
+1.  Lógica fiscal "hardcodeada" en el servicio de timbrado (CFDI 4.0 para México).
+2.  Falta de integración completa entre Frontend y Backend en flujos críticos de facturación (campos faltantes).
+3.  Presencia de deuda técnica (TODOs, console.logs) en código de producción.
+4.  Funcionalidad parcial en módulos de BI (lógica de negocio simplificada).
+
+A continuación se detalla cada hallazgo con la ubicación exacta en el código.
+
+2. HALLAZGOS CRÍTICOS (BLOQUEANTES COMERCIALES)
+-----------------------------------------------
+
+2.1. DOMINIO DE FACTURACIÓN (BILLING) - CRÍTICO
+El módulo de facturación es el núcleo del sistema ERP, pero su implementación actual impide la generación válida de facturas fiscales reales.
+
+A. Lógica Fiscal Hardcodeada (XML CFDI 4.0)
+   - Archivo: `libs/domains/billing/domain/src/lib/services/fiscal-stamping.service.ts`
+   - Problema: El método `generateXml` construye el XML del comprobante con valores fijos que deberían ser dinámicos y seleccionables por el usuario.
+   - Evidencia:
+     - `ClaveUnidad`: Fijo en 'H87' (Pieza). No permite vender servicios (E48) ni otros tipos.
+     - `FormaPago`: Fijo en '99' (Por definir). Ilegal para facturas PUE (Pago en una sola exhibición).
+     - `MetodoPago`: Fijo en 'PPD' (Pago en parcialidades o diferido). Bloquea facturas de contado.
+     - `UsoCFDI`: Fijo en 'G03' (Gastos en general). Impide facturar adquisición de mercancías, activos fijos, etc.
+     - `Certificado/Sello`: Campos vacíos (`''`). El sistema no firma digitalmente el XML antes de enviarlo al PAC, lo cual resultará en rechazo inmediato.
+
+B. Desconexión Frontend-Backend
+   - Archivo: `libs/domains/billing/ui/src/lib/pages/invoices/new/new.page.ts`
+   - Problema: La interfaz de usuario para crear facturas NO incluye selectores para `Forma de Pago`, `Método de Pago` ni `Uso de CFDI`.
+   - Archivo: `libs/domains/billing/application/src/lib/dtos/create-invoice.dto.ts`
+   - Problema: El DTO `CreateInvoiceDto` no define propiedades para recibir estos datos desde el frontend, forzando al backend a usar los valores hardcodeados mencionados anteriormente.
+
+2.2. DOMINIO DE INTELIGENCIA DE NEGOCIOS (BI) - FUNCIONALIDAD LIMITADA
+Aunque el módulo conecta con bases de datos reales (no mocks completos), la lógica de negocio es simplista e inexacta para un entorno comercial.
+
+A. Cálculo de Antigüedad de Saldos (AR Aging)
+   - Archivo: `libs/domains/bi/infrastructure/src/lib/adapters/bi-invoice.adapter.ts`
+   - Problema: El método `getArAging` asume una política de crédito fija de "Net 30" (30 días) para todas las facturas (`dueDate.setDate(dueDate.getDate() + 30)`).
+   - Impacto: Información financiera falsa para clientes con plazos de 7, 15, o 60 días, o fechas de vencimiento explícitas.
+
+B. Visualización de Datos
+   - Archivo: `libs/domains/bi/ui/src/lib/pages/dashboard-main/widgets/top-products-chart/top-products-chart.ts`
+   - Estado: El componente consume `BiService` real, lo cual es positivo. Sin embargo, contiene lógica de fallback y comentarios que sugieren inestabilidad.
+
+3. CALIDAD DE CÓDIGO Y DEUDA TÉCNICA
+------------------------------------
+Se detectaron múltiples instancias de código no apto para producción que deben ser depuradas antes del lanzamiento comercial.
+
+3.1. Console.log en Producción (Riesgo de Performance/Privacidad)
+   - `libs/domains/identity/ui/src/lib/pages/auth/register/register.page.ts` (Línea 139)
+   - `libs/domains/billing/ui/src/lib/pages/settings/billing.page.ts` (Línea 53)
+   - `libs/domains/accounting/ui/src/lib/pages/accounting-ops/periods/periods.page.ts` (Línea 49)
+   - `libs/domains/admin/ui/src/lib/pages/data-imports/data-imports.page.ts` (Línea 85)
+
+3.2. Tareas Pendientes (TODOs) en Lógica Crítica
+   - `libs/domains/billing/domain/src/lib/services/fiscal-stamping.service.ts`: `TODO` relacionado con la definición de impuestos o complementos.
+   - `libs/domains/projects/domain/src/lib/entities/task.entity.ts`: `TODO` pendiente en definición de entidad.
+   - `libs/domains/identity/ui/src/lib/pages/auth/register/steps/step-access/step-access.ts`: `TODO` en flujo de registro.
+
+4. CONCLUSIÓN Y RECOMENDACIONES
+-------------------------------
+Para alcanzar el estatus "100% Funcional y Comercial", se deben ejecutar las siguientes acciones mandatorias:
+
+1.  **Refactorizar `FiscalStampingService`:** Implementar inyección dinámica de datos fiscales (UsoCFDI, MetodoPago, FormaPago) y lógica de sellado digital real (RSA-SHA256) usando los certificados del Tenant.
+2.  **Actualizar Frontend de Facturación:** Agregar controles de formulario en `NewInvoicePage` para seleccionar los datos fiscales requeridos por el SAT.
+3.  **Corregir DTOs:** Actualizar `CreateInvoiceDto` y la entidad `Invoice` para transportar y persistir los nuevos campos.
+4.  **Mejorar Lógica BI:** Modificar `BiInvoiceAdapter` para usar la fecha de vencimiento real (`dueDate`) de la factura en lugar de asumir 30 días.
+5.  **Limpieza de Código:** Eliminar todos los `console.log` y resolver los `TODO`s críticos identificados en la auditoría.
+
+El sistema tiene una base sólida, pero las brechas en la capa de Facturación son bloqueantes para cualquier operación comercial legal en México.
