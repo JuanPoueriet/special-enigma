@@ -9,6 +9,7 @@ export * from './lib/entities/payment-method.entity';
 export * from './lib/services/tax-calculator.service';
 export * from './lib/services/tax-rule.engine';
 export * from './lib/services/fiscal-stamping.service';
+export * from './lib/strategies/tax-strategy.interface';
 
 export * from './lib/ports/pac-provider.port';
 export * from './lib/ports/invoice.repository';
@@ -16,6 +17,7 @@ export * from './lib/ports/subscription.repository';
 export * from './lib/ports/payment-method.repository';
 export * from './lib/ports/tenant-config.port';
 export * from './lib/ports/customer.repository';
+export * from './lib/ports/fiscal-document-builder.port';
 export * from './lib/repositories/subscription-plan.repository';
 export * from './lib/repositories/product.repository';
 

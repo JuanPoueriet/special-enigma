@@ -1,4 +1,4 @@
-import { Injectable, Inject, NotFoundException, BadRequestException, ConflictException } from '@nestjs/common';
+import { Injectable, Inject, NotFoundException, BadRequestException, ConflictException, Logger } from '@nestjs/common';
 import { PayrollStatus, PayrollType, PayrollDetailType } from '@virteex/contracts';
 import {
   EmployeeRepository,
@@ -15,17 +15,21 @@ import {
   TenantConfigRepository,
   TENANT_CONFIG_REPOSITORY
 } from '@virteex/payroll-domain';
+import { GlobalConfigService } from '@virteex/shared-util-server-config';
 import { CalculatePayrollDto } from '@virteex/contracts';
 
 @Injectable()
 export class CalculatePayrollUseCase {
+  private readonly logger = new Logger(CalculatePayrollUseCase.name);
+
   constructor(
     @Inject(EMPLOYEE_REPOSITORY) private employeeRepository: EmployeeRepository,
     @Inject(PAYROLL_REPOSITORY) private payrollRepository: PayrollRepository,
     @Inject(TAX_STRATEGY_FACTORY) private taxStrategyFactory: TaxStrategyFactory,
     @Inject(TENANT_CONFIG_REPOSITORY) private tenantConfigRepo: TenantConfigRepository,
     @Inject(ATTENDANCE_REPOSITORY) private attendanceRepository: AttendanceRepository,
-    private payrollCalculator: PayrollCalculationService
+    private payrollCalculator: PayrollCalculationService,
+    private configService: GlobalConfigService
   ) {}
 
   async execute(dto: CalculatePayrollDto): Promise<Payroll> {
@@ -79,21 +83,47 @@ export class CalculatePayrollUseCase {
     const salaryDetail = new PayrollDetail(tenantId, 'Sueldo Base', baseAmount, PayrollDetailType.EARNING);
     payroll.details.add(salaryDetail);
 
-    // Calculate ISR (Tax Deduction)
-    const taxAmount = await taxStrategy.calculateTax(baseAmount, end);
-    const taxDetail = new PayrollDetail(tenantId, 'ISR Retenido', taxAmount, PayrollDetailType.DEDUCTION);
-    payroll.details.add(taxDetail);
+    // Prepare Options (e.g. State Tax Rate)
+    const stateTaxRate = this.configService.defaultStateTaxRate;
+    if (stateTaxRate === 0) {
+      this.logger.warn(`State Tax Rate not configured for employee ${employeeId}. Defaulting to 0% to avoid incorrect taxation.`);
+    }
 
-    // Calculate IMSS
-    const days = this.payrollCalculator.calculateDays(start, end);
-    const dailySalary = employee.salary / 30; // Approx
-    const imssAmount = this.payrollCalculator.calculateImss(dailySalary, days);
-    const imssDetail = new PayrollDetail(tenantId, 'Cuota IMSS', imssAmount, PayrollDetailType.DEDUCTION);
-    payroll.details.add(imssDetail);
+    const taxOptions: Record<string, any> = {
+        stateTaxRate,
+        uma: this.configService.uma
+    };
+
+    // Calculate Taxes (Unified)
+    // Using 'MONTHLY' as default frequency. Should be derived from contract.
+    const taxResult = await taxStrategy.calculatePayrollTaxes(baseAmount, end, 'MONTHLY', taxOptions);
+
+    const detailMap: Record<string, string> = {
+        'ISR': 'ISR Retenido',
+        'IMSS': 'Cuota IMSS',
+        'Federal Income Tax': 'Federal Income Tax',
+        'Social Security': 'Social Security',
+        'Medicare': 'Medicare',
+        'State Tax (Est.)': 'State Tax'
+    };
+
+    let totalDeductions = 0;
+
+    for (const detail of taxResult.details) {
+        const conceptName = detailMap[detail.name] || detail.name;
+        const payrollDetail = new PayrollDetail(
+            tenantId,
+            conceptName,
+            detail.amount,
+            PayrollDetailType.DEDUCTION
+        );
+        payroll.details.add(payrollDetail);
+        totalDeductions += detail.amount;
+    }
 
     // Update totals
     payroll.totalEarnings = baseAmount;
-    payroll.totalDeductions = taxAmount + imssAmount;
+    payroll.totalDeductions = totalDeductions;
     payroll.netPay = Number((baseAmount - payroll.totalDeductions).toFixed(2));
 
     await this.payrollRepository.save(payroll);

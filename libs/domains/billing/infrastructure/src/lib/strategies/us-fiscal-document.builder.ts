@@ -1,8 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { FiscalDocumentBuilder } from '../../../../domain/src/lib/ports/fiscal-document-builder.port';
-import { Invoice } from '../../../../domain/src/lib/entities/invoice.entity';
-import { TenantFiscalConfig } from '../../../../domain/src/lib/ports/tenant-config.port';
-import { CustomerBillingInfo } from '../../../../domain/src/lib/ports/customer.repository';
+import { FiscalDocumentBuilder, Invoice, TenantFiscalConfig, CustomerBillingInfo } from '@virteex/billing-domain';
 
 @Injectable()
 export class UsFiscalDocumentBuilder implements FiscalDocumentBuilder {
@@ -16,12 +13,12 @@ export class UsFiscalDocumentBuilder implements FiscalDocumentBuilder {
           dueDate: invoice.dueDate,
           seller: {
               name: tenantConfig.legalName,
-              address: tenantConfig.fiscalAddress,
+              address: tenantConfig.fiscalAddress || 'N/A',
               taxId: tenantConfig.rfc // Using RFC field for EIN mapping
           },
           buyer: {
               name: customer.legalName,
-              address: customer.address,
+              address: customer.address || 'N/A',
               taxId: customer.rfc // Using RFC field for TaxID mapping
           },
           items: invoice.items.getItems().map(item => ({
@@ -30,10 +27,10 @@ export class UsFiscalDocumentBuilder implements FiscalDocumentBuilder {
               unitPrice: item.unitPrice,
               amount: item.amount
           })),
-          subTotal: invoice.subTotal, // Assuming property exists or calculation needed
+          subTotal: invoice.subTotal || 0, // Assuming property exists or calculation needed
           tax: invoice.taxAmount,
           total: invoice.totalAmount,
-          notes: invoice.notes
+          notes: invoice.notes || ''
       };
 
       return JSON.stringify(doc);

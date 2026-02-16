@@ -7,6 +7,7 @@ export interface TenantFiscalConfig {
   legalName: string;
   regime: string;
   postalCode: string;
+  fiscalAddress?: string;
 }
 
 export interface TenantConfigRepository {
