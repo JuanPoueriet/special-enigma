@@ -31,17 +31,19 @@ export class PayrollCalculationService {
     return Math.round(Math.abs((end.getTime() - start.getTime()) / oneDay)) + 1;
   }
 
-  async calculateIsr(taxableIncome: number, year: number, country: string = 'MX', periodType: 'MONTHLY' | 'ANNUAL' = 'MONTHLY'): Promise<number> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async calculateIsr(taxableIncome: number, year: number, country = 'MX', periodType: 'MONTHLY' | 'ANNUAL' = 'MONTHLY', options?: Record<string, any>): Promise<number> {
       const strategy = this.strategyFactory.getStrategy(country);
       const date = new Date(year, 0, 1);
-      return strategy.calculateTax(taxableIncome, date, periodType);
+      return strategy.calculateTax(taxableIncome, date, periodType, options);
   }
 
-  calculateImss(sbc: number, days: number = 15, uma: number = 108.57, country: string = 'MX'): number {
-      // This is legacy/specific to Mexico.
-      // Ideally should be handled by calculatePayrollTaxes strategy.
+  /**
+   * @deprecated Use TaxStrategy.calculatePayrollTaxes instead.
+   */
+  calculateImss(sbc: number, days = 15, uma = 108.57, country = 'MX'): number {
+      this.logger.warn('calculateImss is deprecated and contains hardcoded logic. Use calculatePayrollTaxes instead.');
       if (country !== 'MX') {
-          this.logger.warn(`calculateImss called for non-MX country: ${country}. Returning 0.`);
           return 0;
       }
 
@@ -60,8 +62,9 @@ export class PayrollCalculationService {
   /**
    * Unified method to calculate all payroll taxes/deductions based on country strategy.
    */
-  async calculatePayrollTaxes(income: number, country: string, date: Date, frequency: string = 'MONTHLY'): Promise<PayrollTaxesResult> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async calculatePayrollTaxes(income: number, country: string, date: Date, frequency = 'MONTHLY', options?: Record<string, any>): Promise<PayrollTaxesResult> {
       const strategy = this.strategyFactory.getStrategy(country);
-      return strategy.calculatePayrollTaxes(income, date, frequency);
+      return strategy.calculatePayrollTaxes(income, date, frequency, options);
   }
 }

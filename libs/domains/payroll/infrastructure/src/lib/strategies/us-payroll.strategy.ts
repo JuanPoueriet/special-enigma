@@ -5,15 +5,17 @@ import { TaxService, PayrollTaxesResult } from '@virteex/payroll-domain';
 export class USPayrollStrategy implements TaxService {
   private readonly logger = new Logger(USPayrollStrategy.name);
 
-  async calculateTax(taxableIncome: number, date: Date, frequency: string = 'MONTHLY'): Promise<number> {
-    const result = await this.calculatePayrollTaxes(taxableIncome, date, frequency);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async calculateTax(taxableIncome: number, date: Date, frequency = 'MONTHLY', options?: Record<string, any>): Promise<number> {
+    const result = await this.calculatePayrollTaxes(taxableIncome, date, frequency, options);
     // Return only Federal Tax for backward compatibility if needed, or total?
     // Usually calculateTax implies Income Tax.
     const federal = result.details.find(d => d.name === 'Federal Income Tax');
     return federal ? federal.amount : 0;
   }
 
-  async calculatePayrollTaxes(taxableIncome: number, date: Date, frequency: string = 'MONTHLY'): Promise<PayrollTaxesResult> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async calculatePayrollTaxes(taxableIncome: number, date: Date, frequency = 'MONTHLY', options?: Record<string, any>): Promise<PayrollTaxesResult> {
     // Simplified US Federal Tax calculation (Single Filer 2024 approximation)
     // Assuming taxableIncome is for the period.
     // We need to annualize it to apply brackets correctly.
@@ -44,7 +46,6 @@ export class USPayrollStrategy implements TaxService {
     // Social Security: 6.2% up to $168,600 (2024 limit)
     const ssRate = 0.062;
     const ssLimit = 168600;
-    const ssTaxable = Math.min(annualIncome, ssLimit) / periods;
     // Note: In real world, we track YTD. Here we assume per-period isolation for simplicity or assume constant salary.
     const socialSecurity = parseFloat((Math.min(taxableIncome, ssLimit/periods) * ssRate).toFixed(2));
 
@@ -52,9 +53,14 @@ export class USPayrollStrategy implements TaxService {
     const medicareRate = 0.0145;
     const medicare = parseFloat((taxableIncome * medicareRate).toFixed(2));
 
-    // State Tax (Placeholder - e.g. California ~6% average or 0 for now)
-    // Ideally this comes from another strategy or config.
-    const stateTaxRate = 0.05; // 5% Flat assumption for MVP robustness
+    // State Tax
+    let stateTaxRate = 0;
+    if (options && typeof options['stateTaxRate'] === 'number') {
+        stateTaxRate = options['stateTaxRate'];
+    } else {
+        this.logger.warn('State Tax Rate not provided in options. Defaulting to 0% to avoid incorrect taxation.');
+    }
+
     const stateTax = parseFloat((taxableIncome * stateTaxRate).toFixed(2));
 
     const totalTax = federalTax + socialSecurity + medicare + stateTax;

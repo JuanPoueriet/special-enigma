@@ -10,8 +10,10 @@ export interface PayrollTaxesResult {
 }
 
 export interface TaxService {
-  calculateTax(taxableIncome: number, date: Date, frequency?: string): Promise<number>;
-  calculatePayrollTaxes(taxableIncome: number, date: Date, frequency?: string): Promise<PayrollTaxesResult>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  calculateTax(taxableIncome: number, date: Date, frequency?: string, options?: Record<string, any>): Promise<number>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  calculatePayrollTaxes(taxableIncome: number, date: Date, frequency?: string, options?: Record<string, any>): Promise<PayrollTaxesResult>;
 }
 
 export const TAX_SERVICE = 'TAX_SERVICE';

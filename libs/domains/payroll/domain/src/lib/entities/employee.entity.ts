@@ -41,6 +41,9 @@ export class Employee {
   @Property()
   hireDate!: Date;
 
+  @Property({ nullable: true })
+  postalCode?: string;
+
   @Enum(() => EmployeeStatus)
   status: EmployeeStatus = EmployeeStatus.ACTIVE;
 

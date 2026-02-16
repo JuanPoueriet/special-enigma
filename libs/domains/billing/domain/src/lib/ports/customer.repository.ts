@@ -5,6 +5,7 @@ export interface CustomerBillingInfo {
   taxRegimen: string;
   postalCode: string;
   email: string;
+  address?: string;
 }
 
 export interface CustomerRepository {

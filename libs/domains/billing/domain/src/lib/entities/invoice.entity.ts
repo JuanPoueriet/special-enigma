@@ -34,6 +34,12 @@ export class Invoice {
   @Property({ type: 'decimal', precision: 10, scale: 2 })
   taxAmount!: string;
 
+  @Property({ type: 'decimal', precision: 10, scale: 2, nullable: true })
+  subTotal?: string;
+
+  @Property({ nullable: true })
+  notes?: string;
+
   @Property()
   status!: string;
 

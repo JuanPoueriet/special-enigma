@@ -1,2 +1,2 @@
 export * from './lib/server-config.module';
-export * from './lib/env.validation';
+export * from './lib/global-config.service';

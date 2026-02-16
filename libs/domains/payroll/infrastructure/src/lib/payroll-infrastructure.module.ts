@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, Global } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import {
   TaxTable,
@@ -24,6 +24,7 @@ import { TaxStrategyFactoryImpl } from './factories/tax-strategy.factory';
 import { FinkokPacProvider } from './providers/finkok-pac.provider';
 import { MikroOrmTenantConfigRepository } from './repositories/mikro-orm-tenant-config.repository';
 
+@Global()
 @Module({
   imports: [MikroOrmModule.forFeature([TaxTable, Employee, Payroll, Attendance, PayrollDetail])],
   providers: [

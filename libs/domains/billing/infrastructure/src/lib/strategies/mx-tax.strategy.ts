@@ -1,11 +1,12 @@
-import { TaxStrategy, TaxResult, TaxDetail } from './tax-strategy.interface';
-import { TaxRuleEngine } from '../services/tax-rule.engine';
+import { Injectable } from '@nestjs/common';
+import { TaxStrategy, TaxResult, TaxDetail, TaxRuleEngine } from '@virteex/billing-domain';
 
+@Injectable()
 export class MxTaxStrategy implements TaxStrategy {
   constructor(private readonly taxRuleEngine: TaxRuleEngine) {}
 
-  async calculate(amount: number, tenantId: string): Promise<TaxResult> {
-    const rules = await this.taxRuleEngine.getApplicableRules('MX', tenantId);
+  async calculate(amount: number): Promise<TaxResult> {
+    const rules = await this.taxRuleEngine.getApplicableRules('MX', new Date());
 
     if (!rules || rules.length === 0) {
         return { totalTax: 0, details: [] };

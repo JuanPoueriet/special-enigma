@@ -10,7 +10,7 @@ import {
   TENANT_CONFIG_REPOSITORY,
   PayrollStampedEvent,
   Payroll
-} from '../../../../domain/src/index';
+} from '@virteex/payroll-domain';
 import { XMLBuilder } from 'fast-xml-parser';
 import { XsltService } from '@virteex/shared-infrastructure-xslt';
 import * as crypto from 'crypto';
@@ -44,7 +44,8 @@ export class StampPayrollUseCase {
     }
 
     // Build XML
-    const xml = await this.buildSignedPayrollXml(payroll, tenantConfig);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const xml = await this.buildSignedPayrollXml(payroll, tenantConfig as any);
 
     // Stamp
     const stamp = await this.pacProvider.stamp(xml);
@@ -72,6 +73,7 @@ export class StampPayrollUseCase {
     return payroll;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private async buildSignedPayrollXml(payroll: Payroll, tenantConfig: any): Promise<string> {
     const builder = new XMLBuilder({
         ignoreAttributes: false,
@@ -118,6 +120,8 @@ export class StampPayrollUseCase {
         }))
     } : undefined;
 
+    const employeePostalCode = payroll.employee?.postalCode || tenantConfig.postalCode;
+
     const xmlObj = {
         'cfdi:Comprobante': {
             '@_xmlns:cfdi': 'http://www.sat.gob.mx/cfd/4',
@@ -147,7 +151,7 @@ export class StampPayrollUseCase {
             'cfdi:Receptor': {
                 '@_Rfc': payroll.employee?.rfc || 'XAXX010101000',
                 '@_Nombre': employeeName,
-                '@_DomicilioFiscalReceptor': payroll.employee?.postalCode || tenantConfig.postalCode, // Fallback
+                '@_DomicilioFiscalReceptor': employeePostalCode, // Fallback
                 '@_RegimenFiscalReceptor': '605',
                 '@_UsoCFDI': 'CN01'
             },
