@@ -17,4 +17,8 @@ export class MikroOrmCompanyRepository implements CompanyRepository {
   async findByTaxId(taxId: string): Promise<Company | null> {
     return this.em.findOne(Company, { taxId });
   }
+
+  async findAll(options: any = {}): Promise<Company[]> {
+    return this.em.find(Company, options);
+  }
 }
