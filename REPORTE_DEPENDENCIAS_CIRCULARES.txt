@@ -1,0 +1,44 @@
+REPORTE DE DEPENDENCIAS CIRCULARES
+Fecha: 2025-05-27
+
+Se han detectado las siguientes dependencias circulares en el proyecto:
+
+1. libs/shared/ui/src/lib/core/services/language.ts
+   -> libs/shared/ui/src/lib/core/services/auth.ts
+   -> libs/shared/ui/src/lib/interfaces/user.interface.ts
+   -> libs/shared/ui/src/index.ts
+   -> libs/shared/ui/src/lib/core/services/language.ts
+
+2. libs/shared/ui/src/lib/core/services/auth.ts
+   -> libs/shared/util/auth/src/index.ts
+   -> libs/shared/util/auth/src/lib/interceptors/error.interceptor.ts
+   -> libs/shared/ui/src/index.ts
+   -> libs/shared/ui/src/lib/core/services/auth.ts
+
+3. libs/shared/ui/src/index.ts
+   -> libs/shared/ui/src/lib/interfaces/user.interface.ts
+   -> libs/shared/ui/src/index.ts
+
+4. libs/shared/ui/src/index.ts
+   -> libs/shared/ui/src/lib/directives/has-permission.directive.ts
+   -> libs/shared/ui/src/lib/core/services/auth.ts
+   -> libs/shared/ui/src/lib/interfaces/user.interface.ts
+   -> libs/shared/ui/src/index.ts
+
+5. libs/shared/ui/src/index.ts
+   -> libs/shared/ui/src/lib/core/services/language.ts
+   -> libs/shared/ui/src/lib/core/api/users.service.ts
+   -> libs/shared/ui/src/lib/interfaces/user.interface.ts
+   -> libs/shared/ui/src/index.ts
+
+6. libs/shared/ui/src/index.ts
+   -> libs/shared/ui/src/lib/core/services/auth.ts
+   -> libs/shared/ui/src/lib/interfaces/user.interface.ts
+   -> libs/shared/ui/src/index.ts
+
+7. libs/shared/ui/src/index.ts
+   -> libs/shared/ui/src/lib/core/api/users.service.ts
+   -> libs/shared/ui/src/lib/interfaces/user.interface.ts
+   -> libs/shared/ui/src/index.ts
+
+Total de violaciones: 7
