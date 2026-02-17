@@ -23,7 +23,8 @@ import { GEO_IP_PORT } from '@virteex/identity-domain';
 
 import {
   RegisterUserUseCase, LoginUserUseCase, VerifyMfaUseCase, StoragePort,
-  GetUserProfileUseCase, UpdateUserProfileUseCase, InviteUserUseCase, UploadAvatarUseCase
+  GetUserProfileUseCase, UpdateUserProfileUseCase, InviteUserUseCase, UploadAvatarUseCase,
+  ListTenantsUseCase
 } from '@virteex/identity-application';
 import { SharedInfrastructureStorageModule } from '@virteex/shared-infrastructure-storage';
 import { StorageAdapter } from './adapters/storage.adapter';
@@ -59,7 +60,8 @@ import { StorageAdapter } from './adapters/storage.adapter';
     GetUserProfileUseCase,
     UpdateUserProfileUseCase,
     InviteUserUseCase,
-    UploadAvatarUseCase
+    UploadAvatarUseCase,
+    ListTenantsUseCase
   ],
   exports: [
     RegisterUserUseCase,
@@ -69,6 +71,7 @@ import { StorageAdapter } from './adapters/storage.adapter';
     UpdateUserProfileUseCase,
     InviteUserUseCase,
     UploadAvatarUseCase,
+    ListTenantsUseCase,
     StoragePort,
     // Export ports if other modules need them directly
     UserRepository,

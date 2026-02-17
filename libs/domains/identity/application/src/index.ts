@@ -12,3 +12,4 @@ export * from './lib/use-cases/invite-user.use-case';
 export * from './lib/use-cases/upload-avatar.use-case';
 export * from './lib/dto/update-user.dto';
 export * from './lib/dto/invite-user.dto';
+export * from './lib/use-cases/list-tenants.use-case';
