@@ -1,0 +1,191 @@
+INFORME DETALLADO: ARQUITECTURA DE MICROSERVICIOS PARA VIRTEEX
+================================================================
+
+FECHA: 2025-06-01
+AUTOR: Jules (Arquitecto de Software AI)
+OBJETIVO: Transformación de Virteex en una plataforma de clase mundial, escalable, segura y competitiva.
+
+--------------------------------------------------------------------------------
+1. VISIÓN Y PRINCIPIOS ARQUITECTÓNICOS
+--------------------------------------------------------------------------------
+
+Para competir con líderes del mercado como SAP, Oracle NetSuite, Deel y QuickBooks, Virteex debe adoptar una arquitectura distribuida que priorice la agilidad, la resiliencia y la seguridad. El objetivo no es solo "dividir" el código, sino crear dominios autónomos que puedan evolucionar independientemente.
+
+PRINCIPIOS FUNDAMENTALES:
+1.  **Domain-Driven Design (DDD):** Cada microservicio corresponde a un Bounded Context (Contexto Delimitado) del negocio. No se comparten modelos de datos entre servicios.
+2.  **Database-Per-Service:** Cada servicio es dueño exclusivo de su base de datos. Ningún servicio accede directamente a la base de datos de otro.
+3.  **Event-Driven Architecture (EDA):** La comunicación entre dominios es asíncrona por defecto (usando Kafka) para garantizar el desacoplamiento y la disponibilidad.
+4.  **Zero Trust Security:** La seguridad no es perimetral; cada servicio autentica y autoriza cada petición (mTLS, JWT).
+5.  **Observabilidad Total:** Logs, métricas y trazas distribuidas (OpenTelemetry) son obligatorios desde el día cero.
+6.  **Infraestructura Inmutable:** Los despliegues se realizan mediante contenedores inmutables orquestados por Kubernetes.
+
+--------------------------------------------------------------------------------
+2. INVENTARIO DE MICROSERVICIOS REQUERIDOS
+--------------------------------------------------------------------------------
+
+Basado en el análisis de los dominios existentes (`libs/domains`) y las aplicaciones actuales (`apps`), se define la siguiente topología de servicios.
+
+A. SERVICIOS CORE (PLATAFORMA)
+------------------------------
+
+1.  **Identity Service (IdP)**
+    *   *Responsabilidad:* Gestión centralizada de identidades, autenticación (SSO), gestión de tokens (JWT/OIDC) y roles.
+    *   *Tecnología:* Keycloak (ya en uso) o implementación custom sobre `virteex-auth-server` si se requiere lógica muy específica. Integración con OAuth2/OpenID Connect.
+    *   *Base de Datos:* PostgreSQL (dedicada).
+
+2.  **API Gateway (Federation Layer)**
+    *   *Responsabilidad:* Punto de entrada único para clientes (Web, Mobile, Desktop). Maneja enrutamiento, rate limiting, terminación SSL y composición de respuestas.
+    *   *Evolución:* Transformar `virteex-api-gateway` en un Supergraph Gateway (Apollo Federation) que unifique los subgrafos GraphQL de cada microservicio.
+    *   *Tecnología:* Apollo Router o NestJS Gateway con Federation.
+
+3.  **Notification Service**
+    *   *Responsabilidad:* Envío de emails, SMS, Push Notifications y Webhooks. Desacopla a los servicios de negocio de los proveedores (SendGrid, Twilio, Firebase).
+    *   *Tecnología:* NestJS + BullMQ (Colas de prioridad).
+
+4.  **Audit Service**
+    *   *Responsabilidad:* Registro inmutable de "quién hizo qué y cuándo" para cumplimiento legal y seguridad.
+    *   *Tecnología:* Kafka Consumer -> Base de datos inmutable (ej. TimescaleDB o ElasticSearch).
+
+5.  **Configuration & Secrets Server**
+    *   *Responsabilidad:* Centralizar la configuración y secretos.
+    *   *Tecnología:* HashiCorp Vault (Secretos) + Kubernetes ConfigMaps.
+
+B. SERVICIOS DE DOMINIO (NEGOCIO)
+---------------------------------
+
+6.  **Payroll Service (Nómina) - CRÍTICO**
+    *   *Responsabilidad:* Cálculo de nómina, gestión de empleados, incidencias, tiempos.
+    *   *Sub-módulos Internos:* Motores de cálculo específicos por país (MX, US, LATAM) implementados como estrategias polimórficas.
+    *   *Dependencias:* Identity (Usuarios), Fiscal Connector (Timbrado).
+    *   *Base de Datos:* PostgreSQL (Optimizado para escrituras masivas durante cálculos).
+
+7.  **Billing Service (Facturación) - CRÍTICO**
+    *   *Responsabilidad:* Gestión de facturas, notas de crédito, complementos de pago.
+    *   *Características:* Generación de XML/PDF, validación de reglas de negocio fiscal antes de timbrar.
+    *   *Base de Datos:* PostgreSQL (Consistencia transaccional estricta).
+
+8.  **Fiscal Connector Service (Conector Fiscal)**
+    *   *Responsabilidad:* **Aislamiento de complejidad regulatoria.** Es el único servicio que habla con el exterior (SAT, PACs, IRS).
+    *   *Justificación:* Si el SAT cambia un esquema o un PAC falla, solo este servicio se ve afectado/actualizado.
+    *   *Evolución:* `virteex-fiscal-connector` actual debe robustecerse con Circuit Breakers y Failover automático entre PACs.
+
+9.  **Accounting Service (Contabilidad)**
+    *   *Responsabilidad:* Libro mayor, pólizas, balanzas, reportes financieros.
+    *   *Interacción:* Escucha eventos de `Payroll` (Póliza de Nómina) y `Billing` (Póliza de Ingresos/Egresos) vía Kafka para generar asientos automáticamente.
+
+10. **Inventory & WMS Service**
+    *   *Responsabilidad:* Control de stock, almacenes, movimientos, lotes y caducidades.
+    *   *Tecnología:* Alta concurrencia, posible uso de Redis para control de stock en tiempo real.
+
+11. **Catalog Service**
+    *   *Responsabilidad:* Maestro de productos, servicios, listas de precios, catálogos del SAT (Claves ProdServ).
+    *   *Optimización:* Uso intensivo de caché (Redis) ya que es lectura muy frecuente (Read-Heavy).
+
+12. **CRM Service**
+    *   *Responsabilidad:* Gestión de clientes, prospectos, oportunidades y pipeline de ventas.
+
+13. **Purchasing Service (Compras)**
+    *   *Responsabilidad:* Órdenes de compra, gestión de proveedores, cuentas por pagar.
+
+14. **Treasury Service (Tesorería)**
+    *   *Responsabilidad:* Conciliación bancaria, flujo de efectivo, cuentas bancarias.
+
+15. **Fixed Assets Service (Activos Fijos)**
+    *   *Responsabilidad:* Depreciación, mantenimiento y rastreo de activos.
+
+16. **Projects Service**
+    *   *Responsabilidad:* Gestión de proyectos, tareas, tiempos y costos asociados.
+
+17. **Manufacturing Service (Producción)**
+    *   *Responsabilidad:* Listas de materiales (BOM), órdenes de producción.
+
+C. SERVICIOS DE INFRAESTRUCTURA Y SOPORTE
+-----------------------------------------
+
+18. **Jobs Service (Worker)**
+    *   *Responsabilidad:* Procesamiento de tareas en segundo plano (reportes pesados, importaciones masivas).
+    *   *Evolución:* `virteex-jobs` actual. Debe escalar horizontalmente basado en la longitud de las colas BullMQ.
+
+19. **Storage Service**
+    *   *Responsabilidad:* Abstracción de almacenamiento de archivos (S3, Azure Blob, Local). Maneja subida, redimensionamiento de imágenes y URLs firmadas.
+
+20. **Bi & Analytics Service**
+    *   *Responsabilidad:* Data Warehouse / Data Lake.
+    *   *Estrategia:* ETLs que consumen eventos de Kafka para construir vistas materializadas optimizadas para reportes, sin impactar las BDs transaccionales.
+
+--------------------------------------------------------------------------------
+3. ESTRATEGIA TECNOLÓGICA (TECH STACK)
+--------------------------------------------------------------------------------
+
+*   **Lenguaje/Framework:** Node.js + NestJS (v11+). Mantener la consistencia actual.
+*   **Comunicación Síncrona (User-Facing):** GraphQL Federation (Apollo).
+*   **Comunicación Asíncrona (Inter-Service):** Apache Kafka (Event Bus).
+    *   *Patrón:* Event Sourcing (opcional en dominios complejos) y CQRS.
+    *   *Formato:* Avro o Protobuf para contratos estrictos de mensajes.
+*   **Colas de Tareas:** BullMQ (Redis) para trabajos locales o reintentos.
+*   **Base de Datos:**
+    *   *Relacional:* PostgreSQL (Estándar).
+    *   *Caché:* Redis (Cluster).
+    *   *Series de Tiempo:* TimescaleDB (para métricas/auditoría).
+*   **ORM:** MikroORM (Excelente performance y soporte TS).
+*   **Seguridad:**
+    *   mTLS (Mutual TLS) entre microservicios (usando Service Mesh como Istio o Linkerd).
+    *   Gestión de secretos con HashiCorp Vault.
+    *   Firma de artefactos con Cosign (ya presente).
+
+--------------------------------------------------------------------------------
+4. ESTRATEGIA DE DESPLIEGUE Y OPERACIONES (DevSecOps)
+--------------------------------------------------------------------------------
+
+*   **Contenedorización:** Docker Multistage Builds (optimizados para producción).
+*   **Orquestación:** Kubernetes (K8s). Es el estándar de facto para manejar esta cantidad de servicios.
+*   **CI/CD:** Pipelines segregados. Cada microservicio tiene su propio ciclo de vida de despliegue.
+*   **Observabilidad (Stack LGTM o similar):**
+    *   *Logs:* Loki / Fluentbit.
+    *   *Métricas:* Prometheus / Grafana.
+    *   *Tracing:* Jaeger / OpenTelemetry (Traza una petición desde el Gateway hasta la BD).
+*   **Testing:**
+    *   *Unitarios:* Jest.
+    *   *Contrato:* Pact (Contract Testing) para asegurar que los cambios en un servicio no rompan a los consumidores.
+    *   *E2E:* Playwright (ya en uso).
+
+--------------------------------------------------------------------------------
+5. PLAN DE MIGRACIÓN (STRANGLER FIG PATTERN)
+--------------------------------------------------------------------------------
+
+No reescribir todo de golpe (Big Bang). Seguir el patrón "Higo Estrangulador":
+
+**Fase 1: Preparación de la Plataforma**
+1.  Establecer el clúster de Kubernetes y el Event Bus (Kafka).
+2.  Configurar el Identity Provider (Keycloak) y el API Gateway central.
+3.  Implementar el "Fiscal Connector" como primer microservicio independiente (baja complejidad de estado, alta utilidad).
+
+**Fase 2: Extracción de Dominios Core**
+1.  **Catalog Service:** Extraer catálogos (solo lectura mayoritaria, bajo riesgo).
+2.  **Notification Service:** Centralizar correos.
+3.  **Identity:** Migrar usuarios y auth al nuevo IdP.
+
+**Fase 3: Extracción de Dominios Críticos (Negocio)**
+1.  **Billing:** Extraer lógica de facturación. Redirigir tráfico de facturación en el Gateway al nuevo servicio.
+2.  **Payroll:** El más complejo. Extraer motores de cálculo.
+3.  **Accounting:** Desacoplar. Ahora Accounting solo "escucha" lo que hacen Billing y Payroll.
+
+**Fase 4: Desmantelamiento**
+1.  El monolito (`virteex-api-gateway` antiguo) queda vacío o como orquestador legacy.
+2.  Eliminar código muerto.
+
+--------------------------------------------------------------------------------
+6. ANÁLISIS DE RIESGOS Y MITIGACIÓN
+--------------------------------------------------------------------------------
+
+*   **Complejidad Operativa:** Pasar de 1 a 20+ servicios aumenta la carga cognitiva.
+    *   *Mitigación:* Automatización extrema (Terraform, ArgoCD) y Developer Portal (Backstage).
+*   **Latencia:** Más saltos de red.
+    *   *Mitigación:* Uso agresivo de caché, gRPC para comunicación interna, y diseño asíncrono.
+*   **Consistencia de Datos:** No hay transacciones distribuidas (ACID) entre servicios.
+    *   *Mitigación:* Consistencia Eventual y patrón Saga para transacciones complejas.
+
+--------------------------------------------------------------------------------
+CONCLUSIÓN
+--------------------------------------------------------------------------------
+Esta arquitectura posiciona a Virteex como una plataforma Enterprise-Grade. La separación estricta permite escalar equipos de desarrollo en paralelo (Squads por Dominio), soportar cargas masivas en días de nómina (escalando solo el servicio de Payroll), y cumplir con normativas de seguridad internacionales. La inversión inicial en infraestructura (K8s, Kafka) se recupera con la velocidad de innovación y estabilidad a largo plazo.
