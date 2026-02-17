@@ -1,0 +1,84 @@
+REPORTE DETALLADO: FLUJO DE INVITACIÓN DE USUARIOS EN VIRTEEX
+============================================================
+Fecha: 2025-05-30
+Autor: Jules (AI Assistant)
+
+1. ESTADO ACTUAL (AS-IS)
+------------------------
+Tras analizar el código fuente, se confirma que EXISTE un flujo funcional de invitación de usuarios, pero presenta serios riesgos de seguridad y desviaciones de las mejores prácticas.
+
+Componentes Existentes:
+- Backend (Application Layer): `libs/domains/identity/application/src/lib/use-cases/invite-user.use-case.ts`
+- Backend (Presentation Layer): `libs/domains/identity/presentation/src/lib/controllers/users.controller.ts` (@Post('invite'))
+- Frontend (UI): `libs/domains/identity/ui/src/lib/pages/user-management/user-management.page.ts` (Modal de invitación)
+- Infraestructura (Email): `libs/domains/identity/infrastructure/src/lib/services/nodemailer-notification.service.ts`
+
+Flujo Actual:
+1. El administrador ingresa el correo, nombre y rol en el frontend.
+2. El frontend llama al endpoint `POST /users/invite`.
+3. El `InviteUserUseCase`:
+   a. Verifica si el usuario ya existe.
+   b. Genera una contraseña aleatoria de 8 caracteres (`Math.random().toString(36).slice(-8)`).
+   c. Crea inmediatamente el registro del usuario en la base de datos con la contraseña hasheada.
+   d. Llama a `NotificationService.sendWelcomeEmail`.
+4. El `NodemailerNotificationService` envía un correo HTML con la contraseña EN TEXTO PLANO.
+
+Riesgos y Deficiencias:
+- CRÍTICO: Envío de contraseñas por correo electrónico. Si el correo es interceptado, la cuenta está comprometida.
+- UX: El usuario debe copiar y pegar una contraseña compleja generada por el sistema.
+- Seguridad: El usuario es creado inmediatamente, lo que aumenta la superficie de ataque con cuentas "durmientes" si la invitación no es aceptada.
+- No hay expiración de la invitación (la cuenta simplemente existe).
+
+2. ARQUITECTURA PROPUESTA (TO-BE)
+---------------------------------
+Se recomienda refactorizar el flujo para adherirse a prácticas seguras (OWASP) y mejorar la experiencia de usuario.
+
+Nuevo Flujo de Invitación:
+1. Administrador envía invitación (Email + Rol).
+2. Backend genera un TOKEN único (firmado o aleatorio seguro) con expiración (ej. 48 horas).
+3. Backend guarda una entidad `Invitation` (o usa Redis) vinculada al Tenant, NO crea el usuario todavía.
+4. Backend envía correo con ENLACE MÁGICO: `https://app.virteex.com/auth/accept-invite?token=xyz`.
+5. Usuario hace clic en el enlace.
+6. Frontend valida el token (GET /auth/invitations/:token).
+7. Usuario establece su contraseña y confirma sus datos.
+8. Backend crea el usuario y marca la invitación como aceptada.
+
+3. COMPONENTES REQUERIDOS
+-------------------------
+
+A. Backend (Identity Domain)
+   - [NUEVO] Entity: `Invitation`
+     - Fields: `id`, `email`, `roleId`, `tenantId`, `token`, `expiresAt`, `status` (PENDING, ACCEPTED, EXPIRED).
+   - [MODIFICAR] `InviteUserUseCase`:
+     - Eliminar lógica de creación de usuario y generación de password.
+     - Implementar lógica de creación de `Invitation` y generación de token.
+   - [NUEVO] `AcceptInviteUseCase`:
+     - Input: `token`, `password`, `firstName`, `lastName`.
+     - Validar token y expiración.
+     - Crear usuario (User) con la contraseña proporcionada.
+     - Invalidar/Borrar invitación.
+   - [NUEVO] `VerifyInvitationTokenUseCase`:
+     - Para que el frontend sepa si mostrar el formulario o un error (token inválido/expirado).
+   - [MODIFICAR] `NotificationService`:
+     - Cambiar `sendWelcomeEmail` para enviar el enlace en lugar del password.
+
+B. Frontend (Virteex Web)
+   - [NUEVO] Page: `AcceptInvitePage` (Ruta: `/auth/accept-invite`)
+     - Verificar token al cargar (`ngOnInit`).
+     - Formulario para establecer contraseña (Password + Confirm Password).
+   - [MODIFICAR] `UserManagementPage`:
+     - Reflejar estado "Pendiente" en la lista de usuarios (si se decide mostrar invitaciones pendientes).
+
+C. Base de Datos
+   - Tabla `invitations` con índices en `token` y `email`.
+
+4. PLAN DE ACCIÓN RECOMENDADO
+-----------------------------
+1. Crear la entidad `Invitation` y su repositorio.
+2. Implementar `InviteUserUseCase` (refactorizado) para guardar la invitación.
+3. Crear el endpoint y caso de uso para validar el token.
+4. Crear la pantalla de "Aceptar Invitación" en el frontend.
+5. Implementar `AcceptInviteUseCase` para la creación final del usuario.
+6. Eliminar el envío de contraseñas por correo.
+
+Este reporte detalla la existencia del flujo actual y la necesidad imperativa de refactorizarlo por motivos de seguridad.
