@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { User } from '../../..';
+import { User } from '../../interfaces/user.interface';
 
 export interface InviteUserDto {
   firstName: string;

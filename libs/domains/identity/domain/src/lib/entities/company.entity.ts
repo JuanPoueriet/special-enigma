@@ -1,5 +1,5 @@
 import { Entity, PrimaryKey, Property, OneToMany, Collection } from '@mikro-orm/core';
-import { User } from './user.entity';
+import type { User } from './user.entity';
 import { v4 as uuidv4 } from 'uuid';
 
 @Entity()
@@ -32,7 +32,7 @@ export class Company {
   @Property({ type: 'json', nullable: true })
   metadata?: Record<string, any>;
 
-  @OneToMany(() => User, user => user.company)
+  @OneToMany('User', 'company')
   users = new Collection<User>(this);
 
   @Property()

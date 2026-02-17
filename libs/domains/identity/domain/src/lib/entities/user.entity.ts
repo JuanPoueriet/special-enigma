@@ -1,5 +1,5 @@
 import { Entity, PrimaryKey, Property, ManyToOne, Unique } from '@mikro-orm/core';
-import { Company } from './company.entity';
+import type { Company } from './company.entity';
 import { v4 as uuidv4 } from 'uuid';
 
 @Entity()
@@ -35,7 +35,7 @@ export class User {
   @Property()
   role = 'user'; // 'admin', 'user', etc.
 
-  @ManyToOne(() => Company)
+  @ManyToOne('Company')
   company!: Company;
 
   @Property()

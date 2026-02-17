@@ -1,7 +1,7 @@
 import { Injectable, signal, inject, computed, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TokenService } from './token.service';
-import { API_URL } from '@virteex/shared-ui';
+import { API_URL } from '@virteex/shared-config';
 import { firstValueFrom } from 'rxjs';
 
 export interface User {

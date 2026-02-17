@@ -1,13 +1,13 @@
 import { Entity, PrimaryKey, Property, ManyToOne } from '@mikro-orm/core';
 import { v4 } from 'uuid';
-import { Invoice } from './invoice.entity';
+import type { Invoice } from './invoice.entity';
 
 @Entity()
 export class InvoiceItem {
   @PrimaryKey({ type: 'uuid' })
   id: string = v4();
 
-  @ManyToOne(() => Invoice)
+  @ManyToOne('Invoice')
   invoice!: Invoice;
 
   @Property()
