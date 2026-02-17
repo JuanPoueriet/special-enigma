@@ -1,6 +1,6 @@
 import { Entity, PrimaryKey, Property, Enum, OneToMany, Collection, Cascade, BeforeCreate, BeforeUpdate, ValidationError } from '@mikro-orm/core';
 import { CustomerType } from '@virteex/contracts';
-import { Opportunity } from './opportunity.entity';
+import type { Opportunity } from './opportunity.entity';
 
 @Entity()
 export class Customer {

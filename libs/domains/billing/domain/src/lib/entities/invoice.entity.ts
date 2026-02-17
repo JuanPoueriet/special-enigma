@@ -1,6 +1,6 @@
 import { Entity, PrimaryKey, Property, OneToMany, Collection, Cascade } from '@mikro-orm/core';
 import { v4 } from 'uuid';
-import { InvoiceItem } from './invoice-item.entity';
+import type { InvoiceItem } from './invoice-item.entity';
 
 @Entity()
 export class Invoice {
@@ -53,7 +53,7 @@ export class Invoice {
   @Property({ nullable: true })
   stampedAt?: Date;
 
-  @OneToMany(() => InvoiceItem, item => item.invoice, { cascade: [Cascade.ALL] })
+  @OneToMany('InvoiceItem', 'invoice', { cascade: [Cascade.ALL] })
   items = new Collection<InvoiceItem>(this);
 
   constructor(tenantId: string, customerId: string, totalAmount: string, taxAmount: string) {

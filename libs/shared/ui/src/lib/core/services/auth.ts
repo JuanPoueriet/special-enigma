@@ -15,7 +15,7 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { startRegistration, startAuthentication } from '@simplewebauthn/browser';
 
 // Relative imports
-import { API_URL } from '../tokens/api-url.token';
+import { API_URL } from '@virteex/shared-config';
 import { RegisterPayload } from '../../interfaces/register-payload.interface';
 import { User } from '../../interfaces/user.interface';
 import { UserStatus } from '../../enums/user-status.enum';
