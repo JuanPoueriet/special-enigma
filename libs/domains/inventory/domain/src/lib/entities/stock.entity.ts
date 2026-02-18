@@ -5,7 +5,7 @@ import { Location } from './location.entity';
 import Decimal from 'decimal.js';
 
 @Entity()
-@Unique({ properties: ['warehouse', 'location', 'productId'] })
+@Unique({ properties: ['warehouse', 'location', 'productId', 'lotId', 'serialNumber'] })
 export class Stock {
   @PrimaryKey({ type: 'uuid' })
   id: string = v4();
@@ -31,12 +31,20 @@ export class Stock {
   @Property({ onUpdate: () => new Date() })
   updatedAt: Date = new Date();
 
+  @Property({ nullable: true })
+  lotId?: string;
+
+  @Property({ nullable: true })
+  serialNumber?: string;
+
   constructor(
     tenantId: string,
     productId: string,
     warehouse: Warehouse,
     quantity = '0',
-    location?: Location
+    location?: Location,
+    lotId?: string,
+    serialNumber?: string
   ) {
     this.tenantId = tenantId;
     this.productId = productId;
@@ -45,6 +53,8 @@ export class Stock {
     if (location) {
       this.location = location;
     }
+    this.lotId = lotId;
+    this.serialNumber = serialNumber;
   }
 
   addQuantity(qty: string): void {
