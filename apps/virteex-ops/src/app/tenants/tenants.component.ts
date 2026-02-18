@@ -128,6 +128,6 @@ export class TenantsComponent {
 
   onNewTenant() {
     // Navigate to create form
-    console.log('New Tenant clicked');
+    // TODO: Implement navigation
   }
 }

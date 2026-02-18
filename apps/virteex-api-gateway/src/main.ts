@@ -6,17 +6,16 @@ import { otelSDK } from './tracing';
 // Start SDK before importing other modules
 otelSDK.start();
 
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import { Logger as PinoLogger } from 'nestjs-pino';
 import { NestFactory } from '@nestjs/core';
 import { Transport, MicroserviceOptions } from '@nestjs/microservices';
 import { ConfigService } from '@nestjs/config';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import helmet from 'helmet';
 import { AppModule } from './app/app.module';
-import { GlobalExceptionFilter } from './app/filters/global-exception.filter';
 import { InitialSeederService } from './app/seeds/initial-seeder.service';
 import { MikroORM } from '@mikro-orm/core';
+import { setupGlobalConfig } from '@virteex/shared-util-server-config';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
@@ -36,50 +35,44 @@ async function bootstrap(): Promise<void> {
   await app.startAllMicroservices();
 
   app.useLogger(app.get(PinoLogger));
+  const logger = new Logger('Bootstrap');
 
-  // Ensure Database Schema exists (Auto-migration for dev/demo)
-  // This is critical for SQLite in-memory or file-based DBs to have tables created before seeding.
+  // Database Initialization (Robust)
   if (process.env.NODE_ENV !== 'production') {
-    const orm = app.get(MikroORM);
-    const generator = orm.getSchemaGenerator();
-    await generator.ensureDatabase();
-
-    // Ensure schemas exist for Postgres
     try {
-      const configService = app.get(ConfigService);
-      if (configService.get('DB_DRIVER') === 'postgres') {
-        await (orm.em as any).execute('CREATE SCHEMA IF NOT EXISTS identity');
-      }
-    } catch (error) {
-      // Ignore if not supported or fails
-    }
+        logger.log('Initializing Database Schema...');
+        const orm = app.get(MikroORM);
+        const generator = orm.getSchemaGenerator();
+        await generator.ensureDatabase();
 
-    await generator.updateSchema();
+        // Ensure schemas exist for Postgres
+        const configService = app.get(ConfigService);
+        if (configService.get('DB_DRIVER') === 'postgres') {
+            try {
+                await (orm.em as any).execute('CREATE SCHEMA IF NOT EXISTS identity');
+            } catch (err) {
+                logger.warn(`Failed to create schema 'identity': ${err.message}`);
+            }
+        }
+
+        await generator.updateSchema();
+        logger.log('Database Schema Initialized.');
+
+        // Run Seeder
+        logger.log('Running Seeders...');
+        const seeder = app.get(InitialSeederService);
+        await seeder.seed();
+        logger.log('Seeding Complete.');
+    } catch (error) {
+        logger.error('Database Initialization Failed', error);
+        // We might want to exit here if DB is critical, but for now we log and continue (or let it crash later)
+    }
   }
 
-  // Run Seeder
-  const seeder = app.get(InitialSeederService);
-  await seeder.seed();
   const configService = app.get(ConfigService);
-  const globalPrefix = 'api';
-  app.setGlobalPrefix(globalPrefix);
 
-  // Security
-  app.use(helmet());
-  app.enableCors({
-    origin: configService.get<string>('CORS_ORIGIN')?.split(',') || ['http://localhost:4200'],
-    credentials: true,
-  });
-
-  // Validation
-  app.useGlobalPipes(new ValidationPipe({
-    transform: true,
-    whitelist: true,
-    forbidNonWhitelisted: true,
-  }));
-
-  // Exception Filter
-  app.useGlobalFilters(new GlobalExceptionFilter());
+  // Apply Global Configuration (Security, Pipes, Filters)
+  setupGlobalConfig(app);
 
   // Swagger
   const config = new DocumentBuilder()
@@ -92,6 +85,7 @@ async function bootstrap(): Promise<void> {
   SwaggerModule.setup('api/docs', app, document);
 
   const port = configService.get<number>('PORT') || 3000;
+  const globalPrefix = 'api'; // configured in setupGlobalConfig
 
   await app.listen(port);
   Logger.log(
