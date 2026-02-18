@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "ddd-resource",
+  "title": "DDD Resource Generator",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Resource name (e.g. products)"
+    },
+    "domain": {
+      "type": "string",
+      "description": "Domain name (e.g. catalog)"
+    }
+  },
+  "required": ["name", "domain"]
+}

@@ -2,6 +2,7 @@ import { Module, Global } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { validate } from './env.validation';
 import { GlobalConfigService } from './global-config.service';
+import { IdempotencyService } from './services/idempotency.service';
 
 @Global()
 @Module({
@@ -11,7 +12,7 @@ import { GlobalConfigService } from './global-config.service';
       validate,
     }),
   ],
-  providers: [GlobalConfigService],
-  exports: [ConfigModule, GlobalConfigService],
+  providers: [GlobalConfigService, IdempotencyService],
+  exports: [ConfigModule, GlobalConfigService, IdempotencyService],
 })
 export class ServerConfigModule {}

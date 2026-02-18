@@ -1,0 +1,10 @@
+import { Injectable } from '@nestjs/common';
+import { <%= className %> } from '@virteex/<%= domain %>-<%= name %>-domain';
+
+@Injectable()
+export class <%= className %>Service {
+  create(name: string): <%= className %> {
+    // This is a placeholder. In a real app, this would use a repository.
+    return new <%= className %>('1', name);
+  }
+}

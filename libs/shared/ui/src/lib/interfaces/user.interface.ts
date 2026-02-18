@@ -1,4 +1,4 @@
-import { Role } from '../..';
+import { Role } from '../core/api/roles.service';
 import { UserStatus } from '../enums/user-status.enum';
 
 export interface Organization {
