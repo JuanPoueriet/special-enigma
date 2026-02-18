@@ -6,29 +6,34 @@ import { InboxMessage } from './entities/inbox-message.entity';
 import { OutboxService } from './outbox.service';
 import { InboxService } from './inbox.service';
 import { OutboxProcessor } from './outbox.processor';
-import Redis from 'ioredis';
+import { SagaOrchestrator } from './saga/saga-orchestrator';
+import { RedisCacheModule } from '@virteex/shared/infrastructure/cache';
 
 @Global()
 @Module({
   imports: [
     MikroOrmModule.forFeature([OutboxEvent, InboxMessage]),
     ScheduleModule.forRoot(),
+    RedisCacheModule.forRootAsync({
+      useFactory: () => {
+        const url = process.env['REDIS_URL'];
+        if (url) {
+          return url;
+        }
+        return {
+          host: process.env['REDIS_HOST'] || 'localhost',
+          port: parseInt(process.env['REDIS_PORT'] || '6379'),
+          password: process.env['REDIS_PASSWORD'],
+        };
+      },
+    }),
   ],
   providers: [
     OutboxService,
     InboxService,
     OutboxProcessor,
-    {
-      provide: 'REDIS_CLIENT',
-      useFactory: () => {
-        const url = process.env['REDIS_URL'];
-        if (!url) {
-          throw new Error('REDIS_URL environment variable is missing');
-        }
-        return new Redis(url);
-      }
-    }
+    SagaOrchestrator,
   ],
-  exports: [OutboxService, InboxService, MikroOrmModule, 'REDIS_CLIENT'],
+  exports: [OutboxService, InboxService, MikroOrmModule, SagaOrchestrator],
 })
 export class MessagingModule {}

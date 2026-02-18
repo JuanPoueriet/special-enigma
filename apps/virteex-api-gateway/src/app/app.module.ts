@@ -6,7 +6,6 @@ import { SqliteDriver } from '@mikro-orm/sqlite';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ServerConfigModule, IdempotencyInterceptor } from '@virteex/shared-util-server-config';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
-import { LoggerModule } from 'nestjs-pino';
 import { TerminusModule } from '@nestjs/terminus';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { JwtAuthGuard, JwtTenantMiddleware } from '@virteex/auth';
@@ -40,14 +39,6 @@ import { StoreApiModule } from '../presentation/store-api/store-api.module';
 
 @Module({
   imports: [
-    LoggerModule.forRoot({
-      pinoHttp: {
-        level: process.env.LOG_LEVEL || 'info',
-        transport: process.env.NODE_ENV !== 'production'
-          ? { target: 'pino-pretty' }
-          : undefined,
-      },
-    }),
     TerminusModule,
     EventEmitterModule.forRoot(),
     KafkaModule.forRoot({
