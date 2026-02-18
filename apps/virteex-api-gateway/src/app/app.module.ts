@@ -4,13 +4,13 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { SqliteDriver } from '@mikro-orm/sqlite';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { ServerConfigModule } from '@virteex/shared-util-server-config';
+import { ServerConfigModule, IdempotencyInterceptor } from '@virteex/shared-util-server-config';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { LoggerModule } from 'nestjs-pino';
 import { TerminusModule } from '@nestjs/terminus';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { JwtAuthGuard, JwtTenantMiddleware } from '@virteex/auth';
-import { TenantRlsInterceptor, TenantModule } from '@virteex/tenant';
+import { TenantRlsInterceptor, TenantModule, TenantThrottlerGuard } from '@virteex/tenant';
 import { KafkaModule } from '@virteex/shared/infrastructure/kafka';
 import { AuditModule } from '@virteex/audit';
 import { AppController } from './app.controller';
@@ -113,7 +113,7 @@ import { StoreApiModule } from '../presentation/store-api/store-api.module';
     InitialSeederService,
     {
       provide: APP_GUARD,
-      useClass: ThrottlerGuard,
+      useClass: TenantThrottlerGuard,
     },
     {
       provide: APP_GUARD,
@@ -122,6 +122,10 @@ import { StoreApiModule } from '../presentation/store-api/store-api.module';
     {
       provide: APP_INTERCEPTOR,
       useClass: TenantRlsInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: IdempotencyInterceptor,
     },
   ],
 })

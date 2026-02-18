@@ -7,3 +7,5 @@ export * from './lib/filters/global-exception.filter';
 export * from './lib/constants/countries';
 export * from './lib/decorators/current-tenant.decorator';
 export * from './lib/exceptions/domain.exception';
+export * from './lib/interceptors/idempotency.interceptor';
+export * from './lib/services/idempotency.service';

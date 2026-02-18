@@ -1,0 +1,14 @@
+import { Injectable } from '@nestjs/common';
+import { <%= className %> } from '@virteex/<%= domain %>-<%= name %>-domain';
+
+@Injectable()
+export class <%= className %>Repository {
+  save(entity: <%= className %>): void {
+    console.log('Saving entity to database', entity);
+  }
+
+  findById(id: string): Promise<<%= className %> | null> {
+    // Placeholder implementation
+    return Promise.resolve(new <%= className %>(id, 'Test Entity'));
+  }
+}

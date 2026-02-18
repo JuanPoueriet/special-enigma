@@ -1,0 +1,17 @@
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { <%= className %>Service } from '@virteex/<%= domain %>-<%= name %>-application';
+
+@Controller('<%= name %>')
+export class <%= className %>Controller {
+  constructor(private readonly service: <%= className %>Service) {}
+
+  @Post()
+  create(@Body('name') name: string) {
+    return this.service.create(name);
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return { id, name: 'Sample' };
+  }
+}
