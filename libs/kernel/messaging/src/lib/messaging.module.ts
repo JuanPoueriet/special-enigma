@@ -2,18 +2,21 @@ import { Module, Global } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { ScheduleModule } from '@nestjs/schedule';
 import { OutboxEvent } from './entities/outbox-event.entity';
+import { InboxMessage } from './entities/inbox-message.entity';
 import { OutboxService } from './outbox.service';
+import { InboxService } from './inbox.service';
 import { OutboxProcessor } from './outbox.processor';
 import Redis from 'ioredis';
 
 @Global()
 @Module({
   imports: [
-    MikroOrmModule.forFeature([OutboxEvent]),
+    MikroOrmModule.forFeature([OutboxEvent, InboxMessage]),
     ScheduleModule.forRoot(),
   ],
   providers: [
     OutboxService,
+    InboxService,
     OutboxProcessor,
     {
       provide: 'REDIS_CLIENT',
@@ -26,6 +29,6 @@ import Redis from 'ioredis';
       }
     }
   ],
-  exports: [OutboxService, MikroOrmModule, 'REDIS_CLIENT'],
+  exports: [OutboxService, InboxService, MikroOrmModule, 'REDIS_CLIENT'],
 })
 export class MessagingModule {}

@@ -50,7 +50,7 @@ async function bootstrap(): Promise<void> {
         if (configService.get('DB_DRIVER') === 'postgres') {
             try {
                 await (orm.em as any).execute('CREATE SCHEMA IF NOT EXISTS identity');
-            } catch (err) {
+            } catch (err: any) {
                 logger.warn(`Failed to create schema 'identity': ${err.message}`);
             }
         }

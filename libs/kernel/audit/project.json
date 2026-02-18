@@ -1,0 +1,9 @@
+{
+  "name": "audit",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/kernel/audit/src",
+  "projectType": "library",
+  "tags": ["type:kernel"],
+  "// targets": "to see all targets run: nx show project audit --web",
+  "targets": {}
+}
