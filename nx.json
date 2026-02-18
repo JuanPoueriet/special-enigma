@@ -41,14 +41,14 @@
         "targetName": "test"
       },
       "exclude": [
-        "apps/virteex-api-gateway-e2e/**/*",
-        "apps/virteex-auth-server-e2e/**/*",
-        "apps/virteex-jobs-e2e/**/*",
-        "apps/virteex-fiscal-connector-e2e/**/*",
-        "apps/virteex-catalog-service-e2e/**/*",
-        "apps/virteex-gateway-e2e/**/*",
-        "apps/virteex-notification-service-e2e/**/*",
-        "apps/virteex-billing-service-e2e/**/*"
+        "apps/backend/api-core-e2e/**/*",
+        "apps/backend/identity-e2e/**/*",
+        "apps/backend/jobs-e2e/**/*",
+        "apps/backend/fiscal-e2e/**/*",
+        "apps/backend/catalog-e2e/**/*",
+        "apps/gateway/supergraph-e2e/**/*",
+        "apps/backend/notifications-e2e/**/*",
+        "apps/backend/billing-e2e/**/*"
       ]
     },
     {
@@ -112,5 +112,5 @@
       "style": "css"
     }
   },
-  "defaultProject": "apps-virteex-desktop-virteex-desktop"
+  "defaultProject": "frontend-desktop"
 }

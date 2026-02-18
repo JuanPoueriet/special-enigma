@@ -1,0 +1,24 @@
+{
+  "name": "backend-catalog-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "implicitDependencies": [
+    "backend-catalog"
+  ],
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{e2eProjectRoot}"
+      ],
+      "options": {
+        "jestConfig": "apps/backend/catalog-e2e/jest.config.cts",
+        "passWithNoTests": true
+      },
+      "dependsOn": [
+        "virteex-catalog-service:build",
+        "virteex-catalog-service:serve"
+      ]
+    }
+  }
+}

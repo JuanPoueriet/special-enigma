@@ -1,0 +1,97 @@
+{
+  "name": "frontend-site",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "virteex",
+  "sourceRoot": "apps/frontend/site/src",
+  "tags": [
+    "platform:web"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@angular/build:application",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/apps/frontend/site",
+        "browser": "apps/frontend/site/src/main.ts",
+        "tsConfig": "apps/frontend/site/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/frontend/site/public"
+          }
+        ],
+        "styles": [
+          "apps/frontend/site/src/styles.scss"
+        ],
+        "server": "apps/frontend/site/src/main.server.ts",
+        "ssr": {
+          "entry": "apps/frontend/site/src/server.ts"
+        },
+        "outputMode": "server"
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "4kb",
+              "maximumError": "8kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "continuous": true,
+      "executor": "@angular/build:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "frontend-site:build:production"
+        },
+        "development": {
+          "buildTarget": "frontend-site:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "apps/frontend/site/jest.config.cts",
+        "tsConfig": "apps/frontend/site/tsconfig.spec.json"
+      }
+    },
+    "serve-static": {
+      "continuous": true,
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "frontend-site:build",
+        "port": 4200,
+        "staticFilePath": "dist/apps/frontend/site/browser",
+        "spa": true
+      }
+    }
+  }
+}

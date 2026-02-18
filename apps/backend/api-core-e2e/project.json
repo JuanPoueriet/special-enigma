@@ -1,0 +1,25 @@
+{
+  "name": "backend-api-core-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "implicitDependencies": [
+    "backend-api-core"
+  ],
+  "targets": {
+    "e2e": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{e2eProjectRoot}"
+      ],
+      "options": {
+        "jestConfig": "apps/backend/api-core-e2e/jest.config.cts",
+        "passWithNoTests": true
+      },
+      "dependsOn": [
+        "virteex-api-gateway:build",
+        "virteex-api-gateway:serve"
+      ]
+    }
+  },
+  "prefix": "virteex"
+}
