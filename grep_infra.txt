@@ -1,2 +1,0 @@
-libs/domains/bi/infrastructure/package.json:  "name": "@virteex/bi-infrastructure",
-libs/domains/bi/application/src/lib/bi-application.ts:// import { BiInfrastructureModule } from '@virteex/bi-infrastructure';

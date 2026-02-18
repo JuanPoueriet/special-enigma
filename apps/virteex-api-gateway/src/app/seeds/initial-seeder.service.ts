@@ -3,7 +3,6 @@ import { EntityManager } from '@mikro-orm/core';
 import { TaxTable } from '@virteex/payroll-domain';
 import { User, Company } from '@virteex/identity-domain';
 import { Product } from '@virteex/catalog-domain';
-import { v4 } from 'uuid';
 
 @Injectable()
 export class InitialSeederService {
