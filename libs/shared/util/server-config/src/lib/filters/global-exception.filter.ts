@@ -54,7 +54,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     }
 
     // Ensure we don't leak stack traces in production for 500 errors unless specifically enabled
-    if (process.env.NODE_ENV === 'production' && status === HttpStatus.INTERNAL_SERVER_ERROR) {
+    if (process.env['NODE_ENV'] === 'production' && status === HttpStatus.INTERNAL_SERVER_ERROR) {
         errorResponse.detail = 'Internal Server Error';
     }
 
