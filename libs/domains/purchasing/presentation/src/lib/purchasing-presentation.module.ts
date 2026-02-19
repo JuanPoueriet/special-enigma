@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { PurchasingController } from './controllers/purchasing.controller';
-import { ApprovalsController } from './controllers/approvals.controller'; // Added
+import { ApprovalsController } from './controllers/approvals.controller';
 import { PurchasingResolver } from './resolvers/purchasing.resolver';
 import {
   PurchasingApplicationModule,
@@ -8,6 +8,8 @@ import {
   CreatePurchaseOrderUseCase,
   CreateRequisitionUseCase,
   GetRequisitionsUseCase,
+  ApproveRequisitionUseCase,
+  RejectRequisitionUseCase,
   CreateVendorBillUseCase,
   UpdateVendorBillUseCase,
   GetVendorBillUseCase
@@ -16,12 +18,14 @@ import { PurchasingInfrastructureModule } from '@virteex/purchasing-infrastructu
 
 @Module({
   imports: [PurchasingApplicationModule, PurchasingInfrastructureModule],
-  controllers: [PurchasingController, ApprovalsController], // Added
+  controllers: [PurchasingController, ApprovalsController],
   providers: [
     CreateSupplierUseCase,
     CreatePurchaseOrderUseCase,
     CreateRequisitionUseCase,
     GetRequisitionsUseCase,
+    ApproveRequisitionUseCase, // Added
+    RejectRequisitionUseCase, // Added
     CreateVendorBillUseCase,
     UpdateVendorBillUseCase,
     GetVendorBillUseCase,

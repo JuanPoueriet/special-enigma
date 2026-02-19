@@ -1,18 +1,20 @@
 import { Controller, Get, Post, Param, UseGuards, UnauthorizedException } from '@nestjs/common';
 import { JwtAuthGuard, getTenantContext } from '@virteex/auth';
-import { GetRequisitionsUseCase } from '@virteex/purchasing-application';
+import { GetRequisitionsUseCase, ApproveRequisitionUseCase, RejectRequisitionUseCase } from '@virteex/purchasing-application';
 
 @Controller('approvals')
 @UseGuards(JwtAuthGuard)
 export class ApprovalsController {
-  constructor(private readonly getRequisitionsUseCase: GetRequisitionsUseCase) {}
+  constructor(
+    private readonly getRequisitionsUseCase: GetRequisitionsUseCase,
+    private readonly approveRequisitionUseCase: ApproveRequisitionUseCase,
+    private readonly rejectRequisitionUseCase: RejectRequisitionUseCase
+  ) {}
 
   @Get('pending')
   async getPending() {
     const context = getTenantContext();
     if (!context?.tenantId) {
-        // Fallback for demo/dev if auth context missing in test env
-        // throw new UnauthorizedException('Tenant context missing');
         return [];
     }
 
@@ -29,14 +31,20 @@ export class ApprovalsController {
   }
 
   @Post(':id/approve')
-  approve(@Param('id') id: string) {
-    // TODO: Integrate ApproveRequisitionUseCase
-    return { success: true, message: `Approved ${id}` };
+  async approve(@Param('id') id: string) {
+    const context = getTenantContext();
+    if (!context?.tenantId) throw new UnauthorizedException();
+
+    await this.approveRequisitionUseCase.execute(id, context.tenantId);
+    return { success: true };
   }
 
   @Post(':id/reject')
-  reject(@Param('id') id: string) {
-    // TODO: Integrate RejectRequisitionUseCase
-    return { success: true, message: `Rejected ${id}` };
+  async reject(@Param('id') id: string) {
+    const context = getTenantContext();
+    if (!context?.tenantId) throw new UnauthorizedException();
+
+    await this.rejectRequisitionUseCase.execute(id, context.tenantId);
+    return { success: true };
   }
 }
