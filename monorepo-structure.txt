@@ -1,0 +1,112 @@
+repo-root/
+│
+├── apps/
+│   ├── virteex-accounting-service/
+│   ├── virteex-admin-service/
+│   ├── virteex-api-gateway/
+│   ├── virteex-bi-service/
+│   ├── virteex-billing-service/
+│   ├── virteex-catalog-service/
+│   ├── virteex-cms/
+│   ├── virteex-crm-service/
+│   ├── virteex-desktop/
+│   ├── virteex-fiscal-service/
+│   ├── virteex-fixed-assets-service/
+│   ├── virteex-gateway/
+│   ├── virteex-identity-service/
+│   ├── virteex-inventory-service/
+│   ├── virteex-manufacturing-service/
+│   ├── virteex-mobile/
+│   ├── virteex-notification-service/
+│   ├── virteex-ops/
+│   ├── virteex-payroll-service/
+│   ├── virteex-plugin-host/
+│   ├── virteex-projects-service/
+│   ├── virteex-purchasing-service/
+│   ├── virteex-scheduler-service/
+│   ├── virteex-shopfloor/
+│   ├── virteex-site/
+│   ├── virteex-store/
+│   ├── virteex-support/
+│   ├── virteex-treasury-service/
+│   ├── virteex-web/
+│   └── virteex-wms/
+│
+├── libs/
+│   ├── domains/
+│   │   ├── accounting/
+│   │   ├── admin/
+│   │   ├── bi/
+│   │   ├── billing/
+│   │   ├── catalog/
+│   │   ├── crm/
+│   │   ├── fiscal/
+│   │   ├── fixed-assets/
+│   │   ├── identity/
+│   │   ├── inventory/
+│   │   ├── manufacturing/
+│   │   ├── notification/
+│   │   ├── payroll/
+│   │   ├── projects/
+│   │   ├── purchasing/
+│   │   └── treasury/
+│   │
+│   ├── kernel/
+│   │   ├── audit/
+│   │   ├── auth/
+│   │   ├── finops/
+│   │   ├── messaging/
+│   │   ├── telemetry/
+│   │   └── tenant/
+│   │
+│   └── shared/
+│       ├── contracts/
+│       ├── infrastructure/
+│       ├── types/
+│       ├── ui/
+│       ├── util/
+│       └── validators/
+│
+├── infrastructure/
+│   ├── docker/
+│   ├── k8s/
+│   ├── terraform/
+│   └── prometheus.yml
+│
+├── k8s/
+│   ├── deployment-template.yaml
+│   └── service-template.yaml
+│
+├── helm/
+│   └── virteex/
+│
+├── policies/
+│   ├── compliance/
+│   └── security/
+│
+├── tools/
+│   ├── generators/
+│   │   └── ddd-resource/
+│   ├── k6/
+│   ├── extract_inline_components.py
+│   ├── fix_imports.py
+│   ├── fix_self_references.py
+│   ├── refactor_env.py
+│   ├── refactor_paths.py
+│   ├── run-pocs.sh
+│   ├── seed-tax-tables.ts
+│   ├── update_aliases.py
+│   └── validate-policies.sh
+│
+├── .github/
+├── .husky/
+├── .vscode/
+├── AGENTS.md
+├── OWNERS
+├── README.md
+├── docker-compose.yml
+├── nx.json
+├── package.json
+├── skaffold.yaml
+├── tsconfig.base.json
+└── vitest.workspace.ts
