@@ -5,6 +5,7 @@ import { CreateProductUseCase } from './use-cases/create-product.use-case';
 import { UpdateProductUseCase } from './use-cases/update-product.use-case';
 import { DeleteProductUseCase } from './use-cases/delete-product.use-case';
 import { GetSatCatalogsUseCase } from './use-cases/get-sat-catalogs.use-case';
+import { GetProductBySkuUseCase } from './use-cases/get-product-by-sku.use-case';
 
 @Module({
   providers: [
@@ -13,7 +14,8 @@ import { GetSatCatalogsUseCase } from './use-cases/get-sat-catalogs.use-case';
     CreateProductUseCase,
     UpdateProductUseCase,
     DeleteProductUseCase,
-    GetSatCatalogsUseCase
+    GetSatCatalogsUseCase,
+    GetProductBySkuUseCase
   ],
   exports: [
     GetProductsUseCase,
@@ -21,7 +23,8 @@ import { GetSatCatalogsUseCase } from './use-cases/get-sat-catalogs.use-case';
     CreateProductUseCase,
     UpdateProductUseCase,
     DeleteProductUseCase,
-    GetSatCatalogsUseCase
+    GetSatCatalogsUseCase,
+    GetProductBySkuUseCase
   ],
 })
 export class CatalogApplicationModule {}

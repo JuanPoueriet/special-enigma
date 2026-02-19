@@ -13,9 +13,12 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { JwtAuthGuard, JwtTenantMiddleware } from '@virteex/auth';
 import { TenantRlsInterceptor, TenantModule } from '@virteex/tenant';
 import { KafkaModule } from '@virteex/shared/infrastructure/kafka';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloFederationDriver, ApolloFederationDriverConfig } from '@nestjs/apollo';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { RemoteProductRepository } from './repositories/remote-product.repository';
+import { InventoryResolver } from './inventory.resolver';
 
 // Domain Modules
 import { InventoryPresentationModule } from '@virteex/inventory-presentation';
@@ -40,6 +43,12 @@ import { InventoryPresentationModule } from '@virteex/inventory-presentation';
         limit: 100,
       },
     ]),
+    GraphQLModule.forRoot<ApolloFederationDriverConfig>({
+      driver: ApolloFederationDriver,
+      autoSchemaFile: {
+        federation: 2,
+      },
+    }),
     MikroOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -81,6 +90,7 @@ import { InventoryPresentationModule } from '@virteex/inventory-presentation';
   controllers: [AppController],
   providers: [
     AppService,
+    InventoryResolver,
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,

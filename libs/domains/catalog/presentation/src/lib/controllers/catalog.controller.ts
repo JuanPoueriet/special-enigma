@@ -8,7 +8,8 @@ import {
   UpdateProductUseCase,
   UpdateProductDto,
   DeleteProductUseCase,
-  GetSatCatalogsUseCase
+  GetSatCatalogsUseCase,
+  GetProductBySkuUseCase
 } from '@virteex/catalog-application';
 
 @ApiTags('Catalog')
@@ -20,13 +21,20 @@ export class CatalogController {
     private readonly createProductUseCase: CreateProductUseCase,
     private readonly updateProductUseCase: UpdateProductUseCase,
     private readonly deleteProductUseCase: DeleteProductUseCase,
-    private readonly getSatCatalogsUseCase: GetSatCatalogsUseCase
+    private readonly getSatCatalogsUseCase: GetSatCatalogsUseCase,
+    private readonly getProductBySkuUseCase: GetProductBySkuUseCase
   ) {}
 
   @Get('products')
   @ApiOperation({ summary: 'Get all products' })
   async getProducts(@Query('tenantId') tenantId = 'default') {
     return this.getProductsUseCase.execute(tenantId);
+  }
+
+  @Get('products/sku/:sku')
+  @ApiOperation({ summary: 'Get product by SKU' })
+  async getProductBySku(@Param('sku') sku: string) {
+    return this.getProductBySkuUseCase.execute(sku);
   }
 
   @Get('products/:id')

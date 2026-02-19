@@ -19,7 +19,19 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
             subgraphs: [
               {
                 name: 'catalog',
-                url: configService.get('CATALOG_SERVICE_URL') || 'http://localhost:3001/graphql',
+                url: configService.get('CATALOG_SERVICE_URL') || 'http://virteex-catalog-service:3000/graphql',
+              },
+              {
+                name: 'identity',
+                url: configService.get('IDENTITY_SERVICE_URL') || 'http://virteex-identity-service:3000/graphql',
+              },
+              {
+                name: 'inventory',
+                url: configService.get('INVENTORY_SERVICE_URL') || 'http://virteex-inventory-service:3000/graphql',
+              },
+              {
+                name: 'billing',
+                url: configService.get('BILLING_SERVICE_URL') || 'http://virteex-billing-service:3000/graphql',
               },
             ],
           }),

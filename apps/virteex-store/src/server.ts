@@ -1,3 +1,4 @@
+import { Logger } from '@nestjs/common';
 import {
   AngularNodeAppEngine,
   createNodeRequestHandler,
@@ -56,7 +57,7 @@ app.use('/**', (req, res, next) => {
 if (isMainModule(import.meta.url) || process.env['pm_id']) {
   const port = process.env['PORT'] || 4000;
   app.listen(port, () => {
-    console.log(`Node Express server listening on http://localhost:${port}`);
+    Logger.log(`Node Express server listening on http://localhost:${port}`);
   });
 }
 
