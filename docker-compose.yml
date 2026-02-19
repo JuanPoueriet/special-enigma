@@ -7,8 +7,10 @@ services:
     container_name: virteex-unified-gateway
     ports:
       - "3000:80"
+      - "3443:443"
     volumes:
       - ./infrastructure/docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./infrastructure/docker/nginx/certs:/etc/nginx/certs
     depends_on:
       - api-gateway
       - identity-service
@@ -29,13 +31,13 @@ services:
       - .:/app
     environment:
       - PORT=3000
-      - VIRTEEX_HMAC_SECRET=${VIRTEEX_HMAC_SECRET:-dev-hmac-secret-for-local-only}
+      - VIRTEEX_HMAC_SECRET=${VIRTEEX_HMAC_SECRET}
       - REDIS_URL=${REDIS_URL:-redis://redis:6379}
-      - POSTGRES_URL=${POSTGRES_URL:-postgres://virteex:${POSTGRES_PASSWORD:-virteex_password}@postgres:5432/virteex_erp}
+      - POSTGRES_URL=${POSTGRES_URL:-postgres://virteex:${POSTGRES_PASSWORD}@postgres:5432/virteex_erp}
       - DB_HOST=postgres
       - DB_PORT=5432
       - DB_USER=virteex
-      - DB_PASSWORD=${POSTGRES_PASSWORD:-virteex_password}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
       - DB_NAME=virteex_erp
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
@@ -59,7 +61,7 @@ services:
       - IDENTITY_DB_HOST=postgres
       - IDENTITY_DB_PORT=5432
       - IDENTITY_DB_USER=virteex
-      - IDENTITY_DB_PASSWORD=${POSTGRES_PASSWORD:-virteex_password}
+      - IDENTITY_DB_PASSWORD=${POSTGRES_PASSWORD}
       - IDENTITY_DB_NAME=virteex_identity
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
@@ -83,7 +85,7 @@ services:
       - INVENTORY_DB_HOST=postgres
       - INVENTORY_DB_PORT=5432
       - INVENTORY_DB_USER=virteex
-      - INVENTORY_DB_PASSWORD=${POSTGRES_PASSWORD:-virteex_password}
+      - INVENTORY_DB_PASSWORD=${POSTGRES_PASSWORD}
       - INVENTORY_DB_NAME=virteex_inventory
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
@@ -107,7 +109,7 @@ services:
       - BILLING_DB_HOST=postgres
       - BILLING_DB_PORT=5432
       - BILLING_DB_USER=virteex
-      - BILLING_DB_PASSWORD=${POSTGRES_PASSWORD:-virteex_password}
+      - BILLING_DB_PASSWORD=${POSTGRES_PASSWORD}
       - BILLING_DB_NAME=virteex_billing
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
@@ -131,7 +133,7 @@ services:
       - CRM_DB_HOST=postgres
       - CRM_DB_PORT=5432
       - CRM_DB_USER=virteex
-      - CRM_DB_PASSWORD=${POSTGRES_PASSWORD:-virteex_password}
+      - CRM_DB_PASSWORD=${POSTGRES_PASSWORD}
       - CRM_DB_NAME=virteex_crm
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
@@ -155,7 +157,7 @@ services:
       - FISCAL_DB_HOST=postgres
       - FISCAL_DB_PORT=5432
       - FISCAL_DB_USER=virteex
-      - FISCAL_DB_PASSWORD=${POSTGRES_PASSWORD:-virteex_password}
+      - FISCAL_DB_PASSWORD=${POSTGRES_PASSWORD}
       - FISCAL_DB_NAME=virteex_fiscal
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
@@ -194,7 +196,7 @@ services:
       - ACCOUNTING_DB_HOST=postgres
       - ACCOUNTING_DB_PORT=5432
       - ACCOUNTING_DB_USER=virteex
-      - ACCOUNTING_DB_PASSWORD=${POSTGRES_PASSWORD:-virteex_password}
+      - ACCOUNTING_DB_PASSWORD=${POSTGRES_PASSWORD}
       - ACCOUNTING_DB_NAME=virteex_accounting
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
@@ -218,7 +220,7 @@ services:
       - PAYROLL_DB_HOST=postgres
       - PAYROLL_DB_PORT=5432
       - PAYROLL_DB_USER=virteex
-      - PAYROLL_DB_PASSWORD=${POSTGRES_PASSWORD:-virteex_password}
+      - PAYROLL_DB_PASSWORD=${POSTGRES_PASSWORD}
       - PAYROLL_DB_NAME=virteex_payroll
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
@@ -242,7 +244,7 @@ services:
       - PROJECTS_DB_HOST=postgres
       - PROJECTS_DB_PORT=5432
       - PROJECTS_DB_USER=virteex
-      - PROJECTS_DB_PASSWORD=${POSTGRES_PASSWORD:-virteex_password}
+      - PROJECTS_DB_PASSWORD=${POSTGRES_PASSWORD}
       - PROJECTS_DB_NAME=virteex_projects
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
@@ -266,7 +268,7 @@ services:
       - MANUFACTURING_DB_HOST=postgres
       - MANUFACTURING_DB_PORT=5432
       - MANUFACTURING_DB_USER=virteex
-      - MANUFACTURING_DB_PASSWORD=${POSTGRES_PASSWORD:-virteex_password}
+      - MANUFACTURING_DB_PASSWORD=${POSTGRES_PASSWORD}
       - MANUFACTURING_DB_NAME=virteex_manufacturing
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
@@ -290,7 +292,7 @@ services:
       - TREASURY_DB_HOST=postgres
       - TREASURY_DB_PORT=5432
       - TREASURY_DB_USER=virteex
-      - TREASURY_DB_PASSWORD=${POSTGRES_PASSWORD:-virteex_password}
+      - TREASURY_DB_PASSWORD=${POSTGRES_PASSWORD}
       - TREASURY_DB_NAME=virteex_treasury
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
@@ -314,7 +316,7 @@ services:
       - PURCHASING_DB_HOST=postgres
       - PURCHASING_DB_PORT=5432
       - PURCHASING_DB_USER=virteex
-      - PURCHASING_DB_PASSWORD=${POSTGRES_PASSWORD:-virteex_password}
+      - PURCHASING_DB_PASSWORD=${POSTGRES_PASSWORD}
       - PURCHASING_DB_NAME=virteex_purchasing
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
@@ -338,7 +340,7 @@ services:
       - BI_DB_HOST=postgres
       - BI_DB_PORT=5432
       - BI_DB_USER=virteex
-      - BI_DB_PASSWORD=${POSTGRES_PASSWORD:-virteex_password}
+      - BI_DB_PASSWORD=${POSTGRES_PASSWORD}
       - BI_DB_NAME=virteex_bi
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
@@ -362,7 +364,7 @@ services:
       - ADMIN_DB_HOST=postgres
       - ADMIN_DB_PORT=5432
       - ADMIN_DB_USER=virteex
-      - ADMIN_DB_PASSWORD=${POSTGRES_PASSWORD:-virteex_password}
+      - ADMIN_DB_PASSWORD=${POSTGRES_PASSWORD}
       - ADMIN_DB_NAME=virteex_admin
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
@@ -386,7 +388,7 @@ services:
       - FIXED_ASSETS_DB_HOST=postgres
       - FIXED_ASSETS_DB_PORT=5432
       - FIXED_ASSETS_DB_USER=virteex
-      - FIXED_ASSETS_DB_PASSWORD=${POSTGRES_PASSWORD:-virteex_password}
+      - FIXED_ASSETS_DB_PASSWORD=${POSTGRES_PASSWORD}
       - FIXED_ASSETS_DB_NAME=virteex_fixed_assets
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
@@ -409,7 +411,7 @@ services:
       - CATALOG_DB_HOST=postgres
       - CATALOG_DB_PORT=5432
       - CATALOG_DB_USER=virteex
-      - CATALOG_DB_PASSWORD=${POSTGRES_PASSWORD:-virteex_password}
+      - CATALOG_DB_PASSWORD=${POSTGRES_PASSWORD}
       - CATALOG_DB_NAME=virteex_catalog
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
@@ -440,7 +442,7 @@ services:
     restart: always
     environment:
       POSTGRES_USER: virteex
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-virteex_password}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: virteex_erp
     ports:
       - "5432:5432"

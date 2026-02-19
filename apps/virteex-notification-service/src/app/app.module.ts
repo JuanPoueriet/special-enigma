@@ -3,7 +3,7 @@ import { BullModule } from '@nestjs/bullmq';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { NotificationConsumer } from './notification.consumer';
-import { EmailService } from '../../../../libs/domains/notification/infrastructure/src/lib/services/email.service';
+import { NotificationInfrastructureModule } from '../../../../libs/domains/notification/infrastructure/src/lib/notification-infrastructure.module';
 import { KafkaModule } from '@virteex/shared/infrastructure/kafka';
 
 @Module({
@@ -18,8 +18,9 @@ import { KafkaModule } from '@virteex/shared/infrastructure/kafka';
         port: parseInt(process.env.REDIS_PORT || '6379'),
       },
     }),
+    NotificationInfrastructureModule,
   ],
   controllers: [AppController, NotificationConsumer],
-  providers: [AppService, EmailService],
+  providers: [AppService],
 })
 export class AppModule {}
