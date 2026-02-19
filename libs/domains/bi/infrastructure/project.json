@@ -3,36 +3,26 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/domains/bi/infrastructure/src",
   "projectType": "library",
-  "tags": [
-    "type:infrastructure",
-    "scope:bi"
-  ],
+  "prefix": "virteex",
+  "tags": ["type:infrastructure", "scope:bi"],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/domains/bi/infrastructure",
         "main": "libs/domains/bi/infrastructure/src/index.ts",
         "tsConfig": "libs/domains/bi/infrastructure/tsconfig.lib.json",
-        "assets": [
-          "libs/domains/bi/infrastructure/*.md"
-        ],
+        "assets": ["libs/domains/bi/infrastructure/*.md"],
         "rootDir": "../../../.."
       }
     },
     "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
+      "executor": "@nx/vitest:test",
+      "outputs": ["{options.reportsDirectory}"],
       "options": {
-        "jestConfig": "libs/domains/bi/infrastructure/jest.config.cts",
-        "passWithNoTests": true
+        "reportsDirectory": "../../../../coverage/libs/domains/bi/infrastructure"
       }
     }
-  },
-  "prefix": "virteex"
+  }
 }

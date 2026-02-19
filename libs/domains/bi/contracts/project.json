@@ -3,36 +3,26 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/domains/bi/contracts/src",
   "projectType": "library",
-  "tags": [
-    "type:contract",
-    "scope:bi"
-  ],
+  "prefix": "virteex",
+  "tags": ["type:contract", "scope:bi"],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/domains/bi/contracts",
         "main": "libs/domains/bi/contracts/src/index.ts",
         "tsConfig": "libs/domains/bi/contracts/tsconfig.lib.json",
-        "assets": [
-          "libs/domains/bi/contracts/*.md"
-        ],
+        "assets": ["libs/domains/bi/contracts/*.md"],
         "rootDir": "."
       }
     },
     "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
+      "executor": "@nx/vitest:test",
+      "outputs": ["{options.reportsDirectory}"],
       "options": {
-        "jestConfig": "libs/domains/bi/contracts/jest.config.cts",
-        "passWithNoTests": true
+        "reportsDirectory": "../../../../coverage/libs/domains/bi/contracts"
       }
     }
-  },
-  "prefix": "virteex"
+  }
 }

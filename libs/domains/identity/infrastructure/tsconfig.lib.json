@@ -4,9 +4,7 @@
     "rootDir": "../../../..",
     "outDir": "../../../../dist/out-tsc",
     "declaration": true,
-    "types": [
-      "node"
-    ],
+    "types": ["node"],
     "module": "commonjs"
   },
   "include": [
@@ -17,6 +15,16 @@
     "jest.config.cts",
     "src/**/*.spec.ts",
     "src/**/*.test.ts",
-    "../../../../libs/shared/infrastructure/cache/src/**/*.spec.ts"
+    "../../../../libs/shared/infrastructure/cache/src/**/*.spec.ts",
+    "vite.config.ts",
+    "vite.config.mts",
+    "vitest.config.ts",
+    "vitest.config.mts",
+    "src/**/*.test.tsx",
+    "src/**/*.spec.tsx",
+    "src/**/*.test.js",
+    "src/**/*.spec.js",
+    "src/**/*.test.jsx",
+    "src/**/*.spec.jsx"
   ]
 }

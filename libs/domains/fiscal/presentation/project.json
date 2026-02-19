@@ -3,36 +3,26 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/domains/fiscal/presentation/src",
   "projectType": "library",
-  "tags": [
-    "type:presentation",
-    "scope:fiscal"
-  ],
+  "prefix": "virteex",
+  "tags": ["type:presentation", "scope:fiscal"],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/domains/fiscal/presentation",
         "main": "libs/domains/fiscal/presentation/src/index.ts",
         "tsConfig": "libs/domains/fiscal/presentation/tsconfig.lib.json",
-        "assets": [
-          "libs/domains/fiscal/presentation/*.md"
-        ],
+        "assets": ["libs/domains/fiscal/presentation/*.md"],
         "rootDir": "."
       }
     },
     "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
+      "executor": "@nx/vitest:test",
+      "outputs": ["{options.reportsDirectory}"],
       "options": {
-        "jestConfig": "libs/domains/fiscal/presentation/jest.config.cts",
-        "passWithNoTests": true
+        "reportsDirectory": "../../../../coverage/libs/domains/fiscal/presentation"
       }
     }
-  },
-  "prefix": "virteex"
+  }
 }
