@@ -1,11 +1,11 @@
 import { defineConfig } from '@mikro-orm/postgresql';
-import { Product } from '@virteex/catalog-domain';
+import { ProductionOrder, BillOfMaterials, BillOfMaterialsComponent } from '@virteex/manufacturing-domain';
 import { TenantModelSubscriber } from '@virteex/tenant';
 import { getTenantContext } from '@virteex/auth';
 import { join } from 'path';
 
 export default defineConfig({
-  entities: [Product],
+  entities: [ProductionOrder, BillOfMaterials, BillOfMaterialsComponent],
   subscribers: [new TenantModelSubscriber()],
   filters: {
     tenant: {
@@ -13,19 +13,16 @@ export default defineConfig({
         const context = getTenantContext();
         return context ? { tenantId: context.tenantId } : {};
       },
-      entity: ['Product'],
+      entity: ['ProductionOrder', 'BillOfMaterials', 'BillOfMaterialsComponent'],
       default: true,
     },
   },
-  dbName: 'virteex_catalog', // Domain specific DB
+  dbName: 'virteex_manufacturing',
   host: process.env.DB_HOST || 'localhost',
   port: 5432,
   user: process.env.DB_USER || 'postgres',
   password: process.env.DB_PASSWORD || 'password',
   debug: process.env.NODE_ENV !== 'production',
-  replicas: [
-    { name: 'read-1', host: process.env.DB_REPLICA_HOST || 'localhost' },
-  ],
   migrations: {
     path: join(__dirname, '../migrations'),
     pathTs: join(__dirname, '../migrations'),
