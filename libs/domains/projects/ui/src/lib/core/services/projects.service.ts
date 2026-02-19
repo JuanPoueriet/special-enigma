@@ -12,6 +12,12 @@ export interface Project {
   status: string; // ProjectStatus enum
 }
 
+export interface CreateProjectDto {
+  name: string;
+  description: string;
+  startDate: Date;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -21,5 +27,9 @@ export class ProjectsService {
 
   getProjects(): Observable<Project[]> {
     return this.http.get<Project[]>(`${this.apiUrl}/projects`);
+  }
+
+  createProject(dto: CreateProjectDto): Observable<Project> {
+    return this.http.post<Project>(`${this.apiUrl}/projects`, dto);
   }
 }
