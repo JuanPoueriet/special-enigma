@@ -3,6 +3,7 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/domains/identity/infrastructure/src",
   "projectType": "library",
+  "prefix": "virteex",
   "tags": [
     "scope:identity",
     "type:infrastructure",
@@ -13,32 +14,24 @@
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/domains/identity/infrastructure",
         "main": "libs/domains/identity/infrastructure/src/index.ts",
         "tsConfig": "libs/domains/identity/infrastructure/tsconfig.lib.json",
         "rootDir": ".",
-        "assets": [
-          "libs/domains/identity/infrastructure/*.md"
-        ]
-      }
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
-      "options": {
-        "jestConfig": "libs/domains/identity/infrastructure/jest.config.cts",
-        "passWithNoTests": true
+        "assets": ["libs/domains/identity/infrastructure/*.md"]
       }
     },
     "lint": {
       "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/vitest:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "reportsDirectory": "../../../../coverage/libs/domains/identity/infrastructure"
+      }
     }
-  },
-  "prefix": "virteex"
+  }
 }

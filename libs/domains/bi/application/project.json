@@ -3,36 +3,26 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/domains/bi/application/src",
   "projectType": "library",
-  "tags": [
-    "type:application",
-    "scope:bi"
-  ],
+  "prefix": "virteex",
+  "tags": ["type:application", "scope:bi"],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/domains/bi/application",
         "main": "libs/domains/bi/application/src/index.ts",
         "tsConfig": "libs/domains/bi/application/tsconfig.lib.json",
-        "assets": [
-          "libs/domains/bi/application/*.md"
-        ],
+        "assets": ["libs/domains/bi/application/*.md"],
         "rootDir": "libs/domains/bi/application/src"
       }
     },
     "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
+      "executor": "@nx/vitest:test",
+      "outputs": ["{options.reportsDirectory}"],
       "options": {
-        "jestConfig": "libs/domains/bi/application/jest.config.cts",
-        "passWithNoTests": true
+        "reportsDirectory": "../../../../coverage/libs/domains/bi/application"
       }
     }
-  },
-  "prefix": "virteex"
+  }
 }

@@ -3,36 +3,26 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/domains/manufacturing/presentation/src",
   "projectType": "library",
-  "tags": [
-    "type:presentation",
-    "scope:manufacturing"
-  ],
+  "prefix": "virteex",
+  "tags": ["type:presentation", "scope:manufacturing"],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/domains/manufacturing/presentation",
         "main": "libs/domains/manufacturing/presentation/src/index.ts",
         "tsConfig": "libs/domains/manufacturing/presentation/tsconfig.lib.json",
-        "assets": [
-          "libs/domains/manufacturing/presentation/*.md"
-        ],
+        "assets": ["libs/domains/manufacturing/presentation/*.md"],
         "rootDir": "."
       }
     },
     "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
+      "executor": "@nx/vitest:test",
+      "outputs": ["{options.reportsDirectory}"],
       "options": {
-        "jestConfig": "libs/domains/manufacturing/presentation/jest.config.cts",
-        "passWithNoTests": true
+        "reportsDirectory": "../../../../coverage/libs/domains/manufacturing/presentation"
       }
     }
-  },
-  "prefix": "virteex"
+  }
 }

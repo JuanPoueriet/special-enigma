@@ -3,36 +3,26 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/domains/billing/infrastructure/src",
   "projectType": "library",
-  "tags": [
-    "type:infrastructure",
-    "scope:billing"
-  ],
+  "prefix": "virteex",
+  "tags": ["type:infrastructure", "scope:billing"],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/domains/billing/infrastructure",
         "main": "libs/domains/billing/infrastructure/src/index.ts",
         "tsConfig": "libs/domains/billing/infrastructure/tsconfig.lib.json",
-        "assets": [
-          "libs/domains/billing/infrastructure/*.md"
-        ],
+        "assets": ["libs/domains/billing/infrastructure/*.md"],
         "rootDir": "."
       }
     },
     "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
+      "executor": "@nx/vitest:test",
+      "outputs": ["{options.reportsDirectory}"],
       "options": {
-        "jestConfig": "libs/domains/billing/infrastructure/jest.config.cts",
-        "passWithNoTests": true
+        "reportsDirectory": "../../../../coverage/libs/domains/billing/infrastructure"
       }
     }
-  },
-  "prefix": "virteex"
+  }
 }

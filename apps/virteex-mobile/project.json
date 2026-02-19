@@ -4,15 +4,11 @@
   "projectType": "application",
   "prefix": "virteex",
   "sourceRoot": "apps/virteex-mobile/src",
-  "tags": [
-    "platform:mobile"
-  ],
+  "tags": ["platform:mobile"],
   "targets": {
     "build": {
       "executor": "@angular/build:application",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/virteex-mobile",
         "browser": "apps/virteex-mobile/src/main.ts",
@@ -24,9 +20,7 @@
             "input": "apps/virteex-mobile/public"
           }
         ],
-        "styles": [
-          "apps/virteex-mobile/src/styles.scss"
-        ]
+        "styles": ["apps/virteex-mobile/src/styles.scss"]
       },
       "configurations": {
         "production": {
@@ -68,16 +62,6 @@
     "lint": {
       "executor": "@nx/eslint:lint"
     },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
-      "options": {
-        "jestConfig": "apps/virteex-mobile/jest.config.cts",
-        "tsConfig": "apps/virteex-mobile/tsconfig.spec.json"
-      }
-    },
     "serve-static": {
       "continuous": true,
       "executor": "@nx/web:file-server",
@@ -86,6 +70,13 @@
         "port": 4200,
         "staticFilePath": "dist/apps/virteex-mobile/browser",
         "spa": true
+      }
+    },
+    "test": {
+      "executor": "@nx/vitest:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "reportsDirectory": "../../coverage/apps/virteex-mobile"
       }
     }
   }

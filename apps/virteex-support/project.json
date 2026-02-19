@@ -62,14 +62,6 @@
     "lint": {
       "executor": "@nx/eslint:lint"
     },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "apps/virteex-support/jest.config.cts",
-        "tsConfig": "apps/virteex-support/tsconfig.spec.json"
-      }
-    },
     "serve-static": {
       "continuous": true,
       "executor": "@nx/web:file-server",
@@ -78,6 +70,13 @@
         "port": 4200,
         "staticFilePath": "dist/apps/virteex-support/browser",
         "spa": true
+      }
+    },
+    "test": {
+      "executor": "@nx/vitest:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "reportsDirectory": "../../coverage/apps/virteex-support"
       }
     }
   }

@@ -3,6 +3,7 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/shared/util/config/src",
   "projectType": "library",
+  "prefix": "virteex",
   "tags": ["scope:shared", "type:util"],
   "targets": {
     "lint": {
@@ -10,13 +11,11 @@
       "outputs": ["{options.outputFile}"]
     },
     "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "executor": "@nx/vitest:test",
+      "outputs": ["{options.reportsDirectory}"],
       "options": {
-        "jestConfig": "libs/shared/util/config/jest.config.ts",
-        "passWithNoTests": true
+        "reportsDirectory": "../../../../coverage/libs/shared/util/config"
       }
     }
-  },
-  "prefix": "virteex"
+  }
 }
