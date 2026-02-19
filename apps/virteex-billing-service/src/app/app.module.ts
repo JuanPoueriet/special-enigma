@@ -7,9 +7,12 @@ import { LoggerModule } from 'nestjs-pino';
 import { TerminusModule } from '@nestjs/terminus';
 import { ServerConfigModule } from '@virteex/shared-util-server-config';
 import { KafkaModule } from '@virteex/shared/infrastructure/kafka';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloFederationDriver, ApolloFederationDriverConfig } from '@nestjs/apollo';
 import { BillingPresentationModule } from '@virteex/billing-presentation';
 import { BillingInfrastructureModule } from '@virteex/billing-infrastructure';
 import { InitialSeederService } from './seeds/initial-seeder.service';
+import { BillingResolver } from './billing.resolver';
 
 @Module({
   imports: [
@@ -26,6 +29,12 @@ import { InitialSeederService } from './seeds/initial-seeder.service';
     }),
     TerminusModule,
     ServerConfigModule,
+    GraphQLModule.forRoot<ApolloFederationDriverConfig>({
+      driver: ApolloFederationDriver,
+      autoSchemaFile: {
+        federation: 2,
+      },
+    }),
     KafkaModule.forRoot({
       clientId: 'billing-service',
       groupId: 'billing-service-consumer',
@@ -60,6 +69,6 @@ import { InitialSeederService } from './seeds/initial-seeder.service';
     BillingInfrastructureModule,
     BillingPresentationModule,
   ],
-  providers: [InitialSeederService],
+  providers: [InitialSeederService, BillingResolver],
 })
 export class AppModule {}

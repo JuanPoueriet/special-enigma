@@ -26,7 +26,7 @@ export class RemoteProductRepository implements ProductRepository {
       );
       return data;
     } catch (error: any) {
-      this.logger.error(`Error fetching products from Catalog Service: ${error.message}`);
+      this.logger.error(`Error fetching products from Catalog Service: ${error.message}`, error.stack);
       return [];
     }
   }
@@ -56,8 +56,22 @@ export class RemoteProductRepository implements ProductRepository {
   }
 
   async findBySku(sku: string): Promise<Product | null> {
-    this.logger.warn(`Remote lookup for Product SKU ${sku} - Not Implemented via REST yet`);
-    return null;
+    this.logger.log(`Remote lookup for Product SKU ${sku} via RemoteProductRepository`);
+
+    if (!sku) return null;
+
+    try {
+      const { data } = await firstValueFrom(
+        this.httpService.get<Product>(`${this.catalogServiceUrl}/catalog/products/sku/${sku}`)
+      );
+      return data;
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        return null;
+      }
+      this.logger.error(`Error fetching product SKU ${sku} from Catalog Service: ${error.message}`);
+      return null;
+    }
   }
 
   async save(product: Product): Promise<void> {

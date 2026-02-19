@@ -6,12 +6,15 @@ import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { SqliteDriver } from '@mikro-orm/sqlite';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloFederationDriver, ApolloFederationDriverConfig } from '@nestjs/apollo';
 import { TenantModule } from '@virteex/tenant';
 import { JwtTenantMiddleware } from '@virteex/auth';
 import { IdentityPresentationModule } from '@virteex/identity-presentation';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { IdentityResolver } from './identity.resolver';
 
 @Module({
   imports: [
@@ -23,6 +26,12 @@ import { AppService } from './app.service';
       limit: 10,
     }]),
     EventEmitterModule.forRoot(),
+    GraphQLModule.forRoot<ApolloFederationDriverConfig>({
+      driver: ApolloFederationDriver,
+      autoSchemaFile: {
+        federation: 2,
+      },
+    }),
     MikroOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -56,6 +65,7 @@ import { AppService } from './app.service';
   controllers: [AppController],
   providers: [
     AppService,
+    IdentityResolver,
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
