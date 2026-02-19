@@ -21,7 +21,7 @@ import { RemoteProductRepository } from './repositories/remote-product.repositor
 import { InventoryResolver } from './inventory.resolver';
 
 // Domain Modules
-import { InventoryPresentationModule } from '@virteex/inventory-presentation';
+import { InventoryApplicationModule } from '@virteex/inventory-application';
 
 @Module({
   imports: [
@@ -85,7 +85,7 @@ import { InventoryPresentationModule } from '@virteex/inventory-presentation';
     TenantModule,
 
     // Domain Modules
-    InventoryPresentationModule,
+    InventoryApplicationModule,
   ],
   controllers: [AppController],
   providers: [

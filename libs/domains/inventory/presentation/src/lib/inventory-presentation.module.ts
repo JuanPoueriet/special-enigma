@@ -8,11 +8,10 @@ import {
   DeleteWarehouseUseCase
 } from '../../../application/src/index';
 import { InventoryInfrastructureModule } from '../../../infrastructure/src/index';
-import { InventoryController } from './controllers/inventory.controller';
 
 @Module({
   imports: [InventoryApplicationModule, InventoryInfrastructureModule],
-  controllers: [InventoryController],
+  controllers: [],
   providers: [
     CreateWarehouseUseCase,
     RegisterMovementUseCase,
