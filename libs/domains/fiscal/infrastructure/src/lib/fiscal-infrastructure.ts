@@ -1,5 +1,6 @@
 import { Module, Global } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { HttpModule } from '@nestjs/axios';
 import {
   TaxDeclaration,
   TAX_DECLARATION_REPOSITORY,
@@ -12,11 +13,13 @@ import { MikroOrmTaxDeclarationRepository } from './repositories/mikro-orm-tax-d
 import { MikroOrmTaxRuleRepository } from './repositories/mikro-orm-tax-rule.repository';
 import { FiscalDataAdapter } from './adapters/fiscal-data.adapter';
 import { MikroOrmTenantConfigRepository } from './repositories/mikro-orm-tenant-config.repository';
+import { DianFiscalAdapter } from './adapters/dian-fiscal-provider.adapter';
 
 @Global()
 @Module({
   imports: [
-    MikroOrmModule.forFeature([TaxDeclaration, FiscalTaxRule])
+    MikroOrmModule.forFeature([TaxDeclaration, FiscalTaxRule]),
+    HttpModule
   ],
   providers: [
     {
@@ -34,6 +37,10 @@ import { MikroOrmTenantConfigRepository } from './repositories/mikro-orm-tenant-
     {
       provide: TENANT_CONFIG_REPOSITORY,
       useClass: MikroOrmTenantConfigRepository
+    },
+    {
+      provide: 'FISCAL_PROVIDER',
+      useClass: DianFiscalAdapter
     }
   ],
   exports: [
@@ -41,7 +48,8 @@ import { MikroOrmTenantConfigRepository } from './repositories/mikro-orm-tenant-
     TAX_DECLARATION_REPOSITORY,
     FISCAL_DATA_PROVIDER,
     TAX_RULE_REPOSITORY,
-    TENANT_CONFIG_REPOSITORY
+    TENANT_CONFIG_REPOSITORY,
+    'FISCAL_PROVIDER'
   ]
 })
 export class FiscalInfrastructureModule {}

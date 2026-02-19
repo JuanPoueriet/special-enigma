@@ -22,6 +22,7 @@ import { CrossDomainInfrastructureModule } from './infrastructure/cross-domain.m
 
 // BFF Modules
 import { StoreApiModule } from '../presentation/store-api/store-api.module';
+import { createServiceProxy } from './middleware/proxy.middleware';
 
 @Module({
   imports: [
@@ -97,5 +98,17 @@ export class AppModule implements NestModule {
     consumer
       .apply(JwtTenantMiddleware)
       .forRoutes('*');
+
+    // Proxy Routes for Microservices
+    consumer.apply(createServiceProxy('http://virteex-accounting-service:3000')).forRoutes('accounting');
+    consumer.apply(createServiceProxy('http://virteex-payroll-service:3000')).forRoutes('payroll');
+    consumer.apply(createServiceProxy('http://virteex-crm-service:3000')).forRoutes('crm');
+    consumer.apply(createServiceProxy('http://virteex-projects-service:3000')).forRoutes('projects');
+    consumer.apply(createServiceProxy('http://virteex-manufacturing-service:3000')).forRoutes('manufacturing');
+    consumer.apply(createServiceProxy('http://virteex-treasury-service:3000')).forRoutes('treasury');
+    consumer.apply(createServiceProxy('http://virteex-purchasing-service:3000')).forRoutes('purchasing');
+    consumer.apply(createServiceProxy('http://virteex-bi-service:3000')).forRoutes('bi');
+    consumer.apply(createServiceProxy('http://virteex-admin-service:3000')).forRoutes('admin');
+    consumer.apply(createServiceProxy('http://virteex-fixed-assets-service:3000')).forRoutes('fixed-assets');
   }
 }

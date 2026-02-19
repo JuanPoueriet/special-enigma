@@ -3,10 +3,12 @@ import { AccountingApplicationModule } from '@virteex/accounting-application';
 import { AccountingInfrastructureModule } from '@virteex/accounting-infrastructure';
 import { AccountingController } from './controllers/accounting.controller';
 import { AccountingEventsController } from './controllers/accounting-events.controller';
+import { AccountsResolver } from './resolvers/accounts.resolver';
+import { JournalEntriesResolver } from './resolvers/journal-entries.resolver';
 
 @Module({
   imports: [AccountingApplicationModule, AccountingInfrastructureModule],
   controllers: [AccountingController, AccountingEventsController],
-  providers: [],
+  providers: [AccountsResolver, JournalEntriesResolver],
 })
 export class AccountingPresentationModule {}
