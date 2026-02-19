@@ -1,0 +1,96 @@
+# INFORME DETALLADO DE ANÁLISIS DE BRECHAS (GAP ANALYSIS) - VIRTEEX ERP
+## Estado Actual vs. Objetivo "100% Funcional y Comercial"
+
+Este informe detalla exhaustivamente las discrepancias encontradas entre el estado actual del código y un producto comercialmente viable sin mocks.
+
+---
+
+### 1. ANÁLISIS DEL BACKEND (Microservicios y Lógica de Negocio)
+
+#### 🔴 CRÍTICO: Mocks y Datos Falsos en Dominios Core
+El hallazgo más crítico que impide la funcionalidad real es el uso de repositorios simulados en el dominio de Inventario, el cual es central para el ERP.
+
+*   **Dominio Inventario (`virteex-inventory-service`):**
+    *   **Archivo:** `apps/virteex-inventory-service/src/app/repositories/remote-product.repository.ts`
+    *   **Problema:** Implementación explícita de un Mock.
+    *   **Evidencia:** El método `findById` devuelve un objeto `Product` fabricado con `sku: 'REMOTE-' + id` y `price: '0.00'`. El método `findAll` devuelve un array vacío `[]`. Los métodos de escritura (`create`, `save`, `delete`) lanzan error o no están implementados.
+    *   **Impacto Comercial:** Imposible gestionar inventario real. El sistema cree que existen productos que no están en la base de datos y no puede validar existencias reales contra el Catálogo.
+    *   **Solución Requerida:** Reemplazar `RemoteProductRepository` con una llamada HTTP real (usando `axios` o `HttpModule`) o gRPC al microservicio `virteex-catalog-service`.
+
+*   **Dominio Facturación (`virteex-billing-service`):**
+    *   **Archivo:** `libs/domains/billing/infrastructure/src/lib/providers/finkok-pac.provider.ts`
+    *   **Problema:** Advertencia de falta de credenciales PAC.
+    *   **Evidencia:** `this.logger.warn('Finkok credentials missing. PAC functionality will be disabled or mock/fail in dev mode.');`
+    *   **Impacto Comercial:** No se pueden timbrar facturas reales ante el SAT (México) u otras entidades fiscales sin estas credenciales configuradas y validadas.
+
+#### ⚠️ ALERTA: Profundidad de Implementación en Nuevos Microservicios
+Se han extraído 9 nuevos microservicios (`accounting`, `payroll`, `projects`, etc.), pero su implementación varía.
+
+*   **Accounting (`virteex-accounting-service`):**
+    *   **Estado:** Estructuralmente correcto. Contiene casos de uso reales (`create-account`, `record-journal-entry`) y repositorios de base de datos.
+    *   **Brecha:** Se debe verificar si la lógica de asientos contables cubre todos los escenarios fiscales o solo el "happy path".
+
+*   **Payroll (`virteex-payroll-service`):**
+    *   **Estado:** Estructuralmente correcto. Tiene repositorios para `Employee`, `Payroll`, `TaxTable`.
+    *   **Brecha:** Requiere validación de cálculos de impuestos reales vs tablas simuladas.
+
+#### ⚠️ ALERTA: Arquitectura de Gateway Híbrida e Inconsistente
+*   **Apollo Gateway (`virteex-gateway`):**
+    *   Solo tiene federado el subgrafo `catalog`.
+    *   Si otros servicios (como `Inventory` o `Identity`) exponen GraphQL, **no están conectados**. El sistema actualmente está "tuerto" en cuanto a GraphQL distribuido.
+*   **API Gateway Monolito (`virteex-api-gateway`):**
+    *   Aún importa `FiscalPresentationModule`, `WmsApiModule`, `ShopfloorApiModule`.
+    *   Esto sugiere que la migración no ha terminado. Si `virteex-fiscal-service` ya existe y está enrutado por Nginx, el código en el API Gateway es código muerto o duplicado que debe eliminarse para evitar confusión y errores de estado.
+
+---
+
+### 2. ANÁLISIS DEL FRONTEND (`virteex-web`)
+
+El frontend tiene una cobertura "horizontal" excelente (muchas rutas), pero una profundidad "vertical" inconsistente.
+
+*   **Cobertura de Rutas:**
+    *   El archivo `app.routes.ts` cubre todos los dominios (`accounting`, `inventory`, `payroll`, `crm`, etc.), lo cual es excelente.
+
+*   **Estado de los Componentes (UI Shells):**
+    *   **Inventario (`InventoryList`):** Funcional. Llama a `InventoryService`, que a su vez consume la API real.
+    *   **Contabilidad (`AccountingDashboard`):** 🔴 **VACÍO**. El componente `DashboardComponent` en `libs/domains/accounting/ui` es un cascarón vacío sin lógica de negocio ni llamadas a servicios.
+    *   **Patrón General:** Es altamente probable que la mayoría de los módulos de los "nuevos" 9 microservicios (Projects, Assets, Treasury, etc.) sean solo esqueletos visuales (scaffolding) sin conexión real al backend.
+
+*   **Internacionalización:**
+    *   `TranslateModule` está configurado correctamente en `app.config.ts`, cargando archivos JSON desde assets. Esto es positivo para la comercialización.
+
+---
+
+### 3. ANÁLISIS DE INFRAESTRUCTURA
+
+La infraestructura es el punto más fuerte y cercano al "100%".
+
+*   **Orquestación (Docker Compose):**
+    *   Completo. Levanta todos los microservicios, bases de datos (Postgres), colas (Kafka, Zookeeper), Cache (Redis) y Observabilidad.
+*   **Enrutamiento (Nginx):**
+    *   Configuración correcta en `nginx.conf`. Redirige `/api/<servicio>` al contenedor adecuado. Esto valida la arquitectura de microservicios.
+*   **Observabilidad:**
+    *   Stack completo (Jaeger, Prometheus, Grafana) incluido. Esto es vital para un entorno de producción.
+
+---
+
+### 4. PLAN DE ACCIÓN PARA "100% FUNCIONAL"
+
+Para llevar este sistema a un estado comercial y eliminar los mocks, se deben ejecutar obligatoriamente los siguientes pasos:
+
+1.  **ELIMINAR EL MOCK DE INVENTARIO (Prioridad 1):**
+    *   Reescribir `RemoteProductRepository` en `virteex-inventory-service`.
+    *   Implementar llamadas HTTP reales a `http://virteex-catalog-service:3000/api/catalog/products` (o endpoint equivalente) para validar existencia y obtener datos de productos.
+
+2.  **IMPLEMENTAR UI DE DASHBOARDS (Prioridad 2):**
+    *   Desarrollar la lógica en los componentes vacíos del frontend (ej: `AccountingDashboard`).
+    *   Conectar estos componentes a servicios Angular que consuman los endpoints reales de los nuevos microservicios.
+
+3.  **LIMPIEZA DEL API GATEWAY (Prioridad 3):**
+    *   Eliminar `FiscalPresentationModule` y otros módulos duplicados de `virteex-api-gateway` si su funcionalidad ya está servida por los microservicios dedicados y enrutada por Nginx.
+
+4.  **CONFIGURACIÓN DE CREDENCIALES (Prioridad 4):**
+    *   Asegurar que las variables de entorno para proveedores externos (Finkok, AWS, SendGrid, etc.) estén documentadas y se inyecten correctamente en producción.
+
+5.  **UNIFICACIÓN DE GRAPHQL (Opcional pero recomendado):**
+    *   Decidir si Inventory y otros servicios expondrán GraphQL. De ser así, añadirlos a la federación en `virteex-gateway`. De lo contrario, mantener el enfoque REST actual y documentarlo claramente.
