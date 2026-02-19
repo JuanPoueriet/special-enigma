@@ -33,6 +33,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
                 name: 'billing',
                 url: configService.get('BILLING_SERVICE_URL') || 'http://virteex-billing-service:3000/graphql',
               },
+              {
+                name: 'accounting',
+                url: configService.get('ACCOUNTING_SERVICE_URL') || 'http://virteex-accounting-service:3000/graphql',
+              },
             ],
           }),
         },
