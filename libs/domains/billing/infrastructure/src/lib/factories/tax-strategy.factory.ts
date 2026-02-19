@@ -1,14 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { TaxStrategyFactory } from '../../../../domain/src/lib/strategies/tax-strategy.factory';
-import { TaxStrategy } from '../../../../domain/src/lib/strategies/tax-strategy.interface';
+import { TaxStrategyFactory } from '@virteex/billing-domain';
+import { TaxStrategy } from '@virteex/billing-domain';
 import { MxTaxStrategy } from '../strategies/mx-tax.strategy';
 import { BrTaxStrategy } from '../strategies/br-tax.strategy';
+import { UsTaxStrategy } from '../strategies/us-tax.strategy';
 
 @Injectable()
 export class TaxStrategyFactoryImpl implements TaxStrategyFactory {
     constructor(
         private readonly mx: MxTaxStrategy,
-        private readonly br: BrTaxStrategy
+        private readonly br: BrTaxStrategy,
+        private readonly us: UsTaxStrategy
     ) {}
 
     getStrategy(country: string): TaxStrategy {
@@ -21,6 +23,10 @@ export class TaxStrategyFactoryImpl implements TaxStrategyFactory {
             case 'BR':
             case 'BRAZIL':
                 return this.br;
+            case 'US':
+            case 'USA':
+            case 'UNITED STATES':
+                return this.us;
             default:
                 return this.mx;
         }
