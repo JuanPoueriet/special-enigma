@@ -1,20 +1,55 @@
-import { Injectable, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { API_URL } from '@virteex/shared-config';
+import { map } from 'rxjs/operators';
 import { BankAccountDto, CreateBankAccountDto } from '@virteex/treasury-contracts';
+import { GraphQLClientService } from '@virteex/shared-util-http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TreasuryService {
-  constructor(@Inject(API_URL) private apiUrl: string, private http: HttpClient) {}
+  private gql = inject(GraphQLClientService);
 
   getBankAccounts(tenantId: string = 'default'): Observable<BankAccountDto[]> {
-    return this.http.get<BankAccountDto[]>(`${this.apiUrl}/treasury/bank-accounts?tenantId=${tenantId}`);
+    const query = `
+      query GetBankAccounts {
+        bankAccounts {
+          id
+          name
+          accountNumber
+          bankName
+          currency
+          balance
+        }
+      }
+    `;
+    return this.gql.query<{ bankAccounts: BankAccountDto[] }>(query).pipe(
+      map(res => res.bankAccounts)
+    );
   }
 
   createBankAccount(dto: CreateBankAccountDto): Observable<BankAccountDto> {
-    return this.http.post<BankAccountDto>(`${this.apiUrl}/treasury/bank-accounts`, dto);
+    const input = {
+      name: dto.name,
+      accountNumber: dto.accountNumber,
+      bankName: dto.bankName,
+      currency: dto.currency
+    };
+
+    const mutation = `
+      mutation CreateBankAccount($input: CreateBankAccountInput!) {
+        createBankAccount(input: $input) {
+          id
+          name
+          accountNumber
+          bankName
+          currency
+          balance
+        }
+      }
+    `;
+    return this.gql.mutate<{ createBankAccount: BankAccountDto }>(mutation, { input }).pipe(
+      map(res => res.createBankAccount)
+    );
   }
 }

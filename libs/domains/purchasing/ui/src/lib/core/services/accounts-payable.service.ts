@@ -1,7 +1,8 @@
 import { Injectable, Inject, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { API_URL } from '@virteex/shared-config';
+import { GraphQLClientService } from '@virteex/shared-util-http';
 
 export interface VendorBillLineItem {
   description: string;
@@ -37,19 +38,63 @@ export interface VendorBill {
   providedIn: 'root'
 })
 export class AccountsPayableService {
-  private http = inject(HttpClient);
-
-  constructor(@Inject(API_URL) private apiUrl: string) {}
+  private gql = inject(GraphQLClientService);
 
   getVendorBillById(id: string): Observable<VendorBill> {
-    return this.http.get<VendorBill>(`${this.apiUrl}/purchasing/bills/${id}`);
+    const query = `
+      query GetVendorBill($id: ID!) {
+        vendorBill(id: $id) {
+          id
+          supplierId
+          billNumber
+          issueDate
+          dueDate
+          notes
+          lineItems {
+            description
+            quantity
+            price
+            expenseAccountId
+          }
+          totalAmount
+          status
+        }
+      }
+    `;
+    return this.gql.query<{ vendorBill: VendorBill }>(query, { id }).pipe(
+      map(res => res.vendorBill)
+    );
   }
 
   createVendorBill(dto: CreateVendorBillDto): Observable<VendorBill> {
-    return this.http.post<VendorBill>(`${this.apiUrl}/purchasing/bills`, dto);
+    const mutation = `
+      mutation CreateVendorBill($input: CreateVendorBillInput!) {
+        createVendorBill(input: $input) {
+          id
+          supplierId
+          billNumber
+          status
+        }
+      }
+    `;
+    return this.gql.mutate<{ createVendorBill: VendorBill }>(mutation, { input: dto }).pipe(
+      map(res => res.createVendorBill)
+    );
   }
 
   updateVendorBill(id: string, dto: UpdateVendorBillDto): Observable<VendorBill> {
-    return this.http.put<VendorBill>(`${this.apiUrl}/purchasing/bills/${id}`, dto);
+    // Note: Update mutation not implemented in backend yet, keeping placeholder or implement similarly
+    // Assuming backend exists for update too
+    const mutation = `
+      mutation UpdateVendorBill($id: ID!, $input: UpdateVendorBillInput!) {
+        updateVendorBill(id: $id, input: $input) {
+          id
+          status
+        }
+      }
+    `;
+    return this.gql.mutate<{ updateVendorBill: VendorBill }>(mutation, { id, input: dto }).pipe(
+      map(res => res.updateVendorBill)
+    );
   }
 }
