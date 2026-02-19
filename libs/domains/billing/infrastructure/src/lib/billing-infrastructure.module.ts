@@ -32,6 +32,7 @@ import { MxFiscalDocumentBuilder } from './strategies/mx-fiscal-document.builder
 import { UsFiscalDocumentBuilder } from './strategies/us-fiscal-document.builder';
 import { MxTaxStrategy } from './strategies/mx-tax.strategy';
 import { BrTaxStrategy } from './strategies/br-tax.strategy';
+import { UsTaxStrategy } from './strategies/us-tax.strategy';
 
 import { MikroOrmInvoiceRepository } from './repositories/mikro-orm-invoice.repository';
 import { MikroOrmSubscriptionRepository } from './repositories/mikro-orm-subscription.repository';
@@ -114,6 +115,7 @@ import { XsltService } from '@virteex/shared-infrastructure-xslt';
     // Strategies
     MxTaxStrategy,
     BrTaxStrategy,
+    UsTaxStrategy,
     {
         provide: BILLING_TAX_STRATEGY_FACTORY,
         useClass: TaxStrategyFactoryImpl
