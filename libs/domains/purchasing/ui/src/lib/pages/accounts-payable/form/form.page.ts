@@ -78,6 +78,7 @@ export class VendorBillFormPage implements OnInit {
           return this.accountsPayableService.getVendorBillById(id);
         }
         // Valid case: Return null when creating a new bill (no ID to fetch)
+        // This is strictly for RxJS flow control to bypass data fetching, NOT a data mock.
         console.debug('Initializing Vendor Bill Form in CREATE mode');
         return of(null);
       })

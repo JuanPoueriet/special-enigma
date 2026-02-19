@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { PurchasingController } from './controllers/purchasing.controller';
+import { PurchasingResolver } from './resolvers/purchasing.resolver';
 import {
   PurchasingApplicationModule,
   CreateSupplierUseCase,
@@ -22,7 +23,8 @@ import { PurchasingInfrastructureModule } from '@virteex/purchasing-infrastructu
     GetRequisitionsUseCase,
     CreateVendorBillUseCase,
     UpdateVendorBillUseCase,
-    GetVendorBillUseCase
+    GetVendorBillUseCase,
+    PurchasingResolver
   ],
   exports: [PurchasingApplicationModule, PurchasingInfrastructureModule]
 })

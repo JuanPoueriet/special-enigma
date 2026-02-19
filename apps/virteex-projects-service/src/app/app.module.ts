@@ -4,9 +4,17 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { ProjectsInfrastructureModule } from '@virteex/projects-infrastructure';
 import { ProjectsPresentationModule } from '@virteex/projects-presentation';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloFederationDriver, ApolloFederationDriverConfig } from '@nestjs/apollo';
+import { FederationSupportModule } from '@virteex/shared-util-server-config';
 
 @Module({
   imports: [
+    GraphQLModule.forRoot<ApolloFederationDriverConfig>({
+      driver: ApolloFederationDriver,
+      autoSchemaFile: true,
+    }),
+    FederationSupportModule,
     ConfigModule.forRoot({ isGlobal: true }),
     MikroOrmModule.forRoot({
       driver: PostgreSqlDriver,

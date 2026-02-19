@@ -9,3 +9,4 @@ export * from './lib/decorators/current-tenant.decorator';
 export * from './lib/exceptions/domain.exception';
 export * from './lib/interceptors/idempotency.interceptor';
 export * from './lib/services/idempotency.service';
+export * from './lib/federation/federation-support.module';

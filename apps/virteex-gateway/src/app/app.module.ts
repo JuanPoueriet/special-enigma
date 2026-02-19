@@ -37,6 +37,42 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
                 name: 'accounting',
                 url: configService.get('ACCOUNTING_SERVICE_URL') || 'http://virteex-accounting-service:3000/graphql',
               },
+              {
+                name: 'payroll',
+                url: configService.get('PAYROLL_SERVICE_URL') || 'http://virteex-payroll-service:3000/graphql',
+              },
+              {
+                name: 'treasury',
+                url: configService.get('TREASURY_SERVICE_URL') || 'http://virteex-treasury-service:3000/graphql',
+              },
+              {
+                name: 'crm',
+                url: configService.get('CRM_SERVICE_URL') || 'http://virteex-crm-service:3000/graphql',
+              },
+              {
+                name: 'projects',
+                url: configService.get('PROJECTS_SERVICE_URL') || 'http://virteex-projects-service:3000/graphql',
+              },
+              {
+                name: 'manufacturing',
+                url: configService.get('MANUFACTURING_SERVICE_URL') || 'http://virteex-manufacturing-service:3000/graphql',
+              },
+              {
+                name: 'purchasing',
+                url: configService.get('PURCHASING_SERVICE_URL') || 'http://virteex-purchasing-service:3000/graphql',
+              },
+              {
+                name: 'bi',
+                url: configService.get('BI_SERVICE_URL') || 'http://virteex-bi-service:3000/graphql',
+              },
+              {
+                name: 'admin',
+                url: configService.get('ADMIN_SERVICE_URL') || 'http://virteex-admin-service:3000/graphql',
+              },
+              {
+                name: 'fixed-assets',
+                url: configService.get('FIXED_ASSETS_SERVICE_URL') || 'http://virteex-fixed-assets-service:3000/graphql',
+              },
             ],
           }),
         },

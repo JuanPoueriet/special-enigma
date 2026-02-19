@@ -10,9 +10,17 @@ import { KafkaModule } from '@virteex/shared/infrastructure/kafka';
 import { CrmPresentationModule } from '@virteex/crm-presentation';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloFederationDriver, ApolloFederationDriverConfig } from '@nestjs/apollo';
+import { FederationSupportModule } from '@virteex/shared-util-server-config';
 
 @Module({
   imports: [
+    GraphQLModule.forRoot<ApolloFederationDriverConfig>({
+      driver: ApolloFederationDriver,
+      autoSchemaFile: true,
+    }),
+    FederationSupportModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
