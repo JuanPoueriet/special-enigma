@@ -101,7 +101,7 @@ export class AppModule implements NestModule {
 
     // Proxy Routes for Microservices
     consumer.apply(createServiceProxy('http://virteex-accounting-service:3000')).forRoutes('accounting');
-    consumer.apply(createServiceProxy('http://virteex-payroll-service:3000')).forRoutes('payroll');
+    // consumer.apply(createServiceProxy('http://virteex-payroll-service:3000')).forRoutes('payroll'); // Migrated to GraphQL Federation
     consumer.apply(createServiceProxy('http://virteex-crm-service:3000')).forRoutes('crm');
     consumer.apply(createServiceProxy('http://virteex-projects-service:3000')).forRoutes('projects');
     consumer.apply(createServiceProxy('http://virteex-manufacturing-service:3000')).forRoutes('manufacturing');
