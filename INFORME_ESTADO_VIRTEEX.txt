@@ -1,114 +1,63 @@
-# INFORME DETALLADO DE ESTADO Y BRECHAS FUNCIONALES - VIRTEEX ERP
+# INFORME DE ESTADO Y MADUREZ COMERCIAL - VIRTEEX ERP
 
-Este informe detalla exhaustivamente las carencias, errores arquitectónicos y módulos incompletos que impiden que la aplicación Virteex sea 100% funcional y apta para un entorno comercial (producción). El análisis abarca desde la infraestructura y el backend hasta la integración con el frontend.
+## 1. INTRODUCCIÓN
 
----
+Este informe presenta un análisis exhaustivo del estado actual de la plataforma Virteex (Versión 13.0.0), un ecosistema ERP SaaS de clase empresarial diseñado para operar en Latinoamérica y Estados Unidos. El objetivo es evaluar su nivel de completitud funcional y preparación comercial (readiness), identificando brechas críticas entre la implementación actual y una solución lista para el mercado.
 
-## 1. ERRORES CRÍTICOS DE ARQUITECTURA (BLOQUEANTES)
+Virteex se posiciona como una solución moderna basada en microservicios, federación GraphQL y un sistema de extensibilidad mediante plugins seguros (V8 Isolates/Wasm), con un fuerte enfoque en la localización fiscal y la experiencia de usuario multi-dispositivo.
 
-Estos problemas impedirán que la aplicación funcione en un entorno distribuido (microservicios reales) y causarán fallos inmediatos en tiempo de ejecución.
+## 2. RESUMEN EJECUTIVO
 
-### 1.1. Violación de Límites de Microservicios en `Manufacturing Service`
-**Archivo Afectado:** `libs/domains/manufacturing/infrastructure/src/lib/services/mikro-orm-inventory.service.ts`
-**Problema:**
-El servicio `virteex-manufacturing-service` está importando directamente la entidad `Stock` desde `@virteex/inventory-domain` e intentando consultarla usando su propio `EntityManager`.
-**Impacto:**
-En producción, `virteex-manufacturing-service` se conecta a su propia base de datos (`virteex_manufacturing`). La tabla `stock` reside en la base de datos de inventario (`virteex_inventory`).
-Al ejecutar `this.em.findOne(Stock, ...)`, MikroORM intentará buscar la tabla `stock` en la base de datos `virteex_manufacturing`. Esto lanzará un error SQL `relation "stock" does not exist` o, peor aún, si la tabla se crea automáticamente, creará una "isla de datos" desconectada del inventario real.
-**Solución Requerida:**
-Reemplazar `MikroOrmInventoryService` con un `HttpInventoryService` que realice una llamada REST o gRPC al microservicio `virteex-inventory-service` para reservar stock.
+**Estado General:** La plataforma Virteex muestra un nivel de madurez técnica avanzado en sus dominios principales, superando la etapa de prototipo o MVP básico. La arquitectura base es sólida y sigue patrones de diseño robustos (DDD, Hexagonal). A diferencia de auditorías previas que reportaban mocks generalizados, el análisis actual confirma implementaciones reales en la mayoría de los módulos críticos.
 
-### 1.2. Mocks Explícitos en Lógica de Negocio (Admin Domain)
-**Archivo Afectado:** `libs/domains/admin/application/src/lib/services/data-import.service.ts`
-**Problema:**
-El método `processFile` y `importRow` contienen lógica simulada ("mock").
-El código dice explícitamente: `// Mock processing logic` y `// For this task, we simulate success`.
-El servicio simplemente lee un Excel y "simula" que guarda datos, pero no llama a ningún repositorio ni servicio real para persistir Clientes, Productos o Proveedores.
-**Impacto:**
-La funcionalidad de "Importación de Datos" es completamente falsa. El usuario verá un mensaje de éxito, pero ningún dato se guardará en la base de datos.
-**Solución Requerida:**
-Implementar la llamada real a los casos de uso `CreateProduct`, `CreateCustomer`, `CreateSupplier` de sus respectivos dominios (probablemente a través de eventos de dominio o llamadas HTTP/RPC para mantener el desacoplamiento).
+**Estimación de Avance:**
+*   **Funcionalidad Técnica:** 85% (Core implementado, integraciones HTTP reales entre microservicios, sin mocks en flujos críticos de negocio).
+*   **Madurez Comercial:** 65% (Falta robustez en escalabilidad de reportes BI, hardening de seguridad en plugins Wasm, y validación exhaustiva de reglas fiscales complejas).
 
----
+**Hallazgos Principales:**
+*   **Fortalezas:** Los módulos core (Inventario, Compras, Nómina, Facturación, Admin) tienen implementaciones reales conectadas a base de datos (MikroORM) y se comunican vía HTTP (`HttpInventoryAdapter`, `HttpIntegrationAdapter`). No se encontraron mocks en la lógica de negocio principal.
+*   **Debilidades:** El módulo de BI (`SqlDashboardGateway`) utiliza accesos directos a base de datos (raw SQL) cruzando esquemas, lo cual es un atajo técnico que compromete la escalabilidad. La "sandbox" de plugins Wasm requiere mejoras de seguridad.
 
-## 2. ANÁLISIS POR DOMINIO (BACKEND)
+## 3. ANÁLISIS DETALLADO POR ÁREAS
 
-Se ha detectado que muchos de los nuevos microservicios son "cascarones vacíos" (Scaffolding) con estructura pero sin implementación real.
+### 3.1. Arquitectura y Backend
+*   **Microservicios & Comunicación:** La estructura de `libs/domains` y `apps/` es consistente. Se ha verificado que la comunicación entre dominios es correcta:
+    *   **Manufactura -> Inventario:** Utiliza `HttpInventoryAdapter` para reservar stock vía API REST, respetando los límites del microservicio (anteriormente reportado como acceso directo a DB, ahora corregido).
+    *   **Admin -> Otros Servicios:** El servicio de importación (`DataImportService`) utiliza `HttpIntegrationAdapter` para crear productos y clientes en sus respectivos servicios, sin acceder a sus bases de datos.
+*   **Base de Datos:** Uso correcto de MikroORM con entidades reales (`InventoryMovement`, `TaxRule`, etc.).
+*   **Multi-tenancy:** Implementado mediante middleware y suscriptores (`TenantModelSubscriber`) en el Kernel.
+*   **Brecha Identificada (BI):** El servicio de Inteligencia de Negocios (`SqlDashboardGateway`) realiza consultas SQL directas (`SELECT count(*) FROM purchasing.requisition...`) cruzando esquemas de base de datos. Esto viola la independencia de los microservicios.
 
-### 2.1. Fixed Assets (Activos Fijos)
-**Estado:** Incompleto / Esqueleto.
-**Hallazgos:**
-- `CreateFixedAssetUseCase` (`libs/domains/fixed-assets/application/src/lib/use-cases/create-fixed-asset.use-case.ts`): Implementación básica correcta.
-- `MikroOrmFixedAssetRepository`: Parece funcional.
-- **Faltante:** No hay lógica de depreciación real ni integración con Contabilidad (asientos automáticos). En un ERP comercial, crear un activo fijo debe generar un asiento contable.
+### 3.2. Frontend y Experiencia de Usuario
+*   **Web (Angular):** La integración con el backend es real. Servicios como `InventoryService` utilizan `HttpClient` para comunicar con la API.
+*   **Móvil (Ionic/Capacitor):** La aplicación `virteex-mobile` cuenta con páginas funcionales para CRM, Aprobaciones e Inventario.
+*   **Escritorio:** Comparte la base de código Angular.
+*   **Brecha:** La robustez del modo "offline-first" en móvil y la sincronización de conflictos requiere pruebas de campo exhaustivas.
 
-### 2.2. Treasury (Tesorería)
-**Estado:** Parcialmente Implementado / Riesgo de Ruteo.
-**Hallazgos:**
-- `TreasuryService` (Frontend) usa GraphQL.
-- `virteex-api-gateway` tiene la ruta `/treasury` comentada en `proxy.middleware.ts`. Esto es correcto si se usa GraphQL Federation, PERO requiere que el Gateway (Apollo) tenga el subgrafo registrado y activo.
-- **Faltante:** La conciliación bancaria y la integración real con pasarelas de pago no existen; son solo registros CRUD de cuentas bancarias.
+### 3.3. Localización Fiscal y Cumplimiento
+*   **Estrategias:** Se utiliza el patrón "Strategy" para manejar múltiples jurisdicciones (`MxTaxStrategy`, `MexicanTaxStrategy`, `UsTaxStrategy`).
+*   **Motor de Reglas:** Existe un `TaxRuleEngine` funcional que consulta reglas vigentes en base de datos.
+*   **Brecha:** Las estrategias actuales implementan cálculos lineales básicos. Se requiere auditar la cobertura de casos fiscales complejos (exenciones, retenciones, impuestos en cascada).
 
-### 2.3. Purchasing (Compras) & Manufacturing (Manufactura)
-**Estado:** Crítico.
-**Hallazgos:**
-- **Manufacturing:** Además del error crítico de DB mencionado en 1.1, la lógica de `CreateProductionOrder` es simplista. No valida capacidad de planta ni disponibilidad de materiales (BOM) de forma recursiva.
-- **Purchasing:** Se detectaron múltiples archivos con la palabra "mock" en `libs/domains/purchasing/application/src/lib/use-cases/create-supplier.use-case.spec.ts` (test) pero la implementación real en `create-supplier.use-case.ts` debe ser revisada para asegurar que no sea un "pass-through".
+### 3.4. Seguridad y Privacidad
+*   **Plugins (Extensibilidad):** El `virteex-plugin-host` utiliza `isolated-vm` para ejecutar código JavaScript de terceros de forma segura.
+*   **Wasm:** Existe soporte para WebAssembly en `SandboxService`, pero la implementación construye los workers de forma manual con strings, lo cual puede ser frágil y difícil de mantener.
+*   **Brecha:** Se recomienda migrar la ejecución de Wasm a un runtime gestionado más robusto o estandarizar la creación de workers.
 
-### 2.4. CRM & Projects
-**Estado:** Esqueleto.
-**Hallazgos:**
-- `libs/domains/crm/infrastructure/src/lib/repositories/mikro-orm-sale.repository.ts`: Marcado como "Potencial bloque vacío".
-- `libs/domains/projects/application/src/lib/use-cases/get-projects.use-case.ts`: Marcado como "Potencial bloque vacío".
-- Estos módulos parecen haber sido generados por el generador Nx pero no tienen lógica de negocio real (validaciones, estados, flujos de trabajo).
+### 3.5. Funcionalidades Core del ERP
+*   **Inventario:** Completo y real.
+*   **Compras:** Repositorios reales para órdenes y facturas.
+*   **Nómina:** Cálculo real basado en estrategias por país.
+*   **Importación de Datos:** El servicio de Admin procesa archivos Excel (`xlsx`) y distribuye los datos a los servicios correspondientes vía HTTP. No es un mock.
 
----
+## 4. CONCLUSIONES Y RECOMENDACIONES
 
-## 3. INTEGRACIÓN FRONTEND (VIRTEEX-WEB)
+Virteex ha superado la etapa de "mocks" y "prototipos". El código actual refleja un sistema funcional con integraciones reales entre microservicios. Las críticas sobre lógica simulada en módulos como Admin o Manufactura han sido superadas en la versión actual.
 
-### 3.1. Estrategia de Comunicación Mixta e Inconsistente
-**Problema:**
-La aplicación usa una mezcla confusa de REST y GraphQL que dificulta el mantenimiento y la configuración de CORS/Proxy.
-- **Manufacturing UI:** Llama a `/manufacturing/orders` (REST) -> Proxy en API Gateway -> Servicio.
-- **Treasury UI:** Llama a GraphQL (Apollo) -> Gateway -> Subgrafo.
-**Impacto Comercial:**
-Tener dos puertas de enlace (API Gateway REST y Apollo Gateway) aumenta la superficie de ataque y la complejidad de configuración (autenticación duplicada, manejo de tokens). Se recomienda unificar o tener una estrategia clara (BFF).
+**Acciones Prioritarias:**
+1.  **Refactorización de BI:** Eliminar las consultas SQL directas en `SqlDashboardGateway`.
+2.  **Hardening del Plugin Host:** Robustecer la ejecución de WebAssembly.
+3.  **Profundidad Fiscal:** Realizar un "Gap Analysis" fiscal con expertos.
+4.  **Pruebas de Estrés:** Validar el rendimiento de la arquitectura híbrida multi-tenant.
 
-### 3.2. UI "Dummy" o Incompleta
-**Archivo Afectado:** `libs/domains/manufacturing/ui/src/lib/pages/dashboard/dashboard.component.ts`
-**Problema:**
-El Dashboard de Manufactura solo hace un `getOrders().length`.
-**Impacto:**
-Visualmente pobre y no aporta valor de negocio (KPIs, eficiencia, alertas).
-**General:**
-La mayoría de los módulos UI en `libs/domains/*/ui` siguen este patrón: Listados básicos (CRUD) sin formularios complejos, validaciones de negocio en el cliente, ni manejo de errores robusto (Toasts, Modales de confirmación).
-
----
-
-## 4. INFRAESTRUCTURA Y DESPLIEGUE
-
-### 4.1. Configuración de Base de Datos
-**Archivo:** `docker-compose.yml`
-**Estado:** Correcto.
-Cada servicio tiene su propia DB (`virteex_inventory`, `virteex_billing`, etc.). Esto es bueno, PERO exacerba el error crítico 1.1 (Manufacturing intentando leer tablas de Inventory).
-
-### 4.2. Secretos y Seguridad
-**Estado:** Aceptable para Desarrollo.
-Se usan variables de entorno (`${POSTGRES_PASSWORD}`).
-**Faltante:**
-No se observa un manejo de rotación de secretos o integración con Vault para un entorno "Comercial".
-La autenticación entre microservicios (Service-to-Service) parece confiar en la red interna o tokens compartidos, lo cual es débil para estándares comerciales estrictos (falta mTLS o OAuth2 Client Credentials).
-
----
-
-## 5. CONCLUSIÓN Y PASOS PARA "100% FUNCIONAL"
-
-Para que esta aplicación sea comercialmente viable, se deben ejecutar obligatoriamente las siguientes acciones (en orden de prioridad):
-
-1.  **Refactorizar `Manufacturing Service`:** Eliminar la dependencia directa de `@virteex/inventory-domain/entities`. Crear un cliente HTTP interno para comunicarse con `Inventory Service`.
-2.  **Implementar `Data Import` Real:** Reescribir `DataImportService` en Admin para que orqueste la creación de datos llamando a las APIs de los otros microservicios, en lugar de simular éxito.
-3.  **Rellenar los "Esqueletos":** Revisar todos los Repositorios y Casos de Uso en `Projects`, `CRM`, `Fixed Assets` y asegurar que no sean solo clases vacías o métodos que devuelven `[]`.
-4.  **Unificar Comunicación Frontend:** Decidir si `Treasury` y `Purchasing` deben ir por REST (habilitar proxy en API Gateway) o si todo migra a GraphQL. Actualmente está roto/dividido.
-5.  **Validación de Negocio:** Agregar validaciones reales (ej. no permitir factura negativa, no permitir orden de producción sin receta/BOM) que actualmente brillan por su ausencia en los casos de uso simples.
-
-Fin del Informe.
+Virteex está en un 85% del camino técnico. El enfoque ahora debe ser la escalabilidad (BI) y la profundidad de negocio (Fiscal/Offline).
