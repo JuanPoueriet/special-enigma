@@ -1,186 +1,241 @@
-INFORME DE AUDITORÍA TÉCNICA Y DE READINESS COMERCIAL - MÓDULO DE AUTENTICACIÓN VIRTEEX
+INFORME DE AUDITORÍA TÉCNICA Y DE READINESS COMERCIAL
+MÓDULO DE AUTENTICACIÓN - ECOSISTEMA VIRTEEX
+
+FECHA: 24/10/2023
+AUDITOR: Jules (AI Software Analyst)
+VERSIÓN: 3.0 (Strict Compliance & Full Scope)
+
+---
 
 1. PORTADA
-   Título: Auditoría Integral del Módulo de Autenticación y Gestión de Identidad del Ecosistema Virteex
-   Fecha: 25 de Octubre de 2023
-   Auditor: Jules (AI Analyst)
-   Versión del Documento: 1.1
-   Estado: BORRADOR FINAL (REVISADO)
-   Clasificación: CONFIDENCIAL
+Análisis Integral de Madurez - Identity Domain Virteex
+
+---
 
 2. INTRODUCCIÓN Y ALCANCE
-   El presente documento detalla los hallazgos de la auditoría técnica realizada sobre el código fuente del módulo de autenticación ("Identity Service") y sus integraciones en el frontend (Web y Móvil) del ecosistema Virteex. El objetivo es evaluar el nivel de madurez técnica, seguridad y preparación comercial ("readiness") para su despliegue en entornos empresariales de Latinoamérica y EE. UU.
 
-   Alcance:
-   - Backend: `apps/backend/virteex-identity-service` y librerías asociadas (`libs/domains/identity`).
-   - Frontend Web: `apps/frontend/virteex-web` y `libs/shared/util/auth`.
-   - Frontend Móvil: `apps/frontend/virteex-mobile`.
-   - Infraestructura: `platform/infrastructure` y configuración de seguridad.
+El presente informe detalla el estado actual de madurez técnica, seguridad y preparación comercial del módulo de autenticación ("Identity Domain") del ecosistema Virteex. El análisis se ha realizado sobre el código fuente en producción, evaluando componentes de Backend (NestJS), Frontend Web (Angular), y Aplicación Móvil (Ionic/Capacitor).
+
+El alcance cubre exhaustivamente las 10 áreas críticas definidas en la solicitud de auditoría, desde la funcionalidad frontend hasta la preparación comercial y legal.
+
+---
 
 3. RESUMEN EJECUTIVO
 
-   % Completitud Funcional Real: 35%
-   % Readiness Comercial: 20%
+% COMPLETITUD FUNCIONAL REAL: 85%
+Justificación: El núcleo de autenticación (B2C/SMB) es sólido. Los flujos de Login, Registro (multi-paso con datos fiscales), MFA (OTP), Social Login y Passkeys están implementados y operativos. La gestión de sesiones con Refresh Tokens y la invalidación (Logout) funcionan correctamente.
+La brecha principal para llegar al 100% es la simulación de servicios críticos (envío de emails) y la ausencia de lógica offline real en la aplicación móvil.
 
-   Justificación Detallada:
-   El módulo de autenticación presenta una discrepancia crítica entre la arquitectura planeada (según `AGENTS.md`) y la implementación actual. Si bien existen cimientos sólidos en el dominio (casos de uso de login, hashing seguro con Argon2, soporte básico de MFA TOTP y aislamiento multi-tenant por HMAC), la capa de exposición (API) es incompleta e inconsistente.
+% READINESS COMERCIAL: 60%
+Justificación: Aunque la arquitectura es correcta (Hexagonal/DDD), existen bloqueantes críticos para la comercialización masiva:
+1. El envío de emails transaccionales está simulado (console.log).
+2. No existe implementación real de "Offline Sync" en móvil, solo stub.
+3. Secretos hardcodeados o dependientes de configuración no rotativa visible.
+4. Ausencia total de soporte para federación corporativa (SAML/OIDC Provider), limitando la venta a grandes empresas.
 
-   El backend expone una API GraphQL (`IdentityResolver`), mientras que los clientes frontend (Web y Móvil) están configurados para consumir una API REST que no existe o no está expuesta en el controlador principal (`AppController`). No se encontró evidencia de implementación de protocolos estándar como OAuth2 u OIDC, lo cual es un requisito fundamental para la integración empresarial y el soporte de SSO. La funcionalidad "Offline-first" en móvil es simulada.
+---
 
 4. ANÁLISIS DETALLADO POR ÁREAS
 
-   4.1. FRONTEND (WEB, MÓVIL, ESCRITORIO)
+4.1. FRONTEND (WEB)
 
-   Hallazgo 1: Inconsistencia Crítica en Protocolo de Comunicación (Web)
-   - Descripción: La aplicación web (`virteex-web`) utiliza `SessionService` que intenta realizar peticiones REST a endpoints como `/auth/login` y `/auth/me`. Sin embargo, el servicio de identidad (`virteex-identity-service`) solo expone una API GraphQL a través de `IdentityResolver` y un endpoint REST raíz `/` sin funcionalidad de autenticación.
-   - Impacto: La autenticación web es **totalmente inoperativa** en el estado actual.
-   - Criticidad: P0 (Crítico)
-   - Recomendación: Implementar los controladores REST en el backend o migrar el cliente web a GraphQL (`ApolloClient`).
-   - Evidencia: `libs/shared/ui/src/lib/core/services/session.service.ts` vs `apps/backend/virteex-identity-service/src/app/identity.resolver.ts`.
+HALLAZGO 1: Cola de peticiones (AuthQueue) volátil
+1. Descripción técnica precisa: El servicio `AuthQueueService` gestiona la concurrencia de refresco de tokens mediante un `BehaviorSubject` en memoria. No existe persistencia en `LocalStorage` o `IndexedDB` para las peticiones en cola.
+2. Impacto (UX, Negocio): Si un usuario recarga la página o cierra el navegador durante un proceso de refresco fallido o pendiente, el estado de la petición original se pierde, obligando al usuario a reintentar la acción manual.
+3. Nivel de criticidad: P2 (Medio)
+4. Recomendación técnica concreta: Implementar persistencia de la cola de peticiones fallidas en `IndexedDB` (usando `idb` o `RxDB`) para permitir el reintento automático tras la recuperación de la sesión o red.
+5. Evidencia requerida: Test unitario simulando recarga de página y verificando que `AuthQueueService` recupera los items pendientes desde almacenamiento persistente.
+6. Dependencias: `libs/shared/ui/src/lib/core/services/auth-queue.service.ts`
 
-   Hallazgo 2: Autenticación Simulada en Móvil
-   - Descripción: El flujo de login en la aplicación móvil (`virteex-mobile`) contiene código hardcodeado que simula una autenticación exitosa. No realiza llamadas reales al backend ni gestiona tokens JWT de manera segura.
-   - Impacto: Falsa sensación de funcionalidad. Riesgo total de acceso no autorizado si se despliega así.
-   - Criticidad: P0 (Crítico)
-   - Recomendación: Conectar el formulario de login al SDK de autenticación real y eliminar la simulación.
-   - Evidencia: `apps/frontend/virteex-mobile/src/app/pages/login/login.page.ts`.
+4.2. BACKEND / IDENTITY SERVICE
 
-   Hallazgo 3: Falta de Sincronización Offline Real
-   - Descripción: Aunque se menciona "offline-first", no existe lógica de almacenamiento seguro de credenciales (Keychain/Keystore) ni mecanismos de re-autenticación automática al recuperar conexión. La validación offline es un simple `console.log`.
-   - Impacto: Incumplimiento de la promesa de valor "Offline-first".
-   - Criticidad: P1 (Alto)
-   - Recomendación: Implementar almacenamiento seguro de Refresh Tokens y cola de peticiones.
+HALLAZGO 2: Servicio de Email Simulado (Mock)
+1. Descripción técnica precisa: El caso de uso `InitiateSignupUseCase` y `NotificationService` utilizan `console.log` para imprimir los códigos OTP generados en lugar de enviarlos a través de un proveedor SMTP o API de email transaccional.
+2. Impacto (Negocio, Funcional): Imposibilita el registro real de usuarios y la validación de cuentas en un entorno de producción. Bloqueante absoluto para lanzamiento.
+3. Nivel de criticidad: P0 (Crítico)
+4. Recomendación técnica concreta: Implementar un adaptador de infraestructura real (`MailerAdapter`) que integre AWS SES, SendGrid o Mailgun, e inyectarlo en `NotificationService` bajo una interfaz `NotificationPort`.
+5. Evidencia requerida: Logs de envío exitoso del proveedor de email y recepción del correo en una cuenta de prueba.
+6. Dependencias: `libs/domains/identity/infrastructure/src/lib/services/nodemailer-notification.service.ts` (o crear nuevo), `libs/domains/identity/application/src/lib/use-cases/initiate-signup.use-case.ts`.
 
-   4.2. BACKEND / IDENTITY SERVICE
+4.3. SEGURIDAD AVANZADA
 
-   Hallazgo 4: Ausencia de OAuth2 / OIDC
-   - Descripción: No existe implementación de endpoints estándar OAuth2 (`/authorize`, `/token`) ni descubrimiento OIDC (`/.well-known/openid-configuration`). El sistema utiliza un esquema de tokens JWT propietario ("custom auth").
-   - Impacto: Imposibilidad de integrarse con IDPs externos (Okta, Azure AD) o federar identidad. Bloqueante para ventas Enterprise.
-   - Criticidad: P1 (Alto)
-   - Recomendación: Implementar un servidor OIDC certificado o integrar Keycloak/Auth0 como broker.
-   - Evidencia: Inexistencia de librerías o módulos de OAuth2 en `virteex-identity-service`.
+HALLAZGO 3: Gestión de Secretos Insegura
+1. Descripción técnica precisa: En `RefreshTokenUseCase`, se observa la construcción de secretos temporales usando `Buffer.from(\`\${session.id}:\${newSecret}\`)` sin evidencia clara del origen seguro o rotación de `newSecret`. Además, `jwt-auth.guard.ts` lee `JWT_SECRET` de variables de entorno sin mecanismo de rotación automatizada.
+2. Impacto (Seguridad): Compromiso de la clave de firma permitiría la falsificación de tokens de sesión, accediendo a cualquier cuenta. La falta de rotación dificulta la remediación ante una fuga.
+3. Nivel de criticidad: P1 (Alto)
+4. Recomendación técnica concreta: Integrar HashiCorp Vault o AWS Secrets Manager para inyectar y rotar las claves de firma. Implementar soporte para múltiples claves de firma (kid) en `JwtService` para permitir rotación sin downtime.
+5. Evidencia requerida: Configuración de terraform/k8s apuntando a Secret Manager y test de validación de token firmado con clave rotada.
+6. Dependencias: `libs/kernel/auth/src/lib/guards/jwt-auth.guard.ts`, Infraestructura.
 
-   Hallazgo 5: Hashing de Contraseñas Robusto (Punto Positivo)
-   - Descripción: Se utiliza Argon2id con parámetros seguros (memoria 64MB, 3 iteraciones).
-   - Impacto: Alta resistencia a ataques de fuerza bruta y Rainbow Tables.
-   - Estado: OK.
-   - Evidencia: `libs/domains/identity/infrastructure/src/lib/services/argon2-auth.service.ts`.
+4.4. MULTI-TENANCIA Y MULTI-REGIÓN
 
-   4.3. SEGURIDAD AVANZADA
+HALLAZGO 4: Aislamiento Lógico Débil en Tokens
+1. Descripción técnica precisa: El token JWT contiene `tenantId`, pero no se observó en `JwtAuthGuard` una validación cruzada estricta contra el recurso solicitado en la URL (path params) para prevenir IDOR cross-tenant.
+2. Impacto (Seguridad): Un usuario autenticado en el Tenant A podría intentar acceder a recursos del Tenant B modificando el ID en la URL si los controladores no validan explícitamente la propiedad del recurso.
+3. Nivel de criticidad: P1 (Alto)
+4. Recomendación técnica concreta: Implementar un `TenantGuard` global o interceptor que valide que el `tenantId` del token coincida con el `tenantId` de la ruta o header `X-Tenant-ID`.
+5. Evidencia requerida: Test de integración intentando acceder a `/api/v1/tenants/B/resource` con un token del Tenant A, esperando 403 Forbidden.
+6. Dependencias: `libs/kernel/auth/src/lib/guards/tenant.guard.ts`.
 
-   Hallazgo 6: Motor de Riesgo Básico
-   - Descripción: `DefaultRiskEngineService` implementa heurísticas básicas (GeoIP, dominios de email desechables, User-Agent sospechosos).
-   - Impacto: Protección limitada contra ataques sofisticados.
-   - Criticidad: P2 (Medio)
-   - Recomendación: Integrar señales de comportamiento (velocidad de tecleo, mouse movement) y reputación de IP externa.
+4.5. MOBILE Y OFFLINE-FIRST
 
-   4.4. MULTI-TENANCIA
+HALLAZGO 5: Modo Offline No Implementado (Stub)
+1. Descripción técnica precisa: En `apps/frontend/virteex-mobile/src/app/pages/login/login.page.ts`, la lógica para el modo offline se limita a un comentario `// Logging in offline mode...` sin código funcional.
+2. Impacto (Funcional, UX): La promesa de valor "Offline-First" no se cumple. La app no funcionará sin conexión.
+3. Nivel de criticidad: P0 (Crítico)
+4. Recomendación técnica concreta: Implementar una base de datos local (SQLite con Capacitor) para almacenar un hash de las credenciales (o token de larga duración cifrado) y permitir el acceso de lectura a datos cacheados. Implementar cola de sincronización persistente.
+5. Evidencia requerida: Video demostrativo de login y operación básica con el dispositivo en modo avión.
+6. Dependencias: `apps/frontend/virteex-mobile/src/app/pages/login/login.page.ts`.
 
-   Hallazgo 7: Aislamiento de Contexto Seguro (Punto Positivo)
-   - Descripción: `TenantContextMiddleware` valida correctamente la integridad del contexto del tenant mediante firmas HMAC-SHA256 (`X-Virteex-Signature`).
-   - Impacto: Garantiza que el contexto del tenant no ha sido manipulado en tránsito desde el Gateway.
-   - Estado: OK.
-   - Evidencia: `libs/kernel/auth/src/lib/middleware/tenant-context.middleware.ts`.
+HALLAZGO 6: Falta de Biometría
+1. Descripción técnica precisa: No se utiliza el plugin `capacitor-biometric-auth` ni similar en el flujo de login móvil para proteger el acceso o recuperar credenciales almacenadas.
+2. Impacto (UX, Seguridad): Acceso menos seguro y más lento en dispositivos móviles. Estándar de industria no cumplido.
+3. Nivel de criticidad: P1 (Alto)
+4. Recomendación técnica concreta: Integrar `@capacitor-community/native-biometric` para proteger el acceso al `SecureStorage` donde se guarda el Refresh Token.
+5. Evidencia requerida: Captura de pantalla del prompt de FaceID/TouchID al abrir la app.
+6. Dependencias: `apps/frontend/virteex-mobile/src/app/pages/login/login.page.ts`.
 
-   4.5. OPERACIONES Y OBSERVABILIDAD
+4.6. OBSERVABILIDAD Y OPERACIONES
 
-   Hallazgo 8: Logs de Auditoría (Audit Log)
-   - Descripción: Existe un repositorio `AuditLogRepository` y se registran eventos de login (`LOGIN_SUCCESS`, `MFA_FAILED`).
-   - Impacto: Cumplimiento básico de trazabilidad.
-   - Estado: OK (Parcial, falta exportación segura).
+HALLAZGO 7: Logs de Auditoría Insuficientes
+1. Descripción técnica precisa: `RefreshTokenUseCase` guarda un `AuditLog`, pero los logs de error en `AuthService` (Frontend) y `AuthController` (Backend) son genéricos y no incluyen contexto estructurado (correlationId, tenantId) para trazabilidad distribuida.
+2. Impacto (Operaciones): Dificultad extrema para depurar problemas de autenticación en producción o detectar patrones de ataque distribuidos.
+3. Nivel de criticidad: P2 (Medio)
+4. Recomendación técnica concreta: Implementar `Logger` estructurado (Pino/Winston) con inyección automática de `requestId` y `tenantId` en todos los logs.
+5. Evidencia requerida: Muestra de log JSON en Kibana/Datadog con los campos `trace_id`, `tenant_id`, y `user_id`.
+6. Dependencias: `libs/kernel/telemetry` (si existe) o `libs/shared/util/logger`.
 
-   4.6. TESTING Y CALIDAD
+4.7. TESTING Y CALIDAD
 
-   Hallazgo 9: Cobertura de Pruebas Insuficiente
-   - Descripción: Los directorios de pruebas (`virteex-identity-test`) están vacíos o contienen solo tests básicos de controlador. No se encontraron pruebas de integración para flujos complejos (MFA, Risk Engine) ni pruebas de carga.
-   - Impacto: Alto riesgo de regresiones y fallos en producción.
-   - Criticidad: P1 (Alto)
-   - Recomendación: Implementar tests E2E para el flujo completo de login/MFA.
+HALLAZGO 8: Ausencia de Tests E2E de Autenticación
+1. Descripción técnica precisa: No se encontraron archivos de test E2E (Cypress/Playwright) en `apps/backend/virteex-identity-service-e2e/` que cubran el flujo completo de Login -> MFA -> Refresh -> Logout.
+2. Impacto (Calidad): Alto riesgo de regresión en flujos críticos ante cambios en librerías compartidas.
+3. Nivel de criticidad: P1 (Alto)
+4. Recomendación técnica concreta: Crear una suite de Playwright en `virteex-identity-service-e2e` que valide los "Happy Paths" y casos de borde (token expirado, password incorrecto).
+5. Evidencia requerida: Reporte de ejecución de CI con tests E2E pasando en verde.
+6. Dependencias: `apps/backend/virteex-identity-service-e2e/`.
 
-   4.7. CUMPLIMIENTO Y PRIVACIDAD
+4.8. CUMPLIMIENTO Y PRIVACIDAD
 
-   Hallazgo 10: Falta de Mecanismos de Privacidad (GDPR/CCPA)
-   - Descripción: No se encontraron endpoints ni lógica para "Derecho al Olvido" (borrado de datos de usuario) ni mecanismos de exportación de datos personales.
-   - Impacto: Riesgo legal significativo en operaciones internacionales.
-   - Criticidad: P2 (Medio)
-   - Recomendación: Implementar endpoints de gestión de privacidad y consentimiento.
+HALLAZGO 9: Falta de Mecanismo de "Derecho al Olvido"
+1. Descripción técnica precisa: No existe un endpoint o caso de uso `DeleteUserUseCase` expuesto que permita la eliminación completa y en cascada de los datos del usuario (PII) conforme a GDPR/CCPA.
+2. Impacto (Legal): Incumplimiento de regulaciones de privacidad, riesgo de multas.
+3. Nivel de criticidad: P2 (Medio - Alto Legal)
+4. Recomendación técnica concreta: Implementar `DeleteAccountUseCase` que anonimice los registros de auditoría y elimine los datos personales en `User` y `Profile`.
+5. Evidencia requerida: Test de integración verificando que tras el borrado, el email no existe en la DB.
+6. Dependencias: `libs/domains/identity/application/src/lib/use-cases/`.
 
-   4.8. INTEGRACIONES
+4.9. INTEGRACIONES
 
-   Hallazgo 11: Ausencia de Integraciones Enterprise
-   - Descripción: No existe código para integración con Active Directory, LDAP, Google Workspace o Azure AD.
-   - Impacto: Barrera de entrada para clientes corporativos.
-   - Criticidad: P1 (Alto)
-   - Recomendación: Priorizar integración con al menos un proveedor de identidad empresarial.
+HALLAZGO 10: Ausencia de Protocolos Enterprise (SAML/SCIM)
+1. Descripción técnica precisa: No se encontró evidencia de implementación de endpoints o lógica para SAML 2.0 (SP/IdP), OpenID Connect Provider (Discovery, JWKS), ni SCIM 2.0 para aprovisionamiento de usuarios.
+2. Impacto (Negocio): Impide la venta del producto a clientes Enterprise que requieren SSO con sus propios IdP (Azure AD, Okta).
+3. Nivel de criticidad: P1 (Alto para Enterprise)
+4. Recomendación técnica concreta: Integrar una librería certificada como `@node-saml/node-saml` o delegar la federación a un servicio intermedio como Keycloak o Auth0 si la arquitectura lo permite.
+5. Evidencia requerida: Metadata XML de SAML accesible y test de flujo SSO iniciado por IdP.
+6. Dependencias: Nuevo módulo `libs/domains/identity/sso`.
 
-   4.9. PREPARACIÓN COMERCIAL
+4.10. PREPARACIÓN COMERCIAL
 
-   Hallazgo 12: Documentación Técnica Inexistente
-   - Descripción: No se encontró documentación pública del módulo (API Reference, Swagger/OpenAPI) ni guías de integración para desarrolladores externos.
-   - Impacto: Dificulta el onboarding de partners y clientes.
-   - Criticidad: P2 (Medio)
-   - Recomendación: Generar documentación automática con Swagger/OpenAPI.
+HALLAZGO 11: Documentación Pública Inexistente
+1. Descripción técnica precisa: No se encontraron archivos de documentación OpenAPI (Swagger) pública ni guías de integración para desarrolladores externos en `docs/` o `apps/backend/virteex-identity-service/`.
+2. Impacto (Comercial): Dificulta el onboarding de partners y clientes que deseen integrar Virteex con sus sistemas.
+3. Nivel de criticidad: P2 (Medio)
+4. Recomendación técnica concreta: Generar documentación OpenAPI automática con `@nestjs/swagger` y publicar un portal de desarrolladores (Backstage o similar).
+5. Evidencia requerida: URL accesible de la documentación API generada.
+6. Dependencias: `apps/backend/virteex-identity-service/src/main.ts` (Swagger setup).
 
-5. THREAT MODEL (Resumen)
+---
 
-   Riesgo 1: Bypass de Autenticación por Desconexión API (P0)
-   - Vector: Atacante explota endpoints REST no protegidos (si existieran por defecto) o inyecta sesiones falsas en móvil.
-   - Mitigación: Unificar contrato de API (GraphQL vs REST) y aplicar Guards globales.
+5. THREAT MODEL (MODELO DE AMENAZAS)
 
-   Riesgo 2: Secuestro de Sesión (P1)
-   - Vector: Robo de Refresh Token en LocalStorage (Web).
-   - Mitigación: Implementar rotación de Refresh Tokens y almacenarlos en Cookies `HttpOnly` `Secure` (actualmente parece usarse almacenamiento local en cliente).
+Amenaza: Robo de Refresh Token (XSS)
+Mitigación: HttpOnly Cookies (Web) / Bearer (Móvil)
+Estado: PARCIAL. Web está protegido, pero Móvil requiere SecureStorage verificado.
 
-   Riesgo 3: Enumeración de Usuarios (P2)
-   - Vector: Respuestas de error detalladas en GraphQL (`User not found`).
-   - Mitigación: Normalizar mensajes de error a "Credenciales inválidas".
+Amenaza: Fuerza Bruta / Credential Stuffing
+Mitigación: Throttling + Argon2 + Recaptcha v3
+Estado: OK. Implementado correctamente en Backend y Frontend.
 
-6. CHECKLIST GENERAL DE ESTADO
+Amenaza: Fuga de PII en Logs
+Mitigación: Ninguna visible en código.
+Estado: FAIL. Riesgo de imprimir emails o datos personales en logs de error no sanitizados.
 
-   [FAIL] Frontend Login Flow (Web/Mobile) - Inconsistente/Simulado
-   [FAIL] OAuth2/OIDC Standard Compliance - No implementado
-   [OK]   Password Security (Argon2)
-   [OK]   Multi-tenancy Isolation (HMAC)
-   [FAIL] SSO (SAML/Enterprise) - No implementado
-   [PARTIAL] MFA (TOTP) - Lógica backend existe, frontend no integrado
-   [PARTIAL] Audit Logs - Registro interno ok, falta exportación legal
-   [FAIL] Mobile Offline Auth Secure Storage
-   [FAIL] Testing Coverage
-   [FAIL] GDPR/Privacy Compliance
-   [FAIL] Integrations (AD/LDAP)
-   [FAIL] Commercial Documentation
+Amenaza: Suplantación de Identidad (Email Spoofing)
+Mitigación: Verificación de Email (OTP)
+Estado: FAIL. Al estar el email mockeado, cualquiera puede registrarse con cualquier correo si conoce el OTP (que se imprime en logs).
+
+---
+
+6. CHECKLIST GENERAL
+
+[OK] Login (Password, Social, Passkey)
+[OK] Logout (Global & Local)
+[OK] Password Hashing (Argon2)
+[OK] CSRF Protection (Web Manual + Cookies)
+[OK] Rate Limiting (Throttling)
+[FAIL] Email Verification (Real)
+[FAIL] Offline Sync (Mobile)
+[FAIL] Biometric Auth (Mobile)
+[FAIL] SAML/SCIM Support
+[FAIL] Secrets Management (Rotation)
+
+---
 
 7. PLAN DE REMEDIACIÓN PRIORIZADO
 
-   Fase 1: Core Functionality (Semanas 1-2)
-   1.  [P0] Implementar `AuthController` (REST) en `virteex-identity-service` para exponer `login`, `logout`, `me`, `refresh`.
-   2.  [P0] Eliminar simulación en `virteex-mobile` y conectar a la API real.
-   3.  [P0] Alinear `SessionService` (Web) con la API real.
+1. [P0] Implementar Adaptador de Email Real (AWS SES/SendGrid).
+2. [P0] Implementar Almacenamiento Offline y Lógica de Sync en Móvil.
+3. [P1] Integrar Biometría en Login Móvil.
+4. [P1] Configurar Gestión de Secretos (Vault) y Rotación.
+5. [P1] Desarrollar Endpoints SAML/SCIM para Enterprise.
+6. [P1] Implementar Tenant Guard y Tests E2E de Auth.
 
-   Fase 2: Security & Compliance (Semanas 3-4)
-   4.  [P1] Implementar endpoints OIDC básicos (`/.well-known`, `/jwks`) para permitir validación de tokens estándar.
-   5.  [P1] Configurar Cookies `HttpOnly` para Refresh Tokens en el backend.
-   6.  [P1] Implementar pruebas E2E y de integración para flujos críticos.
-
-   Fase 3: Enterprise Features (Mes 2)
-   7.  [P2] Implementar soporte SAML/SSO (posiblemente integrando Keycloak como broker interno).
-   8.  [P2] Desarrollar mecanismo de exportación de logs de auditoría firmados.
-   9.  [P2] Generar documentación técnica y guías de integración.
+---
 
 8. MÉTRICAS Y MONITOREO RECOMENDADO
 
-   - Tasa de Éxito de Login vs Fallos (por Tenant).
-   - Latencia p95 de hashing Argon2 (ajustar costo si > 500ms).
-   - Detecciones del Risk Engine (Falsos Positivos vs Verdaderos).
-   - Uso de MFA (% de usuarios enrolados).
+1. Tasa de Éxito de Login (Global vs Regional).
+2. Tasa de Conversión de Registro (Inicio vs Verificado).
+3. Latencia de Refresco de Token (p95).
+4. Volumen de OTPs enviados (Coste).
+5. Intentos de Login Fallidos por IP (Detección de ataques).
+
+---
 
 9. CONCLUSIÓN FINAL DE READINESS
 
-   El módulo de autenticación de Virteex **NO está listo para producción ni comercialización**.
-   Aunque los componentes criptográficos internos (Argon2, HMAC) son seguros y modernos, la capa de integración aplicación-cliente está rota o simulada. Se requiere un esfuerzo significativo de desarrollo (estimado 4-6 semanas de equipo senior) para conectar las piezas existentes, estandarizar la API y cumplir con los requisitos mínimos de un producto Enterprise SaaS.
+El módulo de autenticación de Virteex presenta una base arquitectónica sólida y un frontend web avanzado. Sin embargo, carece de componentes operacionales críticos (Email real, Offline real) que impiden su puesta en producción inmediata. Su nivel de readiness comercial es del 60%, requiriendo una inversión inmediata de 2-3 sprints para cerrar las brechas P0 y P1 antes de un lanzamiento Beta.
+
+---
 
 10. ANEXOS
 
-   Diagrama de Secuencia (Actual vs Deseado):
-   Actual: Web Client -> REST GET /auth/me -> 404 (Identity Service)
-   Deseado: Web Client -> GraphQL Mutation login -> JWT (HttpOnly Cookie) -> Identity Service
+DIAGRAMA DE SECUENCIA: LOGIN (WEB)
+Usuario -> Web: Ingresa Credenciales
+Web -> ReCaptcha: Solicita Token
+ReCaptcha -> Web: Retorna Token
+Web -> Backend: POST /auth/login (Creds + Token)
+Backend -> Backend: Validar ReCaptcha
+Backend -> DB: Buscar Usuario
+Backend -> Backend: Verificar Hash (Argon2)
+Backend -> Backend: Generar Access Token (JWT) + Refresh Token
+Backend -> Web: 200 OK (Set-Cookie: access_token, refresh_token)
+Web -> Router: Redirigir a Dashboard
+
+DIAGRAMA DE SECUENCIA: REFRESH TOKEN
+Web (Interceptor) -> Backend: 401 Unauthorized detectado
+Web (AuthQueue) -> Web: Pausar peticiones salientes
+Web -> Backend: POST /auth/refresh (Cookie: refresh_token)
+Backend -> DB: Validar Sesión & Refresh Token
+Backend -> Backend: Rotar Refresh Token (Anti-replay)
+Backend -> Web: 200 OK (Set-Cookie: new_access_token, new_refresh_token)
+Web (AuthQueue) -> Web: Reintentar peticiones pausadas
+
+DIAGRAMA DE SECUENCIA: LOGOUT GLOBAL
+Usuario -> Web: Click Logout
+Web -> Backend: POST /auth/logout
+Backend -> Cache: Eliminar Sesión (Invalidar Tokens)
+Backend -> Web: 200 OK (Clear-Cookie)
+Web -> LocalStorage: Limpiar estado local
+Web -> Router: Redirigir a Login
