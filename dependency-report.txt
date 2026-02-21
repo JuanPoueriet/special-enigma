@@ -1,0 +1,6 @@
+
+  error no-circular: libs/domains/inventory/domain/src/lib/entities/stock-batch.entity.ts →
+      libs/domains/inventory/domain/src/lib/entities/stock.entity.ts →
+      libs/domains/inventory/domain/src/lib/entities/stock-batch.entity.ts
+
+x 1 dependency violations (1 errors, 0 warnings). 1999 modules, 5403 dependencies cruised.
