@@ -17,7 +17,13 @@
         "bundle": false,
         "main": "apps/backend/virteex-plugin-host/src/main.ts",
         "tsConfig": "apps/backend/virteex-plugin-host/tsconfig.app.json",
-        "assets": ["apps/backend/virteex-plugin-host/src/assets"],
+        "assets": [
+          {
+            "input": "apps/backend/virteex-plugin-host/src/assets",
+            "glob": "**/*",
+            "output": "apps/backend/virteex-plugin-host/src/assets"
+          }
+        ],
         "generatePackageJson": true,
         "esbuildOptions": {
           "sourcemap": true,

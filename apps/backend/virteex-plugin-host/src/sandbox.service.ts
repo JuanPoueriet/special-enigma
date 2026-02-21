@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import * as ivm from 'isolated-vm';
 import { Worker } from 'worker_threads';
+import * as path from 'path';
 
 export interface SandboxResult {
   success: boolean;
@@ -18,6 +19,7 @@ export interface SandboxResult {
 export class SandboxService {
   private readonly MEMORY_LIMIT_MB = 128;
   private readonly DEFAULT_TIMEOUT_MS = 100;
+  private readonly logger = new Logger(SandboxService.name);
 
   async runWasm(
     wasmBuffer: Buffer,
@@ -25,53 +27,20 @@ export class SandboxService {
   ): Promise<SandboxResult> {
     const start = Date.now();
 
+    // Securely run WASM in a dedicated worker thread using a file, not eval
+    const workerPath = path.join(__dirname, 'assets', 'plugin.worker.js');
+
     return new Promise((resolve) => {
-      const workerCode = `
-        const { parentPort, workerData } = require('worker_threads');
-
-        (async () => {
-          const { wasmBuffer, timeout, startTime } = workerData;
-          const logs = [];
-
-          try {
-            const importObject = {
-              env: {
-                log: (offset, length) => {
-                   logs.push(\`Wasm log called (memory offset: \${offset}, length: \${length})\`);
-                },
-                abort: () => {
-                   throw new Error('Wasm aborted');
-                }
-              }
-            };
-
-            // Reconstruct buffer from shared array buffer or cloned buffer if necessary, but workerData handles Buffer
-            const module = await WebAssembly.compile(Buffer.from(wasmBuffer));
-            const instance = await WebAssembly.instantiate(module, importObject);
-
-            const exports = instance.exports;
-            if (typeof exports.main === 'function') {
-              const result = exports.main();
-              logs.push(\`Wasm execution result: \${result}\`);
-            } else {
-              logs.push('No main function found in Wasm module');
-            }
-
-            parentPort.postMessage({ success: true, logs, executionTimeMs: Date.now() - startTime });
-
-          } catch (err) {
-            parentPort.postMessage({ success: false, logs, error: String(err), executionTimeMs: Date.now() - startTime });
-          }
-        })();
-      `;
-
-      const worker = new Worker(workerCode, {
-        eval: true,
+      const worker = new Worker(workerPath, {
         workerData: {
           wasmBuffer,
           timeout,
           startTime: start,
         },
+        resourceLimits: {
+           maxOldGenerationSizeMb: this.MEMORY_LIMIT_MB,
+           maxYoungGenerationSizeMb: 32,
+        }
       });
 
       const timeoutId = setTimeout(() => {
