@@ -21,6 +21,7 @@ export class HttpCustomerRepository implements CustomerRepository {
       return {
         id: customer.id,
         rfc: customer.taxId || 'XAXX010101000',
+        taxId: customer.taxId || 'XAXX010101000',
         legalName: customer.companyName || `${customer.firstName} ${customer.lastName}`.trim(),
         taxRegimen: customer.taxRegimen || '616',
         postalCode: customer.postalCode || '00000',

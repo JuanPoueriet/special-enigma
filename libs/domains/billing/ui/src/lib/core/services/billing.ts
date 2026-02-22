@@ -92,4 +92,12 @@ export class BillingService {
   addPaymentMethod(paymentMethod: CreatePaymentMethodPayload, tenantId: string = 'default') {
       return this.http.post(`${this.apiUrl}/billing/payment-methods`, { ...paymentMethod, tenantId });
   }
+
+  createCheckoutSession(priceId: string, customerId: string) {
+      return this.http.post<{ url: string }>(`${this.apiUrl}/billing/checkout`, { priceId, customerId });
+  }
+
+  createPortalSession(customerId: string) {
+      return this.http.post<{ url: string }>(`${this.apiUrl}/billing/portal`, { customerId });
+  }
 }

@@ -8,6 +8,8 @@ export interface TenantFiscalConfig {
   regime: string;
   postalCode: string;
   fiscalAddress?: string;
+  taxId: string;
+  resolutionNumber?: string;
 }
 
 export interface TenantConfigRepository {

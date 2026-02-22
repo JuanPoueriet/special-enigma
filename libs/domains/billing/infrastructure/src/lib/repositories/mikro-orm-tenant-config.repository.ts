@@ -16,12 +16,14 @@ export class MikroOrmTenantConfigRepository implements TenantConfigRepository {
     const settings = company.settings || {};
     return {
       rfc: company.taxId,
+      taxId: company.taxId,
       country: company.country,
       csdCertificate: settings['csdCertificate'],
       csdKey: settings['csdKey'],
       legalName: company.name,
       regime: company.regime || '601', // Default to General de Ley Personas Morales if missing, but should be set.
-      postalCode: company.postalCode || '00000'
+      postalCode: company.postalCode || '00000',
+      resolutionNumber: settings['resolutionNumber']
     };
   }
 }
