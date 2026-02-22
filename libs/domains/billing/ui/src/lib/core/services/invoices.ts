@@ -1,15 +1,21 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { API_URL } from '@virteex/shared-config';
 
 export interface Invoice {
   id: string;
-  number: string;
-  customerName: string;
-  amount: number;
-  date: string;
-  status: 'Paid' | 'Pending' | 'Void';
+  tenantId: string;
+  customerId: string;
+  issueDate: string;
+  dueDate: string;
+  totalAmount: string;
+  status: string;
+}
+
+export interface PaginatedInvoices {
+  items: Invoice[];
+  total: number;
 }
 
 export interface CreateInvoiceDto {
@@ -36,8 +42,9 @@ export class InvoicesService {
   private http = inject(HttpClient);
   private apiUrl = inject(API_URL);
 
-  getInvoices(): Observable<Invoice[]> {
-    return this.http.get<Invoice[]>(`${this.apiUrl}/billing/invoices`);
+  getInvoices(page = 1, limit = 10): Observable<PaginatedInvoices> {
+    const params = new HttpParams().set('page', page).set('limit', limit);
+    return this.http.get<PaginatedInvoices>(`${this.apiUrl}/billing/invoices`, { params });
   }
 
   createInvoice(invoice: CreateInvoiceDto): Observable<Invoice> {

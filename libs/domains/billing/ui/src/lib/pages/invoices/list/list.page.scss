@@ -19,3 +19,17 @@
         color: #f87171;
     }
 }
+
+.pagination-controls {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 1rem;
+    gap: 1rem;
+    border-top: 1px solid #e5e7eb;
+
+    span {
+        font-size: 0.875rem;
+        color: #6b7280;
+    }
+}

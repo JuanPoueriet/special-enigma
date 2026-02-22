@@ -1,4 +1,4 @@
-import { Injectable, Inject, inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { API_URL } from '@virteex/shared-config';
@@ -62,34 +62,33 @@ export interface UsageItem {
 })
 export class BillingService {
   private http = inject(HttpClient);
-
-  constructor(@Inject(API_URL) private apiUrl: string) {}
+  private apiUrl = inject(API_URL);
 
   getPlans(): Observable<SubscriptionPlan[]> {
     return this.http.get<SubscriptionPlan[]>(`${this.apiUrl}/billing/plans`);
   }
 
-  getSubscription(tenantId: string = 'default'): Observable<Subscription> {
+  getSubscription(tenantId = 'default'): Observable<Subscription> {
     return this.http.get<Subscription>(`${this.apiUrl}/billing/subscription?tenantId=${tenantId}`);
   }
 
-  getPaymentMethod(tenantId: string = 'default'): Observable<PaymentMethod[]> {
+  getPaymentMethod(tenantId = 'default'): Observable<PaymentMethod[]> {
     return this.http.get<PaymentMethod[]>(`${this.apiUrl}/billing/payment-methods?tenantId=${tenantId}`);
   }
 
-  getPaymentHistory(tenantId: string = 'default'): Observable<PaymentHistoryItem[]> {
+  getPaymentHistory(tenantId = 'default'): Observable<PaymentHistoryItem[]> {
       return this.http.get<PaymentHistoryItem[]>(`${this.apiUrl}/billing/history?tenantId=${tenantId}`);
   }
 
-  getUsage(tenantId: string = 'default'): Observable<UsageItem[]> {
+  getUsage(tenantId = 'default'): Observable<UsageItem[]> {
       return this.http.get<UsageItem[]>(`${this.apiUrl}/billing/usage?tenantId=${tenantId}`);
   }
 
-  changePlan(planId: string, tenantId: string = 'default') {
+  changePlan(planId: string, tenantId = 'default') {
       return this.http.post(`${this.apiUrl}/billing/subscription`, { planId, tenantId });
   }
 
-  addPaymentMethod(paymentMethod: CreatePaymentMethodPayload, tenantId: string = 'default') {
+  addPaymentMethod(paymentMethod: CreatePaymentMethodPayload, tenantId = 'default') {
       return this.http.post(`${this.apiUrl}/billing/payment-methods`, { ...paymentMethod, tenantId });
   }
 

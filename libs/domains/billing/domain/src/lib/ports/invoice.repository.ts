@@ -7,5 +7,6 @@ export interface InvoiceRepository {
   findById(id: string): Promise<Invoice | null>;
   findAll(): Promise<Invoice[]>;
   findByTenantId(tenantId: string): Promise<Invoice[]>;
+  findPaginatedByTenantId(tenantId: string, limit: number, offset: number): Promise<{ items: Invoice[]; total: number }>;
   countByTenantId(tenantId: string): Promise<number>;
 }

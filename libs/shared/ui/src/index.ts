@@ -21,3 +21,4 @@ export * from './lib/interfaces/register-payload.interface';
 export * from './lib/validators/async.validators';
 export * from './lib/services/toast.service';
 export * from './lib/interceptors/error.interceptor';
+export * from './lib/core/api/sat-catalog.service';

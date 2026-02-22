@@ -1,7 +1,7 @@
-import { Component, ChangeDetectionStrategy, signal, inject, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, inject, OnInit, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { LucideAngularModule, PlusCircle, Filter, MoreHorizontal } from 'lucide-angular';
+import { LucideAngularModule, PlusCircle, Filter, MoreHorizontal, ChevronLeft, ChevronRight } from 'lucide-angular';
 import { InvoicesService, Invoice } from '../../../core/services/invoices';
 import { NotificationService } from '../../../core/services/notification';
 
@@ -17,13 +17,20 @@ export class InvoicesListPage implements OnInit {
   protected readonly PlusCircleIcon = PlusCircle;
   protected readonly FilterIcon = Filter;
   protected readonly MoreHorizontalIcon = MoreHorizontal;
+  protected readonly ChevronLeftIcon = ChevronLeft;
+  protected readonly ChevronRightIcon = ChevronRight;
 
   private invoicesService = inject(InvoicesService);
   private notificationService = inject(NotificationService);
 
   invoices = signal<Invoice[]>([]);
+  totalItems = signal(0);
+  currentPage = signal(1);
+  pageSize = signal(10);
   isLoading = signal(true);
   error = signal<string | null>(null);
+
+  totalPages = computed(() => Math.ceil(this.totalItems() / this.pageSize()));
 
   ngOnInit(): void {
     this.loadInvoices();
@@ -32,9 +39,10 @@ export class InvoicesListPage implements OnInit {
   loadInvoices(): void {
     this.isLoading.set(true);
     this.error.set(null);
-    this.invoicesService.getInvoices().subscribe({
+    this.invoicesService.getInvoices(this.currentPage(), this.pageSize()).subscribe({
       next: (data) => {
-        this.invoices.set(data);
+        this.invoices.set(data.items);
+        this.totalItems.set(data.total);
         this.isLoading.set(false);
       },
       error: (err) => {
@@ -45,11 +53,25 @@ export class InvoicesListPage implements OnInit {
     });
   }
 
-  getStatusClass(status: Invoice['status']): string {
+  nextPage(): void {
+    if (this.currentPage() < this.totalPages()) {
+      this.currentPage.update(p => p + 1);
+      this.loadInvoices();
+    }
+  }
+
+  prevPage(): void {
+    if (this.currentPage() > 1) {
+      this.currentPage.update(p => p - 1);
+      this.loadInvoices();
+    }
+  }
+
+  getStatusClass(status: string): string {
     switch (status) {
       case 'Paid': return 'status-paid';
       case 'Pending': return 'status-pending';
-      case 'Void': return 'status-overdue'; // Assuming 'Void' maps to 'overdue' styles
+      case 'Void': return 'status-overdue';
       default: return 'status-pending';
     }
   }

@@ -14,25 +14,29 @@
       <form [formGroup]="invoiceForm">
         <div class="form-row">
           <div class="form-col">
-            <label class="form-label">{{ 'INVOICE.CLIENT' | translate }}</label>
-            <select formControlName="customerId" class="form-control" (change)="onCustomerChange()">
+            <label class="form-label" for="customerId">{{ 'INVOICE.CLIENT' | translate }}</label>
+            <select id="customerId" formControlName="customerId" class="form-control" (change)="onCustomerChange()">
               <option value="" disabled>{{ 'INVOICE.SELECT_CLIENT' | translate }}</option>
-              <option *ngFor="let client of customers" [value]="client.id">
+              @for (client of customers; track client.id) {
+              <option [value]="client.id">
                 {{ client.companyName }}
               </option>
+              }
             </select>
           </div>
           <div class="form-col">
-            <label class="form-label">{{ 'INVOICE.ISSUE_DATE' | translate }}</label>
+            <label class="form-label" for="issueDate">{{ 'INVOICE.ISSUE_DATE' | translate }}</label>
             <input
+              id="issueDate"
               type="date"
               formControlName="issueDate"
               class="form-control"
             />
           </div>
           <div class="form-col">
-            <label class="form-label">{{ 'INVOICE.DUE_DATE' | translate }}</label>
+            <label class="form-label" for="dueDate">{{ 'INVOICE.DUE_DATE' | translate }}</label>
             <input
+              id="dueDate"
               type="date"
               formControlName="dueDate"
               class="form-control"
@@ -41,65 +45,85 @@
         </div>
 
         <!-- Conditional Fields for MX -->
-        <div class="form-row" *ngIf="isMexicanCustomer">
+        @if (isMexicanCustomer) {
+        <div class="form-row">
           <div class="form-col">
-            <label class="form-label">{{ 'INVOICE.PAYMENT_FORM' | translate }}</label>
-            <select formControlName="paymentForm" class="form-control">
-               <option *ngFor="let pf of paymentForms" [value]="pf.code">{{ pf.name }}</option>
+            <label class="form-label" for="paymentForm">{{ 'INVOICE.PAYMENT_FORM' | translate }}</label>
+            <select id="paymentForm" formControlName="paymentForm" class="form-control">
+               @for (pf of paymentForms; track pf.code) {
+               <option [value]="pf.code">{{ pf.name }}</option>
+               }
             </select>
           </div>
           <div class="form-col">
-            <label class="form-label">{{ 'INVOICE.PAYMENT_METHOD' | translate }}</label>
-            <select formControlName="paymentMethod" class="form-control">
-               <option *ngFor="let pm of paymentMethods" [value]="pm.code">{{ pm.name }}</option>
+            <label class="form-label" for="paymentMethod">{{ 'INVOICE.PAYMENT_METHOD' | translate }}</label>
+            <select id="paymentMethod" formControlName="paymentMethod" class="form-control">
+               @for (pm of paymentMethods; track pm.code) {
+               <option [value]="pm.code">{{ pm.name }}</option>
+               }
             </select>
           </div>
           <div class="form-col">
-            <label class="form-label">{{ 'INVOICE.USAGE' | translate }}</label>
-             <select formControlName="usage" class="form-control">
-               <option *ngFor="let u of cfdiUsages" [value]="u.code">{{ u.name }}</option>
+            <label class="form-label" for="usage">{{ 'INVOICE.USAGE' | translate }}</label>
+             <select id="usage" formControlName="usage" class="form-control">
+               @for (u of cfdiUsages; track u.code) {
+               <option [value]="u.code">{{ u.name }}</option>
+               }
             </select>
           </div>
         </div>
+        }
 
         <div formArrayName="lineItems">
+          @for (item of lineItems.controls; track i; let i = $index) {
           <div
-            *ngFor="let item of lineItems.controls; let i = index"
             [formGroupName]="i"
             class="line-item"
           >
+            <label class="sr-only" for="product-{{i}}">Product</label>
             <select
+              id="product-{{i}}"
               formControlName="productId"
               (change)="onProductSelect(i)"
               class="form-control"
             >
               <option value="" disabled>{{ 'INVOICE.SELECT_PRODUCT' | translate }}</option>
-              <option *ngFor="let product of products" [value]="product.id">
+              @for (product of products; track product.id) {
+              <option [value]="product.id">
                 {{ product.name }}
               </option>
+              }
             </select>
+            <label class="sr-only" for="quantity-{{i}}">Quantity</label>
             <input
+              id="quantity-{{i}}"
               type="number"
               formControlName="quantity"
               class="form-control"
               placeholder="{{ 'INVOICE.QUANTITY' | translate }}"
             />
+            <label class="sr-only" for="price-{{i}}">Price</label>
             <input
+              id="price-{{i}}"
               type="number"
               formControlName="price"
               class="form-control"
               placeholder="{{ 'INVOICE.PRICE' | translate }}"
             />
+             <label class="sr-only" for="taxRate-{{i}}">Tax Rate</label>
              <input
+              id="taxRate-{{i}}"
               type="number"
               formControlName="taxRate"
               class="form-control"
               placeholder="{{ 'INVOICE.TAX_RATE' | translate }}"
               step="0.01"
             />
-            <div *ngIf="!validateStock(i)" class="text-danger">
+            @if (!validateStock(i)) {
+            <div class="text-danger">
                 {{ 'INVOICE.STOCK_ERROR' | translate }}
             </div>
+            }
             <button
               type="button"
               class="btn-icon"
@@ -108,6 +132,7 @@
               X
             </button>
           </div>
+          }
         </div>
         <button type="button" class="btn" (click)="addLineItem()">
           {{ 'INVOICE.ADD_LINE' | translate }}
@@ -129,8 +154,8 @@
         </div>
 
         <div class="form-group">
-          <label class="form-label">{{ 'INVOICE.NOTES' | translate }}</label>
-          <textarea formControlName="notes" class="form-control"></textarea>
+          <label class="form-label" for="notes">{{ 'INVOICE.NOTES' | translate }}</label>
+          <textarea id="notes" formControlName="notes" class="form-control"></textarea>
         </div>
       </form>
     </div>

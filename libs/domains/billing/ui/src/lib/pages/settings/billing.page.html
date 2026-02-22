@@ -124,7 +124,14 @@
         <h3 class="section-title">Cambiar de Plan</h3>
         <div class="plans-container">
             @for (plan of availablePlans(); track plan.id) {
-            <div class="plan-card" [class.selected]="selectedPlan() === plan.slug" (click)="selectPlan(plan.slug)">
+            <div
+                class="plan-card"
+                [class.selected]="selectedPlan() === plan.slug"
+                (click)="selectPlan(plan.slug)"
+                (keyup.enter)="selectPlan(plan.slug)"
+                tabindex="0"
+                role="button"
+            >
                 <h4>{{ plan.name }}</h4>
                 <div class="plan-price-tag">
                     <span class="currency">$</span>

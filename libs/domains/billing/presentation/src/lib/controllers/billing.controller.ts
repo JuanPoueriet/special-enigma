@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query, DefaultValuePipe, ParseIntPipe } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CurrentTenant } from '@virteex/shared-util-server-config';
 import {
@@ -28,8 +28,12 @@ export class BillingController {
   }
 
   @Get('invoices')
-  async findAll() {
-    return await this.getInvoicesUseCase.execute();
+  async findAll(
+    @CurrentTenant() tenantId: string,
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number
+  ) {
+    return await this.getInvoicesUseCase.execute(tenantId, page, limit);
   }
 
   @Get('plans')

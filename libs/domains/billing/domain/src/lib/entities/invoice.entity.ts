@@ -1,6 +1,5 @@
-import { Entity, PrimaryKey, Property, OneToMany, Collection, Cascade } from '@mikro-orm/core';
+import { Entity, PrimaryKey, Property, OneToMany, Collection, Cascade, ManyToOne } from '@mikro-orm/core';
 import { v4 } from 'uuid';
-import type { InvoiceItem } from './invoice-item.entity';
 
 @Entity()
 export class Invoice {
@@ -63,5 +62,41 @@ export class Invoice {
     this.totalAmount = totalAmount;
     this.taxAmount = taxAmount;
     this.status = 'DRAFT';
+  }
+}
+
+@Entity()
+export class InvoiceItem {
+  @PrimaryKey({ type: 'uuid' })
+  id: string = v4();
+
+  @ManyToOne('Invoice')
+  invoice!: Invoice;
+
+  @Property()
+  description!: string;
+
+  @Property()
+  quantity!: number;
+
+  @Property({ type: 'decimal', precision: 10, scale: 2 })
+  unitPrice!: string;
+
+  @Property({ type: 'decimal', precision: 10, scale: 2 })
+  amount!: string;
+
+  @Property({ type: 'decimal', precision: 10, scale: 2 })
+  taxAmount!: string;
+
+  @Property({ nullable: true })
+  productId?: string;
+
+  constructor(invoice: Invoice, description: string, quantity: number, unitPrice: string, amount: string, taxAmount: string) {
+    this.invoice = invoice;
+    this.description = description;
+    this.quantity = quantity;
+    this.unitPrice = unitPrice;
+    this.amount = amount;
+    this.taxAmount = taxAmount;
   }
 }

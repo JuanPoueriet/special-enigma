@@ -3,6 +3,7 @@ import { InvoiceRepository } from '@virteex/billing-domain';
 import { Invoice } from '@virteex/billing-domain';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityRepository } from '@mikro-orm/postgresql';
+import { QueryOrder } from '@mikro-orm/core';
 
 @Injectable()
 export class MikroOrmInvoiceRepository implements InvoiceRepository {
@@ -25,6 +26,14 @@ export class MikroOrmInvoiceRepository implements InvoiceRepository {
 
   async findByTenantId(tenantId: string): Promise<Invoice[]> {
     return this.repository.find({ tenantId });
+  }
+
+  async findPaginatedByTenantId(tenantId: string, limit: number, offset: number): Promise<{ items: Invoice[]; total: number }> {
+    const [items, total] = await this.repository.findAndCount(
+      { tenantId },
+      { limit, offset, orderBy: { issueDate: QueryOrder.DESC } }
+    );
+    return { items, total };
   }
 
   async countByTenantId(tenantId: string): Promise<number> {

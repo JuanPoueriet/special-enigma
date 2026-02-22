@@ -21,7 +21,7 @@
             <thead>
                 <tr>
                     <th>Factura #</th>
-                    <th>Cliente</th>
+                    <th>Cliente ID</th>
                     <th>Fecha de Emisión</th>
                     <th>Fecha de Vencimiento</th>
                     <th class="text-right">Total</th>
@@ -32,11 +32,11 @@
             <tbody>
                 @for (invoice of invoices(); track invoice.id) {
                 <tr>
-                    <td><a routerLink="/app/invoices/{{invoice.id}}" class="table-link">{{ invoice.id }}</a></td>
-                    <td>{{ invoice.customerName }}</td>
-                    <td>{{ invoice.issueDate }}</td>
-                    <td>{{ invoice.dueDate }}</td>
-                    <td class="text-right">{{ invoice.total | number:'1.2-2' }}</td>
+                    <td><a routerLink="/app/invoices/{{invoice.id}}" class="table-link">{{ invoice.id | slice:0:8 }}</a></td>
+                    <td>{{ invoice.customerId | slice:0:8 }}...</td>
+                    <td>{{ invoice.issueDate | date:'shortDate' }}</td>
+                    <td>{{ invoice.dueDate | date:'shortDate' }}</td>
+                    <td class="text-right">{{ invoice.totalAmount | currency:'USD':'symbol':'1.2-2' }}</td>
                     <td>
                         <span class="status-badge" [ngClass]="getStatusClass(invoice.status)">
                             {{ invoice.status }}
@@ -55,5 +55,17 @@
                 }
             </tbody>
         </table>
+
+        @if (totalItems() > pageSize()) {
+        <div class="pagination-controls">
+            <button class="icon-button" (click)="prevPage()" [disabled]="currentPage() === 1">
+                <lucide-icon [img]="ChevronLeftIcon" size="18"></lucide-icon>
+            </button>
+            <span>Página {{ currentPage() }} de {{ totalPages() }}</span>
+            <button class="icon-button" (click)="nextPage()" [disabled]="currentPage() === totalPages()">
+                <lucide-icon [img]="ChevronRightIcon" size="18"></lucide-icon>
+            </button>
+        </div>
+        }
     </div>
 </div>

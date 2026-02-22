@@ -11,7 +11,7 @@ import { Router, RouterLink } from '@angular/router';
 import { InvoicesService, CreateInvoiceDto } from '../../../core/services/invoices';
 import { CustomersService } from '../../../core/api/customers.service';
 import { InventoryService } from '../../../core/api/inventory.service';
-import { SatCatalogService, SatCatalogItem } from '../../../../../../shared/ui/src/lib/core/api/sat-catalog.service';
+import { SatCatalogService, SatCatalogItem } from '@virteex/shared-ui';
 import { Customer } from '../../../core/models/customer.model';
 import { Product } from '../../../core/models/product.model';
 import { NotificationService } from '../../../core/services/notification';
