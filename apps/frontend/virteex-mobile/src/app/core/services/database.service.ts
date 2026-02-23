@@ -1,18 +1,24 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, inject } from '@angular/core';
 import { Capacitor } from '@capacitor/core';
-import { CapacitorSQLite, SQLiteConnection, SQLiteDBConnection } from '@capacitor-community/sqlite';
+import {
+  CapacitorSQLite,
+  SQLiteConnection,
+  SQLiteDBConnection,
+} from '@capacitor-community/sqlite';
 import { defineCustomElements as jeepSqlite } from 'jeep-sqlite/loader';
 import { v4 as uuidv4 } from 'uuid';
+import { LoggerService } from './logger.service';
 
 jeepSqlite(window);
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DatabaseService {
   private sqlite: SQLiteConnection;
   private db: SQLiteDBConnection | null = null;
   public isReady = signal<boolean>(false);
+  private logger = inject(LoggerService);
 
   constructor() {
     this.sqlite = new SQLiteConnection(CapacitorSQLite);
@@ -36,7 +42,7 @@ export class DatabaseService {
         false,
         'no-encryption',
         1,
-        false
+        false,
       );
 
       await this.db.open();
@@ -61,57 +67,56 @@ export class DatabaseService {
 
       await this.db.execute(schema);
       this.isReady.set(true);
-      console.log('Database initialized successfully');
-
+      this.logger.log('Database initialized successfully');
     } catch (e) {
-      console.error('Database initialization failed', e);
+      this.logger.error('Database initialization failed', e);
     }
   }
 
   async upsertWarehouses(warehouses: any[]) {
-      if (!this.db) {
-          console.warn('DB not ready for upsert');
-          return;
-      }
+    if (!this.db) {
+      this.logger.warn('DB not ready for upsert');
+      return;
+    }
 
-      const statement = `INSERT OR REPLACE INTO warehouses (id, code, name, location, updated_at) VALUES (?, ?, ?, ?, ?)`;
+    const statement = `INSERT OR REPLACE INTO warehouses (id, code, name, location, updated_at) VALUES (?, ?, ?, ?, ?)`;
 
-      const set = warehouses.map(w => [
-          w.id || uuidv4(),
-          w.code || '',
-          w.name || '',
-          w.location || '',
-          Date.now()
-      ]);
+    const set = warehouses.map((w) => [
+      w.id || uuidv4(),
+      w.code || '',
+      w.name || '',
+      w.location || '',
+      Date.now(),
+    ]);
 
-      if (set.length === 0) return;
+    if (set.length === 0) return;
 
-      try {
-          const changes = await this.db.executeSet([
-              { statement, values: set }
-          ]);
-          console.log('Upserted warehouses:', changes);
-      } catch (e) {
-          console.error('Failed to upsert warehouses', e);
-          throw e;
-      }
+    try {
+      const changes = await this.db.executeSet([{ statement, values: set }]);
+      this.logger.log('Upserted warehouses:', changes);
+    } catch (e) {
+      this.logger.error('Failed to upsert warehouses', e);
+      throw e;
+    }
   }
 
   async getWarehouses(): Promise<any[]> {
-      if (!this.db) {
-          // Fallback or wait?
-          if (!this.isReady()) {
-              console.warn('DB not ready, returning empty array');
-          }
-          return [];
+    if (!this.db) {
+      // Fallback or wait?
+      if (!this.isReady()) {
+        this.logger.warn('DB not ready, returning empty array');
       }
+      return [];
+    }
 
-      try {
-          const result = await this.db.query('SELECT * FROM warehouses ORDER BY name ASC');
-          return result.values || [];
-      } catch (e) {
-          console.error('Failed to query warehouses', e);
-          return [];
-      }
+    try {
+      const result = await this.db.query(
+        'SELECT * FROM warehouses ORDER BY name ASC',
+      );
+      return result.values || [];
+    } catch (e) {
+      this.logger.error('Failed to query warehouses', e);
+      return [];
+    }
   }
 }
