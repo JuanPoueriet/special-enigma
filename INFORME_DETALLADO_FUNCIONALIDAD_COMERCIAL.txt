@@ -1,0 +1,73 @@
+INFORME DETALLADO DE ESTADO DE FUNCIONALIDAD Y MADUREZ COMERCIAL - VIRTEEX ERP
+================================================================================
+
+FECHA: 23 de mayo de 2024
+ANALISTA: Jules (Software Engineer)
+ESTADO GLOBAL: MVP Avanzado / Prototipo Comercial
+
+1. VISIÓN GENERAL
+-----------------
+Este informe analiza minuciosamente el ecosistema Virteex ERP para determinar su viabilidad comercial y el nivel de completitud funcional. Aunque la arquitectura es de clase mundial (Microservicios, Clean Architecture, DDD, GraphQL Federation, Multi-tenancy RLS), la implementación de la lógica de negocio profunda y las integraciones fiscales obligatorias se encuentran en una etapa temprana, con múltiples componentes simulados (mocks) y placeholders.
+
+2. ANÁLISIS POR CAPAS
+----------------------
+
+2.1. BACKEND (FUNCIONALIDAD)
+- Arquitectura (10/10): La estructura de microservicios y librerías es sólida. El uso de Nx permite una gestión eficiente de dependencias. La separación en capas (Domain, Application, Infrastructure, Presentation) se sigue estrictamente en la mayoría de los módulos.
+- Multi-tenancy (7/10): Implementación funcional de RLS (Row Level Security) para el modo SHARED. Sin embargo, los modos de mayor aislamiento (Schema-per-tenant y DB-per-tenant) mencionados en AGENTS.md no están integrados en los interceptores de la aplicación.
+- Lógica de Negocio (4/10):
+    - Accounting: Solo permite registros básicos en el diario. Faltan reportes financieros esenciales (Balance General, Estado de Resultados, Balanza de Comprobación), cierres de periodo y manejo avanzado multi-moneda.
+    - Manufacturing: Cuenta con creación de órdenes de producción pero carece de "BOM explosion" (explosión de materiales), gestión de centros de trabajo y seguimiento de piso.
+    - Fixed Assets: Solo permite el alta de activos. No hay cálculo de depreciación, revaluación ni bajas.
+    - Payroll: Tiene una base sólida para México y EUA, pero depende de tablas fiscales que a menudo caen en "fallbacks" cableados (hardcoded) en lugar de ser alimentadas dinámicamente.
+    - Fiscal: Los adaptadores para autoridades tributarias (SAT-MX, SEFAZ-BR, DIAN-CO) tienen la estructura correcta pero utilizan firmas simuladas y mTLS fingido.
+
+2.2. FRONTEND (VISUAL Y UX)
+- Estructura (8/10): Uso correcto de Angular con Module Federation. La interfaz es limpia y sigue estándares modernos de diseño.
+- Completitud (3/10):
+    - Aplicaciones Fantasma: `virteex-store`, `virteex-wms` y `virteex-shopfloor` son esencialmente el componente de bienvenida de Nx sin funcionalidad real.
+    - Mock de Datos en UI: Muchos componentes de "Lista" (ej. en Accounting) tienen datos hardcoded en el `ngOnInit` del componente, simulando una respuesta del backend que aún no está vinculada o no devuelve datos reales.
+    - Gaps de UX: La navegación está completa en el Sidebar, pero muchos enlaces llevan a páginas vacías o con formularios incompletos. Faltan flujos de error detallados y feedback visual en procesos largos.
+
+3. ANÁLISIS DE COMPONENTES NO FUNCIONALES (MOCKS Y PLACEHOLDERS)
+----------------------------------------------------------------
+
+3.1. MOCKS CRÍTICOS DETECTADOS
+- SatFiscalAdapter (México): Utiliza NoCertificado hardcoded ("00001000000500000000") y nombres de emisor/receptor de prueba.
+- SefazFiscalAdapter (Brasil): Genera una llave RSA efímera en tiempo de ejecución para "simular" el certificado digital A1/A3.
+- SyncService (Offline): No es un motor de sincronización real; es una cola de comandos con reintentos. No maneja conflictos de datos complejos de forma bidireccional.
+- InMemoryUsageRepository (FinOps): Los datos de consumo para facturación se pierden al reiniciar el servicio, ya que no están persistidos en DB.
+- Plugin Host: Si falla la instalación de `isolated-vm`, el sistema cae en un modo mock que no garantiza aislamiento real.
+
+3.2. PLACEHOLDERS EN CÓDIGO
+- Comentarios "TODO" y "Future": Se detectaron múltiples notas sobre funcionalidad pendiente en procesos críticos como la reserva de stock y la explosión de materiales en manufactura.
+- Formularios: Los campos de selección de catálogos del SAT en el módulo de facturación están habilitados solo para clientes mexicanos, pero no validan la integridad de los datos contra el esquema oficial (XSD).
+
+4. VIABILIDAD COMERCIAL (READINESS)
+-----------------------------------
+
+4.1. SEGURIDAD Y CUMPLIMIENTO (LOW)
+- El sistema de plugins utiliza `eval` para ejecutar Wasm dentro de workers, lo cual es una vulnerabilidad de seguridad crítica para un entorno comercial multitenant.
+- Falta el pipeline de admisión de plugins (SAST/DAST) que garantice que el código de terceros es seguro antes de ser ejecutado.
+
+4.2. ESCALABILIDAD (HIGH)
+- La infraestructura de Kubernetes y los scripts de Terraform están bien diseñados, lo que facilita el escalado horizontal.
+- El uso de Kafka para el Transactional Outbox Pattern es un punto a favor para la consistencia eventual.
+
+4.3. INTEGRACIONES (VERY LOW)
+- No hay integración real con pasarelas de pago (Stripe está configurado con llaves de prueba).
+- No hay integración con bancos para conciliación bancaria.
+- Las integraciones fiscales son meramente estructurales y no funcionales para producción legal.
+
+5. CONCLUSIONES Y RECOMENDACIONES (ACTION PLAN)
+-----------------------------------------------
+
+Para que esta aplicación sea 100% funcional y comercialmente viable, se requiere:
+
+1.  REEMPLAZAR MOCKS FISCALES: Integrar con un PAC (Proveedor Autorizado de Certificación) real en México y servicios equivalentes en otros países.
+2.  IMPLEMENTAR LÓGICA DE CONTABILIDAD PROFUNDA: Desarrollar el motor de reportes financieros y cierres contables.
+3.  FINALIZAR APPS DE FRONTEND: Transformar los placeholders de WMS, Shopfloor y Store en aplicaciones funcionales conectadas a sus respectivos microservicios.
+4.  ENDURECER SEGURIDAD DE PLUGINS: Eliminar el uso de `eval` y completar el pipeline de validación automática de plugins.
+5.  MOTOR DE SINCRONIZACIÓN REAL: Implementar una base de datos local (ej. RxDB) para un verdadero soporte Offline-first con resolución de conflictos.
+
+RESUMEN: La base técnica es sobresaliente, pero el producto actual no puede ser vendido a empresas reales debido a la falta de cumplimiento legal y profundidad en las reglas de negocio.
