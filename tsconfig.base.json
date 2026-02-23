@@ -203,6 +203,12 @@
       ],
       "@virteex/identity-domain": ["libs/domains/identity/domain/src/index.ts"],
       "@virteex/identity-domain/*": ["libs/domains/identity/domain/src/*"],
+      "@virteex/identity-contracts": [
+        "dist/libs/domains/identity/contracts"
+      ],
+      "@virteex/identity-contracts/*": [
+        "dist/libs/domains/identity/contracts/*"
+      ],
       "@virteex/identity-application": [
         "libs/domains/identity/application/src/index.ts"
       ],

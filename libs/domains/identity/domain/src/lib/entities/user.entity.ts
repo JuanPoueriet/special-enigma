@@ -84,4 +84,15 @@ export class User {
     this.company = company;
     this.timezone = 'UTC';
   }
+
+  updateProfile(firstName?: string, lastName?: string, phone?: string): void {
+    if (firstName) this.firstName = firstName;
+    if (lastName) this.lastName = lastName;
+    if (phone) this.phone = phone;
+  }
+
+  activate(): void {
+    this.isActive = true;
+    this.status = 'ACTIVE';
+  }
 }

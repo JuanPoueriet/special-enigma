@@ -1,15 +1,15 @@
 import {
   Controller, Get, Patch, Post, Body, UseGuards, UseInterceptors, UploadedFile,
-  Req, UnauthorizedException
+  Req
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
   GetUserProfileUseCase, UpdateUserProfileUseCase, InviteUserUseCase, UploadAvatarUseCase,
-  UpdateUserDto, InviteUserDto, GetJobTitlesUseCase
+  GetJobTitlesUseCase
 } from '@virteex/identity-application';
-import { User } from '@virteex/identity-domain';
-import { JwtAuthGuard } from '@virteex/auth';
-import { Request } from 'express';
+import { UpdateUserDto, InviteUserDto, UserResponseDto } from '@virteex/identity-contracts';
+import { JwtAuthGuard, CurrentUser } from '@virteex/auth';
+import { UserMapper } from '../mappers/user.mapper';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard)
@@ -29,30 +29,33 @@ export class UsersController {
   }
 
   @Get('profile')
-  async getMyProfile(@Req() req: any): Promise<User> {
-    const userId = req.user?.sub;
-    return this.getProfile.execute(userId);
+  async getMyProfile(@CurrentUser() user: any): Promise<UserResponseDto> {
+    const userId = user?.sub;
+    const userEntity = await this.getProfile.execute(userId);
+    return UserMapper.toDto(userEntity);
   }
 
   @Patch('profile')
-  async updateMyProfile(@Req() req: any, @Body() dto: UpdateUserDto): Promise<User> {
-    const userId = req.user?.sub;
-    return this.updateProfile.execute(userId, dto);
+  async updateMyProfile(@CurrentUser() user: any, @Body() dto: UpdateUserDto): Promise<UserResponseDto> {
+    const userId = user?.sub;
+    const userEntity = await this.updateProfile.execute(userId, dto);
+    return UserMapper.toDto(userEntity);
   }
 
   @Post('invite')
-  async invite(@Req() req: any, @Body() dto: InviteUserDto): Promise<User> {
-    const currentUserId = req.user?.sub;
-    return this.inviteUser.execute(dto, currentUserId);
+  async invite(@CurrentUser() user: any, @Body() dto: InviteUserDto): Promise<UserResponseDto> {
+    const currentUserId = user?.sub;
+    const userEntity = await this.inviteUser.execute(dto, currentUserId);
+    return UserMapper.toDto(userEntity);
   }
 
   @Post('avatar')
   @UseInterceptors(FileInterceptor('file'))
-  async upload(@Req() req: any, @UploadedFile() file: any): Promise<{ url: string }> {
+  async upload(@CurrentUser() user: any, @UploadedFile() file: any): Promise<{ url: string }> {
     if (!file) {
         throw new Error('No file uploaded');
     }
-    const userId = req.user?.sub;
+    const userId = user?.sub;
     const buffer = file.buffer;
     const originalName = file.originalname;
     const fileName = `${userId}-${Date.now()}-${originalName}`;

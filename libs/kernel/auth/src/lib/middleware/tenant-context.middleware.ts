@@ -9,7 +9,7 @@ import '../interfaces/express.interface'; // Import for side-effects (type mergi
 
 @Injectable()
 export class TenantContextMiddleware implements NestMiddleware, OnModuleInit {
-  private secret: string;
+  private secret!: string;
 
   constructor(
     private readonly telemetryService: TelemetryService,

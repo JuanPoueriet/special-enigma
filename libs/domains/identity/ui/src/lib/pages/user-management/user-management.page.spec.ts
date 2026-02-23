@@ -13,9 +13,9 @@ import {
   User as ApiUser,
   UserStatus,
   WebSocketService,
-  HasPermissionDirective
+  HasPermissionDirective,
+  ToastService
 } from '@virteex/shared-ui';
-import { NotificationService } from '@virteex/identity-domain';
 import { TranslateModule } from '@ngx-translate/core';
 import { LucideAngularModule, UserPlus, Save, X, Send, User, History, Trash2, Key, Search, Filter, ArrowUpDown, ArrowUp, ArrowDown, MoreHorizontal, FilePenLine, Ban, UserCog, Mail, ChevronLeft, ChevronRight, Plus, RefreshCw, Power, PowerOff, Building, Lock, Archive, UserCheck, Zap, FileInput, FileOutput, UserCircle2, LogOut } from 'lucide-angular';
 import { vi } from 'vitest';
@@ -34,7 +34,7 @@ describe('UserManagementPage', () => {
   let component: UserManagementPage;
   let fixture: ComponentFixture<UserManagementPage>;
   let usersService: UsersService;
-  let notificationService: NotificationService;
+  let toastService: ToastService;
 
   const mockUsersService = {
     getUsers: vi.fn(() => of({ data: mockUsers, total: mockUsers.length })),
@@ -50,7 +50,7 @@ describe('UserManagementPage', () => {
     getRoles: vi.fn(() => of(mockRoles)),
   };
 
-  const mockNotificationService = {
+  const mockToastService = {
     showError: vi.fn(),
     showSuccess: vi.fn(),
   };
@@ -80,7 +80,7 @@ describe('UserManagementPage', () => {
         provideZonelessChangeDetection(),
         { provide: UsersService, useValue: mockUsersService },
         { provide: RolesService, useValue: mockRolesService },
-        { provide: NotificationService, useValue: mockNotificationService },
+        { provide: ToastService, useValue: mockToastService },
         { provide: WebSocketService, useValue: mockWebSocketService },
         { provide: AuthService, useValue: mockAuthService },
       ],
@@ -89,7 +89,7 @@ describe('UserManagementPage', () => {
     fixture = TestBed.createComponent(UserManagementPage);
     component = fixture.componentInstance;
     usersService = TestBed.inject(UsersService);
-    notificationService = TestBed.inject(NotificationService);
+    toastService = TestBed.inject(ToastService);
     fixture.detectChanges();
   });
 
@@ -136,7 +136,7 @@ describe('UserManagementPage', () => {
         roleId: '1',
     };
     expect(mockUsersService.inviteUser).toHaveBeenCalledWith(payload);
-    expect(mockNotificationService.showSuccess).toHaveBeenCalledWith('Usuario invitado con éxito.');
+    expect(mockToastService.showSuccess).toHaveBeenCalledWith('Usuario invitado con éxito.');
     expect(mockUsersService.getUsers).toHaveBeenCalledTimes(2); // 1 on init, 1 after save
   });
 
@@ -158,7 +158,7 @@ describe('UserManagementPage', () => {
         roleId: '2',
     };
     expect(mockUsersService.updateUser).toHaveBeenCalledWith(userToEdit.id, payload);
-    expect(mockNotificationService.showSuccess).toHaveBeenCalledWith('Usuario actualizado con éxito.');
+    expect(mockToastService.showSuccess).toHaveBeenCalledWith('Usuario actualizado con éxito.');
     expect(mockUsersService.getUsers).toHaveBeenCalledTimes(2);
   });
 
@@ -171,7 +171,7 @@ describe('UserManagementPage', () => {
     component.confirmDelete();
 
     expect(mockUsersService.deleteUser).toHaveBeenCalledWith(userToDelete.id);
-    expect(mockNotificationService.showSuccess).toHaveBeenCalledWith('Usuario eliminado con éxito.');
+    expect(mockToastService.showSuccess).toHaveBeenCalledWith('Usuario eliminado con éxito.');
     expect(mockUsersService.getUsers).toHaveBeenCalledTimes(2);
   });
 });

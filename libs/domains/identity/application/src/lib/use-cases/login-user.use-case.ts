@@ -1,6 +1,5 @@
 import { Injectable, Inject, UnauthorizedException, ForbiddenException } from '@nestjs/common';
-import { LoginUserDto } from '../dto/login-user.dto';
-import { LoginResponseDto } from '../dto/login-response.dto';
+import { LoginUserDto, LoginResponseDto } from '@virteex/identity-contracts';
 import {
   UserRepository, AuditLogRepository, AuditLog,
   RiskEngineService, AuthService
