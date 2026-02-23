@@ -6,7 +6,7 @@ export const SECRET_PROVIDER = 'SECRET_PROVIDER';
 @Injectable()
 export class SecretManagerService {
   private readonly logger = new Logger(SecretManagerService.name);
-  private currentSecret: string;
+  private currentSecret!: string;
   private previousSecrets: string[] = [];
 
   constructor(

@@ -4,7 +4,7 @@
   "sourceRoot": "libs/domains/identity/ui/src",
   "prefix": "virteex",
   "projectType": "library",
-  "tags": [],
+  "tags": ["scope:identity", "type:ui"],
   "targets": {
     "test": {
       "executor": "@nx/vitest:test",

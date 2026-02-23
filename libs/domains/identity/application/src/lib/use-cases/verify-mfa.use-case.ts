@@ -1,6 +1,5 @@
 import { Injectable, Inject, UnauthorizedException } from '@nestjs/common';
-import { VerifyMfaDto } from '../dto/verify-mfa.dto';
-import { LoginResponseDto } from '../dto/login-response.dto';
+import { VerifyMfaDto, LoginResponseDto } from '@virteex/identity-contracts';
 import {
   UserRepository, AuditLogRepository, AuditLog,
   AuthService

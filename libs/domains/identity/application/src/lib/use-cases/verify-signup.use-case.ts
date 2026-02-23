@@ -1,19 +1,6 @@
 import { Injectable, Inject, UnauthorizedException, BadRequestException } from '@nestjs/common';
 import { AuthService, CachePort } from '@virteex/identity-domain';
-import { IsEmail, IsString, Length } from 'class-validator';
-
-export class VerifySignupDto {
-  @IsEmail()
-  email!: string;
-
-  @IsString()
-  @Length(6, 6)
-  otp!: string;
-}
-
-export interface VerifySignupResponse {
-  onboardingToken: string;
-}
+import { VerifySignupDto, VerifySignupResponse } from '@virteex/identity-contracts';
 
 @Injectable()
 export class VerifySignupUseCase {

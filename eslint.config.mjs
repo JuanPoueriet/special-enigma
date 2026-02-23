@@ -26,6 +26,7 @@ export default [
               onlyDependOnLibsWithTags: [
                 'type:contract',
                 'type:util',
+                'type:ui',
               ],
             },
             {
@@ -53,6 +54,14 @@ export default [
                 'type:infrastructure',
                 'type:contract',
                 'type:util',
+              ],
+            },
+            {
+              sourceTag: 'type:ui',
+              onlyDependOnLibsWithTags: [
+                'type:contract',
+                'type:util',
+                'type:ui',
               ],
             },
             {

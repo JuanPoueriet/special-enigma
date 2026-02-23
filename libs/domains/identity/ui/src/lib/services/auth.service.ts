@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import {
   LoginUserDto, RegisterUserDto, LoginResponseDto, VerifyMfaDto,
   InitiateSignupDto, VerifySignupDto, CompleteOnboardingDto
-} from '@virteex/identity-application';
+} from '@virteex/identity-contracts';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {

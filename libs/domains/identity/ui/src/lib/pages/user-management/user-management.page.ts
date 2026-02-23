@@ -49,7 +49,6 @@ import {
   UserCircle2,
   LogOut,
 } from 'lucide-angular';
-import { NotificationService } from '@virteex/identity-domain'; // Assuming it is exported there
 import {
   UsersService,
   InviteUserDto,
@@ -60,7 +59,8 @@ import {
   User as ApiUser,
   UserStatus,
   WebSocketService,
-  HasPermissionDirective
+  HasPermissionDirective,
+  ToastService
 } from '@virteex/shared-ui';
 import { TranslateModule } from '@ngx-translate/core';
 import { debounceTime, distinctUntilChanged, Subject, Subscription } from 'rxjs';
@@ -83,7 +83,7 @@ export class UserManagementPage implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
   private usersService = inject(UsersService);
   private rolesService = inject(RolesService);
-  private notificationService = inject(NotificationService);
+  private toastService = inject(ToastService);
   private webSocketService = inject(WebSocketService);
   public authService = inject(AuthService);
 
@@ -222,7 +222,7 @@ export class UserManagementPage implements OnInit, OnDestroy {
         this.loading.set(false);
       },
       error: () => {
-        this.notificationService.showError('No se pudieron cargar los usuarios.');
+        this.toastService.showError('No se pudieron cargar los usuarios.');
         this.loading.set(false);
       },
     });
@@ -286,12 +286,12 @@ export class UserManagementPage implements OnInit, OnDestroy {
       };
       this.usersService.updateUser(formValue.id, payload).subscribe({
         next: () => {
-          this.notificationService.showSuccess('Usuario actualizado con éxito.');
+          this.toastService.showSuccess('Usuario actualizado con éxito.');
           this.closeUserModal();
           this.loadUsers();
         },
         error: (err) => {
-          this.notificationService.showError('Error al actualizar el usuario.');
+          this.toastService.showError('Error al actualizar el usuario.');
           this.loading.set(false);
         },
       });
@@ -304,12 +304,12 @@ export class UserManagementPage implements OnInit, OnDestroy {
       };
       this.usersService.inviteUser(payload).subscribe({
         next: () => {
-          this.notificationService.showSuccess('Usuario invitado con éxito.');
+          this.toastService.showSuccess('Usuario invitado con éxito.');
           this.closeUserModal();
           this.loadUsers();
         },
         error: (err) => {
-          this.notificationService.showError('Error al invitar al usuario.');
+          this.toastService.showError('Error al invitar al usuario.');
           this.loading.set(false);
         },
       });
@@ -321,12 +321,12 @@ export class UserManagementPage implements OnInit, OnDestroy {
     this.loading.set(true);
     this.usersService.deleteUser(this.selectedUser.id).subscribe({
       next: () => {
-        this.notificationService.showSuccess('Usuario eliminado con éxito.');
+        this.toastService.showSuccess('Usuario eliminado con éxito.');
         this.closeDeleteModal();
         this.loadUsers();
       },
       error: (err) => {
-        this.notificationService.showError(err.error?.message || 'Error al eliminar el usuario.');
+        this.toastService.showError(err.error?.message || 'Error al eliminar el usuario.');
         this.loading.set(false);
         this.closeDeleteModal();
       },
@@ -361,8 +361,8 @@ export class UserManagementPage implements OnInit, OnDestroy {
   resetPassword(user: ApiUser): void {
     if (confirm(`¿Enviar un correo para resetear la contraseña de ${user.firstName}?`)) {
       this.usersService.sendPasswordReset(user.id).subscribe({
-        next: (res) => this.notificationService.showSuccess(res.message),
-        error: (err) => this.notificationService.showError(err.error?.message || 'Error al enviar el correo.'),
+        next: (res) => this.toastService.showSuccess(res.message),
+        error: (err) => this.toastService.showError(err.error?.message || 'Error al enviar el correo.'),
       });
     }
   }
@@ -370,8 +370,8 @@ export class UserManagementPage implements OnInit, OnDestroy {
   forceLogout(user: ApiUser): void {
     if (confirm(`¿Estás seguro que quieres cerrar la sesión de ${user.firstName}?`)) {
       this.usersService.forceLogout(user.id).subscribe({
-        next: () => this.notificationService.showSuccess('La sesión del usuario ha sido cerrada.'),
-        error: (err) => this.notificationService.showError(err.message || 'Error al cerrar la sesión.'),
+        next: () => this.toastService.showSuccess('La sesión del usuario ha sido cerrada.'),
+        error: (err) => this.toastService.showError(err.message || 'Error al cerrar la sesión.'),
       });
     }
   }
@@ -380,10 +380,10 @@ export class UserManagementPage implements OnInit, OnDestroy {
     if (confirm(`¿Estás seguro que quieres BLOQUEAR y cerrar la sesión de ${user.firstName}?`)) {
       this.usersService.blockAndLogout(user.id).subscribe({
         next: () => {
-          this.notificationService.showSuccess('El usuario ha sido bloqueado y su sesión cerrada.');
+          this.toastService.showSuccess('El usuario ha sido bloqueado y su sesión cerrada.');
           this.loadUsers();
         },
-        error: (err) => this.notificationService.showError(err.message || 'Error al bloquear al usuario.'),
+        error: (err) => this.toastService.showError(err.message || 'Error al bloquear al usuario.'),
       });
     }
   }

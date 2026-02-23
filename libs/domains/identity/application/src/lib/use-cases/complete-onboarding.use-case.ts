@@ -5,40 +5,10 @@ import {
   User, Company, Session, SessionRepository, CachePort
 } from '@virteex/identity-domain';
 import { Tenant, TenantMode } from '@virteex/tenant';
-import { IsString, IsNotEmpty } from 'class-validator';
 import { EntityManager } from '@mikro-orm/core';
 import * as crypto from 'crypto';
 import { TokenGenerationService } from '../services/token-generation.service';
-
-export class CompleteOnboardingDto {
-  @IsString()
-  @IsNotEmpty()
-  onboardingToken!: string;
-
-  @IsString()
-  firstName!: string;
-
-  @IsString()
-  lastName!: string;
-
-  @IsString()
-  phone!: string;
-
-  @IsString()
-  companyName!: string;
-
-  @IsString()
-  taxId!: string;
-
-  @IsString()
-  country!: string;
-
-  @IsString()
-  regime!: string;
-
-  @IsString()
-  industry!: string;
-}
+import { CompleteOnboardingDto } from '@virteex/identity-contracts';
 
 @Injectable()
 export class CompleteOnboardingUseCase {

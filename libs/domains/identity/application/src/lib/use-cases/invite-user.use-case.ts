@@ -1,7 +1,7 @@
 import { Injectable, Inject, ConflictException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { User, UserRepository, AuthService, UserInvitedEvent } from '@virteex/identity-domain';
-import { InviteUserDto } from '../dto/invite-user.dto';
+import { InviteUserDto } from '@virteex/identity-contracts';
 import { randomUUID } from 'crypto';
 
 @Injectable()

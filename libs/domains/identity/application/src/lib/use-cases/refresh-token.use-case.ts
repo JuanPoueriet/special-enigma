@@ -1,7 +1,6 @@
 import { Injectable, Inject, UnauthorizedException } from '@nestjs/common';
 import * as crypto from 'crypto';
-import { RefreshTokenDto } from '../dto/refresh-token.dto';
-import { LoginResponseDto } from '../dto/login-response.dto';
+import { RefreshTokenDto, LoginResponseDto } from '@virteex/identity-contracts';
 import {
   SessionRepository,
   AuditLogRepository,
