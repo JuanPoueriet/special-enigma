@@ -1,0 +1,60 @@
+# Informe de Auditoría de Arquitectura - Proyecto Virteex
+
+## 1. Análisis de la Organización del Proyecto
+
+El proyecto está organizado como un monorepositorio utilizando **Nx**, lo cual es una excelente elección para gestionar múltiples aplicaciones y librerías en un ecosistema de ERP. La estructura general se divide en `apps` (aplicaciones finales) y `libs` (librerías compartidas y lógica de dominio).
+
+### Estructura de Librerías (`libs/`):
+- **`domains/`**: Contiene la lógica de negocio dividida por dominios (Accounting, Billing, Catalog, etc.). Cada dominio sigue (en su mayoría) una arquitectura limpia con capas de `application`, `domain`, `infrastructure`, `presentation`, `contracts` y `ui`.
+- **`kernel/`**: Contiene el "Shared Kernel" técnico del sistema. Incluye funcionalidades transversales como `auth`, `audit`, `messaging` (Outbox pattern), `telemetry` y `tenant` (Multi-tenancy).
+- **`shared/`**: Contiene componentes de UI, utilidades, tipos y adaptadores de infraestructura técnica (Kafka, Cache) que son verdaderamente agnósticos al dominio.
+
+---
+
+## 2. Verificación de Pertenencia de Archivos
+
+### Carpeta `kernel`:
+- **Estado**: **Correcto**.
+- **Análisis**: Los módulos en `kernel` (`audit`, `auth` (backend), `messaging`, `telemetry`, `tenant`) son preocupaciones transversales que afectan a todo el sistema. Están bien ubicados ya que no pertenecen a un solo dominio de negocio sino a la infraestructura de la aplicación.
+
+### Carpeta `domain`:
+- **Estado**: **Parcialmente Correcto**.
+- **Análisis**: La mayoría de los dominios están bien aislados. Sin embargo, se detectó que el dominio de **`billing`** está asumiendo responsabilidades que pertenecen al dominio **`fiscal`** (específicamente la generación de documentos fiscales mexicanos CFDI 4.0, sellado y cadena original). Esto debería ser delegado al dominio `fiscal`.
+
+### Carpeta `shared`:
+- **Estado**: **Inconsistente**.
+- **Análisis**: Se encontraron varios archivos que **NO** deberían estar en `shared`:
+    - **Servicios de API específicos de dominio en `shared/ui`**: `AccountingService`, `InventoryService`, `SatCatalogService`. Estos pertenecen a las carpetas `ui` de sus respectivos dominios.
+    - **Páginas de dominio en `shared/ui`**: `NotificationsPage` debería estar en `libs/domains/notification/ui`.
+    - **DTOs duplicados y específicos**: `CalculatePayrollDto` existe en `shared/contracts` and also in `payroll/contracts`. Los contratos de dominio deben vivir en el dominio correspondiente.
+
+---
+
+## 3. Fuerzas y Debilidades
+
+### 💪 Fuerzas:
+1. **Alta Modularidad**: El uso de Nx permite una separación clara de responsabilidades a nivel de librería.
+2. **Consistencia en Backend**: Casi todos los dominios de backend siguen el mismo patrón de capas, lo que facilita la navegación.
+3. **Infraestructura Robusta**: El uso de patrones como Outbox (en `kernel/messaging`) y una capa de telemetría centralizada es muy positivo.
+4. **Separación de Contratos**: La existencia de carpetas `contracts` en los dominios para DTOs y Eventos es una buena práctica de DDD.
+
+### ⚠️ Debilidades:
+1. **Librería "Dios" (`shared/ui`)**: Se está usando `shared/ui` como un "cajón de sastre" para servicios y componentes de frontend que deberían ser específicos de cada dominio.
+2. **Acoplamiento entre Dominios**: Se detectaron importaciones directas entre dominios (ej. `billing` importando de `catalog` o `subscription`). Deberían comunicarse a través de contratos compartidos o eventos.
+3. **Ambigüedad en `shared/util`**: Mezcla de librerías para Angular y NestJS sin una nomenclatura que las distinga (ej. `shared/util/auth` es Angular, mientras que `shared/util/server-config` es NestJS).
+4. **Fuga de Lógica Dominio**: Lógica fiscal crítica residiendo en el módulo de facturación.
+5. **Redundancia**: Archivos duplicados en diferentes partes del monorepositorio.
+
+---
+
+## 4. Calificación Final: 7 / 10
+
+**Justificación**: El proyecto tiene una base arquitectónica muy sólida y sigue principios modernos de ingeniería de software. Sin embargo, muestra signos de "erosión arquitectónica" debido a la urgencia o falta de gobernanza en el frontend (`shared/ui`) y pequeñas fugas de responsabilidad entre dominios de negocio. Con una limpieza de `shared` y una refactorización de las dependencias entre dominios, podría alcanzar fácilmente un 9/10.
+
+---
+
+## 5. Recomendaciones:
+- Mover los servicios de API de `shared/ui/core/api/` a sus respectivos dominios en `libs/domains/<dominio>/ui/`.
+- Unificar los DTOs en las librerías de `contracts` de cada dominio y eliminar los duplicados en `shared`.
+- Renombrar o reorganizar `shared/util` para distinguir entre utilidades de cliente (web) y servidor.
+- Migrar la lógica de generación de CFDI de `billing` a `fiscal`.
