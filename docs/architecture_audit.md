@@ -1,28 +1,61 @@
+# Auditoría Arquitectónica Integral - Virteex ERP
+
 ## 🧠 Diagnóstico Ejecutivo
-El proyecto Virteex ERP presenta una estructura de monorepo Nx madura y bien organizada, siguiendo principios de Clean Architecture y DDD. La segmentación por dominios y capas es coherente y facilita la escalabilidad y mantenibilidad. Sin embargo, se han identificado fugas arquitectónicas críticas donde el framework (NestJS) y la infraestructura (MikroORM) contaminan la capa de dominio, lo cual contradice directamente los estándares definidos en el documento `AGENTS.md`. A pesar de esto, el cumplimiento de SOLID y la separación de responsabilidades en las capas de aplicación y presentación es de nivel enterprise.
+El proyecto Virteex ERP presenta una base arquitectónica sólida y madura, orientada a estándares enterprise. La adopción de **Nx Monorepo**, **NestJS** y **Angular** con principios de **Clean Architecture** y **DDD** es evidente y está bien estructurada en su mayoría. La segmentación por dominios (`identity`, `catalog`, `accounting`, etc.) permite un desarrollo paralelo escalable.
+
+Sin embargo, el sistema sufre de **fugas arquitectónicas críticas** hacia la capa de dominio. El acoplamiento con MikroORM y NestJS en el núcleo del negocio compromete la portabilidad y la pureza del modelo. Existen también inconsistencias en la gestión de dependencias del monorepo y una ligera deriva semántica en las librerías compartidas.
+
+---
 
 ## 📊 Calificación por Categoría
-- Coherencia Semántica: 8/10
-- Responsabilidad y Cohesión: 9/10
-- Arquitectura Frontend: 8/10
-- Arquitectura Backend: 9/10
-- Monorepo Nx: 7/10
-- Modelado y Abstracciones: 5/10
 
-## 🏆 Calificación Global
-Puntaje final ponderado: **7.8/10**
+### 1️⃣ Coherencia Semántica: 8/10
+- **Justificación:** Naming consistente y profesional en el 90% del proyecto. Se respeta la intención de los dominios definidos en `AGENTS.md`.
+- **Evidencia:**
+  - Estructura de carpetas coherente: `apps/backend`, `libs/domains/accounting/domain`.
+  - **Falla:** `OrganizationService` en `libs/shared/ui` (Semantic Drift); es un servicio de datos e infraestructura en una lib de UI.
+  - **Falla:** Redundancia en el naming de librerías (`@virteex/domain-identity-domain`).
+- **Roadmap 10/10:** Mover servicios de lógica/datos fuera de `shared-ui`. Implementar una auditoría de nombres para eliminar redundancias en el mapa de librerías.
 
-**Cálculo:**
-(8 * 0.15) + (9 * 0.20) + (8 * 0.15) + (9 * 0.20) + (7 * 0.15) + (5 * 0.15) = 7.8
+### 2️⃣ Responsabilidad y Cohesión: 9/10
+- **Justificación:** Excelente aplicación del Principio de Responsabilidad Única (SRP) en la capa de aplicación. Alta cohesión en los casos de uso.
+- **Evidencia:** `LoginUserUseCase` orquesta múltiples servicios (`UserRepository`, `AuthService`, `RiskEngineService`) sin mezclarlos.
+- **Roadmap 10/10:** Asegurar que la lógica de estado compleja no se filtre a los Use Cases y permanezca en los Agregados de Dominio.
 
-## 🔥 Hallazgos Críticos
-1. **Contaminación de la Capa de Dominio**: Uso generalizado de decoradores de MikroORM (`@Entity`, `@Property`) y NestJS (`@Injectable`) dentro de las librerías `domain-*-domain`. Esto acopla la lógica de negocio pura a la infraestructura y al framework, violando el principio de independencia de Clean Architecture y las directrices del prefacio técnico.
-2. **Mapeo de Rutas Incorrecto**: En `tsconfig.base.json`, el paquete `@virteex/contracts-identity-contracts` apunta a la carpeta `dist/` en lugar de al código fuente. Esto rompe el flujo de desarrollo de Nx, obligando a compilaciones manuales para reflejar cambios en contratos.
-3. **Deriva Semántica en Shared UI**: La librería `libs/shared/ui` actúa parcialmente como un "dumping ground", albergando interceptores y lógica de servicios que no pertenecen estrictamente a la capa de UI.
-4. **Inconsistencia en la Implementación de Entidades**: Mientras que la entidad `User` sigue un patrón de separación correcto (Entity vs OrmEntity), otras entidades del mismo dominio (ej. `Company`, `Session`) mezclan ambas responsabilidades.
+### 3️⃣ Arquitectura Frontend: 8/10
+- **Justificación:** Clara separación entre componentes de página (contenedores) y UI compartida (presentacionales).
+- **Evidencia:**
+  - `LoginComponent` maneja el flujo; `ButtonComponent` es puramente visual.
+  - **Falla:** `CountrySelectorComponent` contiene una lista hardcoded de países con reglas fiscales (`IVA 19%`, `CFDI 4.0`). Estos son datos de dominio/negocio que no deben vivir en la capa de presentación.
+- **Roadmap 10/10:** Externalizar configuraciones de negocio de los componentes de UI. Inyectar datos de dominio mediante servicios o tokens.
 
-## 🛠 Recomendaciones Prioritarias
-1. **Sanear la Capa de Dominio (Alta Prioridad)**: Migrar los decoradores de MikroORM a clases `OrmEntity` dentro de la capa de `infrastructure` y usar Mappers para la conversión, siguiendo el ejemplo ya existente en `User`. Eliminar dependencias de `@nestjs/common` en la lógica de dominio.
-2. **Corregir tsconfig.base.json**: Cambiar el mapeo de `@virteex/contracts-identity-contracts` para que apunte a `libs/domains/identity/contracts/src/index.ts`.
-3. **Refactorizar Shared UI**: Mover interceptores, validadores no-UI y servicios de infraestructura a librerías de tipo `util` o `infrastructure` específicas dentro del scope `shared`.
-4. **Estandarizar Naming de Librerías**: Eliminar la redundancia en nombres como `domain-identity-domain` a favor de una convención más limpia como `identity-domain`.
+### 4️⃣ Arquitectura Backend: 9/10
+- **Justificación:** Modularidad de NestJS ejemplar. Controllers limpios y orientados a la orquestación.
+- **Evidencia:** `AuthController` delega el 100% de la ejecución a los Use Cases.
+- **Roadmap 10/10:** Eliminar decoradores de framework (`@Injectable`) de las clases de dominio puro, usando `providers` manuales en los módulos si es necesario.
+
+### 5️⃣ Estructura de Monorepo Nx: 7/10
+- **Justificación:** Uso correcto de scopes y capas. Sin embargo, hay fallas técnicas en la configuración que afectan la DX y el build.
+- **Evidencia:**
+  - **Falla Crítica:** `tsconfig.base.json` apunta a `dist/libs/domains/identity/contracts`. Esto rompe la integración de Nx y causa problemas de caché y compilación.
+  - **Falla:** `shared-ui` se utiliza como "dumping ground" para interceptores y lógica de red.
+- **Roadmap 10/10:** Corregir los mappings en `tsconfig`. Enforcear límites de dependencias estrictos vía ESLint para evitar que `shared-ui` dependa de infraestructura.
+
+### 6️⃣ Modelado y Abstracciones: 5/10
+- **Justificación:** Esta es la categoría con mayor deuda técnica. El modelo de dominio no es "Persistence Ignorant".
+- **Evidencia:**
+  - **Falla Mayor:** Uso de `@Entity()` y `@Property()` de MikroORM directamente en `libs/domains/*/domain/src/lib/entities/`.
+  - **Falla:** Falta de abstracción entre DTOs y Entidades en algunas firmas de métodos.
+- **Roadmap 10/10:** Implementar **Persistence Ignorance**. Mover decoradores a clases `OrmEntity` en la capa de `infrastructure`. Usar `Mappers` obligatorios para todas las transacciones entre capas.
+
+---
+
+## 🏆 Calificación Global: 7.8/10
+*Promedio ponderado basado en el impacto estructural de los hallazgos.*
+
+---
+
+## 🔥 Recomendaciones de Acción Inmediata
+1. **Sanitización de Dominio:** Extraer decoradores de MikroORM de `Product`, `Account`, etc., hacia sus respectivos adaptadores de infraestructura.
+2. **Corrección de Monorepo:** Actualizar `tsconfig.base.json` para que todos los paths apunten a `/src/index.ts`.
+3. **Refactor de UI:** Mover la lógica de `OrganizationService` y la data de `CountrySelector` a capas de dominio/infraestructura adecuadas.
