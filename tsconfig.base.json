@@ -558,6 +558,12 @@
       "@virteex/shared-contracts/*": [
         "libs/shared/contracts/src/*"
       ],
+      "@virteex/shared-data-access-organization": [
+        "libs/shared/data-access/organization/src/index.ts"
+      ],
+      "@virteex/shared-data-access-organization/*": [
+        "libs/shared/data-access/organization/src/*"
+      ],
       "@virteex/shared-infrastructure-cache": [
         "libs/shared/infrastructure/cache/src/index.ts"
       ],

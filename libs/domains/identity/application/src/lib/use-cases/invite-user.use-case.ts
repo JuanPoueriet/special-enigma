@@ -25,6 +25,7 @@ export class InviteUserUseCase {
     const passwordHash = await this.authService.hashPassword(randomUUID());
 
     const user = new User(
+      randomUUID(),
       dto.email,
       passwordHash,
       dto.firstName,

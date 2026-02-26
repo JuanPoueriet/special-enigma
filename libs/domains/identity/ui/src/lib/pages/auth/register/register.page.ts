@@ -35,7 +35,7 @@ import { StepAccountInfo } from "./steps/step-account-info/step-account-info";
 import { StepBusiness } from "./steps/step-business/step-business";
 import { StepConfiguration } from "./steps/step-configuration/step-configuration";
 import { StepPlan } from "./steps/step-plan/step-plan";
-import { strongPasswordValidator } from '@virteex/shared-ui';
+import { strongPasswordValidator } from '@virteex/shared-validators';
 import {
   RECAPTCHA_V3_SITE_KEY,
   RecaptchaV3Module,

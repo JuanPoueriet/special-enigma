@@ -8,6 +8,7 @@ import {
 import { Tenant, TenantMode } from '@virteex/kernel-tenant';
 import { EntityManager } from '@mikro-orm/core';
 import * as crypto from 'crypto';
+import { v4 as uuidv4 } from 'uuid';
 import { TokenGenerationService } from '../services/token-generation.service';
 import { CompleteOnboardingDto } from '@virteex/contracts-identity-contracts';
 
@@ -79,6 +80,7 @@ export class CompleteOnboardingUseCase {
         em.persist(tenant);
 
         const user = new User(
+            uuidv4(),
             email,
             passwordHash,
             dto.firstName,

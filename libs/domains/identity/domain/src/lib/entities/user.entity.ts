@@ -1,8 +1,7 @@
 import type { Company } from './company.entity';
-import { v4 as uuidv4 } from 'uuid';
 
 export class User {
-  id: string = uuidv4();
+  id!: string;
   email!: string;
   passwordHash!: string;
   firstName!: string;
@@ -28,7 +27,16 @@ export class User {
   createdAt: Date = new Date();
   updatedAt: Date = new Date();
 
-  constructor(email: string, passwordHash: string, firstName: string, lastName: string, country: string, company: Company) {
+  constructor(
+    id: string,
+    email: string,
+    passwordHash: string,
+    firstName: string,
+    lastName: string,
+    country: string,
+    company: Company
+  ) {
+    this.id = id;
     this.email = email;
     this.passwordHash = passwordHash;
     this.firstName = firstName;
@@ -47,5 +55,29 @@ export class User {
   activate(): void {
     this.isActive = true;
     this.status = 'ACTIVE';
+  }
+
+  registerFailedLogin(): boolean {
+    this.failedLoginAttempts += 1;
+    if (this.failedLoginAttempts >= 3) {
+      this.lockedUntil = new Date(Date.now() + 15 * 60 * 1000); // 15 mins lock
+      return true;
+    }
+    return false;
+  }
+
+  isLocked(): boolean {
+    return !!(this.lockedUntil && this.lockedUntil > new Date());
+  }
+
+  registerLoginSuccess(riskScore: number): void {
+    this.failedLoginAttempts = 0;
+    this.lockedUntil = undefined;
+    this.lastLoginAt = new Date();
+    this.riskScore = riskScore;
+  }
+
+  shouldRequireMfa(riskScore: number): boolean {
+    return this.mfaEnabled || riskScore > 60;
   }
 }

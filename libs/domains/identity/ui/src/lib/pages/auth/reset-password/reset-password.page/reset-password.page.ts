@@ -5,25 +5,13 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from "../../../../services/auth.service";
 import { LanguageService } from '@virteex/shared-ui';
 import { TranslateModule } from '@ngx-translate/core';
+import { strongPasswordValidator } from '@virteex/shared-validators';
 
 // Shared
 import { AuthLayoutComponent } from "../../components/auth-layout/auth-layout.component";
 import { AuthInputComponent } from "../../components/auth-input/auth-input.component";
 import { AuthButtonComponent } from "../../components/auth-button/auth-button.component";
 import { PasswordValidatorComponent } from "../../components/password-validator/password-validator.component";
-
-// Custom validator for strong password
-const strongPasswordValidator = (): ValidatorFn => {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const v: string = control.value || '';
-    const ok =
-      /[a-z]/.test(v) &&
-      /[A-Z]/.test(v) &&
-      /[0-9]/.test(v) &&
-      /[!@#$%^&*(),.?":{}|<>]/.test(v);
-    return ok ? null : { strongPassword: true };
-  };
-};
 
 const passwordMatchValidator: ValidatorFn = (group: AbstractControl): ValidationErrors | null => {
   const password = group.get('password')?.value;

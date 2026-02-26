@@ -4,6 +4,7 @@ import { UserOrmEntity } from '../persistence/entities/user.orm-entity';
 export class UserMapper {
   static toDomain(entity: UserOrmEntity): User {
     const user = new User(
+      entity.id,
       entity.email,
       entity.passwordHash,
       entity.firstName,
@@ -11,7 +12,6 @@ export class UserMapper {
       entity.country,
       entity.company
     );
-    user.id = entity.id;
     user.timezone = entity.timezone;
     user.phone = entity.phone;
     user.avatarUrl = entity.avatarUrl;

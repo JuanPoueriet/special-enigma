@@ -38,10 +38,9 @@ export class LoginUserUseCase {
     const isPasswordValid = await this.authService.verifyPassword(dto.password, user.passwordHash);
 
     if (!isPasswordValid) {
-      user.failedLoginAttempts += 1;
+      const isLocked = user.registerFailedLogin();
 
-      if (user.failedLoginAttempts >= 3) {
-        user.lockedUntil = new Date(Date.now() + 15 * 60 * 1000); // 15 mins lock
+      if (isLocked) {
         await this.auditLogRepository.save(new AuditLog('ACCOUNT_LOCKED', user.id, { ip: context.ip, reason: 'Too many failed attempts' }));
       } else {
         await this.auditLogRepository.save(new AuditLog('LOGIN_FAILED_BAD_PASSWORD', user.id, { ip: context.ip }));
@@ -64,7 +63,7 @@ export class LoginUserUseCase {
 
     let mfaRequired = false;
 
-    if (user.mfaEnabled || riskScore > 60) {
+    if (user.shouldRequireMfa(riskScore)) {
       if (riskScore > 90) {
           await this.auditLogRepository.save(new AuditLog('LOGIN_BLOCKED_HIGH_RISK', user.id, { score: riskScore }));
           throw new ForbiddenException('Login blocked due to suspicious activity. Contact support.');
@@ -74,10 +73,7 @@ export class LoginUserUseCase {
       await this.auditLogRepository.save(new AuditLog('LOGIN_MFA_CHALLENGE', user.id, { score: riskScore }));
     }
 
-    user.failedLoginAttempts = 0;
-    user.lockedUntil = undefined;
-    user.lastLoginAt = new Date();
-    user.riskScore = riskScore;
+    user.registerLoginSuccess(riskScore);
     await this.userRepository.save(user);
 
     if (mfaRequired) {

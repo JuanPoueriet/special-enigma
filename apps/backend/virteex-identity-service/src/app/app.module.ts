@@ -12,8 +12,6 @@ import { TenantModule } from '@virteex/kernel-tenant';
 import { JwtTenantMiddleware } from '@virteex/kernel-auth';
 import { IdentityPresentationModule } from '@virteex/api-identity-presentation';
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { IdentityResolver } from './identity.resolver';
 
 @Module({
@@ -62,9 +60,8 @@ import { IdentityResolver } from './identity.resolver';
     TenantModule,
     IdentityPresentationModule,
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [
-    AppService,
     IdentityResolver,
     {
       provide: APP_GUARD,

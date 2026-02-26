@@ -1,0 +1,7 @@
+{
+  "name": "shared-data-access-organization",
+  "sourceRoot": "libs/shared/data-access/organization/src",
+  "projectType": "library",
+  "tags": ["scope:shared", "type:data-access"],
+  "targets": {}
+}
