@@ -13,7 +13,7 @@ export class NodemailerNotificationService implements NotificationService {
   ) {
     const smtpHost = this.configService.get<string>('SMTP_HOST');
     if (!smtpHost) {
-      this.logger.error('SMTP_HOST is not defined. Email notifications will fail.');
+      throw new Error('SMTP_HOST is not defined. Email notifications will fail. Please configure SMTP settings.');
     }
   }
 
