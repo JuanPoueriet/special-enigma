@@ -49,9 +49,13 @@ export class KeycloakAuthService implements AuthService {
           const verificationKey = this.secretManager.getSecret('KEYCLOAK_PUBLIC_KEY', this.clientSecret);
           const audience = this.secretManager.getSecret('KEYCLOAK_AUDIENCE', 'virteex-api');
 
+          // SECURITY: await verifyToken if we were using JwtTokenService,
+          // but here we use jwt.verify directly.
+          // In any case, we should align with JwtTokenService hardening if possible.
           return jwt.verify(token, verificationKey, {
               issuer: this.issuer,
-              audience: audience
+              audience: audience,
+              algorithms: ['HS256', 'RS256']
           });
       } catch (e: any) {
           this.logger.error(`Keycloak token verification failed: ${e.message}`);

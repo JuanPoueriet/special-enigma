@@ -28,9 +28,8 @@ export class CsrfMiddleware implements NestMiddleware {
   }
 
   private shouldBypass(req: Request): boolean {
-    if (req.originalUrl === '/graphql') {
-      return true;
-    }
+    // SECURITY: Removed explicit bypass for /graphql.
+    // GraphQL mutations must now provide CSRF tokens if using cookie-based auth.
 
     const hasBearer = req.headers.authorization?.startsWith('Bearer ');
     const hasSessionCookie = Boolean(req.cookies['access_token'] || req.cookies['refresh_token']);

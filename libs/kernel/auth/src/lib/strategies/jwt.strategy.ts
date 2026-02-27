@@ -27,7 +27,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
           done(error);
         }
       },
-      algorithms: ['HS256', 'HS384', 'HS512'],
+      algorithms: ['HS256', 'HS384', 'HS512', 'RS256', 'ES256'],
     });
   }
 
@@ -39,6 +39,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       throw new UnauthorizedException('Missing access token');
     }
 
-    return this.jwtTokenService.verifyToken(token, 'access');
+    return await this.jwtTokenService.verifyToken(token, 'access');
   }
 }

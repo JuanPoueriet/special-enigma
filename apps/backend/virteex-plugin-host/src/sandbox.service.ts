@@ -4,6 +4,7 @@ import { Worker } from 'worker_threads';
 import * as path from 'path';
 import * as crypto from 'crypto';
 import { PluginAdmissionService } from './services/plugin-admission.service';
+import { PLUGIN_POLICY } from './config/plugin-policy.config';
 
 export interface SandboxResult {
   success: boolean;
@@ -118,6 +119,20 @@ export class SandboxService {
         if (logs.length < 100) {
           logs.push(args.map((a) => String(a)).join(' '));
         }
+      });
+
+      // SECURITY: Egress Control / Allowlist for fetch-like requests
+      jail.setSync('_fetch', (url: string) => {
+          try {
+              const parsedUrl = new URL(url);
+              if (!PLUGIN_POLICY.egress.allowlist.includes(parsedUrl.hostname)) {
+                  throw new Error(`Security Exception: Egress to ${parsedUrl.hostname} is not allowed.`);
+              }
+              // In a real implementation, this would call a secure internal proxy
+              return `Fetched from ${url} (Simulated in sandbox)`;
+          } catch (e: any) {
+              throw new Error(`Invalid URL or disallowed egress: ${e.message}`);
+          }
       });
 
       // Compile and Run
