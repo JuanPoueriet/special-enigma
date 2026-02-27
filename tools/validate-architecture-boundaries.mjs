@@ -9,12 +9,42 @@ const allDomains = readdirSync(domainsRoot, { withFileTypes: true })
   .map((entry) => entry.name)
   .sort();
 
-const defaultGoverned = ['inventory', 'identity', 'fixed-assets'];
-const strictLayerDomains = new Set(['inventory', 'fixed-assets']);
-const governedDomains = (process.env.ARCH_BOUNDARY_DOMAINS ?? defaultGoverned.join(','))
-  .split(',')
-  .map((item) => item.trim())
-  .filter(Boolean);
+function parseCsv(value) {
+  return (value ?? '')
+    .split(',')
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function parseDomainJustifications(value) {
+  return (value ?? '')
+    .split(';')
+    .map((item) => item.trim())
+    .filter(Boolean)
+    .reduce((acc, item) => {
+      const [domain, ...reasonParts] = item.split(/[=:]/);
+      if (!domain) return acc;
+      acc.set(domain.trim(), reasonParts.join(':').trim());
+      return acc;
+    }, new Map());
+}
+
+const excludedDomains = parseCsv(process.env.ARCH_BOUNDARY_EXCLUDED_DOMAINS);
+const excludedSet = new Set(excludedDomains);
+const defaultGoverned = allDomains.filter((domain) => !excludedSet.has(domain));
+const strictLayerDomains = new Set(
+  allDomains.filter(
+    (domain) =>
+      existsSync(join(domainsRoot, domain, 'domain')) &&
+      existsSync(join(domainsRoot, domain, 'application'))
+  )
+);
+const governedDomains = parseCsv(process.env.ARCH_BOUNDARY_DOMAINS ?? defaultGoverned.join(','));
+const governedSet = new Set(governedDomains);
+const unknownExcluded = excludedDomains.filter((domain) => !allDomains.includes(domain));
+const uncoveredDomains = allDomains.filter((domain) => !governedSet.has(domain));
+const exclusionJustifications = parseDomainJustifications(process.env.ARCH_BOUNDARY_EXCLUDED_JUSTIFICATIONS);
+const unjustifiedDomains = uncoveredDomains.filter((domain) => !exclusionJustifications.get(domain));
 
 const checks = [];
 
@@ -22,8 +52,15 @@ function addSearchCheck(name, command) {
   checks.push({ name, command });
 }
 
+if (unknownExcluded.length > 0) {
+  checks.push({
+    name: 'Excluded domains must exist under libs/domains',
+    customError: `Unknown excluded domains: ${unknownExcluded.join(', ')}`,
+  });
+}
+
 for (const domain of allDomains) {
-  if (!governedDomains.includes(domain)) continue;
+  if (!governedSet.has(domain)) continue;
 
   const base = join(domainsRoot, domain);
   const domainSrc = join(base, 'domain/src');
@@ -76,6 +113,15 @@ for (const domain of allDomains) {
   }
 }
 
+if (unjustifiedDomains.length > 0) {
+  checks.push({
+    name: 'Uncovered domains must be explicitly justified',
+    customError:
+      `Missing ARCH_BOUNDARY_EXCLUDED_JUSTIFICATIONS for: ${unjustifiedDomains.join(', ')}. ` +
+      'Use format "domain=reason;other-domain=reason" for temporary exclusions.',
+  });
+}
+
 let hasViolations = false;
 for (const check of checks) {
   if (check.customError) {
@@ -104,9 +150,15 @@ for (const check of checks) {
   }
 }
 
-if (hasViolations) process.exit(1);
-console.log(`✔ Architecture boundary checks passed for governed domains: ${governedDomains.join(', ')}`);
-if (governedDomains.length < allDomains.length) {
-  const skipped = allDomains.filter((domain) => !governedDomains.includes(domain));
-  console.log(`ℹ Skipped domains (set ARCH_BOUNDARY_DOMAINS to expand): ${skipped.join(', ')}`);
+console.log(`ℹ Detected domains: ${allDomains.join(', ')}`);
+console.log(`ℹ Governed domains: ${governedDomains.join(', ') || '(none)'}`);
+if (uncoveredDomains.length > 0) {
+  console.log(
+    `ℹ Uncovered domains (temporary exclusions): ${uncoveredDomains
+      .map((domain) => `${domain}${exclusionJustifications.get(domain) ? ` (${exclusionJustifications.get(domain)})` : ''}`)
+      .join(', ')}`
+  );
 }
+
+if (hasViolations) process.exit(1);
+console.log('✔ Architecture boundary checks passed');
