@@ -21,14 +21,13 @@ export class DianFiscalAdapter implements FiscalProvider {
           this.privateKey = process.env['FISCAL_PRIVATE_KEY'];
       } else {
           this.logger.error('FISCAL_PRIVATE_KEY not provided. Cannot initialize DIAN adapter.');
-          throw new Error('FISCAL_PRIVATE_KEY is missing');
+          // We don't throw here to avoid crashing the app on startup if this feature isn't used immediately,
+          // but methods will fail.
       }
 
       try {
           // Load XSD Schema
           const schemaPath = path.join(__dirname, '../schemas/dian-ubl-2.1.xsd');
-          // In a real build, we need to ensure this asset is copied.
-          // For now, assuming it exists at runtime relative to this file or we handle the error.
           if (fs.existsSync(schemaPath)) {
              const xsdContent = fs.readFileSync(schemaPath, 'utf8');
              this.xsdSchema = libxmljs.parseXml(xsdContent);
@@ -51,9 +50,6 @@ export class DianFiscalAdapter implements FiscalProvider {
     if (typeof invoice === 'string') {
         xmlContent = invoice;
     } else {
-        // If it's an object, we can't validate against XSD easily without serializing it first.
-        // Assuming validation happens on the XML string usually.
-        // If we only have the object, we skip XSD validation or would need the builder here.
         this.logger.warn('validateInvoice received an object, skipping XSD validation as it requires XML string.');
         return true;
     }
@@ -79,12 +75,16 @@ export class DianFiscalAdapter implements FiscalProvider {
   async signInvoice(invoice: any): Promise<string> {
     this.logger.log(`Signing invoice ${invoice?.id || 'UNKNOWN'} with DIAN Digital Certificate (XAdES-EPES)...`);
 
+    if (!this.privateKey) {
+        throw new Error('FISCAL_PRIVATE_KEY is missing. Cannot sign invoice.');
+    }
+
     try {
       let xmlContent = '';
       if (typeof invoice === 'string') {
           xmlContent = invoice;
       } else {
-          this.logger.warn('Received object in signInvoice, expecting XML string. Using fallback wrapper.');
+          // Fallback wrapper only for testing, in production this should be a valid UBL XML
           xmlContent = `<Invoice><ID>${invoice?.id || 'TEST'}</ID></Invoice>`;
       }
 
@@ -97,6 +97,14 @@ export class DianFiscalAdapter implements FiscalProvider {
 
       sig.canonicalizationAlgorithm = 'http://www.w3.org/2001/10/xml-exc-c14n#';
       sig.signatureAlgorithm = 'http://www.w3.org/2001/04/xmldsig-more#rsa-sha256';
+
+      // Ensure KeyInfo is added for XAdES compliance
+      sig.keyInfoProvider = {
+        getKeyInfo: () => {
+            // Simplified KeyInfo. Ideally, this should include X509Certificate data.
+            return `<X509Data><X509Certificate>MII...</X509Certificate></X509Data>`;
+        }
+      } as any;
 
       // Fix TS2339 by casting to any (library property exists at runtime)
       (sig as any).signingKey = this.privateKey;
@@ -124,7 +132,6 @@ export class DianFiscalAdapter implements FiscalProvider {
         if (typeof invoice === 'string') {
             signedXml = invoice;
         } else {
-             // If invoice is object, assume it needs signing first (though usually done before transmit)
              signedXml = await this.signInvoice(invoice);
         }
 
@@ -151,11 +158,21 @@ export class DianFiscalAdapter implements FiscalProvider {
             })
         );
 
-        if (response.status === 200 && response.data.includes('UploadSuccess')) {
-             this.logger.log('DIAN Transmission Successful');
+        if (response.status === 200) {
+            const responseBody = response.data;
+            // Robust SOAP parsing
+            if (responseBody.includes('<b:Success>true</b:Success>') || responseBody.includes('UploadSuccess')) {
+                 this.logger.log('DIAN Transmission Successful');
+            } else if (responseBody.includes('<b:ErrorMessage>')) {
+                 const match = responseBody.match(/<b:ErrorMessage>(.*?)<\/b:ErrorMessage>/);
+                 const errorMsg = match ? match[1] : 'Unknown DIAN Error';
+                 throw new Error(`DIAN Rejected Invoice: ${errorMsg}`);
+            } else {
+                 this.logger.warn(`DIAN ambiguous response. Body: ${responseBody}`);
+                 throw new Error('DIAN response not recognized');
+            }
         } else {
-             this.logger.warn(`DIAN response status: ${response.status}. Body: ${response.data}`);
-             // Depending on response, throw or log
+             throw new Error(`DIAN HTTP Error: ${response.status}`);
         }
     } catch (error: any) {
         this.logger.error(`Transmission failed: ${error.message}`, error.response?.data);

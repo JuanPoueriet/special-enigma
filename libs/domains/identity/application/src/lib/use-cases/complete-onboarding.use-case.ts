@@ -1,4 +1,4 @@
-import { Injectable, Inject, BadRequestException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Inject, BadRequestException, UnauthorizedException, ConflictException, Logger } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import {
   AuthService, NotificationService, UserRepository, CompanyRepository,
@@ -13,6 +13,8 @@ import { CompleteOnboardingDto } from '@virteex/contracts-identity-contracts';
 
 @Injectable()
 export class CompleteOnboardingUseCase {
+  private readonly logger = new Logger(CompleteOnboardingUseCase.name);
+
   constructor(
     @Inject(UserRepository) private readonly userRepository: UserRepository,
     @Inject(CompanyRepository) private readonly companyRepository: CompanyRepository,
@@ -53,7 +55,7 @@ export class CompleteOnboardingUseCase {
     // Validate Duplicate Tax ID
     const existingCompany = await this.companyRepository.findByTaxId(dto.taxId);
     if (existingCompany) {
-        throw new BadRequestException('Company with this Tax ID already exists.');
+        throw new ConflictException('Company with this Tax ID already exists.');
     }
 
     const result = await this.em.transactional(async (em) => {
@@ -117,7 +119,12 @@ export class CompleteOnboardingUseCase {
     await this.auditLogRepository.save(new AuditLog('REGISTER_SUCCESS', user.id, { ip: context.ip }));
 
     // Send Welcome Email
-    await this.notificationService.sendWelcomeEmail(user);
+    try {
+        await this.notificationService.sendWelcomeEmail(user);
+    } catch (e) {
+        this.logger.error(`Failed to send welcome email to ${user.email} after successful registration`, e);
+        // Do not fail the registration flow if email fails, but log it as critical
+    }
 
     return {
         accessToken,

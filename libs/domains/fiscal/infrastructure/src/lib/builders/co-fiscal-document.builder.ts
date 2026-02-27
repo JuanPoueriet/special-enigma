@@ -157,7 +157,10 @@ export class CoFiscalDocumentBuilder implements FiscalDocumentBuilder {
                 'cac:Item': {
                     'cbc:Description': item.description,
                     'cac:StandardItemIdentification': {
-                        'cbc:ID': item.productId
+                        'cbc:ID': {
+                            '@_schemeID': '999', // EAN
+                            '#text': item.productId || 'GENERIC'
+                        }
                     }
                 },
                 'cac:Price': {
