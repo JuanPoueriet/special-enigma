@@ -4,16 +4,25 @@
   "sourceRoot": "libs/shared/util/server/server-config/src",
   "prefix": "virteex",
   "projectType": "library",
-  "tags": ["type:util", "scope:shared"],
+  "tags": [
+    "scope:shared",
+    "type:util",
+    "platform:agnostic",
+    "criticality:medium"
+  ],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/libs/shared/util/server/server-config",
         "main": "libs/shared/util/server/server-config/src/index.ts",
         "tsConfig": "libs/shared/util/server/server-config/tsconfig.lib.json",
-        "assets": ["libs/shared/util/server/server-config/*.md"]
+        "assets": [
+          "libs/shared/util/server/server-config/*.md"
+        ]
       }
     },
     "lint": {
@@ -21,7 +30,9 @@
     },
     "test": {
       "executor": "@nx/vitest:test",
-      "outputs": ["{options.reportsDirectory}"],
+      "outputs": [
+        "{options.reportsDirectory}"
+      ],
       "options": {
         "reportsDirectory": "../../../../../coverage/libs/shared/util/server/server-config"
       }

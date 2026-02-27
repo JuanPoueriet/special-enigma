@@ -7,35 +7,29 @@ import {
   Location,
   INVENTORY_REPOSITORY,
   WAREHOUSE_REPOSITORY,
-  PRODUCT_GATEWAY
+  PRODUCT_GATEWAY,
 } from '@virteex/domain-inventory-domain';
 import { MikroOrmInventoryRepository } from './repositories/mikro-orm-inventory.repository';
 import { MikroOrmWarehouseRepository } from './repositories/mikro-orm-warehouse.repository';
-import { CatalogProductAdapter } from './adapters/catalog-product.adapter';
+import { NoopProductGateway } from './adapters/noop-product.gateway';
 
 @Global()
 @Module({
-  imports: [
-    MikroOrmModule.forFeature([InventoryMovement, Stock, Warehouse, Location])
-  ],
+  imports: [MikroOrmModule.forFeature([InventoryMovement, Stock, Warehouse, Location])],
   providers: [
     {
       provide: INVENTORY_REPOSITORY,
-      useClass: MikroOrmInventoryRepository
+      useClass: MikroOrmInventoryRepository,
     },
     {
       provide: WAREHOUSE_REPOSITORY,
-      useClass: MikroOrmWarehouseRepository
+      useClass: MikroOrmWarehouseRepository,
     },
     {
       provide: PRODUCT_GATEWAY,
-      useClass: CatalogProductAdapter
-    }
+      useClass: NoopProductGateway,
+    },
   ],
-  exports: [
-    INVENTORY_REPOSITORY,
-    WAREHOUSE_REPOSITORY,
-    PRODUCT_GATEWAY
-  ]
+  exports: [INVENTORY_REPOSITORY, WAREHOUSE_REPOSITORY, PRODUCT_GATEWAY],
 })
 export class InventoryInfrastructureModule {}

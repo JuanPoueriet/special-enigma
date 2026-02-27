@@ -20,5 +20,11 @@
         "virteex-admin-service:serve"
       ]
     }
-  }
+  },
+  "tags": [
+    "scope:admin",
+    "type:e2e",
+    "platform:e2e",
+    "criticality:low"
+  ]
 }

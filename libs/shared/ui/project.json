@@ -4,7 +4,12 @@
   "sourceRoot": "libs/shared/ui/src",
   "prefix": "virteex",
   "projectType": "library",
-  "tags": ["scope:shared", "type:ui", "platform:web", "criticality:medium"],
+  "tags": [
+    "scope:shared",
+    "type:ui",
+    "platform:web",
+    "criticality:medium"
+  ],
   "targets": {
     "test": {
       "executor": "@nx/vitest:test",

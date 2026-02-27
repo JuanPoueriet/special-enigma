@@ -7,8 +7,8 @@
     "scope:accounting",
     "type:presentation",
     "platform:nest",
-    "tenant-mode:schema",
-    "criticality:high"
+    "criticality:high",
+    "tenant-mode:schema"
   ],
   "targets": {
     "build": {

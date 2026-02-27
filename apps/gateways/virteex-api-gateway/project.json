@@ -4,7 +4,10 @@
   "sourceRoot": "apps/gateways/virteex-api-gateway/src",
   "projectType": "application",
   "tags": [
-    "platform:api"
+    "scope:gateway",
+    "type:application",
+    "platform:api",
+    "criticality:medium"
   ],
   "targets": {
     "build": {

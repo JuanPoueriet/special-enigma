@@ -4,8 +4,10 @@
   "sourceRoot": "apps/backend/virteex-treasury-service/src",
   "projectType": "application",
   "tags": [
-    "type:app",
-    "domain:treasury"
+    "scope:treasury",
+    "type:application",
+    "platform:agnostic",
+    "criticality:medium"
   ],
   "targets": {
     "build": {

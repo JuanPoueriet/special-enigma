@@ -76,5 +76,10 @@
       }
     }
   },
-  "tags": []
+  "tags": [
+    "scope:crm",
+    "type:application",
+    "platform:agnostic",
+    "criticality:medium"
+  ]
 }

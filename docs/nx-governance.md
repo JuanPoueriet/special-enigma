@@ -1,29 +1,43 @@
 # Nx Governance Baseline (Progressive Hardening)
 
-## Tag taxonomy (obligatoria)
-Todos los proyectos gobernados deben declarar al menos una etiqueta por familia:
+## Taxonomía de tags (obligatoria)
+Todos los `project.json` dentro de `apps/` y `libs/` deben declarar **exactamente** las 4 familias base:
 
 - `scope:*`
 - `type:*`
 - `platform:*`
 - `criticality:*`
 
-Se prohíben tags legacy (`domain:*`) en los proyectos gobernados.
+No se permiten familias legacy como `domain:*`.
 
-## Enforce module boundaries
-`@nx/enforce-module-boundaries` ya no usa fallback permisivo global (`sourceTag: '*'`).
+## Enforcement técnico
 
-Esto evita bypass de boundaries por proyectos sin clasificación.
+### 1) Boundaries por ESLint
+`@nx/enforce-module-boundaries` se mantiene sin fallback permisivo global y con restricciones por capa + scope.
 
-## Validación automática de tags
-Se agregó el guard:
+### 2) Validación automática de tags
+Se endureció el guard de taxonomía para **todo el monorepo**:
 
 ```bash
 npm run validate:nx-tags
 ```
 
-Este guard aplica enforcement a los proyectos críticos de inventory/web/mobile/ops/shared-ui como fase inicial y puede extenderse gradualmente al resto del monorepo.
+El comando falla si:
+- falta una familia obligatoria;
+- existen tags mal formados;
+- se detectan familias no soportadas.
 
-## Convenciones de naming
-- Apps web deben declararse con `platform:web` y nombres explícitos de runtime.
-- La consola de operaciones fue normalizada a `ops-console-web` para reflejar naturaleza frontend.
+### 3) CI gates
+El pipeline ejecuta `npm run validate:nx-tags` antes de `nx affected --target=lint`.
+
+## Convenciones de estructura
+- Apps frontend deben vivir en `apps/frontend/*`.
+- Apps backend deben vivir en `apps/backend/*`.
+- Se movió `ops-console-web` y su e2e a `apps/frontend/virteex-ops*` para alinear ubicación física con runtime y ownership.
+
+## Política de evolución
+Para cambios de arquitectura en tags o boundaries:
+1. actualizar convención en este documento;
+2. actualizar `tools/validate-project-tags.mjs`;
+3. ejecutar normalización de `project.json`;
+4. validar con `npm run validate:nx-tags` y lint affected.

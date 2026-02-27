@@ -5,7 +5,9 @@
   "projectType": "library",
   "tags": [
     "scope:shared",
-    "type:contract"
+    "type:contract",
+    "platform:agnostic",
+    "criticality:medium"
   ],
   "targets": {
     "build": {

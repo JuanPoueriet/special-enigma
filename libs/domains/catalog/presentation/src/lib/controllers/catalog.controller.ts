@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Query } from '@nestjs/common';
+import { BadRequestException, Controller, Get, Post, Put, Delete, Body, Param, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import {
   GetProductsUseCase,
@@ -27,7 +27,10 @@ export class CatalogController {
 
   @Get('products')
   @ApiOperation({ summary: 'Get all products' })
-  async getProducts(@Query('tenantId') tenantId = 'default') {
+  async getProducts(@Query('tenantId') tenantId?: string) {
+    if (!tenantId) {
+      throw new BadRequestException('tenantId query parameter is required');
+    }
     return this.getProductsUseCase.execute(tenantId);
   }
 

@@ -6,7 +6,8 @@
   "tags": [
     "scope:shared",
     "type:lib",
-    "platform:agnostic"
+    "platform:agnostic",
+    "criticality:medium"
   ],
   "targets": {
     "build": {

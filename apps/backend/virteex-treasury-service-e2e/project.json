@@ -20,5 +20,11 @@
         "virteex-treasury-service:serve"
       ]
     }
-  }
+  },
+  "tags": [
+    "scope:treasury",
+    "type:e2e",
+    "platform:e2e",
+    "criticality:low"
+  ]
 }

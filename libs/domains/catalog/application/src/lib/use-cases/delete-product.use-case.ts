@@ -1,18 +1,25 @@
 import { Injectable, Inject, NotFoundException } from '@nestjs/common';
-import { ProductRepository } from '@virteex/domain-catalog-domain/lib/repositories/product.repository';
+import {
+  PRODUCT_READ_REPOSITORY,
+  ProductReadRepository,
+  PRODUCT_WRITE_REPOSITORY,
+  ProductWriteRepository,
+} from '@virteex/domain-catalog-domain';
 
 @Injectable()
 export class DeleteProductUseCase {
   constructor(
-    @Inject('ProductRepository')
-    private readonly productRepository: ProductRepository
+    @Inject(PRODUCT_READ_REPOSITORY)
+    private readonly productReadRepository: ProductReadRepository,
+    @Inject(PRODUCT_WRITE_REPOSITORY)
+    private readonly productWriteRepository: ProductWriteRepository
   ) {}
 
   async execute(id: number): Promise<void> {
-    const product = await this.productRepository.findById(id);
+    const product = await this.productReadRepository.findById(id);
     if (!product) {
       throw new NotFoundException(`Product with ID ${id} not found`);
     }
-    await this.productRepository.delete(id);
+    await this.productWriteRepository.delete(id);
   }
 }

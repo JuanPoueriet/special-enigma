@@ -8,5 +8,11 @@
   ],
   "// targets": "to see all targets run: nx show project virteex-site-e2e --web",
   "targets": {},
-  "prefix": "virteex"
+  "prefix": "virteex",
+  "tags": [
+    "scope:shared",
+    "type:e2e",
+    "platform:e2e",
+    "criticality:low"
+  ]
 }

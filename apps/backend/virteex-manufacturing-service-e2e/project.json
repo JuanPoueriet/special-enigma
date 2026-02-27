@@ -20,5 +20,11 @@
         "virteex-manufacturing-service:serve"
       ]
     }
-  }
+  },
+  "tags": [
+    "scope:manufacturing",
+    "type:e2e",
+    "platform:e2e",
+    "criticality:low"
+  ]
 }

@@ -4,8 +4,10 @@
   "sourceRoot": "apps/backend/virteex-projects-service/src",
   "projectType": "application",
   "tags": [
-    "type:app",
-    "domain:projects"
+    "scope:projects",
+    "type:application",
+    "platform:agnostic",
+    "criticality:medium"
   ],
   "targets": {
     "build": {

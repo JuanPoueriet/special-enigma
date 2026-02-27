@@ -20,5 +20,11 @@
         "virteex-accounting-service:serve"
       ]
     }
-  }
+  },
+  "tags": [
+    "scope:accounting",
+    "type:e2e",
+    "platform:e2e",
+    "criticality:low"
+  ]
 }

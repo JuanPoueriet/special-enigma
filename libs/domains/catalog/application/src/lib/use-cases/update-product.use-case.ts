@@ -1,8 +1,13 @@
 import { Injectable, Inject, NotFoundException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { ProductRepository } from '@virteex/domain-catalog-domain/lib/repositories/product.repository';
-import { Product } from '@virteex/domain-catalog-domain/lib/entities/product.entity';
-import { ProductUpdatedEvent } from '@virteex/domain-catalog-domain';
+import {
+  PRODUCT_READ_REPOSITORY,
+  ProductReadRepository,
+  PRODUCT_WRITE_REPOSITORY,
+  ProductWriteRepository,
+  Product,
+  ProductUpdatedEvent,
+} from '@virteex/domain-catalog-domain';
 
 export interface UpdateProductDto {
   id: number;
@@ -17,13 +22,15 @@ export interface UpdateProductDto {
 @Injectable()
 export class UpdateProductUseCase {
   constructor(
-    @Inject('ProductRepository')
-    private readonly productRepository: ProductRepository,
+    @Inject(PRODUCT_READ_REPOSITORY)
+    private readonly productReadRepository: ProductReadRepository,
+    @Inject(PRODUCT_WRITE_REPOSITORY)
+    private readonly productWriteRepository: ProductWriteRepository,
     private readonly eventEmitter: EventEmitter2
   ) {}
 
   async execute(dto: UpdateProductDto): Promise<Product> {
-    const product = await this.productRepository.findById(dto.id);
+    const product = await this.productReadRepository.findById(dto.id);
     if (!product) {
       throw new NotFoundException(`Product with ID ${dto.id} not found`);
     }
@@ -35,7 +42,7 @@ export class UpdateProductUseCase {
     if (dto.taxGroup !== undefined) product.taxGroup = dto.taxGroup;
     if (dto.isActive !== undefined) product.isActive = dto.isActive;
 
-    await this.productRepository.save(product);
+    await this.productWriteRepository.save(product);
 
     this.eventEmitter.emit(
       'catalog.product.updated',

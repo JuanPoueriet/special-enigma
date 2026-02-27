@@ -5,7 +5,9 @@
   "projectType": "library",
   "tags": [
     "scope:identity",
-    "type:contract"
+    "type:contract",
+    "platform:agnostic",
+    "criticality:medium"
   ],
   "targets": {
     "build": {

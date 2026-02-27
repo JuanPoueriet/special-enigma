@@ -1,6 +1,14 @@
 import { Module, Global, OnModuleInit } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { Product, SAT_CATALOG_REPOSITORY, SatPaymentForm, SatPaymentMethod, SatCfdiUsage } from '@virteex/domain-catalog-domain';
+import {
+  Product,
+  SAT_CATALOG_REPOSITORY,
+  SatPaymentForm,
+  SatPaymentMethod,
+  SatCfdiUsage,
+  PRODUCT_READ_REPOSITORY,
+  PRODUCT_WRITE_REPOSITORY,
+} from '@virteex/domain-catalog-domain';
 import { MikroOrmProductRepository } from './repositories/mikro-orm-product.repository';
 import { MikroOrmSatCatalogRepository } from './repositories/mikro-orm-sat-catalog.repository';
 import { CatalogSeederService } from './services/catalog-seeder.service';
@@ -11,6 +19,14 @@ import { CatalogKafkaPublisher } from './listeners/catalog-kafka.publisher';
   imports: [MikroOrmModule.forFeature([Product, SatPaymentForm, SatPaymentMethod, SatCfdiUsage])],
   providers: [
     {
+      provide: PRODUCT_READ_REPOSITORY,
+      useClass: MikroOrmProductRepository,
+    },
+    {
+      provide: PRODUCT_WRITE_REPOSITORY,
+      useClass: MikroOrmProductRepository,
+    },
+    {
       provide: 'ProductRepository',
       useClass: MikroOrmProductRepository,
     },
@@ -19,9 +35,9 @@ import { CatalogKafkaPublisher } from './listeners/catalog-kafka.publisher';
       useClass: MikroOrmSatCatalogRepository,
     },
     CatalogSeederService,
-    CatalogKafkaPublisher
+    CatalogKafkaPublisher,
   ],
-  exports: ['ProductRepository', SAT_CATALOG_REPOSITORY, CatalogSeederService],
+  exports: [PRODUCT_READ_REPOSITORY, PRODUCT_WRITE_REPOSITORY, 'ProductRepository', SAT_CATALOG_REPOSITORY, CatalogSeederService],
 })
 export class CatalogInfrastructureModule implements OnModuleInit {
   constructor(private readonly seeder: CatalogSeederService) {}

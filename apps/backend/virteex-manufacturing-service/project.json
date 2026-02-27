@@ -4,8 +4,10 @@
   "sourceRoot": "apps/backend/virteex-manufacturing-service/src",
   "projectType": "application",
   "tags": [
-    "type:app",
-    "domain:manufacturing"
+    "scope:manufacturing",
+    "type:application",
+    "platform:agnostic",
+    "criticality:medium"
   ],
   "targets": {
     "build": {

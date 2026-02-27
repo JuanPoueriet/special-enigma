@@ -20,5 +20,11 @@
         "virteex-fixed-assets-service:serve"
       ]
     }
-  }
+  },
+  "tags": [
+    "scope:fixed",
+    "type:e2e",
+    "platform:e2e",
+    "criticality:low"
+  ]
 }

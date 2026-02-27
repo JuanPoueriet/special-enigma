@@ -76,5 +76,10 @@
       }
     }
   },
-  "tags": []
+  "tags": [
+    "scope:billing",
+    "type:application",
+    "platform:agnostic",
+    "criticality:medium"
+  ]
 }
