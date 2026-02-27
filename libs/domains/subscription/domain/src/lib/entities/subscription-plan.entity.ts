@@ -1,4 +1,3 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
 import { v4 } from 'uuid';
 
 export interface PlanLimits {
@@ -7,42 +6,21 @@ export interface PlanLimits {
   storage: number; // in MB
 }
 
-@Entity()
 export class SubscriptionPlan {
-  @PrimaryKey()
-  id: string = v4();
-
-  @Property()
-  slug!: string;
-
-  @Property()
-  name!: string;
-
-  @Property({ type: 'decimal', precision: 10, scale: 2 })
-  price!: string;
-
-  @Property({ nullable: true })
+  id: string;
+  slug: string;
+  name: string;
+  price: string;
   stripePriceId?: string;
-
-  @Property()
-  description!: string;
-
-  @Property({ type: 'json' })
+  description: string;
   features: string[] = [];
-
-  @Property({ type: 'json' })
-  limits: PlanLimits = { invoices: 100, users: 1, storage: 100 }; // Default limits
-
-  @Property()
+  limits: PlanLimits = { invoices: 100, users: 1, storage: 100 };
   isActive = true;
+  createdAt: Date;
+  updatedAt: Date;
 
-  @Property()
-  createdAt: Date = new Date();
-
-  @Property({ onUpdate: () => new Date() })
-  updatedAt: Date = new Date();
-
-  constructor(slug: string, name: string, price: string, description: string, features: string[], limits?: PlanLimits) {
+  constructor(slug: string, name: string, price: string, description: string, features: string[], limits?: PlanLimits, id?: string) {
+    this.id = id || v4();
     this.slug = slug;
     this.name = name;
     this.price = price;
@@ -51,5 +29,7 @@ export class SubscriptionPlan {
     if (limits) {
       this.limits = limits;
     }
+    this.createdAt = new Date();
+    this.updatedAt = new Date();
   }
 }
