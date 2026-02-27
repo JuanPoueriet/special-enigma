@@ -1,5 +1,5 @@
 {
-  "name": "billing-presentation",
+  "name": "api-billing-presentation",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/domains/billing/presentation/src",
   "projectType": "library",

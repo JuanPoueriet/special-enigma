@@ -1,12 +1,12 @@
 {
-  "name": "ops-console-web-e2e",
+  "name": "virteex-ops-web-e2e",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "sourceRoot": "apps/frontend/virteex-ops-e2e/src",
   "implicitDependencies": [
-    "ops-console-web"
+    "virteex-ops-web"
   ],
-  "// targets": "to see all targets run: nx show project ops-console-web-e2e --web",
+  "// targets": "to see all targets run: nx show project virteex-ops-web-e2e --web",
   "tags": [
     "scope:shared",
     "type:e2e",

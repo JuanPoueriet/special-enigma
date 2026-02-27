@@ -1,5 +1,5 @@
 {
-  "name": "finops",
+  "name": "domain-finops",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/domains/finops/src",
   "projectType": "library",

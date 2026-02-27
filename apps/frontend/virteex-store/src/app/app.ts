@@ -5,7 +5,7 @@ import { ProductListComponent } from '@virteex/catalog-ui-store';
 
 @Component({
   imports: [NxWelcome, RouterModule, ProductListComponent],
-  selector: 'app-root',
+  selector: 'virteex-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })

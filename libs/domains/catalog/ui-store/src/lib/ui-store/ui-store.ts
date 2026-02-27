@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'lib-ui-store',
+  selector: 'virteex-ui-store',
   imports: [],
   templateUrl: './ui-store.html',
   styleUrl: './ui-store.css',

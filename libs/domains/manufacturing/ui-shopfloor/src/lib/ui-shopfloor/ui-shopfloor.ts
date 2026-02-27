@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'lib-ui-shopfloor',
+  selector: 'virteex-ui-shopfloor',
   imports: [],
   templateUrl: './ui-shopfloor.html',
   styleUrl: './ui-shopfloor.css',

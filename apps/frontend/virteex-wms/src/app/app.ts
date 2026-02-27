@@ -5,7 +5,7 @@ import { ScanComponent } from '@virteex/inventory-ui-wms';
 
 @Component({
   imports: [NxWelcome, RouterModule, ScanComponent],
-  selector: 'app-root',
+  selector: 'virteex-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })

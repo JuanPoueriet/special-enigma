@@ -4,7 +4,7 @@ import { IonicModule, ViewDidEnter, RefresherEventDetail } from '@ionic/angular'
 import { InventoryFacade } from './services/inventory.facade';
 
 @Component({
-  selector: 'app-inventory',
+  selector: 'virteex-mobile-inventory',
   standalone: true,
   imports: [CommonModule, IonicModule],
   templateUrl: './inventory.page.html',

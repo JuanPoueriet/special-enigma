@@ -708,6 +708,12 @@
       "@virteex/billing-ui/*": [
         "libs/domains/billing/ui/src/*"
       ],
+      "@virteex/api-billing-presentation": [
+        "libs/domains/billing/presentation/src/index.ts"
+      ],
+      "@virteex/api-billing-presentation/*": [
+        "libs/domains/billing/presentation/src/*"
+      ],
       "@virteex/billing-presentation": [
         "libs/domains/billing/presentation/src/index.ts"
       ],

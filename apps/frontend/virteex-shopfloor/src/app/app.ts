@@ -5,7 +5,7 @@ import { KioskComponent } from '@virteex/manufacturing-ui-shopfloor';
 
 @Component({
   imports: [NxWelcome, RouterModule, KioskComponent],
-  selector: 'app-root',
+  selector: 'virteex-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })

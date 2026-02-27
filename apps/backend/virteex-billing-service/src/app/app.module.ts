@@ -9,7 +9,7 @@ import { ServerConfigModule } from '@virteex/shared-util-server-config';
 import { KafkaModule } from '@virteex/shared-infrastructure-kafka';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloFederationDriver, ApolloFederationDriverConfig } from '@nestjs/apollo';
-import { BillingPresentationModule } from '@virteex/billing-presentation';
+import { BillingPresentationModule } from '@virteex/api-billing-presentation';
 import { BillingInfrastructureModule } from '@virteex/infra-billing-infrastructure';
 import { BillingApplicationModule } from '@virteex/application-billing-application';
 import { InitialSeederService } from './seeds/initial-seeder.service';
