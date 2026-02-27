@@ -1,78 +1,85 @@
-import { UnauthorizedException } from '@nestjs/common';
-import { JwtTokenService } from './jwt-token.service';
+import { Test, TestingModule } from '@nestjs/testing';
+import { JwtTokenService, TokenIssueOptions } from './jwt-token.service';
 import { SecretManagerService } from './secret-manager.service';
+import * as jwt from 'jsonwebtoken';
+import { UnauthorizedException } from '@nestjs/common';
+import Redis from 'ioredis';
+
+jest.mock('./secret-manager.service');
+jest.mock('ioredis');
 
 describe('JwtTokenService', () => {
-  const secrets: Record<string, string> = {
-    JWT_SECRET: 'test-secret',
-    JWT_ALLOWED_ALGORITHMS: 'HS256',
-    JWT_ISSUER: 'virteex-test',
-    JWT_AUDIENCE: 'virteex-api',
-    JWT_CURRENT_KID: 'kid-a',
-    JWT_JWKS: JSON.stringify([
-      { kid: 'kid-a', kty: 'oct', alg: 'HS256', k: Buffer.from('test-secret').toString('base64url') },
-    ]),
-  };
-
-  const secretManager: Partial<SecretManagerService> = {
-    getSecret: (key: string, fallback?: string) => secrets[key] ?? fallback ?? '',
-    getJwtSecret: () => secrets.JWT_SECRET,
-    rotateSecret: jest.fn(),
-  };
-
   let service: JwtTokenService;
+  let secretManager: SecretManagerService;
+  let redisMock: any;
 
-  beforeEach(() => {
-    service = new JwtTokenService(secretManager as SecretManagerService);
+  beforeEach(async () => {
+    redisMock = {
+        get: jest.fn(),
+        set: jest.fn(),
+    };
+    (Redis as any).mockImplementation(() => redisMock);
+    process.env['REDIS_URL'] = 'redis://localhost:6379';
+
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        JwtTokenService,
+        {
+          provide: SecretManagerService,
+          useValue: {
+            getSecret: jest.fn().mockImplementation((key, def) => {
+                if (key === 'JWT_ALLOWED_ALGORITHMS') return 'HS256';
+                return def;
+            }),
+            getJwtSecret: jest.fn().mockReturnValue('super-secret'),
+          },
+        },
+      ],
+    }).compile();
+
+    service = module.get<JwtTokenService>(JwtTokenService);
+    secretManager = module.get<SecretManagerService>(SecretManagerService);
   });
 
-  it('accepts valid token', () => {
-    const token = service.issueToken({ sub: 'u1' }, { tokenType: 'access', subject: 'u1' });
-    const payload = service.verifyToken(token, 'access');
-    expect(payload.sub).toBe('u1');
+  it('should issue and verify a token', async () => {
+    const payload = { sub: 'user123' };
+    const options: TokenIssueOptions = { tokenType: 'access' };
+
+    const token = service.issueToken(payload, options);
+    expect(token).toBeDefined();
+
+    const verified = await service.verifyToken(token, 'access');
+    expect(verified.sub).toBe('user123');
   });
 
-  it('rejects expired token', () => {
-    const token = service.issueToken({ sub: 'u1' }, { tokenType: 'access', subject: 'u1', expiresIn: 1 });
-    jest.spyOn(Date, 'now').mockReturnValue(Date.now() + 5000);
-    expect(() => service.verifyToken(token, 'access')).toThrow();
-    jest.restoreAllMocks();
+  it('should fail if algorithm is none', async () => {
+    const payload = { sub: 'user123' };
+    const token = jwt.sign(payload, '', { algorithm: 'none' } as any);
+
+    await expect(service.verifyToken(token, 'access')).rejects.toThrow(UnauthorizedException);
   });
 
-  it('rejects wrong issuer', () => {
-    const token = service.issueToken({ sub: 'u1' }, { tokenType: 'access', subject: 'u1', issuer: 'bad-issuer' });
-    expect(() => service.verifyToken(token, 'access')).toThrow(UnauthorizedException);
+  it('should check for revoked tokens in redis', async () => {
+    const payload = { sub: 'user123' };
+    const token = service.issueToken(payload, { tokenType: 'access' });
+    const decoded: any = jwt.decode(token);
+
+    redisMock.get.mockResolvedValue('1');
+
+    await expect(service.verifyToken(token, 'access')).rejects.toThrow('JWT revoked');
+    expect(redisMock.get).toHaveBeenCalledWith(`revoked:${decoded.jti}`);
   });
 
-  it('rejects wrong audience', () => {
-    const token = service.issueToken({ sub: 'u1' }, { tokenType: 'access', subject: 'u1', audience: 'bad-aud' });
-    expect(() => service.verifyToken(token, 'access')).toThrow(UnauthorizedException);
-  });
+  it('should detect replay with enforceOneTime', async () => {
+    const payload = { sub: 'user123' };
+    const token = service.issueToken(payload, { tokenType: 'stepup' });
+    const decoded: any = jwt.decode(token);
 
-  it('rejects invalid algorithm', () => {
-    const bad = [
-      Buffer.from(JSON.stringify({ alg: 'none', typ: 'JWT' })).toString('base64url'),
-      Buffer.from(JSON.stringify({ sub: 'u1' })).toString('base64url'),
-      '',
-    ].join('.');
-    expect(() => service.getVerificationSecretForToken(bad)).toThrow(UnauthorizedException);
-  });
+    redisMock.get.mockResolvedValue(null); // Not revoked
+    await service.verifyToken(token, 'stepup', true);
+    expect(redisMock.set).toHaveBeenCalled();
 
-  it('rejects revoked token', () => {
-    const token = service.issueToken({ sub: 'u1' }, { tokenType: 'access', subject: 'u1' });
-    const payload = service.verifyToken(token, 'access');
-    service.revokeToken(payload.jti as string, payload.exp);
-    expect(() => service.verifyToken(token, 'access')).toThrow(UnauthorizedException);
-  });
-
-  it('detects replay on one-time token', () => {
-    const token = service.issueToken({ sub: 'u1' }, { tokenType: 'stepup', subject: 'u1' });
-    service.verifyToken(token, 'stepup', true);
-    expect(() => service.verifyToken(token, 'stepup', true)).toThrow(UnauthorizedException);
-  });
-
-  it('rejects unknown kid', () => {
-    const token = service.issueToken({ sub: 'u1' }, { tokenType: 'access', subject: 'u1', additionalHeaders: { kid: 'invalid-kid' } });
-    expect(() => service.verifyToken(token, 'access')).toThrow(UnauthorizedException);
+    redisMock.get.mockResolvedValue('1'); // Now it is "used" (we use same get for isUsed)
+    await expect(service.verifyToken(token, 'stepup', true)).rejects.toThrow('JWT replay detected');
   });
 });

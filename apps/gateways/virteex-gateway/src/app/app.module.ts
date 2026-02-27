@@ -3,6 +3,12 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloGatewayDriver, ApolloGatewayDriverConfig } from '@nestjs/apollo';
 import { IntrospectAndCompose } from '@apollo/gateway';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import depthLimit from 'graphql-depth-limit';
+import {
+  fieldExtensionsEstimator,
+  getComplexity,
+  simpleEstimator,
+} from 'graphql-query-complexity';
 
 @Module({
   imports: [
@@ -76,6 +82,35 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
             ],
           }),
         },
+        validationRules: [depthLimit(10)],
+        context: ({ req }) => ({ req }),
+        plugins: [
+          {
+            async requestDidStart() {
+              return {
+                async validationDidStart({ source, schema }) {
+                  return async (errors) => {
+                    if (errors.length > 0) return;
+                    const complexity = getComplexity({
+                      schema,
+                      query: source as any,
+                      variables: {},
+                      estimators: [
+                        fieldExtensionsEstimator(),
+                        simpleEstimator({ defaultComplexity: 1 }),
+                      ],
+                    });
+                    if (complexity > 100) {
+                      throw new Error(
+                        `Query is too complex: ${complexity}. Maximum allowed complexity: 100`,
+                      );
+                    }
+                  };
+                },
+              };
+            },
+          },
+        ],
       }),
     }),
   ],

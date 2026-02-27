@@ -14,12 +14,9 @@ export class TenantRlsInterceptor implements NestInterceptor {
   async intercept(context: ExecutionContext, next: CallHandler): Promise<Observable<any>> {
     const tenantContext = getTenantContext();
     if (!tenantContext) {
-      const request = context.switchToHttp().getRequest();
-      const method = request?.method ?? 'GET';
-      if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(method)) {
-        throw new ForbiddenException('Tenant context is required for write operations');
-      }
-      return next.handle();
+      // SECURITY: Closed-by-default. No operation allowed without a valid tenant context.
+      // Previous version allowed GET requests to bypass this check.
+      throw new ForbiddenException('Tenant context is required for all operations');
     }
 
     const config = await this.tenantService.getTenantConfig(tenantContext.tenantId);

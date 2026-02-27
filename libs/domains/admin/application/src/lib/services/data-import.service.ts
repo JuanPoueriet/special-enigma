@@ -1,6 +1,6 @@
 import { Injectable, Logger, Inject } from '@nestjs/common';
 import { INTEGRATION_GATEWAY, IntegrationGateway } from '@virteex/domain-admin-domain';
-import * as xlsx from 'xlsx';
+import * as ExcelJS from 'exceljs';
 
 @Injectable()
 export class DataImportService {
@@ -13,17 +13,35 @@ export class DataImportService {
   async processFile(fileBuffer: Buffer, dataType: string): Promise<{ processed: number; failed: number }> {
     this.logger.log(`Processing import for ${dataType}`);
 
-    let workbook;
+    const workbook = new ExcelJS.Workbook();
     try {
-        workbook = xlsx.read(fileBuffer, { type: 'buffer' });
+        await workbook.xlsx.load(fileBuffer);
     } catch (e) {
         this.logger.error('Failed to parse file', e);
         throw new Error('Invalid file format');
     }
 
-    const sheetName = workbook.SheetNames[0];
-    const worksheet = workbook.Sheets[sheetName];
-    const data = xlsx.utils.sheet_to_json(worksheet);
+    const worksheet = workbook.worksheets[0];
+    if (!worksheet) {
+        throw new Error('Workbook has no worksheets');
+    }
+
+    const data: any[] = [];
+    const headerRow = worksheet.getRow(1);
+    const headers = headerRow.values as string[];
+
+    worksheet.eachRow((row, rowNumber) => {
+        if (rowNumber === 1) return; // Skip header
+
+        const rowData: any = {};
+        row.eachCell((cell, colNumber) => {
+            const header = headers[colNumber];
+            if (header) {
+                rowData[header] = cell.value;
+            }
+        });
+        data.push(rowData);
+    });
 
     this.logger.log(`Found ${data.length} records to import.`);
 
@@ -50,25 +68,25 @@ export class DataImportService {
         case 'products':
           if (!row['sku'] || !row['name'] || !row['price']) throw new Error('Missing required fields for Product (sku, name, price)');
           await this.gateway.createProduct({
-            sku: row['sku'],
-            name: row['name'],
+            sku: String(row['sku']),
+            name: String(row['name']),
             price: Number(row['price'])
           });
           break;
         case 'customers':
           if (!row['email'] || !row['name']) throw new Error('Missing required fields for Customer (email, name)');
           await this.gateway.createCustomer({
-            email: row['email'],
-            name: row['name'],
-            taxId: row['taxId']
+            email: String(row['email']),
+            name: String(row['name']),
+            taxId: row['taxId'] ? String(row['taxId']) : undefined
           });
           break;
         case 'suppliers':
           if (!row['email'] || !row['name']) throw new Error('Missing required fields for Supplier (email, name)');
           await this.gateway.createSupplier({
-            email: row['email'],
-            name: row['name'],
-            taxId: row['taxId']
+            email: String(row['email']),
+            name: String(row['name']),
+            taxId: row['taxId'] ? String(row['taxId']) : undefined
           });
           break;
         default:
