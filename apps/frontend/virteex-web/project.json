@@ -4,7 +4,7 @@
   "projectType": "application",
   "prefix": "virteex",
   "sourceRoot": "apps/frontend/virteex-web/src",
-  "tags": ["platform:web"],
+  "tags": ["scope:shared", "type:application", "platform:web", "criticality:high"],
   "targets": {
     "build": {
       "executor": "@angular/build:application",

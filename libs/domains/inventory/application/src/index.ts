@@ -8,6 +8,8 @@ export * from './lib/use-cases/delete-warehouse.use-case';
 export * from './lib/use-cases/reserve-stock.use-case';
 export * from './lib/use-cases/check-stock.use-case';
 export * from './lib/use-cases/reserve-batch-stock.use-case';
+export * from './lib/use-cases/generate-warehouse-code.use-case';
+export * from './lib/use-cases/register-inventory-movement-batch.use-case';
 // Explicit exports to help resolution
 export { CreateWarehouseDto } from './lib/use-cases/create-warehouse.use-case';
 export { RegisterMovementDto } from './lib/use-cases/register-movement.use-case';

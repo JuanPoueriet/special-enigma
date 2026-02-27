@@ -137,14 +137,7 @@ export default [
             {
               sourceTag: 'scope:kernel',
               onlyDependOnLibsWithTags: ['scope:kernel', 'scope:shared']
-            },
-
-            // Allow everything else to depend on anything (fallback for untagged)
-            {
-              sourceTag: '*',
-              onlyDependOnLibsWithTags: ['*'],
-            },
-          ],
+            },          ],
         },
       ],
     },

@@ -1,0 +1,40 @@
+<div class="dashboard-container">
+  <h1>Dashboard</h1>
+  <p>Welcome, User!</p>
+
+  <div *ngIf="errorMessage" class="error-banner">
+    {{ errorMessage }}
+  </div>
+
+  <ng-container *ngIf="stats as model">
+    <div class="card">
+      <div class="stat-value">{{ model.pendingApprovals }}</div>
+      <div class="stat-label">Pending Approvals</div>
+    </div>
+
+    <div class="card">
+      <div class="stat-value">{{ model.openDeals }}</div>
+      <div class="stat-label">Active Deals</div>
+    </div>
+
+    <div class="card">
+      <div class="stat-value">{{ model.inventoryAlerts }}</div>
+      <div class="stat-label">Low Stock Alerts</div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!stats && !errorMessage">
+    <div class="card">
+      <div class="stat-value">...</div>
+      <div class="stat-label">Loading stats...</div>
+    </div>
+  </ng-container>
+
+  <h2>Modules</h2>
+  <div class="menu-grid">
+    <a routerLink="/approvals" class="menu-item">Approvals</a>
+    <a routerLink="/crm" class="menu-item">CRM</a>
+    <a routerLink="/inventory" class="menu-item">Inventory</a>
+    <a routerLink="/login" class="menu-item menu-item--danger">Logout</a>
+  </div>
+</div>

@@ -3,7 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/backend/virteex-inventory-service/src",
   "projectType": "application",
-  "tags": ["type:app", "domain:inventory"],
+  "tags": ["scope:inventory", "type:application", "platform:backend", "criticality:high"],
   "targets": {
     "build": {
       "executor": "nx:run-commands",
