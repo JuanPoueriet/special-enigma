@@ -1,0 +1,47 @@
+Actúa como un experto en ciberseguridad y auditoría de software. Tu tarea es evaluar la seguridad del proyecto "Virteex ERP", un monorepo basado en Nx con backend en NestJS y frontend en Angular.
+
+A continuación, se te presenta un resumen técnico de las implementaciones de seguridad actuales del proyecto. Analízalas cuidadosamente y proporciona:
+1. Una calificación del 1 al 10 en términos de robustez de seguridad.
+2. Una justificación detallada de por qué no es un 10 (si aplica).
+3. Una lista de mejoras específicas y mejores prácticas adicionales que deberían implementarse.
+
+### Resumen Técnico de Seguridad de Virteex ERP:
+
+#### 1. Gestión de Identidad y Autenticación:
+- **Tecnología:** NestJS con Passport y JWT (@nestjs/jwt).
+- **Estrategia JWT:**
+    - Los tokens se extraen tanto de Cookies (`access_token`) como del header `Authorization: Bearer <token>`.
+    - `ignoreExpiration: false` (Se valida la expiración).
+    - Validación obligatoria de `Audience` e `Issuer` configurados por entorno.
+- **Hashing:** Se utiliza `argon2` para el manejo de contraseñas.
+- **Multitenancy:** `JwtTenantMiddleware` extrae el `tenantId` del JWT y utiliza `AsyncLocalStorage` para garantizar el aislamiento de datos a nivel de hilo de ejecución/contexto de petición.
+
+#### 2. Gestión de Secretos:
+- **Proveedores:** Soporte para AWS KMS (`KmsSecretProvider`) y HashiCorp Vault (`VaultSecretProvider`).
+- **Política de Producción:** El sistema falla inmediatamente al arrancar en `NODE_ENV=production` si los secretos críticos (como `JWT_SECRET`) no están presentes o si se detectan placeholders.
+- **Rotación:** El `SecretManagerService` soporta rotación de secretos (`JWT_SECRET_ROTATION`), permitiendo múltiples llaves de verificación activas durante periodos de transición.
+- **Entornos de Desarrollo:** Generación automática de secretos efímeros de 32 bytes en entornos no productivos para evitar el uso de llaves por defecto.
+
+#### 3. Protecciones contra Ataques Comunes:
+- **CSRF:** Implementación del patrón "Double Submit Cookie" mediante un middleware personalizado que valida el header `X-XSRF-TOKEN` contra una cookie no-HttpOnly (para compatibilidad con Angular).
+- **Headers de Seguridad:** Uso de `helmet` para configurar headers HTTP seguros (HSTS, CSP, X-Frame-Options, etc.).
+- **CORS:** Configuración estricta con lista blanca de orígenes y soporte de credenciales.
+- **Rate Limiting:** Uso de `@nestjs/throttler` configurado globalmente (ej. 10 peticiones por minuto por defecto en algunos servicios).
+
+#### 4. Seguridad en CI/CD y Despliegue:
+- **Gating de Producción:** Script `enforce-production-readiness.sh` que escanea el código en busca de:
+    - Secretos "placeholder" (ej. `sk_test_...`).
+    - Lógica de KMS simulada.
+    - Proveedores de servicios fiscales en modo "Mock" en rutas de ejecución.
+    - Desactivación accidental de triggers en GitHub Actions.
+- **Sandboxing de Plugins:** El host de plugins utiliza `isolated-vm` para ejecutar código de terceros en ambientes aislados de memoria y CPU.
+
+#### 5. Infraestructura y Datos:
+- **Base de Datos:** Uso de MikroORM con soporte para PostgreSQL y cifrado de conexiones (SSL/TLS) configurable.
+- **Almacenamiento:** Integración con AWS S3 y plugins de almacenamiento seguro en dispositivos móviles (Capacitor Secure Storage).
+
+---
+
+**Evaluación de la IA:**
+
+[Por favor, proporciona aquí la calificación y el análisis solicitado basado en los puntos anteriores]
