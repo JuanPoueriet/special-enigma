@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Inventario (Offline First)</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list>
+    <ion-item *ngFor="let warehouse of warehouses">
+      <ion-label>
+        <h2>{{ warehouse.name }}</h2>
+        <p>{{ warehouse.code }} - {{ warehouse.location }}</p>
+      </ion-label>
+      <ion-badge slot="end" color="success">Activo</ion-badge>
+    </ion-item>
+
+    <div *ngIf="warehouses.length === 0" class="ion-text-center ion-padding">
+      <p>No se encontraron almacenes localmente.</p>
+      <p *ngIf="facade.isOnline()">Desliza para sincronizar.</p>
+      <p *ngIf="!facade.isOnline()">Sin conexión.</p>
+    </div>
+  </ion-list>
+</ion-content>

@@ -4,7 +4,7 @@
   "sourceRoot": "libs/domains/catalog/ui-store/src",
   "prefix": "lib",
   "projectType": "library",
-  "tags": ["type:ui", "scope:catalog"],
+  "tags": ["type:ui", "scope:catalog", "platform:web", "criticality:high"],
   "targets": {
     "test": {
       "executor": "@nx/vitest:test",

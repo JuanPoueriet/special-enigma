@@ -1,161 +1,101 @@
-import { Injectable, signal, inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-import { StorageService } from './storage.service';
-import { DatabaseService } from './database.service';
 import { v4 as uuidv4 } from 'uuid';
-import { environment } from '../../../environments/environment';
-import { TokenService } from '@virteex/shared-util-auth'; // Ensure this is available
-
-export interface SyncItem {
-  id: string;
-  url: string;
-  method: 'POST' | 'PUT' | 'DELETE';
-  payload: any;
-  timestamp: number;
-  retryCount: number;
-  status: 'pending' | 'failed' | 'synced';
-  lastError?: string;
-  conflictMessage?: string;
-}
-
-export type ConflictStrategy = 'serverWins' | 'clientWins' | 'manual';
+import { TokenService } from '@virteex/shared-util-auth';
+import { ConnectivityService } from './sync/connectivity.service';
+import { SyncQueueService } from './sync/sync-queue.service';
+import { ConflictResolverService } from './sync/conflict-resolver.service';
+import { DownSyncService } from './sync/down-sync.service';
+import { ConflictStrategy, SyncItem } from './sync/sync.types';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SyncService {
-  private queue = signal<SyncItem[]>([]);
-  public isOnline = signal<boolean>(navigator.onLine);
+  get isOnline() {
+    return this.connectivity.isOnline;
+  }
   private isProcessing = false;
-  private readonly STORAGE_KEY = 'virteex_sync_queue_v2';
-  private readonly API_URL = environment.apiUrl;
   private tokenService = inject(TokenService);
 
   constructor(
-      private http: HttpClient,
-      private storage: StorageService,
-      private database: DatabaseService
+    private readonly http: HttpClient,
+    private readonly connectivity: ConnectivityService,
+    private readonly queueService: SyncQueueService,
+    private readonly conflictResolver: ConflictResolverService,
+    private readonly downSyncService: DownSyncService
   ) {
-    this.loadQueue();
+    this.queueService.initialize();
     this.setupListeners();
-    // Initial DownSync check if online
+
     if (this.isOnline()) {
-        this.downSync();
+      this.downSync();
     }
   }
 
   get queueItems() {
-    return this.queue.asReadonly();
+    return this.queueService.items;
   }
 
-  // Real offline-first logic: Queue requests when offline
-  async request(method: 'POST' | 'PUT' | 'DELETE', url: string, payload: any, conflictStrategy: ConflictStrategy = 'serverWins') {
+  async request(method: 'POST' | 'PUT' | 'DELETE', url: string, payload: unknown, conflictStrategy: ConflictStrategy = 'serverWins') {
     if (this.isOnline()) {
       try {
-        // Optimistic UI update logic could go here
         return await firstValueFrom(this.http.request(method, url, { body: payload }));
       } catch (e: any) {
-        // Fallback to queue if network fails (status 0) or server error (5xx)
         if (e.status === 0 || e.status >= 500) {
-            console.warn('Network/Server request failed, queueing for retry', e);
-            this.addToQueue({
-                id: uuidv4(),
-                url,
-                method,
-                payload,
-                timestamp: Date.now(),
-                retryCount: 0,
-                status: 'pending',
-                lastError: e.message
-            });
-            return { offline: true, message: 'Request queued due to network error' };
+          await this.enqueue(method, url, payload, e.message);
+          return { offline: true, message: 'Request queued due to network/server error' };
         }
 
-        // Handle 409 Conflict specifically?
         if (e.status === 409) {
-            return this.handleConflict(conflictStrategy, method, url, payload, e);
+          return this.conflictResolver.resolve(conflictStrategy, e);
         }
 
-        // 4xx errors bubble up immediately as they are logic errors usually
         throw e;
       }
-    } else {
-      this.addToQueue({
-          id: uuidv4(),
-          url,
-          method,
-          payload,
-          timestamp: Date.now(),
-          retryCount: 0,
-          status: 'pending'
-      });
-      return { offline: true, message: 'Request queued (offline)' };
     }
+
+    await this.enqueue(method, url, payload);
+    return { offline: true, message: 'Request queued (offline)' };
   }
 
   async downSync() {
-      if (!this.isOnline()) return;
+    if (!this.isOnline()) {
+      return;
+    }
 
-      console.log('Starting Down-Sync (Replication)...');
-      try {
-          // 1. Fetch Warehouses
-          // Use absolute URL or relative if proxy configured. Assuming absolute for mobile.
-          const warehouses = await firstValueFrom(this.http.get<any[]>(`${this.API_URL}/inventory/warehouses`));
-
-          // 2. Save to SQLite
-          if (warehouses && Array.isArray(warehouses)) {
-              await this.database.upsertWarehouses(warehouses);
-              console.log(`Down-Sync: ${warehouses.length} warehouses replicated.`);
-          }
-
-          // Add Products sync here similarly...
-
-      } catch (e) {
-          console.error('Down-Sync failed', e);
-      }
-  }
-
-  private handleConflict(strategy: ConflictStrategy, method: string, url: string, payload: any, error: any) {
-      if (strategy === 'clientWins') {
-          // Force update? Or queue for retry?
-          // If server rejects, we can't just retry same payload usually unless header changes.
-          // For now, log and maybe queue with a flag?
-          console.warn('Conflict detected, strategy clientWins. Re-queueing might not help without force flag.');
-          return { conflict: true, message: 'Conflict detected, client wins strategy not fully implemented on backend' };
-      } else if (strategy === 'manual') {
-          // Notify user
-          return { conflict: true, manualResolutionRequired: true, error };
-      }
-      // serverWins
-      throw error;
-  }
-
-  private setupListeners() {
-    window.addEventListener('online', () => {
-      this.isOnline.set(true);
-      this.processQueue();
-      this.downSync();
-    });
-    window.addEventListener('offline', () => this.isOnline.set(false));
-  }
-
-  private addToQueue(item: SyncItem) {
-    const current = this.queue();
-    const updated = [...current, item];
-    this.queue.set(updated);
-    this.saveQueue(updated);
-  }
-
-  private async loadQueue() {
-    const stored = await this.storage.get<SyncItem[]>(this.STORAGE_KEY);
-    if (stored) {
-      this.queue.set(stored);
+    try {
+      await this.downSyncService.syncWarehouses();
+    } catch (error) {
+      console.error('Down-Sync failed', error);
     }
   }
 
-  private async saveQueue(queue: SyncItem[]) {
-      await this.storage.set(this.STORAGE_KEY, queue);
+  dismissItem(id: string) {
+    this.queueService.remove(id);
+  }
+
+  private setupListeners() {
+    this.connectivity.onOnline(() => {
+      this.processQueue();
+      this.downSync();
+    });
+
+    this.connectivity.onOffline();
+  }
+
+  private async enqueue(method: 'POST' | 'PUT' | 'DELETE', url: string, payload: unknown, lastError?: string): Promise<void> {
+    await this.queueService.add({
+      id: uuidv4(),
+      url,
+      method,
+      payload,
+      timestamp: Date.now(),
+      retryCount: 0,
+      status: 'pending',
+      lastError,
+    });
   }
 
   private async processQueue() {
@@ -163,79 +103,50 @@ export class SyncService {
     this.isProcessing = true;
 
     try {
-        const snapshot = [...this.queue()]; // Snapshot for iteration
-        if (snapshot.length === 0) return;
+      const snapshot = [...this.queueService.items()];
+      if (snapshot.length === 0 || !this.tokenService.hasAccessToken()) {
+        return;
+      }
 
-        console.log(`Processing ${snapshot.length} offline items...`);
-
-        // Check token before processing queue
-        if (!this.tokenService.hasAccessToken()) {
-            console.warn('Sync delayed: No access token available. Waiting for valid session.');
-            // Ideally trigger a refresh or login flow here, but simpler to just abort sync until user logs in/refreshes manually via interceptor activity
-            return;
-        }
-
-        for (const item of snapshot) {
-            // Check if item still exists in live queue (might be removed by UI)
-            if (!this.queue().some(i => i.id === item.id)) continue;
-
-            // Exponential Backoff Check
-            const backoffTime = Math.pow(2, item.retryCount) * 1000;
-            if (Date.now() - item.timestamp < backoffTime) continue;
-
-            try {
-                // The request call here will be intercepted by RefreshTokenInterceptor if 401 occurs,
-                // ensuring token refresh happens seamlessly before failing the sync item.
-                await firstValueFrom(this.http.request(item.method, item.url, { body: item.payload }));
-                console.log(`Synced item ${item.id}`);
-                this.removeFromQueue(item.id);
-            } catch (e: any) {
-                console.error(`Failed to sync item ${item.id}`, e);
-
-                if (e.status >= 400 && e.status < 500 && e.status !== 408 && e.status !== 429) {
-                    // Client error (4xx) - discard as invalid (except timeouts/rate limits)
-                    // Unless it's a conflict 409 we want to keep?
-                    if (e.status === 409) {
-                         this.updateItem(item.id, {
-                            status: 'failed',
-                            lastError: 'Conflict: ' + e.message,
-                            conflictMessage: 'Server state changed. Please review.'
-                        });
-                        // Don't retry automatically
-                        continue;
-                    }
-
-                    console.warn(`Discarding item ${item.id} due to client error ${e.status}`);
-                    this.removeFromQueue(item.id);
-                } else {
-                    // Server/Network error - keep and retry
-                    this.updateItem(item.id, {
-                        retryCount: item.retryCount + 1,
-                        timestamp: Date.now(),
-                        lastError: e.message
-                    });
-                }
-            }
-        }
+      for (const item of snapshot) {
+        await this.processItem(item);
+      }
     } finally {
-        this.isProcessing = false;
+      this.isProcessing = false;
     }
   }
 
-  private removeFromQueue(id: string) {
-      const updated = this.queue().filter(i => i.id !== id);
-      this.queue.set(updated);
-      this.saveQueue(updated);
-  }
+  private async processItem(item: SyncItem): Promise<void> {
+    const backoffTime = Math.pow(2, item.retryCount) * 1000;
+    if (Date.now() - item.timestamp < backoffTime) {
+      return;
+    }
 
-  private updateItem(id: string, updates: Partial<SyncItem>) {
-      const updated = this.queue().map(i => i.id === id ? { ...i, ...updates } : i);
-      this.queue.set(updated);
-      this.saveQueue(updated);
-  }
+    try {
+      await firstValueFrom(this.http.request(item.method, item.url, { body: item.payload }));
+      await this.queueService.remove(item.id);
+    } catch (e: any) {
+      if (e.status >= 400 && e.status < 500 && e.status !== 408 && e.status !== 429) {
+        if (e.status === 409) {
+          await this.queueService.update(item.id, {
+            status: 'failed',
+            lastError: `Conflict: ${e.message}`,
+            conflictMessage: 'Server state changed. Please review.',
+          });
+          return;
+        }
 
-  // Method for UI to clear specific failed item
-  dismissItem(id: string) {
-      this.removeFromQueue(id);
+        await this.queueService.remove(item.id);
+        return;
+      }
+
+      await this.queueService.update(item.id, {
+        retryCount: item.retryCount + 1,
+        timestamp: Date.now(),
+        lastError: e.message,
+      });
+    }
   }
 }
+
+export type { SyncItem, ConflictStrategy } from './sync/sync.types';

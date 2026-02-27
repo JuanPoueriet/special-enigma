@@ -4,11 +4,11 @@ import { JwtAuthGuard } from '@virteex/kernel-auth';
 import { CurrentTenant } from '@virteex/shared-util-server-config';
 import {
   CreateWarehouseUseCase,
+  GenerateWarehouseCodeUseCase,
   GetWarehousesUseCase,
-  RegisterMovementUseCase,
+  RegisterInventoryMovementBatchUseCase,
   UpdateWarehouseUseCase,
   DeleteWarehouseUseCase,
-  InventoryMovementType
 } from '@virteex/application-inventory-application';
 import { WarehouseObject } from './dto/warehouse.object';
 import { CreateWarehouseInput } from './dto/create-warehouse.input';
@@ -19,8 +19,9 @@ import { UpdateWarehouseInput } from './dto/update-warehouse.input';
 export class InventoryResolver {
   constructor(
     private readonly createWarehouseUseCase: CreateWarehouseUseCase,
+    private readonly generateWarehouseCodeUseCase: GenerateWarehouseCodeUseCase,
     private readonly getWarehousesUseCase: GetWarehousesUseCase,
-    private readonly registerMovementUseCase: RegisterMovementUseCase,
+    private readonly registerInventoryMovementBatchUseCase: RegisterInventoryMovementBatchUseCase,
     private readonly updateWarehouseUseCase: UpdateWarehouseUseCase,
     private readonly deleteWarehouseUseCase: DeleteWarehouseUseCase
   ) {}
@@ -37,11 +38,7 @@ export class InventoryResolver {
     @Args('input') input: CreateWarehouseInput,
     @CurrentTenant() tenantId: string
   ) {
-    // Generate a robust code: 3-char prefix + random hex suffix to reduce collisions
-    const prefix = input.name.toUpperCase().replace(/[^A-Z]/g, '').substring(0, 3) || 'WAR';
-    const suffix = Math.floor(Math.random() * 0xFFF).toString(16).toUpperCase().padStart(3, '0');
-    const code = `${prefix}-${suffix}`;
-
+    const code = this.generateWarehouseCodeUseCase.execute(input.name);
     return this.createWarehouseUseCase.execute({ ...input, tenantId, code });
   }
 
@@ -68,21 +65,13 @@ export class InventoryResolver {
     @CurrentTenant() tenantId: string
   ) {
     try {
-      for (const item of input.items) {
-        await this.registerMovementUseCase.execute({
-            tenantId,
-            warehouseId: input.warehouseId,
-            productId: item.productId,
-            quantity: item.quantity,
-            type: item.type, // Already typed via Input
-            reference: item.reference,
-            locationId: item.locationId
-        });
-      }
+      await this.registerInventoryMovementBatchUseCase.execute({
+        tenantId,
+        warehouseId: input.warehouseId,
+        items: input.items,
+      });
       return true;
     } catch (error) {
-      // In a real scenario, we'd need a transactional rollback here.
-      // For now, we propagate the error to inform the client of partial failure.
       if (error instanceof Error) {
         throw new InternalServerErrorException(`Movement processing failed: ${error.message}`);
       }

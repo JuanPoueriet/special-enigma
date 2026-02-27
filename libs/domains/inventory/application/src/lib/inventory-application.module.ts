@@ -8,6 +8,8 @@ import { DeleteWarehouseUseCase } from './use-cases/delete-warehouse.use-case';
 import { ReserveStockUseCase } from './use-cases/reserve-stock.use-case';
 import { CheckStockUseCase } from './use-cases/check-stock.use-case';
 import { ReserveBatchStockUseCase } from './use-cases/reserve-batch-stock.use-case';
+import { GenerateWarehouseCodeUseCase } from './use-cases/generate-warehouse-code.use-case';
+import { RegisterInventoryMovementBatchUseCase } from './use-cases/register-inventory-movement-batch.use-case';
 import { InventoryInfrastructureModule } from '../../../infrastructure/src/index';
 
 @Module({
@@ -21,7 +23,9 @@ import { InventoryInfrastructureModule } from '../../../infrastructure/src/index
     DeleteWarehouseUseCase,
     ReserveStockUseCase,
     CheckStockUseCase,
-    ReserveBatchStockUseCase
+    ReserveBatchStockUseCase,
+    GenerateWarehouseCodeUseCase,
+    RegisterInventoryMovementBatchUseCase,
   ],
   exports: [
     CreateWarehouseUseCase,
@@ -32,7 +36,9 @@ import { InventoryInfrastructureModule } from '../../../infrastructure/src/index
     DeleteWarehouseUseCase,
     ReserveStockUseCase,
     CheckStockUseCase,
-    ReserveBatchStockUseCase
+    ReserveBatchStockUseCase,
+    GenerateWarehouseCodeUseCase,
+    RegisterInventoryMovementBatchUseCase,
   ],
 })
 export class InventoryApplicationModule {}

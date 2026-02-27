@@ -19,7 +19,8 @@
     "sign:artifact": "cosign sign --key cosign.key",
     "dep-graph:check": "depcruise --validate .dependency-cruiser.js libs apps",
     "prepare": "husky",
-    "readiness:check": "./tools/enforce-production-readiness.sh"
+    "readiness:check": "./tools/enforce-production-readiness.sh",
+    "validate:nx-tags": "node tools/validate-project-tags.mjs"
   },
   "private": true,
   "devDependencies": {

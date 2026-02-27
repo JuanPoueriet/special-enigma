@@ -17,7 +17,8 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloFederationDriver, ApolloFederationDriverConfig } from '@nestjs/apollo';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { RemoteProductRepository } from './repositories/remote-product.repository';
+import { CatalogProductReadGateway } from './repositories/catalog-product-read.gateway';
+import { PRODUCT_GATEWAY } from '@virteex/domain-inventory-domain';
 import { InventoryResolver } from './inventory.resolver';
 
 // Domain Modules
@@ -106,8 +107,8 @@ import { InventoryPresentationModule } from '@virteex/api-inventory-presentation
       useClass: TenantRlsInterceptor,
     },
     {
-      provide: 'ProductRepository',
-      useClass: RemoteProductRepository,
+      provide: PRODUCT_GATEWAY,
+      useClass: CatalogProductReadGateway,
     },
   ],
 })
