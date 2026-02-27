@@ -1,0 +1,65 @@
+📊 SCORECARD EJECUTIVO
+Robustez: 6/10
+Arquitectura: 4/10
+Buenas Prácticas: 5/10
+Promedio Global: 5/10
+
+🧠 DIAGNÓSTICO CRÍTICO
+El ecosistema Virteex presenta una preocupante divergencia entre su documentación teórica (READMEs) y su implementación real. La fuga masiva de infraestructura (MikroORM) hacia el corazón del dominio y el "Semantic Drift" entre los contextos de Inventario y Catálogo comprometen seriamente la mantenibilidad y la escalabilidad a largo plazo. No se cumple la promesa de "framework-agnostic" en las capas críticas.
+
+🔎 HALLAZGOS Y EVIDENCIAS
+
+Hallazgo 1:
+- Tipo: Layer Leak (Framework Leakage)
+- Ubicación/Evidencia: libs/domains/inventory/domain/src/lib/entities/stock.entity.ts y prácticamente todas las entidades en libs/domains/*/domain/src/lib/entities/.
+  Fragmento: import { Entity, PrimaryKey, Property, ... } from '@mikro-orm/core';
+- Severidad: Crítica
+- Impacto: Viola el principio fundamental de Clean Architecture. El dominio está acoplado al ORM. Cualquier cambio en la estrategia de persistencia o actualización mayor del framework obligará a refactorizar el núcleo del negocio. Invalida el tag "platform:agnostic" de Nx.
+- Refactor Recomendado: Utilizar POJOs/Interfaces en el dominio. Mover las decoraciones de MikroORM a la capa de Infraestructura utilizando el EntitySchema de MikroORM o mapeadores específicos, manteniendo las entidades de dominio puras.
+
+Hallazgo 2:
+- Tipo: Semantic Drift & Responsibility Mismatch
+- Ubicación/Evidencia: libs/domains/inventory/ui/src/lib/pages/inventory-ops/products/products.page.ts y libs/domains/inventory/ui/src/lib/core/api/inventory-api.service.ts.
+- Severidad: Alta
+- Impacto: El dominio de Inventario está gestionando la creación, edición y eliminación de "Productos". Esta responsabilidad pertenece exclusivamente al Bounded Context de 'Catalog'. Esto genera duplicidad de lógica de negocio, inconsistencia de datos y un acoplamiento innecesario entre dominios.
+- Refactor Recomendado: Eliminar la gestión de productos de la UI de Inventario. La UI de Inventario debe consumir el 'Catalog' para seleccionar productos y enfocarse solo en Stock y Movimientos. Centralizar la entidad Product en el dominio de Catalog.
+
+Hallazgo 3:
+- Tipo: Nx Governance Violation (Circular/Prohibited Imports)
+- Ubicación/Evidencia: libs/domains/inventory/presentation/src/lib/controllers/inventory.controller.ts.
+  Fragmento: from '../../../../application/src'; (Uso de rutas relativas en lugar de alias de paths @virteex/...).
+- Severidad: Media
+- Impacto: Elude las reglas de dependencia de Nx (tags/boundaries). Dificulta la refactorización y puede introducir dependencias circulares que Nx no podrá detectar correctamente mediante linting estático si se evitan los entry-points oficiales.
+- Refactor Recomendado: Utilizar exclusivamente los path aliases configurados en tsconfig.base.json (ej. @virteex/application-inventory-application) y asegurar que cada librería solo exponga lo necesario en su index.ts.
+
+Hallazgo 4:
+- Tipo: Modelado Anémico / Logic Over-Orchestration
+- Ubicación/Evidencia: libs/domains/inventory/application/src/lib/use-cases/register-movement.use-case.ts.
+- Severidad: Media
+- Impacto: El Use Case orquesta demasiada validación manual (tenant checks, existence checks) que podría estar encapsulada en Domain Services o en las propias Entidades si fueran más ricas. El Use Case se vuelve difícil de testear y propenso a errores por omisión de validaciones.
+- Refactor Recomendado: Mover la lógica de validación de negocio cruzada a un Domain Service. Asegurar que las entidades (como Stock) validen su propio estado interno consistentemente antes de permitir cambios.
+
+Hallazgo 5:
+- Tipo: DTO Inconsistency
+- Ubicación/Evidencia: Comparación entre libs/domains/inventory/contracts/src/lib/inventory-contracts.ts y los DTOs definidos dentro de los Use Cases en la capa de Application.
+- Severidad: Baja
+- Impacto: Confusión para los consumidores de la API. La capa de 'contracts' debería ser la única fuente de verdad para el intercambio de datos entre dominios o entre Frontend y Backend.
+- Refactor Recomendado: Unificar los DTOs en la librería de 'contracts' y utilizarlos tanto en el controlador (Presentation) como en los Use Cases (Application).
+
+🏗 PROPUESTA DE ESTRUCTURA IDEAL
+
+La estructura actual de carpetas es correcta bajo DDD, pero el flujo de dependencias está viciado. Propuesta de corrección:
+
+libs/
+ ├── domains/
+ │    ├── catalog/           <-- Único dueño de la entidad Product
+ │    │    ├── domain/       <-- ProductEntity (Pure TS)
+ │    │    └── ...
+ │    ├── inventory/
+ │    │    ├── domain/       <-- StockEntity (Solo lógica de cantidad/lotes)
+ │    │    │                 <-- Referencia a ProductId (Value Object), NO a ProductEntity de Catalog
+ │    │    ├── infrastructure/
+ │    │    │                 <-- Mapeos de MikroORM para Stock y StockBatch
+ │    │    └── ui/           <-- Consume @virteex/catalog-ui para selección de productos
+ └── shared/
+      └── contracts/         <-- DTOs compartidos globales (si aplica)
