@@ -55,23 +55,16 @@ export class SatFiscalAdapter implements FiscalProvider {
     }
 
     try {
-        // 1. Get Private Key (Async)
         const privateKeyPem = await fs.promises.readFile(this.certPath, 'utf8');
-
-        // 2. Build XML
         const xml = this.buildCfdiPayload(invoice);
-
-        // 3. Generate Cadena Original using XSLT
         const cadenaOriginal = await this.generateCadenaOriginal(xml);
         this.logger.debug(`Cadena Original generated: ${cadenaOriginal.substring(0, 50)}...`);
 
-        // 4. Sign Cadena Original (SHA256 with RSA)
         const sign = crypto.createSign('SHA256');
         sign.update(cadenaOriginal);
         sign.end();
 
         const signature = sign.sign(privateKeyPem, 'base64');
-
         this.logger.log(`Invoice ${invoice?.id} signed successfully.`);
         return signature;
     } catch (error: any) {
@@ -84,16 +77,32 @@ export class SatFiscalAdapter implements FiscalProvider {
     const signature = await this.signInvoice(invoice);
     const signedPayload = { ...invoice, signature };
 
-    try {
-      await firstValueFrom(
-        this.httpService.post(`${this.apiUrl}/transmit`, signedPayload, {
-            headers: { 'Authorization': `Bearer ${this.apiKey}` }
-        })
-      );
-      this.logger.log(`Invoice ${invoice?.id} transmitted successfully.`);
-    } catch (error: any) {
-      this.logger.error(`Error transmitting to SAT`, error);
-      throw error;
+    // Simple retry logic with exponential backoff
+    const maxRetries = 3;
+    let attempt = 0;
+
+    while (attempt < maxRetries) {
+        try {
+            await firstValueFrom(
+                this.httpService.post(`${this.apiUrl}/transmit`, signedPayload, {
+                    headers: { 'Authorization': `Bearer ${this.apiKey}` }
+                })
+            );
+            this.logger.log(`Invoice ${invoice?.id} transmitted successfully.`);
+            return;
+        } catch (error: any) {
+            attempt++;
+            const isRetryable = error.response?.status >= 500 || error.code === 'ECONNRESET' || error.code === 'ETIMEDOUT';
+
+            if (!isRetryable || attempt >= maxRetries) {
+                 this.logger.error(`Error transmitting to SAT (Attempt ${attempt}): ${error.message}`, error);
+                 throw error;
+            }
+
+            const delay = Math.pow(2, attempt) * 1000;
+            this.logger.warn(`SAT Transmission failed (Attempt ${attempt}). Retrying in ${delay}ms...`);
+            await new Promise(resolve => setTimeout(resolve, delay));
+        }
     }
   }
 
@@ -129,7 +138,6 @@ export class SatFiscalAdapter implements FiscalProvider {
       try {
           const parser = new XmlParser();
           const processor = new Xslt();
-          // xsltProcess is async in the library definition I read: xsltProcess(xmlDoc, stylesheet): Promise<string>
           const out = await processor.xsltProcess(parser.xmlParse(xml), parser.xmlParse(mainXslt));
           return out;
       } catch (e: any) {
