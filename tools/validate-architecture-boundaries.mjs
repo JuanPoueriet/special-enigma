@@ -9,12 +9,34 @@ const allDomains = readdirSync(domainsRoot, { withFileTypes: true })
   .map((entry) => entry.name)
   .sort();
 
-const defaultGoverned = ['inventory', 'identity', 'fixed-assets'];
-const strictLayerDomains = new Set(['inventory', 'fixed-assets']);
-const governedDomains = (process.env.ARCH_BOUNDARY_DOMAINS ?? defaultGoverned.join(','))
+const strictLayerDomains = new Set(
+  allDomains.filter((domain) => {
+    const base = join(domainsRoot, domain);
+    return existsSync(join(base, 'domain')) && existsSync(join(base, 'application'));
+  })
+);
+
+const temporaryExclusionAllowlist = new Map(
+  (process.env.ARCH_BOUNDARY_EXCLUSION_JUSTIFICATIONS ?? '')
+    .split(';')
+    .map((entry) => entry.trim())
+    .filter(Boolean)
+    .map((entry) => {
+      const [domain, ...reasonParts] = entry.split(':');
+      return [domain?.trim(), reasonParts.join(':').trim()];
+    })
+    .filter(([domain, reason]) => Boolean(domain) && Boolean(reason))
+);
+
+const excludedDomains = (process.env.ARCH_BOUNDARY_EXCLUDED_DOMAINS ?? '')
   .split(',')
   .map((item) => item.trim())
   .filter(Boolean);
+const governedDomains = allDomains.filter((domain) => !excludedDomains.includes(domain));
+const uncoveredDomains = allDomains.filter((domain) => !governedDomains.includes(domain));
+const unjustifiedUncoveredDomains = uncoveredDomains.filter(
+  (domain) => !temporaryExclusionAllowlist.get(domain)
+);
 
 const checks = [];
 
@@ -104,9 +126,25 @@ for (const check of checks) {
   }
 }
 
+if (uncoveredDomains.length) {
+  console.log('ℹ Domain coverage report:');
+  for (const domain of uncoveredDomains) {
+    const reason = temporaryExclusionAllowlist.get(domain);
+    if (reason) {
+      console.log(`  - ${domain}: excluded temporarily (${reason})`);
+      continue;
+    }
+
+    console.error(`  - ${domain}: excluded without justification`);
+  }
+}
+
+if (unjustifiedUncoveredDomains.length) {
+  hasViolations = true;
+  console.error(
+    `✖ Uncovered domains without temporary allowlist justification: ${unjustifiedUncoveredDomains.join(', ')}`
+  );
+}
+
 if (hasViolations) process.exit(1);
 console.log(`✔ Architecture boundary checks passed for governed domains: ${governedDomains.join(', ')}`);
-if (governedDomains.length < allDomains.length) {
-  const skipped = allDomains.filter((domain) => !governedDomains.includes(domain));
-  console.log(`ℹ Skipped domains (set ARCH_BOUNDARY_DOMAINS to expand): ${skipped.join(', ')}`);
-}
