@@ -4,11 +4,18 @@
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "apps/virteex-wms/src",
-  "tags": ["type:app", "scope:wms"],
+  "tags": [
+    "scope:wms",
+    "type:application",
+    "platform:agnostic",
+    "criticality:medium"
+  ],
   "targets": {
     "build": {
       "executor": "@angular/build:application",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/virteex-wms",
         "browser": "apps/virteex-wms/src/main.ts",
@@ -20,7 +27,9 @@
             "input": "apps/virteex-wms/public"
           }
         ],
-        "styles": ["apps/virteex-wms/src/styles.scss"]
+        "styles": [
+          "apps/virteex-wms/src/styles.scss"
+        ]
       },
       "configurations": {
         "production": {
@@ -74,7 +83,9 @@
     },
     "test": {
       "executor": "@nx/vitest:test",
-      "outputs": ["{options.reportsDirectory}"],
+      "outputs": [
+        "{options.reportsDirectory}"
+      ],
       "options": {
         "reportsDirectory": "../../coverage/apps/virteex-wms"
       }

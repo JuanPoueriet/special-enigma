@@ -2,16 +2,29 @@
   "name": "virteex-scheduler-service-e2e",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "implicitDependencies": ["virteex-scheduler-service"],
+  "implicitDependencies": [
+    "virteex-scheduler-service"
+  ],
   "targets": {
     "e2e": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{e2eProjectRoot}"
+      ],
       "options": {
         "jestConfig": "apps/virteex-scheduler-service-e2e/jest.config.cts",
         "passWithNoTests": true
       },
-      "dependsOn": ["virteex-scheduler-service:build", "virteex-scheduler-service:serve"]
+      "dependsOn": [
+        "virteex-scheduler-service:build",
+        "virteex-scheduler-service:serve"
+      ]
     }
-  }
+  },
+  "tags": [
+    "scope:shared",
+    "type:e2e",
+    "platform:e2e",
+    "criticality:low"
+  ]
 }

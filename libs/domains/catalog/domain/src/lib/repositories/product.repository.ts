@@ -1,10 +1,8 @@
-import { Product } from '../entities/product.entity';
+import { ProductReadRepository } from './product-read.repository';
+import { ProductWriteRepository } from './product-write.repository';
 
-export interface ProductRepository {
-  findAll(tenantId: string): Promise<Product[]>;
-  create(product: Product): Promise<Product>;
-  findBySku(sku: string): Promise<Product | null>;
-  save(product: Product): Promise<void>;
-  findById(id: number): Promise<Product | null>;
-  delete(id: number): Promise<void>;
-}
+/**
+ * Legacy composite contract kept for backward compatibility.
+ * Prefer ProductReadRepository/ProductWriteRepository in new code.
+ */
+export type ProductRepository = ProductReadRepository & ProductWriteRepository;

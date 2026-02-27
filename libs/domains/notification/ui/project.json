@@ -4,11 +4,18 @@
   "sourceRoot": "libs/domains/notification/ui/src",
   "projectType": "library",
   "prefix": "virteex",
-  "tags": ["type:ui", "scope:notification"],
+  "tags": [
+    "scope:notification",
+    "type:ui",
+    "platform:agnostic",
+    "criticality:medium"
+  ],
   "targets": {
     "test": {
       "executor": "@nx/vitest:test",
-      "outputs": ["{options.reportsDirectory}"],
+      "outputs": [
+        "{options.reportsDirectory}"
+      ],
       "options": {
         "reportsDirectory": "../../../../coverage/libs/domains/notification/ui"
       }

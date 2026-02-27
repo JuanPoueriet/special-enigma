@@ -8,8 +8,8 @@
     "scope:billing",
     "type:domain",
     "platform:agnostic",
-    "tenant-mode:schema",
-    "criticality:high"
+    "criticality:high",
+    "tenant-mode:schema"
   ],
   "targets": {
     "build": {

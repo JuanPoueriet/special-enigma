@@ -1,6 +1,7 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { API_URL } from '@virteex/shared-config';
 
 export interface Warehouse {
   id: string;
@@ -15,22 +16,21 @@ export interface Warehouse {
 export interface RegisterMovementDto {
   productId: string;
   warehouseId: string;
-  type: 'IN' | 'OUT' | 'TRANSFER' | 'ADJUSTMENT'; // InventoryMovementType
+  type: 'IN' | 'OUT' | 'TRANSFER' | 'ADJUSTMENT';
   quantity: string;
   reference: string;
   locationId?: string;
-  tenantId?: string; // Optional as backend might infer from token, but DTO allows it
+  tenantId?: string;
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class InventoryService {
-  private http = inject(HttpClient);
-  // Robust config access
-  private get apiUrl(): string {
-    return (window as any).env?.apiUrl || 'http://localhost:3333/api';
-  }
+  constructor(
+    private readonly http: HttpClient,
+    @Inject(API_URL) private readonly apiUrl: string
+  ) {}
 
   getWarehouses(): Observable<Warehouse[]> {
     return this.http.get<Warehouse[]>(`${this.apiUrl}/inventory/warehouses`);
@@ -52,11 +52,13 @@ export class InventoryService {
     return this.http.delete<void>(`${this.apiUrl}/inventory/warehouses/${id}`);
   }
 
-  registerMovement(movement: RegisterMovementDto): Observable<any> {
+  registerMovement(movement: RegisterMovementDto): Observable<unknown> {
     return this.http.post(`${this.apiUrl}/inventory/movements`, movement);
   }
 
   checkStock(warehouseId: string, productSku: string, quantity: number): Observable<{ available: boolean }> {
-      return this.http.get<{ available: boolean }>(`${this.apiUrl}/inventory/check/${warehouseId}/${productSku}?quantity=${quantity}`);
+    return this.http.get<{ available: boolean }>(
+      `${this.apiUrl}/inventory/check/${warehouseId}/${productSku}?quantity=${quantity}`
+    );
   }
 }

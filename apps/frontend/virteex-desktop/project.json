@@ -60,5 +60,11 @@
       "command": "eslint apps/frontend/virteex-desktop/**/*.ts"
     }
   },
-  "prefix": "virteex"
+  "prefix": "virteex",
+  "tags": [
+    "scope:shared",
+    "type:application",
+    "platform:agnostic",
+    "criticality:medium"
+  ]
 }

@@ -4,11 +4,18 @@
   "projectType": "application",
   "prefix": "virteex",
   "sourceRoot": "apps/frontend/virteex-web/src",
-  "tags": ["scope:shared", "type:application", "platform:web", "criticality:high"],
+  "tags": [
+    "scope:shared",
+    "type:application",
+    "platform:web",
+    "criticality:high"
+  ],
   "targets": {
     "build": {
       "executor": "@angular/build:application",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/frontend/virteex-web",
         "browser": "apps/frontend/virteex-web/src/main.ts",
@@ -20,9 +27,13 @@
             "input": "apps/frontend/virteex-web/public"
           }
         ],
-        "styles": ["apps/frontend/virteex-web/src/styles.scss"],
+        "styles": [
+          "apps/frontend/virteex-web/src/styles.scss"
+        ],
         "stylePreprocessorOptions": {
-          "includePaths": ["libs/shared/ui/src/lib/styles"]
+          "includePaths": [
+            "libs/shared/ui/src/lib/styles"
+          ]
         }
       },
       "configurations": {
@@ -86,7 +97,9 @@
     },
     "test": {
       "executor": "@nx/vitest:test",
-      "outputs": ["{options.reportsDirectory}"],
+      "outputs": [
+        "{options.reportsDirectory}"
+      ],
       "options": {
         "reportsDirectory": "../../coverage/apps/frontend/virteex-web"
       }

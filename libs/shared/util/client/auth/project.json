@@ -4,7 +4,12 @@
   "sourceRoot": "libs/shared/util/client/auth/src",
   "prefix": "virteex",
   "projectType": "library",
-  "tags": [],
+  "tags": [
+    "scope:shared",
+    "type:util",
+    "platform:agnostic",
+    "criticality:medium"
+  ],
   "targets": {
     "test": {
       "executor": "@nx/vitest:test",

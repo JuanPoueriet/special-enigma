@@ -20,5 +20,11 @@
         "virteex-billing-service:serve"
       ]
     }
-  }
+  },
+  "tags": [
+    "scope:billing",
+    "type:e2e",
+    "platform:e2e",
+    "criticality:low"
+  ]
 }

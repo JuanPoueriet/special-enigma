@@ -5,7 +5,9 @@
   "projectType": "library",
   "tags": [
     "scope:kernel",
-    "type:util"
+    "type:util",
+    "platform:agnostic",
+    "criticality:high"
   ],
   "targets": {
     "build": {

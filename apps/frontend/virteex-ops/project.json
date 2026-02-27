@@ -3,24 +3,33 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "virteex",
-  "sourceRoot": "apps/backend/virteex-ops/src",
-  "tags": ["scope:shared", "type:application", "platform:web", "criticality:high"],
+  "sourceRoot": "apps/frontend/virteex-ops/src",
+  "tags": [
+    "scope:shared",
+    "type:application",
+    "platform:web",
+    "criticality:high"
+  ],
   "targets": {
     "build": {
       "executor": "@angular/build:application",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
-        "outputPath": "dist/apps/virteex-ops",
-        "browser": "apps/backend/virteex-ops/src/main.ts",
-        "tsConfig": "apps/backend/virteex-ops/tsconfig.app.json",
+        "outputPath": "dist/apps/frontend/virteex-ops",
+        "browser": "apps/frontend/virteex-ops/src/main.ts",
+        "tsConfig": "apps/frontend/virteex-ops/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
           {
             "glob": "**/*",
-            "input": "apps/backend/virteex-ops/public"
+            "input": "apps/frontend/virteex-ops/public"
           }
         ],
-        "styles": ["apps/backend/virteex-ops/src/styles.scss"]
+        "styles": [
+          "apps/frontend/virteex-ops/src/styles.scss"
+        ]
       },
       "configurations": {
         "production": {
@@ -68,15 +77,17 @@
       "options": {
         "buildTarget": "ops-console-web:build",
         "port": 4200,
-        "staticFilePath": "dist/apps/virteex-ops/browser",
+        "staticFilePath": "dist/apps/frontend/virteex-ops/browser",
         "spa": true
       }
     },
     "test": {
       "executor": "@nx/vitest:test",
-      "outputs": ["{options.reportsDirectory}"],
+      "outputs": [
+        "{options.reportsDirectory}"
+      ],
       "options": {
-        "reportsDirectory": "../../coverage/apps/virteex-ops"
+        "reportsDirectory": "../../coverage/apps/frontend/virteex-ops"
       }
     }
   }

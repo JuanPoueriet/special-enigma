@@ -20,5 +20,11 @@
         "virteex-projects-service:serve"
       ]
     }
-  }
+  },
+  "tags": [
+    "scope:projects",
+    "type:e2e",
+    "platform:e2e",
+    "criticality:low"
+  ]
 }

@@ -20,5 +20,11 @@
         "virteex-payroll-service:serve"
       ]
     }
-  }
+  },
+  "tags": [
+    "scope:payroll",
+    "type:e2e",
+    "platform:e2e",
+    "criticality:low"
+  ]
 }

@@ -8,7 +8,8 @@ import { DashboardViewComponent } from './ui/dashboard-view.component';
   selector: 'virteex-mobile-dashboard',
   standalone: true,
   imports: [CommonModule, DashboardViewComponent],
-  template: `<virteex-dashboard-view [stats]="stats$ | async" [errorMessage]="errorMessage" />`,
+  templateUrl: './dashboard.page.html',
+  styleUrl: './dashboard.page.scss',
 })
 export class DashboardPage {
   private readonly dashboardService = inject(DashboardService);

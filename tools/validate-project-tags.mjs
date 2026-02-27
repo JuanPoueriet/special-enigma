@@ -3,17 +3,6 @@ import { join } from 'node:path';
 
 const roots = ['apps', 'libs'];
 const requiredPrefixes = ['scope:', 'type:', 'platform:', 'criticality:'];
-const legacyPrefixes = ['domain:'];
-const governedPathPrefixes = [
-  'apps/backend/virteex-inventory-service/',
-  'apps/backend/virteex-ops/',
-  'apps/backend/virteex-ops-e2e/',
-  'apps/frontend/virteex-mobile/',
-  'apps/frontend/virteex-web/',
-  'libs/domains/inventory/',
-  'libs/domains/catalog/',
-  'libs/shared/ui/',
-];
 
 function* walk(dir) {
   for (const entry of readdirSync(dir)) {
@@ -31,10 +20,6 @@ function* walk(dir) {
 const errors = [];
 for (const root of roots) {
   for (const file of walk(root)) {
-    if (!governedPathPrefixes.some((prefix) => file.startsWith(prefix))) {
-      continue;
-    }
-
     const project = JSON.parse(readFileSync(file, 'utf8'));
     const tags = project.tags ?? [];
 
@@ -43,11 +28,14 @@ for (const root of roots) {
       errors.push(`${file}: missing required tag families [${missingRequired.join(', ')}]`);
     }
 
-    const invalidTags = tags.filter(
-      (tag) => legacyPrefixes.some((prefix) => tag.startsWith(prefix))
-    );
-    if (invalidTags.length > 0) {
-      errors.push(`${file}: invalid legacy tags [${invalidTags.join(', ')}]`);
+    const malformedTags = tags.filter((tag) => !tag.includes(':'));
+    if (malformedTags.length > 0) {
+      errors.push(`${file}: malformed tags [${malformedTags.join(', ')}]`);
+    }
+
+    const legacyTags = tags.filter((tag) => tag.startsWith('domain:'));
+    if (legacyTags.length > 0) {
+      errors.push(`${file}: legacy tags are not allowed [${legacyTags.join(', ')}]`);
     }
   }
 }
@@ -60,4 +48,4 @@ if (errors.length > 0) {
   process.exit(1);
 }
 
-console.log('✅ Project tag validation passed for governed projects.');
+console.log('✅ Project tag validation passed.');

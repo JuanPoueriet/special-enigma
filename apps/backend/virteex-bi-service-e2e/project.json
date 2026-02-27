@@ -20,5 +20,11 @@
         "virteex-bi-service:serve"
       ]
     }
-  }
+  },
+  "tags": [
+    "scope:bi",
+    "type:e2e",
+    "platform:e2e",
+    "criticality:low"
+  ]
 }

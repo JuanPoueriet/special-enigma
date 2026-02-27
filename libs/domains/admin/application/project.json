@@ -5,8 +5,10 @@
   "projectType": "library",
   "prefix": "virteex",
   "tags": [
+    "scope:admin",
     "type:application",
-    "scope:admin"
+    "platform:agnostic",
+    "criticality:medium"
   ],
   "targets": {
     "build": {

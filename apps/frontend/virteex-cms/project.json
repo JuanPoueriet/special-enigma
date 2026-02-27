@@ -4,11 +4,18 @@
   "projectType": "application",
   "prefix": "virteex",
   "sourceRoot": "apps/virteex-cms/src",
-  "tags": [],
+  "tags": [
+    "scope:shared",
+    "type:application",
+    "platform:agnostic",
+    "criticality:medium"
+  ],
   "targets": {
     "build": {
       "executor": "@angular/build:application",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/virteex-cms",
         "browser": "apps/virteex-cms/src/main.ts",
@@ -20,7 +27,9 @@
             "input": "apps/virteex-cms/public"
           }
         ],
-        "styles": ["apps/virteex-cms/src/styles.scss"]
+        "styles": [
+          "apps/virteex-cms/src/styles.scss"
+        ]
       },
       "configurations": {
         "production": {
@@ -74,7 +83,9 @@
     },
     "test": {
       "executor": "@nx/vitest:test",
-      "outputs": ["{options.reportsDirectory}"],
+      "outputs": [
+        "{options.reportsDirectory}"
+      ],
       "options": {
         "reportsDirectory": "../../coverage/apps/virteex-cms"
       }

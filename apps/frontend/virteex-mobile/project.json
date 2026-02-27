@@ -4,11 +4,18 @@
   "projectType": "application",
   "prefix": "virteex",
   "sourceRoot": "apps/frontend/virteex-mobile/src",
-  "tags": ["scope:shared", "type:application", "platform:mobile", "criticality:high"],
+  "tags": [
+    "scope:shared",
+    "type:application",
+    "platform:mobile",
+    "criticality:high"
+  ],
   "targets": {
     "build": {
       "executor": "@angular/build:application",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/frontend/virteex-mobile",
         "browser": "apps/frontend/virteex-mobile/src/main.ts",
@@ -20,7 +27,9 @@
             "input": "apps/frontend/virteex-mobile/public"
           }
         ],
-        "styles": ["apps/frontend/virteex-mobile/src/styles.scss"]
+        "styles": [
+          "apps/frontend/virteex-mobile/src/styles.scss"
+        ]
       },
       "configurations": {
         "production": {
@@ -74,7 +83,9 @@
     },
     "test": {
       "executor": "@nx/vitest:test",
-      "outputs": ["{options.reportsDirectory}"],
+      "outputs": [
+        "{options.reportsDirectory}"
+      ],
       "options": {
         "reportsDirectory": "../../coverage/apps/frontend/virteex-mobile"
       }

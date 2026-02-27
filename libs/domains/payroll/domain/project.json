@@ -5,8 +5,10 @@
   "projectType": "library",
   "prefix": "virteex",
   "tags": [
+    "scope:payroll",
     "type:domain",
-    "scope:payroll"
+    "platform:agnostic",
+    "criticality:medium"
   ],
   "implicitDependencies": [
     "contracts-payroll-contracts"

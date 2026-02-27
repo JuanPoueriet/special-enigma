@@ -4,8 +4,10 @@
   "sourceRoot": "apps/backend/virteex-bi-service/src",
   "projectType": "application",
   "tags": [
-    "type:app",
-    "domain:bi"
+    "scope:bi",
+    "type:application",
+    "platform:agnostic",
+    "criticality:medium"
   ],
   "targets": {
     "build": {

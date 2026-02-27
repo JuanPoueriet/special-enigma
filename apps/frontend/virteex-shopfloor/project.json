@@ -4,11 +4,18 @@
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "apps/virteex-shopfloor/src",
-  "tags": ["type:app", "scope:shopfloor"],
+  "tags": [
+    "scope:shopfloor",
+    "type:application",
+    "platform:agnostic",
+    "criticality:medium"
+  ],
   "targets": {
     "build": {
       "executor": "@angular/build:application",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/virteex-shopfloor",
         "browser": "apps/virteex-shopfloor/src/main.ts",
@@ -20,7 +27,9 @@
             "input": "apps/virteex-shopfloor/public"
           }
         ],
-        "styles": ["apps/virteex-shopfloor/src/styles.scss"]
+        "styles": [
+          "apps/virteex-shopfloor/src/styles.scss"
+        ]
       },
       "configurations": {
         "production": {
@@ -73,7 +82,9 @@
     },
     "test": {
       "executor": "@nx/vitest:test",
-      "outputs": ["{options.reportsDirectory}"],
+      "outputs": [
+        "{options.reportsDirectory}"
+      ],
       "options": {
         "reportsDirectory": "../../coverage/apps/virteex-shopfloor"
       }

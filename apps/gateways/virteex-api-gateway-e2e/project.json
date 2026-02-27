@@ -21,5 +21,11 @@
       ]
     }
   },
-  "prefix": "virteex"
+  "prefix": "virteex",
+  "tags": [
+    "scope:gateway",
+    "type:e2e",
+    "platform:e2e",
+    "criticality:low"
+  ]
 }
