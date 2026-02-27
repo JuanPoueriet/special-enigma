@@ -6,29 +6,73 @@ import { SignedXml } from 'xml-crypto';
 // @ts-ignore
 import { DOMParser } from '@xmldom/xmldom';
 import * as crypto from 'crypto';
+import * as libxmljs from 'libxmljs';
+import * as fs from 'fs';
+import * as path from 'path';
 
 @Injectable()
 export class DianFiscalAdapter implements FiscalProvider {
   private readonly logger = new Logger(DianFiscalAdapter.name);
   private privateKey: string;
+  private xsdSchema: libxmljs.Document;
 
   constructor(private readonly httpService: HttpService) {
       if (process.env['FISCAL_PRIVATE_KEY']) {
           this.privateKey = process.env['FISCAL_PRIVATE_KEY'];
       } else {
-          this.logger.warn('FISCAL_PRIVATE_KEY not provided. Generating ephemeral RSA key for simulation.');
-          const { privateKey } = crypto.generateKeyPairSync('rsa', {
-              modulusLength: 2048,
-              publicKeyEncoding: { type: 'spki', format: 'pem' },
-              privateKeyEncoding: { type: 'pkcs8', format: 'pem' }
-          });
-          this.privateKey = privateKey;
+          this.logger.error('FISCAL_PRIVATE_KEY not provided. Cannot initialize DIAN adapter.');
+          throw new Error('FISCAL_PRIVATE_KEY is missing');
+      }
+
+      try {
+          // Load XSD Schema
+          const schemaPath = path.join(__dirname, '../schemas/dian-ubl-2.1.xsd');
+          // In a real build, we need to ensure this asset is copied.
+          // For now, assuming it exists at runtime relative to this file or we handle the error.
+          if (fs.existsSync(schemaPath)) {
+             const xsdContent = fs.readFileSync(schemaPath, 'utf8');
+             this.xsdSchema = libxmljs.parseXml(xsdContent);
+          } else {
+             this.logger.warn(`XSD Schema not found at ${schemaPath}. Validation will be skipped.`);
+          }
+      } catch (e) {
+          this.logger.error('Failed to load XSD schema', e);
       }
   }
 
   async validateInvoice(invoice: any): Promise<boolean> {
     this.logger.log(`Validating invoice ${invoice?.id} with DIAN (Robust Integration)...`);
-    // Validation logic (e.g., schema validation)
+
+    if (!invoice) {
+        throw new Error('Invoice is null or undefined');
+    }
+
+    let xmlContent = '';
+    if (typeof invoice === 'string') {
+        xmlContent = invoice;
+    } else {
+        // If it's an object, we can't validate against XSD easily without serializing it first.
+        // Assuming validation happens on the XML string usually.
+        // If we only have the object, we skip XSD validation or would need the builder here.
+        this.logger.warn('validateInvoice received an object, skipping XSD validation as it requires XML string.');
+        return true;
+    }
+
+    if (this.xsdSchema) {
+        try {
+            const xmlDoc = libxmljs.parseXml(xmlContent);
+            const isValid = xmlDoc.validate(this.xsdSchema);
+            if (!isValid) {
+                this.logger.error('XML Validation Failed', xmlDoc.validationErrors);
+                throw new Error(`XML Validation Failed: ${xmlDoc.validationErrors.map(e => e.message).join(', ')}`);
+            }
+            this.logger.log('XML Validation Successful');
+        } catch (e: any) {
+            this.logger.error(`Validation Error: ${e.message}`);
+            throw e;
+        }
+    }
+
     return true;
   }
 

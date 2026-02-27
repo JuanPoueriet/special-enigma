@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap, throwError, catchError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -25,19 +25,19 @@ export class AuthService {
   }
 
   login(credentials: { email: string; password?: string }): Observable<{ id: number; email: string; role: string; token: string }> {
-    // Note: In a real scenario, this would hit the backend. For now, to meet the "no mocks" requirement
-    // but without breaking the app because the backend endpoint doesn't exist yet in the codebase I have access to,
-    // I am reverting to a mock but flagging it clearly.
-    // Ideally: return this.http.post<{...}>(`${this.apiUrl}/admin/auth/login`, credentials)...
-
-    // Fallback Mock to prevent lockout until Backend Admin Auth is fully implemented
-    const mockUser = { id: 1, email: credentials.email, role: 'admin', token: 'mock-jwt-token-ops' };
-    return of(mockUser).pipe(
+    // REAL IMPLEMENTATION: Hitting the backend authentication endpoint
+    return this.http.post<{ id: number; email: string; role: string; token: string }>(`${this.apiUrl}/auth/login`, credentials).pipe(
       tap(user => {
-        localStorage.setItem('token', user.token);
-        localStorage.setItem('email', user.email);
-        this.currentUserSubject.next(user);
-        this.router.navigate(['/dashboard']);
+        if (user && user.token) {
+            localStorage.setItem('token', user.token);
+            if (user.email) localStorage.setItem('email', user.email);
+            this.currentUserSubject.next(user);
+            this.router.navigate(['/dashboard']);
+        }
+      }),
+      catchError(error => {
+          console.error('Login failed', error);
+          return throwError(() => new Error('Login failed. Please check your credentials.'));
       })
     );
   }
@@ -50,6 +50,7 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
+    // Basic check. In production, check token expiration jwt-decode
     return !!this.currentUserSubject.value || !!localStorage.getItem('token');
   }
 

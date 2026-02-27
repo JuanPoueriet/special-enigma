@@ -117,12 +117,7 @@ export class CompleteOnboardingUseCase {
     await this.auditLogRepository.save(new AuditLog('REGISTER_SUCCESS', user.id, { ip: context.ip }));
 
     // Send Welcome Email
-    try {
-        await this.notificationService.sendWelcomeEmail(user);
-    } catch (e) {
-        // Non-blocking error
-        console.error('Failed to queue welcome email', e);
-    }
+    await this.notificationService.sendWelcomeEmail(user);
 
     return {
         accessToken,
