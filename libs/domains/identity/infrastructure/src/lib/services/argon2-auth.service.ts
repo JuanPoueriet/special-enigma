@@ -62,7 +62,7 @@ export class Argon2AuthService implements AuthService {
 
   async verifyToken(token: string): Promise<any> {
     try {
-      return this.jwtTokenService.verifyToken(token, "access");
+      return await this.jwtTokenService.verifyToken(token, "access");
     } catch (error: any) {
       if (error?.name === "TokenExpiredError") {
         throw new UnauthorizedException("Token expired");

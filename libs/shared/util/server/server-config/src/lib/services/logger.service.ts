@@ -1,6 +1,7 @@
 import { Injectable, LoggerService as NestLoggerService } from '@nestjs/common';
 import { trace, context } from '@opentelemetry/api';
 import { PinoLogger } from 'nestjs-pino';
+import { getTenantContext } from '@virteex/kernel-auth';
 
 @Injectable()
 export class LoggerService implements NestLoggerService {
@@ -33,10 +34,19 @@ export class LoggerService implements NestLoggerService {
     const traceId = span?.spanContext().traceId;
     const spanId = span?.spanContext().spanId;
 
-    if (traceId) {
+    // Attempt to get security context
+    const tenantContext = getTenantContext();
+
+    const securityContext = {
+      tenantId: tenantContext?.tenantId,
+      userId: (tenantContext as any)?.userId, // Assuming userId might be available in some contexts
+    };
+
+    if (traceId || securityContext.tenantId) {
       const logObject = {
         traceId,
         spanId,
+        ...securityContext,
         msg: typeof message === 'string' ? message : undefined,
         ...((typeof message === 'object') ? message : {}),
       };

@@ -1,6 +1,7 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, Logger } from '@nestjs/common';
 import * as jwt from 'jsonwebtoken';
 import { SecretManagerService } from './secret-manager.service';
+import Redis from 'ioredis';
 
 export type SupportedTokenType = 'access' | 'refresh' | 'service' | 'plugin' | 'stepup';
 
@@ -15,9 +16,13 @@ export interface TokenIssueOptions {
 
 interface JwkOct {
   kid: string;
-  kty: 'oct';
+  kty: 'oct' | 'RSA' | 'EC';
   alg: jwt.Algorithm;
-  k: string;
+  k?: string; // for oct
+  n?: string; // for RSA
+  e?: string; // for RSA
+  x?: string; // for EC
+  y?: string; // for EC
   use?: string;
 }
 
@@ -27,8 +32,8 @@ export class JwtTokenService {
   private readonly defaultClockSkewSeconds: number;
   private readonly issuerByType: Record<SupportedTokenType, string>;
   private readonly audienceByType: Record<SupportedTokenType, string>;
-  private revokedJti = new Map<string, number>();
-  private usedJti = new Map<string, number>();
+  private readonly redis: Redis | null = null;
+  private readonly logger = new Logger(JwtTokenService.name);
 
   constructor(private readonly secretManager: SecretManagerService) {
     const algs = this.secretManager
@@ -38,6 +43,15 @@ export class JwtTokenService {
       .filter(Boolean) as jwt.Algorithm[];
 
     this.allowedAlgorithms = algs.length ? algs : ['HS256'];
+
+    // SECURITY: Enforce asymmetric algorithms in production
+    if (process.env['NODE_ENV'] === 'production') {
+      const insecureAlgs = this.allowedAlgorithms.filter(a => a.startsWith('HS'));
+      if (insecureAlgs.length > 0) {
+        this.logger.warn(`Insecure algorithms (${insecureAlgs.join(',')}) allowed in production. Recommend RS256/ES256.`);
+      }
+    }
+
     this.defaultClockSkewSeconds = Number(this.secretManager.getSecret('JWT_CLOCK_SKEW_SECONDS', '30'));
 
     this.issuerByType = {
@@ -55,6 +69,14 @@ export class JwtTokenService {
       plugin: this.secretManager.getSecret('JWT_AUDIENCE_PLUGIN', this.secretManager.getSecret('JWT_AUDIENCE', 'virteex-plugin-host')),
       stepup: this.secretManager.getSecret('JWT_AUDIENCE_STEPUP', this.secretManager.getSecret('JWT_AUDIENCE', 'virteex-api')),
     };
+
+    const redisUrl = process.env['REDIS_URL'];
+    if (redisUrl) {
+        this.redis = new Redis(redisUrl, {
+            maxRetriesPerRequest: 1,
+            connectTimeout: 2000,
+        });
+    }
   }
 
   issueToken(payload: Record<string, unknown>, options: TokenIssueOptions): string {
@@ -106,7 +128,7 @@ export class JwtTokenService {
     return this.resolveVerificationKey(header.kid).secret;
   }
 
-  verifyToken(token: string, tokenType: SupportedTokenType, enforceOneTime = false): jwt.JwtPayload {
+  async verifyToken(token: string, tokenType: SupportedTokenType, enforceOneTime = false): Promise<jwt.JwtPayload> {
     const decoded = jwt.decode(token, { complete: true });
     if (!decoded || typeof decoded === 'string') {
       throw new UnauthorizedException('Malformed JWT');
@@ -144,7 +166,7 @@ export class JwtTokenService {
       throw new UnauthorizedException('JWT token type mismatch');
     }
 
-    if (this.isRevoked(verified.jti)) {
+    if (await this.isRevoked(verified.jti)) {
       throw new UnauthorizedException('JWT revoked');
     }
 
@@ -153,20 +175,25 @@ export class JwtTokenService {
       if (!jti || typeof jti !== 'string') {
         throw new UnauthorizedException('JWT missing jti');
       }
-      if (this.usedJti.has(jti)) {
+      if (await this.isUsed(jti)) {
         throw new UnauthorizedException('JWT replay detected');
       }
-      this.usedJti.set(jti, (verified.exp ?? 0) * 1000);
+      await this.markAsUsed(jti, verified.exp ?? 0);
     }
 
-    this.cleanupCaches();
     return verified;
   }
 
-  revokeToken(jti: string, exp?: number) {
+  async revokeToken(jti: string, exp?: number) {
     if (!jti) return;
-    const ttl = exp ? exp * 1000 : Date.now() + 15 * 60 * 1000;
-    this.revokedJti.set(jti, ttl);
+    const ttlSeconds = exp ? exp - Math.floor(Date.now() / 1000) : 15 * 60;
+    if (ttlSeconds <= 0) return;
+
+    if (this.redis) {
+        await this.redis.set(`revoked:${jti}`, '1', 'EX', ttlSeconds);
+    } else {
+        this.logger.error('Redis not configured: Cannot revoke token.');
+    }
   }
 
   rotateKeys(): void {
@@ -197,7 +224,7 @@ export class JwtTokenService {
     return {
       kid: key.kid,
       alg: key.alg,
-      secret: Buffer.from(key.k, 'base64url').toString('utf8'),
+      secret: key.k ? Buffer.from(key.k, 'base64url').toString('utf8') : this.secretManager.getJwtSecret(),
     };
   }
 
@@ -211,7 +238,7 @@ export class JwtTokenService {
     return {
       kid: key.kid,
       alg: key.alg,
-      secret: Buffer.from(key.k, 'base64url').toString('utf8'),
+      secret: key.k ? Buffer.from(key.k, 'base64url').toString('utf8') : this.secretManager.getJwtSecret(),
     };
   }
 
@@ -219,7 +246,7 @@ export class JwtTokenService {
     const raw = this.secretManager.getSecret('JWT_JWKS', '');
     if (raw) {
       const parsed = JSON.parse(raw) as JwkOct[];
-      return parsed.filter((entry) => entry.kty === 'oct' && entry.kid && entry.k);
+      return parsed;
     }
 
     const secret = this.secretManager.getJwtSecret();
@@ -233,20 +260,50 @@ export class JwtTokenService {
     ];
   }
 
-  private isRevoked(jti?: string): boolean {
+  private async isRevoked(jti?: string): Promise<boolean> {
     if (!jti) return false;
-    const expiresAt = this.revokedJti.get(jti);
-    if (!expiresAt) return false;
-    return expiresAt > Date.now();
+    if (!this.redis) {
+        if (process.env['NODE_ENV'] === 'production') {
+            this.logger.error('FAIL-CLOSED: Redis not configured for revocation check.');
+            return true;
+        }
+        return false;
+    }
+    try {
+        const res = await this.redis.get(`revoked:${jti}`);
+        return res === '1';
+    } catch (e) {
+        this.logger.error(`Redis error during revocation check: ${e}`);
+        if (process.env['NODE_ENV'] === 'production') return true;
+        return false;
+    }
   }
 
-  private cleanupCaches(): void {
-    const now = Date.now();
-    for (const [jti, exp] of this.revokedJti.entries()) {
-      if (exp <= now) this.revokedJti.delete(jti);
+  private async isUsed(jti: string): Promise<boolean> {
+    if (!this.redis) {
+        if (process.env['NODE_ENV'] === 'production') {
+            this.logger.error('FAIL-CLOSED: Redis not configured for replay check.');
+            return true;
+        }
+        return false;
     }
-    for (const [jti, exp] of this.usedJti.entries()) {
-      if (exp <= now) this.usedJti.delete(jti);
+    try {
+        const res = await this.redis.get(`used:${jti}`);
+        return res === '1';
+    } catch (e) {
+        this.logger.error(`Redis error during replay check: ${e}`);
+        if (process.env['NODE_ENV'] === 'production') return true;
+        return false;
+    }
+  }
+
+  private async markAsUsed(jti: string, exp: number): Promise<void> {
+    if (!this.redis) return;
+    const ttlSeconds = exp - Math.floor(Date.now() / 1000);
+    if (ttlSeconds > 0) {
+        await this.redis.set(`used:${jti}`, '1', 'EX', ttlSeconds).catch(e => {
+            this.logger.error(`Failed to mark jti as used in Redis: ${e}`);
+        });
     }
   }
 }

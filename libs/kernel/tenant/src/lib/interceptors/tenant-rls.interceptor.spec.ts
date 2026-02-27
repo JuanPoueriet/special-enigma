@@ -52,27 +52,14 @@ describe('TenantRlsInterceptor', () => {
     expect(interceptor).toBeDefined();
   });
 
-  it('should skip if no tenant context', async () => {
+  it('should FAIL if no tenant context (even for GET)', async () => {
     (AuthModule.getTenantContext as jest.Mock).mockReturnValue(null);
     const next = { handle: jest.fn().mockReturnValue(of('test')) };
-    const context = {} as ExecutionContext;
+    const context = {
+      switchToHttp: () => ({ getRequest: () => ({ method: 'GET' }) })
+    } as unknown as ExecutionContext;
 
-    const result = await interceptor.intercept(context, next as unknown as CallHandler);
-    // Since intercept is async, it returns a Promise.
-    // If it returns next.handle() directly, it's Promise<Observable>.
-
-    const obs = result;
-    // Wait, if next.handle() returns Observable, and async function returns it, it is Promise<Observable>.
-
-    // In this case result is likely the Observable wrapped in Promise.
-    // Let's await it to get the Observable.
-    const resolvedObs = await result;
-
-    const value = await lastValueFrom(resolvedObs);
-
-    expect(value).toBe('test');
-    expect(tenantService.getTenantConfig).not.toHaveBeenCalled();
-    expect(em.transactional).not.toHaveBeenCalled();
+    await expect(interceptor.intercept(context, next as unknown as CallHandler)).rejects.toThrow('Tenant context is required for all operations');
   });
 
   it('should use transaction for SHARED mode', async () => {
@@ -119,6 +106,6 @@ describe('TenantRlsInterceptor', () => {
       switchToHttp: () => ({ getRequest: () => ({ method: 'POST' }) })
     } as unknown as ExecutionContext;
 
-    await expect(interceptor.intercept(context, next as unknown as CallHandler)).rejects.toThrow('Tenant context is required for write operations');
+    await expect(interceptor.intercept(context, next as unknown as CallHandler)).rejects.toThrow('Tenant context is required for all operations');
   });
 });
