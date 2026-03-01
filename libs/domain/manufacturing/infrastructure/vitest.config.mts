@@ -5,7 +5,7 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 export default defineConfig(() => ({
   root: __dirname,
   cacheDir:
-    '../../../../node_modules/.vite/libs/domains/manufacturing/infrastructure',
+    '../../../../node_modules/.vite/libs/domain/manufacturing/infrastructure',
   plugins: [nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
   test: {
     name: 'manufacturing-infrastructure',
@@ -16,7 +16,7 @@ export default defineConfig(() => ({
     reporters: ['default'],
     coverage: {
       reportsDirectory:
-        '../../../../coverage/libs/domains/manufacturing/infrastructure',
+        '../../../../coverage/libs/domain/manufacturing/infrastructure',
       provider: 'v8' as const,
     },
   },

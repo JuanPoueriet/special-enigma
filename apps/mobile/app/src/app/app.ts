@@ -9,6 +9,6 @@ import { SyncService } from './core/services/sync.service';
   styleUrl: './app.scss',
 })
 export class App {
-  protected title = 'virteex-mobile';
+  protected title = 'mobile-app';
   private syncService = inject(SyncService);
 }

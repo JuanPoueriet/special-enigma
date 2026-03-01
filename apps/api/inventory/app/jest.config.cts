@@ -1,10 +1,10 @@
 module.exports = {
-  displayName: 'virteex-inventory-service',
+  displayName: 'api-inventory',
   preset: '../../jest.preset.js',
   testEnvironment: 'node',
   transform: {
     '^.+\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/apps/virteex-inventory-service',
+  coverageDirectory: '../../coverage/apps/api-inventory',
 };

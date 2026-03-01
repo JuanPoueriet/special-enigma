@@ -17,7 +17,7 @@ export default async function (tree: Tree, schema: Schema) {
 
   for (const layer of layers) {
     const projectName = `${domain}-${libName}-${layer}`;
-    const directory = `libs/domains/${domain}/${libName}/${layer}`;
+    const directory = `libs/domain/${domain}/${libName}/${layer}`;
     const tags = `scope:${domain},type:${layer},platform:agnostic`;
 
     // 1. Create the library using @nx/nest

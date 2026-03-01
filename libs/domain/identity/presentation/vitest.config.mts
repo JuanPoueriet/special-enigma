@@ -4,7 +4,7 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
 export default defineConfig(() => ({
   root: __dirname,
-  cacheDir: '../../../../node_modules/.vite/libs/domains/identity/presentation',
+  cacheDir: '../../../../node_modules/.vite/libs/domain/identity/presentation',
   plugins: [nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
   test: {
     name: 'identity-presentation',
@@ -15,7 +15,7 @@ export default defineConfig(() => ({
     reporters: ['default'],
     coverage: {
       reportsDirectory:
-        '../../../../coverage/libs/domains/identity/presentation',
+        '../../../../coverage/libs/domain/identity/presentation',
       provider: 'v8' as const,
     },
   },

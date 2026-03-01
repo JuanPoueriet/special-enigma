@@ -6,5 +6,5 @@ module.exports = {
     '^.+\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../../../coverage/libs/domains/accounting/application',
+  coverageDirectory: '../../../../coverage/libs/domain/accounting/application',
 };

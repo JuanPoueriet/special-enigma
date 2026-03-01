@@ -9,7 +9,7 @@ import { SessionService } from '@virteex/shared-util-auth';
 import { SecureStorageService } from '@virteex/shared-util-auth';
 
 @Component({
-  selector: 'virteex-mobile-login',
+  selector: 'mobile-app-login',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login.page.html',

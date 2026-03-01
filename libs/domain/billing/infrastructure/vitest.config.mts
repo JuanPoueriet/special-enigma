@@ -5,7 +5,7 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 export default defineConfig(() => ({
   root: __dirname,
   cacheDir:
-    '../../../../node_modules/.vite/libs/domains/billing/infrastructure',
+    '../../../../node_modules/.vite/libs/domain/billing/infrastructure',
   plugins: [nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
   test: {
     name: 'billing-infrastructure',
@@ -16,7 +16,7 @@ export default defineConfig(() => ({
     reporters: ['default'],
     coverage: {
       reportsDirectory:
-        '../../../../coverage/libs/domains/billing/infrastructure',
+        '../../../../coverage/libs/domain/billing/infrastructure',
       provider: 'v8' as const,
     },
   },

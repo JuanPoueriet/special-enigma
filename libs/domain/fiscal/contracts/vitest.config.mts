@@ -4,7 +4,7 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
 export default defineConfig(() => ({
   root: __dirname,
-  cacheDir: '../../../../node_modules/.vite/libs/domains/fiscal/contracts',
+  cacheDir: '../../../../node_modules/.vite/libs/domain/fiscal/contracts',
   plugins: [nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
   test: {
     name: 'fiscal-contracts',
@@ -14,7 +14,7 @@ export default defineConfig(() => ({
     include: ['{src,tests}/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     reporters: ['default'],
     coverage: {
-      reportsDirectory: '../../../../coverage/libs/domains/fiscal/contracts',
+      reportsDirectory: '../../../../coverage/libs/domain/fiscal/contracts',
       provider: 'v8' as const,
     },
   },

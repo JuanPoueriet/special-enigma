@@ -25,59 +25,59 @@ import {
             subgraphs: [
               {
                 name: 'catalog',
-                url: configService.get('CATALOG_SERVICE_URL') || 'http://virteex-catalog-service:3000/graphql',
+                url: configService.get('CATALOG_SERVICE_URL') || 'http://api-catalog:3000/graphql',
               },
               {
                 name: 'identity',
-                url: configService.get('IDENTITY_SERVICE_URL') || 'http://virteex-identity-service:3000/graphql',
+                url: configService.get('IDENTITY_SERVICE_URL') || 'http://api-identity:3000/graphql',
               },
               {
                 name: 'inventory',
-                url: configService.get('INVENTORY_SERVICE_URL') || 'http://virteex-inventory-service:3000/graphql',
+                url: configService.get('INVENTORY_SERVICE_URL') || 'http://api-inventory:3000/graphql',
               },
               {
                 name: 'billing',
-                url: configService.get('BILLING_SERVICE_URL') || 'http://virteex-billing-service:3000/graphql',
+                url: configService.get('BILLING_SERVICE_URL') || 'http://api-billing:3000/graphql',
               },
               {
                 name: 'accounting',
-                url: configService.get('ACCOUNTING_SERVICE_URL') || 'http://virteex-accounting-service:3000/graphql',
+                url: configService.get('ACCOUNTING_SERVICE_URL') || 'http://api-accounting:3000/graphql',
               },
               {
                 name: 'payroll',
-                url: configService.get('PAYROLL_SERVICE_URL') || 'http://virteex-payroll-service:3000/graphql',
+                url: configService.get('PAYROLL_SERVICE_URL') || 'http://api-payroll:3000/graphql',
               },
               {
                 name: 'treasury',
-                url: configService.get('TREASURY_SERVICE_URL') || 'http://virteex-treasury-service:3000/graphql',
+                url: configService.get('TREASURY_SERVICE_URL') || 'http://api-treasury:3000/graphql',
               },
               {
                 name: 'crm',
-                url: configService.get('CRM_SERVICE_URL') || 'http://virteex-crm-service:3000/graphql',
+                url: configService.get('CRM_SERVICE_URL') || 'http://api-crm:3000/graphql',
               },
               {
                 name: 'projects',
-                url: configService.get('PROJECTS_SERVICE_URL') || 'http://virteex-projects-service:3000/graphql',
+                url: configService.get('PROJECTS_SERVICE_URL') || 'http://api-projects:3000/graphql',
               },
               {
                 name: 'manufacturing',
-                url: configService.get('MANUFACTURING_SERVICE_URL') || 'http://virteex-manufacturing-service:3000/graphql',
+                url: configService.get('MANUFACTURING_SERVICE_URL') || 'http://api-manufacturing:3000/graphql',
               },
               {
                 name: 'purchasing',
-                url: configService.get('PURCHASING_SERVICE_URL') || 'http://virteex-purchasing-service:3000/graphql',
+                url: configService.get('PURCHASING_SERVICE_URL') || 'http://api-purchasing:3000/graphql',
               },
               {
                 name: 'bi',
-                url: configService.get('BI_SERVICE_URL') || 'http://virteex-bi-service:3000/graphql',
+                url: configService.get('BI_SERVICE_URL') || 'http://api-bi:3000/graphql',
               },
               {
                 name: 'admin',
-                url: configService.get('ADMIN_SERVICE_URL') || 'http://virteex-admin-service:3000/graphql',
+                url: configService.get('ADMIN_SERVICE_URL') || 'http://api-admin:3000/graphql',
               },
               {
                 name: 'fixed-assets',
-                url: configService.get('FIXED_ASSETS_SERVICE_URL') || 'http://virteex-fixed-assets-service:3000/graphql',
+                url: configService.get('FIXED_ASSETS_SERVICE_URL') || 'http://api-fixed-assets:3000/graphql',
               },
             ],
           }),

@@ -234,7 +234,7 @@ export class StampPayrollUseCase {
     };
 
     const xmlWithoutSello = builder.build(xmlObj);
-    const xsltPath = 'libs/domains/billing/domain/src/lib/xslt/cadenaoriginal_4_0.xslt';
+    const xsltPath = 'libs/domain/billing/domain/src/lib/xslt/cadenaoriginal_4_0.xslt';
     let cadenaOriginal = '';
     try {
         cadenaOriginal = await this.xsltService.transform(xmlWithoutSello, xsltPath);

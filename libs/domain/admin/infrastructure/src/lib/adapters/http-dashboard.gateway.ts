@@ -14,8 +14,8 @@ export class HttpDashboardGateway implements DashboardGateway {
     private readonly httpService: HttpService,
     private readonly configService: ConfigService
   ) {
-    this.billingUrl = this.configService.get<string>('BILLING_SERVICE_URL', 'http://virteex-billing-service:3000');
-    this.identityUrl = this.configService.get<string>('IDENTITY_SERVICE_URL', 'http://virteex-identity-service:3000');
+    this.billingUrl = this.configService.get<string>('BILLING_SERVICE_URL', 'http://api-billing:3000');
+    this.identityUrl = this.configService.get<string>('IDENTITY_SERVICE_URL', 'http://api-identity:3000');
   }
 
   async getMetrics(): Promise<DashboardMetrics> {

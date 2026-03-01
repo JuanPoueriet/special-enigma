@@ -5,7 +5,7 @@ import { catchError, of } from 'rxjs';
 import { DashboardViewComponent } from './ui/dashboard-view.component';
 
 @Component({
-  selector: 'virteex-mobile-dashboard',
+  selector: 'mobile-app-dashboard',
   standalone: true,
   imports: [CommonModule, DashboardViewComponent],
   templateUrl: './dashboard.page.html',

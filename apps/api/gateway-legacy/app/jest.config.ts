@@ -1,6 +1,6 @@
 module.exports = {
-  displayName: 'virteex-gateway',
+  displayName: 'gateway-legacy',
   preset: '../../jest.preset.js',
   testEnvironment: 'node',
-  coverageDirectory: '../../coverage/apps/virteex-gateway'
+  coverageDirectory: '../../coverage/apps/gateway-legacy'
 };

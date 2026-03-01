@@ -1,10 +1,10 @@
 module.exports = {
-  displayName: 'virteex-billing-service',
+  displayName: 'api-billing',
   preset: '../../jest.preset.js',
   testEnvironment: 'node',
   transform: {
     '^.+\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }]
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/apps/virteex-billing-service'
+  coverageDirectory: '../../coverage/apps/api-billing'
 };

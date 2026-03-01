@@ -122,7 +122,7 @@ export class MxFiscalDocumentBuilder implements FiscalDocumentBuilder {
     const xmlWithoutSello = builder.build(cfdiObj);
 
     // Now pointing to fiscal domain
-    const xsltPath = 'libs/domains/fiscal/domain/src/lib/xslt/cadenaoriginal_4_0.xslt';
+    const xsltPath = 'libs/domain/fiscal/domain/src/lib/xslt/cadenaoriginal_4_0.xslt';
 
     let cadenaOriginal = '';
     try {

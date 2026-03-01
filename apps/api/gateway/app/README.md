@@ -23,13 +23,13 @@ The application requires the following environment variables:
 
 ### Development
 ```bash
-npx nx serve virteex-api-gateway
+npx nx serve api-gateway
 ```
 
 ### Production Build
 ```bash
-npx nx build virteex-api-gateway
-node dist/apps/virteex-api-gateway/main.js
+npx nx build api-gateway
+node dist/apps/api-gateway/main.js
 ```
 
 ## 🧪 Health Checks

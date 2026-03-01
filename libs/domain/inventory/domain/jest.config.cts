@@ -7,5 +7,5 @@ module.exports = {
   },
   transformIgnorePatterns: ['node_modules/(?!(uuid)/)'],
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../../../coverage/libs/domains/inventory/domain',
+  coverageDirectory: '../../../../coverage/libs/domain/inventory/domain',
 };

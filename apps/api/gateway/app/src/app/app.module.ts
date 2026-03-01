@@ -104,24 +104,24 @@ export class AppModule implements NestModule {
       .forRoutes('*');
 
     // Proxy Routes for Microservices
-    // consumer.apply(createServiceProxy('http://virteex-accounting-service:3000')).forRoutes('accounting'); // Running in-process
-    // consumer.apply(createServiceProxy('http://virteex-payroll-service:3000')).forRoutes('payroll'); // Migrated to GraphQL Federation
-    consumer.apply(createServiceProxy('http://virteex-crm-service:3000')).forRoutes('crm');
-    consumer.apply(createServiceProxy('http://virteex-projects-service:3000')).forRoutes('projects');
-    consumer.apply(createServiceProxy('http://virteex-manufacturing-service:3000')).forRoutes('manufacturing');
-    // consumer.apply(createServiceProxy('http://virteex-inventory-service:3000')).forRoutes('inventory'); // Running in-process
+    // consumer.apply(createServiceProxy('http://api-accounting:3000')).forRoutes('accounting'); // Running in-process
+    // consumer.apply(createServiceProxy('http://api-payroll:3000')).forRoutes('payroll'); // Migrated to GraphQL Federation
+    consumer.apply(createServiceProxy('http://api-crm:3000')).forRoutes('crm');
+    consumer.apply(createServiceProxy('http://api-projects:3000')).forRoutes('projects');
+    consumer.apply(createServiceProxy('http://api-manufacturing:3000')).forRoutes('manufacturing');
+    // consumer.apply(createServiceProxy('http://api-inventory:3000')).forRoutes('inventory'); // Running in-process
 
     // Proxy for GraphQL Gateway
-    // Assuming virteex-gateway runs on port 3000 and has global prefix 'api', exposing GraphQL at '/api/graphql'
-    // This proxy forwards '/graphql' requests to 'http://virteex-gateway:3000/api/graphql'
+    // Assuming gateway-legacy runs on port 3000 and has global prefix 'api', exposing GraphQL at '/api/graphql'
+    // This proxy forwards '/graphql' requests to 'http://gateway-legacy:3000/api/graphql'
     // Note: createServiceProxy with pathRewrite might be needed if exact mapping fails,
     // but here we target the base URL. If request is /graphql, and target is .../api, it becomes .../api/graphql
-    consumer.apply(createServiceProxy('http://virteex-gateway:3000/api')).forRoutes('graphql');
+    consumer.apply(createServiceProxy('http://gateway-legacy:3000/api')).forRoutes('graphql');
 
-    // consumer.apply(createServiceProxy('http://virteex-treasury-service:3000')).forRoutes('treasury'); // Migrated to GraphQL Federation
-    // consumer.apply(createServiceProxy('http://virteex-purchasing-service:3000')).forRoutes('purchasing'); // Migrated to GraphQL Federation
-    consumer.apply(createServiceProxy('http://virteex-bi-service:3000')).forRoutes('bi');
-    consumer.apply(createServiceProxy('http://virteex-admin-service:3000')).forRoutes('admin');
-    consumer.apply(createServiceProxy('http://virteex-fixed-assets-service:3000')).forRoutes('fixed-assets');
+    // consumer.apply(createServiceProxy('http://api-treasury:3000')).forRoutes('treasury'); // Migrated to GraphQL Federation
+    // consumer.apply(createServiceProxy('http://api-purchasing:3000')).forRoutes('purchasing'); // Migrated to GraphQL Federation
+    consumer.apply(createServiceProxy('http://api-bi:3000')).forRoutes('bi');
+    consumer.apply(createServiceProxy('http://api-admin:3000')).forRoutes('admin');
+    consumer.apply(createServiceProxy('http://api-fixed-assets:3000')).forRoutes('fixed-assets');
   }
 }

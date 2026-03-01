@@ -1,5 +1,5 @@
 export default {
-  displayName: 'virteex-admin-service-e2e',
+  displayName: 'api-admin-e2e',
   preset: '../../jest.preset.js',
   globalSetup: '<rootDir>/src/support/global-setup.ts',
   globalTeardown: '<rootDir>/src/support/global-teardown.ts',
@@ -11,5 +11,5 @@ export default {
     }],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/virteex-admin-service-e2e',
+  coverageDirectory: '../../coverage/api-admin-e2e',
 };

@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 
 @Component({
   imports: [RouterModule],
-  selector: 'virteex-ops-root',
+  selector: 'web-ops-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'virteex-support',
+  selector: 'web-support',
   standalone: true,
   imports: [CommonModule],
   template: `

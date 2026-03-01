@@ -11,7 +11,7 @@ import { Logger } from '@nestjs/common';
 // Configure the SDK
 export const otelSDK = new NodeSDK({
   resource: resourceFromAttributes({
-    [SemanticResourceAttributes.SERVICE_NAME]: 'virteex-billing-service',
+    [SemanticResourceAttributes.SERVICE_NAME]: 'api-billing',
   }),
   traceExporter: new OTLPTraceExporter({
     // Usually http://localhost:4318/v1/traces for Jaeger OTLP HTTP

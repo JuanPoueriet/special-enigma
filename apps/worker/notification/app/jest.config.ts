@@ -1,6 +1,6 @@
 module.exports = {
-  displayName: 'virteex-notification-service',
+  displayName: 'worker-notification',
   preset: '../../jest.preset.js',
   testEnvironment: 'node',
-  coverageDirectory: '../../coverage/apps/virteex-notification-service'
+  coverageDirectory: '../../coverage/apps/worker-notification'
 };

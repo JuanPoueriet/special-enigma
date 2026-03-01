@@ -6,7 +6,7 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
 export default defineConfig(() => ({
   root: __dirname,
-  cacheDir: '../../../../node_modules/.vite/libs/domains/fiscal/ui',
+  cacheDir: '../../../../node_modules/.vite/libs/domain/fiscal/ui',
   plugins: [angular(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
   test: {
     name: 'fiscal-ui',
@@ -17,7 +17,7 @@ export default defineConfig(() => ({
     setupFiles: ['src/test-setup.ts'],
     reporters: ['default'],
     coverage: {
-      reportsDirectory: '../../../../coverage/libs/domains/fiscal/ui',
+      reportsDirectory: '../../../../coverage/libs/domain/fiscal/ui',
       provider: 'v8' as const,
     }
   },

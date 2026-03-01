@@ -3,17 +3,17 @@ import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 
 export default defineConfig(() => ({
   root: __dirname,
-  cacheDir: '../../node_modules/.vite/apps/virteex-payroll-service',
+  cacheDir: '../../node_modules/.vite/apps/api-payroll',
   plugins: [nxViteTsPaths()],
   test: {
-    name: 'virteex-payroll-service',
+    name: 'api-payroll',
     watch: false,
     globals: true,
     environment: 'node',
     include: ['{src,tests}/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     reporters: ['default'],
     coverage: {
-      reportsDirectory: '../../coverage/apps/virteex-payroll-service',
+      reportsDirectory: '../../coverage/apps/api-payroll',
       provider: 'v8' as const,
     },
   },

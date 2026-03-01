@@ -1,5 +1,5 @@
 export default {
-  displayName: 'virteex-notification-service-e2e',
+  displayName: 'worker-notification-e2e',
   preset: '../../jest.preset.js',
   globalSetup: '<rootDir>/src/support/global-setup.ts',
   globalTeardown: '<rootDir>/src/support/global-teardown.ts',
@@ -14,5 +14,5 @@ export default {
     ],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/virteex-notification-service-e2e',
+  coverageDirectory: '../../coverage/worker-notification-e2e',
 };

@@ -23,7 +23,7 @@ export class SatFiscalAdapter implements FiscalProvider {
     this.apiUrl = this.configService.get<string>('SAT_API_URL', 'https://api.sat.gob.mx');
     this.apiKey = this.configService.getOrThrow<string>('SAT_API_KEY');
     this.certPath = this.configService.getOrThrow<string>('SAT_CERT_PATH');
-    this.xsltPath = path.resolve('libs/domains/billing/domain/src/lib/xslt');
+    this.xsltPath = path.resolve('libs/domain/billing/domain/src/lib/xslt');
   }
 
   async validateInvoice(invoice: any): Promise<boolean> {

@@ -7,6 +7,6 @@ module.exports = {
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory:
-    '../../../../coverage/libs/domains/inventory/infrastructure',
+    '../../../../coverage/libs/domain/inventory/infrastructure',
   passWithNoTests: true,
 };

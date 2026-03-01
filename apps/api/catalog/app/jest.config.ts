@@ -1,6 +1,6 @@
 module.exports = {
-  displayName: 'virteex-catalog-service',
+  displayName: 'api-catalog',
   preset: '../../jest.preset.js',
   testEnvironment: 'node',
-  coverageDirectory: '../../coverage/apps/virteex-catalog-service'
+  coverageDirectory: '../../coverage/apps/api-catalog'
 };

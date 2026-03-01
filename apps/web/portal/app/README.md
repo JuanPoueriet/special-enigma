@@ -27,13 +27,13 @@ The application requires the following environment variables (in `src/environmen
 
 ### Development Server
 ```bash
-npx nx serve virteex-web
+npx nx serve web-portal
 ```
 Navigate to `http://localhost:4200/`. The app will automatically reload if you change any source files.
 
 ### Production Build
 ```bash
-npx nx build virteex-web --configuration production
+npx nx build web-portal --configuration production
 ```
 The build artifacts will be stored in the `dist/` directory.
 
@@ -41,12 +41,12 @@ The build artifacts will be stored in the `dist/` directory.
 
 ### Unit Tests
 ```bash
-npx nx test virteex-web
+npx nx test web-portal
 ```
 
 ### End-to-End Tests
 ```bash
-npx nx e2e virteex-web-e2e
+npx nx e2e web-portal-e2e
 ```
 
 ## ⚠️ Notes

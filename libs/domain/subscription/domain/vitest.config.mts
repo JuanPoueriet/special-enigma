@@ -4,7 +4,7 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
 export default defineConfig(() => ({
   root: __dirname,
-  cacheDir: '../../../../node_modules/.vite/libs/domains/subscription/domain',
+  cacheDir: '../../../../node_modules/.vite/libs/domain/subscription/domain',
   plugins: [nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
   test: {
     name: 'subscription-domain',
@@ -14,7 +14,7 @@ export default defineConfig(() => ({
     include: ['{src,tests}/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     reporters: ['default'],
     coverage: {
-      reportsDirectory: '../../../../coverage/libs/domains/subscription/domain',
+      reportsDirectory: '../../../../coverage/libs/domain/subscription/domain',
       provider: 'v8' as const,
     },
   },

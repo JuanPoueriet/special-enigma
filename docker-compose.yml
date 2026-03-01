@@ -25,7 +25,7 @@ services:
   # API GATEWAY (Monolith)
   api-gateway:
     image: node:20-alpine
-    container_name: virteex-api-gateway
+    container_name: api-gateway
     working_dir: /app
     volumes:
       - .:/app
@@ -42,7 +42,7 @@ services:
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-api-gateway
+    command: npx nx serve api-gateway
     depends_on:
       - postgres
       - redis
@@ -51,7 +51,7 @@ services:
   # IDENTITY SERVICE
   identity-service:
     image: node:20-alpine
-    container_name: virteex-identity-service
+    container_name: api-identity
     working_dir: /app
     volumes:
       - .:/app
@@ -66,7 +66,7 @@ services:
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-identity-service
+    command: npx nx serve api-identity
     depends_on:
       - postgres
       - redis
@@ -75,7 +75,7 @@ services:
   # INVENTORY SERVICE
   inventory-service:
     image: node:20-alpine
-    container_name: virteex-inventory-service
+    container_name: api-inventory
     working_dir: /app
     volumes:
       - .:/app
@@ -90,7 +90,7 @@ services:
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-inventory-service
+    command: npx nx serve api-inventory
     depends_on:
       - postgres
       - redis
@@ -99,7 +99,7 @@ services:
   # BILLING SERVICE
   billing-service:
     image: node:20-alpine
-    container_name: virteex-billing-service
+    container_name: api-billing
     working_dir: /app
     volumes:
       - .:/app
@@ -114,7 +114,7 @@ services:
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-billing-service
+    command: npx nx serve api-billing
     depends_on:
       - postgres
       - redis
@@ -123,7 +123,7 @@ services:
   # CRM SERVICE
   crm-service:
     image: node:20-alpine
-    container_name: virteex-crm-service
+    container_name: api-crm
     working_dir: /app
     volumes:
       - .:/app
@@ -138,7 +138,7 @@ services:
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-crm-service
+    command: npx nx serve api-crm
     depends_on:
       - postgres
       - redis
@@ -147,7 +147,7 @@ services:
   # FISCAL SERVICE
   fiscal-service:
     image: node:20-alpine
-    container_name: virteex-fiscal-service
+    container_name: api-fiscal
     working_dir: /app
     volumes:
       - .:/app
@@ -162,7 +162,7 @@ services:
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-fiscal-service
+    command: npx nx serve api-fiscal
     depends_on:
       - postgres
       - redis
@@ -171,7 +171,7 @@ services:
   # SCHEDULER SERVICE
   scheduler-service:
     image: node:20-alpine
-    container_name: virteex-scheduler-service
+    container_name: worker-scheduler
     working_dir: /app
     volumes:
       - .:/app
@@ -179,14 +179,14 @@ services:
       - PORT=3000
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-scheduler-service
+    command: npx nx serve worker-scheduler
     depends_on:
       - kafka
 
   # ACCOUNTING SERVICE
   accounting-service:
     image: node:20-alpine
-    container_name: virteex-accounting-service
+    container_name: api-accounting
     working_dir: /app
     volumes:
       - .:/app
@@ -201,7 +201,7 @@ services:
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-accounting-service
+    command: npx nx serve api-accounting
     depends_on:
       - postgres
       - redis
@@ -210,7 +210,7 @@ services:
   # PAYROLL SERVICE
   payroll-service:
     image: node:20-alpine
-    container_name: virteex-payroll-service
+    container_name: api-payroll
     working_dir: /app
     volumes:
       - .:/app
@@ -225,7 +225,7 @@ services:
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-payroll-service
+    command: npx nx serve api-payroll
     depends_on:
       - postgres
       - redis
@@ -234,7 +234,7 @@ services:
   # PROJECTS SERVICE
   projects-service:
     image: node:20-alpine
-    container_name: virteex-projects-service
+    container_name: api-projects
     working_dir: /app
     volumes:
       - .:/app
@@ -249,7 +249,7 @@ services:
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-projects-service
+    command: npx nx serve api-projects
     depends_on:
       - postgres
       - redis
@@ -258,7 +258,7 @@ services:
   # MANUFACTURING SERVICE
   manufacturing-service:
     image: node:20-alpine
-    container_name: virteex-manufacturing-service
+    container_name: api-manufacturing
     working_dir: /app
     volumes:
       - .:/app
@@ -273,7 +273,7 @@ services:
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-manufacturing-service
+    command: npx nx serve api-manufacturing
     depends_on:
       - postgres
       - redis
@@ -282,7 +282,7 @@ services:
   # TREASURY SERVICE
   treasury-service:
     image: node:20-alpine
-    container_name: virteex-treasury-service
+    container_name: api-treasury
     working_dir: /app
     volumes:
       - .:/app
@@ -297,7 +297,7 @@ services:
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-treasury-service
+    command: npx nx serve api-treasury
     depends_on:
       - postgres
       - redis
@@ -306,7 +306,7 @@ services:
   # PURCHASING SERVICE
   purchasing-service:
     image: node:20-alpine
-    container_name: virteex-purchasing-service
+    container_name: api-purchasing
     working_dir: /app
     volumes:
       - .:/app
@@ -321,7 +321,7 @@ services:
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-purchasing-service
+    command: npx nx serve api-purchasing
     depends_on:
       - postgres
       - redis
@@ -330,7 +330,7 @@ services:
   # BI SERVICE
   bi-service:
     image: node:20-alpine
-    container_name: virteex-bi-service
+    container_name: api-bi
     working_dir: /app
     volumes:
       - .:/app
@@ -345,7 +345,7 @@ services:
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-bi-service
+    command: npx nx serve api-bi
     depends_on:
       - postgres
       - redis
@@ -354,7 +354,7 @@ services:
   # ADMIN SERVICE
   admin-service:
     image: node:20-alpine
-    container_name: virteex-admin-service
+    container_name: api-admin
     working_dir: /app
     volumes:
       - .:/app
@@ -369,7 +369,7 @@ services:
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-admin-service
+    command: npx nx serve api-admin
     depends_on:
       - postgres
       - redis
@@ -378,7 +378,7 @@ services:
   # FIXED ASSETS SERVICE
   fixed-assets-service:
     image: node:20-alpine
-    container_name: virteex-fixed-assets-service
+    container_name: api-fixed-assets
     working_dir: /app
     volumes:
       - .:/app
@@ -393,7 +393,7 @@ services:
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-fixed-assets-service
+    command: npx nx serve api-fixed-assets
     depends_on:
       - postgres
       - redis
@@ -402,7 +402,7 @@ services:
   # CATALOG SERVICE (Subgraph)
   catalog-service:
     image: node:20-alpine
-    container_name: virteex-catalog-service
+    container_name: api-catalog
     working_dir: /app
     volumes:
       - .:/app
@@ -416,7 +416,7 @@ services:
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-catalog-service
+    command: npx nx serve api-catalog
     depends_on:
       - postgres
       - kafka
@@ -424,7 +424,7 @@ services:
   # GATEWAY (Apollo)
   gateway:
     image: node:20-alpine
-    container_name: virteex-gateway
+    container_name: gateway-legacy
     working_dir: /app
     volumes:
       - .:/app
@@ -432,7 +432,7 @@ services:
       - PORT=3000
       - CATALOG_SERVICE_URL=http://catalog-service:3000/graphql
       - NODE_ENV=${NODE_ENV:-development}
-    command: npx nx serve virteex-gateway
+    command: npx nx serve gateway-legacy
     depends_on:
       - catalog-service
 

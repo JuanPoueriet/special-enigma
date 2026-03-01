@@ -21,7 +21,7 @@ Fuente de verdad técnica: `config/readiness/commercial-eligibility.matrix.json`
 
 1. CI ejecuta `npm run readiness:commercial`.
 2. `tools/enforce-production-readiness.sh` bloquea referencias mock en rutas productivas.
-3. `virteex-fiscal-service` valida `FISCAL_COUNTRY` y bloquea activación para países no elegibles.
+3. `api-fiscal` valida `FISCAL_COUNTRY` y bloquea activación para países no elegibles.
 4. `virteex-plugin-host` bloquea producción si no se ejecuta con `PLUGIN_SANDBOX_MODE=hardened` y `PLUGIN_ADMISSION_MODE=enforced`.
 
 ## Uso por ventas/contratos

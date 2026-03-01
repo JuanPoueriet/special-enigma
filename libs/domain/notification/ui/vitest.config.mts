@@ -6,7 +6,7 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
 export default defineConfig(() => ({
   root: __dirname,
-  cacheDir: '../../../../node_modules/.vite/libs/domains/notification/ui',
+  cacheDir: '../../../../node_modules/.vite/libs/domain/notification/ui',
   plugins: [angular(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
   test: {
     name: 'notification-ui',
@@ -17,7 +17,7 @@ export default defineConfig(() => ({
     setupFiles: ['src/test-setup.ts'],
     reporters: ['default'],
     coverage: {
-      reportsDirectory: '../../../../coverage/libs/domains/notification/ui',
+      reportsDirectory: '../../../../coverage/libs/domain/notification/ui',
       provider: 'v8' as const,
     }
   },

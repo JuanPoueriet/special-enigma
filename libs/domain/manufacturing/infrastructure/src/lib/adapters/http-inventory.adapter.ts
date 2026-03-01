@@ -13,7 +13,7 @@ export class HttpInventoryAdapter implements InventoryService {
     private readonly httpService: HttpService,
     private readonly configService: ConfigService
   ) {
-    this.inventoryServiceUrl = this.configService.get<string>('INVENTORY_SERVICE_URL', 'http://virteex-inventory-service:3000');
+    this.inventoryServiceUrl = this.configService.get<string>('INVENTORY_SERVICE_URL', 'http://api-inventory:3000');
   }
 
   async checkAndReserveStock(tenantId: string, warehouseId: string, productSku: string, quantity: number): Promise<void> {

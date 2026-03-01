@@ -13,7 +13,7 @@ export class HttpCatalogAdapter implements CatalogService {
     private readonly httpService: HttpService,
     private readonly configService: ConfigService
   ) {
-    this.catalogServiceUrl = this.configService.get<string>('CATALOG_SERVICE_URL', 'http://virteex-catalog-service:3000');
+    this.catalogServiceUrl = this.configService.get<string>('CATALOG_SERVICE_URL', 'http://api-catalog:3000');
   }
 
   async getProductById(id: number): Promise<Product | null> {

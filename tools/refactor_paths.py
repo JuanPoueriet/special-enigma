@@ -8,14 +8,14 @@ def resolve_path(base_file, relative_import):
     return target_path
 
 def get_alias_from_path(path):
-    # path is like libs/domains/payroll/domain/src/index
+    # path is like libs/domain/payroll/domain/src/index
     parts = path.split(os.sep)
 
     if "libs" not in parts:
         return None
 
     libs_index = parts.index("libs")
-    # libs/domains/<domain>/<layer>
+    # libs/domain/<domain>/<layer>
 
     if len(parts) > libs_index + 3 and parts[libs_index+1] == "domains":
         domain = parts[libs_index+2]

@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 
 @Component({
   imports: [RouterModule],
-  selector: 'virteex-web-root',
+  selector: 'web-portal-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })

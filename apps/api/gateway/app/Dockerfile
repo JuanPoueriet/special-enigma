@@ -4,6 +4,6 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --only=production
 
-COPY dist/apps/virteex-api-gateway ./dist
+COPY dist/apps/api-gateway ./dist
 
 CMD ["node", "dist/main.js"]

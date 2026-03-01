@@ -1,6 +1,6 @@
 {
-  "name": "virteex-wms",
-  "short_name": "virteex-wms",
+  "name": "web-wms",
+  "short_name": "web-wms",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",

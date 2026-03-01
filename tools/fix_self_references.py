@@ -66,14 +66,14 @@ def fix_self_references(root_dir, mapping):
             current_alias = None
 
             # Check against sorted paths
-            # path in mapping is like 'libs/domains/identity/src'
-            # rel_path_from_root is like 'libs/domains/identity/src/lib/file.ts'
+            # path in mapping is like 'libs/domain/identity/src'
+            # rel_path_from_root is like 'libs/domain/identity/src/lib/file.ts'
 
             path_parts = rel_path_from_root.split(os.sep)
             # We need to match the beginning of the path
 
             for lib_path in sorted_paths:
-                # lib_path is normalized, e.g. libs/domains/identity/src
+                # lib_path is normalized, e.g. libs/domain/identity/src
                 if rel_path_from_root.startswith(lib_path):
                      current_lib_path = lib_path
                      current_alias = mapping[lib_path]
@@ -106,8 +106,8 @@ def fix_self_references(root_dir, mapping):
                     target_path_from_root = os.path.join(current_lib_path, suffix)
 
                     # Now calculate relative path from current file to target
-                    # current file: libs/domains/identity/src/lib/file.ts
-                    # target file: libs/domains/identity/src/lib/other.ts
+                    # current file: libs/domain/identity/src/lib/file.ts
+                    # target file: libs/domain/identity/src/lib/other.ts
 
                     # os.path.relpath(target, start)
                     # start is directory of current file

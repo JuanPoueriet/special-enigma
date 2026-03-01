@@ -19,7 +19,7 @@
         "main": "libs/domain/inventory/presentation/src/index.ts",
         "tsConfig": "libs/domain/inventory/presentation/tsconfig.lib.json",
         "assets": ["libs/domain/inventory/presentation/*.md"],
-        "rootDir": "libs/domains/inventory"
+        "rootDir": "libs/domain/inventory"
       }
     }
   }

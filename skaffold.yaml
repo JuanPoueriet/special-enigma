@@ -7,7 +7,7 @@ build:
     - image: ghcr.io/virteex/api-gateway
       context: .
       docker:
-        dockerfile: apps/virteex-api-gateway/Dockerfile
+        dockerfile: apps/api-gateway/Dockerfile
   local:
     push: false
 manifests:

@@ -7,7 +7,7 @@ export class OpsController {
 
   @Get('health')
   health() {
-    return { status: 'up', service: 'virteex-billing-service', timestamp: new Date().toISOString() };
+    return { status: 'up', service: 'api-billing', timestamp: new Date().toISOString() };
   }
 
   @Get('readiness')

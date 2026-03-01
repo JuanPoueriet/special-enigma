@@ -66,7 +66,7 @@ def refactor_file(filepath):
         f.write(content)
 
 def main():
-    root_dir = "libs/domains"
+    root_dir = "libs/domain"
     for root, dirs, files in os.walk(root_dir):
         for file in files:
             if file.endswith(".ts") and not file.endswith(".spec.ts"):

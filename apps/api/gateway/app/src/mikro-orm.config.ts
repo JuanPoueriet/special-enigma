@@ -27,8 +27,8 @@ const config: Options = {
           },
         }
       : undefined,
-  entities: ['./libs/domains/**/domain/src/lib/entities/*.entity.ts'],
-  entitiesTs: ['./libs/domains/**/domain/src/lib/entities/*.entity.ts'],
+  entities: ['./libs/domain/**/domain/src/lib/entities/*.entity.ts'],
+  entitiesTs: ['./libs/domain/**/domain/src/lib/entities/*.entity.ts'],
   filters: {
     tenant: {
       cond: args => ({ tenantId: args.tenantId }),
@@ -36,8 +36,8 @@ const config: Options = {
     },
   },
   migrations: {
-    path: './apps/gateways/virteex-api-gateway/src/migrations',
-    pathTs: './apps/gateways/virteex-api-gateway/src/migrations',
+    path: './apps/api/api-gateway/src/migrations',
+    pathTs: './apps/api/api-gateway/src/migrations',
     disableForeignKeys: false,
   },
 };

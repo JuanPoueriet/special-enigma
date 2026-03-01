@@ -7,7 +7,7 @@
 - Fiscal: timbrado y cancelación con provider real.
 
 ## Ejecución
-- Suite implementada en `apps/gateways/virteex-api-gateway-e2e/src/virteex-api-gateway/critical-flows.spec.ts`.
+- Suite implementada en `apps/api/api-gateway-e2e/src/api-gateway/critical-flows.spec.ts`.
 - Requiere entorno integrado con gateway y microservicios activos.
 - Activación con `RUN_CRITICAL_E2E=true`.
 

@@ -15,9 +15,9 @@ export class HttpIntegrationAdapter implements IntegrationGateway {
     private readonly httpService: HttpService,
     private readonly configService: ConfigService
   ) {
-    this.catalogUrl = this.configService.get<string>('CATALOG_SERVICE_URL', 'http://virteex-catalog-service:3000');
-    this.crmUrl = this.configService.get<string>('CRM_SERVICE_URL', 'http://virteex-crm-service:3000');
-    this.purchasingUrl = this.configService.get<string>('PURCHASING_SERVICE_URL', 'http://virteex-purchasing-service:3000');
+    this.catalogUrl = this.configService.get<string>('CATALOG_SERVICE_URL', 'http://api-catalog:3000');
+    this.crmUrl = this.configService.get<string>('CRM_SERVICE_URL', 'http://api-crm:3000');
+    this.purchasingUrl = this.configService.get<string>('PURCHASING_SERVICE_URL', 'http://api-purchasing:3000');
   }
 
   async createProduct(dto: ProductDto): Promise<void> {

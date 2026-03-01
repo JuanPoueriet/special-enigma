@@ -1,6 +1,6 @@
 import { MikroORM } from '@mikro-orm/core';
-import { TaxTable } from '../libs/domains/payroll/domain/src/lib/entities/tax-table.entity';
-import config from '../apps/virteex-api-gateway/src/mikro-orm.config';
+import { TaxTable } from '../libs/domain/payroll/domain/src/lib/entities/tax-table.entity';
+import config from '../apps/api-gateway/src/mikro-orm.config';
 
 (async () => {
   try {
