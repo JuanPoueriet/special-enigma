@@ -1,0 +1,30 @@
+{
+  "name": "domain-pos-ui",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domain/pos/ui/src",
+  "prefix": "lib",
+  "projectType": "library",
+  "tags": [
+    "scope:pos",
+    "type:ui",
+    "platform:web",
+    "criticality:medium",
+    "compliance:none",
+    "tenant-mode:multi",
+    "region:global"
+  ],
+  "targets": {
+    "test": {
+      "executor": "@nx/vitest:test",
+      "outputs": [
+        "{options.reportsDirectory}"
+      ],
+      "options": {
+        "reportsDirectory": "../../../../coverage/libs/domain/pos/ui"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}
