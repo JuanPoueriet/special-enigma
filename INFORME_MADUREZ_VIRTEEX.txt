@@ -20,86 +20,83 @@ Hallazgos Principales:
 - El sistema de plugins es técnicamente avanzado pero carece de un pipeline de admisión auditado y endurecido necesario para su apertura comercial segura.
 - Existe una carencia significativa de evidencia de seguridad automatizada (SBOM, Firmas digitales) y documentación operativa localizada para todas las regiones objetivo.
 
-3. ANÁLISIS DETALLADO POR ÁREAS
+3. ANÁLISIS DETALLADO POR ÁREAS Y MÓDULOS
 
 3.1 Arquitectura y Backend
 - Estado: Alta madurez técnica. Implementación de MikroORM con Data Mapper y Transactional Outbox Pattern para consistencia eventual.
 - Brechas:
   - Sharding de base de datos automatizado: Aunque definido en AGENTS.md, la ejecución operativa de migraciones entre esquemas y bases de datos físicas requiere más pruebas de estrés (POC A).
   - Escalabilidad de RLS: Se requiere verificar el rendimiento de Row-Level Security con volúmenes de datos masivos (>1B filas) para evitar degradación en el P95.
-- Impacto: Riesgo de rendimiento en crecimiento exponencial de tenants.
+- Qué falta para el 100%:
+  1. Completar el orquestador de migraciones multi-tenant para Database-per-tenant.
+  2. Implementar un monitor de latencia de RLS en tiempo real con alertas.
 
-3.2 Frontend y Experiencia de Usuario (Web, Móvil, Escritorio)
-- Estado: Consistencia visual lograda mediante Angular y Module Federation. Soporte offline-first mediante SQLite/RxDB.
-- Brechas:
-  - Gestión de conflictos de sincronización: El "Conflict Manager" actual es básico. Falta una interfaz de usuario granular para resolución manual de colisiones en datos maestros.
-  - Certificación de hardware: La aplicación de escritorio carece de una matriz de compatibilidad certificada con periféricos locales (impresoras fiscales, básculas) en todas las regiones.
-- Impacto: Fricción en el onboarding de clientes industriales o retail.
+3.2 Localización Fiscal y Facturación (Módulos Críticos)
+- México (SAT): 100% Funcional (GA).
+- Colombia (DIAN): 60% Funcional (Beta).
+  - Qué funciona: Generación de XML UBL 2.1 y firma básica.
+  - Qué falta: Implementación completa de XAdES-EPES, validación síncrona contra el Web Service de la DIAN para eventos de factura (acuse de recibo, aceptación) y soporte para notas crédito/débito.
+- Brasil (SEFAZ): 50% Funcional (Beta).
+  - Qué funciona: Estructura de NFe.
+  - Qué falta: Integración con protocolos SSL/TLS específicos de SEFAZ para transmisión y firma con certificados A1/A3 mediante hardware bridge en escritorio.
+- Estados Unidos: 40% Funcional (Beta).
+  - Qué funciona: Cálculo de sales tax básico.
+  - Qué falta: El adaptador fiscal utiliza endpoints de `/sandbox`. Es imperativo migrar a producción con un partner certificado (como Avalara o TaxJar) y manejar la exención de impuestos por estado.
 
-3.3 Localización Fiscal y Cumplimiento Normativo
-- Estado: México (SAT) funcional al 100%. Colombia (DIAN) y Brasil (SEFAZ) en estado Beta/desarrollo.
-- Brechas:
-  - Estados Unidos: El adaptador `us-tax-partner-fiscal-provider.adapter.ts` todavía utiliza rutas de `/sandbox` en la lógica de negocio y requiere integración con un partner certificado para los 50 estados.
-  - Colombia: El adaptador DIAN requiere completar la implementación de XAdES-EPES y validación robusta contra XSD locales en producción.
-- Impacto: Bloqueo legal para operar como software de facturación oficial fuera de México.
+3.3 Contabilidad (Accounting)
+- Estado: 45% Funcional.
+- Qué funciona: Catálogo de cuentas (Chart of Accounts), registro de asientos contables (Journal Entries) básicos.
+- Qué falta:
+  1. Generación automática de estados financieros (Balance General, P&L) en tiempo real.
+  2. Motor de cierre fiscal mensual/anual automatizado.
+  3. Integración de conciliación bancaria automática mediante APIs de Open Banking localizadas.
+  4. Soporte para multi-moneda con revaluación automática de activos y pasivos.
 
-3.4 Seguridad y Privacidad
-- Estado: Implementación de JWT asimétrico y rate limiting granular.
-- Brechas:
-  - Cadena de Suministro: Ausencia de SBOM (Software Bill of Materials) y firma digital de artefactos en el pipeline de CI/CD.
-  - Cifrado a nivel de campo: Falta implementación generalizada de cifrado para PII (Personally Identifiable Information) y datos fiscales sensibles en reposo, más allá de la seguridad de la DB.
-- Impacto: Riesgo de cumplimiento (GDPR/LGPD) y vulnerabilidad ante ataques de supply chain.
+3.4 Manufactura (Manufacturing)
+- Estado: 30% Funcional.
+- Qué funciona: Definición de Listas de Materiales (BOM) y Órdenes de Producción básicas.
+- Qué falta:
+  1. Planificación de Requerimientos de Materiales (MRP I y II).
+  2. Gestión de centros de trabajo y rutas de producción.
+  3. Control de piso (Shop Floor) con terminales táctiles y captura de tiempos reales.
+  4. Integración con inventario para reserva automática de componentes.
 
-3.5 Marketplace y Extensibilidad
-- Estado: Runtime basado en V8 Isolates/Wasm funcional.
-- Brechas:
-  - Pipeline de Admisión: Falta el flujo automatizado de SAST/DAST y revisión humana para plugins de terceros.
-  - Hardening del Sandbox: El aislamiento de red (egress control) para plugins requiere un proxy de salida estricto.
-- Impacto: Riesgo de exfiltración de datos de tenants por plugins maliciosos.
+3.5 Activos Fijos (Fixed Assets)
+- Estado: 40% Funcional.
+- Qué funciona: Registro de activos y seguimiento de ubicación.
+- Qué falta:
+  1. Motor de depreciación automática parametrizable por país (línea recta, saldos decrecientes, etc.).
+  2. Integración contable automática de la depreciación.
+  3. Gestión de mantenimiento preventivo y correctivo de activos.
 
-3.6 Soporte Multi-idioma y Multi-región
-- Estado: Infraestructura de i18n presente.
-- Brechas:
-  - Drift documental: Las guías operativas y de soporte solo están completas para MX/BR. Falta localización para CO y US.
-- Impacto: Ineficiencia en el soporte técnico L1/L2 para mercados internacionales.
+3.6 Seguridad y Marketplace
+- Plugins: Runtime funcional pero el pipeline de admisión (SAST/DAST) es inexistente. Falta el proxy de egress para evitar exfiltración.
+- Seguridad: Falta generación de SBOM y firma de imágenes en el CI/CD.
 
-3.7 Funcionalidades Core del ERP
-- Estado: Inventario (GA), Billing (Mixto), Finanzas (Beta).
-- Brechas:
-  - Manufactura y Activos Fijos: Módulos en estado incipiente, carecen de flujos de depreciación localizados y planificación de producción compleja.
-  - Proyectos: Requiere mayor flexibilidad en la parametrización de flujos de trabajo por cliente.
-- Impacto: Producto limitado para empresas medianas/grandes con necesidades industriales.
+4. PLAN DE ACCIÓN PASO A PASO PARA EL 100%
 
-3.8 Preparación Comercial
-- Estado: Modelo de suscripción definido. SLAs y Runbooks básicos existentes.
-- Brechas:
-  - Onboarding automatizado: El proceso de "self-service" para configuración fiscal está incompleto para usuarios finales.
-  - Evidencia de Release: El Release Trust Packet está ausente, lo que dificulta las ventas Enterprise que requieren auditoría previa.
-- Impacto: Ciclos de venta prolongados y dependencia de intervención manual del equipo de ingeniería.
+Fase 1: Estabilización Legal y Seguridad (30-60 días)
+- Paso 1.1: Migrar adaptadores fiscales de CO y BR a proveedores productivos. Eliminar Mocks en flujos GA.
+- Paso 1.2: Implementar firmas digitales y SBOM en el pipeline de Jenkins/GitHub Actions.
+- Paso 1.3: Activar el Proxy de Egress en el Sandbox de Plugins.
 
-4. CONCLUSIONES Y RECOMENDACIONES
+Fase 2: Madurez Contable y Financiera (60-120 días)
+- Paso 2.1: Desarrollar el motor de reportes financieros (Engine) que consuma el Ledger inmutable.
+- Paso 2.2: Implementar conciliación bancaria para los 3 principales bancos por país (MX, CO, BR).
+- Paso 2.3: Completar el motor de depreciación para Activos Fijos.
 
-Virteex posee una arquitectura de vanguardia, pero su madurez comercial está lastrada por la falta de localización fiscal profunda fuera de México y la ausencia de automatización en la evidencia de seguridad y calidad.
+Fase 3: Expansión Industrial (120-180 días)
+- Paso 3.1: Desarrollar el módulo de MRP para conectar ventas con producción.
+- Paso 3.2: Lanzar la aplicación "Shop Floor" para control de producción en tiempo real.
+- Paso 3.3: Certificación de hardware para periféricos industriales en escritorio.
 
-Priorización de Acciones (Roadmap al 100%):
+5. CONCLUSIÓN
 
-Prioridad 1 (Corto plazo - 30 días):
-1. Automatizar la generación de SBOM y firma de artefactos en el CI.
-2. Eliminar referencias a /sandbox en el adaptador fiscal de EE. UU.
-3. Completar el Onboarding Playbook para Colombia y EE. UU.
-
-Prioridad 2 (Medio plazo - 90 días):
-1. Implementar el Pipeline de Admisión de Plugins (SAST/DAST).
-2. Ejecutar los POCs de rendimiento (RLS a escala y MikroORM).
-3. Finalizar la localización fiscal para Brasil y Colombia (GA).
-
-Prioridad 3 (Largo plazo):
-1. Madurar los módulos de Manufactura y Activos Fijos.
-2. Implementar resolución de conflictos de sincronización UI avanzada.
+Virteex tiene un "núcleo" potente pero carece de la "capa de aplicación" profunda necesaria para sustituir a un ERP tradicional en los mercados de Colombia y Brasil. La prioridad absoluta debe ser la validación fiscal síncrona y la automatización de la contabilidad, ya que sin esto el producto es percibido únicamente como una herramienta de facturación y no como una solución integral de gestión empresarial.
 
 Justificación del Avance:
-- 65% Funcional: El núcleo del sistema y el mercado principal (MX) operan. Los módulos secundarios y localizaciones pendientes restan el 35%.
-- 45% Comercial: El riesgo legal/fiscal en 3 de 4 países, sumado a la falta de certificaciones de seguridad automáticas, impide un despliegue masivo y seguro a nivel comercial.
+- 65% Funcional: El core multi-tenant y MX están listos. Falta la lógica de negocio compleja de MRP, estados financieros y localizaciones internacionales.
+- 45% Comercial: La falta de evidencia de seguridad y los riesgos fiscales en LatAm impiden una comercialización "mass-market".
 
 ---
 Fin del Informe
