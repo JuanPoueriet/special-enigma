@@ -33,6 +33,7 @@ export const appRoutes: Route[] = [
       { path: 'fixed-assets', loadChildren: () => import('@virteex/fixed-assets-ui').then(m => m.fixedassetsRoutes) },
       { path: 'projects', loadChildren: () => import('@virteex/projects-ui').then(m => m.projectsRoutes) },
       { path: 'manufacturing', loadChildren: () => import('@virteex/manufacturing-ui').then(m => m.manufacturingRoutes) },
+      { path: 'pos', loadChildren: () => import('@virteex/pos-ui').then(m => m.posRoutes) },
       { path: 'billing', loadChildren: () => import('@virteex/billing-ui').then(m => m.billingRoutes) },
       { path: 'catalog', loadChildren: () => import('@virteex/catalog-ui').then(m => m.catalogRoutes) },
       { path: 'bi', loadChildren: () => import('@virteex/bi-ui').then(m => m.biRoutes) },
