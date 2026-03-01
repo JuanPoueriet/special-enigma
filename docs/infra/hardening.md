@@ -8,7 +8,7 @@ La configuración de base de datos ahora sigue un modelo **fail-closed**:
 // Ejemplo implementado en apps/api/billing/app/src/app/app.module.ts
 driverOptions: isPostgres && configService.get<boolean>('DB_SSL_ENABLED')
   ? {
-      connection: { ssl: { rejectUnauthorized: process.env.DB_SSL_REJECT_UNAUTHORIZED === "true" } },
+      connection: { ssl: { rejectUnauthorized: configService.get("DB_SSL_REJECT_UNAUTHORIZED") !== "false" } },
     }
   : undefined,
 ```
