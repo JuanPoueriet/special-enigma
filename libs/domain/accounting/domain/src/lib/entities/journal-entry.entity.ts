@@ -1,5 +1,5 @@
 import type { JournalEntryLine } from './journal-entry-line.entity';
-import { JournalEntryStatus } from '@virteex/contracts-accounting-contracts';
+import { JournalEntryStatus } from '@virteex/domain-accounting-contracts';
 
 export class JournalEntry {
   @PrimaryKey({ type: 'uuid' })

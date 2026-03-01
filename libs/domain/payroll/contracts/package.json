@@ -7,6 +7,8 @@
   "types": "./src/index.d.ts",
   "dependencies": {
     "class-validator": "^0.14.3",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "vitest": "^4.0.8",
+    "@nx/vite": "22.4.1"
   }
 }

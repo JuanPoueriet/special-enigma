@@ -1,4 +1,4 @@
-import { AccountType } from '@virteex/contracts-accounting-contracts';
+import { AccountType } from '@virteex/domain-accounting-contracts';
 
 export class Account {
   @PrimaryKey({ type: 'uuid' })

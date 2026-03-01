@@ -3,7 +3,7 @@ import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import {
   CreateAccountDto,
   RecordJournalEntryDto,
-} from '@virteex/contracts-accounting-contracts';
+} from '@virteex/domain-accounting-contracts';
 import { CreateAccountUseCase } from '@virteex/application-accounting-application/lib/use-cases/create-account.use-case';
 import { RecordJournalEntryUseCase } from '@virteex/application-accounting-application/lib/use-cases/record-journal-entry.use-case';
 import { GetAccountsUseCase } from '@virteex/application-accounting-application/lib/use-cases/get-accounts.use-case';

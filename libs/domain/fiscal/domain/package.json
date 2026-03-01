@@ -7,7 +7,9 @@
   "types": "./src/index.d.ts",
   "dependencies": {
     "tslib": "^2.3.0",
-    "uuid": "^13.0.0",
-    "@mikro-orm/core": "^6.6.5"
+    "uuid": "^10.0.0",
+    "@virteex/domain-billing-contracts": "0.0.1",
+    "vitest": "^4.0.8",
+    "@nx/vite": "22.4.1"
   }
 }

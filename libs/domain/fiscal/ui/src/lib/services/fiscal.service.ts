@@ -26,11 +26,11 @@ export class FiscalService {
 
   constructor(@Inject(API_URL) private apiUrl: string) {}
 
-  getStats(tenantId: string = 'default'): Observable<FiscalStats> {
+  getStats(tenantId = 'default'): Observable<FiscalStats> {
     return this.http.get<FiscalStats>(`${this.apiUrl}/fiscal/stats?tenantId=${tenantId}`);
   }
 
-  getTaxRules(tenantId: string = 'default'): Observable<TaxRule[]> {
+  getTaxRules(tenantId = 'default'): Observable<TaxRule[]> {
     return this.http.get<TaxRule[]>(`${this.apiUrl}/fiscal/tax-rules?tenantId=${tenantId}`);
   }
 }

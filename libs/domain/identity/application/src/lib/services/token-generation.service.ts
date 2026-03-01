@@ -26,7 +26,7 @@ export class TokenGenerationService {
   async createSessionAndTokens(
     user: User,
     context: { ip: string; userAgent: string },
-    riskScore: number = 0,
+    riskScore = 0,
     mfaVerified = false
   ): Promise<TokenGenerationResult> {
     const refreshTokenSecret = crypto.randomBytes(32).toString('hex');

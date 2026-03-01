@@ -21,7 +21,7 @@ export class PayrollController {
 
   @Get('employees')
   @ApiOperation({ summary: 'Get all employees' })
-  async getEmployees(@Query('tenantId') tenantId: string = 'default'): Promise<Employee[]> {
+  async getEmployees(@Query('tenantId') tenantId = 'default'): Promise<Employee[]> {
     return this.getEmployeesUseCase.execute(tenantId);
   }
 }
