@@ -423,6 +423,9 @@
       "@virteex/bi-ui": [
         "libs/domain/bi/ui/src/index.ts"
       ],
+      "@virteex/pos-ui": [
+        "libs/domain/pos/ui/src/index.ts"
+      ],
       "@virteex/admin-ui": [
         "libs/domain/admin/ui/src/index.ts"
       ],
