@@ -45,18 +45,22 @@ import {
   UserCheck,
   Zap,
   FileInput,
+import { UsersService } from "../../core/api/users.service";
+import { RolesService } from "../../core/api/roles.service";
   FileOutput,
   UserCircle2,
   LogOut,
 } from 'lucide-angular';
 import {
-  UsersService,
   InviteUserDto,
   UpdateUserDto,
-  RolesService,
-  Role,
-  AuthService,
   User as ApiUser,
+  Role,
+} from '@virteex/domain-identity-contracts';
+import {
+  UsersService,
+  RolesService,
+  AuthService,
   UserStatus,
   WebSocketService,
   HasPermissionDirective,
@@ -81,8 +85,8 @@ import { debounceTime, distinctUntilChanged, Subject, Subscription } from 'rxjs'
 export class UserManagementPage implements OnInit, OnDestroy {
   // Servicios
   private fb = inject(FormBuilder);
-  private usersService = inject(UsersService);
-  private rolesService = inject(RolesService);
+  private usersService = inject(UsersService, { optional: true });
+  private rolesService = inject(RolesService, { optional: true });
   private toastService = inject(ToastService);
   private webSocketService = inject(WebSocketService);
   public authService = inject(AuthService);
@@ -205,6 +209,7 @@ export class UserManagementPage implements OnInit, OnDestroy {
   }
 
   loadUsers(): void {
+    if (!this.usersService) return;
     this.loading.set(true);
     const options = {
       page: this.currentPage(),
@@ -217,7 +222,7 @@ export class UserManagementPage implements OnInit, OnDestroy {
 
     this.usersService.getUsers(options).subscribe({
       next: (response) => {
-        this.users.set(response.data);
+        this.users.set(response.data as ApiUser[]);
         this.totalUsers.set(response.total);
         this.loading.set(false);
       },
@@ -229,9 +234,10 @@ export class UserManagementPage implements OnInit, OnDestroy {
   }
 
   loadRoles(): void {
+    if (!this.rolesService) return;
     this.rolesService
       .getRoles()
-      .subscribe({ next: (roles) => this.roles.set(roles) });
+      .subscribe({ next: (roles) => this.roles.set(roles as Role[]) });
   }
 
   openInviteModal(): void {
@@ -274,6 +280,7 @@ export class UserManagementPage implements OnInit, OnDestroy {
       return;
     }
 
+    if (!this.usersService) return;
     this.loading.set(true);
     const formValue = this.userForm.value;
 
@@ -317,7 +324,7 @@ export class UserManagementPage implements OnInit, OnDestroy {
   }
 
   confirmDelete(): void {
-    if (!this.selectedUser) return;
+    if (!this.selectedUser || !this.usersService) return;
     this.loading.set(true);
     this.usersService.deleteUser(this.selectedUser.id).subscribe({
       next: () => {
@@ -359,6 +366,7 @@ export class UserManagementPage implements OnInit, OnDestroy {
   }
 
   resetPassword(user: ApiUser): void {
+    if (!this.usersService) return;
     if (confirm(`¿Enviar un correo para resetear la contraseña de ${user.firstName}?`)) {
       this.usersService.sendPasswordReset(user.id).subscribe({
         next: (res) => this.toastService.showSuccess(res.message),
@@ -368,6 +376,7 @@ export class UserManagementPage implements OnInit, OnDestroy {
   }
 
   forceLogout(user: ApiUser): void {
+    if (!this.usersService) return;
     if (confirm(`¿Estás seguro que quieres cerrar la sesión de ${user.firstName}?`)) {
       this.usersService.forceLogout(user.id).subscribe({
         next: () => this.toastService.showSuccess('La sesión del usuario ha sido cerrada.'),
@@ -377,13 +386,16 @@ export class UserManagementPage implements OnInit, OnDestroy {
   }
 
   blockAndLogout(user: ApiUser): void {
+    if (!this.usersService) return;
     if (confirm(`¿Estás seguro que quieres BLOQUEAR y cerrar la sesión de ${user.firstName}?`)) {
       this.usersService.blockAndLogout(user.id).subscribe({
         next: () => {
           this.toastService.showSuccess('El usuario ha sido bloqueado y su sesión cerrada.');
           this.loadUsers();
         },
-        error: (err) => this.toastService.showError(err.message || 'Error al bloquear al usuario.'),
+        error: (err) => {
+          this.toastService.showError(err.message || 'Error al bloquear al usuario.');
+        },
       });
     }
   }

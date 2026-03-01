@@ -18,3 +18,6 @@ export * from './lib/interfaces/register-payload.interface';
 export * from './lib/validators/async.validators';
 export * from './lib/services/toast.service';
 export * from './lib/interceptors/error.interceptor';
+
+// Added missing exports that are used by other libraries
+export * from './lib/core/api/localization.service';

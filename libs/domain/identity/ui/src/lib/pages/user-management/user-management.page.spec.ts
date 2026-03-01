@@ -7,6 +7,8 @@ import {
   UsersService,
   InviteUserDto,
   UpdateUserDto,
+import { UsersService } from "../../core/api/users.service";
+import { RolesService } from "../../core/api/roles.service";
   RolesService,
   Role,
   AuthService,
