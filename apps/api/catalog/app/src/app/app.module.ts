@@ -30,6 +30,10 @@ import { CatalogPresentationModule } from '@virteex/api-catalog-presentation';
       autoSchemaFile: {
         federation: 2,
       },
+      validationRules: [
+        depthLimit(10),
+        createComplexityLimitRule(1000)
+      ],
     }),
     MikroOrmModule.forRootAsync({
       imports: [ConfigModule],

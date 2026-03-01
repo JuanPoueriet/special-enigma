@@ -12,10 +12,13 @@ subgraphs.forEach(subgraph => {
     if (fs.existsSync(filePath)) {
         let content = fs.readFileSync(filePath, 'utf8');
 
-        if (content.includes('GraphQLModule.forRoot') && !content.includes('validationRules')) {
+        // Remove validationRules if they exist but are not inside GraphQLModule (sanity check)
+        // Then re-inject correctly.
+
+        if (content.includes('GraphQLModule.forRoot')) {
             console.log(`Hardening ${subgraph}...`);
 
-            // Add imports if missing
+            // 1. Ensure imports are present
             if (!content.includes('graphql-depth-limit')) {
                 content = content.replace(
                     "import { GraphQLModule } from '@nestjs/graphql';",
@@ -23,14 +26,17 @@ subgraphs.forEach(subgraph => {
                 );
             }
 
-            // Inject validationRules
+            // 2. Clear any existing validationRules to avoid duplicates/mismatches
+            content = content.replace(/validationRules: \[[\s\S]*?\],?/, '');
+
+            // 3. Inject validationRules inside GraphQLModule.forRoot
             content = content.replace(
-                'autoSchemaFile: true,',
-                `autoSchemaFile: true,
-      validationRules: [
-        depthLimit(10),
-        createComplexityLimitRule(1000)
-      ],`
+                /GraphQLModule\.forRoot<ApolloFederationDriverConfig>\(\{([\s\S]*?)\}\)/,
+                (match, p1) => {
+                    let inner = p1.trim();
+                    if (!inner.endsWith(',')) inner += ',';
+                    return `GraphQLModule.forRoot<ApolloFederationDriverConfig>({\n      ${inner}\n      validationRules: [\n        depthLimit(10),\n        createComplexityLimitRule(1000)\n      ],\n    })`;
+                }
             );
 
             fs.writeFileSync(filePath, content);

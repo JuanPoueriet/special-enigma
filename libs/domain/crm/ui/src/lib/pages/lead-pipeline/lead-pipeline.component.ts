@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, of } from 'rxjs';
 
 @Component({
-  selector: 'virteex-lead-pipeline',
+  selector: 'app-lead-pipeline',
   standalone: true,
   imports: [CommonModule],
   template: `

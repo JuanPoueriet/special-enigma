@@ -5,7 +5,7 @@ import { catchError, of } from 'rxjs';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'virteex-invoice-list',
+  selector: 'app-invoice-list',
   standalone: true,
   imports: [CommonModule, RouterLink],
   template: `

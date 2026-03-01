@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { catchError, of } from 'rxjs';
 
 @Component({
-  selector: 'virteex-invoice-detail',
+  selector: 'app-invoice-detail',
   standalone: true,
   imports: [CommonModule],
   template: `

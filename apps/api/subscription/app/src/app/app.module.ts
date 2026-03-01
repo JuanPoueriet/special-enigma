@@ -35,6 +35,10 @@ import { SubscriptionApplicationModule } from '@virteex/application-subscription
       autoSchemaFile: {
         federation: 2,
       },
+      validationRules: [
+        depthLimit(10),
+        createComplexityLimitRule(1000)
+      ],
     }),
     KafkaModule.forRoot({
       clientId: 'subscription-service',

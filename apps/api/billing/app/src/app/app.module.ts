@@ -37,6 +37,10 @@ import { OpsReadinessService } from './ops-readiness.service';
       autoSchemaFile: {
         federation: 2,
       },
+      validationRules: [
+        depthLimit(10),
+        createComplexityLimitRule(1000)
+      ],
     }),
     KafkaModule.forRoot({
       clientId: 'billing-service',

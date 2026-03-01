@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, of } from 'rxjs';
 
 @Component({
-  selector: 'virteex-customer-list',
+  selector: 'app-customer-list',
   standalone: true,
   imports: [CommonModule],
   template: `

@@ -48,6 +48,10 @@ import { InventoryPresentationModule } from '@virteex/api-inventory-presentation
       autoSchemaFile: {
         federation: 2,
       },
+      validationRules: [
+        depthLimit(10),
+        createComplexityLimitRule(1000)
+      ],
     }),
     MikroOrmModule.forRootAsync({
       imports: [ConfigModule],

@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, of, forkJoin } from 'rxjs';
 
 @Component({
-  selector: 'virteex-accounting-dashboard',
+  selector: 'app-accounting-dashboard',
   standalone: true,
   imports: [CommonModule],
   template: `

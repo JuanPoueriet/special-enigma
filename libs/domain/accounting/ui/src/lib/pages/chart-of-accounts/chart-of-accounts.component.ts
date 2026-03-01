@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, of } from 'rxjs';
 
 @Component({
-  selector: 'virteex-chart-of-accounts',
+  selector: 'app-chart-of-accounts',
   standalone: true,
   imports: [CommonModule],
   template: `

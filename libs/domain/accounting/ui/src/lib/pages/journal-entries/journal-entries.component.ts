@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, of } from 'rxjs';
 
 @Component({
-  selector: 'virteex-journal-entries',
+  selector: 'app-journal-entries',
   standalone: true,
   imports: [CommonModule],
   template: `
