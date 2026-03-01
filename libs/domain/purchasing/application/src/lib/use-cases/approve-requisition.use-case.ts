@@ -1,5 +1,6 @@
-import { Injectable, Inject, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { RequisitionRepository } from '@virteex/domain-purchasing-domain';
+import { EntityNotFoundException, UnauthorizedException } from '@virteex/kernel-exceptions';
 
 @Injectable()
 export class ApproveRequisitionUseCase {
@@ -11,7 +12,7 @@ export class ApproveRequisitionUseCase {
     const requisition = await this.requisitionRepository.findById(requisitionId);
 
     if (!requisition) {
-      throw new NotFoundException(`Requisition ${requisitionId} not found`);
+      throw new EntityNotFoundException('Requisition', requisitionId);
     }
 
     if (requisition.tenantId !== tenantId) {

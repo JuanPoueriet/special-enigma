@@ -3,7 +3,12 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/domain/billing/contracts/src",
   "projectType": "library",
-  "tags": ["scope:billing", "type:contracts"],
+  "tags": [
+    "scope:billing",
+    "type:contracts",
+    "platform:agnostic",
+    "criticality:high"
+  ],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",

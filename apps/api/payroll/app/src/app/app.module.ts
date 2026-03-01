@@ -2,12 +2,11 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
-import { PayrollInfrastructureModule } from '@virteex/infra-payroll-infrastructure';
-import { PayrollPresentationModule } from '@virteex/api-payroll-presentation';
+import { PayrollInfrastructureModule } from '@virteex/domain-payroll-infrastructure';
+import { PayrollPresentationModule, PayrollResolver } from '@virteex/domain-payroll-presentation';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloFederationDriver, ApolloFederationDriverConfig } from '@nestjs/apollo';
 import { FederationSupportModule } from '@virteex/shared-util-server-config';
-import { PayrollResolver } from './payroll.resolver';
 
 @Module({
   imports: [

@@ -1,6 +1,7 @@
-import { Injectable, Inject, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { ProjectRepository, PROJECT_REPOSITORY } from '@virteex/domain-projects-domain';
 import { Task } from '@virteex/domain-projects-domain';
+import { EntityNotFoundException, BadRequestException } from '@virteex/kernel-exceptions';
 
 @Injectable()
 export class AddTaskUseCase {
@@ -12,18 +13,17 @@ export class AddTaskUseCase {
     const project = await this.projectRepository.findById(projectId);
 
     if (!project) {
-      throw new NotFoundException(`Project ${projectId} not found`);
+      throw new EntityNotFoundException('Project', projectId);
     }
 
     if (project.tenantId !== tenantId) {
-       throw new NotFoundException(`Project ${projectId} not found`);
+       throw new EntityNotFoundException('Project', projectId);
     }
 
     if (project.status === 'COMPLETED' || project.status === 'CANCELLED') {
       throw new BadRequestException('Cannot add tasks to a completed or cancelled project');
     }
 
-    // Task constructor needs checking if it accepts project as 2nd arg
     const task = new Task(tenantId, project, taskName);
     if (assignedToId) {
       task.assignedToId = assignedToId;
