@@ -561,6 +561,12 @@
       "@virteex/contracts-purchasing-contracts/*": [
         "libs/domain/purchasing/contracts/src/*"
       ],
+      "@virteex/contracts-accounting-contracts": [
+        "libs/domain/accounting/contracts/src/index.ts"
+      ],
+      "@virteex/contracts-accounting-contracts/*": [
+        "libs/domain/accounting/contracts/src/*"
+      ],
       "@virteex/shared-validators": ["libs/shared/validators/src/index.ts"],
       "@virteex/shared-validators/*": ["libs/shared/validators/src/*"],
       "@virteex/shared-types": ["libs/shared/types/src/index.ts"],
