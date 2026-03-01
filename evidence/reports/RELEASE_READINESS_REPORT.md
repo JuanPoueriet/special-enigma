@@ -1,7 +1,7 @@
 # Virteex ERP Release Readiness Report
 
-**Date:** 2026-03-01T13:28:45.771Z
-**Version:** 2026.03-rc1
+**Date:** 2026-03-01T14:21:43.040Z
+**Version:** DEV-SNAPSHOT
 
 ## 1. Commercial Readiness
 
@@ -29,15 +29,7 @@
 
 ## 4. Release Evidence Pack
 
-- **Readiness state:** ready-with-evidence
-- **Evidence path:** evidence/releases/2026.03-rc1
-
-| Gate | Status |
-| --- | --- |
-| commercial | PASSED |
-| docs-consistency | PASSED |
-| plugin-isolation | PASSED |
-| production-readiness | PASSED |
+> Evidence pack missing. Run `npm run readiness:evidence` first.
 
 ---
 *Report generated automatically by Virteex readiness tooling*
