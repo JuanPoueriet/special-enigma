@@ -1,0 +1,157 @@
+# Informe de Auditoría Arquitectónica - Monorepo Virteex ERP
+
+## 1. Resumen Ejecutivo
+
+El monorepo Virteex ERP presenta una base arquitectónica sólida basada en principios de **Clean Architecture** y **Domain-Driven Design (DDD)**, soportada por el ecosistema de **Nx**. Sin embargo, la auditoría revela signos claros de "erosión arquitectónica" y fatiga en el cumplimiento de las reglas de diseño.
+
+*   **Diagnóstico General:** El repositorio es funcional, escalable y profesionalmente organizado, pero sufre de una implementación inconsistente de los límites entre capas. La arquitectura definida en la documentación y los ADRs se ve contradicha frecuentemente por el código real en dominios críticos.
+*   **Salud General:** **6.8/10**. Es un monorepo saludable pero en una etapa crítica donde la deuda técnica acumulada (especialmente el acoplamiento a frameworks en capas puras) podría dificultar significativamente el mantenimiento futuro si no se corrige pronto.
+*   **Principales Fortalezas:**
+    *   Excelente organización física y layout del repositorio.
+    *   Consolidación exitosa de infraestructura en la carpeta `platform/`.
+    *   Presencia de herramientas de gobernanza automatizadas y generadores de código.
+    *   Separación clara de dominios de negocio.
+*   **Principales Debilidades:**
+    *   **Fuga de Abstracciones:** La capa de dominio está acoplada a MikroORM y NestJS en múltiples módulos.
+    *   **Shared Monster:** La librería `libs/shared/ui` se ha convertido en un "cajón de sastre" que mezcla componentes UI con lógica de negocio y modelos de datos de diversos dominios.
+    *   **Incumplimiento de Reglas:** Los scripts de validación reportan múltiples violaciones de límites en dominios core como Identity, Payroll y Manufacturing.
+
+---
+
+## 2. Evaluación por Dimensión
+
+### Estructura general del repositorio
+**Calificación: 8/10**
+
+*   **Qué está bien:** Layout Nx estándar muy limpio; separación clara entre `apps/`, `libs/`, `platform/`, `tools/` y `docs/`. Facilidad de navegación intuitiva.
+*   **Qué está mal:** El root aún conserva muchos archivos de configuración que podrían consolidarse más, aunque es aceptable para un monorepo de este tamaño.
+*   **Riesgos:** Ninguno crítico a nivel estructural físico.
+*   **Justificación:** Sigue las mejores prácticas de la industria y el modelo mental es coherente.
+
+### Calidad del diseño arquitectónico
+**Calificación: 6/10**
+
+*   **Qué está bien:** La arquitectura Clean (Domain, Application, Infrastructure, Presentation) es la correcta para la complejidad del negocio.
+*   **Qué está mal:** Violación del principio de independencia de frameworks. Las entidades de dominio en dominios como `identity` o `payroll` usan decoradores de MikroORM directamente. La capa de aplicación lanza excepciones HTTP de NestJS.
+*   **Riesgos:** Fuerte acoplamiento que impedirá cambiar de ORM o framework de ejecución sin un refactor masivo de la lógica de negocio.
+*   **Justificación:** El diseño "teórico" es excelente, pero la implementación real falla en proteger el corazón del sistema (el Dominio).
+
+### Naming y convenciones
+**Calificación: 8/10**
+
+*   **Qué está bien:** Convención de nombres de librerías altamente predecible (`domain-<domain>-<layer>`). Semántica clara en los nombres de archivos y carpetas.
+*   **Qué está mal:** Algunas inconsistencias menores en la organización interna de `src/lib` entre diferentes dominios (unos usan carpetas para servicios, otros no).
+*   **Justificación:** La consistencia es alta, lo que facilita el uso de herramientas de automatización.
+
+### Organización por dominios o módulos
+**Calificación: 9/10**
+
+*   **Qué está bien:** Partición impecable por dominios de negocio (Accounting, Billing, CRM, Inventory, etc.). Refleja bien los *Bounded Contexts*.
+*   **Qué está mal:** Filtración de conceptos de dominio en `libs/shared/ui`.
+*   **Justificación:** Es la mayor fortaleza del repositorio; la estructura respalda el crecimiento de equipos independientes por dominio.
+
+### Librerías compartidas y reutilización
+**Calificación: 4/10**
+
+*   **Qué está bien:** `libs/kernel` está bien enfocado en capacidades técnicas transversales (auth, telemetry, messaging).
+*   **Qué está mal:** `libs/shared/ui` es un "junk drawer" clásico. Contiene `core/models` con entidades de negocio (Account, Customer, Finance) y `core/services` con lógica pesada de dominios específicos mezclada con utilidades de UI.
+*   **Riesgos:** Alto acoplamiento transversal. Cambios en un dominio pueden forzar la recompilación de todo el frontend por estar en el shared UI.
+*   **Justificación:** La gestión de lo "compartido" es deficiente y viola los límites de dominio establecidos en el resto del repo.
+
+### Relación entre runtime, testing y soporte
+**Calificación: 7/10**
+
+*   **Qué está bien:** Separación clara de tests unitarios y de integración. Uso de Testcontainers y scripts de soporte robustos.
+*   **Qué está mal:** Tests unitarios de dominio que dependen de `Testing` de NestJS, lo que indica que no son pruebas de lógica pura.
+*   **Justificación:** Las herramientas de soporte son de gran calidad, pero la calidad de los tests se ve afectada por el acoplamiento de capas.
+
+### Escalabilidad
+**Calificación: 8/10**
+
+*   **Qué está bien:** Nx y la estructura de dominios permiten añadir nuevas funcionalidades sin fricción. Generadores disponibles para mantener el estándar.
+*   **Qué está mal:** El build time se degradará exponencialmente si el "Shared Monster" sigue creciendo.
+*   **Justificación:** Preparado para múltiples equipos, aunque requiere una "poda" arquitectónica para mantener el rendimiento.
+
+### Mantenibilidad
+**Calificación: 6/10**
+
+*   **Qué está bien:** Modularidad alta.
+*   **Qué está mal:** La fuga de detalles de infraestructura (MikroORM) al dominio hace que el sistema sea rígido ante cambios en la persistencia.
+*   **Justificación:** Es fácil encontrar dónde cambiar algo, pero es difícil cambiarlo sin romper el aislamiento de capas.
+
+### Gobernanza arquitectónica
+**Calificación: 7/10**
+
+*   **Qué está bien:** Uso de ADRs, scripts de validación (`arch:check`) y `validate-project-tags.mjs`. El enforcement está automatizado.
+*   **Qué está mal:** El script `arch:check` reporta violaciones críticas que parecen haber sido ignoradas o permitidas por mucho tiempo.
+*   **Justificación:** Las reglas existen y son visibles, pero el cumplimiento técnico ha sido laxo.
+
+### Developer Experience
+**Calificación: 8/10**
+
+*   **Qué está bien:** Muy buen onboarding gracias a READMEs detallados y una estructura predecible. Los generadores reducen el boilerplate.
+*   **Qué está mal:** Confusión potencial sobre dónde colocar lógica de UI (¿en el dominio o en el shared UI?).
+*   **Justificación:** Es un entorno amigable para el desarrollador experimentado.
+
+### Consistencia global del monorepo
+**Calificación: 7/10**
+
+*   **Qué está bien:** Transmite un modelo mental claro y unificado.
+*   **Qué está mal:** Inconsistencia entre la intención arquitectónica (ADRs) y la implementación técnica (Domain leakage).
+*   **Justificación:** El sistema parece diseñado por arquitectos pero ejecutado con prisas en ciertos módulos.
+
+---
+
+## 3. Tabla Resumen de Puntuaciones
+
+| Dimensión | Nota /10 | Comentario Breve |
+| :--- | :---: | :--- |
+| Estructura General | 8 | Layout Nx impecable y profesional. |
+| Diseño Arquitectónico | 6 | Clean Arch bien planteada pero mal protegida. |
+| Naming y Convenciones | 8 | Muy consistente y predecible. |
+| Organización por Dominios| 9 | Excelente separación de Bounded Contexts. |
+| Librerías Compartidas | 4 | `shared/ui` es un "junk drawer" peligroso. |
+| Testing y Soporte | 7 | Buena infraestructura, pero tests acoplados. |
+| Escalabilidad | 8 | Estructura preparada para crecer, con build limits. |
+| Mantenibilidad | 6 | Rigidez por fuga de abstracciones. |
+| Gobernanza | 7 | Herramientas presentes, cumplimiento incompleto. |
+| Developer Experience | 8 | Generadores y docs que facilitan el trabajo. |
+| Consistencia Global | 7 | Modelo mental claro pero con erosión técnica. |
+
+---
+
+## 4. Red Flags (Problemas Críticos)
+
+1.  **Infrastructure Leakage (Domain):** Uso masivo de `@mikro-orm/core` dentro de `libs/domain/*/domain`. Las entidades de dominio no deberían conocer el mecanismo de persistencia.
+2.  **Framework Coupling (Application):** Importación de `@nestjs/common` en los casos de uso para lanzar excepciones HTTP (`ConflictException`, `NotFoundException`).
+3.  **Shared UI Junk Drawer:** `libs/shared/ui` contiene lógica de negocio crítica (ej: `accounts-payable.ts`, `billing.ts`) y modelos que deberían vivir en sus respectivos dominios.
+4.  **Bypassed Boundaries:** El script `arch:check` falla en dominios core como Identity, Manufacturing y Payroll, indicando que se están ignorando las alertas de arquitectura en el CI/CD.
+
+---
+
+## 5. Quick Wins (Acciones de Alto Impacto / Bajo Esfuerzo)
+
+1.  **Enforcement Estricto:** Activar el bloqueo del CI si `npm run arch:check` falla para cualquier dominio nuevo o cambio en dominios limpios.
+2.  **Abstracción de Excepciones:** Crear excepciones de dominio puras (ej. `UserAlreadyExistsException` que extienda de `DomainException`) y mapearlas a HTTP solo en la capa de `presentation`.
+3.  **Limpieza de Modelos UI:** Mover los modelos de datos de `libs/shared/ui/src/lib/core/models` a los respectivos `contracts` de cada dominio.
+4.  **Tags de Generadores:** Actualizar los generadores Nx para asegurar que todas las librerías nuevas nazcan con los tags de criticidad y cumplimiento requeridos.
+
+---
+
+## 6. Recomendaciones Estratégicas
+
+1.  **Refactor de Shared UI:** Fragmentar `libs/shared/ui` siguiendo el patrón `domain-<domain>-ui`. El compartido solo debe contener componentes atómicos y puramente visuales (botones, inputs genéricos).
+2.  **Pure Domain Layer:** Eliminar los decoradores del ORM de las entidades de dominio y usar archivos de mapeo externos (`EntitySchema` de MikroORM) en la capa de `infrastructure`.
+3.  **Inversión de Dependencias Real:** Asegurar que los puertos (interfaces de repositorios) en el dominio no devuelvan tipos específicos del ORM.
+
+---
+
+## 7. Nota Global Final
+
+### **Nota Global: 6.8 / 10**
+
+**Justificación:**
+El monorepo está en una posición "buena" (7-8) en términos de estructura y organización, pero cae a "aceptable" (5-6) debido a la preocupante erosión de los límites de Clean Architecture. La base técnica es muy fuerte, lo que permite una recuperación rápida si se toman las medidas correctivas sugeridas.
+
+**Conclusión Final:**
+El monorepo Virteex ERP es un sistema profesional y funcional que hoy está saludable, pero se encuentra lejos de una arquitectura realmente sólida (9-10) debido a la acumulación de deuda técnica por acoplamiento. Está en el momento perfecto para un "refactor de saneamiento" antes de que la complejidad del *Shared Monster* y el leak de infraestructura hagan que el sistema sea inmanejable.
