@@ -5,7 +5,7 @@ import { join } from 'node:path';
 const searchDirs = ['apps', 'libs'];
 let hasViolations = false;
 
-const POLICY_MODE = process.env.TAG_POLICY_MODE || 'warn';
+const POLICY_MODE = process.env.TAG_POLICY_MODE || 'error';
 const REQUIRED_FAMILIES = ['scope:', 'type:', 'platform:', 'criticality:'];
 
 function validateDir(dir) {

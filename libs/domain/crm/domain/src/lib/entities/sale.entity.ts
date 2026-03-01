@@ -1,12 +1,3 @@
-import {
-  Entity,
-  PrimaryKey,
-  Property,
-  OneToMany,
-  Collection,
-  ManyToOne,
-  Enum
-} from '@mikro-orm/core';
 import { v4 } from 'uuid';
 
 export enum SaleStatus {
@@ -17,30 +8,14 @@ export enum SaleStatus {
   CANCELLED = 'CANCELLED'
 }
 
-@Entity()
 export class Sale {
-  @PrimaryKey({ type: 'uuid' })
   id: string = v4();
-
-  @Property()
   tenantId!: string;
-
-  @Property()
   customerId!: string;
-
-  @Property()
   customerName!: string;
-
-  @Property({ type: 'decimal', precision: 10, scale: 2 })
   total!: string;
-
-  @Enum(() => SaleStatus)
   status: SaleStatus = SaleStatus.DRAFT;
-
-  @OneToMany('SaleItem', 'sale', { cascade: [] })
-  items = new Collection<any>(this);
-
-  @Property()
+  items: SaleItem[] = [];
   createdAt: Date = new Date();
 
   constructor(tenantId: string, customerId: string, customerName: string, total: string) {
@@ -51,24 +26,12 @@ export class Sale {
   }
 }
 
-@Entity()
 export class SaleItem {
-  @PrimaryKey({ type: 'uuid' })
   id: string = v4();
-
-  @Property()
   productId!: string;
-
-  @Property()
   productName!: string;
-
-  @Property({ type: 'decimal', precision: 10, scale: 2 })
   price!: string;
-
-  @Property({ type: 'decimal', precision: 10, scale: 2 })
   quantity!: string;
-
-  @ManyToOne(() => Sale)
   sale!: Sale;
 
   constructor(

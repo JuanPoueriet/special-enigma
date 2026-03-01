@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { ConfigService } from '@nestjs/config';
-import { UsageAggregate, UsageRecord, UsageRepository } from '../ports/usage.repository';
+import { UsageAggregate, UsageRecord, UsageRepository } from '@virteex/domain-finops-domain';
 
 /**
  * Persistent repository implemented as append-only JSONL + periodic snapshots.

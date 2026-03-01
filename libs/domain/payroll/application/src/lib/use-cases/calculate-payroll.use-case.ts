@@ -16,7 +16,7 @@ import {
   TENANT_CONFIG_REPOSITORY
 } from '@virteex/domain-payroll-domain';
 import { GlobalConfigService } from '@virteex/shared-util-server-config';
-import { CalculatePayrollDto } from '@virteex/contracts-payroll-contracts-payroll-contracts';
+import { CalculatePayrollDto } from '@virteex/contracts-payroll-contracts';
 import {
   BadRequestException,
   EntityNotFoundException,

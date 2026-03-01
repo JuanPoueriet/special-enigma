@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { FinOpsService } from './finops.service';
-import { USAGE_REPOSITORY } from './ports/usage.repository';
+import { USAGE_REPOSITORY } from './usage.repository';
 
 @Module({
   imports: [],

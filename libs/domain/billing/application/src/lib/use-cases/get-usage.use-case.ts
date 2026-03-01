@@ -1,4 +1,4 @@
-import { Injectable, Inject, NotFoundException } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import {
   InvoiceRepository,
@@ -7,7 +7,6 @@ import {
 import {
   SubscriptionRepository,
   SUBSCRIPTION_REPOSITORY,
-  SubscriptionPlan
 } from '@virteex/domain-subscription-domain';
 
 export interface UsageItem {

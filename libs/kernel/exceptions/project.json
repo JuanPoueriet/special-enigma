@@ -3,7 +3,12 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/kernel/exceptions/src",
   "projectType": "library",
-  "tags": ["scope:kernel", "type:kernel"],
+  "tags": [
+    "scope:kernel",
+    "type:kernel",
+    "platform:agnostic",
+    "criticality:high"
+  ],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
