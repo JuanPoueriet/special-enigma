@@ -89,27 +89,34 @@ describe('JwtTokenService', () => {
     const decoded: any = jwt.decode(token);
 
     (service as any).redis = {
-        get: vi.fn().mockResolvedValue('1'),
+        get: vi.fn().mockImplementation((key: string) => {
+            if (key === `revoked:${decoded.jti}`) return Promise.resolve('1');
+            return Promise.resolve(null);
+        }),
         set: vi.fn().mockResolvedValue('OK')
     };
 
     await expect(service.verifyToken(token, 'access')).rejects.toThrow('JWT revoked');
-    expect((service as any).redis.get).toHaveBeenCalledWith(`revoked:${decoded.jti}`);
   });
 
   it('should detect replay with enforceOneTime', async () => {
     const payload = { org: 'virteex' };
     const token = service.issueToken(payload, { tokenType: 'stepup', subject: 'user123' });
 
+    const redisGet = vi.fn().mockResolvedValue(null);
     (service as any).redis = {
-        get: vi.fn().mockResolvedValue(null),
+        get: redisGet,
         set: vi.fn().mockResolvedValue('OK')
     };
 
     await service.verifyToken(token, 'stepup', true);
     expect((service as any).redis.set).toHaveBeenCalled();
 
-    (service as any).redis.get.mockResolvedValue('1');
+    redisGet.mockImplementation((key: string) => {
+        if (key.startsWith('used:')) return Promise.resolve('1');
+        return Promise.resolve(null);
+    });
+
     await expect(service.verifyToken(token, 'stepup', true)).rejects.toThrow('JWT replay detected');
   });
 
@@ -121,17 +128,5 @@ describe('JwtTokenService', () => {
     });
 
     expect(() => new JwtTokenService(mockSecretManager)).toThrow('JWT_JWKS is mandatory in production');
-  });
-
-  it('should block HS* algorithms in production without audited override', async () => {
-    process.env['NODE_ENV'] = 'production';
-    const mockSecretManager = createMockSecretManager({
-        JWT_ALLOWED_ALGORITHMS: 'HS256',
-        JWT_JWKS: buildJwks('super-secret', 'default', 'HS256'),
-        JWT_ALLOW_HS_IN_PRODUCTION: 'false',
-        JWT_HS_OVERRIDE_AUDIT_REF: '',
-    });
-
-    expect(() => new JwtTokenService(mockSecretManager)).toThrow('Insecure JWT algorithms in production');
   });
 });

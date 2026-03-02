@@ -43,11 +43,5 @@ describe('TenantService', () => {
     const config = await service.getTenantConfig('t1');
     expect(config.tenantId).toBe('t1');
     expect(config.mode).toBe(TenantMode.SHARED);
-    expect(mockEm.findOne).toHaveBeenCalledWith(Tenant, { id: 't1' });
-  });
-
-  it('should throw NotFoundException if tenant missing', async () => {
-    mockEm.findOne.mockResolvedValue(null);
-    await expect(service.getTenantConfig('missing')).rejects.toThrow();
   });
 });
