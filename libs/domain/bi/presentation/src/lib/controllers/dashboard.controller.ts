@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards, UnauthorizedException } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard, getTenantContext } from '@virteex/kernel-auth';
 import { GetDashboardStatsUseCase } from '@virteex/domain-bi-application';
 
