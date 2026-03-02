@@ -1,55 +1,100 @@
 import { CallHandler, ExecutionContext, ForbiddenException, Injectable, Logger, NestInterceptor } from '@nestjs/common';
 import { EntityManager, RequestContext } from '@mikro-orm/core';
 import { Observable, from, lastValueFrom } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, catchError } from 'rxjs/operators';
 import { getTenantContext } from '@virteex/kernel-auth';
 import { TenantService } from '../tenant.service';
+import { Counter, Histogram } from '@opentelemetry/api';
+import { metrics } from '@opentelemetry/api';
 
 @Injectable()
 export class TenantRlsInterceptor implements NestInterceptor {
   private readonly logger = new Logger(TenantRlsInterceptor.name);
+  private readonly meter = metrics.getMeter('virteex-tenant-meter');
+
+  private readonly requestCounter: Counter;
+  private readonly latencyHistogram: Histogram;
+  private readonly errorCounter: Counter;
 
   constructor(
     private readonly em: EntityManager,
     private readonly tenantService: TenantService
-  ) {}
+  ) {
+    this.requestCounter = this.meter.createCounter('tenant_requests_total', {
+      description: 'Total number of requests per tenant',
+    });
+    this.latencyHistogram = this.meter.createHistogram('tenant_request_duration_ms', {
+      description: 'Latency of requests per tenant',
+      unit: 'ms',
+    });
+    this.errorCounter = this.meter.createCounter('tenant_errors_total', {
+      description: 'Total number of errors per tenant',
+    });
+  }
 
   async intercept(context: ExecutionContext, next: CallHandler): Promise<Observable<any>> {
     const startTime = performance.now();
     const tenantContext = getTenantContext();
+
     if (!tenantContext) {
-      // SECURITY: Closed-by-default. No operation allowed without a valid tenant context.
-      // Previous version allowed GET requests to bypass this check.
+      this.logger.warn('Access attempt without tenant context');
       throw new ForbiddenException('Tenant context is required for all operations');
     }
 
-    const config = await this.tenantService.getTenantConfig(tenantContext.tenantId);
+    const tenantId = tenantContext.tenantId;
+    this.requestCounter.add(1, { tenantId });
+
+    const config = await this.tenantService.getTenantConfig(tenantId);
+
+    // Data Sovereignty Check
+    const requestRegion = process.env['AWS_REGION'] || 'unknown';
+    const allowedRegion = config.settings?.['allowedRegion'];
+
+    if (allowedRegion && allowedRegion !== requestRegion) {
+      this.logger.error(`Data Sovereignty Violation: Tenant ${tenantId} is restricted to ${allowedRegion} but request reached ${requestRegion}`);
+      this.errorCounter.add(1, { tenantId, type: 'sovereignty_violation' });
+      throw new ForbiddenException(`Data residency policy violation. This tenant is restricted to region: ${allowedRegion}`);
+    }
 
     if (config.mode === 'SHARED') {
       return from(
         this.em.transactional(async (txEm) => {
-          await txEm.getConnection().execute('SET LOCAL app.current_tenant = ?', [tenantContext.tenantId]);
+          await txEm.getConnection().execute('SET LOCAL app.current_tenant = ?', [tenantId]);
           await txEm.getConnection().execute('SET LOCAL app.tenant_enforced = ?', ['true']);
 
-          // Also set the MikroORM global filter for non-RLS scenarios or additional safety
-          txEm.setFilterParams('tenant', { tenantId: tenantContext.tenantId });
+          txEm.setFilterParams('tenant', { tenantId });
 
-          // Propagate the transactional EM to the request context
           return await RequestContext.create(txEm, async () => {
-             const result = await lastValueFrom(next.handle(), { defaultValue: undefined });
-             const duration = performance.now() - startTime;
-             this.logger.log(`RLS SHARED query completed for tenant ${tenantContext.tenantId} in ${duration.toFixed(2)}ms`);
-             return result;
+             try {
+                const result = await lastValueFrom(next.handle(), { defaultValue: undefined });
+                this.recordMetrics(tenantId, startTime);
+                return result;
+             } catch (error) {
+                this.recordError(tenantId, error);
+                throw error;
+             }
           });
         })
       );
     }
 
     return next.handle().pipe(
-        tap(() => {
-            const duration = performance.now() - startTime;
-            this.logger.log(`RLS NON-SHARED operation completed for tenant ${tenantContext.tenantId} in ${duration.toFixed(2)}ms`);
+        tap(() => this.recordMetrics(tenantId, startTime)),
+        catchError((error) => {
+            this.recordError(tenantId, error);
+            throw error;
         })
     );
+  }
+
+  private recordMetrics(tenantId: string, startTime: number) {
+    const duration = performance.now() - startTime;
+    this.latencyHistogram.record(duration, { tenantId });
+    this.logger.log(`Tenant ${tenantId} operation completed in ${duration.toFixed(2)}ms`);
+  }
+
+  private recordError(tenantId: string, error: any) {
+    this.errorCounter.add(1, { tenantId, status: error.status || 500 });
+    this.logger.error(`Tenant ${tenantId} operation failed: ${error.message}`);
   }
 }

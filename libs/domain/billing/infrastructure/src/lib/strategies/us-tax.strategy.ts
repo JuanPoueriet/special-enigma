@@ -1,10 +1,9 @@
 import { TaxStrategy, TaxResult } from '@virteex/domain-billing-domain';
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, InternalServerErrorException } from '@nestjs/common';
 import { Decimal } from 'decimal.js';
 
 // Comprehensive lookup table for US Sales Tax by State (Average Rates for 2024)
-// In a real application, this would be a DB lookup or an external API call (Avalara/Vertex).
-// However, a comprehensive in-memory map is functionally superior to a single hardcoded mock constant.
+// TODO: [Hardened Blocked] This is a fallback table. Production requires Avalara/TaxJar integration for precise jurisdiction-level tax.
 const US_STATE_TAX_RATES: Record<string, number> = {
     'AL': 0.0400, 'AK': 0.0000, 'AZ': 0.0560, 'AR': 0.0650, 'CA': 0.0725,
     'CO': 0.0290, 'CT': 0.0635, 'DE': 0.0000, 'DC': 0.0600, 'FL': 0.0600,
@@ -23,18 +22,22 @@ const US_STATE_TAX_RATES: Record<string, number> = {
 export class UsTaxStrategy implements TaxStrategy {
   private readonly logger = new Logger(UsTaxStrategy.name);
 
-  // Default fallback if state is not provided
-  private readonly FALLBACK_RATE = 0.00;
-
   async calculate(amount: number, context?: { state?: string, zip?: string }): Promise<TaxResult> {
+    const isProduction = process.env['NODE_ENV'] === 'production' || process.env['RELEASE_STAGE'] === 'production';
     const stateCode = context?.state ? context.state.toUpperCase() : null;
-    let rate = this.FALLBACK_RATE;
+
+    if (isProduction && !process.env['ENABLE_US_TAX_FALLBACK']) {
+       this.logger.error('CRITICAL: US Tax calculation requested in production without external partner integration.');
+       throw new InternalServerErrorException('US Tax calculation requires external partner (Avalara/TaxJar) in production. Fallback is disabled.');
+    }
+
+    let rate = 0.00;
 
     if (stateCode && US_STATE_TAX_RATES[stateCode] !== undefined) {
         rate = US_STATE_TAX_RATES[stateCode];
-        this.logger.log(`Calculating US Sales Tax for ${stateCode}: ${rate * 100}% on amount ${amount}`);
+        this.logger.log(`Calculating US Sales Tax (Fallback) for ${stateCode}: ${rate * 100}% on amount ${amount}`);
     } else {
-        this.logger.warn(`State code not provided or invalid (${stateCode}). Using fallback rate: ${rate}`);
+        this.logger.warn(`State code not provided or invalid (${stateCode}). Using 0% tax.`);
     }
 
     const baseAmount = new Decimal(amount);

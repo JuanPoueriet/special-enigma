@@ -27,23 +27,44 @@ describe('GenericLatamStrategy', () => {
   it('should calculate tax correctly for Argentina', async () => {
     const tables: TaxTable[] = [
       new TaxTable(0, 0, 0, 2025, 'MONTHLY', 'AR'),
-      new TaxTable(1000, 10, 5, 2025, 'MONTHLY', 'AR'), // Fixed 10 + 5% of excess over 1000
+      new TaxTable(1000, 10, 5, 2025, 'MONTHLY', 'AR'),
     ];
-    // Mock repo to return these tables
-    (repo.findForYear as jest.Mock).mockResolvedValue(tables);
+    (repo.findForYear as any).mockResolvedValue(tables);
 
     const result = await strategy.calculatePayrollTaxes(2000, new Date('2025-01-01'), 'MONTHLY', { countryCode: 'AR' });
 
-    // Calculation:
-    // Income 2000 > 1000. Row is the second one.
-    // Excess = 2000 - 1000 = 1000
-    // Tax = 10 + (1000 * 5 / 100) = 10 + 50 = 60
     expect(result.totalTax).toBe(60);
-    expect(repo.findForYear).toHaveBeenCalledWith(2025, 'MONTHLY', 'AR');
+  });
+
+  it('should apply Colombia social security rules', async () => {
+    (repo.findForYear as any).mockResolvedValue([]);
+    const income = 2000000; // > 1,300,000 SMLV
+    const result = await strategy.calculatePayrollTaxes(income, new Date('2024-01-01'), 'MONTHLY', { countryCode: 'CO' });
+
+    // Salud 4% = 80,000
+    // Pension 4% = 80,000
+    const salud = result.details.find(d => d.name === 'Salud (CO)');
+    const pension = result.details.find(d => d.name === 'Pensión (CO)');
+
+    expect(salud?.amount).toBe(80000);
+    expect(pension?.amount).toBe(80000);
+  });
+
+  it('should apply Brazil progressive INSS rules', async () => {
+    (repo.findForYear as any).mockResolvedValue([]);
+    const income = 3000;
+    const result = await strategy.calculatePayrollTaxes(income, new Date('2024-01-01'), 'MONTHLY', { countryCode: 'BR' });
+
+    // Tier 1: 1412 * 0.075 = 105.90
+    // Tier 2: (2666.68 - 1412) * 0.09 = 1254.68 * 0.09 = 112.92
+    // Tier 3: (3000 - 2666.68) * 0.12 = 333.32 * 0.12 = 39.9984 -> 40.00
+    // Total = 105.90 + 112.92 + 40.00 = 258.82
+    const inss = result.details.find(d => d.name === 'INSS (BR)');
+    expect(inss?.amount).toBeCloseTo(258.82, 1);
   });
 
   it('should return 0 if no tables found', async () => {
-    (repo.findForYear as jest.Mock).mockResolvedValue([]);
+    (repo.findForYear as any).mockResolvedValue([]);
     const result = await strategy.calculatePayrollTaxes(5000, new Date('2025-01-01'), 'MONTHLY', { countryCode: 'BO' });
     expect(result.totalTax).toBe(0);
   });

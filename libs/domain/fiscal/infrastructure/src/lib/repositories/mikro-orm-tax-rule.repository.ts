@@ -2,21 +2,23 @@ import { Injectable } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/core';
 import { FiscalTaxRule } from '@virteex/domain-fiscal-domain';
 import { TaxRuleRepository } from '@virteex/domain-fiscal-domain/tax-rule.repository';
+import { FiscalTaxRuleRecord } from '../entities/fiscal-tax-rule.record';
 
 @Injectable()
 export class MikroOrmTaxRuleRepository implements TaxRuleRepository {
   constructor(private readonly em: EntityManager) {}
 
   async findByTenant(tenantId: string): Promise<FiscalTaxRule[]> {
-    return this.em.find(FiscalTaxRule, { tenantId, isActive: true });
+    return this.em.find(FiscalTaxRuleRecord, { tenantId, isActive: true });
   }
 
   async save(rule: FiscalTaxRule): Promise<void> {
-    await this.em.persistAndFlush(rule);
+    const record = this.toRecord(rule);
+    await this.em.persistAndFlush(record);
   }
 
   async createDefaultRules(tenantId: string): Promise<FiscalTaxRule[]> {
-    const existingCount = await this.em.count(FiscalTaxRule, { tenantId });
+    const existingCount = await this.em.count(FiscalTaxRuleRecord, { tenantId });
     if (existingCount > 0) {
       return [];
     }
@@ -28,9 +30,18 @@ export class MikroOrmTaxRuleRepository implements TaxRuleRepository {
     ];
 
     for (const rule of rules) {
-      this.em.persist(rule);
+      this.em.persist(this.toRecord(rule));
     }
     await this.em.flush();
     return rules;
+  }
+
+  private toRecord(rule: FiscalTaxRule): FiscalTaxRuleRecord {
+    const record = new FiscalTaxRuleRecord(rule.tenantId, rule.name, rule.type, rule.rate, rule.appliesTo);
+    record.id = rule.id;
+    record.isActive = rule.isActive;
+    record.createdAt = rule.createdAt;
+    record.updatedAt = rule.updatedAt;
+    return record;
   }
 }

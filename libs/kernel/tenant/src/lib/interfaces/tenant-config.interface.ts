@@ -9,4 +9,5 @@ export interface TenantConfig {
   connectionString?: string;
   schemaName?: string;
   tenantId: string;
+  settings?: Record<string, any>;
 }

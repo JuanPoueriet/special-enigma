@@ -96,6 +96,7 @@ export class TenantService implements OnModuleInit, OnModuleDestroy {
         mode: tenant.mode,
         connectionString: tenant.connectionString,
         schemaName: tenant.schemaName,
+        settings: tenant.settings,
     };
 
     // 3. Update Redis Cache
