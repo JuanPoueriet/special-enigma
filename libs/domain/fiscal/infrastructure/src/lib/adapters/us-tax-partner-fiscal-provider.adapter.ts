@@ -47,22 +47,34 @@ export class UsTaxPartnerFiscalAdapter implements FiscalProvider {
   private async callPartner(endpoint: string, payload: unknown): Promise<any> {
     if (!this.partnerUrl || !this.partnerApiKey) {
       if (this.nodeEnv === 'production') {
-        throw new Error('US tax partner integration is missing in production.');
+        this.logger.error(`CRITICAL: US tax partner integration is missing in production! Endpoint: ${endpoint}`);
+        throw new Error('US tax partner integration is missing in production. Check US_TAX_PARTNER_URL and US_TAX_PARTNER_API_KEY.');
       }
 
       this.logger.warn(`US tax partner not configured, returning development stub for ${endpoint}.`);
       return { valid: true, signature: `us-partner-dev-signature-${Date.now()}` };
     }
 
-    const response = await firstValueFrom(
-      this.httpService.post(`${this.partnerUrl.replace(/\/$/, '')}${endpoint}`, payload, {
-        headers: {
-          Authorization: `Bearer ${this.partnerApiKey}`,
-          'Content-Type': 'application/json',
-        },
-      })
-    );
+    try {
+      this.logger.log(`Calling US tax partner endpoint: ${endpoint}`);
+      const response = await firstValueFrom(
+        this.httpService.post(`${this.partnerUrl.replace(/\/$/, '')}${endpoint}`, payload, {
+          headers: {
+            Authorization: `Bearer ${this.partnerApiKey}`,
+            'Content-Type': 'application/json',
+            'X-Virteex-Region': 'US',
+          },
+          timeout: 5000, // 5s timeout for fiscal partner
+        })
+      );
 
-    return response.data;
+      return response.data;
+    } catch (error: any) {
+      this.logger.error(`Error calling US tax partner at ${endpoint}: ${error.message}`, error.stack);
+      if (error.response) {
+        this.logger.error(`Partner response data: ${JSON.stringify(error.response.data)}`);
+      }
+      throw new Error(`US tax partner communication failed: ${error.message}`);
+    }
   }
 }

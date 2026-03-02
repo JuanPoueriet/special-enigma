@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { biDomain } from './bi-domain';
 
 describe('biDomain', () => {
