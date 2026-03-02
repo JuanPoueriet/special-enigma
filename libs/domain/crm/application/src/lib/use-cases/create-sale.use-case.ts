@@ -4,6 +4,7 @@ import { Sale, SaleItem, SaleRepository, SaleStatus, CustomerRepository, Invento
 import { StockReservationItem } from '@virteex/domain-crm-domain/ports/inventory.service';
 import { CreateSaleDto } from '../dtos/create-sale.dto';
 import Decimal from 'decimal.js';
+import { OutboxService } from '@virteex/kernel-messaging';
 
 @Injectable()
 export class CreateSaleUseCase {
@@ -18,6 +19,7 @@ export class CreateSaleUseCase {
     private readonly catalogService: CatalogService,
     @Inject('InventoryService')
     private readonly inventoryService: InventoryService,
+    private readonly outboxService: OutboxService,
   ) {}
 
   async execute(dto: CreateSaleDto): Promise<Sale> {
@@ -92,6 +94,20 @@ export class CreateSaleUseCase {
     // This ensures we have a record before we try to affect external systems (Inventory)
     await this.saleRepository.create(sale);
 
+    // 2.1 Add to Outbox for downstream consistency (Accounting, etc.)
+    await this.outboxService.add({
+        aggregateType: 'Sale',
+        aggregateId: sale.id,
+        eventType: 'SaleCreated',
+        payload: {
+            tenantId: sale.tenantId,
+            customerId: sale.customerId,
+            total: sale.total,
+            status: sale.status,
+            items: Array.from(sale.items).map(i => ({ productId: i.productId, quantity: i.quantity, price: i.price }))
+        }
+    });
+
     try {
         // 3. Reserve Stock (Batch)
         // This is the critical external call. If it fails, we must rollback the sale state.
@@ -105,6 +121,14 @@ export class CreateSaleUseCase {
         // If repo strictly inserts, this might fail, but without repo code we assume standard persistence pattern.
         // Usually persist/save handles new or existing entities.
         await this.saleRepository.create(sale);
+
+        // 4.1 Update Outbox
+        await this.outboxService.add({
+            aggregateType: 'Sale',
+            aggregateId: sale.id,
+            eventType: 'SaleApproved',
+            payload: { status: sale.status }
+        });
     } catch (error: any) {
         this.logger.error(`Stock reservation failed for sale ${sale.id}: ${error.message}`);
 

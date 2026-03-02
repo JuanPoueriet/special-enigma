@@ -37,10 +37,49 @@ export class SqlDashboardGateway extends DashboardGateway {
     `, [tenantId]);
     const inventoryAlerts = Number(inventoryAlertsRes[0]?.count || 0);
 
+    // 4. Sales Today
+    const salesTodayRes = await qb.execute(`
+      SELECT sum(total) as total
+      FROM crm.sale
+      WHERE tenant_id = ? AND status = 'COMPLETED' AND date(created_at) = CURRENT_DATE
+    `, [tenantId]);
+    const salesToday = Number(salesTodayRes[0]?.total || 0);
+
+    // 5. EBITDA (Simple approximation: Gross Sales - OpEx recorded)
+    const opexRes = await qb.execute(`
+      SELECT sum(amount) as amount
+      FROM accounting.transaction
+      WHERE tenant_id = ? AND account_type = 'EXPENSE' AND date(created_at) >= date_trunc('month', CURRENT_DATE)
+    `, [tenantId]);
+    const monthlyOpex = Number(opexRes[0]?.amount || 0);
+
+    const monthlySalesRes = await qb.execute(`
+      SELECT sum(total) as total
+      FROM crm.sale
+      WHERE tenant_id = ? AND status = 'COMPLETED' AND date(created_at) >= date_trunc('month', CURRENT_DATE)
+    `, [tenantId]);
+    const monthlySales = Number(monthlySalesRes[0]?.total || 0);
+    const ebitda = monthlySales - monthlyOpex;
+
+    // 6. Net Margin
+    const netMargin = monthlySales > 0 ? (ebitda / monthlySales) * 100 : 0;
+
+    // 7. Cash Flow (Current balance across all accounts)
+    const cashFlowRes = await qb.execute(`
+      SELECT sum(balance) as balance
+      FROM treasury.bank_account
+      WHERE tenant_id = ?
+    `, [tenantId]);
+    const cashFlow = Number(cashFlowRes[0]?.balance || 0);
+
     return {
       pendingApprovals,
       openDeals,
-      inventoryAlerts
+      inventoryAlerts,
+      salesToday,
+      ebitda,
+      netMargin,
+      cashFlow
     };
   }
 }
