@@ -4,6 +4,19 @@ import { CancelSaleUseCase } from './cancel-sale.use-case';
 import { CompleteSaleUseCase } from './complete-sale.use-case';
 import { SaleStatus } from '@virteex/domain-crm-domain';
 
+vi.mock('@virteex/shared-util-server-server-config', () => ({
+  DomainException: class extends Error {
+    constructor(message: string, public code: string) {
+      super(message);
+    }
+  },
+  ServerConfigModule: { forRoot: vi.fn() },
+  FederationSupportModule: {},
+  GlobalConfigService: {},
+  IdempotencyService: {},
+  LoggerService: {},
+}));
+
 describe('CRM Sale Transitions', () => {
   let repository: any;
 
