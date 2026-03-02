@@ -1,6 +1,7 @@
-import { Injectable, signal, inject } from '@angular/core';
+import { Injectable, signal, inject, effect } from '@angular/core';
 import { GridsterItem } from 'angular-gridster2';
 import { Kpi } from '../models/finance';
+import { HttpClient } from '@angular/common/http';
 
 // >>> ÚNICO IMPORT NUEVO PARA TRADUCCIÓN <<<
 import { TranslateService } from '@ngx-translate/core';
@@ -97,6 +98,7 @@ const EXECUTIVE_LAYOUT: DashboardWidget[] = [
 export class DashboardService {
   // >>> INYECCIÓN CAMBIADA A inject() PARA ESTAR DISPONIBLE DURANTE INICIALIZACIÓN DE CAMPOS <<<
   private translate = inject(TranslateService);
+  private http = inject(HttpClient);
 
   // ---- Mapa de claves i18n por id (no cambia estructura de datos) ----
   private static readonly WIDGET_I18N_KEYS: Record<
@@ -174,6 +176,53 @@ export class DashboardService {
 
   // >>> layout se inicializa con el resultado de loadLayout(), y translate YA está disponible porque usamos inject() arriba
   layout = signal<DashboardWidget[]>(this.loadLayout());
+  stats = signal<any>(null);
+
+  constructor() {
+    this.refreshStats();
+  }
+
+  refreshStats(): void {
+    // In a real environment, the base URL should come from a configuration service or environment.
+    const baseUrl = '/api/dashboard/stats';
+    this.http.get(baseUrl).subscribe({
+      next: (data: any) => {
+        this.stats.set(data);
+        this.updateWidgetsWithRealData(data);
+      },
+      error: (err) => console.error('Failed to fetch dashboard stats', err)
+    });
+  }
+
+  private updateWidgetsWithRealData(stats: any): void {
+    this.layout.update(currentLayout => {
+      return currentLayout.map(widget => {
+        if (widget.id === 'sales-today') {
+           return { ...widget, data: { ...widget.data, value: this.formatCurrency(stats.salesToday) } };
+        }
+        if (widget.id === 'ebitda') {
+           return { ...widget, data: { ...widget.data, value: this.formatCurrency(stats.ebitda) } };
+        }
+        if (widget.id === 'cash-flow-kpi') {
+           return { ...widget, data: { ...widget.data, value: this.formatCurrency(stats.cashFlow) } };
+        }
+        if (widget.id === 'net-margin') {
+           return { ...widget, data: { ...widget.data, value: `${stats.netMargin.toFixed(1)}%` } };
+        }
+        if (widget.id === 'pending-invoices') {
+           return { ...widget, data: { ...widget.data, value: String(stats.pendingApprovals) } };
+        }
+        if (widget.id === 'low-stock-items') {
+           return { ...widget, data: { ...widget.data, value: String(stats.inventoryAlerts) } };
+        }
+        return widget;
+      });
+    });
+  }
+
+  private formatCurrency(value: number): string {
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value);
+  }
 
   private loadLayout(): DashboardWidget[] {
     if (typeof window !== 'undefined') {
