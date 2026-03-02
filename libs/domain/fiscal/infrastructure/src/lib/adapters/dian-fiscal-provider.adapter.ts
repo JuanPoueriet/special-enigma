@@ -119,13 +119,6 @@ export class DianFiscalAdapter implements FiscalProvider {
           }
       }
 
-      if (!certSerialNumber) {
-          this.logger.warn('FISCAL_CERT_SERIAL_NUMBER missing, falling back to development placeholder.');
-      }
-      if (!policyHash) {
-          this.logger.warn('FISCAL_POLICY_HASH missing, falling back to development placeholder.');
-      }
-
       const xadesObject = `
         <xades:QualifyingProperties xmlns:xades="http://uri.etsi.org/01903/v1.3.2#" Target="#${signatureId}">
           <xades:SignedProperties Id="${signedPropertiesId}">
@@ -194,9 +187,19 @@ export class DianFiscalAdapter implements FiscalProvider {
 
     try {
         const dianUrl = process.env['DIAN_API_URL'];
-        if (!dianUrl) throw new Error('DIAN_API_URL is not configured.');
+        const contingencyMode = process.env['DIAN_CONTINGENCY_MODE'] === 'true';
+
+        if (!dianUrl && !contingencyMode) throw new Error('DIAN_API_URL is not configured.');
 
         const signedXml = typeof invoice === 'string' ? invoice : await this.signInvoice(invoice);
+
+        if (contingencyMode) {
+            this.logger.warn('DIAN Contingency Mode ACTIVE: Saving signed XML to local storage for delayed transmission.');
+            const storagePath = process.env['DIAN_CONTINGENCY_PATH'] || './contingency/co';
+            if (!fs.existsSync(storagePath)) fs.mkdirSync(storagePath, { recursive: true });
+            fs.writeFileSync(path.join(storagePath, `${invoice?.id || 'invoice'}-${Date.now()}.xml`), signedXml);
+            return;
+        }
 
         const soapEnvelope = `
         <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wcf="http://wcf.dian.colombia">
@@ -210,7 +213,7 @@ export class DianFiscalAdapter implements FiscalProvider {
         </soapenv:Envelope>`;
 
         const response = await firstValueFrom(
-            this.httpService.post(dianUrl, soapEnvelope, {
+            this.httpService.post(dianUrl!, soapEnvelope, {
                 timeout: 30000,
                 headers: {
                     'Content-Type': 'text/xml;charset=UTF-8',
@@ -239,6 +242,15 @@ export class DianFiscalAdapter implements FiscalProvider {
         }
     } catch (error: any) {
         this.logger.error(`DIAN Transmission failed: ${error.message}`);
+        // Automatic Contingency Trigger
+        if (process.env['DIAN_AUTO_CONTINGENCY'] === 'true') {
+           this.logger.warn('DIAN Auto-Contingency: API unreachable, saving signed invoice for later.');
+           // Recursive call with contingency mode forced would be dangerous, better direct storage here
+           const storagePath = process.env['DIAN_CONTINGENCY_PATH'] || './contingency/co';
+           if (!fs.existsSync(storagePath)) fs.mkdirSync(storagePath, { recursive: true });
+           fs.writeFileSync(path.join(storagePath, `AUTO-${invoice?.id || 'invoice'}-${Date.now()}.xml`), typeof invoice === 'string' ? invoice : 'signed-xml-fallback');
+           return;
+        }
         throw new Error(`DIAN Transmission Error: ${error.message}`);
     }
   }

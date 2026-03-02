@@ -3,10 +3,8 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 import {
-  TaxDeclaration,
   TAX_DECLARATION_REPOSITORY,
   FISCAL_DATA_PROVIDER,
-  FiscalTaxRule,
   TAX_RULE_REPOSITORY,
   TENANT_CONFIG_REPOSITORY
 } from '@virteex/domain-fiscal-domain';
@@ -22,11 +20,13 @@ import { MxFiscalDocumentBuilder } from './builders/mx-fiscal-document.builder';
 import { UsFiscalDocumentBuilder } from './builders/us-fiscal-document.builder';
 import { CoFiscalDocumentBuilder } from './builders/co-fiscal-document.builder';
 import { BrFiscalDocumentBuilder } from './builders/br-fiscal-document.builder';
+import { FiscalTaxRuleRecord } from './entities/fiscal-tax-rule.record';
+import { TaxDeclarationRecord } from './entities/tax-declaration.record';
 
 @Global()
 @Module({
   imports: [
-    MikroOrmModule.forFeature([TaxDeclaration, FiscalTaxRule]),
+    MikroOrmModule.forFeature([TaxDeclarationRecord, FiscalTaxRuleRecord]),
     HttpModule,
     ConfigModule
   ],

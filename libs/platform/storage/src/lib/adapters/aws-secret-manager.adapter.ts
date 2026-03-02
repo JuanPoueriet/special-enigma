@@ -14,22 +14,26 @@ import {
 @Injectable()
 export class AwsSecretManagerAdapter implements SecretManager {
   private readonly logger = new Logger(AwsSecretManagerAdapter.name);
-  private readonly client: SecretsManagerClient;
+  private client: SecretsManagerClient | null = null;
 
   constructor() {
     this.logger.log('Initializing AWS Secret Manager Adapter (Cloud Native Strategy)');
-    this.client = new SecretsManagerClient({
-      region: process.env['AWS_REGION'] || 'us-east-1',
-    });
+    const isProduction = process.env['NODE_ENV'] === 'production' || process.env['RELEASE_STAGE'] === 'production';
+
+    if (isProduction || process.env['FORCE_AWS_SECRETS'] === 'true') {
+      this.client = new SecretsManagerClient({
+        region: process.env['AWS_REGION'] || 'us-east-1',
+      });
+    }
   }
 
   async getSecret<T>(secretId: string): Promise<T> {
     this.logger.log(`Fetching secret ${secretId} from AWS Secrets Manager...`);
 
-    const isProd = process.env['NODE_ENV'] === 'production';
+    const isProduction = process.env['NODE_ENV'] === 'production' || process.env['RELEASE_STAGE'] === 'production';
     const forceAws = process.env['FORCE_AWS_SECRETS'] === 'true';
 
-    if (!isProd && !forceAws) {
+    if (!isProduction && !forceAws) {
       this.logger.warn(`Development mode: using mock fallback for secret ${secretId}`);
       const mockSecrets: Record<string, any> = {
         'FISCAL_PRIVATE_KEY': 'dev-mock-key',
@@ -39,6 +43,10 @@ export class AwsSecretManagerAdapter implements SecretManager {
       if (mockSecrets[secretId]) {
         return mockSecrets[secretId] as T;
       }
+    }
+
+    if (!this.client) {
+      throw new Error(`AWS Secret Manager Client not initialized. Refusing to serve mock secrets for ${secretId} in production.`);
     }
 
     try {
@@ -62,6 +70,9 @@ export class AwsSecretManagerAdapter implements SecretManager {
 
   async updateSecret(secretId: string, value: string): Promise<void> {
     this.logger.warn(`UPDATING secret ${secretId} in AWS Secrets Manager. Triggering rotation...`);
+    if (!this.client) {
+        throw new Error('AWS Client not initialized for secret updates.');
+    }
     try {
       const command = new UpdateSecretCommand({
         SecretId: secretId,
@@ -75,6 +86,7 @@ export class AwsSecretManagerAdapter implements SecretManager {
   }
 
   async listSecrets(): Promise<string[]> {
+    if (!this.client) return [];
     try {
       const command = new ListSecretsCommand({});
       const response = await this.client.send(command);
