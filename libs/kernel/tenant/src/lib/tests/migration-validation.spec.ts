@@ -28,7 +28,10 @@ describe('Migration Pipeline Operational Validation', () => {
     expect(mockOpService.transitionState).toHaveBeenCalledWith('mig-123', OperationState.PREPARING);
     expect(mockOpService.transitionState).toHaveBeenCalledWith('mig-123', OperationState.VALIDATING);
     expect(mockOpService.transitionState).toHaveBeenCalledWith('mig-123', OperationState.SWITCHED);
-    expect(mockEm.getMigrator).toHaveBeenCalledWith({ schema: 'tenant_t1' });
+
+    const migrator = mockEm.getMigrator();
+    expect(migrator.up).toHaveBeenCalledWith({ schema: 'tenant_t1' });
+
     expect(mockOpService.transitionState).toHaveBeenCalledWith('mig-123', OperationState.FINALIZED);
   });
 

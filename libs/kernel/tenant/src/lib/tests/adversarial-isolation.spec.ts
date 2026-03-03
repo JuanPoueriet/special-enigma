@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, beforeAll } from 'vitest';
 import { TenantRlsInterceptor } from '../interceptors/tenant-rls.interceptor';
-import { EntityManager } from '@mikro-orm/core';
+import { EntityManager, RequestContext } from '@mikro-orm/core';
 import { TenantService } from '../tenant.service';
 import { ForbiddenException } from '@nestjs/common';
 import { of } from 'rxjs';
@@ -14,6 +14,10 @@ describe('Adversarial Isolation Tests (Tenant Escape)', () => {
   let mockTenantService: any;
   let mockHandler: any;
 
+  beforeAll(() => {
+    vi.spyOn(RequestContext, 'create').mockImplementation((em: any, cb: any) => cb());
+  });
+
   beforeEach(() => {
     mockEm = {
       transactional: vi.fn().mockImplementation((cb) => cb(mockEm)),
@@ -21,7 +25,7 @@ describe('Adversarial Isolation Tests (Tenant Escape)', () => {
         execute: vi.fn().mockResolvedValue(undefined),
       }),
       setFilterParams: vi.fn(),
-      fork: vi.fn().mockReturnThis(),
+      fork: vi.fn().mockImplementation(() => mockEm),
       findOne: vi.fn(),
       persist: vi.fn(),
       flush: vi.fn(),
@@ -49,7 +53,8 @@ describe('Adversarial Isolation Tests (Tenant Escape)', () => {
     mockEm.getConnection().execute.mockRejectedValue(new Error('DB Error'));
 
     const mockContext: any = { getHandler: () => ({}), getClass: () => ({}) };
-    await expect(interceptor.intercept(mockContext, mockHandler)).rejects.toThrow(ForbiddenException);
+    const observable = await interceptor.intercept(mockContext, mockHandler);
+    await expect(require('rxjs').lastValueFrom(observable)).rejects.toThrow(ForbiddenException);
   });
 
   it('SHOULD BLOCK access when region sovereignty is violated', async () => {
@@ -72,12 +77,16 @@ describe('Adversarial Isolation Tests (Tenant Escape)', () => {
       });
 
       const mockContext: any = { getHandler: () => ({}), getClass: () => ({}) };
-      await interceptor.intercept(mockContext, mockHandler);
+      const observable = await interceptor.intercept(mockContext, mockHandler);
 
-      expect(mockEm.fork).toHaveBeenCalledWith({ connectionString: 'postgresql://dedicated:5432/db' });
+      const { lastValueFrom } = require('rxjs');
+      await lastValueFrom(observable);
+
+      expect(mockEm.fork).toHaveBeenCalledWith(expect.objectContaining({ connectionString: 'postgresql://dedicated:5432/db' }));
   });
 
   it('SHOULD BLOCK when HMAC signature is altered in Routing Plane', async () => {
+      mockEm.create = vi.fn().mockImplementation((entity, data) => data);
       const routingService = new RoutingPlaneService(mockEm, mockTenantService, { get: () => 'secret' } as any);
 
       const snapshot = {
