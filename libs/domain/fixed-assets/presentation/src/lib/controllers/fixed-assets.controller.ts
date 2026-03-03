@@ -12,8 +12,9 @@ export class FixedAssetsController {
 
   @Get('health')
   @ApiOperation({ summary: 'Health check' })
-  health() {
-      return { status: 'ok', domain: 'FixedAssets' };
+  async health() {
+      await this.getUseCase.execute();
+      return { status: 'ok', domain: 'FixedAssets', check: 'GetFixedAssetsUseCase:OK' };
   }
 
   @Post()

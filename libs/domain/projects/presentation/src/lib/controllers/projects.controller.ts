@@ -13,8 +13,9 @@ export class ProjectsController {
 
   @Get('health')
   @ApiOperation({ summary: 'Health check' })
-  health() {
-    return { status: 'ok', domain: 'Projects' };
+  async health() {
+    await this.getProjectsUseCase.execute();
+    return { status: 'ok', domain: 'Projects', check: 'GetProjectsUseCase:OK' };
   }
 
   @Post()

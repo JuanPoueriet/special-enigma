@@ -56,6 +56,7 @@ export default [
                 'type:contracts',
                 'type:util',
                 'type:ui',
+                'type:kernel',
               ],
             },
             {
@@ -112,7 +113,7 @@ export default [
             },
             {
               sourceTag: 'scope:payroll',
-              onlyDependOnLibsWithTags: ['scope:payroll', 'scope:shared', 'scope:kernel']
+              onlyDependOnLibsWithTags: ['scope:payroll', 'scope:shared', 'scope:kernel', 'scope:identity']
             },
             {
               sourceTag: 'scope:manufacturing',
@@ -152,6 +153,7 @@ export default [
                 'scope:treasury',
                 'scope:shared',
                 'scope:kernel',
+                'scope:platform',
               ]
             },
             {
@@ -192,7 +194,7 @@ export default [
             },
             {
               sourceTag: 'scope:fiscal',
-              onlyDependOnLibsWithTags: ['scope:fiscal', 'scope:shared', 'scope:kernel']
+              onlyDependOnLibsWithTags: ['scope:fiscal', 'scope:shared', 'scope:kernel', 'scope:billing', 'scope:identity', 'scope:platform']
             },
             {
               sourceTag: 'scope:pos',

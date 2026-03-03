@@ -51,8 +51,8 @@ export class BillingService {
     this.http.get<Plan[]>(`${this.apiUrl}/saas/plans`).pipe(
       tap(plans => this.plans.set(plans)),
       catchError(err => {
-        console.error('Failed to load plans', err);
-        return of([]);
+        this.plans.set([]);
+        throw err;
       })
     ).subscribe();
   }
@@ -61,20 +61,14 @@ export class BillingService {
       this.http.get<Subscription>(`${this.apiUrl}/saas/subscription`).pipe(
           tap(sub => this.currentSubscription.set(sub)),
           catchError(err => {
-              // console.error('Failed to load subscription', err);
-              // Fallback to null (inactive)
-              return of(null);
+              this.currentSubscription.set(null);
+              throw err;
           })
       ).subscribe();
   }
 
   getUsage(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/saas/usage`).pipe(
-        catchError(err => {
-            console.error('Failed to load usage', err);
-            return of([]);
-        })
-    );
+    return this.http.get<any[]>(`${this.apiUrl}/saas/usage`);
   }
 
   getSubscription(): Observable<Subscription | null> {

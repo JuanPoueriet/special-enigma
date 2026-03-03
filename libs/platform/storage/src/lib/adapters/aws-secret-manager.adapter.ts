@@ -30,23 +30,9 @@ export class AwsSecretManagerAdapter implements SecretManager {
   async getSecret<T>(secretId: string): Promise<T> {
     this.logger.log(`Fetching secret ${secretId} from AWS Secrets Manager...`);
 
-    const isProduction = process.env['NODE_ENV'] === 'production' || process.env['RELEASE_STAGE'] === 'production';
-    const forceAws = process.env['FORCE_AWS_SECRETS'] === 'true';
-
-    if (!isProduction && !forceAws) {
-      this.logger.warn(`Development mode: using mock fallback for secret ${secretId}`);
-      const mockSecrets: Record<string, any> = {
-        'FISCAL_PRIVATE_KEY': 'dev-mock-key',
-        'STRIPE_SECRET': 'sk_test_mock'
-      };
-
-      if (mockSecrets[secretId]) {
-        return mockSecrets[secretId] as T;
-      }
-    }
-
     if (!this.client) {
-      throw new Error(`AWS Secret Manager Client not initialized. Refusing to serve mock secrets for ${secretId} in production.`);
+      this.logger.error(`AWS Secret Manager Client not initialized. Refusing to serve mock secrets for ${secretId}.`);
+      throw new Error(`AWS Secret Manager Client not initialized. Mock secrets are prohibited.`);
     }
 
     try {

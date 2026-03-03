@@ -15,8 +15,9 @@ export class ManufacturingController {
 
   @Get('health')
   @ApiOperation({ summary: 'Health check' })
-  health() {
-      return { status: 'ok', domain: 'Manufacturing' };
+  async health() {
+      await this.getUseCase.execute();
+      return { status: 'ok', domain: 'Manufacturing', check: 'GetProductionOrdersUseCase:OK' };
   }
 
   @Post('orders')

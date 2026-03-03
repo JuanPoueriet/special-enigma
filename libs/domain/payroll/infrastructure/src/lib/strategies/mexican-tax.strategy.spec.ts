@@ -31,7 +31,7 @@ describe('MexicanTaxStrategy', () => {
     mockTaxTableRepository.findForYear.mockResolvedValue(tables);
 
     const income = 10000;
-    const result = await strategy.calculateTax(income, new Date('2024-01-01'), 'MONTHLY');
+    const result = await strategy.calculateTax(income, new Date('2024-01-01'), 'MONTHLY', { uma: 108.57 });
 
     expect(mockTaxTableRepository.findForYear).toHaveBeenCalledWith(2024, 'MONTHLY');
     expect(result).toBe(770.90);

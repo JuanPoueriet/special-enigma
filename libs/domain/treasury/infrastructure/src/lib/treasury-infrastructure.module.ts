@@ -4,7 +4,7 @@ import { MikroOrmBankAccountRepository } from './repositories/mikro-orm-bank-acc
 import { MikroOrmTransactionRepository } from './repositories/mikro-orm-transaction.repository';
 import { CsvBankStatementParser } from './parsers/csv-parser';
 import { OfxBankStatementParser } from './parsers/ofx-parser';
-import { BANK_STATEMENT_PARSER } from '../../../application/src/lib/ports/bank-statement-parser.port';
+import { BANK_STATEMENT_PARSER } from '@virteex/domain-treasury-domain';
 import { BankAccountSchema, CashFlowSchema, TransactionSchema } from './persistence/treasury.schemas';
 
 @Global()

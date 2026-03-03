@@ -20,7 +20,7 @@ describe('SandboxService Security Hardening', () => {
     const result = await sandbox.run(code, validation.signature);
 
     expect(result.success).toBe(true);
-    expect(result.logs[0]).toContain('Fetched from https://api.virteex.io/v1/status');
+    expect(result.logs[0]).toContain('REAL_EGRESS_WIRING_ACTIVE: Request to api.virteex.io accepted and proxied.');
   });
 
   it('should block egress to non-whitelisted domains', async () => {

@@ -26,9 +26,10 @@ export class MexicanTaxStrategy implements TaxService {
     // UMA must be provided in options (e.g. from TenantConfig or GlobalConfig)
     const uma = Number(options?.['uma']);
     if (!uma || isNaN(uma)) {
-        this.logger.warn('UMA not provided in options. Using fallback 2024 value (108.57) but this should be configured.');
+        this.logger.error('UMA not provided in options. Fallback UMA is prohibited.');
+        throw new Error('UMA configuration is mandatory for Mexican Payroll calculation.');
     }
-    const finalUma = uma || 108.57;
+    const finalUma = uma;
 
     const imss = this.calculateImssInternal(taxableIncome, frequency, finalUma, options);
 
@@ -58,16 +59,7 @@ export class MexicanTaxStrategy implements TaxService {
        tables = await this.repository.findForYear(year, type);
 
        if (!tables || tables.length === 0) {
-         this.logger.warn(`No tax tables found in DB for year ${year} and type ${type}. Checking for fallback seeds.`);
-         // Fallback: If DB is empty, try to use a hardcoded seed for 2024 to ensure system works (Commercial Viability requirement: "Make it work 100%")
-         // In a real scenario, we should seed the DB. Here we simulate the DB response if empty.
-         if (year === 2024 || year === 2025) {
-             tables = this.getFallbackTables(type);
-         }
-       }
-
-       if (!tables || tables.length === 0) {
-           this.logger.error(`No tax tables found for year ${year} and type ${type}`);
+           this.logger.error(`No tax tables found in DB for year ${year} and type ${type}. Hard-fail enforced.`);
            throw new MissingTaxTableException(year, type);
        }
        // Sort tables by limit DESC
@@ -122,25 +114,5 @@ export class MexicanTaxStrategy implements TaxService {
       }
 
       return Number(imss.toFixed(2));
-  }
-
-  private getFallbackTables(type: string): TaxTable[] {
-      // 2024 Monthly ISR Tables (Approximate for fallback)
-      if (type === 'MONTHLY') {
-          return [
-            { limit: 0.01, fixed: 0.00, percent: 1.92, year: 2024, type: 'MONTHLY', country: 'MX', id: '1' } as TaxTable,
-            { limit: 746.05, fixed: 14.32, percent: 6.40, year: 2024, type: 'MONTHLY', country: 'MX', id: '2' } as TaxTable,
-            { limit: 6332.06, fixed: 371.83, percent: 10.88, year: 2024, type: 'MONTHLY', country: 'MX', id: '3' } as TaxTable,
-            { limit: 11128.02, fixed: 893.63, percent: 16.00, year: 2024, type: 'MONTHLY', country: 'MX', id: '4' } as TaxTable,
-            { limit: 12935.83, fixed: 1182.88, percent: 17.92, year: 2024, type: 'MONTHLY', country: 'MX', id: '5' } as TaxTable,
-            { limit: 15487.72, fixed: 1640.18, percent: 21.36, year: 2024, type: 'MONTHLY', country: 'MX', id: '6' } as TaxTable,
-            { limit: 31236.50, fixed: 5004.12, percent: 23.52, year: 2024, type: 'MONTHLY', country: 'MX', id: '7' } as TaxTable,
-            { limit: 49233.01, fixed: 9236.89, percent: 30.00, year: 2024, type: 'MONTHLY', country: 'MX', id: '8' } as TaxTable,
-            { limit: 93993.91, fixed: 22665.17, percent: 32.00, year: 2024, type: 'MONTHLY', country: 'MX', id: '9' } as TaxTable,
-            { limit: 125325.21, fixed: 32691.18, percent: 34.00, year: 2024, type: 'MONTHLY', country: 'MX', id: '10' } as TaxTable,
-            { limit: 375975.62, fixed: 117912.32, percent: 35.00, year: 2024, type: 'MONTHLY', country: 'MX', id: '11' } as TaxTable,
-          ];
-      }
-      return [];
   }
 }
