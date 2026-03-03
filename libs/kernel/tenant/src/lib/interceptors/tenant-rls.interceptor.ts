@@ -46,14 +46,16 @@ export class TenantRlsInterceptor implements NestInterceptor {
 
     const config = await this.tenantService.getTenantConfig(tenantId);
 
-    // Data Sovereignty Check
-    const requestRegion = process.env['AWS_REGION'] || 'unknown';
-    const allowedRegion = config.settings?.['allowedRegion'];
+    // Centralized Data Sovereignty & Regional Residency Enforcement
+    await this.enforceRegionalResidency(tenantId, config);
 
-    if (allowedRegion && allowedRegion !== requestRegion) {
-      this.logger.error(`Data Sovereignty Violation: Tenant ${tenantId} is restricted to ${allowedRegion} but request reached ${requestRegion}`);
-      this.errorCounter.add(1, { tenantId, type: 'sovereignty_violation' });
-      throw new ForbiddenException(`Data residency policy violation. This tenant is restricted to region: ${allowedRegion}`);
+    // Write-Freezing Enforcement (Fail-closed)
+    if (this.isWriteOperation(context)) {
+        const control = await this.em.findOne(TenantControlRecord, { tenantId });
+        if (control?.isFrozen) {
+            this.logger.error(`[SECURITY] Write attempt blocked for frozen tenant ${tenantId}`);
+            throw new ForbiddenException(`Tenant is currently frozen due to maintenance or failover. Writes are disabled.`);
+        }
     }
 
     if (config.mode === 'SHARED') {
@@ -117,5 +119,32 @@ export class TenantRlsInterceptor implements NestInterceptor {
   private recordError(tenantId: string, error: any) {
     this.errorCounter.add(1, { tenantId, status: error.status || 500 });
     this.logger.error(`Tenant ${tenantId} operation failed: ${error.message}`);
+  }
+
+  private isWriteOperation(context: ExecutionContext): boolean {
+    const request = context.switchToHttp().getRequest();
+    const method = request?.method;
+    return ['POST', 'PUT', 'PATCH', 'DELETE'].includes(method);
+  }
+
+  private async enforceRegionalResidency(tenantId: string, config: any): Promise<void> {
+    const currentRegion = process.env['AWS_REGION'] || 'us-east-1'; // fallback only for dev
+    const allowedRegion = config.settings?.['allowedRegion'] || config.primaryRegion;
+
+    if (!allowedRegion) {
+        this.logger.warn(`No residency policy defined for tenant ${tenantId}. Defaulting to fail-closed.`);
+        throw new ForbiddenException('Data residency policy not established for this tenant.');
+    }
+
+    if (allowedRegion !== currentRegion) {
+        // Critical Violation: Fail-closed
+        this.logger.error(`[SECURITY] Data Sovereignty Violation: Tenant ${tenantId} is restricted to ${allowedRegion} but request reached ${currentRegion}`);
+        this.errorCounter.add(1, { tenantId, type: 'sovereignty_violation' });
+
+        // Audit log entry for compliance
+        this.logger.warn(`AUDIT: Region Bypass Attempted: Tenant=${tenantId}, Expected=${allowedRegion}, Actual=${currentRegion}`);
+
+        throw new ForbiddenException(`Data residency policy violation. Access denied for region: ${currentRegion}`);
+    }
   }
 }
