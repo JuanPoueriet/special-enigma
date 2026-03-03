@@ -1,320 +1,320 @@
 INFORME DE AUDITORÍA TÉCNICO-COMERCIAL EXHAUSTIVA - VIRTEEX ERP
+Estado de Preparación para Producción y Comercialización (v2026.03)
 
 1. TÍTULO DEL INFORME
 INFORME DE AUDITORÍA TÉCNICO-COMERCIAL EXHAUSTIVA - VIRTEEX ERP
-Estado de Preparación para Producción y Comercialización (GA Readiness)
 
 2. INTRODUCCIÓN
-Virteex es un ecosistema ERP SaaS de clase empresarial diseñado para operar de forma escalable, segura y localizada en Latinoamérica y Estados Unidos. Su arquitectura se basa en microservicios, GraphQL Federation y un sistema de plugins basado en V8 Isolates y WebAssembly. El objetivo de esta auditoría es evaluar la integridad del sistema, identificar componentes incompletos o simulados (mocks) y determinar la brecha técnica y comercial para alcanzar un estado 100% funcional y listo para el mercado global.
+Virteex es un ecosistema ERP SaaS de clase empresarial diseñado para operar de forma escalable, segura y localizada en Latinoamérica y Estados Unidos. Su arquitectura combina microservicios, GraphQL Federation y un sistema de plugins basado en V8 Isolates y WebAssembly. Este informe detalla el estado actual del producto tras el ciclo de remediación de marzo 2026, identificando brechas críticas en funcionalidad, seguridad, cumplimiento y preparación comercial.
 
-El criterio de evaluación utilizado se basa en una escala de madurez de 0 a 5:
-- Nivel 0: No existe.
-- Nivel 1: Visual/Conceptual.
-- Nivel 2: Parcial con mocks/simulaciones.
-- Nivel 3: Funcional en Dev/Staging, no endurecido.
-- Nivel 4: Operativo con brechas menores (escalabilidad, UX, observabilidad).
-- Nivel 5: Listo para producción comercial real (Enterprise Grade).
+Criterio de Evaluación Obligatorio:
+Nivel 0: No existe.
+Nivel 1: Existe solo a nivel visual, conceptual o documental.
+Nivel 2: Existe parcialmente, depende de mocks, datos falsos, lógica incompleta o integraciones simuladas.
+Nivel 3: Funciona parcialmente en entorno de desarrollo, no está endurecido para producción.
+Nivel 4: Funciona de forma real, pero tiene brechas de escalabilidad, cumplimiento, observabilidad o UX.
+Nivel 5: Completo, operativo, integrado, validado y listo para producción comercial real (Enterprise Grade).
 
 3. RESUMEN EJECUTIVO
-- Porcentaje estimado de completitud funcional: 75%
-- Porcentaje estimado de completitud comercial: 65%
-- Porcentaje estimado de preparación productiva: 80%
+- Porcentaje estimado de completitud funcional: 78%
+- Porcentaje estimado de completitud comercial: 70%
+- Porcentaje estimado de preparación productiva: 85%
 
 Principales brechas críticas:
-- Incompletitud en la validación fiscal de Brasil (SEFAZ) y dependencia de datos manuales para Colombia (DIAN).
-- Fragmentación en la infraestructura de pruebas (migración incompleta de Jest a Vitest).
-- Falta de reportes financieros complejos (Balance General y P&L son básicos).
-- UI/UX en estado Beta, carente de flujos de autoservicio avanzados y dashboards de BI profundos.
+- Punto de Venta (POS): 100% Visual, sin lógica de negocio ni persistencia en el backend.
+- Localización US: Bloqueada por falta de integración con partner real (Avalara/TaxJar).
+- Reportes Financieros: Agregaciones básicas sin drill-down, dimensiones dinámicas limitadas y sin consolidación multi-empresa.
+- Sincronización Móvil: Carece de motor de resolución de conflictos avanzado (automático).
+- Automatización Operativa: El provisioning de infraestructura aislada (DB-per-tenant) requiere intervención manual.
 
 Riesgos mayores:
-- La alta tasa de fallos en el pipeline de CI/CD impide una entrega continua confiable.
-- Dependencia de configuraciones externas (secretos) no automatizadas para el despliegue de nuevos países (US, CO).
+- Inoperabilidad legal en EE. UU.
+- Riesgo de inconsistencia de datos en operaciones móviles offline complejas.
+- Dependencia de configuraciones manuales de certificados fiscales para BR/CO.
 
 Conclusión Ejecutiva:
-Virteex ha superado la fase de "simulación total" y cuenta con un núcleo (kernel) extremadamente robusto y seguro. Sin embargo, la capa de negocio y las localizaciones fiscales específicas aún requieren endurecimiento para ser consideradas "Enterprise Grade". El producto es comercializable para clientes "Early Adopters" con soporte técnico cercano, pero no para un escalado masivo 100% autosuficiente.
+Virteex tiene un "Kernel" tecnológico de Nivel 5 (Arquitectura, Tenancy, Seguridad Core). Sin embargo, la capa de aplicación operativa y el ecosistema de negocio (POS, CRM profundo, BI) están en Nivel 1-3. El producto es apto para implementaciones controladas en México, pero no está listo para una comercialización masiva autosuficiente global.
 
 4. METODOLOGÍA DE EVALUACIÓN
-La evaluación se realizó mediante:
-1. Inspección estática de código (Repositorios, Adaptadores, Middlewares).
-2. Revisión de infraestructura (Terraform, Helm, K8s).
-3. Análisis de contratos y flujos end-to-end (GraphQL Federation, APIs).
-4. Ejecución de pruebas unitarias y validación de políticas de seguridad.
-5. Auditoría de documentación operativa y comercial.
-
-Limitaciones: No se tuvo acceso a las consolas de producción de terceros (Stripe Dashboard real, SAT/DIAN/SEFAZ Portals), por lo que la validación de integraciones se limitó a la lógica del adaptador y manejo de respuestas.
+- Inspección profunda de código fuente en `apps/` y `libs/`.
+- Auditoría de infraestructura (Terraform/Helm) y políticas de seguridad OPA.
+- Verificación de adaptadores de integración fiscal y financiera.
+- Revisión de la matriz de remediación 2026.03 y estatus de bloqueadores.
+- Análisis de telemetría y logs de auditoría en entornos de staging.
 
 5. MATRIZ GLOBAL DE MADUREZ
-| Área | Nivel | Estado | Criticidad | Prioridad |
-| :--- | :---: | :--- | :---: | :---: |
-| Arquitectura Core | 5 | Listo | Media | Baja |
-| Seguridad y Hardening | 4 | Casi listo | Alta | Media |
-| Multi-tenancy | 4 | Operativo | Alta | Media |
-| Fiscal MX (SAT) | 4 | Operativo | Crítica | Alta |
-| Fiscal CO (DIAN) | 3 | Parcial | Crítica | Crítica |
-| Fiscal BR (SEFAZ) | 2 | Mockeado/Parcial | Crítica | Crítica |
-| Fiscal US | 3 | Parcial | Alta | Alta |
-| Contabilidad (Core) | 4 | Operativo | Crítica | Media |
-| Inventario / WMS | 3 | Operativo con brechas | Alta | Media |
-| Billing y Suscripciones | 5 | Listo | Crítica | Baja |
-| Marketplace / Plugins | 3 | Parcial | Media | Media |
-| Frontend / UX | 2 | Parcial | Alta | Alta |
-| QA / Testing | 2 | Inconsistente | Crítica | Crítica |
-| Infraestructura (HA) | 4 | Casi listo | Alta | Media |
+| Área | Nivel | Estado | Brecha Principal | Criticidad | Prioridad |
+| :--- | :---: | :--- | :--- | :---: | :---: |
+| Arquitectura Backend | 5 | Listo | Ninguna crítica | Media | Baja |
+| Persistencia y RLS | 5 | Listo | Monitoreo cardinalidad | Alta | Baja |
+| GraphQL Federation | 4 | Operativo | Rutas legacy en gateway | Media | Media |
+| Multi-tenant/Región | 5 | Listo | Failover automatizado | Alta | Baja |
+| Frontend Web | 4 | Operativo | Consistencia UI CRM/BI | Media | Media |
+| App Móvil | 3 | Parcial | Sincronización avanzada | Alta | Alta |
+| App Escritorio | 2 | Parcial | Drivers hardware mock | Alta | Crítica |
+| UX/UI Flujos | 3 | Parcial | Conexión Tesorería-Ventas | Media | Media |
+| Core ERP (Finanzas) | 4 | Operativo | Reportes Enterprise | Crítica | Alta |
+| Fiscal (LatAm) | 4 | Hardened | Homologación final real | Crítica | Alta |
+| Fiscal (US) | 2 | Blocked | Sin partner real | Crítica | Crítica |
+| Seguridad / Hardening | 4 | Operativo | Inspección egress DPI | Crítica | Media |
+| Marketplace / Plugins | 4 | Operativo | Billing integrado | Media | Media |
+| Integraciones | 3 | Parcial | APIs Bancarias Reales | Alta | Alta |
+| QA / Testing | 4 | Recuperación | Cobertura Vitest total | Crítica | Alta |
+| DevOps / Ops | 4 | Operativo | Auto-provisioning infra | Alta | Alta |
+| Comercial / GTM | 3 | Parcial | Documentación Usuario | Alta | Alta |
+| Soporte / Onboarding | 2 | Parcial | Wizard automático | Alta | Alta |
 
 6. ANÁLISIS DETALLADO POR ÁREA
 
-6.1 Arquitectura y Backend
-- Nivel: 5. La arquitectura de microservicios y GraphQL Federation es de clase mundial.
-- Lo que existe: Separación clara de dominios, uso de NestJS, MikroORM, Kafka para eventos.
-- Lo que falta: Consistencia eventual más robusta en flujos cross-domain (Saga pattern no visible en todos los módulos).
-- Bloqueante: Ninguno arquitectónico.
+6.1 Arquitectura general y backend
+- Nivel: 5. Estructura basada en microservicios, DDD y Clean Architecture.
+- Evidencia: Desacoplamiento total en `libs/domain`, inyección de dependencias sólida.
+- Brechas: Falta de orquestación centralizada de Sagas para compensación de fallos en transacciones multi-servicio.
+- Impacto: Posible inconsistencia en flujos cross-domain fallidos.
+- Nivel 5. Prioridad: Baja.
 
 6.2 Datos, persistencia y consistencia
-- Nivel: 4.
-- Evidencia: Uso correcto de RLS en Postgres y particionamiento por tenant (Schema/DB).
-- Brechas: Falta instrumentación para medir latencia de políticas RLS. Algunos servicios aún no implementan el orquestador de migraciones para "DB-per-tenant".
+- Nivel: 5. MikroORM, Postgres RLS, estrategias de sharding regional.
+- Evidencia: Implementación de `TenantRlsInterceptor` y esquemas aislados.
+- Brechas: Monitoreo de performance de RLS bajo alta cardinalidad (>100k tenants).
+- Impacto: Riesgo de degradación de latencia no detectada.
+- Nivel 5. Prioridad: Baja.
 
 6.3 GraphQL Federation y contratos
-- Nivel: 4.
-- Evidencia: Subgrafos bien definidos para Billing, Accounting, etc.
-- Brechas: El Gateway proxy tiene rutas legacy que deberían ser deprecadas. N+1 en resolvers no está totalmente mitigado con DataLoaders en todos los servicios.
+- Nivel: 4. Gateway unificado con subgrafos.
+- Evidencia: Subgrafos operativos para Billing, Accounting, Identity.
+- Brechas: Uso de proxies REST legacy para CRM/Proyectos en lugar de migración total a Federation.
+- Impacto: Mayor complejidad de red y superficie de ataque.
+- Nivel 4. Prioridad: Media.
 
 6.4 Multi-tenant y multi-región
-- Nivel: 4.
-- Evidencia: Soporte nativo en `kernel-tenant` y `TenantRlsInterceptor`.
-- Brechas: El despliegue multi-región real en Terraform está configurado pero requiere validación de failover automático de RDS.
+- Nivel: 5. Soporte nativo para propagación de contexto firmado.
+- Evidencia: `X-Virteex-Context` validado en gateway y servicios.
+- Brechas: Failover automático cross-region de bases de datos no probado en simulacros reales.
+- Impacto: RTO/RPO incierto en desastre regional.
+- Nivel 5. Prioridad: Baja.
 
-6.5 Frontend (Web, Móvil, Escritorio)
-- Nivel: 2.
-- Lo que existe: Aplicaciones base en Angular, Ionic y Electron.
-- Lo que falta: Consistencia visual profunda. Muchos componentes son "esqueletos" que solo muestran tablas básicas. Falta manejo de estados offline real en la app móvil (existe la estructura pero no la sincronización de conflictos).
-- Impacto: Percepción de producto inacabado por parte del usuario final.
+6.5 Frontend web
+- Nivel: 4. Angular, Module Federation.
+- Evidencia: Portal administrativo portal-web funcional.
+- Brechas: Dashboards de CRM y BI son visualmente estáticos (maquetas con datos agregados simples).
+- Impacto: UX pobre para toma de decisiones.
+- Nivel 4. Prioridad: Media.
 
-6.6 Funcionalidades core ERP
-- Finanzas: Operativo (Nivel 4), pero reportes financieros son básicos (Nivel 2).
-- Inventario: Operativo (Nivel 3), integración con Catálogo es real vía HTTP.
-- RRHH/Nómina: Estructura presente, pero lógica de cálculo por país es inexistente (Nivel 1).
-- Bloqueante: Falta de reportes de cierre fiscal y auditoría contable profunda.
+6.6 App móvil
+- Nivel: 3. Ionic, RxDB/SQLite.
+- Evidencia: Offline-first service implementado.
+- Brechas: Motor de resolución de conflictos carece de lógica de fusión automática para entidades complejas.
+- Impacto: Conflictos de datos frecuentes en uso multi-usuario offline.
+- Nivel 3. Prioridad: Alta.
 
-6.7 Localización fiscal y cumplimiento
-- Nivel Global: 3.
-- MX: Nivel 4. Real.
-- CO: Nivel 3. Firma XAdES-EPES implementada pero depende de demasiados PLACEHOLDERS en env vars.
-- BR: Nivel 2. `validateInvoice` es un stub. Transmisión mTLS existe pero no ha sido probada con certificados A3 reales.
-- US: Nivel 3. Conexión a partner existe, pero lógica de nexus y sales tax local es limitada.
+6.7 App de escritorio
+- Nivel: 2. Electron/Tauri.
+- Evidencia: App instalable.
+- Brechas: Bridge de hardware (impresoras, básculas) es 100% mockeado con placeholders en código.
+- Impacto: Inutilizable en retail físico real.
+- Nivel 2. Prioridad: Crítica.
 
-6.8 Seguridad, privacidad y hardening
-- Nivel: 4.
-- Evidencia: JWT con rotación, Redis para denylist, `rejectUnauthorized: true` forzado en DB.
-- Brechas: El Sandbox de plugins tiene control de egress básico (allowlist), pero no un proxy de inspección profunda. Falta auditoría de privacidad (GDPR/LGPD) automatizada.
-
-6.9 Marketplace y extensibilidad
+6.8 UX/UI y flujos críticos
 - Nivel: 3.
-- Evidencia: `PluginHost` con V8 Isolate funcional.
-- Brechas: Falta el sistema de cobro (billing) integrado en el marketplace. El SDK para terceros está incompleto.
+- Brechas: El flujo de "Order to Cash" no integra automáticamente la conciliación bancaria (requiere subida manual de CSV).
+- Impacto: Baja productividad operativa.
+- Nivel 3. Prioridad: Media.
 
-6.10 QA, testing y confiabilidad
+6.9 Funcionalidades core ERP
+- Nivel: 4 (Core) / 1 (POS).
+- Evidencia: Contabilidad e Inventario operativos.
+- Brechas: POS inexistente en backend. CRM avanzado es solo visual. Activos Fijos es un placeholder de registro.
+- Impacto: Incapacidad de vender a Retail o servicios avanzados.
+- Nivel 4. Prioridad: Crítica (POS).
+
+6.10 Localización fiscal y cumplimiento normativo
+- Nivel: 4 (LatAm) / 2 (US).
+- Evidencia: Timbrado MX real; BR/CO con mTLS y firmas validadas (hardening 2026.03).
+- Brechas: US Adapter es un stub. Falta homologación final real ante SEFAZ/DIAN.
+- Impacto: Bloqueo comercial en EE. UU.
+- Nivel 4. Prioridad: Crítica.
+
+6.11 Seguridad, privacidad y hardening
+- Nivel: 4. Secret Manager, TLS 1.3, RLS, Sandbox V8.
+- Evidencia: `rejectUnauthorized: true` en DB, egress blocking en plugins.
+- Brechas: Falta inspección profunda de contenido (DPI) en el tráfico de egress permitido en el sandbox.
+- Impacto: Riesgo de exfiltración de datos vía túneles DNS/HTTP.
+- Nivel 4. Prioridad: Media.
+
+6.12 Marketplace y extensibilidad
+- Nivel: 4. PluginHost operativo.
+- Evidencia: Pipeline de admisión de plugins con SAST/DAST funcional.
+- Brechas: Falta el módulo de billing para pagos a terceros y cuotas de recursos persistentes.
+- Impacto: No monetizable actualmente.
+- Nivel 4. Prioridad: Media.
+
+6.13 Integraciones con terceros
+- Nivel: 3.
+- Evidencia: Stripe integrado. FINKOK integrado.
+- Brechas: Falta integración con APIs bancarias (Plaid/Belvo) para conciliación real.
+- Impacto: Dependencia de procesos manuales (CSV).
+- Nivel 3. Prioridad: Alta.
+
+6.14 QA, testing y confiabilidad
+- Nivel: 4. Pipelines de CI robustos.
+- Evidencia: Validaciones de arquitectura y seguridad en cada PR.
+- Brechas: Migración a Vitest incompleta en dominios de negocio periféricos. Cobertura unitaria dispar.
+- Impacto: Riesgo de regresión en módulos antiguos.
+- Nivel 4. Prioridad: Alta.
+
+6.15 DevOps, operación y observabilidad
+- Nivel: 4. OpenTelemetry, ELK, Prometheus.
+- Evidencia: Tracing distribuido funcional.
+- Brechas: Falta un "Tenant Health Dashboard" para el equipo de soporte L1.
+- Impacto: Diagnóstico de incidentes por tenant es lento.
+- Nivel 4. Prioridad: Media.
+
+6.16 Preparación comercial y go-to-market
+- Nivel: 3.
+- Brechas: Documentación de usuario final ausente en módulos complejos. Contratos de servicio (TOS) no localizados legalmente por país (excepto MX).
+- Impacto: Inseguridad jurídica para la venta.
+- Nivel 3. Prioridad: Alta.
+
+6.17 Soporte, onboarding y customer success
 - Nivel: 2.
-- Evidencia: 141 tareas fallidas en el pipeline.
-- Impacto: Incapacidad de garantizar que un cambio no rompa funcionalidades críticas (regresión). Es el punto más débil de la plataforma actualmente.
+- Brechas: El provisioning de tenants en modo aislado (DB-per-tenant) no está 100% automatizado en el wizard de onboarding.
+- Impacto: Escalado comercial bloqueado por operaciones manuales.
+- Nivel 2. Prioridad: Alta.
 
 7. ANÁLISIS MÓDULO POR MÓDULO
 
-[FISCAL - DIAN ADAPTER]
-- Propósito: Facturación electrónica en Colombia.
-- Estado: Beta.
-- Nivel: 3.
-- Qué funciona: Generación de XML, Firma XAdES-EPES, Transmisión SOAP.
-- Qué no funciona: Manejo exhaustivo de rechazos de la DIAN.
-- Riesgos: Incumplimiento legal si los placeholders no se sustituyen correctamente.
-- Prioridad: Crítica.
+[ACCOUNTING - GENERAL LEDGER]
+Descripción: Libro mayor, diario y contabilidad core.
+Estado actual estimado: Operativo.
+Nivel de madurez: 4.
+Qué funciona realmente hoy: Registro de asientos, catálogo de cuentas, saldos automáticos, RLS, integración básica con Billing.
+Qué no funciona todavía: Bloqueo de periodos cerrados sistemático en todas las capas, reportes comparativos dinámicos.
+Qué está mockeado, simulado o incompleto: Reportes de Balance y P&L (maqueta con agregados simples).
+Qué requisitos no funcionales faltan: Firma criptográfica de asientos (Ledger inmutable).
+Riesgos: Manipulación de registros históricos sin trazabilidad criptográfica.
+Falta para 100% funcional: Motor de cierres anuales y reportes enterprise con drill-down.
+Falta para listo para producción: Auditoría Ledger.
+Falta para comercializable: Reportes financieros profundos.
+Recomendación técnica: Implementar hashing de transacciones.
+Prioridad: Alta.
 
-[FISCAL - SEFAZ ADAPTER]
-- Propósito: Facturación electrónica en Brasil (NFe).
-- Estado: Parcial/Mockeado.
-- Nivel: 2.
-- Qué funciona: Transmisión vía mTLS (configurado), Firma RSA-SHA1.
-- Qué no funciona: Validación de reglas de negocio de NFe (stub retorna true siempre).
-- Qué está mockeado: Lógica de validación estructural y fiscal.
-- Prioridad: Crítica.
+[POS - TERMINAL]
+Descripción: Punto de venta para retail.
+Estado actual estimado: Mock Visual.
+Nivel de madurez: 1.
+Qué funciona realmente hoy: Interfaz de usuario básica (Visual).
+Qué no funciona todavía: Persistencia, cobros, integración con inventario, gestión de turnos.
+Qué está mockeado: 100% de la lógica de negocio y el backend.
+Qué dependencias reales faltan: Microservicio `pos-api`.
+Qué integraciones reales faltan: Impresoras fiscales, pasarelas locales.
+Qué riesgos introduce: Bloqueante comercial absoluto para sector retail.
+Recomendación técnica: Priorizar desarrollo de `pos-api` integrado con `inventory` y `billing`.
+Prioridad: Crítica.
 
-[ACCOUNTING - GENERAL LEDGER / REPORTING]
-- Propósito: Generación de estados financieros (Balance, P&L).
-- Estado: Operativo básico.
-- Nivel: 2.
-- Qué funciona: Cálculo de saldos por cuenta mediante Journal Entry Repository.
-- Qué falta: Dimensiones, consolidación multi-empresa, cierres automáticos robustos.
-- Prioridad: Alta.
+[FISCAL - SEFAZ BR]
+Descripción: NFe Brasil.
+Estado actual estimado: Hardened.
+Nivel de madurez: 4.
+Qué funciona realmente hoy: Firma XML RSA-SHA1, mTLS, validación XSD, reglas por UF.
+Qué no funciona todavía: Gestión de contingencia SCAN automática.
+Qué integraciones reales faltan: Homologación final ante SEFAZ real (solo pruebas en sandbox).
+Qué requisitos no funcionales faltan: Rotación automatizada de certificados mTLS.
+Falta para comercializable: Evidencia de homologación regional completa.
+Prioridad: Crítica.
 
-[TREASURY - BANK RECONCILIATION]
-- Propósito: Conciliación de extractos bancarios con movimientos contables.
-- Estado: Visual/Conceptual.
-- Nivel: 1.
-- Qué funciona: UI de carga de archivos CSV.
-- Qué no funciona: Motor de matching automático; persistencia de estados de conciliación.
-- Qué dependencias faltan: Conectores reales con APIs bancarias (Plaid/Belvo).
-- Prioridad: Alta.
+[MOBILE SYNC]
+Descripción: Sincronización offline.
+Estado actual estimado: Beta.
+Nivel de madurez: 3.
+Qué funciona realmente hoy: Cola de reintentos con backoff.
+Qué no funciona todavía: Resolución de conflictos avanzada.
+Qué requisitos no funcionales faltan: Integridad referencial en base de datos local (SQLite).
+Riesgos: Pérdida de datos en escenarios de sincronización fallida persistente.
+Prioridad: Alta.
 
-[INVENTORY - WMS & STOCK MANAGEMENT]
-- Propósito: Control de existencias y movimientos de almacén.
-- Estado: Operativo funcional.
-- Nivel: 3.
-- Qué funciona: Persistencia en MikroORM, reservas de stock, movimientos por lotes.
-- Qué falta: Integración con hardware de escaneo real (solo visual), lógica de picking optimizada.
-- Prioridad: Media.
+[PAYROLL]
+Descripción: Nómina.
+Estado actual estimado: Beta Avanzada.
+Nivel de madurez: 3.
+Qué funciona realmente hoy: Cálculo base, timbrado MX funcional.
+Qué está mockeado: Factores fiscales simplificados para BR/CO, estado CMX hardcodeado.
+Falta para comercializable: Tablas de impuestos dinámicas por país/año.
+Prioridad: Alta.
 
-[SALES - ORDER MANAGEMENT]
-- Propósito: Gestión del ciclo de vida de pedidos de venta.
-- Estado: Operativo parcial.
-- Nivel: 3.
-- Qué funciona: Creación de órdenes, integración básica con Inventario para reservas.
-- Qué falta: Cálculo de impuestos complejo multi-jurisdicción; gestión de devoluciones (RMA).
-- Prioridad: Crítica.
+[INVENTORY / WMS]
+Descripción: Almacenes y stock.
+Estado actual estimado: Operativo.
+Nivel de madurez: 4.
+Qué funciona realmente hoy: Movimientos, lotes, reservas, conexión real a catálogo.
+Qué falta: Integración con hardware de escaneo retail.
+Prioridad: Media.
 
-[CRM - OPPORTUNITY MANAGEMENT]
-- Propósito: Gestión de embudo de ventas.
-- Estado: Visual/Conceptual.
-- Nivel: 1.
-- Qué funciona: Estructura de entidades y contratos.
-- Qué falta: Lógica de negocio de transiciones de estado, automatización de tareas.
-- Prioridad: Baja.
+[CRM]
+Descripción: Gestión de clientes y embudo.
+Estado actual estimado: Visual.
+Nivel de madurez: 1.
+Qué está mockeado: Lógica de transiciones de estado, automatización de marketing.
+Prioridad: Media.
 
-[PURCHASING - PURCHASE ORDERS]
-- Propósito: Gestión de compras a proveedores.
-- Estado: Operativo parcial.
-- Nivel: 3.
-- Qué funciona: Creación de órdenes, flujo de aprobación básico.
-- Qué falta: Conciliación automática con facturas de proveedores.
-- Prioridad: Media.
+[TREASURY - CONCILIACIÓN]
+Descripción: Conciliación bancaria.
+Estado actual estimado: Parcial.
+Nivel de madurez: 2.
+Qué funciona: Carga manual de CSV/OFX.
+Qué falta: Conexión API real (Plaid/Belvo), motor de matching automático.
+Prioridad: Alta.
 
-[RRHH - PAYROLL / NÓMINA]
-- Propósito: Cálculo y pago de salarios.
-- Estado: Inexistente/Conceptual.
-- Nivel: 0.
-- Qué funciona: Nada.
-- Qué falta: Motor de cálculo, tablas de retención por país, integración con seguridad social.
-- Prioridad: Alta.
+[IDENTITY - RBAC]
+Descripción: Gestión de acceso.
+Estado actual estimado: Producción.
+Nivel de madurez: 5.
+Qué funciona: JWT, RLS integration, roles jerárquicos.
+Qué falta: MFA mandatorio y ABAC dinámico.
+Prioridad: Media.
 
-[FIXED ASSETS - DEPRECIATION ENGINE]
-- Propósito: Gestión de activos y su depreciación contable.
-- Estado: Estructura presente.
-- Nivel: 1.
-- Qué funciona: Registro de activos.
-- Qué falta: Ejecución de jobs de depreciación mensual; asientos contables automáticos.
-- Prioridad: Media.
-
-[BI - ANALYTICS DASHBOARDS]
-- Propósito: Visualización de métricas de negocio.
-- Estado: Parcial/Visual.
-- Nivel: 2.
-- Qué funciona: Gráficos básicos con Highcharts.
-- Qué falta: Motor de cubos OLAP; drill-down real a nivel transaccional; reportes personalizados.
-- Prioridad: Media.
-
-[IDENTITY - RBAC/ABAC ENGINE]
-- Propósito: Gestión de permisos y seguridad de acceso.
-- Estado: Operativo endurecido.
-- Nivel: 4.
-- Qué funciona: Guards de NestJS, integración con JWT, jerarquía de roles básica.
-- Qué falta: Permisos granulares a nivel de campo (Attribute-Based Access Control) totalmente dinámicos.
-- Prioridad: Media.
-
-[PLUGIN HOST - SANDBOX SERVICE]
-- Propósito: Ejecución segura de código de terceros.
-- Estado: Operativo endurecido.
-- Nivel: 4.
-- Qué funciona: Aislamiento V8, límites de memoria/tiempo, verificación de firma.
-- Qué falta: Cuotas de recursos por tenant/plugin persistentes.
-- Prioridad: Media.
-
-[SUBSCRIPTION - STRIPE ADAPTER]
-- Propósito: Gestión de cobros y planes.
-- Estado: Producción real.
-- Nivel: 5.
-- Qué funciona: Ciclo de vida completo en Stripe SDK.
-- Qué falta: Gestión de impuestos (Tax) dinámica en el checkout.
-- Prioridad: Baja (Casi completo).
+[PLUGIN HOST]
+Descripción: Runtime de terceros.
+Estado actual estimado: Hardened.
+Nivel de madurez: 4.
+Qué funciona: Aislamiento V8, límites, pipeline de admisión.
+Qué falta: Billing integrado y cuotas persistentes.
+Prioridad: Media.
 
 8. LISTA MAESTRA DE BRECHAS HACIA EL 100%
 
-8.1 Funcionalidad faltante
-- Reportes financieros enterprise (Comparativos, Consolidación).
-- Módulo de Nómina localizado para LATAM.
-- Módulo de Activos Fijos (Depreciaciones reales).
-
-8.2 Integración faltante
-- Conector real con SEFAZ para validación NFe.
-- Pasarelas de pago locales en LATAM (MercadoPago/Cushy) además de Stripe.
-- Integración con transportistas (Logística).
-
-8.3 Regla de negocio faltante
-- Flujos de aprobación multinivel configurables por el usuario.
-- Reglas de reabastecimiento automático en Inventario.
-- Validación de nexus fiscal en EE. UU.
-
-8.4 Dato o persistencia faltante
-- Persistencia de logs de ejecución de plugins en almacenamiento frío.
-- Histórico de auditoría RLS detallado.
-
-8.5 Seguridad faltante
-- Proxy de inspección profunda para egress de plugins.
-- MFA obligatorio para administradores de tenant.
-
-8.6 Cumplimiento faltante
-- Certificación completa de firma XAdES-EPES (sin placeholders).
-- Soporte para certificados A3 en Brasil.
-
-8.7 UX faltante
-- Dashboards de BI personalizables (Drill-down real).
-- Onboarding guiado (In-app tour).
-- Modo offline real con sincronización de conflictos en móvil.
-
-8.8 Operabilidad faltante
-- Monitoreo de latencia de políticas RLS en tiempo real.
-- Auto-escalado basado en métricas de negocio (no solo CPU/RAM).
-
-8.9 Preparación comercial faltante
-- Billing integrado para el Marketplace de plugins.
-- Centro de ayuda y documentación de usuario final 100% completa.
+8.1 Funcionalidad faltante: Backend POS, RMA, Activos Fijos (Depreciación), Consolidación Contable.
+8.2 Integración faltante: Avalara (US), APIs Bancarias (Plaid/Belvo), Pasarelas LatAm (MercadoPago).
+8.3 Regla de negocio faltante: Impuestos US por ZIP, Aprobaciones multinivel dinámicas.
+8.4 Dato o persistencia faltante: Ledger Ledger criptográfico, Histórico RLS granular.
+8.5 Seguridad faltante: MFA mandatorio, Inspección egress profunda Sandbox.
+8.6 Cumplimiento faltante: Homologación SEFAZ/DIAN final, GDPR/LGPD Compliance Pack.
+8.7 UX faltante: Drill-down financiero, Dashboard BI interactivo, Onboarding wizard infra.
+8.8 Operabilidad faltante: Auto-provisioning infra total, Failover validado.
+8.9 Preparación comercial faltante: Billing Marketplace, Documentación Usuario Final.
 
 9. PRINCIPALES ELEMENTOS MOCKEADOS O SOSPECHOSOS DE MOCK
-- `SefazFiscalAdapter.validateInvoice`: Retorna `true` siempre. (CONFIRMADO MOCK).
-- `DianFiscalAdapter`:PLACEHOLDER-SERIAL y PLACEHOLDER-POLICY-HASH en código. (PARCIALMENTE MOCKEADO).
-- `NoopProductGateway`: Utilizado como fallback en inventario si no hay catálogo. (STUB).
-- Dashboards de BI: Parecen usar datos estáticos o agregaciones muy simples en frontend. (SOSPECHA DE MOCK VISUAL).
-- CRM: Flujos de visualización de embudo sin persistencia real en algunos estados de transición.
+- POS Terminal: 100% Mock visual.
+- Drivers Hardware Escritorio: Stubs de consola.
+- US Fiscal Adapter: Stub funcional bloqueante.
+- CRM: Transiciones de estado visuales sin backend profundo.
+- BI Dashboards: Datos agregados estáticos en UI.
+- NoopProductGateway: Stub de seguridad en Inventario.
+- Provisioning Progress: Visual placeholder en wizard.
 
 10. PRIORIZACIÓN DEL PLAN DE CIERRE
-Fase 1 (Bloqueantes Críticos - 4 semanas):
-- Reparar infraestructura de tests (Estabilización CI/CD).
-- Completar adaptadores fiscales BR y CO (Eliminar stubs y placeholders).
-- Endurecer gestión de secretos y TLS.
-
-Fase 2 (Venta Enterprise - 8 semanas):
-- Implementar reportes financieros detallados.
-- Mejorar UX de tablas, filtros y dashboards en el portal.
-- Completar SDK de Marketplace y firma de plugins.
-
-Fase 3 (Madurez Enterprise):
-- Sincronización offline mobile y robustez de conflictos.
-- Optimización de performance de RLS y observabilidad avanzada.
-- Localización de nómina y activos fijos.
-
-Fase 4 (Optimización y Escalado):
-- Auto-provisioning de infraestructura multi-región.
-- Monetización de Marketplace (Billing integrado).
-- Expansión a nuevos países (Ecuador, Perú, Chile).
+Fase 1 (8 semanas): Backend POS, Homologación Fiscal BR/CO, Estabilización Tests (Vitest).
+Fase 2 (12 semanas): Integración US real, Reportes Enterprise, Onboarding Provisioning Automático.
+Fase 3 (Madurez): Sync Móvil Avanzado, APIs Bancarias, MFA/Auditoría Ledger.
+Fase 4 (Optimización): Marketplace Billing, Auto-escalado de Negocio.
 
 11. CONCLUSIONES FINALES
-Virteex ERP tiene una base tecnológica excepcional (Nivel 4-5 en arquitectura y seguridad), pero cojea en la ejecución de la lógica de negocio final y en la confiabilidad de su proceso de QA (Nivel 2).
+Virteex es un producto con una arquitectura de Nivel 5 pero una capa de negocio incompleta (Nivel 3 promedio). La remediación 2026.03 eliminó mocks peligrosos en el core, pero el producto no es competitivo globalmente sin un POS funcional y localización US real.
 
-Para ser 100% comercializable y operativo, debe:
-1. Eliminar los stubs fiscales en BR y CO.
-2. Estabilizar el pipeline de pruebas para garantizar regresión cero.
-3. Enriquecer la capa visual para que refleje la potencia del backend.
-
-Veredicto Final: LISTO CON RESTRICCIONES (Beta Product). No apto para venta masiva sin soporte de ingeniería dedicado por cliente.
+Veredicto Final: NO LISTO PARA COMERCIALIZACIÓN GLOBAL (GA).
+Apto para preventa técnica en México.
 
 12. ANEXO
-- Supuesto: Se asume que los certificados digitales proporcionados por los clientes serán válidos.
-- Vacío de evidencia: No se pudo verificar la escalabilidad del sistema de eventos Kafka bajo carga real de 10k+ tps.
+- Supuesto: Integración US requiere partner Avalara.
+- Vacío: Escalabilidad Kafka >10k tps no verificada.
+- Documentación: Ver `AGENTS.md` para estándares de desarrollo vigentes.
