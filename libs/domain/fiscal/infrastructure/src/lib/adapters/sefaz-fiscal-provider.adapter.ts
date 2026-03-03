@@ -159,7 +159,7 @@ export class SefazFiscalAdapter implements FiscalProvider {
             throw new Error('SEFAZ_API_URL is not configured.');
         }
 
-        let signedXml = typeof invoice === 'string' ? invoice : await this.signInvoice(invoice);
+        const signedXml = typeof invoice === 'string' ? invoice : await this.signInvoice(invoice);
 
         const soapEnvelope = `
         <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:nfe="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4">
