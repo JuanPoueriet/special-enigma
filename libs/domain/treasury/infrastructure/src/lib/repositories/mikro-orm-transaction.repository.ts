@@ -12,6 +12,13 @@ export class MikroOrmTransactionRepository implements TransactionRepository {
     await this.em.flush();
   }
 
+  async update(id: string, partial: Partial<Transaction>): Promise<void> {
+    const tx = await this.em.findOne(Transaction, { id });
+    if (!tx) throw new Error(`Transaction ${id} not found`);
+    this.em.assign(tx, partial);
+    await this.em.flush();
+  }
+
   async findById(id: string): Promise<Transaction | null> {
     return this.em.findOne(Transaction, { id });
   }

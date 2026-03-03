@@ -108,15 +108,11 @@ export class DianFiscalAdapter implements FiscalProvider {
       const certSerialNumber = process.env['FISCAL_CERT_SERIAL_NUMBER'];
       const policyHash = process.env['FISCAL_POLICY_HASH'];
 
-      const isProduction = process.env['NODE_ENV'] === 'production' || process.env['RELEASE_STAGE'] === 'production';
-
-      if (isProduction) {
-          if (!certSerialNumber || certSerialNumber === 'DEV-SERIAL-12345') {
-              throw new Error('FATAL: Valid FISCAL_CERT_SERIAL_NUMBER is mandatory for DIAN in production.');
-          }
-          if (!policyHash || policyHash === 'DEV-POLICY-HASH') {
-              throw new Error('FATAL: Valid FISCAL_POLICY_HASH is mandatory for DIAN in production.');
-          }
+      if (!certSerialNumber || certSerialNumber === 'DEV-SERIAL-12345') {
+          throw new Error('FATAL: Valid FISCAL_CERT_SERIAL_NUMBER is mandatory for DIAN. Mock serials are prohibited.');
+      }
+      if (!policyHash || policyHash === 'DEV-POLICY-HASH') {
+          throw new Error('FATAL: Valid FISCAL_POLICY_HASH is mandatory for DIAN. Mock policy hashes are prohibited.');
       }
 
       const xadesObject = `
@@ -132,7 +128,7 @@ export class DianFiscalAdapter implements FiscalProvider {
                   </xades:CertDigest>
                   <xades:IssuerSerial>
                     <ds:X509IssuerName xmlns:ds="http://www.w3.org/2000/09/xmldsig#">${process.env['FISCAL_CERT_ISSUER'] || 'DIAN-AUTORIDAD-SUB-CA'}</ds:X509IssuerName>
-                    <ds:X509SerialNumber xmlns:ds="http://www.w3.org/2000/09/xmldsig#">${certSerialNumber || 'DEV-SERIAL-12345'}</ds:X509SerialNumber>
+                    <ds:X509SerialNumber xmlns:ds="http://www.w3.org/2000/09/xmldsig#">${certSerialNumber}</ds:X509SerialNumber>
                   </xades:IssuerSerial>
                 </xades:Cert>
               </xades:SigningCertificate>
@@ -143,7 +139,7 @@ export class DianFiscalAdapter implements FiscalProvider {
                   </xades:SigPolicyId>
                   <xades:SigPolicyHash>
                     <ds:DigestMethod xmlns:ds="http://www.w3.org/2000/09/xmldsig#" Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
-                    <ds:DigestValue xmlns:ds="http://www.w3.org/2000/09/xmldsig#">${policyHash || 'DEV-POLICY-HASH'}</ds:DigestValue>
+                    <ds:DigestValue xmlns:ds="http://www.w3.org/2000/09/xmldsig#">${policyHash}</ds:DigestValue>
                   </xades:SigPolicyHash>
                 </xades:SignaturePolicyIdentifier>
               </xades:SignaturePolicyIdentifier>

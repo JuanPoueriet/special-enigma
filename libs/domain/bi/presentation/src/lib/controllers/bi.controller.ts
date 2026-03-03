@@ -22,8 +22,9 @@ export class BiController {
 
   @Get('health')
   @ApiOperation({ summary: 'Health check' })
-  health() {
-      return { status: 'ok', domain: 'BI' };
+  async health() {
+      await this.getInvoiceStatusUseCase.execute('health-check');
+      return { status: 'ok', domain: 'BI', check: 'InvoiceStatusUseCase:OK' };
   }
 
   @Post('reports')

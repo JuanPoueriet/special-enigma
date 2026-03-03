@@ -13,16 +13,8 @@ function generateSbom() {
     console.log(output);
     console.log('SBOM generated successfully at sbom.json');
   } catch (error) {
-    console.error('Failed to generate SBOM:', error);
-    // Create a fallback placeholder if the tool is not available in the environment
-    const placeholder = {
-        bomFormat: "CycloneDX",
-        specVersion: "1.5",
-        version: 1,
-        components: []
-    };
-    writeFileSync(join(process.cwd(), 'sbom.json'), JSON.stringify(placeholder, null, 2));
-    console.log('Created placeholder sbom.json due to tool failure.');
+    console.error('FATAL: Failed to generate SBOM. Placeholders are prohibited for enterprise readiness.');
+    process.exit(1);
   }
 }
 

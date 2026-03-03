@@ -20,8 +20,9 @@ export class FiscalController {
 
   @Get('health')
   @ApiOperation({ summary: 'Health check' })
-  health() {
-      return { status: 'ok', domain: 'Fiscal' };
+  async health() {
+      await this.getStatsUseCase.execute('health-check');
+      return { status: 'ok', domain: 'Fiscal', check: 'GetFiscalStatsUseCase:OK' };
   }
 
   @Post('declarations')

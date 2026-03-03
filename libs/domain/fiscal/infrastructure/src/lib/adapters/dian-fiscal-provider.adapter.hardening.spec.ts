@@ -22,7 +22,7 @@ describe('DianFiscalAdapter Hardening', () => {
     adapter = new DianFiscalAdapter(httpService);
 
     await expect(adapter.signInvoice(' <Invoice></Invoice>')).rejects.toThrow(
-      'FATAL: Valid FISCAL_CERT_SERIAL_NUMBER is mandatory for DIAN in production.'
+      'FATAL: Valid FISCAL_CERT_SERIAL_NUMBER is mandatory for DIAN. Mock serials are prohibited.'
     );
   });
 
@@ -36,7 +36,7 @@ describe('DianFiscalAdapter Hardening', () => {
     adapter = new DianFiscalAdapter(httpService);
 
     await expect(adapter.signInvoice('<Invoice></Invoice>')).rejects.toThrow(
-      'FATAL: Valid FISCAL_POLICY_HASH is mandatory for DIAN in production.'
+      'FATAL: Valid FISCAL_POLICY_HASH is mandatory for DIAN. Mock policy hashes are prohibited.'
     );
   });
 

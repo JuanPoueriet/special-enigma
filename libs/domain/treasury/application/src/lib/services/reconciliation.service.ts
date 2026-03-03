@@ -23,7 +23,23 @@ export class ReconciliationService {
         const transactions = await this.transactionRepo.findAll(tenantId);
         const candidatePool = transactions.filter(t => (t as any).bankAccountId === bankAccountId && !(t as any).reconciled);
 
-        return lines.map(line => this.findMatch(line, candidatePool));
+        const results = lines.map(line => this.findMatch(line, candidatePool));
+
+        // Persist EXACT matches automatically
+        for (const match of results) {
+            if (match.matchType === 'EXACT' && match.candidateTransactions.length === 1) {
+                const transaction = match.candidateTransactions[0];
+                this.logger.log(`Auto-reconciling transaction ${transaction.id} for statement line ${match.statementLine.id}`);
+
+                await this.transactionRepo.update(transaction.id, {
+                    reconciled: true,
+                    reconciledAt: new Date(),
+                    reconciliationId: match.statementLine.id
+                });
+            }
+        }
+
+        return results;
     }
 
     private findMatch(line: StatementLine, candidates: any[]): ReconciliationMatch {

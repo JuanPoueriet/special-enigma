@@ -4,7 +4,8 @@ import { ReconciliationService } from './reconciliation.service';
 describe('ReconciliationService', () => {
   let service: ReconciliationService;
   const mockRepo = {
-    findAll: vi.fn()
+    findAll: vi.fn(),
+    update: vi.fn()
   } as any;
 
   beforeEach(() => {
