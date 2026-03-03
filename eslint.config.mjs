@@ -113,7 +113,7 @@ export default [
             },
             {
               sourceTag: 'scope:payroll',
-              onlyDependOnLibsWithTags: ['scope:payroll', 'scope:shared', 'scope:kernel']
+              onlyDependOnLibsWithTags: ['scope:payroll', 'scope:shared', 'scope:kernel', 'scope:identity']
             },
             {
               sourceTag: 'scope:manufacturing',
