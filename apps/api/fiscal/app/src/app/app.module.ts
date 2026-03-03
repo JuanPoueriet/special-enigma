@@ -15,6 +15,7 @@ import {
   SatFiscalAdapter,
   SefazFiscalAdapter,
   UsTaxPartnerFiscalAdapter,
+  DgiiFiscalAdapter,
 } from '@virteex/domain-fiscal-infrastructure';
 import { HttpModule, HttpService } from '@nestjs/axios';
 
@@ -98,7 +99,10 @@ function loadFiscalCommercialEligibility(): Record<string, FiscalCountryStatus> 
         if (provider === 'TAX_PARTNER') {
           return new UsTaxPartnerFiscalAdapter(http, config);
         }
-        throw new Error(`Invalid FISCAL_PROVIDER value: ${provider || 'undefined'}. Configure SAT, SEFAZ, DIAN or TAX_PARTNER.`);
+        if (provider === 'DGII') {
+          return new DgiiFiscalAdapter(http, config);
+        }
+        throw new Error(`Invalid FISCAL_PROVIDER value: ${provider || 'undefined'}. Configure SAT, SEFAZ, DIAN, TAX_PARTNER or DGII.`);
       },
     },
   ],

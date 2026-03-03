@@ -23,6 +23,7 @@ import { TaxStrategyFactoryImpl } from './factories/tax-strategy.factory';
 import { MxTaxStrategy } from './strategies/mx-tax.strategy';
 import { BrTaxStrategy } from './strategies/br-tax.strategy';
 import { UsTaxStrategy } from './strategies/us-tax.strategy';
+import { DoTaxStrategy } from './strategies/do-tax.strategy';
 
 import { MikroOrmInvoiceRepository } from './repositories/mikro-orm-invoice.repository';
 import { MikroOrmPaymentMethodRepository } from './repositories/mikro-orm-payment-method.repository';
@@ -107,6 +108,7 @@ import {
     MxTaxStrategy,
     BrTaxStrategy,
     UsTaxStrategy,
+    DoTaxStrategy,
     {
       provide: BILLING_TAX_STRATEGY_FACTORY,
       useClass: TaxStrategyFactoryImpl,

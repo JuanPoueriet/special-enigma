@@ -4,10 +4,16 @@
     "MX",
     "BR",
     "CO",
-    "US"
+    "US",
+    "DO"
   ],
   "modules": {
     "fiscal": {
+      "DO": {
+        "status": "GA",
+        "provider": "DGII",
+        "allowSimulation": false
+      },
       "MX": {
         "status": "GA",
         "provider": "SAT",
@@ -30,6 +36,10 @@
       }
     },
     "billing": {
+      "DO": {
+        "status": "GA",
+        "allowSimulation": false
+      },
       "MX": {
         "status": "GA",
         "allowSimulation": false
@@ -48,6 +58,10 @@
       }
     },
     "inventory": {
+      "DO": {
+        "status": "GA",
+        "allowSimulation": false
+      },
       "MX": {
         "status": "GA",
         "allowSimulation": false
@@ -66,6 +80,10 @@
       }
     },
     "marketplace": {
+      "DO": {
+        "status": "Beta",
+        "requiresHardenedSandbox": true
+      },
       "MX": {
         "status": "Beta",
         "requiresHardenedSandbox": true
@@ -84,6 +102,10 @@
       }
     },
     "manufacturing": {
+      "DO": {
+        "status": "Beta",
+        "allowSimulation": false
+      },
       "MX": {
         "status": "Beta",
         "allowSimulation": false
@@ -102,6 +124,10 @@
       }
     },
     "projects": {
+      "DO": {
+        "status": "Beta",
+        "allowSimulation": false
+      },
       "MX": {
         "status": "Beta",
         "allowSimulation": false
@@ -120,6 +146,10 @@
       }
     },
     "fixedAssets": {
+      "DO": {
+        "status": "Beta",
+        "allowSimulation": false
+      },
       "MX": {
         "status": "Beta",
         "allowSimulation": false
