@@ -4,13 +4,15 @@ import { TaxStrategy } from '@virteex/domain-billing-domain';
 import { MxTaxStrategy } from '../strategies/mx-tax.strategy';
 import { BrTaxStrategy } from '../strategies/br-tax.strategy';
 import { UsTaxStrategy } from '../strategies/us-tax.strategy';
+import { DoTaxStrategy } from '../strategies/do-tax.strategy';
 
 @Injectable()
 export class TaxStrategyFactoryImpl implements TaxStrategyFactory {
     constructor(
         private readonly mx: MxTaxStrategy,
         private readonly br: BrTaxStrategy,
-        private readonly us: UsTaxStrategy
+        private readonly us: UsTaxStrategy,
+        private readonly doStrat: DoTaxStrategy
     ) {}
 
     getStrategy(country: string): TaxStrategy {
@@ -27,6 +29,10 @@ export class TaxStrategyFactoryImpl implements TaxStrategyFactory {
             case 'USA':
             case 'UNITED STATES':
                 return this.us;
+            case 'DO':
+            case 'DOMINICAN REPUBLIC':
+            case 'REPUBLICA DOMINICANA':
+                return this.doStrat;
             default:
                 return this.mx;
         }

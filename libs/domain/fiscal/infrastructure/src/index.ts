@@ -7,3 +7,5 @@ export * from './lib/builders/mx-fiscal-document.builder';
 export * from './lib/builders/us-fiscal-document.builder';
 export * from './lib/builders/br-fiscal-document.builder';
 export * from './lib/builders/co-fiscal-document.builder';
+export * from './lib/builders/do-fiscal-document.builder';
+export * from './lib/adapters/dgii-fiscal-provider.adapter';
