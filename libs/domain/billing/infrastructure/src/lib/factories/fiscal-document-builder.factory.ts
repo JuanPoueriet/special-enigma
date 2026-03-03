@@ -4,7 +4,8 @@ import {
     MxFiscalDocumentBuilder,
     UsFiscalDocumentBuilder,
     CoFiscalDocumentBuilder,
-    BrFiscalDocumentBuilder
+    BrFiscalDocumentBuilder,
+    DoFiscalDocumentBuilder
 } from '@virteex/domain-fiscal-infrastructure';
 
 @Injectable()
@@ -13,7 +14,8 @@ export class FiscalDocumentBuilderFactoryImpl implements FiscalDocumentBuilderFa
         private readonly mx: MxFiscalDocumentBuilder,
         private readonly us: UsFiscalDocumentBuilder,
         private readonly co: CoFiscalDocumentBuilder,
-        private readonly br: BrFiscalDocumentBuilder
+        private readonly br: BrFiscalDocumentBuilder,
+        private readonly dom: DoFiscalDocumentBuilder
     ) {}
 
     getBuilder(country: string): FiscalDocumentBuilder {
@@ -29,6 +31,10 @@ export class FiscalDocumentBuilderFactoryImpl implements FiscalDocumentBuilderFa
             case 'BR':
             case 'BRAZIL':
                 return this.br;
+            case 'DO':
+            case 'DOMINICAN REPUBLIC':
+            case 'REPUBLICA DOMINICANA':
+                return this.dom;
             case 'MX':
             case 'MEXICO':
             default:

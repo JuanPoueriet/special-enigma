@@ -17,11 +17,14 @@ import { SatFiscalAdapter } from './adapters/sat-fiscal-provider.adapter';
 import { SefazFiscalAdapter } from './adapters/sefaz-fiscal-provider.adapter';
 import { DianFiscalAdapter } from './adapters/dian-fiscal-provider.adapter';
 import { UsTaxPartnerFiscalAdapter } from './adapters/us-tax-partner-fiscal-provider.adapter';
+import { DgiiFiscalAdapter } from './adapters/dgii-fiscal-provider.adapter';
+import { FiscalProviderFactory } from './factories/fiscal-provider.factory';
 import { DesktopHardwareBridge } from './adapters/desktop-hardware-bridge.adapter';
 import { MxFiscalDocumentBuilder } from './builders/mx-fiscal-document.builder';
 import { UsFiscalDocumentBuilder } from './builders/us-fiscal-document.builder';
 import { CoFiscalDocumentBuilder } from './builders/co-fiscal-document.builder';
 import { BrFiscalDocumentBuilder } from './builders/br-fiscal-document.builder';
+import { DoFiscalDocumentBuilder } from './builders/do-fiscal-document.builder';
 import { FiscalTaxRuleRecord } from './entities/fiscal-tax-rule.record';
 import { TaxDeclarationRecord } from './entities/tax-declaration.record';
 
@@ -53,17 +56,17 @@ import { TaxDeclarationRecord } from './entities/tax-declaration.record';
         provide: HARDWARE_TOKEN_PORT,
         useClass: DesktopHardwareBridge
     },
-    {
-      provide: 'FISCAL_PROVIDER',
-      useClass: SatFiscalAdapter
-    },
+    FiscalProviderFactory,
+    SatFiscalAdapter,
     SefazFiscalAdapter,
     DianFiscalAdapter,
     UsTaxPartnerFiscalAdapter,
+    DgiiFiscalAdapter,
     MxFiscalDocumentBuilder,
     UsFiscalDocumentBuilder,
     CoFiscalDocumentBuilder,
-    BrFiscalDocumentBuilder
+    BrFiscalDocumentBuilder,
+    DoFiscalDocumentBuilder
   ],
   exports: [
     MikroOrmModule,
@@ -72,14 +75,17 @@ import { TaxDeclarationRecord } from './entities/tax-declaration.record';
     TAX_RULE_REPOSITORY,
     TENANT_CONFIG_REPOSITORY,
     HARDWARE_TOKEN_PORT,
-    'FISCAL_PROVIDER',
+    FiscalProviderFactory,
+    SatFiscalAdapter,
     SefazFiscalAdapter,
     DianFiscalAdapter,
     UsTaxPartnerFiscalAdapter,
+    DgiiFiscalAdapter,
     MxFiscalDocumentBuilder,
     UsFiscalDocumentBuilder,
     CoFiscalDocumentBuilder,
-    BrFiscalDocumentBuilder
+    BrFiscalDocumentBuilder,
+    DoFiscalDocumentBuilder
   ]
 })
 export class FiscalInfrastructureModule {}
