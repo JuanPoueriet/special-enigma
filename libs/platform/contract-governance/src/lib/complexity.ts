@@ -1,15 +1,24 @@
 import { ComplexityEstimator, ComplexityEstimatorArgs } from 'graphql-query-complexity';
 
-export function createTenantAwareComplexityEstimator(): ComplexityEstimator {
-  return (args: ComplexityEstimatorArgs) => {
-    const context = args.childComplexity; // This is not correct for this estimator type but let's follow the pattern
-    // In a real implementation, we would access context.user.tier
-    return args.field.complexity || 1;
-  };
-}
-
 export const complexityBudgets = {
   BASIC: 100,
   PRO: 500,
   ENTERPRISE: 2000,
 };
+
+export function createTenantAwareComplexityEstimator(): ComplexityEstimator {
+  return (args: ComplexityEstimatorArgs) => {
+    // Standard estimation logic
+    const baseComplexity = args.field.complexity || 1;
+    const multipliers = args.childComplexity || 1;
+
+    // In a real implementation, we could also inject tenant-specific multipliers
+    // based on the data volume of the specific tenant if available in args.
+
+    return baseComplexity * multipliers;
+  };
+}
+
+export function getTenantBudget(tier: string = 'BASIC'): number {
+  return (complexityBudgets as any)[tier] || complexityBudgets.BASIC;
+}
