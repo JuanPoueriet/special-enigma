@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { FailoverService } from '../failover.service';
-import { RoutingPlaneService } from '../routing-plane.service';
 import { OperationState, TenantStatus } from '../interfaces/tenant-config.interface';
 
 describe('Regional Failover Operational Validation', () => {
@@ -20,9 +19,12 @@ describe('Regional Failover Operational Validation', () => {
     mockOpService = {
       createOperation: vi.fn().mockResolvedValue({ operationId: 'fail-123' }),
       transitionState: vi.fn().mockResolvedValue(undefined),
+      acquireLock: vi.fn().mockResolvedValue(true),
+      releaseLock: vi.fn().mockResolvedValue(undefined),
     };
     mockRoutingPlane = {
       createSnapshot: vi.fn().mockResolvedValue({}),
+      resolveRoute: vi.fn().mockResolvedValue({ version: 1 }),
     };
     const mockFinOps = {
       recordOperationSlo: vi.fn().mockResolvedValue(undefined),
