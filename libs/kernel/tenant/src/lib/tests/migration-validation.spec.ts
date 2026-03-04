@@ -6,6 +6,8 @@ describe('Migration Pipeline Operational Validation', () => {
   let service: MigrationOrchestratorService;
   let mockEm: any;
   let mockGuard: any;
+  let mockOpService: any;
+  let mockRouting: any;
 
   beforeEach(() => {
     mockEm = {
@@ -35,7 +37,20 @@ describe('Migration Pipeline Operational Validation', () => {
     mockGuard = {
       preMigrationCheck: vi.fn().mockResolvedValue(true),
     };
-    service = new MigrationOrchestratorService(mockEm as any, mockGuard as any);
+    mockOpService = {
+        createOperation: vi.fn().mockResolvedValue({ operationId: 'op-1', state: 'requested' }),
+        transitionState: vi.fn().mockResolvedValue({}),
+    };
+    mockRouting = {
+        resolveRoute: vi.fn().mockResolvedValue({ version: 1 }),
+        createSnapshot: vi.fn().mockResolvedValue({}),
+    };
+    service = new MigrationOrchestratorService(
+        mockEm as any,
+        mockGuard as any,
+        mockOpService as any,
+        mockRouting as any
+    );
   });
 
   it('SHOULD execute Shared -> Schema migration with integrity checks', async () => {

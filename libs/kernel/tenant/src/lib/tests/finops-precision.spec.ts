@@ -16,20 +16,20 @@ describe('FinOps Precision Quantification', () => {
     // Scenario 1: SHARED mode CPU consumption
     await service.recordResourceUsage('t1', 'SHARED', 'us-east-1', 'cpu', 100);
 
-    // 100 units * 0.05 rate * 1.0 multiplier = 5.0 USD
+    // 100 units * 0.045 rate * 1.0 multiplier = 4.5 USD
     expect(mockTelemetry.recordBusinessMetric).toHaveBeenCalledWith(
       'tenant_estimated_cost_usd',
-      5.0,
+      4.5,
       expect.objectContaining({ tenantId: 't1', mode: 'SHARED' })
     );
 
     // Scenario 2: DATABASE mode Storage consumption (Premium multiplier)
     await service.recordResourceUsage('t2', 'DATABASE', 'sa-east-1', 'storage', 50);
 
-    // 50 units * 0.10 rate * 1.5 multiplier = 7.5 USD
+    // 50 units * 0.08 rate * 1.45 multiplier = 5.8 USD
     expect(mockTelemetry.recordBusinessMetric).toHaveBeenCalledWith(
       'tenant_estimated_cost_usd',
-      7.5,
+      5.8,
       expect.objectContaining({ tenantId: 't2', mode: 'DATABASE' })
     );
   });

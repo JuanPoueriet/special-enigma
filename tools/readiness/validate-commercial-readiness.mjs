@@ -8,7 +8,7 @@ const matrix = JSON.parse(raw);
 
 const allowedStatus = new Set(['GA', 'Beta', 'No listo']);
 const violations = [];
-const requiredFiscalProviders = new Set(['SAT', 'SEFAZ', 'DIAN', 'TAX_PARTNER', 'DGII']); // Added DGII for DO
+const requiredFiscalProviders = new Set(['SAT', 'SEFAZ', 'DIAN', 'TAX_PARTNER', 'DGII', 'STRIPE_TAX']); // Added STRIPE_TAX for US GA
 
 for (const [moduleName, countries] of Object.entries(matrix.modules ?? {})) {
   for (const [country, cfg] of Object.entries(countries)) {

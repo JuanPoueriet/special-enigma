@@ -28,6 +28,7 @@ describe('Adversarial Isolation Tests (Tenant Escape)', () => {
       setFilterParams: vi.fn(),
       fork: vi.fn().mockImplementation(() => mockEm),
       findOne: vi.fn().mockResolvedValue({ isFrozen: false }),
+      create: vi.fn().mockImplementation((_entity, data) => data),
       persist: vi.fn(),
       flush: vi.fn(),
       assign: vi.fn(),
@@ -106,7 +107,8 @@ describe('Adversarial Isolation Tests (Tenant Escape)', () => {
   });
 
   it('SHOULD BLOCK when HMAC signature is altered in Routing Plane', async () => {
-      const routingService = new RoutingPlaneService(mockEm);
+      const mockConfig: any = { get: vi.fn().mockReturnValue('test-secret') };
+      const routingService = new RoutingPlaneService(mockEm, mockTenantService, mockConfig);
 
       const snapshot = {
           tenantId: 't1',

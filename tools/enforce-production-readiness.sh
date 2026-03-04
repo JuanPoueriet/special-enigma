@@ -49,6 +49,14 @@ if ! node tools/readiness/validate-commercial-readiness.mjs; then
   failures=$((failures + 1))
 fi
 
+echo "Checking for exhausted error budgets via EVIDENCE_PACK..."
+# Enforcement: Block release if any tenant SLO error budget is exhausted (> 90%)
+# Use evidence/EVIDENCE_PACK.md which is the source of truth for current operational health
+if grep -q "ERROR_BUDGET_EXHAUSTED: true" evidence/EVIDENCE_PACK.md; then
+  echo "[FAIL] Critical SLO Error Budgets are exhausted according to EVIDENCE_PACK. Freeze active."
+  failures=$((failures + 1))
+fi
+
 if [[ $failures -gt 0 ]]; then
   echo "Production readiness policy failed with $failures violation(s)."
   exit 1

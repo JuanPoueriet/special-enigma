@@ -30,8 +30,8 @@
         "allowSimulation": false
       },
       "US": {
-        "status": "Beta",
-        "provider": "TAX_PARTNER",
+        "status": "GA",
+        "provider": "STRIPE_TAX",
         "allowSimulation": false
       }
     },

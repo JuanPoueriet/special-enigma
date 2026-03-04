@@ -22,8 +22,11 @@ export enum OperationState {
   REQUESTED = 'requested',
   PREPARING = 'preparing',
   VALIDATING = 'validating',
+  DRY_RUN = 'dry_run',
+  SWITCHING = 'switching',
   SWITCHED = 'switched',
   MONITORING = 'monitoring',
+  RECONCILING = 'reconciling',
   FINALIZED = 'finalized',
   ROLLBACK = 'rollback',
 }
