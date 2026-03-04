@@ -76,6 +76,14 @@ export class TenantRlsInterceptor implements NestInterceptor {
             this.logger.error(`[SECURITY] Write attempt blocked for frozen tenant ${tenantId}`);
             throw new ForbiddenException(`Tenant is currently frozen due to maintenance or failover. Writes are disabled.`);
         }
+
+        if (control?.writeFenceToken) {
+            const request = context.switchToHttp().getRequest();
+            const writeFence = request?.headers?.['x-write-fence-token'];
+            if (!writeFence || writeFence !== control.writeFenceToken) {
+              throw new ForbiddenException('Write fencing token validation failed');
+            }
+        }
     }
 
     if (config.mode === TenantMode.SHARED) {
