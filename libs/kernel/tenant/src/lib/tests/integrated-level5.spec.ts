@@ -26,6 +26,7 @@ describe('Integrated E2E Validation - Multi-tenant / Multi-region Level 5', () =
 
   beforeEach(() => {
     vi.clearAllMocks();
+    process.env['EVIDENCE_SIGNING_SECRET'] = 'test-secret';
     (axios.get as any).mockResolvedValue({ status: 200 });
 
     mockEm = {
@@ -34,6 +35,8 @@ describe('Integrated E2E Validation - Multi-tenant / Multi-region Level 5', () =
         execute: vi.fn().mockImplementation((query) => {
             if (query.includes('pg_is_in_recovery')) return [{ is_replica: false }];
             if (query.includes('pg_last_xact_replay_timestamp')) return [{ lag: 0, lag_ms: 0 }];
+            if (query.includes('COUNT(*)::int AS backlog')) return [{ backlog: 0 }];
+            if (query.includes('COUNT(*)::bigint AS total_rows')) return [{ total_rows: 100, pending_rows: 0 }];
             if (query.includes('information_schema.columns')) return [{ table_name: 'orders' }];
             return [{ tenantId: 't1', count: 10, checksum: 'hash', structural_hash: 'hash' }];
         }),

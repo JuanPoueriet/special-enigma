@@ -14,13 +14,19 @@ describe('Regional Failover Operational Validation', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    process.env['EVIDENCE_SIGNING_SECRET'] = 'test-secret';
     (axios.get as any).mockResolvedValue({ status: 200 });
 
     mockEm = {
       findOneOrFail: vi.fn(),
       flush: vi.fn().mockResolvedValue(undefined),
       getConnection: vi.fn().mockReturnValue({
-          execute: vi.fn().mockResolvedValue([{ rows: [1], is_replica: false, lag_ms: '0' }])
+          execute: vi.fn().mockImplementation((query: string) => {
+            if (query.includes('pg_last_xact_replay_timestamp')) return Promise.resolve([{ lag_ms: '0' }]);
+            if (query.includes('COUNT(*)::int AS backlog')) return Promise.resolve([{ backlog: 0 }]);
+            if (query.includes('COUNT(*)::bigint AS total_rows')) return Promise.resolve([{ total_rows: 10, pending_rows: 0 }]);
+            return Promise.resolve([{ is_replica: false, lag_ms: '0' }]);
+          })
       }),
       fork: vi.fn().mockReturnValue({
           getConnection: vi.fn().mockReturnValue({
@@ -62,6 +68,7 @@ describe('Regional Failover Operational Validation', () => {
       failoverActive: true
     }));
     expect(mockOpService.transitionState).toHaveBeenCalledWith('fail-123', OperationState.FINALIZED, expect.any(Object));
+    expect(axios.get).toHaveBeenCalledWith('https://lb.sa-east-1.virteex.erp/v1/health/check', expect.any(Object));
   });
 
   it('SHOULD reject failover if already in degraded state', async () => {
