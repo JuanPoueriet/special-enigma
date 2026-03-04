@@ -13,6 +13,9 @@ describe('Regional Failover Operational Validation', () => {
     mockEm = {
       findOneOrFail: vi.fn(),
       flush: vi.fn().mockResolvedValue(undefined),
+      getConnection: vi.fn().mockReturnValue({
+          execute: vi.fn().mockResolvedValue([{ rows: [1], is_recovery: false }])
+      })
     };
     mockOpService = {
       createOperation: vi.fn().mockResolvedValue({ operationId: 'fail-123' }),

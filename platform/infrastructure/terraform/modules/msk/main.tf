@@ -5,7 +5,7 @@ variable "subnet_ids" { type = list(string) }
 resource "aws_msk_cluster" "main" {
   cluster_name           = "virteex-kafka-${var.environment}"
   kafka_version          = "3.4.0"
-  number_of_broker_nodes = 2
+  number_of_broker_nodes = 3
 
   broker_node_group_info {
     instance_type = "kafka.t3.small"
