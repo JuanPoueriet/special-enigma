@@ -1,24 +1,32 @@
-# Federation Incident Runbook
+# Runbook: GraphQL Federation Incidents
 
-## 1. Federation Composition Failure
-- **Symptom**: Gateway fails to start with "Supergraph SDL not found" or "Composition error".
-- **Action**:
-  1. Check CI logs for the `schema-diff` and `validate-federation-contracts` steps.
-  2. Verify that all subgraphs are reporting their SDL correctly.
-  3. Ensure that the `SUPERGRAPH_SDL_PATH` environment variable is correct.
-- **Rollback**: Promote the previous known-good `supergraph.graphql` artifact.
+## 1. Composition Failure
+**Symptoms**: Gateway fails to start, "CRITICAL: Supergraph SDL missing" or "signature verification failed" in logs.
+**Mitigation**:
+1. Check CI/CD pipeline for composition job results.
+2. Verify that all subgraphs are reachable and their schemas are valid.
+3. If signature fails, ensure the correct public key is deployed and the manifest matches the SDL.
+4. Rollback to the last known good signed supergraph.
 
-## 2. Latency Degradation (p99 spikes)
-- **Symptom**: p99 latency > 120ms.
-- **Action**:
-  1. Inspect OpenTelemetry traces for `subgraphHopCount` and `subgraphFetch` duration.
-  2. Identify the slow subgraph using the `service.name` tag.
-  3. Check if the query complexity exceeds the budget for the affected tenant.
-- **Mitigation**: Enable/Disable Persisted Queries or adjust Circuit Breaker thresholds.
+## 2. Latency Degradation (p99)
+**Symptoms**: Latency spikes, "Query is too complex" errors.
+**Mitigation**:
+1. Inspect Query Plans for unusually deep or wide resolutions.
+2. Check for N+1 issues in subgraphs (ensure DataLoaders are active).
+3. Review tenant complexity budgets; adjust tier if necessary.
+4. Scale affected subgraph instances.
 
-## 3. Breaking Change Detected
-- **Symptom**: Pipeline blocked by `schema-diff` tool.
-- **Action**:
-  1. Verify if the change is truly breaking using the `schema-diff` report.
-  2. If a waiver is required, follow the Architecture Review protocol.
-  3. Implement `@deprecated` for the field and plan a migration window.
+## 3. Breaking Contract Detected
+**Symptoms**: CI gate "federation:check-diff" fails with exit code 1.
+**Mitigation**:
+1. Review the "Change Classification Report" in CI logs.
+2. If change is accidental, revert it.
+3. If change is intentional, follow the Deprecation Policy (add @deprecated, set sunset window).
+4. Do NOT bypass the gate without Architecture Committee approval.
+
+## 4. Security Violation
+**Symptoms**: Sensitive fields exposed without @auth/@sensitive directives.
+**Mitigation**:
+1. Immediate rollback if deployed.
+2. Update schema to include mandatory security metadata.
+3. Run "federation:validate-contracts" locally to verify fix.

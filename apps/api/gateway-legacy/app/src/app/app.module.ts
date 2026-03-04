@@ -2,14 +2,16 @@ import { Module, Logger } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloGatewayDriver, ApolloGatewayDriverConfig } from '@nestjs/apollo';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { readFileSync } from 'fs';
+import { readFileSync, existsSync } from 'fs';
 import { join } from 'path';
+import { createVerify } from 'crypto';
 import depthLimit from 'graphql-depth-limit';
 import {
   fieldExtensionsEstimator,
   getComplexity,
   simpleEstimator,
 } from 'graphql-query-complexity';
+import { createTenantAwareComplexityEstimator, complexityBudgets } from '@virteex/platform-contract-governance';
 import { GraphQLError } from 'graphql';
 
 @Module({
@@ -23,12 +25,37 @@ import { GraphQLError } from 'graphql';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
         const supergraphSdlPath = configService.get('SUPERGRAPH_SDL_PATH') || join(__dirname, 'assets', 'supergraph.graphql');
-        let supergraphSdl: string;
-        try {
-          supergraphSdl = readFileSync(supergraphSdlPath, 'utf8');
-        } catch (e) {
-          Logger.error(`Failed to load supergraph SDL from ${supergraphSdlPath}`, 'Gateway');
-          supergraphSdl = '';
+        const manifestPath = configService.get('SUPERGRAPH_MANIFEST_PATH') || `${supergraphSdlPath}.manifest.json`;
+        const publicKeyPath = configService.get('GATEWAY_PUBLIC_KEY_PATH') || join(__dirname, 'assets', 'gateway-public.pem');
+
+        if (!existsSync(supergraphSdlPath)) {
+          Logger.error(`CRITICAL: Supergraph SDL missing at ${supergraphSdlPath}. Gateway aborting.`, 'Gateway');
+          process.exit(1);
+        }
+
+        if (!existsSync(manifestPath)) {
+          Logger.error(`CRITICAL: Supergraph manifest missing at ${manifestPath}. Gateway aborting.`, 'Gateway');
+          process.exit(1);
+        }
+
+        const supergraphSdl = readFileSync(supergraphSdlPath, 'utf8');
+        const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
+
+        // Signature Verification
+        if (process.env.NODE_ENV === 'production' || configService.get('ENFORCE_SIGNATURE') === 'true') {
+          if (!existsSync(publicKeyPath)) {
+            Logger.error(`CRITICAL: Public key missing at ${publicKeyPath}. Gateway aborting.`, 'Gateway');
+            process.exit(1);
+          }
+          const publicKey = readFileSync(publicKeyPath, 'utf8');
+          const verify = createVerify('SHA256');
+          verify.update(supergraphSdl);
+          verify.end();
+          if (!verify.verify(publicKey, manifest.signature, 'hex')) {
+            Logger.error('CRITICAL: Supergraph signature verification failed. Gateway aborting.', 'Gateway');
+            process.exit(1);
+          }
+          Logger.log('Supergraph signature verified successfully.', 'Gateway');
         }
 
         return {
@@ -53,6 +80,8 @@ import { GraphQLError } from 'graphql';
             depthLimit(10),
             // Max variables and query size can be enforced via custom rules or Apollo Server options
           ],
+          csrfPrevention: true,
+          cache: 'bounded',
           stopOnTerminationSignals: true,
           introspection: process.env['NODE_ENV'] !== 'production',
 
@@ -86,13 +115,14 @@ import { GraphQLError } from 'graphql';
                       if (errors.length > 0) return;
 
                       const userTier = (context as any).user?.tier || 'BASIC';
-                      const maxComplexity = userTier === 'ENTERPRISE' ? 2000 : (userTier === 'PRO' ? 500 : 100);
+                      const maxComplexity = (complexityBudgets as any)[userTier] || complexityBudgets.BASIC;
 
                       const complexity = getComplexity({
                         schema,
                         query: source as any,
                         variables: {},
                         estimators: [
+                          createTenantAwareComplexityEstimator(),
                           fieldExtensionsEstimator(),
                           simpleEstimator({ defaultComplexity: 1 }),
                         ],
@@ -102,8 +132,15 @@ import { GraphQLError } from 'graphql';
                           `Query is too complex: ${complexity}. Maximum allowed for ${userTier} tier: ${maxComplexity}`,
                         );
                       }
+                      (context as any).queryComplexity = complexity;
                     };
                   },
+                  async willSendResponse({ response, context }) {
+                    // Inject metrics into response extensions for observability (non-production only or secure headers)
+                    if (process.env.NODE_ENV !== 'production') {
+                      response.http.headers.set('X-Query-Complexity', String((context as any).queryComplexity || 0));
+                    }
+                  }
                 };
               },
             },
