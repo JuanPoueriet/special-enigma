@@ -17,6 +17,7 @@ import { BillingApplicationModule } from '@virteex/domain-billing-application';
 import { InitialSeederService } from './seeds/initial-seeder.service';
 import { OpsController } from './ops.controller';
 import { OpsReadinessService } from './ops-readiness.service';
+import { FinopsCostService } from './finops-cost.service';
 import { TenantModule } from '@virteex/kernel-tenant';
 import { CanonicalTenantMiddleware } from '@virteex/kernel-auth';
 
@@ -91,7 +92,7 @@ import { CanonicalTenantMiddleware } from '@virteex/kernel-auth';
     BillingApplicationModule,
   ],
   controllers: [OpsController],
-  providers: [InitialSeederService, OpsReadinessService],
+  providers: [InitialSeederService, OpsReadinessService, FinopsCostService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
