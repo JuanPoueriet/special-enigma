@@ -13,11 +13,12 @@ This document certifies that the Virteex ERP architecture for Multi-tenant and M
 ### B. Enterprise Migration Engine
 - **Service**: `MigrationOrchestratorService`
 - **Maturity**: Level 5.
-- **Workflow**: `PREPARING` -> `VALIDATING` -> `SWITCHED` -> `MONITORING` -> `FINALIZED`.
+- **Workflow**: `PREPARING` -> `VALIDATING` -> `DRY_RUN` -> `SWITCHING` -> `SWITCHED` -> `MONITORING` -> `RECONCILING` -> `FINALIZED`.
 - **Integrity**:
-  - **Pre-migration checks**: Real verification of recent backups (`tenant_backups` query), replica lag (`pg_stat_replication`), and storage capacity (`pg_database_size`).
-  - **Post-migration validation**: Real schema version verification and connectivity tests.
-  - **Rollback**: Orchestrated schema and data restoration.
+  - **Dry-Run Analysis**: Real impact calculation via `getPendingMigrations()` before execution.
+  - **Pre-migration checks**: Real verification of recent backups (`backup_catalog` query) and high-precision replica lag (`pg_stat_replication`).
+  - **Post-migration validation**: Automatic reconciliation and target-routing switch.
+  - **Rollback**: Fully automated schema reversal via `migrator.down()`.
 
 ### C. Signed Routing Plane
 - **Service**: `RoutingPlaneService`

@@ -19,7 +19,6 @@ export default defineConfig({
       '@virteex/domain-pos-domain': path.resolve(__dirname, './libs/domain/pos/domain/src/index.ts'),
       '@virteex/domain-notification-application': path.resolve(__dirname, './libs/domain/notification/application/src/index.ts'),
       '@virteex/domain-notification-domain': path.resolve(__dirname, './libs/domain/notification/domain/src/index.ts'),
-      '@virteex/kernel-telemetry': path.resolve(__dirname, './libs/kernel/telemetry/src/index.ts'),
     }
   },
 });

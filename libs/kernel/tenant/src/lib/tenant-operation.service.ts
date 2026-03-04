@@ -61,13 +61,17 @@ export class TenantOperationService {
     const allowed: Record<OperationState, OperationState[]> = {
       [OperationState.REQUESTED]: [OperationState.PREPARING, OperationState.ROLLBACK],
       [OperationState.PREPARING]: [OperationState.VALIDATING, OperationState.ROLLBACK],
-      [OperationState.VALIDATING]: [OperationState.SWITCHED, OperationState.ROLLBACK],
+      [OperationState.VALIDATING]: [OperationState.DRY_RUN, OperationState.ROLLBACK],
+      [OperationState.DRY_RUN]: [OperationState.SWITCHING, OperationState.ROLLBACK],
+      [OperationState.SWITCHING]: [OperationState.SWITCHED, OperationState.ROLLBACK],
       [OperationState.SWITCHED]: [OperationState.MONITORING, OperationState.ROLLBACK],
-      [OperationState.MONITORING]: [OperationState.FINALIZED, OperationState.ROLLBACK],
+      [OperationState.MONITORING]: [OperationState.RECONCILING, OperationState.ROLLBACK],
+      [OperationState.RECONCILING]: [OperationState.FINALIZED, OperationState.ROLLBACK],
       [OperationState.FINALIZED]: [],
       [OperationState.ROLLBACK]: [OperationState.FINALIZED], // Allow finishing rollback
     };
 
-    return !allowed[current].includes(next);
+    const targets = allowed[current];
+    return !targets || !targets.includes(next);
   }
 }
