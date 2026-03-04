@@ -39,6 +39,9 @@
     "quality:plugin-isolation": "node tools/quality-gates/validate-plugin-isolation.mjs",
     "quality:block-simulations": "./tools/quality-gates/block-simulations.sh",
     "readiness:consistency": "node tools/readiness/validate-readiness-consistency.mjs"
+    "dr:scheduled": "node tools/dr/run-scheduled-drill.mjs",
+    "readiness:dr-evidence": "node tools/readiness/validate-dr-evidence.mjs"
+    "quality:verify-rollback-evidence": "node tools/quality-gates/verify-rollback-evidence.mjs"
   },
   "private": true,
   "devDependencies": {
