@@ -1,6 +1,5 @@
-import { EventSubscriber, MiddlewareContext, FlushEventArgs, Logger } from '@mikro-orm/core';
+import { EventSubscriber, MiddlewareContext, Logger } from '@mikro-orm/core';
 import { Injectable, Logger as NestLogger } from '@nestjs/common';
-import { getTenantContext } from '@virteex/kernel-auth';
 import { metrics } from '@opentelemetry/api';
 
 @Injectable()
@@ -32,8 +31,7 @@ export class DatabaseTelemetryLogger extends Logger {
   private readonly SLOW_QUERY_THRESHOLD = 100;
 
   override logQuery(params: { query: string; took?: number; tenantId?: string }): void {
-    const tenantContext = getTenantContext();
-    const tenantId = tenantContext?.tenantId || 'system';
+    const tenantId = params.tenantId || 'system';
     const took = params.took || 0;
 
     this.queryHistogram.record(took, { tenantId, type: this.getQueryType(params.query) });

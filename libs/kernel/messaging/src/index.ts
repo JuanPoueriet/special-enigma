@@ -1,5 +1,6 @@
 export * from './lib/messaging.module';
 export * from './lib/outbox.service';
+export * from './lib/outbox-reconciliation.service';
 export * from './lib/entities/outbox-event.entity';
 export * from './lib/inbox.service';
 export * from './lib/entities/inbox-message.entity';

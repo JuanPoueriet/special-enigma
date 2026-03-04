@@ -1,0 +1,21 @@
+{
+  "name": "platform-data-quality",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/platform/data-quality/src",
+  "projectType": "library",
+  "tags": [
+    "type:infrastructure",
+    "platform:agnostic",
+    "criticality:high",
+    "scope:platform"
+  ],
+  "targets": {
+    "test": {
+      "executor": "@nx/vitest:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "reportsDirectory": "../../../coverage/libs/platform/data-quality"
+      }
+    }
+  }
+}

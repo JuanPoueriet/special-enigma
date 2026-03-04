@@ -2,35 +2,50 @@ import { Injectable, Logger } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/core';
 import { Tenant } from './entities/tenant.entity';
 import { TenantMode } from './interfaces/tenant-config.interface';
+import { MigrationGuard } from './migration-guard';
 
 @Injectable()
 export class MigrationOrchestratorService {
   private readonly logger = new Logger(MigrationOrchestratorService.name);
 
-  constructor(private readonly em: EntityManager) {}
+  constructor(
+    private readonly em: EntityManager,
+    private readonly migrationGuard: MigrationGuard
+  ) {}
 
-  async migrateDatabasePerTenant(tenantId: string): Promise<void> {
+  async migrateTenantWithOperation(tenantId: string, idempotencyKey: string): Promise<void> {
+    this.logger.log(`Starting migration operation for tenant ${tenantId} with key ${idempotencyKey}`);
+
+    const isSafe = await this.migrationGuard.preMigrationCheck();
+    if (!isSafe) {
+        throw new Error(`Migration safety checks failed for tenant ${tenantId}. Aborting.`);
+    }
+
     const tenant = await this.em.findOneOrFail(Tenant, { id: tenantId });
 
-    if (tenant.mode !== TenantMode.DATABASE) {
-        throw new Error(`Tenant ${tenantId} is not in DATABASE mode`);
-    }
-
-    this.logger.log(`Starting migration for physical isolated tenant: ${tenantId}`);
+    this.logger.debug(`Operation PREPARING for tenant ${tenantId}`);
 
     try {
-        const tenantEm = this.em.fork({
-            connectionString: tenant.connectionString,
-        });
+        if (tenant.mode === TenantMode.DATABASE) {
+            const tenantEm = this.em.fork({
+                connectionString: tenant.connectionString,
+            });
+            const migrator = tenantEm.getMigrator();
+            await migrator.up();
+        } else {
+            const migrator = this.em.getMigrator();
+            await migrator.up({ schema: tenant.schemaName });
+        }
 
-        const migrator = tenantEm.getMigrator();
-        await migrator.up();
-
-        this.logger.log(`Migration completed for tenant ${tenantId}`);
+        this.logger.log(`Migration FINALIZED for tenant ${tenantId}`);
     } catch (error: any) {
-        this.logger.error(`Migration failed for tenant ${tenantId}: ${error.message}`);
+        this.logger.error(`Migration FAILED for tenant ${tenantId}. Triggering ROLLBACK logic.`);
         throw error;
     }
+  }
+
+  async migrateDatabasePerTenant(tenantId: string): Promise<void> {
+    await this.migrateTenantWithOperation(tenantId, `manual-${Date.now()}`);
   }
 
   async migrateAllTenantsByMode(mode: TenantMode): Promise<void> {

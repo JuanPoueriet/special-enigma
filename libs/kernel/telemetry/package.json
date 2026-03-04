@@ -16,6 +16,7 @@
     "@opentelemetry/exporter-trace-otlp-http": "^0.211.0",
     "@opentelemetry/instrumentation-http": "^0.211.0",
     "@opentelemetry/instrumentation-express": "^0.59.0",
-    "@opentelemetry/instrumentation-nestjs-core": "^0.57.0"
+    "@opentelemetry/instrumentation-nestjs-core": "^0.57.0",
+    "@mikro-orm/core": "^6.6.7"
   }
 }
