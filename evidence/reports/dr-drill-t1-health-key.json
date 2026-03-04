@@ -1,9 +1,10 @@
 {
   "tenantId": "t1",
-  "rtoMs": 1.0470660000000862,
+  "rtoMs": 0.5911670000000413,
   "rpoMs": 0,
   "status": "SUCCESS",
-  "executedAt": "2026-03-04T15:01:45.438Z",
+  "executedAt": "2026-03-04T19:20:44.327Z",
   "idempotencyKey": "health-key",
-  "environment": "test"
+  "environment": "test",
+  "signature": "bae97db876b06e4c5c386347e46428002b75401f56dc6a79f6e3f2ac6f3997b1"
 }
