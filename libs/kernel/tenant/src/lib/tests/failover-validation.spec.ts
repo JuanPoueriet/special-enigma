@@ -11,9 +11,11 @@ describe('Regional Failover Operational Validation', () => {
   let mockEm: any;
   let mockOpService: any;
   let mockRoutingPlane: any;
+  let mockResidencyCompliance: any;
 
   beforeEach(() => {
     vi.clearAllMocks();
+    process.env['EVIDENCE_SIGNING_SECRET'] = 'test-evidence-secret';
     (axios.get as any).mockResolvedValue({ status: 200 });
 
     mockEm = {
@@ -41,7 +43,17 @@ describe('Regional Failover Operational Validation', () => {
     const mockFinOps = {
       recordOperationSlo: vi.fn().mockResolvedValue(undefined),
     };
-    service = new FailoverService(mockEm as any, mockOpService as any, mockRoutingPlane as any, mockFinOps as any);
+    mockResidencyCompliance = {
+      assertRegionAllowed: vi.fn().mockResolvedValue(undefined),
+      authorizeReplication: vi.fn().mockResolvedValue({
+        authorized: true,
+        evidenceId: 'evidence-1',
+        maskingApplied: true,
+        replicatedPayload: { sample: '[MASKED_FOR_CROSS_REGION_REPLICATION]' }
+      }),
+    };
+
+    service = new FailoverService(mockEm as any, mockOpService as any, mockRoutingPlane as any, mockFinOps as any, mockResidencyCompliance as any);
   });
 
   it('SHOULD promote secondary region during failover', async () => {

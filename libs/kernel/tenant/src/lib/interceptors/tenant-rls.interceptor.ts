@@ -9,6 +9,7 @@ import { TenantControlRecord } from '../entities/tenant-control-record.entity';
 import { TenantMode, TenantStatus } from '../interfaces/tenant-config.interface';
 import { Counter, Histogram } from '@opentelemetry/api';
 import { metrics } from '@opentelemetry/api';
+import { ResidencyComplianceService } from '../residency-compliance.service';
 
 @Injectable()
 export class TenantRlsInterceptor implements NestInterceptor {
@@ -21,7 +22,8 @@ export class TenantRlsInterceptor implements NestInterceptor {
 
   constructor(
     private readonly em: EntityManager,
-    private readonly tenantService: TenantService
+    private readonly tenantService: TenantService,
+    private readonly residencyComplianceService: ResidencyComplianceService
   ) {
     this.requestCounter = this.meter.createCounter('tenant_requests_total', {
       description: 'Total number of requests per tenant',
@@ -163,7 +165,7 @@ export class TenantRlsInterceptor implements NestInterceptor {
     return ['POST', 'PUT', 'PATCH', 'DELETE'].includes(method);
   }
 
-  private async enforceRegionalResidency(tenantId: string, config: any): Promise<void> {
+  private async enforceRegionalResidency(tenantId: string, _config: any): Promise<void> {
     const currentRegion = process.env['AWS_REGION'];
 
     if (!currentRegion && process.env['NODE_ENV'] === 'production') {
@@ -172,26 +174,6 @@ export class TenantRlsInterceptor implements NestInterceptor {
     }
 
     const effectiveCurrentRegion = currentRegion || 'us-east-1';
-    const allowedRegion = config.settings?.['allowedRegion'] || config.primaryRegion;
-
-    if (!allowedRegion) {
-        this.logger.error(`[SECURITY] No residency policy defined for tenant ${tenantId}. Fail-closed.`);
-        throw new ForbiddenException('Data residency policy not established for this tenant.');
-    }
-
-    if (allowedRegion !== effectiveCurrentRegion) {
-        // Critical Violation: Fail-closed
-        this.logger.error(`[SECURITY] Data Sovereignty Violation: Tenant ${tenantId} is restricted to ${allowedRegion} but request reached ${effectiveCurrentRegion}`);
-        this.errorCounter.add(1, { tenantId, type: 'sovereignty_violation' });
-
-        // Audit log entry for compliance (Immutable Journal)
-        await this.em.getConnection().execute(
-            `INSERT INTO security_audit_journal (tenant_id, event_type, severity, payload, created_at)
-             VALUES (?, ?, ?, ?, ?)`,
-            [tenantId, 'REGION_BYPASS_ATTEMPT', 'CRITICAL', JSON.stringify({ expected: allowedRegion, actual: effectiveCurrentRegion }), new Date()]
-        );
-
-        throw new ForbiddenException(`Data residency policy violation. Access denied for region: ${effectiveCurrentRegion}`);
-    }
+    await this.residencyComplianceService.assertRegionAllowed(tenantId, effectiveCurrentRegion, 'database', 'sync');
   }
 }
