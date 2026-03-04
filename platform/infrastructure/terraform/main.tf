@@ -65,6 +65,16 @@ module "eks_secondary" {
   subnet_ids   = module.vpc_secondary.private_subnets
 }
 
+
+resource "aws_rds_global_cluster" "global" {
+  provider                  = aws.primary
+  global_cluster_identifier = "virteex-global-${var.environment}"
+  engine                    = "aurora-postgresql"
+  engine_version            = "15.3"
+  database_name             = "virteex"
+  storage_encrypted         = true
+}
+
 module "rds_primary" {
   providers = { aws = aws.primary }
   source             = "./modules/rds"
@@ -73,18 +83,23 @@ module "rds_primary" {
   vpc_id             = module.vpc_primary.vpc_id
   subnet_ids         = module.vpc_primary.private_subnets
   availability_zones = var.primary_az
-  db_password        = var.db_password
+  db_password              = var.db_password
+  global_cluster_identifier = aws_rds_global_cluster.global.id
+  is_primary               = true
 }
 
 module "rds_secondary" {
   providers = { aws = aws.secondary }
-  source             = "./modules/rds"
-  environment        = var.environment
-  region             = var.secondary_region
-  vpc_id             = module.vpc_secondary.vpc_id
-  subnet_ids         = module.vpc_secondary.private_subnets
-  availability_zones = var.secondary_az
-  db_password        = var.db_password
+  source                    = "./modules/rds"
+  environment               = var.environment
+  region                    = var.secondary_region
+  vpc_id                    = module.vpc_secondary.vpc_id
+  subnet_ids                = module.vpc_secondary.private_subnets
+  availability_zones        = var.secondary_az
+  db_password               = var.db_password
+  global_cluster_identifier = aws_rds_global_cluster.global.id
+  is_primary                = false
+  source_cluster_arn        = module.rds_primary.cluster_arn
 }
 
 module "elasticache_primary" {

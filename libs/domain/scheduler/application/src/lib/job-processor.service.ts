@@ -6,6 +6,7 @@ import { JobStateMachine } from '../domain/job-state-machine';
 import { InboxService } from '@virteex/kernel-messaging';
 import { FiscalJobHandler } from './handlers/fiscal-job.handler';
 import { BillingJobHandler } from './handlers/billing-job.handler';
+import { runWithRequiredTenantContext } from '@virteex/kernel-auth';
 
 @Injectable()
 export class JobProcessorService implements OnModuleInit, OnModuleDestroy {
@@ -52,13 +53,25 @@ export class JobProcessorService implements OnModuleInit, OnModuleDestroy {
       return;
     }
 
+    if (job.payload?.['tenantId'] && job.payload['tenantId'] !== job.tenantId) {
+      throw new Error(`Job ${job.id} has mismatched tenant context payload.`);
+    }
+
     JobStateMachine.transition(job, JobStatus.RUNNING);
     await this.em.flush();
 
     try {
       this.logger.log(`Executing job ${jobId} of type ${job.type}`);
 
-      await this.routeJobExecution(job);
+      await runWithRequiredTenantContext({
+        tenantId: job.tenantId,
+        userId: 'system-worker',
+        role: ['worker'],
+        permissions: ['job:execute'],
+        region: (job.payload?.['region'] as string) || process.env['AWS_REGION'] || 'us-east-1',
+        currency: (job.payload?.['currency'] as string) || 'USD',
+        language: (job.payload?.['language'] as string) || 'en',
+      }, async () => this.routeJobExecution(job));
 
       JobStateMachine.transition(job, JobStatus.SUCCEEDED);
     } catch (err: any) {

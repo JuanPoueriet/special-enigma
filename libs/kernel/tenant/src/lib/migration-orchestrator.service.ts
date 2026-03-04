@@ -42,6 +42,7 @@ export class MigrationOrchestratorService {
 
           // 1. Snapshot pre-migration state for rollback
           const preMigrationStats = await this.getStrongTableStats(tenant);
+          await this.operationService.transitionState(op.operationId, OperationState.VALIDATING, { preMigrationStats });
 
           await this.dryRun(op.operationId, tenant);
           await this.executeMigration(op.operationId, tenant);
@@ -53,7 +54,7 @@ export class MigrationOrchestratorService {
       } catch (error: any) {
           this.logger.error(`Migration CRITICAL FAILURE for tenant ${tenantId}: ${error.message}`);
           await this.operationService.transitionState(op.operationId, OperationState.ROLLBACK, { error: error.message });
-          await this.executeRollback(op.operationId, tenantId);
+          await this.executeRollback(op.operationId, tenantId, op.result?.preMigrationStats || {});
           throw error;
       }
     } finally {
@@ -224,7 +225,7 @@ export class MigrationOrchestratorService {
       }
   }
 
-  private async executeRollback(operationId: string, tenantId: string): Promise<void> {
+  private async executeRollback(operationId: string, tenantId: string, preMigrationStats: Record<string, any>): Promise<void> {
       this.logger.warn(`CRITICAL: Deterministic ROLLBACK initiated for tenant ${tenantId}`);
 
       try {
@@ -237,9 +238,12 @@ export class MigrationOrchestratorService {
               await this.em.getMigrator().down({ schema: tenant.schemaName });
           }
 
-          // 1.1 Verify Rollback Row Count Consistency
+          // 1.1 Verify rollback data consistency against pre-migration snapshot
           const rollbackStats = await this.getStrongTableStats(tenant);
-          // (Verification logic would compare rollbackStats with the pre-migration snapshot)
+          const rollbackDiffs = this.calculateDataDiff(preMigrationStats, rollbackStats);
+          if (rollbackDiffs.length > 0) {
+              throw new Error(`Rollback integrity verification failed: ${rollbackDiffs.join('; ')}`);
+          }
 
           // 2. Rollback Routing snapshot
           const config = await this.routingPlane.resolveRoute(tenantId);
