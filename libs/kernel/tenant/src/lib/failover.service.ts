@@ -192,7 +192,7 @@ export class FailoverService {
           this.logger.log(`[DR] Outbox events re-routed to ${region} for tenant ${tenantId}`);
       } catch (err) {
           this.logger.error(`[DR] Event-plane recovery FAILED for ${tenantId}: ${err instanceof Error ? err.message : String(err)}`);
-          // Critical but non-blocking for data-plane failover; will be handled by async reconciler
+          throw new Error(`Event-plane recovery failed for tenant ${tenantId}`);
       }
   }
 
@@ -208,7 +208,10 @@ export class FailoverService {
       };
 
       // Level 5: Cryptographic signing of evidence
-      const secret = process.env['EVIDENCE_SIGNING_SECRET'] || 'drill-secret-fail-safe';
+      const secret = process.env['EVIDENCE_SIGNING_SECRET'];
+      if (!secret) {
+          throw new Error('EVIDENCE_SIGNING_SECRET is required to persist DR drill evidence.');
+      }
       const payload = JSON.stringify(result);
       result.signature = createHmac('sha256', secret).update(payload).digest('hex');
 
@@ -229,7 +232,9 @@ export class FailoverService {
           this.logger.log(`[DR] Signed immutable drill report persisted at ${reportPath}`);
 
       } catch (err) {
-          this.logger.error(`Failed to record DR drill: ${err instanceof Error ? err.message : String(err)}`);
+          const message = `Failed to record DR drill: ${err instanceof Error ? err.message : String(err)}`;
+          this.logger.error(message);
+          throw new Error(message);
       }
   }
 

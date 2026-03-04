@@ -9,6 +9,10 @@ import { createHmac } from 'crypto';
 export class TenantOperationService implements OnModuleInit {
   private readonly logger = new Logger(TenantOperationService.name);
   private redis: Redis | null = null;
+  private readonly strictJournalOps = new Set<OperationType>([
+    OperationType.MIGRATE,
+    OperationType.FAILOVER,
+  ]);
 
   constructor(private readonly em: EntityManager) {}
 
@@ -90,11 +94,20 @@ export class TenantOperationService implements OnModuleInit {
   }
 
   private async appendToJournal(op: TenantOperation, state: OperationState, payload?: any): Promise<void> {
+    const secret = process.env['AUDIT_HMAC_SECRET'];
+    if (!secret) {
+      const message = 'AUDIT_HMAC_SECRET is required for immutable operation journal.';
+      this.logger.error(`[CRITICAL] ${message}`);
+      if (this.strictJournalOps.has(op.type as OperationType)) {
+        throw new Error(message);
+      }
+      return;
+    }
+
     try {
         // Level 5: Transactional Journaling to Immutable Audit Trail with Chained Hashing
         this.logger.log(`[JOURNAL] Tenant=${op.tenantId}, Op=${op.type}, State=${state}, Key=${op.idempotencyKey}`);
 
-        const secret = process.env['AUDIT_HMAC_SECRET'] || 'journal-secret-fail-safe';
         const timestamp = new Date();
 
         // Fetch last hash for this tenant to create a chain
@@ -113,8 +126,11 @@ export class TenantOperationService implements OnModuleInit {
             [op.tenantId, op.operationId, op.type, state, JSON.stringify(payload || {}), timestamp, chainHash]
         );
     } catch (err) {
-        // Do not fail the operation if journaling fails, but log a CRITICAL error
-        this.logger.error(`[CRITICAL] Failed to append to immutable journal: ${err instanceof Error ? err.message : String(err)}`);
+        const message = `[CRITICAL] Failed to append to immutable journal: ${err instanceof Error ? err.message : String(err)}`;
+        this.logger.error(message);
+        if (this.strictJournalOps.has(op.type as OperationType)) {
+          throw new Error(message);
+        }
     }
   }
 
@@ -137,3 +153,4 @@ export class TenantOperationService implements OnModuleInit {
     return !allowedNext.includes(next);
   }
 }
+

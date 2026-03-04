@@ -10,3 +10,18 @@ export const runWithTenantContext = <T>(context: TenantContext, callback: () => 
 export const getTenantContext = (): TenantContext | undefined => {
   return tenantStorage.getStore();
 };
+
+export const requireTenantContext = (reason = 'tenant context is required'): TenantContext => {
+  const context = getTenantContext();
+  if (!context?.tenantId) {
+    throw new Error(reason);
+  }
+  return context;
+};
+
+export const runWithRequiredTenantContext = async <T>(context: TenantContext, callback: () => Promise<T>): Promise<T> => {
+  if (!context?.tenantId) {
+    throw new Error('Refusing to execute async operation without tenant context.');
+  }
+  return tenantStorage.run(context, callback);
+};

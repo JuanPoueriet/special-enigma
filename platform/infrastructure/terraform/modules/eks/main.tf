@@ -42,6 +42,19 @@ resource "aws_eks_node_group" "main" {
   ]
 }
 
+resource "aws_lb" "ingress" {
+  name               = substr("${var.cluster_name}-nlb", 0, 32)
+  internal           = false
+  load_balancer_type = "network"
+  subnets            = var.subnet_ids
+
+  enable_deletion_protection = false
+
+  tags = {
+    Name = "${var.cluster_name}-nlb"
+  }
+}
+
 resource "aws_iam_role" "cluster" {
   name = "${var.cluster_name}-cluster-role"
 
@@ -94,4 +107,8 @@ resource "aws_iam_role_policy_attachment" "node_AmazonEKS_CNI_Policy" {
 resource "aws_iam_role_policy_attachment" "node_AmazonEC2ContainerRegistryReadOnly" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
   role       = aws_iam_role.node.name
+}
+
+output "nlb_arn" {
+  value = aws_lb.ingress.arn
 }

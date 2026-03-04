@@ -100,11 +100,13 @@ export class TenantService implements OnModuleInit, OnModuleDestroy {
     if (config.mode === TenantMode.DATABASE) {
         // Full database dropping for isolated instances
         const tenantEm = this.em.fork({ connectionString: config.connectionString });
-        const dbName = config.connectionString?.split('/').pop()?.split('?')[0];
+        const dbName = this.assertSafeIdentifier(config.connectionString?.split('/').pop()?.split('?')[0], 'database');
         await tenantEm.getConnection().execute(`DROP DATABASE IF EXISTS "${dbName}"`);
     } else {
         // Level 5: Declarative purging based on database metadata
-        const schema = config.schemaName || 'public';
+        const schema = config.mode === TenantMode.SCHEMA
+          ? this.assertSafeIdentifier(config.schemaName || `tenant_${tenantId}`, 'schema')
+          : 'public';
 
         // Discover all tables that have a tenant_id column
         const tablesWithTenantIdResult = await this.em.getConnection().execute(`
@@ -118,9 +120,13 @@ export class TenantService implements OnModuleInit, OnModuleDestroy {
 
         await this.em.transactional(async (tx) => {
             for (const table of tables) {
-                const target = config.mode === TenantMode.SCHEMA ? `"${schema}"."${table}"` : `"${table}"`;
-                const where = config.mode === TenantMode.SHARED ? ` WHERE tenant_id = '${tenantId}'` : '';
-                await tx.getConnection().execute(`DELETE FROM ${target}${where}`);
+                const safeTable = this.assertSafeIdentifier(table, 'table');
+                const target = config.mode === TenantMode.SCHEMA ? `"${schema}"."${safeTable}"` : `"${safeTable}"`;
+                if (config.mode === TenantMode.SHARED) {
+                  await tx.getConnection().execute(`DELETE FROM ${target} WHERE tenant_id = ?`, [tenantId]);
+                } else {
+                  await tx.getConnection().execute(`DELETE FROM ${target}`);
+                }
             }
         });
 
@@ -131,6 +137,13 @@ export class TenantService implements OnModuleInit, OnModuleDestroy {
 
     await this.updateTenantStatus(tenantId, TenantStatus.PURGED);
     this.logger.error(`Tenant ${tenantId} data has been completely removed using declarative discovery.`);
+  }
+
+  private assertSafeIdentifier(identifier: string | undefined, type: string): string {
+    if (!identifier || !/^[a-zA-Z_][a-zA-Z0-9_]*$/.test(identifier)) {
+      throw new ConflictException(`Unsafe ${type} identifier: ${identifier ?? 'undefined'}`);
+    }
+    return identifier;
   }
 
   async reopenTenant(tenantId: string): Promise<void> {
