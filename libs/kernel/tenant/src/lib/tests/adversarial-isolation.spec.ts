@@ -14,6 +14,7 @@ describe('Adversarial Isolation Tests (Tenant Escape)', () => {
   let mockEm: any;
   let mockTenantService: any;
   let mockHandler: any;
+  let mockResidencyCompliance: any;
 
   beforeAll(() => {
     vi.spyOn(RequestContext, 'create').mockImplementation((em: any, cb: any) => cb());
@@ -39,7 +40,11 @@ describe('Adversarial Isolation Tests (Tenant Escape)', () => {
     mockHandler = {
       handle: vi.fn().mockReturnValue(of({ data: 'secret' })),
     };
-    interceptor = new TenantRlsInterceptor(mockEm as any, mockTenantService as any);
+    mockResidencyCompliance = {
+      assertRegionAllowed: vi.fn().mockResolvedValue(undefined),
+      authorizeReplication: vi.fn().mockResolvedValue({ authorized: true, evidenceId: 'e1', maskingApplied: true, replicatedPayload: {} }),
+    };
+    interceptor = new TenantRlsInterceptor(mockEm as any, mockTenantService as any, mockResidencyCompliance as any);
   });
 
   it('SHOULD BLOCK access when tenant context is missing', async () => {
@@ -91,6 +96,7 @@ describe('Adversarial Isolation Tests (Tenant Escape)', () => {
         settings: { allowedRegion: 'us-east-1' }
     });
     process.env['AWS_REGION'] = 'sa-east-1';
+    mockResidencyCompliance.assertRegionAllowed.mockRejectedValue(new ForbiddenException('violation'));
 
     const mockContext: any = {
         getHandler: () => ({}),
@@ -187,12 +193,13 @@ describe('Adversarial Isolation Tests (Tenant Escape)', () => {
   });
 
   it('SHOULD enforce regional residency in Async channels via RegionalResidencyGuard', async () => {
-    const guard = new RegionalResidencyGuard(mockTenantService as any);
+    const guard = new RegionalResidencyGuard(mockTenantService as any, mockResidencyCompliance as any);
     vi.spyOn(auth, 'getTenantContext').mockReturnValue({ tenantId: 't1' } as any);
     mockTenantService.getTenantConfig.mockResolvedValue({
         primaryRegion: 'us-east-1'
     });
     process.env['AWS_REGION'] = 'sa-east-1';
+    mockResidencyCompliance.assertRegionAllowed.mockRejectedValue(new ForbiddenException('violation'));
 
     const mockContext: any = {
         switchToHttp: () => ({ getRequest: () => ({}) }),
@@ -206,7 +213,7 @@ describe('Adversarial Isolation Tests (Tenant Escape)', () => {
   it('SHOULD block Async tasks if tenant is frozen', async () => {
     // Inject mock EM into TenantService for the guard to find it
     mockTenantService.em = mockEm;
-    const guard = new RegionalResidencyGuard(mockTenantService as any);
+    const guard = new RegionalResidencyGuard(mockTenantService as any, mockResidencyCompliance as any);
     vi.spyOn(auth, 'getTenantContext').mockReturnValue({ tenantId: 't-frozen' } as any);
 
     mockTenantService.getTenantConfig.mockResolvedValue({ primaryRegion: 'us-east-1' });
