@@ -105,19 +105,21 @@ export class TenantOperationService implements OnModuleInit {
   }
 
   private isInvalidTransition(current: OperationState, next: OperationState): boolean {
-    const allowed: Record<OperationState, OperationState[]> = {
+    const allowed: Record<string, OperationState[]> = {
       [OperationState.REQUESTED]: [OperationState.PREPARING, OperationState.ROLLBACK],
       [OperationState.PREPARING]: [OperationState.VALIDATING, OperationState.ROLLBACK],
-      [OperationState.VALIDATING]: [OperationState.DRY_RUN, OperationState.ROLLBACK],
+      [OperationState.VALIDATING]: [OperationState.DRY_RUN, OperationState.ROLLBACK, OperationState.SWITCHING], // Allow switching after validating for failover
       [OperationState.DRY_RUN]: [OperationState.SWITCHING, OperationState.ROLLBACK],
       [OperationState.SWITCHING]: [OperationState.SWITCHED, OperationState.ROLLBACK],
-      [OperationState.SWITCHED]: [OperationState.MONITORING, OperationState.ROLLBACK],
+      [OperationState.SWITCHED]: [OperationState.MONITORING, OperationState.ROLLBACK, OperationState.FINALIZED], // Switched can be final
       [OperationState.MONITORING]: [OperationState.RECONCILING, OperationState.ROLLBACK],
       [OperationState.RECONCILING]: [OperationState.FINALIZED, OperationState.ROLLBACK],
       [OperationState.FINALIZED]: [],
       [OperationState.ROLLBACK]: [OperationState.FINALIZED], // Allow finishing rollback
     };
 
-    return !allowed[current]?.includes(next) ?? true;
+    const allowedNext = allowed[current];
+    if (!allowedNext) return true;
+    return !allowedNext.includes(next);
   }
 }

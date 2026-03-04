@@ -128,3 +128,10 @@ La capacidad ya no depende de promesas documentales. El CI bloquea cualquier int
 ### Residual risk
 - DNS TTL latency
 - External identity provider availability
+
+## 22. Auditoría Final: Cierre de Brechas (Estado: 5/5)
+- **Brecha 1 (Migración):** CERRADA. Implementada reconciliación MD5 y estructural.
+- **Brecha 2 (Failover):** CERRADA. Probes multicapa (LB/API/DB) obligatorios y drills verificados.
+- **Brecha 3 (Contexto):** CERRADA. Validación universal de firma y soberanía regional.
+- **Brecha 4 (Gates):** CERRADA. Todos los gates de evidencia están en VERDE y certificados por `summary.json`.
+- **Brecha 5 (Comercial):** CERRADA. Alineación total entre matriz técnica y claim comercial.

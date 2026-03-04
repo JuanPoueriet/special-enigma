@@ -70,9 +70,7 @@ export class FinOpsService {
           }
       } catch (err) {
           this.logger.error(`[FINOPS] Pricing catalog lookup failed: ${err instanceof Error ? err.message : String(err)}`);
-          if (process.env['NODE_ENV'] === 'production') {
-              throw new Error(`CRITICAL FINOPS FAILURE: Pricing catalog unreachable in production. Resource: ${resource}, Region: ${region}`);
-          }
+          throw new Error(`CRITICAL FINOPS FAILURE: Pricing catalog unreachable. Resource: ${resource}, Region: ${region}. Attribution aborted to prevent drift.`);
       }
 
       // Fallback to verified baseline ONLY in non-production environments

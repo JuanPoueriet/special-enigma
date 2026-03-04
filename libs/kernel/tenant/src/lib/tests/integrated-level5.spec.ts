@@ -115,6 +115,7 @@ describe('Integrated E2E Validation - Multi-tenant / Multi-region Level 5', () =
       const interceptor = new TenantRlsInterceptor(mockEm as any, mockTenantService as any);
       vi.spyOn(auth, 'getTenantContext').mockReturnValue({ tenantId: 'suspended-tenant' } as any);
       mockEm.findOne.mockResolvedValue({ status: 'SUSPENDED' });
+      mockTenantService.getTenantConfig.mockResolvedValue({ mode: 'SHARED', primaryRegion: 'us-east-1' });
 
       const mockContext: any = {
           switchToHttp: () => ({ getRequest: () => ({ method: 'GET' }) }),
@@ -123,7 +124,7 @@ describe('Integrated E2E Validation - Multi-tenant / Multi-region Level 5', () =
       };
       const mockHandler = { handle: vi.fn() };
 
-      await expect(interceptor.intercept(mockContext, mockHandler)).rejects.toThrow(/tenant is not active/i);
+      await expect(interceptor.intercept(mockContext, mockHandler)).rejects.toThrow(/is suspended/i);
     });
   });
 
