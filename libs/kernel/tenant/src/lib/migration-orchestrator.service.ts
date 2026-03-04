@@ -225,9 +225,9 @@ export class MigrationOrchestratorService {
 
   private async executeRollback(operationId: string, tenantId: string): Promise<void> {
       this.logger.warn(`CRITICAL: Deterministic ROLLBACK initiated for tenant ${tenantId}`);
-      const tenant = await this.em.findOneOrFail(Tenant, { id: tenantId });
 
       try {
+          const tenant = await this.em.findOneOrFail(Tenant, { id: tenantId });
           // 1. Rollback DB schema
           if (tenant.mode === TenantMode.DATABASE) {
               const tenantEm = this.em.fork({ connectionString: tenant.connectionString });

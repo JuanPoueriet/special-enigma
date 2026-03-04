@@ -114,10 +114,12 @@ export class FailoverService {
           const lbEndpoint = `https://lb.${region}.virteex.erp/v1/health/check`;
           const lbResponse = await axios.get(lbEndpoint, { timeout: 3000 });
           if (lbResponse.status !== 200) {
-              throw new Error(`Regional Load Balancer for ${region} is not responding correctly.`);
+              throw new Error(`Regional Load Balancer for ${region} is not responding correctly. Status: ${lbResponse.status}`);
           }
+          this.logger.log(`[DR] LB Probe for ${region} passed.`);
       } catch (err: any) {
-          this.logger.warn(`[DR] LB Probe for ${region} failed: ${err.message}. Proceeding with Data Plane probe.`);
+          this.logger.error(`[DR] LB Probe for ${region} FAILED: ${err.message}`);
+          throw new Error(`Target region ${region} Load Balancer is unhealthy or unreachable. Failover aborted for safety.`);
       }
 
       // Layer 2: Regional Control Plane Probe

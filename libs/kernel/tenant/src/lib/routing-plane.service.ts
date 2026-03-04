@@ -73,7 +73,11 @@ export class RoutingPlaneService {
 
     // Policy 3: Connectivity & Capacity
     // Real capacity check via Telemetry/Prometheus metrics (fallback to safe discovery)
-    let endpoint = config.connectionString || 'shared-pool-discovery';
+    let endpoint = config.connectionString;
+    if (!endpoint && config.mode === 'DATABASE') {
+        throw new Error(`Enterprise DATABASE tenant ${tenantId} missing dedicated connection string.`);
+    }
+    endpoint = endpoint || 'shared-pool-discovery';
 
     try {
         // In GA, we check regional capacity before routing

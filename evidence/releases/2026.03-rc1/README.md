@@ -1,6 +1,6 @@
 # Release Evidence Pack - 2026.03-rc1
 
-- Generated at: 2026-03-04T13:46:44.797Z
+- Generated at: 2026-03-04T14:08:32.554Z
 - Readiness state: **ready-with-evidence**
 - Maturity Score: **5/5**
 
