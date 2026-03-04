@@ -1,5 +1,6 @@
 import { Module, Global, OnModuleInit } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { EntityManager } from '@mikro-orm/core';
 import { TenantService } from './tenant.service';
 import { TenantOperationService } from './tenant-operation.service';
 import { RoutingPlaneService } from './routing-plane.service';
@@ -8,12 +9,9 @@ import { FinOpsService } from './finops.service';
 import { MigrationOrchestratorService } from './migration-orchestrator.service';
 import { TenantRlsInterceptor } from './interceptors/tenant-rls.interceptor';
 import { TenantModelSubscriber } from './subscribers/tenant-model.subscriber';
-import { EntityManager } from '@mikro-orm/core';
 import { MigrationGuard } from './migration-guard';
 import { DualWriteManager } from './dual-write-manager';
-import { FailoverService } from './failover.service';
-import { RoutingPlaneService } from './routing-plane.service';
-import { FinOpsService } from './finops.service';
+import { TenantCriticalConfigService } from './tenant-critical-config.service';
 
 @Global()
 @Module({
@@ -26,21 +24,28 @@ import { FinOpsService } from './finops.service';
     MigrationOrchestratorService,
     MigrationGuard,
     DualWriteManager,
-    FailoverService,
-    RoutingPlaneService,
-    FinOpsService,
     TenantModelSubscriber,
+    TenantCriticalConfigService,
     {
       provide: APP_INTERCEPTOR,
       useClass: TenantRlsInterceptor,
     },
   ],
-  exports: [TenantService, MigrationOrchestratorService, MigrationGuard, DualWriteManager, FailoverService, RoutingPlaneService, FinOpsService],
+  exports: [
+    TenantService,
+    MigrationOrchestratorService,
+    MigrationGuard,
+    DualWriteManager,
+    FailoverService,
+    RoutingPlaneService,
+    FinOpsService,
+    TenantCriticalConfigService,
+  ],
 })
 export class TenantModule implements OnModuleInit {
   constructor(
     private readonly em: EntityManager,
-    private readonly subscriber: TenantModelSubscriber
+    private readonly subscriber: TenantModelSubscriber,
   ) {}
 
   onModuleInit() {
