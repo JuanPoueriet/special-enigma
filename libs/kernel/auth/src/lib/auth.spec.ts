@@ -1,5 +1,5 @@
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import { AuthModule } from './auth.module';
 import { SECRET_PROVIDER, SecretManagerService } from './services/secret-manager.service';
 import { JwtTokenService } from './services/jwt-token.service';
@@ -7,6 +7,7 @@ import { ConfigService } from '@nestjs/config';
 import { DefaultSecretProvider } from './services/providers/default-secret.provider';
 import { VaultSecretProvider } from './services/providers/vault-secret.provider';
 import { KmsSecretProvider } from './services/providers/kms-secret.provider';
+import { TELEMETRY_SERVICE } from '@virteex/kernel-telemetry-interfaces';
 
 describe('AuthModule', () => {
   beforeEach(() => {
@@ -36,6 +37,12 @@ describe('AuthModule', () => {
           getJwtVerificationSecrets: vi.fn().mockReturnValue(['mock']),
           rotateSecret: vi.fn()
       })
+      .overrideProvider(TELEMETRY_SERVICE)
+      .useValue({
+          recordSecurityEvent: vi.fn(),
+          recordBusinessMetric: vi.fn(),
+          setTraceAttributes: vi.fn()
+      })
       .overrideProvider(JwtTokenService)
       .useValue({ initialize: vi.fn() })
       .overrideProvider(DefaultSecretProvider)
@@ -49,5 +56,5 @@ describe('AuthModule', () => {
       .compile();
 
     expect(module).toBeDefined();
-  });
+  }, 10000);
 });

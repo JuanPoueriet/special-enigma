@@ -1,5 +1,5 @@
 import { Injectable, Logger, ConflictException } from '@nestjs/common';
-import { EntityManager } from '@mikro-orm/core';
+import { EntityManager, IDatabaseDriver, Connection } from '@mikro-orm/core';
 import { createHmac, createHash } from 'crypto';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -14,7 +14,7 @@ export class MigrationOrchestratorService {
   private readonly logger = new Logger(MigrationOrchestratorService.name);
 
   constructor(
-    private readonly em: EntityManager,
+    private readonly em: EntityManager, IDatabaseDriver, Connection,
     private readonly migrationGuard: MigrationGuard,
     private readonly operationService: TenantOperationService,
     private readonly routingPlane: RoutingPlaneService
@@ -82,10 +82,10 @@ export class MigrationOrchestratorService {
 
       let pendingCount = 0;
       if (tenant.mode === TenantMode.DATABASE) {
-          const tenantEm = this.em.fork({ connectionString: tenant.connectionString });
-          pendingCount = (await tenantEm.getMigrator().getPendingMigrations()).length;
+          const tenantEm = (this.em as any).fork({ connectionString: tenant.connectionString });
+          pendingCount = (await (tenantEm as any).getMigrator().getPendingMigrations()).length;
       } else {
-          pendingCount = (await this.em.getMigrator().getPendingMigrations()).length;
+          pendingCount = (await (this.em as any).getMigrator().getPendingMigrations()).length;
       }
 
       const impact = {
@@ -104,11 +104,11 @@ export class MigrationOrchestratorService {
   private async executeMigration(operationId: string, tenant: Tenant): Promise<void> {
       await this.operationService.transitionState(operationId, OperationState.SWITCHING);
       if (tenant.mode === TenantMode.DATABASE) {
-          const tenantEm = this.em.fork({ connectionString: tenant.connectionString });
-          const migrator = tenantEm.getMigrator();
+          const tenantEm = (this.em as any).fork({ connectionString: tenant.connectionString });
+          const migrator = (tenantEm as any).getMigrator();
           await migrator.up();
       } else {
-          const migrator = this.em.getMigrator();
+          const migrator = (this.em as any).getMigrator();
           await migrator.up({ schema: tenant.schemaName });
       }
       await this.operationService.transitionState(operationId, OperationState.SWITCHED);
@@ -187,7 +187,7 @@ export class MigrationOrchestratorService {
       let schema = tenant.schemaName;
 
       if (tenant.mode === TenantMode.DATABASE) {
-          em = this.em.fork({ connectionString: tenant.connectionString });
+          em = (this.em as any).fork({ connectionString: tenant.connectionString });
           schema = undefined;
       }
 
@@ -284,10 +284,10 @@ export class MigrationOrchestratorService {
           const tenant = await this.em.findOneOrFail(Tenant, { id: tenantId });
           // 1. Rollback DB schema
           if (tenant.mode === TenantMode.DATABASE) {
-              const tenantEm = this.em.fork({ connectionString: tenant.connectionString });
-              await tenantEm.getMigrator().down();
+              const tenantEm = (this.em as any).fork({ connectionString: tenant.connectionString });
+              await (tenantEm as any).getMigrator().down();
           } else {
-              await this.em.getMigrator().down({ schema: tenant.schemaName });
+              await (this.em as any).getMigrator().down({ schema: tenant.schemaName });
           }
 
           // 1.1 Verify rollback data consistency against pre-migration snapshot

@@ -6,6 +6,9 @@
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "dependencies": {
+    "@mikro-orm/core": "^6.6.7",
+    "@virteex/kernel-tenant-context": "file:../tenant-context",
+    "@virteex/kernel-telemetry-interfaces": "file:../telemetry-interfaces",
     "tslib": "^2.3.0",
     "@nestjs/common": "^11.0.0",
     "@opentelemetry/sdk-node": "^0.211.0",

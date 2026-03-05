@@ -4,7 +4,7 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { CanonicalTenantMiddleware } from './middleware/canonical-tenant.middleware';
 import { TenantGuard } from './guards/tenant.guard';
-import { TelemetryModule } from '@virteex/kernel-telemetry';
+import { TelemetryModule } from '@virteex/kernel-telemetry-interfaces';
 import { SecretManagerService, SECRET_PROVIDER } from './services/secret-manager.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { DefaultSecretProvider } from './services/providers/default-secret.provider';

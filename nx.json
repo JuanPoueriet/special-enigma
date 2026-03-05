@@ -22,6 +22,12 @@
   },
   "plugins": [
     {
+      "plugin": "@nx/js:tsc",
+      "options": {
+        "buildTargetName": "build"
+      }
+    },
+    {
       "plugin": "@nx/webpack/plugin",
       "options": {
         "buildTargetName": "build",

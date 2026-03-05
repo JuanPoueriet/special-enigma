@@ -90,7 +90,7 @@ export class FinOpsService {
             GROUP BY tenant_id
         `, [date]);
 
-        const cloudTruthMap = new Map(cloudTruth.map((r: any) => [r.tenant_id, parseFloat(r.daily_cost)]));
+        const cloudTruthMap = new Map(cloudTruth.map((r: any) => [r.tenant_id, parseFloat(String(r.daily_cost))]));
 
         const observations = await this.em.getConnection().execute(`
             SELECT tenant_id, SUM(cost_usd) as observed_daily
@@ -102,7 +102,7 @@ export class FinOpsService {
         let driftDetected = false;
         for (const obs of observations) {
             const truth = cloudTruthMap.get(obs.tenant_id);
-            if (truth !== undefined && Math.abs(obs.observed_daily - truth) / truth > 0.1) {
+            if (truth !== undefined && (Math.abs(Number(obs.observed_daily) - Number(truth)) / Number(truth)) > 0.1) {
                 this.logger.error(`[FINOPS DRIFT] Significant daily drift for tenant ${obs.tenant_id} on ${date}`);
                 driftDetected = true;
             }
@@ -174,7 +174,7 @@ export class FinOpsService {
               GROUP BY tenant_id
           `, [month]);
 
-          const cloudTruthMap = new Map(cloudTruth.map((r: any) => [r.tenant_id, parseFloat(r.cloud_cost)]));
+          const cloudTruthMap = new Map(cloudTruth.map((r: any) => [r.tenant_id, parseFloat(String(r.cloud_cost))]));
 
           // 2. Load observed costs from analytical journal
           const observations = await this.em.getConnection().execute(`
@@ -195,7 +195,7 @@ export class FinOpsService {
                   continue;
               }
 
-              const variance = Math.abs(obs.total_observed - cloudCost) / cloudCost;
+              const variance = (Math.abs(Number(obs.total_observed) - Number(cloudCost)) / Number(cloudCost));
 
               if (variance > 0.05) {
                   this.logger.error(`[FINOPS CRITICAL] Reconciliation variance > 5% for tenant ${obs.tenant_id} in ${month}: Observed=${obs.total_observed}, Cloud=${cloudCost}`);

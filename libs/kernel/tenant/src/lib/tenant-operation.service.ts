@@ -4,7 +4,7 @@ import { TenantOperation } from './entities/tenant-operation.entity';
 import { OperationState, OperationType } from './interfaces/tenant-config.interface';
 import Redis from 'ioredis';
 import { createHmac } from 'crypto';
-import { TelemetryService } from '@virteex/kernel-telemetry';
+import { TelemetryService } from '@virteex/kernel-telemetry-interfaces';
 
 @Injectable()
 export class TenantOperationService implements OnModuleInit {
