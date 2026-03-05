@@ -35,7 +35,8 @@
         "assets": [
           "libs/kernel/auth/*.md"
         ]
-      }
+      },
+      "dependsOn": ["kernel-telemetry-interfaces", "kernel-tenant-context"]
     },
     "lint": {
       "executor": "@nx/eslint:lint"

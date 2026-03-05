@@ -2,7 +2,7 @@ import { CallHandler, ExecutionContext, ForbiddenException, Injectable, Logger, 
 import { EntityManager, RequestContext } from '@mikro-orm/core';
 import { Observable, from, lastValueFrom } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
-import { getTenantContext } from '@virteex/kernel-auth';
+import { getTenantContext } from '@virteex/kernel-tenant-context';
 import { TenantService } from '../tenant.service';
 import { TenantControlRecord } from '../entities/tenant-control-record.entity';
 import { TenantMode, TenantStatus } from '../interfaces/tenant-config.interface';

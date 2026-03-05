@@ -10,7 +10,7 @@
     "@nestjs/common": "^11.0.0",
     "express": "^4.21.2",
     "rxjs": "^7.8.0",
-    "@virteex/kernel-telemetry": "*",
+    "@virteex/kernel-telemetry-interfaces": "file:../telemetry-interfaces",
     "@nestjs/core": "^11.0.0",
     "@nestjs/config": "^4.0.3",
     "jsonwebtoken": "^9.0.3",

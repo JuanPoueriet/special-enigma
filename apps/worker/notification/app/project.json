@@ -4,10 +4,11 @@
   "sourceRoot": "apps/worker-notification-app/src",
   "projectType": "application",
   "tags": [
-    "scope:shared",
+    "scope:notification",
     "type:app",
     "platform:agnostic",
-    "criticality:medium"
+    "criticality:medium",
+    "scope:platform"
   ],
   "targets": {
     "build": {

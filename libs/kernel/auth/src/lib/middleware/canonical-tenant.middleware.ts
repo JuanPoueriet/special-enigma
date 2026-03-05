@@ -42,7 +42,7 @@ export class CanonicalTenantMiddleware implements NestMiddleware, OnModuleInit {
 
     try {
       if (contextHeader || signatureHeader) {
-        context = parseAndValidateSignedContext(contextHeader, signatureHeader, this.hmacSecret);
+        context = parseAndValidateSignedContext(contextHeader as string, signatureHeader as string, this.hmacSecret);
       } else if (authHeader) {
         context = this.processJwtContext(authHeader);
       }

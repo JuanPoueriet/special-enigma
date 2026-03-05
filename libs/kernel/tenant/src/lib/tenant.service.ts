@@ -129,7 +129,7 @@ export class TenantService implements OnModuleInit, OnModuleDestroy {
 
     if (config.mode === TenantMode.DATABASE) {
         // Full database dropping for isolated instances
-        const tenantEm = this.em.fork({ connectionString: config.connectionString });
+        const tenantEm = (this.em as any).fork({ connectionString: config.connectionString });
         const dbName = this.assertSafeIdentifier(config.connectionString?.split('/').pop()?.split('?')[0], 'database');
         await tenantEm.getConnection().execute(`DROP DATABASE IF EXISTS "${dbName}"`);
     } else {

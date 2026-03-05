@@ -4,12 +4,13 @@
     "baseUrl": ".",
     "outDir": "../../../../dist/out-tsc",
     "declaration": true,
-    "types": ["node"],
-    "paths": {
-      "@virteex/payroll-contracts": ["../../../../libs/domain/payroll/contracts/src/index.ts"]
-    }
+    "types": [
+      "node"
+    ]
   },
-  "include": ["src/**/*.ts"],
+  "include": [
+    "src/**/*.ts"
+  ],
   "exclude": [
     "jest.config.ts",
     "jest.config.cts",
