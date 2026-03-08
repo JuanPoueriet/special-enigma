@@ -1,6 +1,5 @@
 import { Injectable, Logger, Inject } from '@nestjs/common';
-import { BankStatementParser, BANK_STATEMENT_PARSER } from '../ports/bank-statement-parser.port';
-import { StatementLine } from '@virteex/domain-treasury-contracts';
+import { BankStatementParser, BANK_STATEMENT_PARSER, StatementLine } from '@virteex/domain-treasury-contracts';
 
 @Injectable()
 export class BankStatementParserService {

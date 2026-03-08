@@ -1,7 +1,7 @@
 import { Injectable, NestMiddleware, UnauthorizedException, Logger, OnModuleInit, Inject } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
-import { TenantContext } from '@virteex/kernel-tenant-context';
+import { TenantContext } from '../interfaces/tenant-context.interface';
 import { runWithTenantContext } from '@virteex/kernel-tenant-context';
 import { TelemetryService, TELEMETRY_SERVICE } from '@virteex/kernel-telemetry-interfaces';
 import { SecretManagerService } from '../services/secret-manager.service';
@@ -9,7 +9,7 @@ import {
   claimsFromJwtPayload,
   parseAndValidateSignedContext,
 } from '../services/tenant-context-contract.service';
-import { TenantContextValidationError } from '@virteex/kernel-tenant-context';
+import { TenantContextValidationError } from '../interfaces/signed-tenant-context.interface';
 import '../interfaces/express.interface';
 
 @Injectable()
@@ -64,7 +64,7 @@ export class CanonicalTenantMiddleware implements NestMiddleware, OnModuleInit {
       throw new UnauthorizedException('Tenant context integrity violation');
     }
 
-    req.tenantContext = context;
+    req.tenantContext = context as any;
 
     this.telemetryService.setTraceAttributes({
       'tenant.id': context.tenantId,
@@ -72,7 +72,7 @@ export class CanonicalTenantMiddleware implements NestMiddleware, OnModuleInit {
       'tenant.context.version': context.contextVersion ?? 'legacy',
     });
 
-    runWithTenantContext(context, () => next());
+    runWithTenantContext(context as any, () => next());
   }
 
   private processJwtContext(authHeader: string): TenantContext {

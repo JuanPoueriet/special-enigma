@@ -23,7 +23,7 @@ export const TaskSchema = new EntitySchema<Task>({
     name: { type: 'string' },
     description: { type: 'string', nullable: true },
     status: { type: 'string' },
-    assignedTo: { type: 'string', nullable: true },
+    assignedToId: { type: 'string', nullable: true },
     dueDate: { type: 'Date', nullable: true },
   },
 });

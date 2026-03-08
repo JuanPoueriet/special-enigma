@@ -16,7 +16,7 @@ export class MikroOrmInvoiceRepository implements InvoiceRepository {
 
   async save(invoice: Invoice): Promise<void> {
     // Level 5: Executable invariant check before persistence
-    if (invoice.totalAmount < 0) {
+    if (parseFloat(invoice.totalAmount) < 0) {
         throw new Error(`Inconsistency: Invoice ${invoice.id} has negative total amount: ${invoice.totalAmount}`);
     }
     // Level 5: Dual-write avoidance. Invariants are checked before persistence.

@@ -1,4 +1,5 @@
 
+import { Collection } from '@mikro-orm/core';
 import type { CashFlow } from './cash-flow.entity';
 
 

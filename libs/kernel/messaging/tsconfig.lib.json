@@ -9,7 +9,8 @@
     "allowSyntheticDefaultImports": true,
     "target": "es2021",
     "sourceMap": true,
-    "outDir": "../../../../dist/libs/kernel/messaging",
+    "outDir": "../../../dist/out-tsc",
+    "rootDir": "../../..",
     "baseUrl": "."
   },
   "include": [

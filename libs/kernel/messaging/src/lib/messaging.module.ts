@@ -1,6 +1,6 @@
 import { Module, Global } from '@nestjs/common';
-import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { ScheduleModule } from '@nestjs/schedule';
+import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { OutboxEvent } from './entities/outbox-event.entity';
 import { InboxMessage } from './entities/inbox-message.entity';
 import { OutboxService } from './outbox.service';

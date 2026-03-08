@@ -1,6 +1,10 @@
 
 import { BankAccount } from './bank-account.entity';
-import { TransactionType } from '@virteex/domain-treasury-contracts/enums/transaction-type.enum';
+
+export enum TransactionType {
+  DEBIT = 'DEBIT',
+  CREDIT = 'CREDIT',
+}
 
 
 export class Transaction {

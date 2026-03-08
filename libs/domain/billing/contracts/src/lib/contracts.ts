@@ -16,6 +16,7 @@ export interface CustomerBillingInfoContract {
   email: string;
   taxId: string;
   legalName: string;
+  address?: string;
   regime?: string;
   postalCode: string;
   country: string;

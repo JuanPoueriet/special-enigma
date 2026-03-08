@@ -6,3 +6,4 @@ export * from './lib/ports/fiscal-data-provider.port';
 export * from './lib/ports/tenant-config.port';
 export * from './lib/ports/fiscal-provider.port';
 export * from './lib/ports/fiscal-document-builder.port';
+export * from './lib/services/fiscal-domain.service';

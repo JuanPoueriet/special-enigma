@@ -1,7 +1,6 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "rootDir": ".",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
@@ -9,7 +8,7 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "es2021",
-    "module": "esnext",
+    "module": "commonjs",
     "lib": [
       "es2020",
       "dom"
@@ -18,6 +17,12 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@virteex/platform-data-quality": [
+        "libs/platform/data-quality/src/index.ts"
+      ],
+      "@virteex/platform-data-quality/*": [
+        "libs/platform/data-quality/src/*"
+      ],
       "@virteex/accounting-ui": [
         "libs/domain/accounting/ui/src/index.ts"
       ],
@@ -73,10 +78,10 @@
         "libs/shared/util/client/http/src/index.ts"
       ],
       "@virteex/domain-treasury-domain": [
-        "libs/domain/treasury/domain/src/index.ts"
+        "dist/libs/domain/treasury/domain/libs/domain/treasury/domain/src/index.d.ts"
       ],
       "@virteex/domain-treasury-domain/*": [
-        "libs/domain/treasury/domain/src/*"
+        "dist/libs/domain/treasury/domain/libs/domain/treasury/domain/src/*"
       ],
       "@virteex/domain-finops-domain": [
         "libs/domain/finops/domain/src/index.ts"
@@ -259,10 +264,10 @@
         "libs/platform/kafka/src/*"
       ],
       "@virteex/platform-storage": [
-        "libs/platform/storage/src/index.ts"
+        "dist/libs/platform/storage/src/index.d.ts"
       ],
       "@virteex/platform-storage/*": [
-        "libs/platform/storage/src/*"
+        "dist/libs/platform/storage/src/*"
       ],
       "@virteex/platform-xslt": [
         "libs/platform/xslt/src/index.ts"
@@ -328,10 +333,10 @@
         "libs/kernel/exceptions/src/index.ts"
       ],
       "@virteex/kernel-tenant-context": [
-        "libs/kernel/tenant-context/src/index.ts"
+        "dist/libs/kernel/tenant-context/src/index.d.ts"
       ],
       "@virteex/kernel-telemetry-interfaces": [
-        "libs/kernel/telemetry-interfaces/src/index.ts"
+        "dist/libs/kernel/telemetry-interfaces/src/index.d.ts"
       ],
       "@virteex/domain-billing-contracts": [
         "libs/domain/billing/contracts/src/index.ts"
@@ -370,13 +375,13 @@
         "libs/domain/scheduler/domain/src/index.ts"
       ],
       "@virteex/kernel-tenant-context/*": [
-        "libs/kernel/tenant-context/src/*"
+        "dist/libs/kernel/tenant-context/src/*"
       ],
       "@virteex/kernel-exceptions/*": [
         "libs/kernel/exceptions/src/*"
       ],
       "@virteex/kernel-telemetry-interfaces/*": [
-        "libs/kernel/telemetry-interfaces/src/*"
+        "dist/libs/kernel/telemetry-interfaces/src/*"
       ],
       "@virteex/domain-notification-infrastructure/*": [
         "libs/domain/notification/infrastructure/src/*"
@@ -676,10 +681,10 @@
         "libs/domain/projects/presentation/src/*"
       ],
       "@virteex/domain-treasury-contracts": [
-        "libs/domain/treasury/contracts/src/index.ts"
+        "dist/libs/domain/treasury/contracts/libs/domain/treasury/contracts/src/index.d.ts"
       ],
       "@virteex/domain-treasury-contracts/*": [
-        "libs/domain/treasury/contracts/src/*"
+        "dist/libs/domain/treasury/contracts/libs/domain/treasury/contracts/src/*"
       ],
       "@virteex/domain-treasury-application": [
         "libs/domain/treasury/application/src/index.ts"
@@ -1100,8 +1105,12 @@
       ],
       "@virteex/api-accounting-app/*": [
         "apps/api/accounting/app/src/*"
+      ],
+      "@virteex/domain-notification-domain/*": [
+        "libs/domain/notification/domain/src/*"
       ]
-    }
+    },
+    "rootDir": "."
   },
   "exclude": [
     "node_modules",

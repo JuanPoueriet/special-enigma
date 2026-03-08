@@ -21,12 +21,12 @@ export const CustomerSchema = new EntitySchema<Customer>({
     stateOrProvince: { type: 'string', nullable: true },
     postalCode: { type: 'string', nullable: true },
     country: { type: 'string', nullable: true },
-    opportunities: { reference: '1:m', entity: 'Opportunity', mappedBy: 'customer', cascade: ['all'] },
+    opportunities: { kind: '1:m', entity: 'Opportunity', mappedBy: 'customer', cascade: ['all' as any] },
     createdAt: { type: 'Date', onCreate: () => new Date() },
     updatedAt: { type: 'Date', onCreate: () => new Date(), onUpdate: () => new Date() },
   },
   hooks: {
-    beforeCreate: [(ent) => ent.validateTaxId()],
-    beforeUpdate: [(ent) => ent.validateTaxId()],
+    beforeCreate: [(ent: any) => ent.validateTaxId()],
+    beforeUpdate: [(ent: any) => ent.validateTaxId()],
   },
 });

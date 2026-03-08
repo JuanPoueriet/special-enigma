@@ -10,7 +10,7 @@ export const SaleSchema = new EntitySchema<Sale>({
     customerName: { type: 'string' },
     total: { type: 'string' },
     status: { enum: true, items: () => SaleStatus, default: SaleStatus.DRAFT },
-    items: { reference: '1:m', entity: 'SaleItem', mappedBy: 'sale', cascade: ['all'] },
+    items: { kind: '1:m', entity: 'SaleItem', mappedBy: 'sale', cascade: ['all' as any] },
     createdAt: { type: 'Date', onCreate: () => new Date() },
   },
 });
@@ -23,6 +23,6 @@ export const SaleItemSchema = new EntitySchema<SaleItem>({
     productName: { type: 'string' },
     price: { type: 'string' },
     quantity: { type: 'string' },
-    sale: { reference: 'm:1', entity: 'Sale', inversedBy: 'items' },
+    sale: { kind: 'm:1', entity: 'Sale', inversedBy: 'items' },
   },
 });

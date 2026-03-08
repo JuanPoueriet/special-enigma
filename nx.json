@@ -22,7 +22,7 @@
   },
   "plugins": [
     {
-      "plugin": "@nx/js:tsc",
+      "plugin": "@nx/js",
       "options": {
         "buildTargetName": "build"
       }

@@ -44,12 +44,12 @@ export class OutboxProcessor implements OnModuleInit {
     // Level 5: Atomic polling using FOR UPDATE SKIP LOCKED to prevent race conditions
     // across multiple instances of the worker.
     // Level 5: Use QueryBuilder for strict FOR UPDATE SKIP LOCKED
-    const qb = this.em.createQueryBuilder(OutboxEvent, 'e');
+    const qb = (this.em as any).createQueryBuilder(OutboxEvent, 'e');
     const events = await qb
       .select('*')
       .where({ publishedAt: null })
       .limit(100)
-      .setLockMode(LockMode.PESSIMISTIC_WRITE_CAN_SKIP) // SKIP LOCKED
+      .setLockMode(LockMode.PESSIMISTIC_PARTIAL_WRITE) // SKIP LOCKED (MikroORM 6)
       .execute();
 
     if (events.length === 0) {

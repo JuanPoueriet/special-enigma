@@ -24,7 +24,7 @@ import { ConfigService } from '@nestjs/config';
             transport: config.get('NODE_ENV') !== 'production'
               ? { target: 'pino-pretty' }
               : undefined,
-          },
+          } as any,
         };
       },
     }),

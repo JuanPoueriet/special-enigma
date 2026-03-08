@@ -5,6 +5,10 @@ export interface TenantFiscalConfig {
   csdKey?: string;
   certificateNumber?: string;
   legalName: string;
+  brandName?: string;
+  address?: string;
+  city?: string;
+  state?: string;
   regime: string;
   postalCode: string;
   fiscalAddress?: string;
