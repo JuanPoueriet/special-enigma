@@ -45,7 +45,12 @@ export const AttendanceSchema = new EntitySchema<Attendance>({
     tenantId: { type: 'string' },
     employeeId: { type: 'string' },
     date: { type: 'Date' },
+    checkIn: { type: 'Date', nullable: true },
+    checkOut: { type: 'Date', nullable: true },
     status: { type: 'string' },
+    employee: { kind: 'm:1', entity: 'Employee' },
+    createdAt: { type: 'Date' },
+    updatedAt: { type: 'Date' },
   },
 });
 
@@ -53,10 +58,15 @@ export const PayrollDetailSchema = new EntitySchema<PayrollDetail>({
   class: PayrollDetail,
   properties: {
     id: { primary: true, type: 'uuid' },
+    tenantId: { type: 'string' },
     payroll: { kind: 'm:1', entity: 'Payroll' },
     employeeId: { type: 'string' },
+    concept: { type: 'string' },
+    amount: { type: 'number' },
+    type: { type: 'string' },
     grossSalary: { type: 'string' },
     netSalary: { type: 'string' },
     taxWithheld: { type: 'string' },
+    createdAt: { type: 'Date' },
   },
 });

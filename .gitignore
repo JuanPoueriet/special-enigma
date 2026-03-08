@@ -49,7 +49,6 @@ vitest.config.*.timestamp*
 *.log
 
 # Local Env
-.env
 *.db
 
 # Jules' ignore

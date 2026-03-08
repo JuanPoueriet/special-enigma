@@ -36,6 +36,8 @@ export class Invoice {
 
   xmlContent?: string;
 
+  description?: string;
+
   stampedAt?: Date;
   items: InvoiceItem[] = [];
 

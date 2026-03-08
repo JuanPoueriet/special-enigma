@@ -11,7 +11,7 @@ export const OpportunitySchema = new EntitySchema<Opportunity>({
     amount: { type: 'number', nullable: true },
     stage: { enum: true, items: () => OpportunityStage, default: OpportunityStage.PROSPECTING },
     closeDate: { type: 'Date', nullable: true },
-    customer: { reference: 'm:1', entity: 'Customer', inversedBy: 'opportunities' },
+    customer: { kind: 'm:1', entity: 'Customer', inversedBy: 'opportunities' },
     createdAt: { type: 'Date', onCreate: () => new Date() },
     updatedAt: { type: 'Date', onCreate: () => new Date(), onUpdate: () => new Date() },
   },

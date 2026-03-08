@@ -1,5 +1,10 @@
-import { SaleStatus } from '@virteex/domain-crm-domain';
 import { v4 } from 'uuid';
+
+export enum SaleStatus {
+  DRAFT = 'DRAFT',
+  CONFIRMED = 'CONFIRMED',
+  CANCELLED = 'CANCELLED',
+}
 
 export class Sale {
   id: string = v4();

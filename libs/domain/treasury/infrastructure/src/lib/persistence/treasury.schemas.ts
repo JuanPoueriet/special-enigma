@@ -1,39 +1,48 @@
-import { EntitySchema, Cascade } from '@mikro-orm/core';
-import { BankAccount, CashFlow, Transaction } from '@virteex/domain-treasury-domain';
+import { EntitySchema } from '@mikro-orm/core';
+import { BankAccount, CashFlow, Transaction } from '../../../../domain/src';
 
-export const BankAccountSchema = new EntitySchema<BankAccount>({
+export const bankAccountSchema = new EntitySchema<BankAccount>({
   class: BankAccount,
   properties: {
-    id: { primary: true, type: 'uuid' },
+    id: { type: 'string', primary: true },
     tenantId: { type: 'string' },
+    name: { type: 'string' },
     accountNumber: { type: 'string' },
     bankName: { type: 'string' },
+    balance: { type: 'number' },
     currency: { type: 'string' },
-    balance: { type: 'string', default: '0' },
+    transactions: { kind: '1:m', entity: () => 'CashFlow', mappedBy: 'bankAccount' },
+    createdAt: { type: 'Date' },
+    updatedAt: { type: 'Date' },
   },
 });
 
-export const CashFlowSchema = new EntitySchema<CashFlow>({
+export const cashFlowSchema = new EntitySchema<CashFlow>({
   class: CashFlow,
   properties: {
-    id: { primary: true, type: 'uuid' },
+    id: { type: 'string', primary: true },
     tenantId: { type: 'string' },
+    amount: { type: 'number' },
     date: { type: 'Date' },
-    amount: { type: 'string' },
     type: { type: 'string' },
-    category: { type: 'string' },
+    description: { type: 'string' },
+    reference: { type: 'string', nullable: true },
+    bankAccount: { kind: 'm:1', entity: () => 'BankAccount' },
+    createdAt: { type: 'Date' },
   },
 });
 
-export const TransactionSchema = new EntitySchema<Transaction>({
+export const transactionSchema = new EntitySchema<Transaction>({
   class: Transaction,
   properties: {
-    id: { primary: true, type: 'uuid' },
+    id: { type: 'string', primary: true },
     tenantId: { type: 'string' },
-    bankAccount: { kind: 'm:1', entity: 'BankAccount' },
+    amount: { type: 'number' },
     date: { type: 'Date' },
-    amount: { type: 'string' },
+    type: { type: 'string' },
     description: { type: 'string' },
-    status: { type: 'string' },
+    reference: { type: 'string', nullable: true },
+    bankAccount: { kind: 'm:1', entity: () => 'BankAccount' },
+    createdAt: { type: 'Date' },
   },
 });

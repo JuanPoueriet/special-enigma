@@ -1,4 +1,9 @@
-import { StatementLine } from '@virteex/domain-treasury-contracts';
+export interface StatementLine {
+    date: Date;
+    amount: number;
+    description: string;
+    reference?: string;
+}
 
 export interface ParserResult {
     lines: StatementLine[];

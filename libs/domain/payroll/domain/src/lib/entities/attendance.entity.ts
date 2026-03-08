@@ -12,6 +12,7 @@ export class Attendance {
 
   status: AttendanceStatus = AttendanceStatus.PRESENT;
   employee!: Employee;
+  employeeId!: string;
 
   createdAt: Date = new Date();
 

@@ -24,7 +24,7 @@ export class MikroOrmJournalEntryRepository implements JournalEntryRepository {
   }
 
   async getBalancesByAccount(tenantId: string, startDate?: Date, endDate?: Date, dimensions?: Record<string, string>): Promise<Map<string, { debit: string; credit: string }>> {
-    const qb = this.em.createQueryBuilder('JournalEntryLine', 'l');
+    const qb = (this.em as any).createQueryBuilder('JournalEntryLine', 'l');
     qb.select(['l.account_id', 'SUM(l.debit) as total_debit', 'SUM(l.credit) as total_credit'])
       .join('l.journalEntry', 'e')
       .where({ 'e.tenantId': tenantId });

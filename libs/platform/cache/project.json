@@ -18,6 +18,20 @@
       "options": {
         "reportsDirectory": "../../../../coverage/libs/platform/cache"
       }
+    },
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/platform/cache",
+        "main": "libs/platform/cache/src/index.ts",
+        "tsConfig": "libs/platform/cache/tsconfig.lib.json",
+        "assets": [
+          "libs/platform/cache/*.md"
+        ]
+      }
     }
   }
 }

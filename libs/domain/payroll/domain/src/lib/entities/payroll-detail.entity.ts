@@ -11,6 +11,10 @@ export class PayrollDetail {
   amount!: number;
   type!: PayrollDetailType;
   payroll!: Payroll;
+  employeeId!: string;
+  grossSalary!: string;
+  netSalary!: string;
+  taxWithheld!: string;
 
   createdAt: Date = new Date();
 

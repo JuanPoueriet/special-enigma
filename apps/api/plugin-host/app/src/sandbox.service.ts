@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import * as ivm from 'isolated-vm';
+import ivm = require('isolated-vm');
 import * as crypto from 'crypto';
 import * as https from 'https';
 import * as dns from 'dns';
@@ -48,7 +48,7 @@ export class SandboxService {
         const jail = context.global;
         jail.setSync('global', jail.derefInto());
 
-        const logRef = new ivm.Reference((val: any) => {
+        const logRef = new (ivm.Reference as any)((val: any) => {
             logs.push(String(val));
         });
         jail.setSync('__logRaw', logRef);
@@ -56,7 +56,7 @@ export class SandboxService {
         const wasmUint8 = new Uint8Array(wasmBuffer);
         const wasmCopy = new ivm.ExternalCopy(wasmUint8.buffer.slice(wasmUint8.byteOffset, wasmUint8.byteOffset + wasmUint8.byteLength));
 
-        await context.evalClosure(
+        await (context as any).evalClosure(
             `
             const logRef = __logRaw;
             const log = (val) => logRef.applySync(undefined, [val]);
@@ -77,7 +77,7 @@ export class SandboxService {
             throw new Error('No main function');
             `,
             [wasmCopy.copyInto()],
-            { timeout, promise: true }
+            { timeout, promise: true } as any
         );
 
         return {
@@ -128,7 +128,7 @@ export class SandboxService {
       const jail = context.global;
       jail.setSync('global', jail.derefInto());
 
-      const syscallRef = new ivm.Reference(async (op: string, payloadJson: string) => {
+      const syscallRef = new (ivm.Reference as any)(async (op: string, payloadJson: string) => {
           try {
               if (op === 'fetch') egressCount++;
               const res = await this.handleSyscall({ op, payload: JSON.parse(payloadJson) }, logs, capabilities);
@@ -139,7 +139,7 @@ export class SandboxService {
       });
       jail.setSync('__syscallRaw', syscallRef);
 
-      context.evalSync(`
+      (context as any).evalSync(`
           const syscallRef = __syscallRaw;
           global.__syscall = (op, payload) => {
               return syscallRef.apply(undefined, [op, JSON.stringify(payload)], { result: { promise: true, copy: true } });
