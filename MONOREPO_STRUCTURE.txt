@@ -1,68 +1,76 @@
 virteex-monorepo/
 ├── apps/
 │   ├── api/                  # Backend Services (Composition Roots)
-│   │   ├── accounting/
-│   │   ├── admin/
-│   │   ├── billing/
-│   │   ├── gateway/          # API Gateway
+│   │   ├── accounting/       # Accounting Microservice
+│   │   │   ├── app/          # Source Code (NestJS)
+│   │   │   │   ├── src/app/  # App Modules
+│   │   │   │   └── main.ts   # Entry Point
+│   │   │   └── e2e/          # End-to-End Tests
+│   │   ├── gateway/          # API Gateway (Apollo Gateway)
 │   │   ├── identity/         # Identity Provider
-│   │   └── ... (other domains)
-│   ├── web/                  # Web Applications
-│   │   ├── portal/           # Main Customer Portal
+│   │   └── ... (admin, bi, billing, catalog, crm, etc.)
+│   ├── web/                  # Web Applications (Angular/Ionic)
+│   │   ├── portal/           # Customer Portal
 │   │   ├── pos/              # Point of Sale
-│   │   ├── shopfloor/
-│   │   └── ... (other apps)
-│   ├── mobile/               # Mobile Applications (Ionic)
-│   ├── desktop/              # Desktop Applications (Electron)
+│   │   └── ... (shopfloor, site, store, support, wms)
+│   ├── mobile/               # Mobile Applications (Ionic/Capacitor)
+│   ├── desktop/              # Desktop Applications (Electron/Tauri)
 │   └── worker/               # Background Workers
 │
 ├── libs/
 │   ├── domain/               # Domain Business Logic (Clean Architecture)
-│   │   ├── accounting/
-│   │   │   ├── application/    # Use Cases & Orchestration
-│   │   │   ├── domain/         # Entities, Value Objects, Repository Interfaces
+│   │   ├── accounting/       # Domain: Accounting
+│   │   │   ├── application/    # Use Cases & DTOs
+│   │   │   ├── domain/         # Entities, Value Objects, Repositories
 │   │   │   ├── infrastructure/ # Persistance (MikroORM), External Adapters
 │   │   │   ├── presentation/   # NestJS Controllers / GraphQL Resolvers
-│   │   │   └── contracts/      # Shared Interfaces & DTOs
-│   │   ├── identity/
-│   │   └── ... (other domains)
-│   ├── kernel/               # Core Utilities (Framework independent)
-│   │   ├── audit/
-│   │   ├── auth/
-│   │   ├── exceptions/
-│   │   └── tenant/
-│   ├── platform/             # Infrastructure Abstractions
-│   │   ├── kafka/
-│   │   ├── storage/
-│   │   └── cache/
-│   └── shared/               # UI and General Utilities
-│       ├── ui/
-│       ├── util/
-│       └── validators/
+│   │   │   ├── contracts/      # Shared Interfaces
+│   │   │   └── ui/             # Domain-specific UI components
+│   │   └── ... (all 20+ business domains)
+│   ├── kernel/               # Core Utilities (Cross-cutting Concerns)
+│   │   ├── audit/            # Audit Log System
+│   │   ├── auth/             # Authentication Logic
+│   │   ├── exceptions/       # Custom Error Types
+│   │   ├── messaging/        # Event-driven Messaging
+│   │   ├── telemetry/        # OpenTelemetry Instrumentation
+│   │   └── tenant/           # Multi-tenancy Logic
+│   ├── platform/             # Infrastructure Abstractions (Shared Libs)
+│   │   ├── kafka/            # Kafka Producers/Consumers
+│   │   ├── storage/          # S3/Blob Storage Wrappers
+│   │   └── cache/            # Redis/In-memory Cache
+│   └── shared/               # Shared UI and Low-level Utilities
+│       ├── ui/               # Global UI Components (Angular)
+│       ├── util/             # Client/Server helper functions
+│       └── validators/       # Domain-agnostic validators
 │
 ├── platform/                 # Global Infrastructure & DevOps
-│   ├── helm/                 # Kubernetes Charts
-│   ├── infrastructure/       # Terraform & Docker
-│   ├── kubernetes/           # K8s Manifests
-│   ├── observability/        # Grafana, Prometheus, ELK
-│   └── policies/             # OPA (Open Policy Agent) Rules
+│   ├── helm/                 # Kubernetes Helm Charts
+│   │   └── virteex/          # Main System Chart
+│   ├── infrastructure/       # IaC
+│   │   ├── docker/           # Dockerfiles & Compose
+│   │   └── terraform/        # Cloud Resources
+│   ├── kubernetes/           # K8s Manifests & Templates
+│   ├── observability/        # Monitoring & Logging
+│   │   └── dashboards/       # Grafana JSONs
+│   └── policies/             # OPA (Open Policy Agent) Rego Files
 │
 ├── tools/                    # Tooling & Quality Assurance
-│   ├── generators/           # Nx Workspace Generators
-│   ├── quality-gates/        # Architecture & Security Enforcers
-│   ├── readiness/            # Production Readiness Scripts
-│   └── scripts/              # Migration & Maintenance Scripts
+│   ├── generators/           # Custom Nx Generators
+│   ├── quality-gates/        # Automated Checks (Architecture, Security, Docs)
+│   ├── readiness/            # Production Readiness Enforcement
+│   └── scripts/              # Workspace Maintenance Scripts
 │
 ├── docs/                     # Technical Documentation
-│   ├── adr/                  # Architectural Decision Records
-│   ├── architecture/         # System Diagrams & Designs
-│   ├── governance/           # Standards & Policies
-│   └── runbooks/             # Ops Procedures
+│   ├── adr/                  # Architectural Decision Records (ADRs)
+│   ├── architecture/         # Diagrams & C4 Model
+│   ├── governance/           # Standards, Compliance & Security
+│   ├── runbooks/             # On-call Procedures
+│   └── MONOREPO_MAP.md       # High-level architecture map
 │
-├── config/                   # Shared Configuration files
-├── evidence/                 # Generated Audit & Compliance Evidence
+├── config/                   # Global Config Templates
+├── evidence/                 # Compliance & Audit Evidence Exports
 ├── .github/                  # CI/CD Workflows
-├── nx.json                   # Nx Workspace Config
-├── package.json              # Main dependencies & Scripts
-├── tsconfig.base.json        # Base TypeScript Config
-└── README.md                 # Project Overview
+├── nx.json                   # Nx Monorepo Configuration
+├── package.json              # Workspace-wide Dependencies & Scripts
+├── tsconfig.base.json        # Base TypeScript Configuration
+└── README.md                 # Project Overview & Quickstart
