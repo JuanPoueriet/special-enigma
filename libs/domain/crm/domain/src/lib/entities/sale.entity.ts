@@ -2,6 +2,9 @@ import { v4 } from 'uuid';
 
 export enum SaleStatus {
   DRAFT = 'DRAFT',
+  NEGOTIATION = 'NEGOTIATION',
+  APPROVED = 'APPROVED',
+  COMPLETED = 'COMPLETED',
   CONFIRMED = 'CONFIRMED',
   CANCELLED = 'CANCELLED',
 }

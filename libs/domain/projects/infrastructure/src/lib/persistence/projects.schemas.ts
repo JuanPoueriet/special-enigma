@@ -19,11 +19,11 @@ export const TaskSchema = new EntitySchema<Task>({
   class: Task,
   properties: {
     id: { primary: true, type: 'uuid' },
+    tenantId: { type: 'string' },
     project: { kind: 'm:1', entity: 'Project' },
     name: { type: 'string' },
     description: { type: 'string', nullable: true },
     status: { type: 'string' },
     assignedToId: { type: 'string', nullable: true },
-    dueDate: { type: 'Date', nullable: true },
   },
 });

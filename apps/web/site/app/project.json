@@ -18,21 +18,21 @@
       ],
       "options": {
         "outputPath": "dist/apps/web-site-app",
-        "browser": "apps/web-site-app/src/main.ts",
-        "tsConfig": "apps/web-site-app/tsconfig.app.json",
+        "browser": "apps/web/site/app/src/main.ts",
+        "tsConfig": "apps/web/site/app/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
           {
             "glob": "**/*",
-            "input": "apps/web-site-app/public"
+            "input": "apps/web/site/app/public"
           }
         ],
         "styles": [
-          "apps/web-site-app/src/styles.scss"
+          "apps/web/site/app/src/styles.scss"
         ],
-        "server": "apps/web-site-app/src/main.server.ts",
+        "server": "apps/web/site/app/src/main.server.ts",
         "ssr": {
-          "entry": "apps/web-site-app/src/server.ts"
+          "entry": "apps/web/site/app/src/server.ts"
         },
         "outputMode": "server"
       },
