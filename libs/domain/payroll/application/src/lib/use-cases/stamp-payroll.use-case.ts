@@ -1,6 +1,5 @@
 import { Injectable, Inject, Logger } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { PayrollStatus, PayrollDetailType } from '@virteex/domain-payroll-contracts';
 import {
   PayrollRepository,
   PAYROLL_REPOSITORY,
@@ -9,7 +8,9 @@ import {
   TenantConfigRepository,
   TENANT_CONFIG_REPOSITORY,
   PayrollStampedEvent,
-  Payroll
+  Payroll,
+  PayrollStatus,
+  PayrollDetailType
 } from '@virteex/domain-payroll-domain';
 import { XMLBuilder } from 'fast-xml-parser';
 import { XsltService } from '@virteex/platform-xslt';

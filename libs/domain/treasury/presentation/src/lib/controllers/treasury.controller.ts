@@ -2,8 +2,18 @@ import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CreateBankAccountDto, BankAccountDto } from '@virteex/domain-treasury-contracts';
 import { CreateBankAccountUseCase, GetBankAccountsUseCase, RegisterTransactionUseCase, GetCashFlowUseCase } from '@virteex/domain-treasury-application';
-import { RegisterTransactionDto, TransactionDto } from '@virteex/domain-treasury-contracts';
-import { Transaction } from '@virteex/domain-treasury-domain';
+import {
+  RegisterTransactionDto,
+  TransactionDto,
+  TransactionType as ContractTransactionType
+} from '@virteex/domain-treasury-contracts';
+import { Transaction, TransactionType as DomainTransactionType } from '@virteex/domain-treasury-domain';
+
+
+const DOMAIN_TO_CONTRACT_TYPE: Record<DomainTransactionType, ContractTransactionType> = {
+  [DomainTransactionType.CREDIT]: ContractTransactionType.DEPOSIT,
+  [DomainTransactionType.DEBIT]: ContractTransactionType.WITHDRAWAL
+};
 
 @ApiTags('Treasury')
 @Controller('treasury')
@@ -51,7 +61,7 @@ export class TreasuryController {
       tenantId: entity.tenantId,
       date: entity.date,
       amount: entity.amount,
-      type: entity.type,
+      type: DOMAIN_TO_CONTRACT_TYPE[entity.type],
       description: entity.description,
       reference: entity.reference,
       bankAccountId: entity.bankAccount.id // Assumes loaded or reference

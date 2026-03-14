@@ -35,7 +35,8 @@
         "assets": [
           "libs/shared/ui/*.md"
         ],
-        "generateExportsField": true
+        "generateExportsField": true,
+        "rootDir": "."
       }
     }
   }

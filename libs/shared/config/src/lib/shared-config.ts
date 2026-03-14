@@ -4,6 +4,9 @@ export interface AppConfig {
   apiUrl: string;
   production: boolean;
   vapidPublicKey?: string;
+  recaptcha?: {
+    siteKey: string;
+  };
 }
 
 export const APP_CONFIG = new InjectionToken<AppConfig>('APP_CONFIG');

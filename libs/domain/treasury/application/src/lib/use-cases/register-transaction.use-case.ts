@@ -1,10 +1,22 @@
 import { DomainException } from '@virteex/shared-util-server-server-config';
 import { Injectable, Inject } from '@nestjs/common';
-import { Transaction } from '@virteex/domain-treasury-domain/lib/entities/transaction.entity';
-import { TransactionType } from '@virteex/domain-treasury-contracts/enums/transaction-type.enum';
-import { TransactionRepository } from '@virteex/domain-treasury-domain/lib/repositories/transaction.repository';
-import { BankAccountRepository } from '@virteex/domain-treasury-domain/lib/repositories/bank-account.repository';
-import { RegisterTransactionDto } from '@virteex/domain-treasury-contracts/dtos/register-transaction.dto';
+import {
+  Transaction,
+  TransactionType as DomainTransactionType,
+  TransactionRepository,
+  BankAccountRepository
+} from '@virteex/domain-treasury-domain';
+import {
+  RegisterTransactionDto,
+  TransactionType as ContractTransactionType
+} from '@virteex/domain-treasury-contracts';
+
+
+const TRANSACTION_TYPE_MAP: Record<ContractTransactionType, DomainTransactionType> = {
+  [ContractTransactionType.DEPOSIT]: DomainTransactionType.CREDIT,
+  [ContractTransactionType.WITHDRAWAL]: DomainTransactionType.DEBIT,
+  [ContractTransactionType.TRANSFER]: DomainTransactionType.DEBIT
+};
 
 @Injectable()
 export class RegisterTransactionUseCase {
@@ -25,7 +37,7 @@ export class RegisterTransactionUseCase {
       dto.tenantId,
       bankAccount,
       dto.amount,
-      dto.type,
+      TRANSACTION_TYPE_MAP[dto.type],
       dto.description
     );
 

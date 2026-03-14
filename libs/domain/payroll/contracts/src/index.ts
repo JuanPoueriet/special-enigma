@@ -1,1 +1,1 @@
-export * from './lib/payroll-contracts';
+export * from './lib/dtos/calculate-payroll.dto';
