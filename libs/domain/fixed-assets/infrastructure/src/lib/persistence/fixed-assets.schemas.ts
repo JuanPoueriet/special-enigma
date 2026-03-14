@@ -12,6 +12,8 @@ export const FixedAssetSchema = new EntitySchema<FixedAsset>({
     acquisitionCost: { type: 'decimal', precision: 10, scale: 2 },
     depreciationRate: { type: 'number' },
     status: { enum: true, items: () => AssetStatus },
+    depreciationMethod: { type: 'string' },
+    depreciations: { kind: '1:m', entity: 'Depreciation', mappedBy: 'asset' },
   },
 });
 
@@ -29,6 +31,8 @@ export const AssetSchema = new EntitySchema<Asset>({
     updatedAt: { type: 'Date' },
     name: { type: 'string' },
     status: { enum: true, items: () => AssetStatus },
+    depreciationMethod: { type: 'string' },
+    depreciations: { kind: '1:m', entity: 'Depreciation', mappedBy: 'asset' },
   },
 });
 
@@ -38,6 +42,7 @@ export const DepreciationSchema = new EntitySchema<Depreciation>({
     id: { primary: true, type: 'uuid' },
     tenantId: { type: 'string' },
     assetId: { type: 'string' },
+    asset: { kind: 'm:1', entity: 'Asset' },
     date: { type: 'Date' },
     amount: { type: 'number' },
     accumulatedDepreciation: { type: 'number' },

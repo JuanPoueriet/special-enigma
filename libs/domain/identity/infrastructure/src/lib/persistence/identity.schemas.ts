@@ -1,7 +1,7 @@
 import { EntitySchema } from '@mikro-orm/core';
 import { User, Company, AuditLog, Session, JobTitle } from '@virteex/domain-identity-domain';
 
-export const UserSchema = new EntitySchema<User>({
+export const UserSchema = new EntitySchema<any>({
   class: User,
   schema: 'identity',
   tableName: 'user',
@@ -32,7 +32,7 @@ export const UserSchema = new EntitySchema<User>({
   },
 });
 
-export const CompanySchema = new EntitySchema<Company>({
+export const CompanySchema = new EntitySchema<any>({
   class: Company,
   properties: {
     id: { primary: true, type: 'uuid' },
@@ -43,7 +43,7 @@ export const CompanySchema = new EntitySchema<Company>({
   },
 });
 
-export const AuditLogSchema = new EntitySchema<AuditLog>({
+export const AuditLogSchema = new EntitySchema<any>({
   class: AuditLog,
   properties: {
     id: { primary: true, type: 'uuid' },
@@ -57,7 +57,7 @@ export const AuditLogSchema = new EntitySchema<AuditLog>({
   },
 });
 
-export const SessionSchema = new EntitySchema<Session>({
+export const SessionSchema = new EntitySchema<any>({
   class: Session,
   properties: {
     id: { primary: true, type: 'uuid' },
@@ -68,7 +68,7 @@ export const SessionSchema = new EntitySchema<Session>({
   },
 });
 
-export const JobTitleSchema = new EntitySchema<JobTitle>({
+export const JobTitleSchema = new EntitySchema<any>({
   class: JobTitle,
   properties: {
     id: { primary: true, type: 'uuid' },

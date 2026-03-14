@@ -17,18 +17,18 @@
         "{options.outputPath}"
       ],
       "options": {
-        "outputPath": "dist/apps/web-shopfloor-app",
-        "browser": "apps/web-shopfloor-app/src/main.ts",
-        "tsConfig": "apps/web-shopfloor-app/tsconfig.app.json",
+        "outputPath": "dist/apps/web/shopfloor/app",
+        "browser": "apps/web/shopfloor/app/src/main.ts",
+        "tsConfig": "apps/web/shopfloor/app/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
           {
             "glob": "**/*",
-            "input": "apps/web-shopfloor-app/public"
+            "input": "apps/web/shopfloor/app/public"
           }
         ],
         "styles": [
-          "apps/web-shopfloor-app/src/styles.scss"
+          "apps/web/shopfloor/app/src/styles.scss"
         ]
       },
       "configurations": {
@@ -79,7 +79,7 @@
       "executor": "@nx/web:file-server",
       "options": {
         "buildTarget": "web-shopfloor-app:build",
-        "staticFilePath": "dist/apps/web-shopfloor-app/browser",
+        "staticFilePath": "dist/apps/web/shopfloor/app/browser",
         "spa": true
       }
     },
@@ -89,7 +89,7 @@
         "{options.reportsDirectory}"
       ],
       "options": {
-        "reportsDirectory": "../../coverage/apps/web-shopfloor-app"
+        "reportsDirectory": "../../coverage/apps/web/shopfloor/app"
       }
     }
   }

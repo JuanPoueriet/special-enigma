@@ -1,7 +1,7 @@
 import { DomainException } from '@virteex/shared-util-server-server-config';
 import { Injectable, Inject, Logger } from '@nestjs/common';
 import { Sale, SaleItem, SaleRepository, SaleStatus, CustomerRepository, InventoryService, CatalogService } from '@virteex/domain-crm-domain';
-import { StockReservationItem } from '@virteex/domain-crm-domain/ports/inventory.service';
+import type { StockReservationItem } from '@virteex/domain-crm-domain';
 import { CreateSaleDto } from '../dtos/create-sale.dto';
 import Decimal from 'decimal.js';
 import { OutboxService } from '@virteex/kernel-messaging';
@@ -83,7 +83,7 @@ export class CreateSaleUseCase {
         price.toString(),
         item.quantity.toString(),
       );
-      sale.items.add(saleItem);
+      sale.items.push(saleItem);
     }
 
     sale.total = total.toString();

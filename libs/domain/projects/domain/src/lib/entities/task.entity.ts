@@ -25,6 +25,7 @@ export class Task {
 
   project!: Project;
 
+    dueDate?: Date;
 
     createdAt: Date = new Date();
 

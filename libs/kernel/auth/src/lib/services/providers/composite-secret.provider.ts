@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { SecretProvider } from '../../interfaces/secret-provider.interface';
+import type { SecretProvider } from '../../interfaces/secret-provider.interface';
 
 @Injectable()
 export class CompositeSecretProvider implements SecretProvider {

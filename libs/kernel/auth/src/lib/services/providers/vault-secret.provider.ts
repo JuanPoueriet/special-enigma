@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { SecretProvider } from '../../interfaces/secret-provider.interface';
+import type { SecretProvider } from '../../interfaces/secret-provider.interface';
 import axios from 'axios';
 
 @Injectable()

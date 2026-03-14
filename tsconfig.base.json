@@ -391,6 +391,27 @@
       ],
       "@virteex/shared-util-auth": [
         "libs/shared/util/auth/src/index.ts"
+      ],
+      "@virteex/shared-util-http": [
+        "libs/shared/util/client/http/src/index.ts"
+      ],
+      "@virteex/identity-ui": [
+        "libs/domain/identity/ui/src/index.ts"
+      ],
+      "@virteex/accounting-ui": [
+        "libs/domain/accounting/ui/src/index.ts"
+      ],
+      "@virteex/inventory-ui": [
+        "libs/domain/inventory/ui-wms/src/index.ts"
+      ],
+      "@virteex/payroll-ui": [
+        "libs/domain/payroll/ui/src/index.ts"
+      ],
+      "@virteex/crm-ui": [
+        "libs/domain/crm/ui/src/index.ts"
+      ],
+      "@virteex/purchasing-ui": [
+        "libs/domain/purchasing/ui/src/index.ts"
       ]
     }
   },
