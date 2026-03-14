@@ -22,8 +22,8 @@ export enum NotificationChannel {
 }
 
 @Entity({ tableName: 'notifications' })
-@Index({ properties: ['tenantId', 'status'] })
-@Index({ properties: ['tenantId', 'idempotencyKey'], unique: true })
+@Index({ name: 'idx_notification_tenant_status', properties: ['tenantId', 'status'] })
+@Index({ name: 'idx_notification_tenant_idempotency', properties: ['tenantId', 'idempotencyKey'], unique: true })
 export class Notification {
   @PrimaryKey({ type: 'uuid' })
   id: string = v4();

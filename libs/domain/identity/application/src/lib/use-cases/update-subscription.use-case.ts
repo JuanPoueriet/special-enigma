@@ -1,6 +1,7 @@
 import { DomainException } from '@virteex/shared-util-server-server-config';
 import { Injectable, Inject } from '@nestjs/common';
 import { Tenant } from '@virteex/kernel-tenant';
+import { EntityManager } from '@mikro-orm/core';
 
 export class UpdateSubscriptionDto {
   plan!: string; // 'STARTER', 'PROFESSIONAL', 'ENTERPRISE'

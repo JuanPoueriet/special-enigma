@@ -18,17 +18,17 @@
       ],
       "options": {
         "outputPath": "dist/apps/web-wms-app",
-        "browser": "apps/web-wms-app/src/main.ts",
-        "tsConfig": "apps/web-wms-app/tsconfig.app.json",
+        "browser": "apps/web/wms/app/src/main.ts",
+        "tsConfig": "apps/web/wms/app/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
           {
             "glob": "**/*",
-            "input": "apps/web-wms-app/public"
+            "input": "apps/web/wms/app/public"
           }
         ],
         "styles": [
-          "apps/web-wms-app/src/styles.scss"
+          "apps/web/wms/app/src/styles.scss"
         ]
       },
       "configurations": {
@@ -46,7 +46,7 @@
             }
           ],
           "outputHashing": "all",
-          "serviceWorker": "apps/web-wms-app/ngsw-config.json"
+          "serviceWorker": "apps/web/wms/app/ngsw-config.json"
         },
         "development": {
           "optimization": false,

@@ -1,9 +1,6 @@
 import { DomainException } from '@virteex/shared-util-server-server-config';
 import { Injectable, Inject } from '@nestjs/common';
-import { Transaction } from '@virteex/domain-treasury-domain/entities/transaction.entity';
-import { TransactionType } from '@virteex/domain-treasury-contracts/enums/transaction-type.enum';
-import { TransactionRepository } from '@virteex/domain-treasury-domain/repositories/transaction.repository';
-import { BankAccountRepository } from '@virteex/domain-treasury-domain/repositories/bank-account.repository';
+import { Transaction, TransactionRepository, BankAccountRepository } from '@virteex/domain-treasury-domain';
 import { RegisterTransactionDto } from '@virteex/domain-treasury-contracts/dtos/register-transaction.dto';
 
 @Injectable()

@@ -18,17 +18,17 @@
       ],
       "options": {
         "outputPath": "dist/apps/web-shopfloor-app",
-        "browser": "apps/web-shopfloor-app/src/main.ts",
-        "tsConfig": "apps/web-shopfloor-app/tsconfig.app.json",
+        "browser": "apps/web/shopfloor/app/src/main.ts",
+        "tsConfig": "apps/web/shopfloor/app/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
           {
             "glob": "**/*",
-            "input": "apps/web-shopfloor-app/public"
+            "input": "apps/web/shopfloor/app/public"
           }
         ],
         "styles": [
-          "apps/web-shopfloor-app/src/styles.scss"
+          "apps/web/shopfloor/app/src/styles.scss"
         ]
       },
       "configurations": {

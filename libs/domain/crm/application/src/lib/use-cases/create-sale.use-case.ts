@@ -83,7 +83,7 @@ export class CreateSaleUseCase {
         price.toString(),
         item.quantity.toString(),
       );
-      sale.items.add(saleItem);
+      sale.items.push(saleItem);
     }
 
     sale.total = total.toString();

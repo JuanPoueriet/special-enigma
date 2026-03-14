@@ -7,11 +7,11 @@ export const FixedAssetSchema = new EntitySchema<FixedAsset>({
   properties: {
     id: { primary: true, type: 'uuid' },
     tenantId: { type: 'string' },
-    name: { type: 'string' },
+    name: { name: 'name', type: 'string' },
     acquisitionDate: { type: 'Date' },
-    acquisitionCost: { type: 'decimal', precision: 10, scale: 2 },
-    depreciationRate: { type: 'number' },
-    status: { enum: true, items: () => AssetStatus },
+    acquisitionCost: { name: 'acquisitionCost', type: 'string' },
+    depreciationRate: { name: 'depreciationRate', type: 'number' },
+    status: { name: 'status', enum: true, items: () => AssetStatus },
   },
 });
 
@@ -26,9 +26,9 @@ export const AssetSchema = new EntitySchema<Asset>({
     residualValue: { type: 'number' },
     usefulLifeMonths: { type: 'number' },
     createdAt: { type: 'Date' },
-    updatedAt: { type: 'Date' },
-    name: { type: 'string' },
-    status: { enum: true, items: () => AssetStatus },
+    updatedAt: { name: 'updatedAt', type: 'Date' },
+    name: { name: 'name', type: 'string' },
+    status: { name: 'status', enum: true, items: () => AssetStatus },
   },
 });
 
