@@ -35,7 +35,8 @@
         "assets": [
           "libs/shared/util/client/auth/*.md"
         ],
-        "generateExportsField": true
+        "generateExportsField": true,
+        "rootDir": "."
       }
     }
   }

@@ -1,5 +1,5 @@
 import { Injectable, Inject, Logger } from '@nestjs/common';
-import { PayrollStatus, PayrollType, PayrollDetailType } from '@virteex/domain-payroll-contracts';
+import { CalculatePayrollDto } from '@virteex/domain-payroll-contracts';
 import {
   EmployeeRepository,
   EMPLOYEE_REPOSITORY,
@@ -7,6 +7,9 @@ import {
   PAYROLL_REPOSITORY,
   Payroll,
   PayrollDetail,
+  PayrollStatus,
+  PayrollType,
+  PayrollDetailType,
   TaxStrategyFactory,
   TAX_STRATEGY_FACTORY,
   AttendanceRepository,
@@ -16,7 +19,6 @@ import {
   TENANT_CONFIG_REPOSITORY
 } from '@virteex/domain-payroll-domain';
 import { GlobalConfigService } from '@virteex/shared-util-server-server-config';
-import { CalculatePayrollDto } from '@virteex/domain-payroll-contracts-payroll-contracts';
 import {
   BadRequestException,
   EntityNotFoundException,
