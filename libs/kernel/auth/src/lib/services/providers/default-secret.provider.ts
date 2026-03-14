@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as fs from 'fs';
-import { SecretProvider } from '../../interfaces/secret-provider.interface';
+import type { SecretProvider } from '../../interfaces/secret-provider.interface';
 
 @Injectable()
 export class DefaultSecretProvider implements SecretProvider {

@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { execFileSync } from 'node:child_process';
 import { writeFileSync, unlinkSync } from 'node:fs';
-import { SecretProvider } from '../../interfaces/secret-provider.interface';
+import type { SecretProvider } from '../../interfaces/secret-provider.interface';
 
 @Injectable()
 export class KmsSecretProvider implements SecretProvider {

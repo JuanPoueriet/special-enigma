@@ -3,7 +3,8 @@
   "compilerOptions": {
     "outDir": "../../../../../dist/libs/shared/util/client/auth",
     "declaration": true,
-    "types": ["node"]
+    "types": ["node"],
+    "rootDir": "../../../../../"
   },
   "include": ["src/**/*.ts"],
   "files": [],

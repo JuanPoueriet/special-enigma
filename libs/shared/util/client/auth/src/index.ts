@@ -8,3 +8,5 @@ export const hasPermission = (permissions: string[] | undefined, required: strin
   if (!permissions) return false;
   return required.every(p => permissions.includes(p));
 };
+
+export * from './lib/services/storage/secure-storage.service';

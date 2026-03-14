@@ -1,22 +1,20 @@
-import { Entity, PrimaryKey, Property, Collection } from '@mikro-orm/core';
+import { Collection } from '@mikro-orm/core';
+import { ProjectStatus } from '@virteex/domain-projects-contracts';
+import { Task } from './task.entity';
 
-@Entity()
-export class Task {
-  @PrimaryKey()
-  id!: string;
-
-  @Property()
-  name!: string;
-}
-
-@Entity()
 export class Project {
-  @PrimaryKey()
   id!: string;
-
-  @Property()
+  tenantId!: string;
   name!: string;
-
-  @Property({ type: 'Collection' })
+  description?: string;
+  status: ProjectStatus = ProjectStatus.PLANNING;
+  startDate!: Date;
+  endDate?: Date;
   tasks = new Collection<Task>(this);
+
+  constructor(tenantId: string, name: string, startDate: Date) {
+    this.tenantId = tenantId;
+    this.name = name;
+    this.startDate = startDate;
+  }
 }

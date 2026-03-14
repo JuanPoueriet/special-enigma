@@ -24,4 +24,8 @@ export class MikroOrmUserRepository implements UserRepository {
     const entity = await this.em.findOne(UserOrmEntity, { id });
     return entity ? UserMapper.toDomain(entity) : null;
   }
+
+  async update(user: User): Promise<void> {
+    await this.save(user);
+  }
 }

@@ -1,4 +1,4 @@
-import { Entity, PrimaryKey, Property, Enum, OneToMany, Collection, Index, ManyToOne } from '@mikro-orm/core';
+import { Entity, PrimaryKey, Property, Enum, OneToMany, Collection, Index, ManyToOne, Unique } from '@mikro-orm/core';
 import { v4 } from 'uuid';
 
 export enum NotificationStatus {
@@ -23,7 +23,7 @@ export enum NotificationChannel {
 
 @Entity({ tableName: 'notifications' })
 @Index({ properties: ['tenantId', 'status'] })
-@Index({ properties: ['tenantId', 'idempotencyKey'], unique: true })
+@Unique({ properties: ['tenantId', 'idempotencyKey'] })
 export class Notification {
   @PrimaryKey({ type: 'uuid' })
   id: string = v4();
