@@ -1,0 +1,35 @@
+{
+  "name": "platform-desktop-hardware",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/platform/desktop/hardware/src",
+  "prefix": "virteex",
+  "projectType": "library",
+  "tags": [
+    "type:infrastructure",
+    "platform:desktop",
+    "criticality:medium",
+    "scope:platform"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/platform/desktop/hardware",
+        "main": "libs/platform/desktop/hardware/src/index.ts",
+        "tsConfig": "libs/platform/desktop/hardware/tsconfig.lib.json",
+        "assets": ["libs/platform/desktop/hardware/*.md"],
+        "generateExportsField": true
+      }
+    },
+    "test": {
+      "executor": "@nx/vitest:test",
+      "options": {
+        "reportsDirectory": "../../../../coverage/libs/platform/desktop/hardware"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

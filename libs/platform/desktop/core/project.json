@@ -1,0 +1,35 @@
+{
+  "name": "platform-desktop-core",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/platform/desktop/core/src",
+  "prefix": "virteex",
+  "projectType": "library",
+  "tags": [
+    "type:infrastructure",
+    "platform:desktop",
+    "criticality:medium",
+    "scope:platform"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/platform/desktop/core",
+        "main": "libs/platform/desktop/core/src/index.ts",
+        "tsConfig": "libs/platform/desktop/core/tsconfig.lib.json",
+        "assets": ["libs/platform/desktop/core/*.md"],
+        "generateExportsField": true
+      }
+    },
+    "test": {
+      "executor": "@nx/vitest:test",
+      "options": {
+        "reportsDirectory": "../../../../coverage/libs/platform/desktop/core"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

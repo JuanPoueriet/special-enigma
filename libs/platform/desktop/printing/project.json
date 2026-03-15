@@ -1,0 +1,35 @@
+{
+  "name": "platform-desktop-printing",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/platform/desktop/printing/src",
+  "prefix": "virteex",
+  "projectType": "library",
+  "tags": [
+    "type:infrastructure",
+    "platform:desktop",
+    "criticality:medium",
+    "scope:platform"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/platform/desktop/printing",
+        "main": "libs/platform/desktop/printing/src/index.ts",
+        "tsConfig": "libs/platform/desktop/printing/tsconfig.lib.json",
+        "assets": ["libs/platform/desktop/printing/*.md"],
+        "generateExportsField": true
+      }
+    },
+    "test": {
+      "executor": "@nx/vitest:test",
+      "options": {
+        "reportsDirectory": "../../../../coverage/libs/platform/desktop/printing"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

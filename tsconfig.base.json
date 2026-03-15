@@ -335,6 +335,18 @@
       "@virteex/platform-contract-governance": [
         "libs/platform/contract-governance/src/index.ts"
       ],
+      "@virteex/platform-desktop-core": [
+        "libs/platform/desktop/core/src/index.ts"
+      ],
+      "@virteex/platform-desktop-printing": [
+        "libs/platform/desktop/printing/src/index.ts"
+      ],
+      "@virteex/platform-desktop-storage": [
+        "libs/platform/desktop/storage/src/index.ts"
+      ],
+      "@virteex/platform-desktop-hardware": [
+        "libs/platform/desktop/hardware/src/index.ts"
+      ],
       "@virteex/shared-contracts": [
         "libs/shared/contracts/src/index.ts"
       ],
