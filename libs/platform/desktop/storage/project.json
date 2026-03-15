@@ -1,0 +1,35 @@
+{
+  "name": "platform-desktop-storage",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/platform/desktop/storage/src",
+  "prefix": "virteex",
+  "projectType": "library",
+  "tags": [
+    "type:infrastructure",
+    "platform:desktop",
+    "criticality:medium",
+    "scope:platform"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/platform/desktop/storage",
+        "main": "libs/platform/desktop/storage/src/index.ts",
+        "tsConfig": "libs/platform/desktop/storage/tsconfig.lib.json",
+        "assets": ["libs/platform/desktop/storage/*.md"],
+        "generateExportsField": true
+      }
+    },
+    "test": {
+      "executor": "@nx/vitest:test",
+      "options": {
+        "reportsDirectory": "../../../../coverage/libs/platform/desktop/storage"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}
