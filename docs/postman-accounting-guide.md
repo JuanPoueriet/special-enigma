@@ -2,7 +2,31 @@
 
 Esta guía detalla cómo probar los endpoints del servicio de Contabilidad (Accounting) utilizando Postman.
 
-## Configuración Inicial
+## Prerrequisitos y Ejecución
+
+Para poder probar el servicio, es necesario que la infraestructura base y el Gateway de la API estén en ejecución.
+
+### 1. Levantar Infraestructura (Docker)
+
+El proyecto utiliza Docker Compose para gestionar las bases de datos y servicios de mensajería. Ejecuta:
+
+```bash
+docker-compose up -d postgres redis kafka zookeeper
+```
+
+### 2. Ejecutar el API Gateway
+
+El API Gateway agrupa los controladores de los diferentes dominios (incluyendo Accounting) en modo desarrollo.
+
+```bash
+npm run dev:backend
+# O alternativamente usando Nx directamente:
+# npx nx serve api-gateway-app
+```
+
+> **Nota:** No es estrictamente necesario ejecutar el microservicio `accounting-service` de forma independiente si estás probando los endpoints REST a través del `api-gateway-app`, ya que este último importa el módulo de presentación de contabilidad directamente.
+
+## Configuración Inicial en Postman
 
 ### URL Base
 
