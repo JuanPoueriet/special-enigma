@@ -9,6 +9,7 @@ export * from './lib/middleware/csrf.middleware';
 export * from './lib/services/secret-manager.service';
 export * from './lib/decorators/current-user.decorator';
 export * from './lib/services/jwt-token.service';
+export * from './lib/services/mfa-helper.service';
 export * from './lib/services/tenant-context-contract.service';
 
 export * from './lib/guards/step-up.guard';

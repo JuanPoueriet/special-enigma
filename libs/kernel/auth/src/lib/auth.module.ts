@@ -14,6 +14,7 @@ import { CompositeSecretProvider } from './services/providers/composite-secret.p
 import { CsrfMiddleware } from './middleware/csrf.middleware';
 import { JwtTokenService } from './services/jwt-token.service';
 import { StepUpGuard } from './guards/step-up.guard';
+import { MfaHelperService } from './services/mfa-helper.service';
 
 @Module({
   imports: [ConfigModule, TelemetryModule, PassportModule.register({ defaultStrategy: 'jwt' }), JwtModule.register({})],
@@ -26,6 +27,7 @@ import { StepUpGuard } from './guards/step-up.guard';
     VaultSecretProvider,
     KmsSecretProvider,
     JwtTokenService,
+    MfaHelperService,
     StepUpGuard,
     CsrfMiddleware,
     {
@@ -41,7 +43,7 @@ import { StepUpGuard } from './guards/step-up.guard';
         inject: [DefaultSecretProvider, VaultSecretProvider, KmsSecretProvider]
     }
   ],
-  exports: [CanonicalTenantMiddleware, TenantGuard, SecretManagerService, JwtTokenService, StepUpGuard, PassportModule, JwtModule],
+  exports: [CanonicalTenantMiddleware, TenantGuard, SecretManagerService, JwtTokenService, MfaHelperService, StepUpGuard, PassportModule, JwtModule],
 })
 export class AuthModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

@@ -48,6 +48,22 @@
     "quality:verify-rollback-evidence": "node tools/quality-gates/verify-rollback-evidence.mjs"
   },
   "private": true,
+  "overrides": {
+    "rimraf": "^6.1.3",
+    "glob": "^13.0.6",
+    "@npmcli/move-file": "^2.0.1",
+    "scmp": "npm:tsscmp@^1.0.6",
+    "node-gyp": {
+      "rimraf": "^6.1.3",
+      "glob": "^13.0.6",
+      ".": "^12.2.0"
+    },
+    "cacache": {
+      "rimraf": "^6.1.3",
+      "glob": "^13.0.6",
+      "@npmcli/move-file": "^2.0.1"
+    }
+  },
   "devDependencies": {
     "@analogjs/vite-plugin-angular": "~2.1.2",
     "@analogjs/vitest-angular": "~2.1.2",
@@ -188,7 +204,6 @@
     "@opentelemetry/resources": "^2.5.0",
     "@opentelemetry/sdk-node": "^0.211.0",
     "@opentelemetry/semantic-conventions": "^1.39.0",
-    "@otplib/preset-default": "^12.0.1",
     "@simplewebauthn/browser": "^13.2.2",
     "@types/cookie-parser": "^1.4.10",
     "@types/cron": "^2.0.1",

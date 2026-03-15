@@ -1,9 +1,8 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from '@virteex/domain-identity-domain';
-import { authenticator } from '@otplib/preset-default';
 import * as crypto from 'crypto';
 import * as argon2 from 'argon2';
-import { JwtTokenService, SecretManagerService } from '@virteex/kernel-auth';
+import { JwtTokenService, SecretManagerService, MfaHelperService } from '@virteex/kernel-auth';
 
 interface JwtPayload {
   [key: string]: unknown;
@@ -15,7 +14,11 @@ export class Argon2AuthService implements AuthService {
   private readonly encryptionKey: Buffer;
   private readonly algorithm = 'aes-256-gcm';
 
-  constructor(private secretManager: SecretManagerService, private readonly jwtTokenService: JwtTokenService) {
+  constructor(
+    private secretManager: SecretManagerService,
+    private readonly jwtTokenService: JwtTokenService,
+    private readonly mfaHelper: MfaHelperService
+  ) {
     this.secret = this.secretManager.getJwtSecret();
     if (!this.secret) {
       throw new Error('JWT_SECRET is not defined in secret manager.');
@@ -72,15 +75,11 @@ export class Argon2AuthService implements AuthService {
   }
 
   generateMfaSecret(): string {
-    return authenticator.generateSecret();
+    return this.mfaHelper.generateSecret();
   }
 
   verifyMfaToken(token: string, secret: string): boolean {
-    try {
-      return authenticator.check(token, secret);
-    } catch {
-      return false;
-    }
+    return this.mfaHelper.verifyToken(token, secret);
   }
 
   async encrypt(text: string): Promise<string> {
