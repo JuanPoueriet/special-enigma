@@ -2,7 +2,7 @@ import { UserStatus } from '../enums/user-status.enum';
 import { Role } from '../models/user-dtos';
 import { User as AuthUser } from '@virteex/shared-util-auth';
 
-export { Role };
+export type { Role };
 
 export interface Organization {
   id: string;
