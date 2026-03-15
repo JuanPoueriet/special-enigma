@@ -1,8 +1,7 @@
 import { Injectable, UnauthorizedException, Logger } from '@nestjs/common';
 import { AuthService } from '@virteex/domain-identity-domain';
-import { JwtTokenService, SecretManagerService } from '@virteex/kernel-auth';
+import { JwtTokenService, SecretManagerService, MfaHelperService } from '@virteex/kernel-auth';
 import * as jwt from 'jsonwebtoken';
-import { authenticator } from '@otplib/preset-default';
 import * as crypto from 'crypto';
 
 @Injectable()
@@ -13,7 +12,11 @@ export class KeycloakAuthService implements AuthService {
   private readonly encryptionKey: Buffer;
   private readonly algorithm = 'aes-256-gcm';
 
-  constructor(private secretManager: SecretManagerService, private readonly jwtTokenService: JwtTokenService) {
+  constructor(
+    private secretManager: SecretManagerService,
+    private readonly jwtTokenService: JwtTokenService,
+    private readonly mfaHelper: MfaHelperService
+  ) {
       this.clientSecret = this.secretManager.getSecret('KEYCLOAK_CLIENT_SECRET', 'dev-keycloak-secret');
       this.issuer = this.secretManager.getSecret('KEYCLOAK_ISSUER', 'https://keycloak.virteex.com/auth/realms/virteex');
 
@@ -64,15 +67,11 @@ export class KeycloakAuthService implements AuthService {
   }
 
   generateMfaSecret(): string {
-      return authenticator.generateSecret();
+    return this.mfaHelper.generateSecret();
   }
 
   verifyMfaToken(token: string, secret: string): boolean {
-      try {
-        return authenticator.check(token, secret);
-      } catch {
-        return false;
-      }
+    return this.mfaHelper.verifyToken(token, secret);
   }
 
   async encrypt(text: string): Promise<string> {
