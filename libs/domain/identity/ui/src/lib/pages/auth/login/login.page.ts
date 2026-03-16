@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
 import { LanguageService, CountryService } from '@virteex/shared-ui';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { RecaptchaV3Module, ReCaptchaV3Service } from 'ng-recaptcha-19';
+import { RecaptchaV3Module, ReCaptchaV3Service, RECAPTCHA_V3_SITE_KEY } from 'ng-recaptcha-19';
 import { LucideAngularModule, Mail, Lock, User, ArrowRight, AlertCircle, CheckCircle, ShieldCheck } from 'lucide-angular';
 
 // Shared Components
@@ -13,7 +13,6 @@ import { AuthLayoutComponent } from '../components/auth-layout/auth-layout.compo
 import { AuthInputComponent } from '../components/auth-input/auth-input.component';
 import { AuthButtonComponent } from '../components/auth-button/auth-button.component';
 import { SocialAuthButtonsComponent } from '../components/social-auth-buttons/social-auth-buttons.component';
-import { PasskeyButtonComponent } from '../components/passkey-button/passkey-button.component';
 import { OtpComponent } from '@virteex/shared-ui';
 
 @Component({
@@ -30,7 +29,6 @@ import { OtpComponent } from '@virteex/shared-ui';
     AuthInputComponent,
     AuthButtonComponent,
     SocialAuthButtonsComponent,
-    PasskeyButtonComponent,
     OtpComponent
   ],
   providers: [

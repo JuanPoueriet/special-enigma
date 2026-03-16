@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { CountryService } from '@virteex/shared-ui/lib/core/services/country.service';
+import { CountryService } from '@virteex/shared-ui';
 import { AuthInputComponent } from '../../../components/auth-input/auth-input.component';
 
 @Component({
@@ -14,7 +14,7 @@ import { AuthInputComponent } from '../../../components/auth-input/auth-input.co
 })
 export class StepConfiguration {
   @Input() group!: FormGroup;
-  public countryService = inject(CountryService);
+  public countryService: CountryService = inject(CountryService);
   private translate = inject(TranslateService);
   private router = inject(Router);
 
