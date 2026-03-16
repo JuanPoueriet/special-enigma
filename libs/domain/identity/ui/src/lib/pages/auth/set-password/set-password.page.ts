@@ -1,4 +1,4 @@
-import { APP_CONFIG } from '@virteex/shared-config';
+import { APP_CONFIG, AppConfig } from '@virteex/shared-config';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -45,7 +45,8 @@ const passwordMatchValidator: ValidatorFn = (group: AbstractControl): Validation
     ReCaptchaV3Service,
     {
       provide: RECAPTCHA_V3_SITE_KEY,
-      useFactory: () => this.config.recaptcha.siteKey
+      useFactory: (config: AppConfig) => config.recaptcha.siteKey,
+      deps: [APP_CONFIG]
     }
   ],
   templateUrl: './set-password.page.html'
