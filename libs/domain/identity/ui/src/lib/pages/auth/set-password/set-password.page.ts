@@ -45,7 +45,7 @@ const passwordMatchValidator: ValidatorFn = (group: AbstractControl): Validation
     ReCaptchaV3Service,
     {
       provide: RECAPTCHA_V3_SITE_KEY,
-      useFactory: (config: AppConfig) => config.recaptcha.siteKey,
+      useFactory: (config: AppConfig) => config.recaptcha?.siteKey || '',
       deps: [APP_CONFIG]
     }
   ],
