@@ -1,0 +1,117 @@
+virteex-erp-monorepo/
+│
+├── apps/
+│   ├── api/                # Backend services (NestJS)
+│   │   ├── accounting/
+│   │   ├── admin/
+│   │   ├── bi/
+│   │   ├── billing/
+│   │   ├── catalog/
+│   │   ├── crm/
+│   │   ├── fiscal/
+│   │   ├── fixed-assets/
+│   │   ├── gateway/
+│   │   ├── gateway-legacy/
+│   │   ├── identity/
+│   │   ├── inventory/
+│   │   ├── manufacturing/
+│   │   ├── payroll/
+│   │   ├── plugin-host/
+│   │   ├── pos/
+│   │   ├── projects/
+│   │   ├── purchasing/
+│   │   ├── subscription/
+│   │   └── treasury/
+│   ├── desktop/            # Desktop applications (Electron/Tauri)
+│   │   ├── portal/
+│   │   └── pos/
+│   ├── mobile/             # Mobile applications (Ionic/Capacitor)
+│   ├── web/                # Web applications (Angular)
+│   │   ├── cms/
+│   │   ├── ops/
+│   │   ├── portal/
+│   │   ├── pos/
+│   │   ├── shopfloor/
+│   │   ├── site/
+│   │   ├── store/
+│   │   ├── support/
+│   │   └── wms/
+│   └── worker/             # Background workers
+│       ├── notification/
+│       └── scheduler/
+│
+├── libs/                   # Reusable libraries (Core Logic)
+│   ├── domain/             # Business Logic by Domain (Clean Architecture)
+│   │   ├── accounting/
+│   │   ├── admin/
+│   │   ├── bi/
+│   │   ├── billing/
+│   │   ├── catalog/
+│   │   ├── crm/
+│   │   ├── finops/
+│   │   ├── fiscal/
+│   │   ├── fixed-assets/
+│   │   ├── identity/
+│   │   ├── inventory/
+│   │   ├── manufacturing/
+│   │   ├── notification/
+│   │   ├── payroll/
+│   │   ├── pos/
+│   │   ├── projects/
+│   │   ├── purchasing/
+│   │   ├── scheduler/
+│   │   ├── subscription/
+│   │   └── treasury/
+│   ├── kernel/             # Core Utilities and Cross-cutting Concerns
+│   │   ├── audit/
+│   │   ├── auth/
+│   │   ├── exceptions/
+│   │   ├── messaging/
+│   │   ├── telemetry/
+│   │   ├── telemetry-interfaces/
+│   │   ├── tenant/
+│   │   └── tenant-context/
+│   ├── platform/           # Platform Infrastructure (Kafka, Storage, etc.)
+│   │   ├── audit/
+│   │   ├── cache/
+│   │   ├── contract-governance/
+│   │   ├── data-quality/
+│   │   ├── desktop/
+│   │   ├── kafka/
+│   │   ├── storage/
+│   │   └── xslt/
+│   └── shared/             # Shared Utilities and UI
+│       ├── config/
+│       ├── contracts/
+│       ├── types/
+│       ├── ui/
+│       ├── util/
+│       └── validators/
+│
+├── platform/               # Global Infrastructure Configurations
+│   ├── helm/               # Helm charts
+│   ├── infrastructure/     # Docker and Terraform
+│   ├── kubernetes/         # K8s manifests and templates
+│   ├── observability/      # Dashboards and Prometheus
+│   └── policies/           # Compliance and Security policies (OPA)
+│
+├── tools/                  # Scripts, Generators, and Quality Gates
+│   ├── diagnostic/
+│   ├── dr/
+│   ├── generators/         # Nx generators (api-app, ddd-resource, etc.)
+│   ├── k6/                 # Performance testing
+│   ├── quality-gates/      # Governance and Quality checks
+│   ├── readiness/          # Production readiness scripts
+│   ├── refactors/
+│   └── scripts/
+│
+├── config/                 # Governance, Operations, and Readiness config
+├── docs/                   # Technical Documentation (ADRs, Architecture, etc.)
+├── evidence/               # Infrastructure and Release evidence
+├── artifacts/              # Build artifacts and POC results
+│
+├── .github/                # GitHub Actions Workflows
+├── nx.json                 # Nx Workspace configuration
+├── package.json            # Node.js dependencies and scripts
+├── tsconfig.base.json      # TypeScript configuration
+└── README.md               # Main project documentation
