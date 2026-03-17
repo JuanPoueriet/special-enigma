@@ -50,6 +50,7 @@ import { InventoryPresentationModule } from '@virteex/domain-inventory-presentat
         process.env.NODE_ENV === 'production'
           ? ApolloServerPluginLandingPageProductionDefault({
               embed: true,
+              graphRef: 'my-graph@current'
             })
           : ApolloServerPluginLandingPageLocalDefault({ embed: true }),
       ],

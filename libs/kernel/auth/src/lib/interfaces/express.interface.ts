@@ -5,7 +5,7 @@ declare global {
   namespace Express {
     interface Request {
       tenantContext?: TenantContext;
-      user?: any;
+      // user?: any; // Removed to avoid conflict with passport types
     }
   }
 }
