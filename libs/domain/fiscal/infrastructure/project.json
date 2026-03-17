@@ -21,7 +21,17 @@
         "main": "libs/domain/fiscal/infrastructure/src/index.ts",
         "tsConfig": "libs/domain/fiscal/infrastructure/tsconfig.lib.json",
         "assets": [
-          "libs/domain/fiscal/infrastructure/*.md"
+          "libs/domain/fiscal/infrastructure/*.md",
+          {
+            "input": "libs/domain/fiscal/infrastructure/src/lib/schemas",
+            "glob": "*.xsd",
+            "output": "libs/domain/fiscal/infrastructure/src/lib/schemas"
+          },
+          {
+            "input": "libs/domain/fiscal/infrastructure/src/lib/schemas",
+            "glob": "*.xsd",
+            "output": "libs/apps/schemas"
+          }
         ],
         "generateExportsField": true
       }

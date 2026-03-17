@@ -33,6 +33,7 @@ import { CatalogPresentationModule } from '@virteex/domain-catalog-presentation'
         process.env.NODE_ENV === 'production'
           ? ApolloServerPluginLandingPageProductionDefault({
               embed: true,
+              graphRef: 'my-graph@current'
             })
           : ApolloServerPluginLandingPageLocalDefault({ embed: true }),
       ],
