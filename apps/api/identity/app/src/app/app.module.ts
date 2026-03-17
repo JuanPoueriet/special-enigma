@@ -36,6 +36,7 @@ import { AppService } from './app.service';
         process.env.NODE_ENV === 'production'
           ? ApolloServerPluginLandingPageProductionDefault({
               embed: true,
+              graphRef: 'my-graph@current'
             })
           : ApolloServerPluginLandingPageLocalDefault({ embed: true }),
       ],

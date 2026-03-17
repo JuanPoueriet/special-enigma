@@ -10,9 +10,10 @@ import {
   VerifyAuthenticationResponseOpts,
 } from '@simplewebauthn/server';
 import { SecretManagerService } from '@virteex/kernel-auth';
+import { WebAuthnService as IWebAuthnService } from '@virteex/domain-identity-domain';
 
 @Injectable()
-export class WebAuthnService {
+export class WebAuthnService implements IWebAuthnService {
   private readonly rpName: string;
   private readonly rpID: string;
   private readonly origin: string;

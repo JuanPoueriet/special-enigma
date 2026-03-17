@@ -18,3 +18,8 @@ export * from './lib/use-cases/get-job-titles.use-case';
 export * from './lib/use-cases/check-security-context.use-case';
 export * from './lib/use-cases/logout-user.use-case';
 export * from './lib/use-cases/get-audit-logs.use-case';
+export * from './lib/use-cases/handle-social-login.use-case';
+export * from './lib/use-cases/generate-passkey-registration-options.use-case';
+export * from './lib/use-cases/verify-passkey-registration.use-case';
+export * from './lib/use-cases/generate-passkey-login-options.use-case';
+export * from './lib/use-cases/verify-passkey-login.use-case';

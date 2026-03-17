@@ -38,4 +38,13 @@ export class MikroOrmUserRepository implements UserRepository {
   async update(user: User): Promise<void> {
     await this.save(user);
   }
+
+  async findByAuthenticatorCredentialId(credentialId: string): Promise<User | null> {
+    // This is a simplified implementation. In a real scenario, you would query the authenticators collection.
+    // Assuming the underlying database supports querying by nested property or there is a join.
+    const entity = await this.em.findOne(UserOrmEntity, {
+      authenticators: { credentialID: credentialId } as any
+    }, { populate: ['authenticators'] as any });
+    return entity ? UserMapper.toDomain(entity) : null;
+  }
 }
