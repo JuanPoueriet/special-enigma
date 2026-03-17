@@ -1,5 +1,5 @@
 import { EntitySchema } from '@mikro-orm/core';
-import { type Product, SatPaymentForm, SatPaymentMethod, SatCfdiUsage } from '@virteex/domain-catalog-domain';
+import { Product, SatPaymentForm, SatPaymentMethod, SatCfdiUsage } from '@virteex/domain-catalog-domain';
 
 export const ProductSchema = new EntitySchema<Product>({
   class: Product,

@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { CustomerIdentityService } from '@virteex/domain-subscription-domain';
 import { SubscribeToPlanUseCase } from './use-cases/subscribe-to-plan.use-case';
 import { ChangeSubscriptionPlanUseCase } from './use-cases/change-subscription-plan.use-case';
 import { ProcessStripeWebhookUseCase } from './use-cases/process-stripe-webhook.use-case';
@@ -13,6 +14,7 @@ import { HandleSubscriptionDeletedUseCase } from './use-cases/handle-subscriptio
 
 @Module({
   providers: [
+    CustomerIdentityService,
     SubscribeToPlanUseCase,
     ChangeSubscriptionPlanUseCase,
     ProcessStripeWebhookUseCase,
