@@ -38,7 +38,7 @@ export class SefazFiscalAdapter implements FiscalProvider {
     }
 
     try {
-        const schemaPath = path.join(__dirname, '../schemas/nfe-4.00.xsd');
+        const schemaPath = path.resolve(process.cwd(), 'libs/domain/fiscal/infrastructure/src/lib/schemas/nfe-4.00.xsd');
         if (fs.existsSync(schemaPath)) {
             const xsdContent = fs.readFileSync(schemaPath, 'utf8');
             this.xsdSchema = libxmljs.parseXml(xsdContent);

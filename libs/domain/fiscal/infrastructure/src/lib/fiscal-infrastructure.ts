@@ -28,13 +28,15 @@ import { DoFiscalDocumentBuilder } from './builders/do-fiscal-document.builder';
 import { FiscalTaxRuleRecord } from './entities/fiscal-tax-rule.record';
 import { TaxDeclarationRecord } from './entities/tax-declaration.record';
 import { FiscalDomainService } from '@virteex/domain-fiscal-domain';
+import { XsltModule } from '@virteex/platform-xslt';
 
 @Global()
 @Module({
   imports: [
     MikroOrmModule.forFeature([TaxDeclarationRecord, FiscalTaxRuleRecord]),
     HttpModule,
-    ConfigModule
+    ConfigModule,
+    XsltModule
   ],
   providers: [
     {

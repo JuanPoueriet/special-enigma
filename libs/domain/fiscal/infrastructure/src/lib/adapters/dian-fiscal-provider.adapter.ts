@@ -32,7 +32,7 @@ export class DianFiscalAdapter implements FiscalProvider {
       }
 
       try {
-          const schemaPath = path.join(__dirname, '../schemas/dian-ubl-2.1.xsd');
+          const schemaPath = path.resolve(process.cwd(), 'libs/domain/fiscal/infrastructure/src/lib/schemas/dian-ubl-2.1.xsd');
           if (fs.existsSync(schemaPath)) {
              const xsdContent = fs.readFileSync(schemaPath, 'utf8');
              this.xsdSchema = libxmljs.parseXml(xsdContent);
