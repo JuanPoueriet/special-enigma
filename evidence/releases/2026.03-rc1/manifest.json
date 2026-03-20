@@ -4,7 +4,7 @@
   "artifacts": [
     {
       "path": "evidence/releases/2026.03-rc1/summary.json",
-      "sha256": "7fa40e6a289a0124f9367db315b2baa3c5f974ac374257dc1c28987320fab91b"
+      "sha256": "fdf50962e52be3f3542271ad339999c0bb937f6a3f328ac3a598e82d4a61b316"
     },
     {
       "path": "evidence/releases/2026.03-rc1/manifest.json",

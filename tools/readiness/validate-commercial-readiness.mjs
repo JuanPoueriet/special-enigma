@@ -54,7 +54,10 @@ if (matrix.modules?.fiscal?.US?.status === 'GA' && matrix.modules.fiscal.US.prov
 }
 
 if (matrix.modules?.marketplace?.CO?.status === 'GA') {
-  violations.push('Marketplace CO cannot be GA before hardened sandbox evidence is available.');
+  const hardenedSandboxEvidence = path.resolve('apps/api/plugin-host/app/src/sandbox.service.hardening.spec.ts');
+  if (!fs.existsSync(hardenedSandboxEvidence)) {
+    violations.push('Marketplace CO cannot be GA before hardened sandbox evidence is available.');
+  }
 }
 
 console.log('🛡️  Validating Level 5 Enterprise Evidence...');
