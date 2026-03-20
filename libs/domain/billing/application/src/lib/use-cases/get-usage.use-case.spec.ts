@@ -15,7 +15,7 @@ const mockSubscriptionRepository = {
 };
 
 const mockConfigService = {
-  get: vi.fn((key: string, defaultValue: unknown) => defaultValue),
+  get: vi.fn().mockImplementation((key: string, defaultValue: unknown) => defaultValue),
 };
 
 describe('GetUsageUseCase', () => {
@@ -32,6 +32,7 @@ describe('GetUsageUseCase', () => {
     }).compile();
 
     useCase = module.get<GetUsageUseCase>(GetUsageUseCase);
+    (useCase as any).configService = mockConfigService;
     vi.clearAllMocks();
   });
 
