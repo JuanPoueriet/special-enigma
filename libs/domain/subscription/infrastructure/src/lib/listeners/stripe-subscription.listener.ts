@@ -55,7 +55,7 @@ export class StripeSubscriptionListener {
       tenantId: session.client_reference_id,
       subscriptionId,
       customerId,
-      planId: session.metadata?.planId
+      planId: session.metadata?.['planId']
     });
   }
 

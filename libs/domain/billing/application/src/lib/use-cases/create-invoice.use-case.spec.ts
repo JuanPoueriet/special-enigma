@@ -14,61 +14,37 @@ describe('CreateInvoiceUseCase', () => {
   let integrationPublisher: InvoiceIntegrationPublisherPort;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        CreateInvoiceUseCase,
-        PriceValidationPolicy,
-        InvoiceStampingOrchestrator,
+    vi.clearAllMocks();
+    useCase = new CreateInvoiceUseCase(
         {
-          provide: INVOICE_REPOSITORY,
-          useValue: {
-            save: vi.fn(),
-            countByTenantId: vi.fn().mockResolvedValue(0),
-          },
-        },
+            save: vi.fn().mockImplementation(() => Promise.resolve()),
+            countByTenantId: vi.fn().mockImplementation(() => Promise.resolve(0)),
+        } as any,
         {
-          provide: PRODUCT_REPOSITORY,
-          useValue: {
             findById: vi.fn().mockResolvedValue({ id: 'p1', price: 100 }),
-          } satisfies ProductRepository,
-        },
+        } as any,
         {
-          provide: TENANT_CONFIG_REPOSITORY,
-          useValue: {
             getFiscalConfig: vi.fn().mockResolvedValue({ country: 'MX' }),
-          } satisfies Partial<TenantConfigRepository>,
-        },
+        } as any,
         {
-          provide: SUBSCRIPTION_REPOSITORY,
-          useValue: {
-            findByTenantId: vi.fn().mockResolvedValue({ plan: { limits: { invoices: 2 } } }),
-          },
-        },
-        {
-          provide: TaxCalculatorService,
-          useValue: {
             calculateTax: vi.fn().mockImplementation((amount: number) => ({ totalTax: new Decimal(amount).times(0.16).toNumber() })),
-          },
-        },
-        {
-          provide: FiscalStampingService,
-          useValue: {
+        } as any,
+        new PriceValidationPolicy(),
+        new InvoiceStampingOrchestrator({
             stampInvoice: vi.fn().mockResolvedValue({ uuid: 'uuid-1', xml: '<xml />', fechaTimbrado: new Date().toISOString() }),
-          },
-        },
+        } as any),
         {
-          provide: INVOICE_INTEGRATION_PUBLISHER,
-          useValue: {
+            findByTenantId: vi.fn().mockResolvedValue({ plan: { limits: { invoices: 2 } } }),
+        } as any,
+        {
             publishInvoiceStamped: vi.fn(),
-          } satisfies InvoiceIntegrationPublisherPort,
-        },
-      ],
-    }).compile();
+        } as any
+    );
 
-    useCase = module.get(CreateInvoiceUseCase);
-    invoiceRepository = module.get(INVOICE_REPOSITORY);
-    integrationPublisher = module.get(INVOICE_INTEGRATION_PUBLISHER);
+    invoiceRepository = (useCase as any).invoiceRepository;
+    integrationPublisher = (useCase as any).integrationPublisher;
   });
+
 
   it('should fail when invoice plan limit is reached', async () => {
     (invoiceRepository.countByTenantId as any).mockResolvedValue(2);
