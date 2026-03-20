@@ -47,13 +47,16 @@ export class MikroOrmInvoiceRepository implements InvoiceRepository {
   }
 
   async findByTenantAndDateRange(tenantId: string, startDate: Date, endDate: Date): Promise<Invoice[]> {
-    const records = await this.repository.find({
+    const records = await this.repository.find(
+      {
         tenantId,
         issueDate: {
-            $gte: startDate,
-            $lte: endDate
-        }
-    }, { populate: ['items'] });
+          $gte: startDate,
+          $lte: endDate,
+        },
+      },
+      { populate: ['items'] }
+    );
     return records.map((record) => InvoiceMapper.toDomain(record));
   }
 
