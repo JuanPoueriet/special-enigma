@@ -167,7 +167,10 @@ export class DianFiscalAdapter implements FiscalProvider {
       sig.signatureAlgorithm = 'http://www.w3.org/2001/04/xmldsig-more#rsa-sha256';
 
       (sig as any).keyInfoProvider = {
-        getKeyInfo: () => `<X509Data><X509Certificate>${this.certificate}</X509Certificate></X509Data>`
+        getKeyInfo: () => `
+          <ds:X509Data>
+            <ds:X509Certificate>${this.certificate}</ds:X509Certificate>
+          </ds:X509Data>`
       };
 
       (sig as any).signingKey = this.privateKey;
@@ -186,7 +189,7 @@ export class DianFiscalAdapter implements FiscalProvider {
     this.logger.log(`Transmitting invoice to DIAN (SOAP)...`);
 
     try {
-        const dianUrl = process.env['DIAN_API_URL'];
+        const dianUrl = this.getDianUrl();
         const contingencyMode = process.env['DIAN_CONTINGENCY_MODE'] === 'true';
 
         if (!dianUrl && !contingencyMode) throw new Error('DIAN_API_URL is not configured.');
@@ -197,7 +200,8 @@ export class DianFiscalAdapter implements FiscalProvider {
             this.logger.warn('DIAN Contingency Mode ACTIVE: Saving signed XML to local storage for delayed transmission.');
             const storagePath = process.env['DIAN_CONTINGENCY_PATH'] || './contingency/co';
             if (!fs.existsSync(storagePath)) fs.mkdirSync(storagePath, { recursive: true });
-            fs.writeFileSync(path.join(storagePath, `${invoice?.id || 'invoice'}-${Date.now()}.xml`), signedXml);
+            const filePath = path.join(storagePath, `${invoice?.id || 'invoice'}-${Date.now()}.xml`);
+            fs.writeFileSync(filePath, signedXml);
             return;
         }
 
@@ -259,5 +263,14 @@ export class DianFiscalAdapter implements FiscalProvider {
     this.logger.log('Forwarding document to DIAN transmission pipeline');
     await this.transmitInvoice(document);
     return { success: true };
+  }
+
+  private getDianUrl(): string {
+    const url = process.env['DIAN_API_URL'];
+    if (url?.includes('sandbox') && (process.env['NODE_ENV'] === 'production' || process.env['RELEASE_STAGE'] === 'production')) {
+        this.logger.warn('DIAN_API_URL points to sandbox but environment is production. Forcing production URL.');
+        return 'https://vpfe.dian.gov.co/WcfDianCustomerServices.svc?wsdl';
+    }
+    return url || '';
   }
 }

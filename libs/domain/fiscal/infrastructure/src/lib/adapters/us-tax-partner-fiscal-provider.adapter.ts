@@ -22,14 +22,14 @@ export class UsTaxPartnerFiscalAdapter implements FiscalProvider {
 
     const isProduction = this.nodeEnv === 'production' || process.env['RELEASE_STAGE'] === 'production';
 
-    if (isProduction && (!this.partnerUrl || !this.partnerApiKey || this.partnerUrl.includes('placeholder') || this.partnerApiKey.includes('test'))) {
-      this.logger.error('FATAL: US Tax Partner is NOT properly configured for production.');
+    if (isProduction && (!this.partnerUrl || !this.partnerApiKey || this.partnerUrl.includes('placeholder') || this.partnerApiKey.includes('test') || this.partnerUrl.includes('sandbox'))) {
+      this.logger.error('FATAL: US Tax Partner is NOT properly configured for production (missing credentials or sandbox URL detected).');
       throw new Error('US fiscal partner is required in production with REAL credentials. Configure US_TAX_PARTNER_URL and US_TAX_PARTNER_API_KEY.');
     }
   }
 
   async validateInvoice(invoice: any): Promise<boolean> {
-    const endpoint = this.configService.get<string>('US_TAX_PARTNER_VALIDATE_PATH', '/v1/tax/validate');
+    const endpoint = this.configService.get<string>('US_TAX_PARTNER_VALIDATE_PATH') || '/v1/tax/validate';
 
     if (!invoice.shippingAddress?.zipCode || !invoice.shippingAddress?.country) {
         this.logger.error('Validation failed: Missing destination ZIP code or country for US tax calculation.');
@@ -46,7 +46,7 @@ export class UsTaxPartnerFiscalAdapter implements FiscalProvider {
   }
 
   async signInvoice(invoice: any): Promise<string> {
-    const endpoint = this.configService.get<string>('US_TAX_PARTNER_CALCULATE_PATH', '/v1/tax/calculate');
+    const endpoint = this.configService.get<string>('US_TAX_PARTNER_CALCULATE_PATH') || '/v1/tax/calculate';
 
     this.logger.log(`Requesting tax calculation for US invoice ${invoice.id || 'N/A'}`);
 
@@ -69,7 +69,7 @@ export class UsTaxPartnerFiscalAdapter implements FiscalProvider {
   }
 
   async transmitInvoice(invoice: any): Promise<void> {
-    const endpoint = this.configService.get<string>('US_TAX_PARTNER_TRANSMIT_PATH', '/v1/tax/transmit');
+    const endpoint = this.configService.get<string>('US_TAX_PARTNER_TRANSMIT_PATH') || '/v1/tax/transmit';
     await this.callPartner(endpoint, invoice);
     this.logger.log(`US fiscal transaction successfully transmitted for invoice ${invoice.id}`);
   }

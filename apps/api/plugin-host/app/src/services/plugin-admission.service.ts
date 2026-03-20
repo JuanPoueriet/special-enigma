@@ -69,6 +69,8 @@ export class PluginAdmissionService {
 
   async validatePlugin(pluginPackage: { name: string; code: string; dependencies?: Record<string, string>; sbom?: any; requestedEgress?: string[] }): Promise<AdmissionResult> {
     try {
+      const isProduction = this.nodeEnv === 'production' || process.env.RELEASE_STAGE === 'production';
+
       if (this.nodeEnv === 'test') {
           if (!this.isValidSbom(pluginPackage.sbom)) return { status: 'rejected', riskScore: 100, reason: 'Missing or Invalid SBOM' };
           const opa = this.evaluateOpaPolicy(pluginPackage);
@@ -145,7 +147,8 @@ export class PluginAdmissionService {
 
   private async performSastScan(pluginName: string): Promise<{ valid: boolean; details?: unknown }> {
     if (!this.sonarToken) {
-      if (this.nodeEnv === 'production') {
+      const isProduction = this.nodeEnv === 'production' || process.env.RELEASE_STAGE === 'production';
+      if (isProduction) {
         return { valid: false, details: 'SONAR_TOKEN is required in production.' };
       }
       return { valid: true, details: 'SONAR_TOKEN not configured. Development mode bypass.' };

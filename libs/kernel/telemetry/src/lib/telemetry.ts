@@ -96,4 +96,12 @@ export class TelemetryService extends AbstractTelemetryService implements OnModu
   recordPaymentProcessed(amount: number, currency: string, success: boolean) {
     this.recordBusinessMetric('payments_processed_total', 1, { currency, success: String(success) });
   }
+
+  recordUserTaskDuration(taskName: string, durationMs: number, attributes: Record<string, string | number | boolean> = {}) {
+    this.recordBusinessMetric('ux_task_duration_ms', durationMs, { ...attributes, task: taskName });
+  }
+
+  recordUserErrorRate(flowName: string, hasError: boolean, attributes: Record<string, string | number | boolean> = {}) {
+    this.recordBusinessMetric('ux_flow_errors_total', hasError ? 1 : 0, { ...attributes, flow: flowName });
+  }
 }

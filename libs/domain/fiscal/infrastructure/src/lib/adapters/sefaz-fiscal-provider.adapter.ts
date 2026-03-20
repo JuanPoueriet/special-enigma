@@ -154,7 +154,7 @@ export class SefazFiscalAdapter implements FiscalProvider {
             throw new Error('Invoice failed structural validation prior to transmission.');
         }
 
-        const sefazUrl = process.env['SEFAZ_API_URL'];
+        const sefazUrl = this.getSefazUrl();
         if (!sefazUrl) {
             throw new Error('SEFAZ_API_URL is not configured.');
         }
@@ -169,10 +169,11 @@ export class SefazFiscalAdapter implements FiscalProvider {
            </soap:Body>
         </soap:Envelope>`;
 
+        const isProduction = process.env['NODE_ENV'] === 'production' || process.env['RELEASE_STAGE'] === 'production';
         const httpsAgent = new https.Agent({
             cert: this.certificate,
             key: this.privateKey,
-            rejectUnauthorized: process.env['NODE_ENV'] === 'production'
+            rejectUnauthorized: isProduction ? true : process.env['SEFAZ_REJECT_UNAUTHORIZED'] !== 'false'
         });
 
         const response = await firstValueFrom(
@@ -208,5 +209,15 @@ export class SefazFiscalAdapter implements FiscalProvider {
     this.logger.log('Forwarding document to SEFAZ transmission pipeline');
     await this.transmitInvoice(document);
     return { success: true };
+  }
+
+  private getSefazUrl(): string {
+    const url = process.env['SEFAZ_API_URL'];
+    const isProduction = process.env['NODE_ENV'] === 'production' || process.env['RELEASE_STAGE'] === 'production';
+    if (isProduction && url?.includes('homologacao')) {
+        this.logger.warn('SEFAZ_API_URL points to homologacao but environment is production. Blocking insecure transmission.');
+        throw new Error('SEFAZ production environment cannot use homologacao endpoints.');
+    }
+    return url || '';
   }
 }
