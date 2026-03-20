@@ -10,7 +10,7 @@ Fuente de verdad técnica: `config/readiness/commercial-eligibility.matrix.json`
 | BR | GA | GA | GA | GA | GA | GA | - | - |
 | CO | GA | GA | GA | GA | GA | GA | - | - |
 | US | GA | GA | GA | GA | GA | GA | - | - |
-| DO | GA | GA | GA | Beta | GA | GA | - | - |
+| DO | GA | GA | GA | GA | GA | GA | - | - |
 
 ## Reglas de activación y venta
 

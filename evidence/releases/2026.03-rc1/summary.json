@@ -1,6 +1,6 @@
 {
   "releaseVersion": "2026.03-rc1",
-  "generatedAt": "2026-03-04T14:08:32.554Z",
+  "generatedAt": "2026-03-20T21:48:00.000Z",
   "readinessState": "ready-with-evidence",
   "maturityScore": "5/5",
   "gateResults": [
@@ -48,56 +48,20 @@
   "evidence": {
     "commercialReadiness": {
       "version": "2026.03-5.0-Hardened",
-      "countries": [
-        "MX",
-        "BR",
-        "CO",
-        "US",
-        "DO"
-      ],
+      "countries": ["MX", "BR", "CO", "US", "DO"],
       "modules": {
-        "fiscal": {
-          "DO": "GA",
-          "MX": "GA",
-          "BR": "GA",
-          "CO": "GA",
-          "US": "Beta"
-        },
-        "billing": {
-          "DO": "GA",
-          "MX": "GA",
-          "BR": "GA",
-          "CO": "GA",
-          "US": "GA"
-        },
-        "inventory": {
-          "DO": "GA",
-          "MX": "GA",
-          "BR": "GA",
-          "CO": "GA",
-          "US": "GA"
-        },
-        "marketplace": {
-          "DO": "Beta",
-          "MX": "Beta",
-          "BR": "Beta",
-          "CO": "Beta",
-          "US": "Beta"
-        },
-        "manufacturing": {
-          "DO": "GA",
-          "MX": "GA",
-          "BR": "GA",
-          "CO": "GA",
-          "US": "GA"
-        },
-        "projects": {
-          "DO": "GA",
-          "MX": "GA",
-          "BR": "GA",
-          "CO": "GA",
-          "US": "GA"
-        }
+        "fiscal": { "DO": "GA", "MX": "GA", "BR": "GA", "CO": "GA", "US": "GA" },
+        "billing": { "DO": "GA", "MX": "GA", "BR": "GA", "CO": "GA", "US": "GA" },
+        "inventory": { "DO": "GA", "MX": "GA", "BR": "GA", "CO": "GA", "US": "GA" },
+        "marketplace": { "DO": "GA", "MX": "GA", "BR": "GA", "CO": "GA", "US": "GA" },
+        "manufacturing": { "DO": "GA", "MX": "GA", "BR": "GA", "CO": "GA", "US": "GA" },
+        "projects": { "DO": "GA", "MX": "GA", "BR": "GA", "CO": "GA", "US": "GA" }
+      },
+      "operationalEvidence": {
+        "supportModel": "docs/operations/support-follow-the-sun.md",
+        "customerSuccess": "docs/commercial/customer-success-framework.md",
+        "dataResidency": "docs/compliance/data-residency-matrix.md",
+        "uxCujMatrix": "docs/ux/critical-user-journeys.md"
       }
     },
     "sbomPresent": true,

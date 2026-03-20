@@ -2,7 +2,7 @@
   "version": "2026.03-5.0-Hardened",
   "generatedFrom": {
     "source": "config/readiness/operational-readiness.sot.json",
-    "sha256": "5e25c741dd33c62c85ef47febd5578f9a7f6a5e636fe9d35256e5f02ee67cd98"
+    "sha256": "66f7cd3a15c2ee8ca02ca89d475cbead808d8c32d2ecef2f6f47d31027e8a2af"
   },
   "countries": [
     "MX",
@@ -34,17 +34,17 @@
         "allowSimulation": false
       },
       "BR": {
-        "status": "Beta",
+        "status": "GA",
         "provider": "SEFAZ",
         "allowSimulation": false
       },
       "CO": {
-        "status": "Beta",
+        "status": "GA",
         "provider": "DIAN",
         "allowSimulation": false
       },
       "US": {
-        "status": "Beta",
+        "status": "GA",
         "provider": "STRIPE_TAX",
         "allowSimulation": false
       }
@@ -59,11 +59,11 @@
         "allowSimulation": false
       },
       "BR": {
-        "status": "Beta",
+        "status": "GA",
         "allowSimulation": false
       },
       "CO": {
-        "status": "Beta",
+        "status": "GA",
         "allowSimulation": false
       },
       "US": {
@@ -95,23 +95,23 @@
     },
     "marketplace": {
       "DO": {
-        "status": "Beta",
+        "status": "GA",
         "requiresHardenedSandbox": true
       },
       "MX": {
-        "status": "Beta",
+        "status": "GA",
         "requiresHardenedSandbox": true
       },
       "BR": {
-        "status": "Beta",
+        "status": "GA",
         "requiresHardenedSandbox": true
       },
       "CO": {
-        "status": "No listo",
+        "status": "GA",
         "requiresHardenedSandbox": true
       },
       "US": {
-        "status": "Beta",
+        "status": "GA",
         "requiresHardenedSandbox": true
       }
     },
@@ -129,7 +129,7 @@
         "allowSimulation": false
       },
       "CO": {
-        "status": "No listo",
+        "status": "GA",
         "allowSimulation": false
       },
       "US": {
@@ -151,7 +151,7 @@
         "allowSimulation": false
       },
       "CO": {
-        "status": "Beta",
+        "status": "GA",
         "allowSimulation": false
       },
       "US": {
