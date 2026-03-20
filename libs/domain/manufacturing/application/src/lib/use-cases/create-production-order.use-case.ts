@@ -44,25 +44,20 @@ export class CreateProductionOrderUseCase {
         qty: Number(c.quantity) * dto.quantity
     }));
 
-    // 3. ATOMIC VALIDATION & RESERVATION (Simulated via pre-check loop)
-    // In a real production system with high concurrency, this would use a DB transaction
-    // or a specialized reservation service that supports batching.
+    // 3. ATOMIC VALIDATION & RESERVATION
+    // We use a transactional approach to ensure all components are reserved or none.
+    this.logger.log(`Executing atomic stock reservation for ${requirements.length} components...`);
 
-    this.logger.log(`Validating stock for all ${requirements.length} components before reservation...`);
-
-    // Fail-fast if any component has insufficient stock
-    for (const req of requirements) {
-        try {
-            // We use the same method but since we haven't committed anything yet,
-            // if one fails, we stop the whole process.
-            // Note: This implementation assumes inventoryService.checkAndReserveStock is atomic
-            // per call but we need it atomic per ProductionOrder.
-            await this.inventoryService.checkAndReserveStock(dto.tenantId, dto.warehouseId, req.sku, req.qty);
-        } catch (e: any) {
-            this.logger.error(`FAILED: Insufficient stock for component ${req.sku}. Requirement: ${req.qty}`);
-            throw e; // Rethrow to fail the use case
+    await this.repository.transactional(async () => {
+        for (const req of requirements) {
+            try {
+                await this.inventoryService.checkAndReserveStock(dto.tenantId, dto.warehouseId, req.sku, req.qty);
+            } catch (e: any) {
+                this.logger.error(`FAILED: Insufficient stock for component ${req.sku}. Requirement: ${req.qty}`);
+                throw e;
+            }
         }
-    }
+    });
 
     // 4. Create Order and link components
     const order = new ProductionOrder(dto.tenantId, dto.warehouseId, dto.productSku, dto.quantity, new Date(dto.dueDate));

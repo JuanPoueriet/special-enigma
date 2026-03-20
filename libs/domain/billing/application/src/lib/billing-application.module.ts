@@ -6,6 +6,7 @@ import { GetUsageUseCase } from './use-cases/get-usage.use-case';
 import { AddPaymentMethodUseCase } from './use-cases/add-payment-method.use-case';
 import { GetPaymentMethodUseCase } from './use-cases/get-payment-method.use-case';
 import { ProcessPaymentUseCase } from './use-cases/process-payment.use-case';
+import { ReconcileBillingUseCase } from './use-cases/reconcile-billing.use-case';
 import { StripeEventListener } from './listeners/stripe-event.listener';
 import { BillingDomainModule } from '@virteex/domain-billing-domain';
 import { PriceValidationPolicy } from './services/price-validation.policy';
@@ -21,6 +22,7 @@ import { InvoiceStampingOrchestrator } from './services/invoice-stamping.orchest
     AddPaymentMethodUseCase,
     GetPaymentMethodUseCase,
     ProcessPaymentUseCase,
+    ReconcileBillingUseCase,
     StripeEventListener,
     PriceValidationPolicy,
     InvoiceStampingOrchestrator,
@@ -33,6 +35,7 @@ import { InvoiceStampingOrchestrator } from './services/invoice-stamping.orchest
     AddPaymentMethodUseCase,
     GetPaymentMethodUseCase,
     ProcessPaymentUseCase,
+    ReconcileBillingUseCase,
   ]
 })
 export class BillingApplicationModule {}
