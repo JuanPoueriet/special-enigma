@@ -121,7 +121,7 @@ export class MxFiscalDocumentBuilder implements FiscalDocumentBuilder {
     };
 
     const xmlWithoutSello = builder.build(cfdiObj);
-    const xsltPath = 'libs/domains/fiscal/domain/src/lib/xslt/cadenaoriginal_4_0.xslt';
+    const xsltPath = 'libs/domain/fiscal/domain/src/lib/xslt/cadenaoriginal_4_0.xslt';
 
     let cadenaOriginal = '';
     try {

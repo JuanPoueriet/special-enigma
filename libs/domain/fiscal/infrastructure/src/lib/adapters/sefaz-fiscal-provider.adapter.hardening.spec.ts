@@ -37,19 +37,23 @@ describe('SefazFiscalAdapter Hardening', () => {
     // For now, let's assume we want to test that it THROWS when UF validation fails.
     // We'll need to mock the validate method of the document.
 
-    const parseSpy = vi.spyOn(libxmljs, 'parseXml').mockReturnValue({
-        validate: vi.fn().mockReturnValue(true),
-        get: vi.fn().mockReturnValue({ text: () => '35' }),
-        validationErrors: []
-    } as any);
+    vi.mock('libxmljs2', async () => {
+      const actual = await vi.importActual('libxmljs2');
+      return {
+        ...actual as any,
+        parseXml: vi.fn().mockReturnValue({
+          validate: vi.fn().mockReturnValue(true),
+          get: vi.fn().mockReturnValue({ text: () => '35' }),
+          validationErrors: []
+        })
+      };
+    });
 
     // Mock the xsdSchema to be defined so it doesn't fail the pre-check
     (adapter as any).xsdSchema = { some: 'schema' };
 
     await expect(adapter.validateInvoice(xml)).rejects.toThrow('UF 35 Validation Failed: Invalid state data');
     expect(mockRule.validate).toHaveBeenCalled();
-
-    parseSpy.mockRestore();
   });
 
   it('should throw error in production if certificates are missing', () => {
