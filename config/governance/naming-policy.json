@@ -1,19 +1,19 @@
 {
   "rules": [
     {
-      "pathRegex": "^apps/api/",
+      "pathRegex": "^apps/service/",
       "allowedPrefixes": ["api-"]
     },
     {
-      "pathRegex": "^apps/web/",
+      "pathRegex": "^apps/client/web/",
       "allowedPrefixes": ["web-"]
     },
     {
-      "pathRegex": "^apps/mobile/",
+      "pathRegex": "^apps/client/mobile/",
       "allowedPrefixes": ["mobile-"]
     },
     {
-      "pathRegex": "^apps/desktop/",
+      "pathRegex": "^apps/client/desktop/",
       "allowedPrefixes": ["desktop-"]
     },
     {

@@ -5,7 +5,7 @@ Se ha eliminado el uso de `rejectUnauthorized: false` en todos los microservicio
 La configuración de base de datos ahora sigue un modelo **fail-closed**:
 
 ```typescript
-// Ejemplo implementado en apps/api/billing/app/src/app/app.module.ts
+// Ejemplo implementado en apps/service/billing/app/src/app/app.module.ts
 driverOptions: isPostgres && configService.get<boolean>('DB_SSL_ENABLED')
   ? {
       connection: { ssl: { rejectUnauthorized: configService.get("DB_SSL_REJECT_UNAUTHORIZED") !== "false" } },

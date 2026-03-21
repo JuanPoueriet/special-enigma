@@ -24,12 +24,12 @@
 | `/graphql` | All BFFs | Federation Proxy (Resilient) | Pending |
 
 ## Consumidores
-- **Portal Web (apps/web/portal)**: Usa `bff-portal`
-- **POS App (apps/web/pos)**: Usa `bff-pos`
-- **WMS App (apps/web/wms)**: Usa `bff-wms`
-- **Mobile App (apps/mobile/app)**: Usa `bff-portal` / Multi-BFF
-- **E-commerce (apps/web/store)**: Usa `bff-storefront`
-- **Public Site (apps/web/site)**: Usa `bff-site-public`
-- **CMS (apps/web/cms)**: Usa `bff-cms`
-- **Support Portal (apps/web/support)**: Usa `bff-support`
-- **Shopfloor (apps/web/shopfloor)**: Usa `bff-shopfloor`
+- **Portal Web (apps/client/web/portal)**: Usa `bff-portal`
+- **POS App (apps/client/web/pos)**: Usa `bff-pos`
+- **WMS App (apps/client/web/wms)**: Usa `bff-wms`
+- **Mobile App (apps/client/mobile/app)**: Usa `bff-portal` / Multi-BFF
+- **E-commerce (apps/client/web/store)**: Usa `bff-storefront`
+- **Public Site (apps/client/web/site)**: Usa `bff-site-public`
+- **CMS (apps/client/web/cms)**: Usa `bff-cms`
+- **Support Portal (apps/client/web/support)**: Usa `bff-support`
+- **Shopfloor (apps/client/web/shopfloor)**: Usa `bff-shopfloor`

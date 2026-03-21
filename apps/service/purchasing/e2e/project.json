@@ -1,0 +1,18 @@
+{
+  "name": "service-purchasing-e2e",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "tags": ["scope:purchasing", "type:e2e", "platform:e2e", "criticality:low"],
+  "implicitDependencies": ["service-purchasing-app"],
+  "targets": {
+    "e2e": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
+      "options": {
+        "jestConfig": "apps/service/purchasing/e2e/jest.config.cts",
+        "passWithNoTests": true
+      },
+      "dependsOn": ["service-purchasing-app:build", "service-purchasing-app:serve"]
+    }
+  }
+}

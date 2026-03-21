@@ -19,9 +19,9 @@ Adoptar la arquitectura **"Product Core + Platform Shells"**.
     *   `libs/platform/mobile/*` (Capacitor plugins)
     *   `libs/platform/web/*` (PWA, Web APIs)
 3.  **Shell Apps (Thin Shells):** Aplicaciones mínimas que orquestan el core y los adaptadores para una plataforma específica.
-    *   `apps/web/<producto>/app`
-    *   `apps/desktop/<producto>/app`
-    *   `apps/mobile/<producto>/app`
+    *   `apps/client/web/<producto>/app`
+    *   `apps/client/desktop/<producto>/app`
+    *   `apps/client/mobile/<producto>/app`
 
 ### Reglas de Oro
 *   Cero lógica de negocio en las shells.
@@ -39,4 +39,4 @@ Adoptar la arquitectura **"Product Core + Platform Shells"**.
     *   Necesidad de definir interfaces claras (puertos) para capacidades nativas.
 
 ## Implementación para POS
-Se implementará `apps/desktop/pos/app` como un shell de Electron que consume `libs/domain/pos/*` y utiliza adaptadores de `libs/platform/desktop/*`.
+Se implementará `apps/client/desktop/pos/app` como un shell de Electron que consume `libs/domain/pos/*` y utiliza adaptadores de `libs/platform/desktop/*`.

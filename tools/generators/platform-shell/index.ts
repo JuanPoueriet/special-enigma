@@ -4,7 +4,7 @@ export default async function (tree: Tree, schema: any) {
   const { name, platform } = schema;
 
   if (platform === 'desktop') {
-    const targetDir = `apps/desktop/${name}/app`;
+    const targetDir = `apps/client/desktop/${name}/app`;
 
     // In a real scenario, we would use templates.
     // Here we'll manually ensure the basic structure exists.

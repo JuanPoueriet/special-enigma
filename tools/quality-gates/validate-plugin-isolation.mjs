@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const pluginSourceDir = path.resolve('apps/api/plugin-host/app/src');
+const pluginSourceDir = path.resolve('apps/service/plugin-host/app/src');
 const prohibitedPatterns = [
     { regex: /process\.(?!env|exit)/g, reason: 'Direct access to "process" object (except process.env/exit) is prohibited in plugin host' },
     { regex: /globalThis/g, reason: '"globalThis" access must be strictly gated/monitored' },

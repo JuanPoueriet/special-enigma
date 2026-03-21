@@ -39,9 +39,9 @@ El comando valida:
 El pipeline ejecuta `npm run governance:consistency` y `npm run arch:validate-tags` antes de `nx affected --target=lint`.
 
 ## Convenciones de estructura
-- Apps frontend deben vivir en `apps/web/*`.
-- Apps backend deben vivir en `apps/api/*`.
-- Se movió `ops-console-web` y su e2e a `apps/web/virteex-ops*` para alinear ubicación física con runtime y ownership.
+- Apps frontend deben vivir en `apps/client/web/*`.
+- Apps backend deben vivir en `apps/service/*`.
+- Se movió `ops-console-web` y su e2e a `apps/client/web/virteex-ops*` para alinear ubicación física con runtime y ownership.
 
 ## Política de evolución
 Para cambios de arquitectura en tags o boundaries:
@@ -57,7 +57,7 @@ El catálogo canónico de `scope:*` se mantiene en `config/governance/tag-catalo
 `scope:fixed` queda deprecado y reemplazado por `scope:fixed-assets`.
 
 ## Convención apps backend como composition root
-- `apps/api/*` debe permanecer como **app shell**: bootstrap, wiring de módulos y configuración de borde.
+- `apps/service/*` debe permanecer como **app shell**: bootstrap, wiring de módulos y configuración de borde.
 - Resolvers, DTOs de transporte y validaciones de entrada se centralizan en `libs/domain/*/presentation`.
 - Adaptadores concretos (gateways/repositorios HTTP/DB) se centralizan en `libs/domain/*/infrastructure`.
 - Para proyectos desplegables (`projectType: application`) se exige `type:app` (excepto apps e2e que usan `type:e2e`).

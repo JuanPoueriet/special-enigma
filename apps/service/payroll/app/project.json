@@ -1,0 +1,105 @@
+{
+  "name": "service-payroll-app",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/service/payroll/app/src",
+  "projectType": "application",
+  "tags": [
+    "scope:payroll",
+    "type:app",
+    "platform:agnostic",
+    "criticality:medium"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/service-payroll-app",
+        "main": "apps/service/payroll/app/src/main.ts",
+        "tsConfig": "apps/service/payroll/app/tsconfig.app.json",
+        "assets": [
+          "apps/service/payroll/app/src/assets"
+        ],
+        "webpackConfig": "apps/service/payroll/app/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/service/payroll/app/src/environments/environment.ts",
+              "with": "apps/service/payroll/app/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "prune-lockfile": {
+      "dependsOn": [
+        "build"
+      ],
+      "cache": true,
+      "executor": "@nx/js:prune-lockfile",
+      "outputs": [
+        "{workspaceRoot}/dist/apps/service-payroll-app/package.json",
+        "{workspaceRoot}/dist/apps/service-payroll-app/package-lock.json"
+      ],
+      "options": {
+        "buildTarget": "build"
+      }
+    },
+    "copy-workspace-modules": {
+      "dependsOn": [
+        "build"
+      ],
+      "cache": true,
+      "outputs": [
+        "{workspaceRoot}/dist/apps/service-payroll-app/workspace_modules"
+      ],
+      "executor": "@nx/js:copy-workspace-modules",
+      "options": {
+        "buildTarget": "build"
+      }
+    },
+    "prune": {
+      "dependsOn": [
+        "prune-lockfile",
+        "copy-workspace-modules"
+      ],
+      "executor": "nx:noop"
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "service-payroll-app:build",
+        "port": 9240
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "service-payroll-app:build:development"
+        },
+        "production": {
+          "buildTarget": "service-payroll-app:build:production"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{options.reportsDirectory}"
+      ],
+      "options": {
+        "reportsDirectory": "../../coverage/apps/service-payroll-app"
+      }
+    }
+  }
+}

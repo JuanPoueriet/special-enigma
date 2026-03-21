@@ -13,12 +13,12 @@
 ## Sección B — Cambios realizados
 
 ### 1. Refactorización de Arquitectura y Resolución de Paquetes
-- **Archivos**: `apps/api/*/app.module.ts`, `libs/domain/*/infrastructure/**/*.ts` (y ~200 archivos más).
+- **Archivos**: `apps/service/*/app.module.ts`, `libs/domain/*/infrastructure/**/*.ts` (y ~200 archivos más).
 - **Motivo**: Los nombres de los paquetes internos no coincidían con los alias de `tsconfig.base.json`.
 - **Efecto**: `npm run doctor` pasa al 100%. Los tests ahora pueden cargar los módulos.
 
 ### 2. Endurecimiento de Seguridad en Sandbox (Plugins)
-- **Archivos**: `apps/api/plugin-host/app/src/sandbox.service.ts`
+- **Archivos**: `apps/service/plugin-host/app/src/sandbox.service.ts`
 - **Motivo**: El sandbox no validaba estrictamente la firma digital del código.
 - **Efecto**: Se rechaza cualquier ejecución sin firma válida generada por la clave privada del sistema.
 

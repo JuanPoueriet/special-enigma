@@ -1,7 +1,7 @@
 # Informe de Ejecución: GraphQL Federation & Contract Governance Nivel 5
 
 ## 1. Inventario Real de Federation y Contratos
-- **Gateway Principal**: `apps/api/gateway-legacy` (Migrado a composición estática).
+- **Gateway Principal**: `apps/service/gateway-legacy` (Migrado a composición estática).
 - **Subgraphs Identificados**: Catalog, Identity, Inventory, Billing, Accounting, Payroll, Treasury, CRM, Projects, Manufacturing, Purchasing, BI, Admin, Fixed-Assets.
 - **Gobernanza**: Centralizada en `libs/platform/contract-governance`.
 
@@ -18,8 +18,8 @@
 ## 4. Matriz Brecha -> Acción -> Evidencia
 | Brecha | Acción | Evidencia |
 |---|---|---|
-| Composición Dinámica | Cambio a `supergraphSdl` estático | `apps/api/gateway-legacy/app/src/app/app.module.ts` |
-| Fuga de Errores | Implementación de `formatError` Nivel 5 | `apps/api/gateway-legacy/app/src/app/app.module.ts` |
+| Composición Dinámica | Cambio a `supergraphSdl` estático | `apps/service/gateway-legacy/app/src/app/app.module.ts` |
+| Fuga de Errores | Implementación de `formatError` Nivel 5 | `apps/service/gateway-legacy/app/src/app/app.module.ts` |
 | Complejidad Ilimitada | Estimador por Tier (Basic/Pro/Ent) | `libs/platform/contract-governance/src/lib/complexity.ts` |
 | PII en Traces | Redacción automática de campos sensibles | `libs/shared/util/server/server-config/src/lib/tracing.ts` |
 
@@ -29,7 +29,7 @@
 - **Quality Gates**: `schema-diff.ts`, `validate-federation-contracts.ts`, `track-deprecations.ts`.
 
 ## 6. Archivos Modificados y Justificación Técnica
-- `apps/api/gateway-legacy/app/src/app/app.module.ts`: Núcleo de la federación endurecido.
+- `apps/service/gateway-legacy/app/src/app/app.module.ts`: Núcleo de la federación endurecido.
 - `libs/shared/util/server/server-config/src/lib/tracing.ts`: Protección de datos en observabilidad.
 - `tools/quality-gates/*`: Automatización de la gobernanza contractual.
 

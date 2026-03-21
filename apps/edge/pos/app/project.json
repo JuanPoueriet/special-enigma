@@ -1,0 +1,61 @@
+{
+  "name": "edge-pos-app",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/edge/pos/app/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/apps/edge/pos/app",
+        "main": "apps/edge/pos/app/src/main.ts",
+        "tsConfig": "apps/edge/pos/app/tsconfig.app.json",
+        "compiler": "tsc",
+        "target": "node",
+        "webpackConfig": "apps/edge/pos/app/webpack.config.js"
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false
+        },
+        "development": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "edge-pos-app:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "edge-pos:build:development-app"
+        },
+        "production": {
+          "buildTarget": "edge-pos:build:production-app"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "apps/edge/pos/app/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": [
+    "scope:edge",
+    "scope:pos",
+    "type:bff",
+    "platform:node"
+  ]
+}

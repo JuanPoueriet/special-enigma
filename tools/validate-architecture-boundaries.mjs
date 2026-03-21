@@ -84,7 +84,7 @@ for (const domain of allDomains) {
     );
   }
 
-  const appPath = `apps/api/${domain}/app/src/app`;
+  const appPath = `apps/service/${domain}/app/src/app`;
   if (existsSync(appPath) && existsSync(join(base, 'presentation'))) {
     addSearchCheck(
       `[${domain}] App shell must not define duplicate presentation artifacts`,

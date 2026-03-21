@@ -1,0 +1,61 @@
+{
+  "name": "edge-cms-app",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/edge/cms/app/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/apps/edge/cms/app",
+        "main": "apps/edge/cms/app/src/main.ts",
+        "tsConfig": "apps/edge/cms/app/tsconfig.app.json",
+        "compiler": "tsc",
+        "target": "node",
+        "webpackConfig": "apps/edge/cms/app/webpack.config.js"
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false
+        },
+        "development": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "edge-cms-app:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "edge-cms:build:development-app"
+        },
+        "production": {
+          "buildTarget": "edge-cms:build:production-app"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "apps/edge/cms/app/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": [
+    "scope:edge",
+    "scope:cms",
+    "type:bff",
+    "platform:node"
+  ]
+}

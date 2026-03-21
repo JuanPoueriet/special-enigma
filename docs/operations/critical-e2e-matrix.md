@@ -9,8 +9,8 @@
 
 ## Ejecución
 
-- Suite backend crítica integrada: `apps/api/gateway/e2e/src/virteex-api-gateway/critical-flows.spec.ts`.
-- Suite web journeys de portal: `apps/web/portal/e2e/src/journeys/o2c-flow.spec.ts`.
+- Suite backend crítica integrada: `apps/service/gateway/e2e/src/virteex-api-gateway/critical-flows.spec.ts`.
+- Suite web journeys de portal: `apps/client/web/portal/e2e/src/journeys/o2c-flow.spec.ts`.
 - El smoke de gateway se ejecuta con `nx run api-gateway-e2e:e2e`.
 - La suite crítica se activa con `RUN_CRITICAL_E2E=true` para evitar falsos positivos fuera de entorno integrado.
 

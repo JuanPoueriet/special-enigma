@@ -104,7 +104,7 @@ for (const [projectName, reason] of allowMissingTestTarget.entries()) {
 }
 
 if (inspectedProjects.length === 0) {
-  errors.push('No backend application projects were inspected. Ensure project discovery covers apps/api and apps/worker.');
+  errors.push('No backend application projects were inspected. Ensure project discovery covers apps/service and apps/worker.');
 }
 
 if (errors.length > 0) {
