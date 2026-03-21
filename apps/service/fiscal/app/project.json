@@ -1,0 +1,96 @@
+{
+  "name": "service-fiscal-app",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/service/fiscal/app/src",
+  "projectType": "application",
+  "tags": [
+    "scope:fiscal",
+    "type:app",
+    "platform:fiscal",
+    "criticality:medium"
+  ],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "webpack-cli build",
+        "args": [
+          "--node-env=production"
+        ],
+        "cwd": "apps/service/fiscal/app"
+      },
+      "configurations": {
+        "development": {
+          "args": [
+            "--node-env=development"
+          ]
+        }
+      }
+    },
+    "prune-lockfile": {
+      "dependsOn": [
+        "build"
+      ],
+      "cache": true,
+      "executor": "@nx/js:prune-lockfile",
+      "outputs": [
+        "{workspaceRoot}/dist/apps/service-fiscal-app/package.json",
+        "{workspaceRoot}/dist/apps/service-fiscal-app/package-lock.json"
+      ],
+      "options": {
+        "buildTarget": "build"
+      }
+    },
+    "copy-workspace-modules": {
+      "dependsOn": [
+        "build"
+      ],
+      "cache": true,
+      "outputs": [
+        "{workspaceRoot}/dist/apps/service-fiscal-app/workspace_modules"
+      ],
+      "executor": "@nx/js:copy-workspace-modules",
+      "options": {
+        "buildTarget": "build"
+      }
+    },
+    "prune": {
+      "dependsOn": [
+        "prune-lockfile",
+        "copy-workspace-modules"
+      ],
+      "executor": "nx:noop"
+    },
+    "serve": {
+      "continuous": true,
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": [
+        "build"
+      ],
+      "options": {
+        "buildTarget": "service-fiscal-app:build",
+        "runBuildTargetDependencies": false,
+        "port": 9233
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "service-fiscal-app:build:development"
+        },
+        "production": {
+          "buildTarget": "service-fiscal-app:build:production"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{options.reportsDirectory}"
+      ],
+      "options": {
+        "config": "apps/service/fiscal/app/vitest.config.ts",
+        "reportsDirectory": "../../coverage/apps/service-fiscal-app"
+      }
+    }
+  }
+}

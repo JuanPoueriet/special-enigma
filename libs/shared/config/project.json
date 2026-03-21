@@ -1,6 +1,7 @@
 {
   "name": "shared-config",
   "projectType": "library",
+  "tags": ["scope:shared", "type:util"],
   "sourceRoot": "libs/shared/config/src",
   "targets": {
     "build": {

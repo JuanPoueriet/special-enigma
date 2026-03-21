@@ -38,9 +38,9 @@ for (const [moduleName, countries] of Object.entries(matrix.modules ?? {})) {
 }
 
 const sourceFiles = [
-  'apps/api/fiscal/app/src/app/app.module.ts',
+  'apps/service/fiscal/app/src/app/app.module.ts',
   'libs/domain/fiscal/infrastructure/src/index.ts',
-  'apps/api/plugin-host/app/src/main.ts'
+  'apps/service/plugin-host/app/src/main.ts'
 ];
 
 const patterns = [

@@ -1,0 +1,30 @@
+{
+  "name": "service-fixed-assets-e2e",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "tags": [
+    "scope:fixed-assets",
+    "type:e2e",
+    "platform:e2e",
+    "criticality:low"
+  ],
+  "implicitDependencies": [
+    "service-fixed-assets-app"
+  ],
+  "targets": {
+    "e2e": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{e2eProjectRoot}"
+      ],
+      "options": {
+        "jestConfig": "apps/service/fixed-assets/e2e/jest.config.cts",
+        "passWithNoTests": true
+      },
+      "dependsOn": [
+        "service-fixed-assets-app:build",
+        "service-fixed-assets-app:serve"
+      ]
+    }
+  }
+}

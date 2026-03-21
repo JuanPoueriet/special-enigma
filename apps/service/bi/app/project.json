@@ -1,0 +1,105 @@
+{
+  "name": "service-bi-app",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/service/bi/app/src",
+  "projectType": "application",
+  "tags": [
+    "scope:bi",
+    "type:app",
+    "platform:agnostic",
+    "criticality:medium"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/service-bi-app",
+        "main": "apps/service/bi/app/src/main.ts",
+        "tsConfig": "apps/service/bi/app/tsconfig.app.json",
+        "assets": [
+          "apps/service/bi/app/src/assets"
+        ],
+        "webpackConfig": "apps/service/bi/app/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/service/bi/app/src/environments/environment.ts",
+              "with": "apps/service/bi/app/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "prune-lockfile": {
+      "dependsOn": [
+        "build"
+      ],
+      "cache": true,
+      "executor": "@nx/js:prune-lockfile",
+      "outputs": [
+        "{workspaceRoot}/dist/apps/service-bi-app/package.json",
+        "{workspaceRoot}/dist/apps/service-bi-app/package-lock.json"
+      ],
+      "options": {
+        "buildTarget": "build"
+      }
+    },
+    "copy-workspace-modules": {
+      "dependsOn": [
+        "build"
+      ],
+      "cache": true,
+      "outputs": [
+        "{workspaceRoot}/dist/apps/service-bi-app/workspace_modules"
+      ],
+      "executor": "@nx/js:copy-workspace-modules",
+      "options": {
+        "buildTarget": "build"
+      }
+    },
+    "prune": {
+      "dependsOn": [
+        "prune-lockfile",
+        "copy-workspace-modules"
+      ],
+      "executor": "nx:noop"
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "service-bi-app:build",
+        "port": 9245
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "service-bi-app:build:development"
+        },
+        "production": {
+          "buildTarget": "service-bi-app:build:production"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{options.reportsDirectory}"
+      ],
+      "options": {
+        "reportsDirectory": "../../coverage/apps/service-bi-app"
+      }
+    }
+  }
+}

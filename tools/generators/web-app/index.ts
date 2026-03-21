@@ -4,7 +4,7 @@ import { applicationGenerator } from '@nx/angular/generators';
 export default async function (tree: Tree, schema: any) {
   await applicationGenerator(tree, {
     name: \`web-\${schema.name}-app\`,
-    directory: \`apps/web/\${schema.name}/app\`,
+    directory: \`apps/client/web/\${schema.name}/app\`,
     tags: \`scope:\${schema.name},layer:app\`,
     style: 'scss',
     routing: true,

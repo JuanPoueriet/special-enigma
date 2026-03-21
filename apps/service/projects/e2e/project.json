@@ -1,0 +1,18 @@
+{
+  "name": "service-projects-e2e",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "tags": ["scope:projects", "type:e2e", "platform:e2e", "criticality:low"],
+  "implicitDependencies": ["service-projects-app"],
+  "targets": {
+    "e2e": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
+      "options": {
+        "jestConfig": "apps/service/projects/e2e/jest.config.cts",
+        "passWithNoTests": true
+      },
+      "dependsOn": ["service-projects-app:build", "service-projects-app:serve"]
+    }
+  }
+}

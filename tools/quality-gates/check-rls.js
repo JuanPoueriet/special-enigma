@@ -28,7 +28,7 @@ async function checkRls() {
   console.log('🔍 Executing ADVERSARIAL RLS validation...');
 
   // 1. Verify Migration Integrity
-  const migrationPath = path.join(process.cwd(), 'apps/api/gateway/app/src/migrations');
+  const migrationPath = path.join(process.cwd(), 'apps/service/gateway/app/src/migrations');
   const rlsMigrationFile = path.join(migrationPath, 'Migration20250220_RLS.ts');
   const baselineSql = path.join(process.cwd(), 'platform/infrastructure/docker/init-scripts/010_tenant_rls_baseline.sql');
 

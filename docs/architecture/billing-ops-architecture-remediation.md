@@ -20,6 +20,6 @@
 ## Deuda residual / siguiente fase recomendada
 
 1. Migrar `PaymentMethod`, `TaxLine`, `TaxRule` a modelos de dominio puros + records ORM.
-2. Extraer `virteex-ops` a librerías Nx (`feature`, `ui`, `data-access`) fuera de `apps/web/virteex-ops`.
+2. Extraer `virteex-ops` a librerías Nx (`feature`, `ui`, `data-access`) fuera de `apps/client/web/virteex-ops`.
 3. Completar reglas anti-framework para **todo** `type:domain` cuando finalice migración de entidades legacy.
 4. Reorganizar `AppModule` de billing por módulos de bootstrap (transport, observability, persistence).

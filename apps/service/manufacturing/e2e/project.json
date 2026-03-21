@@ -1,0 +1,26 @@
+{
+  "name": "service-manufacturing-e2e",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "tags": [
+    "scope:manufacturing",
+    "type:e2e",
+    "platform:e2e",
+    "criticality:low"
+  ],
+  "implicitDependencies": ["service-manufacturing-app"],
+  "targets": {
+    "e2e": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
+      "options": {
+        "jestConfig": "apps/service/manufacturing/e2e/jest.config.cts",
+        "passWithNoTests": true
+      },
+      "dependsOn": [
+        "service-manufacturing-app:build",
+        "service-manufacturing-app:serve"
+      ]
+    }
+  }
+}

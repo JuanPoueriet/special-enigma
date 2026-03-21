@@ -11,7 +11,7 @@
 /libs/shared/ @virteex/architects
 
 # Backend Services (General)
-/apps/api/ @virteex/backend-leads
+/apps/service/ @virteex/backend-leads
 /apps/worker/ @virteex/backend-leads
 
 # Domain Ownership (Granular)
@@ -56,7 +56,7 @@
 /libs/domain/*/presentation/ @virteex/backend-leads @virteex/frontend-leads
 
 # Frontend
-/apps/web/ @virteex/frontend-leads
-/apps/mobile/ @virteex/frontend-leads
-/apps/desktop/ @virteex/frontend-leads
+/apps/client/web/ @virteex/frontend-leads
+/apps/client/mobile/ @virteex/frontend-leads
+/apps/client/desktop/ @virteex/frontend-leads
 /libs/domain/*/ui/ @virteex/frontend-leads

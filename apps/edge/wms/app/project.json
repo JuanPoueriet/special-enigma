@@ -1,0 +1,61 @@
+{
+  "name": "edge-wms-app",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/edge/wms/app/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/apps/edge/wms/app",
+        "main": "apps/edge/wms/app/src/main.ts",
+        "tsConfig": "apps/edge/wms/app/tsconfig.app.json",
+        "compiler": "tsc",
+        "target": "node",
+        "webpackConfig": "apps/edge/wms/app/webpack.config.js"
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false
+        },
+        "development": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "edge-wms-app:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "edge-wms:build:development-app"
+        },
+        "production": {
+          "buildTarget": "edge-wms:build:production-app"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "apps/edge/wms/app/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": [
+    "scope:edge",
+    "scope:wms",
+    "type:bff",
+    "platform:node"
+  ]
+}

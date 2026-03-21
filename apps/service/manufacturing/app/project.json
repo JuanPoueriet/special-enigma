@@ -1,0 +1,105 @@
+{
+  "name": "service-manufacturing-app",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/service/manufacturing/app/src",
+  "projectType": "application",
+  "tags": [
+    "scope:manufacturing",
+    "type:app",
+    "platform:agnostic",
+    "criticality:medium"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/service-manufacturing-app",
+        "main": "apps/service/manufacturing/app/src/main.ts",
+        "tsConfig": "apps/service/manufacturing/app/tsconfig.app.json",
+        "assets": [
+          "apps/service/manufacturing/app/src/assets"
+        ],
+        "webpackConfig": "apps/service/manufacturing/app/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/service/manufacturing/app/src/environments/environment.ts",
+              "with": "apps/service/manufacturing/app/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "prune-lockfile": {
+      "dependsOn": [
+        "build"
+      ],
+      "cache": true,
+      "executor": "@nx/js:prune-lockfile",
+      "outputs": [
+        "{workspaceRoot}/dist/apps/service-manufacturing-app/package.json",
+        "{workspaceRoot}/dist/apps/service-manufacturing-app/package-lock.json"
+      ],
+      "options": {
+        "buildTarget": "build"
+      }
+    },
+    "copy-workspace-modules": {
+      "dependsOn": [
+        "build"
+      ],
+      "cache": true,
+      "outputs": [
+        "{workspaceRoot}/dist/apps/service-manufacturing-app/workspace_modules"
+      ],
+      "executor": "@nx/js:copy-workspace-modules",
+      "options": {
+        "buildTarget": "build"
+      }
+    },
+    "prune": {
+      "dependsOn": [
+        "prune-lockfile",
+        "copy-workspace-modules"
+      ],
+      "executor": "nx:noop"
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "service-manufacturing-app:build",
+        "port": 9242
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "service-manufacturing-app:build:development"
+        },
+        "production": {
+          "buildTarget": "service-manufacturing-app:build:production"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{options.reportsDirectory}"
+      ],
+      "options": {
+        "reportsDirectory": "../../coverage/apps/service-manufacturing-app"
+      }
+    }
+  }
+}

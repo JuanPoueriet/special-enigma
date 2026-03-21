@@ -2,24 +2,24 @@
 
 ## API `app.module.ts`
 
-- apps/api/accounting/app/src/app/app.module.ts
-- apps/api/admin/app/src/app/app.module.ts
-- apps/api/bi/app/src/app/app.module.ts
-- apps/api/billing/app/src/app/app.module.ts
-- apps/api/catalog/app/src/app/app.module.ts
-- apps/api/crm/app/src/app/app.module.ts
-- apps/api/fiscal/app/src/app/app.module.ts
-- apps/api/fixed-assets/app/src/app/app.module.ts
-- apps/api/gateway/app/src/app/app.module.ts
-- apps/api/gateway-legacy/app/src/app/app.module.ts
-- apps/api/identity/app/src/app/app.module.ts
-- apps/api/inventory/app/src/app/app.module.ts
-- apps/api/manufacturing/app/src/app/app.module.ts
-- apps/api/payroll/app/src/app/app.module.ts
-- apps/api/projects/app/src/app/app.module.ts
-- apps/api/purchasing/app/src/app/app.module.ts
-- apps/api/subscription/app/src/app/app.module.ts
-- apps/api/treasury/app/src/app/app.module.ts
+- apps/service/accounting/app/src/app/app.module.ts
+- apps/service/admin/app/src/app/app.module.ts
+- apps/service/bi/app/src/app/app.module.ts
+- apps/service/billing/app/src/app/app.module.ts
+- apps/service/catalog/app/src/app/app.module.ts
+- apps/service/crm/app/src/app/app.module.ts
+- apps/service/fiscal/app/src/app/app.module.ts
+- apps/service/fixed-assets/app/src/app/app.module.ts
+- apps/service/gateway/app/src/app/app.module.ts
+- apps/service/gateway-legacy/app/src/app/app.module.ts
+- apps/service/identity/app/src/app/app.module.ts
+- apps/service/inventory/app/src/app/app.module.ts
+- apps/service/manufacturing/app/src/app/app.module.ts
+- apps/service/payroll/app/src/app/app.module.ts
+- apps/service/projects/app/src/app/app.module.ts
+- apps/service/purchasing/app/src/app/app.module.ts
+- apps/service/subscription/app/src/app/app.module.ts
+- apps/service/treasury/app/src/app/app.module.ts
 
 ## Worker services
 

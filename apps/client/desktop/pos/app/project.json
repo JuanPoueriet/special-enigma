@@ -1,0 +1,70 @@
+{
+  "name": "desktop-pos-app",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/client/desktop/pos/app/src",
+  "projectType": "application",
+  "prefix": "virteex",
+  "tags": [
+    "scope:pos",
+    "type:app",
+    "platform:desktop",
+    "criticality:high",
+    "compliance:none",
+    "tenant-mode:multi",
+    "region:global"
+  ],
+  "targets": {
+    "build": {
+      "executor": "nx-electron:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/client/desktop/pos/app",
+        "main": "apps/client/desktop/pos/app/src/main.ts",
+        "preload": "apps/client/desktop/pos/app/src/main.preload.ts",
+        "tsConfig": "apps/client/desktop/pos/app/tsconfig.app.json",
+        "assets": ["apps/client/desktop/pos/app/src/assets"]
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/client/desktop/pos/app/src/environments/environment.ts",
+              "with": "apps/client/desktop/pos/app/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "nx-electron:execute",
+      "options": {
+        "buildTarget": "desktop-pos-app:build"
+      }
+    },
+    "package": {
+      "executor": "nx-electron:package",
+      "options": {
+        "name": "desktop-pos-app",
+        "frontendProject": "web-pos-app",
+        "sourcePath": "dist/apps",
+        "outputPath": "dist/packages",
+        "prepackageOnly": true
+      }
+    },
+    "make": {
+      "executor": "nx-electron:make",
+      "options": {
+        "name": "desktop-pos-app",
+        "frontendProject": "web-pos-app",
+        "sourcePath": "dist/apps",
+        "outputPath": "dist/executables"
+      }
+    },
+    "lint": {
+      "command": "eslint apps/client/desktop/pos/app/**/*.ts"
+    }
+  }
+}
