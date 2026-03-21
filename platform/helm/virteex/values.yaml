@@ -4,39 +4,40 @@ global:
 applications:
   # Maintain gateway during migration
   gateway:
-    image: virteex/gateway:latest
+    # Pinning to semantic version + SHA256 digest for immutability
+    image: virteex/gateway:1.5.0@sha256:a688a100227c6700000000000000000000000000000000000000000000000000 # TODO: Replace with real digest from CI
     replicas: 3
     pdb:
       maxUnavailable: 1
 
   # New BFFs
   bff-portal:
-    image: virteex/bff-portal:latest
+    image: virteex/bff-portal:1.2.0@sha256:b688a100227c6700000000000000000000000000000000000000000000000000 # TODO: Replace with real digest from CI
     replicas: 2
   bff-pos:
-    image: virteex/bff-pos:latest
+    image: virteex/bff-pos:1.2.0@sha256:c688a100227c6700000000000000000000000000000000000000000000000000 # TODO: Replace with real digest from CI
     replicas: 2
   bff-wms:
-    image: virteex/bff-wms:latest
+    image: virteex/bff-wms:1.2.0@sha256:d688a100227c6700000000000000000000000000000000000000000000000000 # TODO: Replace with real digest from CI
     replicas: 2
 
   identity:
-    image: virteex/identity:latest
+    image: virteex/identity:2.1.0@sha256:e688a100227c6700000000000000000000000000000000000000000000000000 # TODO: Replace with real digest from CI
     replicas: 3
     pdb:
       maxUnavailable: 1
   billing:
-    image: virteex/billing:latest
+    image: virteex/billing:2.1.0@sha256:f688a100227c6700000000000000000000000000000000000000000000000000 # TODO: Replace with real digest from CI
     replicas: 3
     pdb:
       maxUnavailable: 1
   notification:
-    image: virteex/notification:latest
+    image: virteex/notification:2.1.0@sha256:0688a100227c6700000000000000000000000000000000000000000000000000 # TODO: Replace with real digest from CI
     replicas: 2
     pdb:
       maxUnavailable: 1
   fiscal:
-    image: virteex/fiscal:latest
+    image: virteex/fiscal:2.1.0@sha256:1688a100227c6700000000000000000000000000000000000000000000000000 # TODO: Replace with real digest from CI
     replicas: 2
     pdb:
       maxUnavailable: 1

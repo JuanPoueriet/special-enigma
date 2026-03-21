@@ -56,3 +56,7 @@ node_modules/
 dist/
 .nx/
 *.log
+
+# Security - TLS Certificates (Harden remediation)
+platform/infrastructure/docker/nginx/certs/*.key
+platform/infrastructure/docker/nginx/certs/*.crt

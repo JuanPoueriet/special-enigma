@@ -25,23 +25,22 @@ export class InputComponent implements ControlValueAccessor {
   value = '';
   disabled = false;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-empty-function
-  onChange: (value: any) => void = () => {};
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onTouched: () => void = () => {};
+  onChange: (value: string) => void = () => {
+    /* No-op default */
+  };
+  onTouched: () => void = () => {
+    /* No-op default */
+  };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  writeValue(value: any): void {
+  writeValue(value: string): void {
     this.value = value;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  registerOnChange(fn: any): void {
+  registerOnChange(fn: (value: string) => void): void {
     this.onChange = fn;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  registerOnTouched(fn: any): void {
+  registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
   }
 
@@ -49,9 +48,9 @@ export class InputComponent implements ControlValueAccessor {
     this.disabled = isDisabled;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onInput(event: any) {
-    this.value = event.target.value;
+  onInput(event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.value = target.value;
     this.onChange(this.value);
   }
 }

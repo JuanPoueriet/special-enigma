@@ -2,7 +2,8 @@ version: '3.8'
 
 services:
   zookeeper:
-    image: confluentinc/cp-zookeeper:7.5.0
+    # Pinning to semantic version + SHA256 digest for immutability
+    image: confluentinc/cp-zookeeper:7.5.0@sha256:0000000000000000000000000000000000000000000000000000000000000000 # TODO: Replace with real digest
     container_name: virteex-zookeeper
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
@@ -11,7 +12,8 @@ services:
       - "2181:2181"
 
   kafka:
-    image: confluentinc/cp-kafka:7.5.0
+    # Pinning to semantic version + SHA256 digest for immutability
+    image: confluentinc/cp-kafka:7.5.0@sha256:0000000000000000000000000000000000000000000000000000000000000000 # TODO: Replace with real digest
     container_name: virteex-kafka
     depends_on:
       - zookeeper
@@ -26,20 +28,22 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
   postgres:
-    image: postgres:15-alpine
+    # Pinning to semantic version + SHA256 digest for immutability
+    image: postgres:15.6-alpine@sha256:0000000000000000000000000000000000000000000000000000000000000000 # TODO: Replace with real digest
     container_name: virteex-postgres
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-virteex}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-virteex_password}
-      POSTGRES_DB: ${POSTGRES_DB:-virteex_core}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./init-scripts:/docker-entrypoint-initdb.d
 
   redis:
-    image: redis:7-alpine
+    # Pinning to semantic version + SHA256 digest for immutability
+    image: redis:7.2.4-alpine@sha256:8b81dd37ff027bec4e516d41acfbe9fe2460070dc6d4a4570a2ac5b9d59df065
     container_name: virteex-redis
     ports:
       - "6379:6379"
@@ -47,23 +51,25 @@ services:
       - redis_data:/data
 
   keycloak:
-    image: quay.io/keycloak/keycloak:23.0.0
+    # Pinning to semantic version + SHA256 digest for immutability
+    image: quay.io/keycloak/keycloak:23.0.0@sha256:b7bccfd8bb24e342fa0465e4dbcf9334236fc4df5483bc30edbb585071a2f0b0
     container_name: virteex-keycloak
     command: start-dev
     environment:
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://postgres:5432/virteex_keycloak
-      KC_DB_USERNAME: ${POSTGRES_USER:-virteex}
-      KC_DB_PASSWORD: ${POSTGRES_PASSWORD:-virteex_password}
-      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN:-admin}
-      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-admin}
+      KC_DB_USERNAME: ${POSTGRES_USER}
+      KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
     ports:
       - "8080:8080"
     depends_on:
       - postgres
 
   jaeger:
-    image: jaegertracing/all-in-one:1.50
+    # Pinning to semantic version + SHA256 digest for immutability
+    image: jaegertracing/all-in-one:1.50@sha256:0000000000000000000000000000000000000000000000000000000000000000 # TODO: Replace with real digest
     container_name: virteex-jaeger
     ports:
       - "16686:16686"

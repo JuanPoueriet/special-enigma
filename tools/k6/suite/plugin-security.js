@@ -19,7 +19,11 @@ export const options = {
 };
 
 const BASE_URL = __ENV.BASE_URL || 'http://localhost:3000';
-const SECRET = __ENV.VIRTEEX_HMAC_SECRET || 'dev-secret';
+const SECRET = __ENV.VIRTEEX_HMAC_SECRET;
+
+if (!SECRET) {
+  throw new Error('VIRTEEX_HMAC_SECRET must be set as an environment variable for security audit.');
+}
 
 function sign(contextStr) {
   return crypto.hmac('sha256', SECRET, contextStr, 'hex');
@@ -37,7 +41,7 @@ function getHeaders() {
 }
 
 export default function () {
-  const register = http.post(`${BASE_URL}/plugins`, JSON.stringify({
+  const register = http.post(`\${BASE_URL}/plugins`, JSON.stringify({
     name: 'k6-revocation-check',
     version: '1.0.0',
     code: 'log("ok")'
@@ -47,7 +51,7 @@ export default function () {
     'plugin register accepted': (r) => r.status === 201 || r.status === 200,
   });
 
-  const revoke = http.post(`${BASE_URL}/plugins/k6-revocation-check/revoke`, JSON.stringify({ reason: 'security-test' }), {
+  const revoke = http.post(`\${BASE_URL}/plugins/k6-revocation-check/revoke`, JSON.stringify({ reason: 'security-test' }), {
     headers: { ...getHeaders(), 'x-plugin-host-token': __ENV.PLUGIN_HOST_API_TOKEN || '', 'Content-Type': 'application/json' }
   });
 
@@ -55,7 +59,7 @@ export default function () {
     'plugin revoke successful': (r) => r.status === 200 || r.status === 204,
   });
 
-  const executeRevoked = http.post(`${BASE_URL}/execute`, JSON.stringify({ pluginName: 'k6-revocation-check' }), {
+  const executeRevoked = http.post(`\${BASE_URL}/execute`, JSON.stringify({ pluginName: 'k6-revocation-check' }), {
     headers: { ...getHeaders(), 'x-plugin-host-token': __ENV.PLUGIN_HOST_API_TOKEN || '', 'Content-Type': 'application/json' }
   });
 
@@ -83,11 +87,11 @@ export default function () {
   ];
 
   for (const test of maliciousPayloads) {
-    const res = http.post(`${BASE_URL}/api/plugins/execute`, JSON.stringify({ code: test.code }), { headers: getHeaders() });
+    const res = http.post(`\${BASE_URL}/api/plugins/execute`, JSON.stringify({ code: test.code }), { headers: getHeaders() });
 
     check(res, {
-      [`${test.name} BLOCKED/HANDLED`]: (r) => r.status === 400 || r.status === 422 || r.status === 403,
-      [`${test.name} NO CRASH`]: (r) => r.status !== 500,
+      [`\${test.name} BLOCKED/HANDLED`]: (r) => r.status === 400 || r.status === 422 || r.status === 403,
+      [`\${test.name} NO CRASH`]: (r) => r.status !== 500,
     });
 
     sleep(1);
