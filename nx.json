@@ -45,12 +45,10 @@
         "targetName": "test"
       },
       "exclude": [
-        "apps/api-gateway-e2e/**/*",
         "apps/api-identity-e2e/**/*",
         "apps/worker-scheduler-e2e/**/*",
         "apps/api-fiscal-e2e/**/*",
         "apps/api-catalog-e2e/**/*",
-        "apps/api-gateway-legacy-e2e/**/*",
         "apps/worker-notification-e2e/**/*",
         "apps/api-billing-e2e/**/*",
         "apps/api-accounting-e2e/**/*",
