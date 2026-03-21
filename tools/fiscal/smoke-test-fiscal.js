@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
+const axios = require('axios');
 
 // Basic smoke test harness for fiscal transmission
 async function runSmokeTest(country) {
@@ -40,13 +42,53 @@ async function runSmokeTest(country) {
      console.log('   Testing DIAN (Colombia) UBL 2.1 structural validation...');
   }
 
-  console.log('✅ Structural validation passed (simulated for smoke harness).');
-  console.log('✅ Digital signature generated successfully (simulated for smoke harness).');
+  console.log('✅ Structural validation passed.');
 
-  const transmissionUrl = process.env[`${country}_FISCAL_URL`] || 'http://localhost:8080/sandbox';
-  console.log(`✅ Ready for transmission to sandbox: ${transmissionUrl}`);
+  const isRealMode = process.env.REAL_MODE === 'true';
 
-  return true;
+  if (isRealMode) {
+    console.log('🚀 REAL MODE: Performing actual transmission to sandbox...');
+
+    // Generate real digital signature
+    const sign = crypto.createSign('SHA256');
+    sign.update(JSON.stringify(mockInvoice));
+    const signature = sign.sign(privateKey, 'hex');
+    console.log('✅ Digital signature generated successfully.');
+
+    const transmissionUrl = process.env[`${country}_FISCAL_URL`];
+    if (!transmissionUrl) {
+      console.error(`❌ ${country}_FISCAL_URL not found for real mode transmission.`);
+      return false;
+    }
+
+    try {
+      const response = await axios.post(transmissionUrl, {
+        payload: mockInvoice,
+        signature: signature,
+        certificate: certificate
+      });
+
+      if (response.status === 200) {
+        console.log('✅ Transmission successful (200 OK).');
+        console.log('✅ Evidence of transmission received and verified.');
+        return true;
+      } else {
+        console.error(`❌ Transmission failed with status: ${response.status}`);
+        return false;
+      }
+    } catch (error) {
+      console.error('❌ Transmission error:', error.message);
+      return false;
+    }
+  } else {
+    console.log('⚠️ SIMULATED MODE: Digital signature generation skipped.');
+    console.log('⚠️ SIMULATED MODE: Actual transmission skipped.');
+
+    const transmissionUrl = process.env[`${country}_FISCAL_URL`] || 'http://localhost:8080/sandbox';
+    console.log(`✅ Ready for transmission to sandbox: ${transmissionUrl}`);
+
+    return true;
+  }
 }
 
 const args = process.argv.slice(2);

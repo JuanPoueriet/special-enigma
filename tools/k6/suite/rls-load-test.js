@@ -32,7 +32,12 @@ export const options = {
 };
 
 const BASE_URL = __ENV.BASE_URL || 'http://localhost:3000';
-const SECRET = __ENV.VIRTEEX_HMAC_SECRET || 'dev-secret';
+const SECRET = __ENV.VIRTEEX_HMAC_SECRET;
+
+if (!SECRET) {
+  throw new Error('VIRTEEX_HMAC_SECRET must be set as an environment variable for security validation.');
+}
+
 const TENANT_COUNT = 1000;
 
 function sign(contextStr) {
@@ -42,7 +47,7 @@ function sign(contextStr) {
 export default function () {
   const tenantId = Math.floor(Math.random() * TENANT_COUNT) + 1;
   const context = JSON.stringify({
-    tenantId: `tenant-${tenantId}`,
+    tenantId: `tenant-\${tenantId}`,
     userId: 'user-1',
     roles: ['admin']
   });
@@ -56,11 +61,11 @@ export default function () {
     'x-virteex-signature': signature,
   };
 
-  const res = http.get(`${BASE_URL}/api/samples`, { headers });
+  const res = http.get(`\${BASE_URL}/api/samples`, { headers });
 
   // STRICT CHECK: Only 200 OK is acceptable for authorized traffic
   check(res, {
       'status is 200 OK': (r) => r.status === 200,
-      'no tenant leakage in headers': (r) => !r.headers['x-debug-tenant-id'] || r.headers['x-debug-tenant-id'] === `tenant-${tenantId}`
+      'no tenant leakage in headers': (r) => !r.headers['x-debug-tenant-id'] || r.headers['x-debug-tenant-id'] === `tenant-\${tenantId}`
   });
 }

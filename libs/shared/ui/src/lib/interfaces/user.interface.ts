@@ -32,7 +32,6 @@ export interface User extends AuthUser {
   online: boolean;
   phone?: string;
   jobTitle?: string;
-  passwordHash: string | null;
   isImpersonating?: boolean;
   originalUserId?: string;
   organization: Organization;

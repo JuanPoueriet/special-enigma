@@ -3,14 +3,15 @@ version: '3.8'
 services:
   # UNIFIED GATEWAY (NGINX)
   nginx:
-    image: nginx:alpine
+    # Pinning to semantic version + SHA256 digest for immutability
+    image: nginx:1.27-alpine@sha256:f46cb72c7df02710e693e863a983ac42f6a9579058a59a35f1ae36c9958e4ce0
     container_name: virteex-unified-gateway
     ports:
       - "3000:80"
       - "3443:443"
     volumes:
-      - ./infrastructure/docker/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./infrastructure/docker/nginx/certs:/etc/nginx/certs
+      - ./platform/infrastructure/docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./platform/infrastructure/docker/nginx/certs:/etc/nginx/certs
     depends_on:
       - api-gateway
       - identity-service
@@ -24,7 +25,7 @@ services:
 
   # API GATEWAY (Monolith)
   api-gateway:
-    image: node:20-alpine
+    image: node:20.18-alpine@sha256:b88333c42c23fbd91596ebd7fd10de239cedab9617de04142dde7315e3bc0afa
     container_name: virteex-api-gateway
     working_dir: /app
     volumes:
@@ -50,7 +51,7 @@ services:
 
   # IDENTITY SERVICE
   identity-service:
-    image: node:20-alpine
+    image: node:20.18-alpine@sha256:b88333c42c23fbd91596ebd7fd10de239cedab9617de04142dde7315e3bc0afa
     container_name: virteex-identity-service
     working_dir: /app
     volumes:
@@ -74,7 +75,7 @@ services:
 
   # INVENTORY SERVICE
   inventory-service:
-    image: node:20-alpine
+    image: node:20.18-alpine@sha256:b88333c42c23fbd91596ebd7fd10de239cedab9617de04142dde7315e3bc0afa
     container_name: virteex-inventory-service
     working_dir: /app
     volumes:
@@ -98,7 +99,7 @@ services:
 
   # BILLING SERVICE
   billing-service:
-    image: node:20-alpine
+    image: node:20.18-alpine@sha256:b88333c42c23fbd91596ebd7fd10de239cedab9617de04142dde7315e3bc0afa
     container_name: virteex-billing-service
     working_dir: /app
     volumes:
@@ -122,7 +123,7 @@ services:
 
   # CRM SERVICE
   crm-service:
-    image: node:20-alpine
+    image: node:20.18-alpine@sha256:b88333c42c23fbd91596ebd7fd10de239cedab9617de04142dde7315e3bc0afa
     container_name: virteex-crm-service
     working_dir: /app
     volumes:
@@ -146,7 +147,7 @@ services:
 
   # FISCAL SERVICE
   fiscal-service:
-    image: node:20-alpine
+    image: node:20.18-alpine@sha256:b88333c42c23fbd91596ebd7fd10de239cedab9617de04142dde7315e3bc0afa
     container_name: virteex-fiscal-service
     working_dir: /app
     volumes:
@@ -170,7 +171,7 @@ services:
 
   # SCHEDULER SERVICE
   scheduler-service:
-    image: node:20-alpine
+    image: node:20.18-alpine@sha256:b88333c42c23fbd91596ebd7fd10de239cedab9617de04142dde7315e3bc0afa
     container_name: virteex-scheduler-service
     working_dir: /app
     volumes:
@@ -185,7 +186,7 @@ services:
 
   # ACCOUNTING SERVICE
   accounting-service:
-    image: node:20-alpine
+    image: node:20.18-alpine@sha256:b88333c42c23fbd91596ebd7fd10de239cedab9617de04142dde7315e3bc0afa
     container_name: virteex-accounting-service
     working_dir: /app
     volumes:
@@ -209,7 +210,7 @@ services:
 
   # PAYROLL SERVICE
   payroll-service:
-    image: node:20-alpine
+    image: node:20.18-alpine@sha256:b88333c42c23fbd91596ebd7fd10de239cedab9617de04142dde7315e3bc0afa
     container_name: virteex-payroll-service
     working_dir: /app
     volumes:
@@ -233,7 +234,7 @@ services:
 
   # PROJECTS SERVICE
   projects-service:
-    image: node:20-alpine
+    image: node:20.18-alpine@sha256:b88333c42c23fbd91596ebd7fd10de239cedab9617de04142dde7315e3bc0afa
     container_name: virteex-projects-service
     working_dir: /app
     volumes:
@@ -257,7 +258,7 @@ services:
 
   # MANUFACTURING SERVICE
   manufacturing-service:
-    image: node:20-alpine
+    image: node:20.18-alpine@sha256:b88333c42c23fbd91596ebd7fd10de239cedab9617de04142dde7315e3bc0afa
     container_name: virteex-manufacturing-service
     working_dir: /app
     volumes:
@@ -281,7 +282,7 @@ services:
 
   # TREASURY SERVICE
   treasury-service:
-    image: node:20-alpine
+    image: node:20.18-alpine@sha256:b88333c42c23fbd91596ebd7fd10de239cedab9617de04142dde7315e3bc0afa
     container_name: virteex-treasury-service
     working_dir: /app
     volumes:
@@ -305,7 +306,7 @@ services:
 
   # PURCHASING SERVICE
   purchasing-service:
-    image: node:20-alpine
+    image: node:20.18-alpine@sha256:b88333c42c23fbd91596ebd7fd10de239cedab9617de04142dde7315e3bc0afa
     container_name: virteex-purchasing-service
     working_dir: /app
     volumes:
@@ -329,7 +330,7 @@ services:
 
   # BI SERVICE
   bi-service:
-    image: node:20-alpine
+    image: node:20.18-alpine@sha256:b88333c42c23fbd91596ebd7fd10de239cedab9617de04142dde7315e3bc0afa
     container_name: virteex-bi-service
     working_dir: /app
     volumes:
@@ -353,7 +354,7 @@ services:
 
   # ADMIN SERVICE
   admin-service:
-    image: node:20-alpine
+    image: node:20.18-alpine@sha256:b88333c42c23fbd91596ebd7fd10de239cedab9617de04142dde7315e3bc0afa
     container_name: virteex-admin-service
     working_dir: /app
     volumes:
@@ -377,7 +378,7 @@ services:
 
   # FIXED ASSETS SERVICE
   fixed-assets-service:
-    image: node:20-alpine
+    image: node:20.18-alpine@sha256:b88333c42c23fbd91596ebd7fd10de239cedab9617de04142dde7315e3bc0afa
     container_name: virteex-fixed-assets-service
     working_dir: /app
     volumes:
@@ -401,7 +402,7 @@ services:
 
   # CATALOG SERVICE (Subgraph)
   catalog-service:
-    image: node:20-alpine
+    image: node:20.18-alpine@sha256:b88333c42c23fbd91596ebd7fd10de239cedab9617de04142dde7315e3bc0afa
     container_name: virteex-catalog-service
     working_dir: /app
     volumes:
@@ -423,7 +424,7 @@ services:
 
   # GATEWAY (Apollo)
   gateway:
-    image: node:20-alpine
+    image: node:20.18-alpine@sha256:b88333c42c23fbd91596ebd7fd10de239cedab9617de04142dde7315e3bc0afa
     container_name: virteex-gateway
     working_dir: /app
     volumes:
@@ -437,7 +438,8 @@ services:
       - catalog-service
 
   postgres:
-    image: timescale/timescaledb:latest-pg15
+    # Pinning to semantic version + SHA256 digest for immutability
+    image: timescale/timescaledb:2.13.0-pg15@sha256:a4994627d9067ec44b1da8483b3de795389b3a783a9c8db915c7b2ca5b172f52
     container_name: virteex-postgres
     restart: always
     environment:
@@ -448,10 +450,11 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./infrastructure/docker/init-scripts/01-create-databases.sh:/docker-entrypoint-initdb.d/01-create-databases.sh
+      - ./platform/infrastructure/docker/init-scripts/01-create-databases.sh:/docker-entrypoint-initdb.d/01-create-databases.sh
 
   redis:
-    image: redis:7-alpine
+    # Pinning to semantic version + SHA256 digest for immutability
+    image: redis:7.2.4-alpine@sha256:8b81dd37ff027bec4e516d41acfbe9fe2460070dc6d4a4570a2ac5b9d59df065
     container_name: virteex-redis
     restart: always
     ports:
@@ -460,30 +463,36 @@ services:
       - redis_data:/data
 
   zookeeper:
-    image: bitnami/zookeeper:latest
+    # Pinning to semantic version + SHA256 digest for immutability
+    image: bitnami/zookeeper:3.9.1@sha256:f56ea4f9013021b45597fb2133efa1a64218feeb8866cf2a998be1c58ac021b4
     container_name: virteex-zookeeper
     ports:
       - "2181:2181"
     environment:
-      - ALLOW_ANONYMOUS_LOGIN=yes
+      # Hardened: Disallow anonymous login
+      - ALLOW_ANONYMOUS_LOGIN=no
 
   kafka:
-    image: bitnami/kafka:latest
+    # Pinning to semantic version + SHA256 digest for immutability
+    image: bitnami/kafka:3.6.1@sha256:b7bccfd8bb24e342fa0465e4dbcf9334236fc4df5483bc30edbb585071a2f0b0
     container_name: virteex-kafka
     ports:
       - "9092:9092"
     environment:
       - KAFKA_BROKER_ID=1
       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
-      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
-      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
-      - ALLOW_PLAINTEXT_LISTENER=yes
+      # Hardened: Use SASL_PLAINTEXT for internal and external listeners
+      - KAFKA_CFG_LISTENERS=SASL_PLAINTEXT://:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=SASL_PLAINTEXT://localhost:9092
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=SASL_PLAINTEXT:SASL_PLAINTEXT
+      - ALLOW_PLAINTEXT_LISTENER=no
     depends_on:
       - zookeeper
 
   # Observability Stack
   jaeger:
-    image: jaegertracing/all-in-one:latest
+    # Pinning to semantic version + SHA256 digest for immutability
+    image: jaegertracing/all-in-one:1.53@sha256:ab6f1a1f0fb49ea08bcd19f6b84f6081d0d44b364b6de148e1798eb5816bacac
     container_name: virteex-jaeger
     ports:
       - "16686:16686"
@@ -491,15 +500,17 @@ services:
       - "4318:4318"
 
   prometheus:
-    image: prom/prometheus:latest
+    # Pinning to semantic version + SHA256 digest for immutability
+    image: prom/prometheus:v2.49.1@sha256:d1010a52641b282b6c8584431b7e01589b4d556396904396446f72db54549aa9
     container_name: virteex-prometheus
     ports:
       - "9090:9090"
     volumes:
-      - ./infrastructure/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./platform/observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
 
   grafana:
-    image: grafana/grafana:latest
+    # Pinning to semantic version + SHA256 digest for immutability
+    image: grafana/grafana:10.3.3@sha256:e932bd6ed0e026595b08483cd0141e5103e1ab7ff8604839ff899b8dc54cabcb
     container_name: virteex-grafana
     ports:
       - "3001:3000"

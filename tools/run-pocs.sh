@@ -16,6 +16,11 @@ BASE_URL="${BASE_URL:-http://localhost:3000}"
 RESULT_DIR="${1:-artifacts/poc-results}"
 mkdir -p "$RESULT_DIR"
 
+if [[ -z "${VIRTEEX_HMAC_SECRET:-}" ]]; then
+  echo "ERROR: VIRTEEX_HMAC_SECRET environment variable is mandatory for POC execution."
+  exit 1
+fi
+
 run_poc() {
   local key="$1"
   local script="$2"
@@ -25,7 +30,7 @@ run_poc() {
   echo "== Running ${key}: ${script}"
 
   set +e
-  BASE_URL="$BASE_URL" VIRTEEX_HMAC_SECRET="${VIRTEEX_HMAC_SECRET:-dev-secret}" \
+  BASE_URL="$BASE_URL" VIRTEEX_HMAC_SECRET="${VIRTEEX_HMAC_SECRET}" \
     ${K6_CMD} run "$script" --summary-export "$out_file"
   local status=$?
   set -e

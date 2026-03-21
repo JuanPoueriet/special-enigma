@@ -4,16 +4,26 @@ set -euo pipefail
 TF_DIR="platform/infrastructure/terraform/regions/v1"
 
 if ! command -v terraform >/dev/null 2>&1; then
-  echo "WARN: terraform binary not found; skipping drift check."
-  exit 0
+  if [[ "${CI:-}" == "true" ]]; then
+    echo "ERROR: terraform binary not found in CI environment. Drift check is mandatory."
+    exit 1
+  else
+    echo "WARN: terraform binary not found; skipping drift check."
+    exit 0
+  fi
 fi
 
 terraform -chdir="$TF_DIR" init -backend=false -input=false >/dev/null
 terraform -chdir="$TF_DIR" validate
 
 if [[ -z "${AWS_ACCESS_KEY_ID:-}" || -z "${AWS_SECRET_ACCESS_KEY:-}" ]]; then
-  echo "WARN: AWS credentials not available; drift refresh check skipped after validate."
-  exit 0
+  if [[ "${CI:-}" == "true" ]]; then
+    echo "ERROR: AWS credentials not available in CI environment. Drift refresh check is mandatory."
+    exit 1
+  else
+    echo "WARN: AWS credentials not available; drift refresh check skipped after validate."
+    exit 0
+  fi
 fi
 
 set +e
