@@ -1,8 +1,8 @@
 {
-  "version": "2026.03-3.4-Hardened",
+  "version": "2026.03-5.0-GA",
   "generatedFrom": {
     "source": "config/readiness/operational-readiness.sot.json",
-    "sha256": "37314c0b7cceda74b1a4b81a98ef64fbcfe34adf0e77e69f900ded4f82a3ac42"
+    "sha256": "e7bfc4a0025df5bb9c7eb924186667e6f47772aeb682d57a40307ed20e4071f7"
   },
   "countries": [
     "MX",
@@ -25,12 +25,12 @@
     "fiscal": {
       "DO": { "status": "GA", "provider": "DGII", "allowSimulation": false },
       "MX": { "status": "GA", "provider": "SAT", "allowSimulation": false },
-      "BR": { "status": "Beta", "provider": "SEFAZ", "allowSimulation": true },
-      "CO": { "status": "Beta", "provider": "DIAN", "allowSimulation": true },
-      "US": { "status": "Beta", "provider": "STRIPE_TAX", "allowSimulation": true }
+      "BR": { "status": "GA", "provider": "SEFAZ", "allowSimulation": false },
+      "CO": { "status": "GA", "provider": "DIAN", "allowSimulation": false },
+      "US": { "status": "GA", "provider": "STRIPE_TAX", "allowSimulation": false }
     },
     "payroll": {
-      "MX": { "status": "Beta", "allowSimulation": true },
+      "MX": { "status": "GA", "allowSimulation": false },
       "US": { "status": "No listo", "allowSimulation": true }
     },
     "fixed-assets": {
@@ -62,14 +62,14 @@
       "DO": { "status": "GA", "allowSimulation": false },
       "MX": { "status": "GA", "allowSimulation": false },
       "BR": { "status": "GA", "allowSimulation": false },
-      "CO": { "status": "No listo", "allowSimulation": true },
+      "CO": { "status": "GA", "allowSimulation": false },
       "US": { "status": "GA", "allowSimulation": false }
     },
     "projects": {
       "DO": { "status": "GA", "allowSimulation": false },
       "MX": { "status": "GA", "allowSimulation": false },
       "BR": { "status": "GA", "allowSimulation": false },
-      "CO": { "status": "Beta", "allowSimulation": true },
+      "CO": { "status": "GA", "allowSimulation": false },
       "US": { "status": "GA", "allowSimulation": false }
     }
   },
@@ -90,9 +90,9 @@
     "blockWithoutEvidence": true
   },
   "compliance_certification": {
-    "tenancy_isolation": "4/5",
-    "regional_sovereignty": "3/5",
-    "dr_readiness": "3/5",
-    "finops_transparency": "3/5"
+    "tenancy_isolation": "5/5",
+    "regional_sovereignty": "5/5",
+    "dr_readiness": "5/5",
+    "finops_transparency": "5/5"
   }
 }

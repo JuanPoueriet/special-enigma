@@ -68,10 +68,16 @@ for (const [moduleName, countries] of Object.entries(matrix.modules ?? {})) {
     // GA requirement: 90 days SLO history
     if (cfg.status === 'GA') {
         const requiredWindow = sot.slaByTenantModeRegion?.[0]?.historicalWindowDays || 90;
-        const relevantSlo = sloHistory.records.filter(r => r.status === 'compliant');
-        // Simple heuristic: check if we have enough historical context (simulated for now by checking metadata if it existed)
-        if (requiredWindow > 30 && sloHistory.retentionDays < requiredWindow) {
+
+        // Level 5: Verify real historical compliance records
+        const relevantSlo = (sloHistory.records ?? []).filter(r => r.status === 'compliant');
+
+        if (requiredWindow > 30 && (sloHistory.retentionDays ?? 0) < requiredWindow) {
              violations.push(`${moduleName}/${country} is GA but SLO history retention (${sloHistory.retentionDays} days) is less than required (${requiredWindow} days).`);
+        }
+
+        if (relevantSlo.length < 3) {
+            violations.push(`${moduleName}/${country} is GA but lacks sufficient compliant SLO history records (found ${relevantSlo.length}, need at least 3 months for Level 5).`);
         }
     }
   }

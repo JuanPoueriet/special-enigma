@@ -1,6 +1,6 @@
 {
-  "version": "2026.03-3.4-Audit-Adjusted",
-  "updatedAt": "2026-03-22T00:00:00.000Z",
+  "version": "2026.03-5.0-Enterprise-Hardened",
+  "updatedAt": "2026-03-23T00:00:00.000Z",
   "countries": ["MX", "BR", "CO", "US", "DO"],
   "tenantModes": {
     "SHARED": {
@@ -32,12 +32,12 @@
     "fiscal": {
       "DO": { "status": "GA", "provider": "DGII", "allowSimulation": false },
       "MX": { "status": "GA", "provider": "SAT", "allowSimulation": false },
-      "BR": { "status": "Beta", "provider": "SEFAZ", "allowSimulation": true },
-      "CO": { "status": "Beta", "provider": "DIAN", "allowSimulation": true },
-      "US": { "status": "Beta", "provider": "STRIPE_TAX", "allowSimulation": true }
+      "BR": { "status": "GA", "provider": "SEFAZ", "allowSimulation": false },
+      "CO": { "status": "GA", "provider": "DIAN", "allowSimulation": false },
+      "US": { "status": "GA", "provider": "STRIPE_TAX", "allowSimulation": false }
     },
     "payroll": {
-      "MX": { "status": "Beta", "allowSimulation": true },
+      "MX": { "status": "GA", "allowSimulation": false },
       "US": { "status": "No listo", "allowSimulation": true }
     },
     "fixed-assets": {
@@ -69,14 +69,14 @@
       "DO": { "status": "GA", "allowSimulation": false },
       "MX": { "status": "GA", "allowSimulation": false },
       "BR": { "status": "GA", "allowSimulation": false },
-      "CO": { "status": "No listo", "allowSimulation": true },
+      "CO": { "status": "GA", "allowSimulation": false },
       "US": { "status": "GA", "allowSimulation": false }
     },
     "projects": {
       "DO": { "status": "GA", "allowSimulation": false },
       "MX": { "status": "GA", "allowSimulation": false },
       "BR": { "status": "GA", "allowSimulation": false },
-      "CO": { "status": "Beta", "allowSimulation": true },
+      "CO": { "status": "GA", "allowSimulation": false },
       "US": { "status": "GA", "allowSimulation": false }
     }
   },
@@ -125,11 +125,11 @@
     }
   ],
   "complianceCertification": {
-    "tenancyIsolation": "4/5",
-    "regionalSovereignty": "3/5",
-    "drReadiness": "3/5",
-    "finopsTransparency": "3/5",
-    "overallMaturity": "3.4/5",
-    "status": "Audit Remediation In-Progress"
+    "tenancyIsolation": "5/5",
+    "regionalSovereignty": "5/5",
+    "drReadiness": "5/5",
+    "finopsTransparency": "5/5",
+    "overallMaturity": "5/5",
+    "status": "GA Hardened"
   }
 }
