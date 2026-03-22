@@ -1,14 +1,16 @@
 import { DomainException } from '@virteex/shared-util-server-server-config';
 import { Injectable, Inject } from '@nestjs/common';
-import { EntityManager } from '@mikro-orm/core';
 import { Tenant } from '@virteex/kernel-tenant';
+import { TenantRepository, TENANT_REPOSITORY } from '@virteex/domain-identity-domain';
 
 @Injectable()
 export class GetSubscriptionStatusUseCase {
-  constructor(private readonly em: EntityManager) {}
+  constructor(
+    @Inject(TENANT_REPOSITORY) private readonly tenantRepository: TenantRepository
+  ) {}
 
   async execute(tenantId: string): Promise<{ status: string; plan: string; billingCycle: string }> {
-    const tenant = await this.em.findOne(Tenant, { id: tenantId });
+    const tenant = await this.tenantRepository.findById(tenantId);
     if (!tenant) {
       throw new DomainException('Tenant not found', 'ENTITY_NOT_FOUND');
     }

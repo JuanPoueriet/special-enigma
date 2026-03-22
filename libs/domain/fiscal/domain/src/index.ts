@@ -1,6 +1,3 @@
-import { Injectable } from '@nestjs/common';
-
-@Injectable()
 export class FiscalDocumentBuilderFactory {
   getBuilder(country: string): FiscalDocumentBuilder {
     return null as any;

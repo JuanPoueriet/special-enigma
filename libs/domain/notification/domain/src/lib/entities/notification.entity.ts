@@ -1,4 +1,3 @@
-import { Entity, PrimaryKey, Property, Enum, OneToMany, Collection, Index, ManyToOne, Unique } from '@mikro-orm/core';
 import { v4 } from 'uuid';
 
 export enum NotificationStatus {
@@ -21,79 +20,31 @@ export enum NotificationChannel {
   IN_APP = 'in_app',
 }
 
-@Entity({ tableName: 'notifications' })
-@Index({ properties: ['tenantId', 'status'] })
-@Unique({ properties: ['tenantId', 'idempotencyKey'] })
 export class Notification {
-  @PrimaryKey({ type: 'uuid' })
   id: string = v4();
-
-  @Property()
   tenantId!: string;
-
-  @Property({ nullable: true })
   userId?: string;
-
-  @Enum(() => NotificationChannel)
   channel!: NotificationChannel;
-
-  @Enum(() => NotificationStatus)
   status: NotificationStatus = NotificationStatus.ACCEPTED;
-
-  @Property({ nullable: true })
   templateId?: string;
-
-  @Property({ nullable: true })
   templateVersion?: string;
-
-  @Property({ type: 'json' })
   payload!: Record<string, any>;
-
-  @Property({ nullable: true })
   recipient!: string;
-
-  @Property({ nullable: true })
   idempotencyKey?: string;
-
-  @Property()
   createdAt: Date = new Date();
-
-  @Property({ onUpdate: () => new Date() })
   updatedAt: Date = new Date();
-
-  @Property({ nullable: true })
   sentAt?: Date;
-
-  @Property({ nullable: true })
   deliveredAt?: Date;
-
-  @Property({ nullable: true })
   providerMessageId?: string;
-
-  @Property({ nullable: true })
   providerName?: string;
-
-  @OneToMany(() => NotificationAttempt, (attempt) => attempt.notification)
-  history = new Collection<NotificationAttempt>(this);
+  history: NotificationAttempt[] = [];
 }
 
-@Entity({ tableName: 'notification_attempts' })
 export class NotificationAttempt {
-  @PrimaryKey({ type: 'uuid' })
   id: string = v4();
-
-  @ManyToOne(() => Notification)
   notification!: Notification;
-
-  @Enum(() => NotificationStatus)
   status!: NotificationStatus;
-
-  @Property({ nullable: true, type: 'text' })
   reason?: string;
-
-  @Property()
   occurredAt: Date = new Date();
-
-  @Property({ nullable: true, type: 'json' })
   providerResponse?: Record<string, any>;
 }

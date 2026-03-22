@@ -1,6 +1,5 @@
-import { Collection } from '@mikro-orm/core';
 import { ProjectStatus } from '@virteex/domain-projects-contracts';
-import { Task } from './task.entity';
+import type { Task } from './task.entity';
 
 export class Project {
   id!: string;
@@ -10,7 +9,7 @@ export class Project {
   status: ProjectStatus = ProjectStatus.PLANNING;
   startDate!: Date;
   endDate?: Date;
-  tasks = new Collection<Task>(this);
+  tasks: Task[] = [];
 
   constructor(tenantId: string, name: string, startDate: Date) {
     this.tenantId = tenantId;
