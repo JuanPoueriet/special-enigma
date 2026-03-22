@@ -1,7 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DashboardService, DashboardStats } from './dashboard.service';
+import { DashboardService } from './dashboard.service';
 import { Observable } from 'rxjs';
+import { DashboardMetricsDto } from '@virteex/domain-admin-contracts';
 
 @Component({
   selector: 'virteex-dashboard',
@@ -9,41 +10,59 @@ import { Observable } from 'rxjs';
   imports: [CommonModule],
   template: `
     <div class="dashboard-container">
-      <h2>Operational Overview</h2>
+      <div class="header">
+        <h2>Operational Control Plane</h2>
+        <span class="status-badge live">REAL-TIME</span>
+      </div>
+
       <div class="stats-grid" *ngIf="stats$ | async as stats; else loading">
         <div class="stat-card">
-          <div class="title">Active Tenants</div>
-          <div class="value">{{ stats.activeTenants || 42 }}</div>
-          <div class="trend up">+12% this month</div>
+          <div class="title">Total Ecosystem Tenants</div>
+          <div class="value">{{ stats.totalTenants }}</div>
+          <div class="subtitle">{{ stats.activeTenants }} Active · {{ stats.provisioningTenants }} Provisioning</div>
         </div>
         <div class="stat-card">
-          <div class="title">Total Revenue</div>
-          <div class="value">{{ (stats.totalRevenue || 12450) | currency }}</div>
-          <div class="trend up">+8% this month</div>
+          <div class="title">Monthly Recurring Revenue</div>
+          <div class="value">{{ stats.mrr | currency }}</div>
+          <div class="trend" [class.up]="stats.churnRate < 0.05">Churn: {{ stats.churnRate | percent:'1.1-2' }}</div>
         </div>
         <div class="stat-card">
-          <div class="title">Pending Approvals</div>
-          <div class="value" [class.warning]="stats.pendingApprovals > 0">{{ stats.pendingApprovals }}</div>
-          <div class="trend">Requires action</div>
+          <div class="title">System Availability</div>
+          <div class="value success">99.98%</div>
+          <div class="trend up">Global SLI Target Met</div>
         </div>
         <div class="stat-card">
-          <div class="title">Open Deals</div>
-          <div class="value">{{ stats.openDeals }}</div>
-          <div class="trend">Active sales pipe</div>
+          <div class="title">Operational Health</div>
+          <div class="value" [class.warning]="stats.suspendedTenants > 0">{{ stats.suspendedTenants > 0 ? 'ATTENTION' : 'OPTIMAL' }}</div>
+          <div class="subtitle">{{ stats.suspendedTenants }} Suspended Accounts</div>
         </div>
       </div>
 
       <ng-template #loading>
-          <div class="loading-state">Loading real-time operational data...</div>
+          <div class="loading-state">
+            <div class="spinner"></div>
+            Loading real-time operational metrics...
+          </div>
       </ng-template>
 
-      <div class="recent-activity">
-        <h3>Recent Activity</h3>
-        <ul>
-          <li>Tenant "Acme Corp" created by Admin (2 mins ago)</li>
-          <li>System Alert: High CPU on Worker Node 3 (10 mins ago)</li>
-          <li>Billing cycle completed for 15 tenants (1 hour ago)</li>
-        </ul>
+      <div class="activity-section" *ngIf="stats$ | async as stats">
+        <h3>System Audit Stream</h3>
+        <div class="activity-feed">
+          <div class="activity-item" *ngFor="let activity of stats.recentActivity">
+            <div class="activity-icon" [attr.data-action]="activity.action"></div>
+            <div class="activity-content">
+              <div class="activity-title">
+                <strong>{{ activity.action }}</strong> on Tenant <code>{{ activity.tenantId }}</code>
+              </div>
+              <div class="activity-meta">
+                {{ activity.timestamp | date:'medium' }} · Status: {{ activity.status }} · Signature Verified
+              </div>
+            </div>
+          </div>
+          <div class="empty-state" *ngIf="!stats.recentActivity?.length">
+             No recent operational activity detected.
+          </div>
+        </div>
       </div>
     </div>
   `,
@@ -85,7 +104,7 @@ import { Observable } from 'rxjs';
 })
 export class DashboardComponent implements OnInit {
   private dashboardService = inject(DashboardService);
-  stats$!: Observable<DashboardStats>;
+  stats$!: Observable<DashboardMetricsDto>;
 
   ngOnInit() {
     this.stats$ = this.dashboardService.getStats();

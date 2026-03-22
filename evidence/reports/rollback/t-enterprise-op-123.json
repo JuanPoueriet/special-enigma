@@ -1,0 +1,10 @@
+{
+  "tenantId": "t-enterprise",
+  "operationId": "op-123",
+  "verifiedAt": "2026-03-22T04:42:17.760Z",
+  "verified": true,
+  "preMigrationStats": {},
+  "rollbackStats": {},
+  "signature": "f8ed358f3398c9641541f16a35fad64217d3fb3e125b88b7ff5cc90dbcd61afb",
+  "signatureAlgorithm": "HMAC-SHA256"
+}

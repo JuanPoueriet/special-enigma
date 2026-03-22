@@ -27,6 +27,10 @@ export class AuthSessionStore {
     this.currentUserSubject.next(null);
   }
 
+  getCurrentUser(): AuthUser | null {
+    return this.currentUserSubject.value;
+  }
+
   isAuthenticated(): boolean {
     return !!this.currentUserSubject.value || !!localStorage.getItem('token');
   }

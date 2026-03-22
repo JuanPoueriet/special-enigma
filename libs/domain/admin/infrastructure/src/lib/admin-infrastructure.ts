@@ -2,7 +2,7 @@ import { Module, Global } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { TenantConfig, TENANT_CONFIG_REPOSITORY, INTEGRATION_GATEWAY, DASHBOARD_GATEWAY, DATABASE_PORT } from '@virteex/domain-admin-domain';
+import { TenantConfig, Incident, TENANT_CONFIG_REPOSITORY, INTEGRATION_GATEWAY, DASHBOARD_GATEWAY, DATABASE_PORT } from '@virteex/domain-admin-domain';
 import { MikroOrmTenantConfigRepository } from './repositories/mikro-orm-tenant-config.repository';
 import { HttpIntegrationAdapter } from './adapters/http-integration.adapter';
 import { HttpDashboardGateway } from './adapters/http-dashboard.gateway';
@@ -11,7 +11,7 @@ import { MikroOrmDatabaseAdapter } from './adapters/mikro-orm-database.adapter';
 @Global()
 @Module({
   imports: [
-    MikroOrmModule.forFeature([TenantConfig]),
+    MikroOrmModule.forFeature([TenantConfig, Incident]),
     HttpModule,
     ConfigModule
   ],

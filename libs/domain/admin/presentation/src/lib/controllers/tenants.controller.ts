@@ -1,8 +1,9 @@
 import { Controller, Post, Get, Patch, Body, Param, Query, Logger, UseGuards, ForbiddenException } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiParam, ApiQuery, ApiHeader } from '@nestjs/swagger';
 import { TenantSupportService, ProvisioningService } from '@virteex/domain-admin-application';
-import { TenantService } from '@virteex/kernel-tenant';
+import { TenantService, TenantMode } from '@virteex/kernel-tenant';
 import { StepUp, StepUpGuard } from '@virteex/kernel-auth';
+import { CreateTenantRequest } from '@virteex/domain-admin-contracts';
 
 @ApiTags('Admin/Tenants')
 @ApiHeader({ name: 'X-MFA-Token', description: 'Mandatory Multi-Factor Authentication Token for Admin access' })
@@ -20,18 +21,27 @@ export class TenantsController {
 
   @Post()
   @ApiOperation({ summary: 'Create a new tenant (Automated Provisioning Flow)' })
-  async createTenant(@Body() body: { id: string; mode: any; schemaName?: string; connectionString?: string; primaryRegion?: string; secondaryRegion?: string; complianceProfile?: string; keys?: { kmsKeyId?: string; signingKeyId?: string } }) {
+  async createTenant(@Body() body: CreateTenantRequest) {
       this.logger.log(`ADMIN REQUEST: Provisioning new tenant: ${body.id}`);
 
       const tenant = await this.tenantService.createTenant({
           id: body.id,
-          mode: body.mode,
-          schemaName: body.schemaName,
-          connectionString: body.connectionString,
-          primaryRegion: body.primaryRegion as string,
-          secondaryRegion: body.secondaryRegion as string,
-          complianceProfile: body.complianceProfile as string,
-          keys: body.keys as { kmsKeyId: string; signingKeyId: string },
+          mode: body.mode as TenantMode,
+          primaryRegion: body.primaryRegion || 'us-east-1',
+          secondaryRegion: body.secondaryRegion || 'us-west-2',
+          complianceProfile: 'standard',
+          settings: {
+              name: body.name,
+              country: body.country,
+              email: body.email,
+              taxId: body.taxId,
+              plan: body.plan
+          },
+          keys: {
+              kmsKeyId: 'default-kms-id',
+              signingKeyId: 'default-signing-id'
+          },
+          schemaName: body.mode === 'SCHEMA' ? `tenant_${body.id.toLowerCase()}` : undefined
       });
 
       // Start actual infrastructure provisioning

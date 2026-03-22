@@ -1,15 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { TenantsApiClient, TenantDto } from './tenants-api.client';
-
-export interface TenantSummary {
-  id: string;
-  name: string;
-  taxId: string;
-  country: string;
-  createdAt?: string;
-  status?: string;
-}
+import { TenantsApiClient } from './tenants-api.client';
+import { TenantDto, CreateTenantRequest } from '@virteex/domain-admin-contracts';
 
 @Injectable({
   providedIn: 'root'
@@ -17,26 +9,23 @@ export interface TenantSummary {
 export class TenantService {
   private readonly apiClient = inject(TenantsApiClient);
 
-  getTenants(): Observable<TenantSummary[]> {
+  getTenants(): Observable<TenantDto[]> {
     return this.apiClient.getTenants();
   }
 
-  getTenant(id: string): Observable<TenantSummary> {
+  getTenant(id: string): Observable<TenantDto> {
     return this.apiClient.getTenant(id);
   }
 
-  createTenant(data: Record<string, unknown>): Observable<TenantSummary> {
+  createTenant(data: CreateTenantRequest): Observable<any> {
     return this.apiClient.createTenant(data);
   }
 
-  fromTenantDto(dto: TenantDto): TenantSummary {
-    return {
-      id: dto.id,
-      name: dto.name,
-      taxId: dto.taxId,
-      country: dto.country,
-      createdAt: dto.createdAt,
-      status: dto.status,
-    };
+  getProvisioningStatus(id: string): Observable<any> {
+      return this.apiClient.getProvisioningStatus(id);
+  }
+
+  updateStatus(id: string, status: string, reason: string): Observable<any> {
+      return this.apiClient.updateStatus(id, status, reason);
   }
 }

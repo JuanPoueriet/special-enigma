@@ -36,6 +36,10 @@ export const appRoutes: Route[] = [
         loadComponent: () => import('./tenants/create-tenant.component').then(m => m.CreateTenantComponent),
       },
       {
+        path: 'tenants/:id',
+        loadComponent: () => import('./tenants/tenant-detail.component').then(m => m.TenantDetailComponent),
+      },
+      {
         path: 'billing',
         loadComponent: () => import('./billing/billing.component').then(m => m.BillingComponent),
       },

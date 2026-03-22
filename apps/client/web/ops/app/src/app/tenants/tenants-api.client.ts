@@ -2,15 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { API_BASE_URL } from '../core/config/api-base-url.token';
-
-export interface TenantDto {
-  id: string;
-  name: string;
-  taxId: string;
-  country: string;
-  createdAt?: string;
-  status?: string;
-}
+import { TenantDto, CreateTenantRequest } from '@virteex/domain-admin-contracts';
 
 @Injectable({ providedIn: 'root' })
 export class TenantsApiClient {
@@ -25,7 +17,15 @@ export class TenantsApiClient {
     return this.http.get<TenantDto>(`${this.apiBaseUrl}/admin/tenants/${id}`);
   }
 
-  createTenant(data: Record<string, unknown>): Observable<TenantDto> {
-    return this.http.post<TenantDto>(`${this.apiBaseUrl}/admin/tenants`, data);
+  createTenant(data: CreateTenantRequest): Observable<any> {
+    return this.http.post<any>(`${this.apiBaseUrl}/admin/tenants`, data);
+  }
+
+  getProvisioningStatus(id: string): Observable<any> {
+      return this.http.get<any>(`${this.apiBaseUrl}/admin/tenants/${id}/provisioning-status`);
+  }
+
+  updateStatus(id: string, status: string, reason: string): Observable<any> {
+      return this.http.patch<any>(`${this.apiBaseUrl}/admin/tenants/${id}/status`, { status, reason });
   }
 }

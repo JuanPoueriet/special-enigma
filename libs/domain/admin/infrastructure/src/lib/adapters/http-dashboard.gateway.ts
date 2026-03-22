@@ -34,8 +34,12 @@ export class HttpDashboardGateway implements DashboardGateway {
 
       return {
         mrr,
+        totalTenants: activeTenants, // Approximate for this adapter
         activeTenants,
-        churnRate
+        suspendedTenants: 0,
+        provisioningTenants: 0,
+        churnRate,
+        recentActivity: []
       };
     } catch (error: any) {
       this.logger.error(`Failed to fetch dashboard metrics: ${error.message}`, error.stack);
@@ -43,8 +47,12 @@ export class HttpDashboardGateway implements DashboardGateway {
       // For now, return zeros to avoid crashing the dashboard entirely
       return {
         mrr: 0,
+        totalTenants: 0,
         activeTenants: 0,
-        churnRate: 0
+        suspendedTenants: 0,
+        provisioningTenants: 0,
+        churnRate: 0,
+        recentActivity: []
       };
     }
   }
