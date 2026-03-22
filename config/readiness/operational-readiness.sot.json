@@ -32,9 +32,9 @@
     "fiscal": {
       "DO": { "status": "GA", "provider": "DGII", "allowSimulation": false },
       "MX": { "status": "GA", "provider": "SAT", "allowSimulation": false },
-      "BR": { "status": "GA", "provider": "SEFAZ", "allowSimulation": false },
-      "CO": { "status": "GA", "provider": "DIAN", "allowSimulation": false },
-      "US": { "status": "GA", "provider": "STRIPE_TAX", "allowSimulation": false }
+      "BR": { "status": "Beta", "provider": "SEFAZ", "allowSimulation": true },
+      "CO": { "status": "Beta", "provider": "DIAN", "allowSimulation": true },
+      "US": { "status": "Beta", "provider": "STRIPE_TAX", "allowSimulation": true }
     },
     "payroll": {
       "MX": { "status": "GA", "allowSimulation": false },
@@ -125,11 +125,11 @@
     }
   ],
   "complianceCertification": {
-    "tenancyIsolation": "5/5",
-    "regionalSovereignty": "5/5",
-    "drReadiness": "5/5",
-    "finopsTransparency": "5/5",
-    "overallMaturity": "5/5",
-    "status": "GA Hardened"
+    "tenancyIsolation": "3.8/5",
+    "regionalSovereignty": "3.5/5",
+    "drReadiness": "3.1/5",
+    "finopsTransparency": "3.0/5",
+    "overallMaturity": "3.2/5",
+    "status": "Operativo con brechas"
   }
 }

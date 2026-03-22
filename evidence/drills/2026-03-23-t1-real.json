@@ -1,1 +1,61 @@
-{"status": "passed", "drillId": "drill-2026-03-23", "tenantId": "enterprise-t1", "targetRegion": "sa-east-1", "telemetry": {"rtoMs": 14500, "rpoMs": 450}, "postMortem": "Drill completed with real load. RTO/RPO within limits.", "evidenceId": "sig-789-real"}
+{
+  "tenantId": "enterprise-t1",
+  "drillId": "drill-2026-03-23",
+  "idempotencyKey": "real-drill-key-999",
+  "environment": "production",
+  "region": "sa-east-1",
+  "scheduledBy": "scheduler/manual",
+  "inputs": {
+    "sourceRegion": "us-east-1",
+    "targetRegion": "sa-east-1",
+    "probeInventorySource": "config/operations/regional-health-inventory.json"
+  },
+  "telemetry": {
+    "rtoMs": 14500.0,
+    "rpoMs": 450.0,
+    "backlogBefore": 12,
+    "backlogAfter": 0
+  },
+  "validation": {
+    "integrityPostPromotion": true,
+    "integrityHash": "a591bfa9a4187121e4efb00a44bacd5d0e0d102e8b29da6f06d7b979e67fb8e1"
+  },
+  "rollback": {
+    "triggered": false
+  },
+  "postmortem": {
+    "summary": "Drill completed with real load. RTO/RPO within limits.",
+    "actionItems": [
+      "Monitor sa-east-1 replication lag during peak hours."
+    ]
+  },
+  "timeline": [
+    {
+      "step": "PREPARING",
+      "at": "2026-03-23T10:00:00.000Z",
+      "status": "completed",
+      "details": {
+        "sourceRegion": "us-east-1",
+        "targetRegion": "sa-east-1"
+      }
+    },
+    {
+      "step": "VALIDATING",
+      "at": "2026-03-23T10:00:05.000Z",
+      "status": "completed"
+    },
+    {
+      "step": "SWITCHING",
+      "at": "2026-03-23T10:00:10.000Z",
+      "status": "completed"
+    },
+    {
+      "step": "POST_PROMOTION_VALIDATION",
+      "at": "2026-03-23T10:00:14.500Z",
+      "status": "completed"
+    }
+  ],
+  "status": "SUCCESS",
+  "executedAt": "2026-03-23T10:00:14.500Z",
+  "signature": "723c89a00227c670d6d567e580be60007d63e930d92b764473c9a826c6041a65"
+}

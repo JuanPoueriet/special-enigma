@@ -84,6 +84,21 @@ if [ ! -z "$SIMULATED_EVIDENCE" ]; then
     FOUND=1
 fi
 
+# 5. SEMANTIC READINESS CHECK (GA modules must not allow simulation)
+echo "Checking for GA modules allowing simulation in readiness matrices..."
+MATRIX_FILES=("config/readiness/commercial-eligibility.matrix.json" "config/readiness/operational-readiness.sot.json")
+
+for FILE in "${MATRIX_FILES[@]}"; do
+    if [ -f "$FILE" ]; then
+        SIM_GA=$(jq -r '.modules | to_entries[] | .key as $mod | .value | to_entries[] | select(.value.status == "GA" and .value.allowSimulation == true) | "\($mod)/\(.key)"' "$FILE")
+        if [ ! -z "$SIM_GA" ]; then
+            echo "CRITICAL: GA modules allowing simulation found in $FILE:"
+            echo "$SIM_GA"
+            FOUND=1
+        fi
+    fi
+done
+
 if [ $FOUND -eq 1 ]; then
     echo "Gating failure: Level 5 compliance check FAILED."
     exit 1

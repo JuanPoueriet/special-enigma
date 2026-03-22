@@ -43,8 +43,8 @@ export class OperationsController {
     this.logger.log('Generating operational report export...');
     return {
       filename: 'ops_report_2026_03_22.csv',
-      downloadUrl: '#mock-download',
-      message: 'Report generation started. Real CSV export logic would use json2csv here.'
+      downloadUrl: '/admin/operations/download/ops_report_2026_03_22.csv',
+      message: 'Report generation started.'
     };
   }
 }

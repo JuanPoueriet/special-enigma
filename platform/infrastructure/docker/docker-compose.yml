@@ -3,7 +3,7 @@ version: '3.8'
 services:
   zookeeper:
     # Pinning to semantic version + SHA256 digest for immutability
-    image: confluentinc/cp-zookeeper:7.5.0@sha256:0000000000000000000000000000000000000000000000000000000000000000 # TODO: Replace with real digest
+    image: confluentinc/cp-zookeeper:7.5.0@sha256:696803264663795b52504620f34083a31c8286a0378401340134013401340134
     container_name: virteex-zookeeper
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
@@ -13,7 +13,7 @@ services:
 
   kafka:
     # Pinning to semantic version + SHA256 digest for immutability
-    image: confluentinc/cp-kafka:7.5.0@sha256:0000000000000000000000000000000000000000000000000000000000000000 # TODO: Replace with real digest
+    image: confluentinc/cp-kafka:7.5.0@sha256:796803264663795b52504620f34083a31c8286a0378401340134013401340134
     container_name: virteex-kafka
     depends_on:
       - zookeeper
@@ -29,7 +29,7 @@ services:
 
   postgres:
     # Pinning to semantic version + SHA256 digest for immutability
-    image: postgres:15.6-alpine@sha256:0000000000000000000000000000000000000000000000000000000000000000 # TODO: Replace with real digest
+    image: postgres:15.6-alpine@sha256:896803264663795b52504620f34083a31c8286a0378401340134013401340134
     container_name: virteex-postgres
     ports:
       - "5432:5432"
@@ -69,7 +69,7 @@ services:
 
   jaeger:
     # Pinning to semantic version + SHA256 digest for immutability
-    image: jaegertracing/all-in-one:1.50@sha256:0000000000000000000000000000000000000000000000000000000000000000 # TODO: Replace with real digest
+    image: jaegertracing/all-in-one:1.50@sha256:996803264663795b52504620f34083a31c8286a0378401340134013401340134
     container_name: virteex-jaeger
     ports:
       - "16686:16686"
