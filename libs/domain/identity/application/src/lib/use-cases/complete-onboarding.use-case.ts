@@ -1,16 +1,30 @@
 import { DomainException } from '@virteex/shared-util-server-server-config';
 import { Injectable, Inject, Logger } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { EntityManager } from '@mikro-orm/core';
-import { AuthService, NotificationService, UserRepository, CompanyRepository, AuditLogRepository, AuditLog, RiskEngineService, User, Company, Session, SessionRepository, CachePort } from '@virteex/domain-identity-domain';
+import {
+    AuthService,
+    NotificationService,
+    UserRepository,
+    CompanyRepository,
+    AuditLogRepository,
+    AuditLog,
+    RiskEngineService,
+    User,
+    Company,
+    SessionRepository,
+    CachePort,
+    UNIT_OF_WORK_PORT,
+    UnitOfWorkPort
+} from '@virteex/domain-identity-domain';
 import { Tenant, TenantMode } from '@virteex/kernel-tenant';
-import * as crypto from 'crypto';
 import { TokenGenerationService } from '../services/token-generation.service';
 import { CompleteOnboardingDto } from '@virteex/domain-identity-contracts';
+import { TaxIdValidator } from '@virteex/domain-identity-domain';
 
 @Injectable()
 export class CompleteOnboardingUseCase {
   private readonly logger = new Logger(CompleteOnboardingUseCase.name);
+  private readonly taxIdValidator = new TaxIdValidator();
 
   constructor(
     @Inject(UserRepository) private readonly userRepository: UserRepository,
@@ -21,7 +35,7 @@ export class CompleteOnboardingUseCase {
     @Inject(AuditLogRepository) private readonly auditLogRepository: AuditLogRepository,
     @Inject(RiskEngineService) private readonly riskEngineService: RiskEngineService,
     @Inject(CachePort) private readonly cachePort: CachePort,
-    private readonly em: EntityManager,
+    @Inject(UNIT_OF_WORK_PORT) private readonly uow: UnitOfWorkPort,
     @Inject(TokenGenerationService) private readonly tokenGenerationService: TokenGenerationService,
     private readonly eventEmitter: EventEmitter2
   ) {}
@@ -47,15 +61,14 @@ export class CompleteOnboardingUseCase {
     const { passwordHash } = JSON.parse(storedData);
 
     // Validate Tax ID format
-    this.validateTaxId(dto.country, dto.taxId);
+    this.taxIdValidator.validate(dto.country, dto.taxId);
 
     // Validate Duplicate Tax ID
-    // CRITICAL FIX: Ensure no duplicate Tax ID exists before creating tenant
     if (await this.companyRepository.existsByTaxId(dto.taxId)) {
         throw new DomainException(`Company with Tax ID ${dto.taxId} already exists.`, 'CONFLICT');
     }
 
-    const result = await this.em.transactional(async (em) => {
+    const result = await this.uow.runInTransaction(async () => {
         const company = new Company(dto.companyName, dto.taxId, dto.country);
         if (dto.country === 'CO') {
             company.settings = { fiscalRegime: dto.regime, taxProvider: 'DIAN' };
@@ -68,20 +81,14 @@ export class CompleteOnboardingUseCase {
              company.currency = 'USD';
         }
 
-        em.persist(company);
+        await this.companyRepository.save(company);
 
-        // -----------------------------------------------------
-        // CRITICAL: Create the Infrastructure Tenant record
-        // This ensures the TenantMiddleware can resolve the context later.
-        // -----------------------------------------------------
         const tenant = new Tenant();
-        tenant.id = company.id; // Sync Business ID with Infrastructure ID
-        tenant.mode = TenantMode.SHARED; // Default for new signups
+        tenant.id = company.id;
+        tenant.mode = TenantMode.SHARED;
         tenant.plan = 'TRIAL';
         tenant.createdAt = new Date();
         tenant.updatedAt = new Date();
-
-        em.persist(tenant);
 
         const user = new User(
             email,
@@ -99,7 +106,7 @@ export class CompleteOnboardingUseCase {
         user.mfaSecret = await this.authService.encrypt(rawSecret);
         user.mfaEnabled = true;
 
-        em.persist(user);
+        await this.userRepository.save(user);
 
         return { user, company, rawSecret };
     });
@@ -108,19 +115,16 @@ export class CompleteOnboardingUseCase {
 
     await this.cachePort.del(key);
 
-    // Emit event to notify other domains to initialize tenant data (e.g. Accounting)
     this.eventEmitter.emit('tenant.created', { tenantId: user.company.id });
 
     const { accessToken, refreshToken, expiresIn } = await this.tokenGenerationService.createSessionAndTokens(user, context, 0);
 
     await this.auditLogRepository.save(new AuditLog('REGISTER_SUCCESS', user.id, { ip: context.ip }));
 
-    // Send Welcome Email
     try {
         await this.notificationService.sendWelcomeEmail(user);
     } catch (e) {
         this.logger.error(`Failed to send welcome email to ${user.email} after successful registration`, e);
-        // Do not fail the registration flow if email fails, but log it as critical
     }
 
     return {
@@ -134,51 +138,5 @@ export class CompleteOnboardingUseCase {
             companyName: user.company.name
         }
     };
-  }
-
-  private validateTaxId(country: string, taxId: string): void {
-    const countryCode = country.toUpperCase();
-    let isValid = true;
-    let errorMsg = '';
-
-    switch (countryCode) {
-      case 'CO': {
-        const nit = taxId.replace(/[^0-9]/g, '');
-        if (!/^\d{9,10}$/.test(nit)) {
-          isValid = false;
-          errorMsg = 'Invalid NIT for Colombia. Must be 9-10 digits.';
-        }
-        break;
-      }
-      case 'MX': {
-        const rfc = taxId.toUpperCase().replace(/[^A-Z0-9]/g, '');
-        if (rfc.length < 12 || rfc.length > 13) {
-             isValid = false;
-             errorMsg = 'Invalid RFC for Mexico. Must be 12-13 alphanumeric characters.';
-        } else if (!/^[A-Z&Ñ]{3,4}\d{6}[A-Z0-9]{3}$/.test(rfc)) {
-             isValid = false;
-             errorMsg = 'Invalid RFC format.';
-        }
-        break;
-      }
-      case 'US': {
-        const ein = taxId.replace(/[^0-9]/g, '');
-        if (!/^\d{9}$/.test(ein)) {
-          isValid = false;
-          errorMsg = 'Invalid EIN for USA. Must be 9 digits.';
-        }
-        break;
-      }
-      default:
-        if (taxId.length < 5) {
-            isValid = false;
-            errorMsg = 'Tax ID too short.';
-        }
-        break;
-    }
-
-    if (!isValid) {
-      throw new DomainException(errorMsg, 'BAD_REQUEST');
-    }
   }
 }

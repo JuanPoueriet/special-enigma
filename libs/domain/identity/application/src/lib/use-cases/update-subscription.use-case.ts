@@ -1,7 +1,7 @@
 import { DomainException } from '@virteex/shared-util-server-server-config';
-import { Injectable } from '@nestjs/common';
-import { EntityManager } from '@mikro-orm/core';
+import { Injectable, Inject } from '@nestjs/common';
 import { Tenant } from '@virteex/kernel-tenant';
+import { TenantRepository, TENANT_REPOSITORY } from '@virteex/domain-identity-domain';
 
 export class UpdateSubscriptionDto {
   plan!: string; // 'STARTER', 'PROFESSIONAL', 'ENTERPRISE'
@@ -10,10 +10,12 @@ export class UpdateSubscriptionDto {
 
 @Injectable()
 export class UpdateSubscriptionUseCase {
-  constructor(private readonly em: EntityManager) {}
+  constructor(
+    @Inject(TENANT_REPOSITORY) private readonly tenantRepository: TenantRepository
+  ) {}
 
   async execute(tenantId: string, dto: UpdateSubscriptionDto): Promise<Tenant> {
-    const tenant = await this.em.findOne(Tenant, { id: tenantId });
+    const tenant = await this.tenantRepository.findById(tenantId);
     if (!tenant) {
       throw new DomainException('Tenant not found', 'ENTITY_NOT_FOUND');
     }
@@ -26,7 +28,7 @@ export class UpdateSubscriptionUseCase {
       lastBillingUpdate: new Date()
     };
 
-    await this.em.persistAndFlush(tenant);
+    await this.tenantRepository.save(tenant);
     return tenant;
   }
 }

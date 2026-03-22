@@ -13,6 +13,10 @@ export * from './lib/ports/auth.service';
 export * from './lib/ports/notification.service';
 export * from './lib/ports/risk-engine.service';
 export * from './lib/ports/geo-ip.port';
+export * from './lib/ports/unit-of-work.port';
+export * from './lib/ports/tenant.repository';
+export * from './lib/policies/tax-id-validator';
+
 export abstract class WebAuthnService {
   abstract generateRegistrationOptions(options: any): Promise<any>;
   abstract verifyRegistrationResponse(options: any): Promise<any>;

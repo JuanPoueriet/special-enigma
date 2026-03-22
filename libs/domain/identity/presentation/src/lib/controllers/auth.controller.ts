@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Body, HttpCode, HttpStatus, Req, Res, UnauthorizedException, UseGuards, Inject, Optional, Session } from '@nestjs/common';
+import { Controller, Post, Get, Body, HttpCode, HttpStatus, Req, Res, UnauthorizedException, UseGuards, Inject, Optional, Session, Logger } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import {
     LoginUserUseCase,
@@ -20,14 +20,16 @@ import { Request, Response } from 'express';
 import { Public, JwtAuthGuard, SecretManagerService } from '@virteex/kernel-auth';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Throttle, ThrottlerGuard } from '@nestjs/throttler';
-import { GeoIpPort, GEO_IP_PORT } from '@virteex/domain-identity-domain';
 import { SessionGuard } from '../guards/session.guard';
-import { buildAccessCookieOptions, buildRefreshCookieOptions } from '@virteex/kernel-auth';
+import { RequestContextService } from '../services/request-context.service';
+import { CookiePolicyService } from '../services/cookie-policy.service';
 
 @ApiTags('Auth')
 @Controller('auth')
 @UseGuards(ThrottlerGuard, JwtAuthGuard, SessionGuard)
 export class AuthController {
+  private readonly logger = new Logger(AuthController.name);
+
   constructor(
     private readonly loginUserUseCase: LoginUserUseCase,
     private readonly verifyMfaUseCase: VerifyMfaUseCase,
@@ -42,7 +44,8 @@ export class AuthController {
     private readonly verifyPasskeyRegistrationUseCase: VerifyPasskeyRegistrationUseCase,
     private readonly generatePasskeyLoginOptionsUseCase: GeneratePasskeyLoginOptionsUseCase,
     private readonly verifyPasskeyLoginUseCase: VerifyPasskeyLoginUseCase,
-    @Inject(GEO_IP_PORT) private readonly geoIpPort: GeoIpPort,
+    private readonly requestContextService: RequestContextService,
+    private readonly cookiePolicyService: CookiePolicyService,
     @Optional() private readonly secretManager?: SecretManagerService
   ) {}
 
@@ -52,7 +55,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   async login(@Body() dto: LoginUserDto, @Req() req: Request, @Res({ passthrough: true }) res: Response) {
     const context = {
-      ip: req.ip || 'unknown',
+      ip: this.requestContextService.extractIp(req),
       userAgent: req.headers['user-agent'] || 'unknown'
     };
     const result = await this.loginUserUseCase.execute(dto, context);
@@ -61,9 +64,8 @@ export class AuthController {
         return result;
     }
 
-    this.setCookies(res, result.accessToken!, result.refreshToken!, dto.rememberMe);
+    this.cookiePolicyService.setAuthCookies(res, result.accessToken!, result.refreshToken!, dto.rememberMe);
 
-    // Secure Response: No tokens in body
     return {
         expiresIn: result.expiresIn,
         mfaRequired: false
@@ -90,12 +92,12 @@ export class AuthController {
   @HttpCode(HttpStatus.CREATED)
   async completeOnboarding(@Body() dto: CompleteOnboardingDto, @Req() req: Request, @Res({ passthrough: true }) res: Response) {
       const context = {
-          ip: req.ip || 'unknown',
+          ip: this.requestContextService.extractIp(req),
           userAgent: req.headers['user-agent'] || 'unknown'
       };
       const result = await this.completeOnboardingUseCase.execute(dto, context);
 
-      this.setCookies(res, result.accessToken, result.refreshToken);
+      this.cookiePolicyService.setAuthCookies(res, result.accessToken, result.refreshToken);
 
       return {
           expiresIn: result.expiresIn
@@ -108,12 +110,12 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   async verifyMfa(@Body() dto: VerifyMfaDto, @Req() req: Request, @Res({ passthrough: true }) res: Response) {
     const context = {
-        ip: req.ip || 'unknown',
+        ip: this.requestContextService.extractIp(req),
         userAgent: req.headers['user-agent'] || 'unknown'
     };
     const result = await this.verifyMfaUseCase.execute(dto, context);
 
-    this.setCookies(res, result.accessToken!, result.refreshToken!);
+    this.cookiePolicyService.setAuthCookies(res, result.accessToken!, result.refreshToken!);
 
     return {
         expiresIn: result.expiresIn,
@@ -136,14 +138,14 @@ export class AuthController {
     }
 
     const context = {
-        ip: req.ip || 'unknown',
+        ip: this.requestContextService.extractIp(req),
         userAgent: req.headers['user-agent'] || 'unknown'
     };
 
     const dto: RefreshTokenDto = { refreshToken };
     const result = await this.refreshTokenUseCase.execute(dto, context);
 
-    this.setCookies(res, result.accessToken!, result.refreshToken!);
+    this.cookiePolicyService.setAuthCookies(res, result.accessToken!, result.refreshToken!);
 
     return {
         expiresIn: result.expiresIn
@@ -153,9 +155,7 @@ export class AuthController {
   @Post('logout')
   @HttpCode(HttpStatus.OK)
   async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
-      const cookieContext = this.getCookieContext();
-      res.clearCookie('access_token', { path: '/', domain: cookieContext.domain });
-      res.clearCookie('refresh_token', { path: '/auth/refresh', domain: cookieContext.domain });
+      this.cookiePolicyService.clearAuthCookies(res);
 
       const user = (req as any).user;
       if (user && user.sessionId) {
@@ -216,11 +216,11 @@ export class AuthController {
 
   private async handleSocialCallback(req: Request, res: Response) {
     const context = {
-        ip: req.ip || 'unknown',
+        ip: this.requestContextService.extractIp(req),
         userAgent: req.headers['user-agent'] || 'unknown'
     };
     const result = await this.handleSocialLoginUseCase.execute(req.user as any, context);
-    this.setCookies(res, result.accessToken!, result.refreshToken!);
+    this.cookiePolicyService.setAuthCookies(res, result.accessToken!, result.refreshToken!);
 
     const frontendUrl = this.secretManager?.getSecret('FRONTEND_URL', 'http://localhost:4200');
     res.redirect(`${frontendUrl}/dashboard`);
@@ -262,14 +262,14 @@ export class AuthController {
       if (!currentOptions) throw new UnauthorizedException('Login options not found in session');
 
       const context = {
-          ip: req.ip || 'unknown',
+          ip: this.requestContextService.extractIp(req),
           userAgent: req.headers['user-agent'] || 'unknown'
       };
 
       const result = await this.verifyPasskeyLoginUseCase.execute(body, currentOptions, context);
       delete (req as any).session.loginOptions;
 
-      this.setCookies(res, result.accessToken!, result.refreshToken!);
+      this.cookiePolicyService.setAuthCookies(res, result.accessToken!, result.refreshToken!);
       return {
           expiresIn: result.expiresIn,
           mfaRequired: false
@@ -280,34 +280,11 @@ export class AuthController {
   @Post('security/context-check')
   @HttpCode(HttpStatus.OK)
   async checkContext(@Body() body: { urlCountry: string }, @Req() req: Request) {
-      let ip: string = req.ip || '127.0.0.1';
-      const forwarded = req.headers['x-forwarded-for'];
-      if (forwarded) {
-          if (Array.isArray(forwarded)) {
-              ip = forwarded[0];
-          } else {
-              ip = forwarded.split(',')[0].trim();
-          }
-      }
-
+      const ip = this.requestContextService.extractIp(req);
       return this.checkSecurityContextUseCase.execute({
           urlCountry: body.urlCountry,
           ip
       });
-  }
-
-  private setCookies(res: Response, accessToken: string, refreshToken: string, rememberMe = true) {
-      const cookieContext = this.getCookieContext();
-      res.cookie('access_token', accessToken, buildAccessCookieOptions(cookieContext));
-      res.cookie('refresh_token', refreshToken, buildRefreshCookieOptions(cookieContext, rememberMe));
-  }
-
-  private getCookieContext() {
-      const isProd = this.secretManager?.getSecret('NODE_ENV', 'development') === 'production' || process.env['NODE_ENV'] === 'production';
-      const secure = this.secretManager?.getSecret('COOKIE_SECURE', String(isProd)) === 'true';
-      const sameSite = (this.secretManager?.getSecret('COOKIE_SAME_SITE', 'lax') as 'lax' | 'strict' | 'none') || 'lax';
-      const domain = this.secretManager?.getSecret('COOKIE_DOMAIN', '');
-      return { secure, sameSite, domain: domain || undefined };
   }
 
   @Public()
@@ -315,41 +292,10 @@ export class AuthController {
   @ApiOperation({ summary: 'Get client location' })
   async getLocation(@Req() req: Request): Promise<any> {
     try {
-      let ip: string = req.ip || '127.0.0.1';
-      const forwarded = req.headers['x-forwarded-for'];
-      if (forwarded) {
-          if (Array.isArray(forwarded)) {
-              ip = forwarded[0];
-          } else {
-              ip = forwarded.split(',')[0].trim();
-          }
-      }
-
-      const geo = await this.geoIpPort.lookup(ip);
-
-      if (!geo) {
-          const isProd = this.secretManager?.getSecret('NODE_ENV', 'development') === 'production' || process.env['NODE_ENV'] === 'production';
-          if (!isProd) {
-             return {
-                 country_code: 'MX',
-                 city: 'Development City',
-                 region: 'DEV',
-                 timezone: 'America/Mexico_City',
-                 ip
-             };
-          }
-          return { country_code: null, city: 'Unknown', ip };
-      }
-
-      return {
-          country_code: geo.country,
-          city: geo.city,
-          region: geo.region,
-          timezone: geo.timezone,
-          ip
-      };
+      const ip = this.requestContextService.extractIp(req);
+      return await this.requestContextService.getGeoLocation(ip);
     } catch (error) {
-      console.error('Error fetching location:', error);
+      this.logger.error('Error fetching location:', error);
       return { country_code: null };
     }
   }
