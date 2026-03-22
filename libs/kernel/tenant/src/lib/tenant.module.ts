@@ -16,10 +16,11 @@ import { ResidencyComplianceService } from './residency-compliance.service';
 import { ResidencyAuditorController } from './controllers/residency-auditor.controller';
 import { TelemetryModule } from '@virteex/kernel-telemetry';
 import { AuthModule } from '@virteex/kernel-auth';
+import { ConfigModule } from '@nestjs/config';
 
 @Global()
 @Module({
-  imports: [TelemetryModule, AuthModule],
+  imports: [ConfigModule, TelemetryModule, AuthModule],
   controllers: [ResidencyAuditorController],
   providers: [
     TenantService,
@@ -40,6 +41,7 @@ import { AuthModule } from '@virteex/kernel-auth';
   ],
   exports: [
     TenantService,
+    TenantOperationService,
     MigrationOrchestratorService,
     MigrationGuard,
     DualWriteManager,

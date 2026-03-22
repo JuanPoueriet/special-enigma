@@ -17,11 +17,28 @@ import { TenantService } from './tenant.service';
       <div class="form-container">
         <form [formGroup]="tenantForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
+            <label for="id">Tenant ID (Identifier)</label>
+            <input id="id" type="text" formControlName="id" class="form-control" placeholder="e.g. acme-corp" />
+            <div *ngIf="tenantForm.get('id')?.invalid && (tenantForm.get('id')?.dirty || tenantForm.get('id')?.touched)" class="text-danger">
+              ID is required and must be alphanumeric.
+            </div>
+          </div>
+
+          <div class="form-group">
             <label for="name">Company Name</label>
             <input id="name" type="text" formControlName="name" class="form-control" />
             <div *ngIf="tenantForm.get('name')?.invalid && (tenantForm.get('name')?.dirty || tenantForm.get('name')?.touched)" class="text-danger">
               Name is required.
             </div>
+          </div>
+
+          <div class="form-group">
+            <label for="mode">Isolation Mode</label>
+            <select id="mode" formControlName="mode" class="form-control">
+              <option value="SHARED">Shared (RLS)</option>
+              <option value="SCHEMA">Dedicated Schema</option>
+              <option value="DATABASE">Dedicated Database</option>
+            </select>
           </div>
 
           <div class="form-group">
@@ -97,7 +114,9 @@ export class CreateTenantComponent {
   private router = inject(Router);
 
   tenantForm: FormGroup = this.fb.group({
+    id: ['', [Validators.required, Validators.pattern(/^[a-z0-9-]+$/)]],
     name: ['', Validators.required],
+    mode: ['SHARED', Validators.required],
     taxId: ['', Validators.required],
     country: ['CO', Validators.required],
     email: ['', [Validators.required, Validators.email]],

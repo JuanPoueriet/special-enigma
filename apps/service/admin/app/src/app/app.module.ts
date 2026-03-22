@@ -1,11 +1,24 @@
 import { Module, MiddlewareConsumer, NestModule, RequestMethod } from '@nestjs/common';
+import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { AdminPresentationModule } from '@virteex/domain-admin-presentation';
-import { TenantModule } from '@virteex/kernel-tenant';
-import { CanonicalTenantMiddleware } from '@virteex/kernel-auth';
+import { TenantModule, Tenant, TenantControlRecord, TenantOperation } from '@virteex/kernel-tenant';
+import { CanonicalTenantMiddleware, AuthModule } from '@virteex/kernel-auth';
+import { TenantConfig, Incident } from '@virteex/domain-admin-domain';
 
 @Module({
   imports: [
-    TenantModule,AdminPresentationModule],
+    MikroOrmModule.forRoot({
+      entities: [Tenant, TenantControlRecord, TenantOperation, TenantConfig, Incident],
+      dbName: 'virteex_admin',
+      driver: PostgreSqlDriver,
+      allowGlobalContext: true,
+      connect: false, // Don't try to connect to a real DB during this demo/build
+    }),
+    AuthModule,
+    TenantModule,
+    AdminPresentationModule
+  ],
   controllers: [],
   providers: [],
 })

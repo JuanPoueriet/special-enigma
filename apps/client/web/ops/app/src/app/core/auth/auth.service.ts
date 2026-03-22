@@ -39,4 +39,16 @@ export class AuthService {
   getToken(): string | null {
     return this.authSessionStore.getToken();
   }
+
+  hasPermission(permission: string): boolean {
+    const user = this.authSessionStore.getCurrentUser();
+    if (!user) return false;
+    if (user.role === 'ADMIN' || user.role === 'SUPERUSER') return true;
+    // Basic mapping for now, could be expanded with real permissions from BE
+    const rolePermissions: Record<string, string[]> = {
+      'OPERATOR': ['tenants:read', 'tenants:create', 'monitoring:read', 'support:read'],
+      'VIEWER': ['tenants:read', 'monitoring:read']
+    };
+    return rolePermissions[user.role]?.includes(permission) ?? false;
+  }
 }

@@ -1,7 +1,7 @@
 import { Injectable, Logger, Inject } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TenantOperationService, TenantService, OperationType, OperationState, TenantMode } from '@virteex/kernel-tenant';
-import { DatabasePort, DATABASE_PORT } from '@virteex/domain-admin-domain';
+import { type DatabasePort, DATABASE_PORT } from '@virteex/domain-admin-domain';
 import { ConflictException } from '@virteex/kernel-exceptions';
 import Redis from 'ioredis';
 

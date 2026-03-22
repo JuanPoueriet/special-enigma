@@ -2,6 +2,8 @@ export * from './lib/interfaces/tenant-config.interface';
 export * from './lib/interfaces/tenant-context.interface';
 export * from './lib/tenant-context.storage';
 export * from './lib/entities/tenant.entity';
+export * from './lib/entities/tenant-control-record.entity';
+export * from './lib/entities/tenant-operation.entity';
 export * from './lib/subscribers/tenant-model.subscriber';
 export * from './lib/guards/tenant-throttler.guard';
 export * from './lib/guards/regional-residency.guard';

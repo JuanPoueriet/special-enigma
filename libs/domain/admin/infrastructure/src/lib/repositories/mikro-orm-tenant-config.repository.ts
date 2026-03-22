@@ -11,7 +11,7 @@ export class MikroOrmTenantConfigRepository implements TenantConfigRepository {
   ) {}
 
   async save(config: TenantConfig): Promise<void> {
-    await this.repository.getEntityManager().persistAndFlush(config);
+    await (this.repository as any).getEntityManager().persistAndFlush(config);
   }
 
   async findByTenantAndKey(tenantId: string, key: string): Promise<TenantConfig | null> {
