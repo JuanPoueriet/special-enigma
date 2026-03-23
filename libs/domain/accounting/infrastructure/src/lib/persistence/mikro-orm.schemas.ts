@@ -1,6 +1,6 @@
 import { EntitySchema } from '@mikro-orm/core';
 import { Account, JournalEntry, JournalEntryLine, FiscalYear, FiscalYearStatus, AccountingPolicy } from '@virteex/domain-accounting-domain';
-import { AccountType, JournalEntryStatus } from '@virteex/domain-accounting-contracts';
+import { AccountType, JournalEntryStatus, JournalEntryType } from '@virteex/domain-accounting-contracts';
 
 export const AccountSchema = new EntitySchema<Account>({
   class: Account,
@@ -26,6 +26,8 @@ export const JournalEntrySchema = new EntitySchema<JournalEntry>({
     date: { type: 'date', index: true },
     description: { type: 'string' },
     status: { enum: true, items: () => JournalEntryStatus, default: JournalEntryStatus.DRAFT },
+    type: { enum: true, items: () => JournalEntryType, default: JournalEntryType.REGULAR },
+    reference: { type: 'string', nullable: true },
     lines: { kind: '1:m', entity: () => 'JournalEntryLine', mappedBy: 'journalEntry', orphanRemoval: true },
   },
 });

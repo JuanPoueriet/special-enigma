@@ -8,6 +8,7 @@ export { type CreateAccountDto } from './lib/dtos/create-account.dto';
 export { type RecordJournalEntryDto } from './lib/dtos/record-journal-entry.dto';
 export * from './lib/enums/account-type.enum';
 export * from './lib/enums/journal-entry-status.enum';
+export * from './lib/enums/journal-entry-type.enum';
 export * from './lib/models/account.model';
 export * from './lib/models/flattened-account.model';
 export * from './lib/models/general-ledger.model';
