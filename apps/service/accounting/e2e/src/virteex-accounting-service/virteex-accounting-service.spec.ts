@@ -88,4 +88,18 @@ describe('Accounting Service E2E', () => {
         }
       });
   });
+
+  describe('Reports and Closing', () => {
+    it('should generate a financial report', async () => {
+      const res = await axios.get('/api/accounting/reports/financial?type=BALANCE_SHEET&endDate=' + new Date().toISOString().split('T')[0], axiosConfig);
+      expect(res.status).toBe(200);
+      expect(res.data).toBeDefined();
+    });
+
+    it('should close a fiscal period', async () => {
+      const closingDate = new Date().toISOString().split('T')[0];
+      const res = await axios.post('/api/accounting/closing', { closingDate }, axiosConfig);
+      expect(res.status).toBe(201);
+    });
+  });
 });

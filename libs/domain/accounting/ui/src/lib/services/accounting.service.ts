@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AccountDto, JournalEntryDto } from '@virteex/domain-accounting-contracts';
+import { AccountDto, JournalEntryDto, CreateAccountDto, RecordJournalEntryDto } from '@virteex/domain-accounting-contracts';
 
 @Injectable({
   providedIn: 'root'
@@ -17,11 +17,11 @@ export class AccountingService {
     return this.http.get<JournalEntryDto[]>('/api/accounting/journal-entries');
   }
 
-  createAccount(dto: any): Observable<AccountDto> {
+  createAccount(dto: CreateAccountDto): Observable<AccountDto> {
     return this.http.post<AccountDto>('/api/accounting/accounts', dto);
   }
 
-  recordJournalEntry(dto: any): Observable<JournalEntryDto> {
+  recordJournalEntry(dto: RecordJournalEntryDto): Observable<JournalEntryDto> {
     return this.http.post<JournalEntryDto>('/api/accounting/journal-entries', dto);
   }
 
