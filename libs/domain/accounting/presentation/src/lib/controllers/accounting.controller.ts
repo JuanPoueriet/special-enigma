@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query, Headers, ConflictException } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseInterceptors } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiHeader } from '@nestjs/swagger';
 import { CreateAccountDto, RecordJournalEntryDto, GenerateFinancialReportDto, CloseFiscalPeriodDto } from '@virteex/domain-accounting-contracts';
 import {
@@ -11,9 +11,11 @@ import {
   CloseFiscalPeriodUseCase
 } from '@virteex/domain-accounting-application';
 import { CurrentTenant } from '@virteex/kernel-auth';
+import { IdempotencyInterceptor } from '@virteex/shared-util-server-server-config';
 
 @ApiTags('Accounting')
 @Controller('accounting')
+@UseInterceptors(IdempotencyInterceptor)
 export class AccountingController {
   constructor(
     private readonly createAccountUseCase: CreateAccountUseCase,
@@ -39,14 +41,8 @@ export class AccountingController {
   @ApiHeader({ name: 'x-idempotency-key', required: false, description: 'Optional idempotency key' })
   async recordJournalEntry(
     @CurrentTenant() tenantId: string,
-    @Body() dto: RecordJournalEntryDto,
-    @Headers('x-idempotency-key') idempotencyKey?: string
+    @Body() dto: RecordJournalEntryDto
   ) {
-    // Basic idempotency check simulation
-    // In a real scenario, this would check against a Redis/DB store
-    if (idempotencyKey === 'fail-already-exists') {
-        throw new ConflictException('Request already processed');
-    }
     return this.recordJournalEntryUseCase.execute({ ...dto, tenantId });
   }
 
@@ -82,12 +78,8 @@ export class AccountingController {
   @ApiHeader({ name: 'x-idempotency-key', required: false, description: 'Optional idempotency key' })
   async closeFiscalPeriod(
     @CurrentTenant() tenantId: string,
-    @Body() dto: CloseFiscalPeriodDto,
-    @Headers('x-idempotency-key') idempotencyKey?: string
+    @Body() dto: CloseFiscalPeriodDto
   ) {
-    if (idempotencyKey === 'fail-already-exists') {
-        throw new ConflictException('Request already processed');
-    }
     return this.closeFiscalPeriodUseCase.execute(tenantId, new Date(dto.closingDate));
   }
 }

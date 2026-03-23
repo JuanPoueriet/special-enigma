@@ -17,7 +17,7 @@ export class RecordJournalEntryUseCase {
     const entry = new JournalEntry(dto.tenantId, dto.description, dto.date);
 
     for (const lineDto of dto.lines) {
-      const account = await this.accountRepository.findById(lineDto.accountId);
+      const account = await this.accountRepository.findById(dto.tenantId, lineDto.accountId);
       if (!account) {
         throw new AccountNotFoundError(lineDto.accountId);
       }

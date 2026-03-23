@@ -59,7 +59,7 @@ describe('CreateAccountUseCase', () => {
 
       const result = await service.execute(dto);
 
-      expect(repo.findById).toHaveBeenCalledWith('1');
+      expect(repo.findById).toHaveBeenCalledWith('tenant1', '1');
       expect(result.parentId).toBe('1');
       expect(result.level).toBe(2);
   });

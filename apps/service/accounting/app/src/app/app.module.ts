@@ -13,9 +13,11 @@ import { AccountingApplicationModule } from '@virteex/domain-accounting-applicat
 import { AccountingPresentationModule } from '@virteex/domain-accounting-presentation';
 import { TenantModule } from '@virteex/kernel-tenant';
 import { CanonicalTenantMiddleware } from '@virteex/kernel-auth';
+import { ServerConfigModule } from '@virteex/shared-util-server-server-config';
 
 @Module({
   imports: [
+    ServerConfigModule,
     TenantModule,
     ConfigModule.forRoot({ isGlobal: true }),
     GraphQLModule.forRoot<ApolloFederationDriverConfig>({
