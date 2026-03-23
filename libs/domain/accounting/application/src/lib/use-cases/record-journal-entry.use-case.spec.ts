@@ -39,9 +39,9 @@ describe('RecordJournalEntryUseCase', () => {
     const account2 = new Account('tenant1', '200', 'Revenue', AccountType.REVENUE as any);
     account2.id = '2';
 
-    (accountRepo.findById as any).mockImplementation((id: string) => {
-        if (id === '1') return Promise.resolve(account1);
-        if (id === '2') return Promise.resolve(account2);
+    (accountRepo.findById as any).mockImplementation((tenantId: string, id: string) => {
+        if (tenantId === 'tenant1' && id === '1') return Promise.resolve(account1);
+        if (tenantId === 'tenant1' && id === '2') return Promise.resolve(account2);
         return Promise.resolve(null);
     });
 
@@ -75,9 +75,9 @@ describe('RecordJournalEntryUseCase', () => {
     const account2 = new Account('tenant1', '200', 'Revenue', AccountType.REVENUE as any);
     account2.id = '2';
 
-    (accountRepo.findById as any).mockImplementation((id: string) => {
-        if (id === '1') return Promise.resolve(account1);
-        if (id === '2') return Promise.resolve(account2);
+    (accountRepo.findById as any).mockImplementation((tenantId: string, id: string) => {
+        if (tenantId === 'tenant1' && id === '1') return Promise.resolve(account1);
+        if (tenantId === 'tenant1' && id === '2') return Promise.resolve(account2);
         return Promise.resolve(null);
     });
 

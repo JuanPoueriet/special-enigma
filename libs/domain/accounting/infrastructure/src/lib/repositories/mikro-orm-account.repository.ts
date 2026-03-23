@@ -11,8 +11,8 @@ export class MikroOrmAccountRepository implements AccountRepository {
     return account;
   }
 
-  async findById(id: string): Promise<Account | null> {
-    return this.em.findOne(Account, { id });
+  async findById(tenantId: string, id: string): Promise<Account | null> {
+    return this.em.findOne(Account, { tenantId, id });
   }
 
   async findByIds(tenantId: string, ids: string[]): Promise<Account[]> {

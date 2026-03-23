@@ -31,7 +31,7 @@ export class CloseFiscalPeriodUseCase {
     const entry = new JournalEntry(tenantId, `Fiscal Closing - ${closingDate.toISOString().substring(0, 7)}`, closingDate);
 
     for (const item of closingEntries) {
-        const account = await this.accountRepository.findById(item.accountId);
+        const account = await this.accountRepository.findById(tenantId, item.accountId);
         if (!account) continue;
 
         const debit = item.amount.isPositive() ? '0.00' : item.amount.abs().toFixed(2);

@@ -16,7 +16,7 @@ export class CreateAccountUseCase {
     const account = new Account(dto.tenantId, dto.code, dto.name, dto.type as unknown as AccountType);
 
     if (dto.parentId) {
-      const parent = await this.accountRepository.findById(dto.parentId);
+      const parent = await this.accountRepository.findById(dto.tenantId, dto.parentId);
       if (!parent) {
         throw new ParentAccountNotFoundError(dto.parentId);
       }

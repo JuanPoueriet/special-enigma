@@ -30,8 +30,8 @@ import {
     },
     {
       provide: GetAccountsUseCase,
-      useFactory: (repo) => new GetAccountsUseCase(repo),
-      inject: [ACCOUNT_REPOSITORY],
+      useFactory: (accRepo, jeRepo) => new GetAccountsUseCase(accRepo, jeRepo),
+      inject: [ACCOUNT_REPOSITORY, JOURNAL_ENTRY_REPOSITORY],
     },
     {
       provide: GetJournalEntriesUseCase,

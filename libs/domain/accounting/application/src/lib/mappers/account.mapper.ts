@@ -2,7 +2,7 @@ import { Account, AccountType } from '@virteex/domain-accounting-domain';
 import { type AccountDto, AccountType as AccountTypeDto } from '@virteex/domain-accounting-contracts';
 
 export class AccountMapper {
-  static toDto(entity: Account): AccountDto {
+  static toDto(entity: Account, balance = 0): AccountDto {
     return {
       id: entity.id,
       tenantId: entity.tenantId,
@@ -13,7 +13,7 @@ export class AccountMapper {
       isControl: entity.isControl,
       currency: entity.currency,
       parentId: entity.parent?.id,
-      balance: 0 // Default or placeholder balance
+      balance
     };
   }
 }
