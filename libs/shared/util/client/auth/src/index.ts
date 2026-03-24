@@ -13,3 +13,6 @@ export const hasPermission = (permissions: string[] | undefined, required: strin
 };
 
 export * from './lib/services/storage/secure-storage.service';
+export * from './lib/guards/auth-guard';
+export * from './lib/interceptors/auth.interceptor';
+export * from './lib/services/auth-queue.service';

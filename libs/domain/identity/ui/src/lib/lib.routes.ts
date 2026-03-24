@@ -1,9 +1,14 @@
 import { Route } from '@angular/router';
 import { AUTH_ROUTES } from './pages/auth/auth.routes';
-import { authGuard } from '@virteex/shared-ui';
+import { authGuard } from '@virteex/shared-util-auth';
 
+// Public authentication routes
 export const authRoutes: Route[] = [
-  ...AUTH_ROUTES,
+  ...AUTH_ROUTES
+];
+
+// Private identity management routes
+export const identityManagementRoutes: Route[] = [
   {
     path: 'profile',
     canActivate: [authGuard],
