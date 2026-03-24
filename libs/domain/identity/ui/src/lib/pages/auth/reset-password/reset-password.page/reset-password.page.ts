@@ -112,7 +112,10 @@ export class ResetPasswordPage implements OnInit {
       },
       error: (err) => {
         this.isLoading = false;
-        this.errorMessage = err.error?.message || err.customMessage || 'RESET_PASSWORD.ERRORS.INVALID_TOKEN';
+        const errorResponse = err.error;
+        this.errorMessage = (errorResponse && errorResponse.message) ?
+            (Array.isArray(errorResponse.message) ? errorResponse.message[0] : errorResponse.message) :
+            (err.message || 'RESET_PASSWORD.ERRORS.INVALID_TOKEN');
       }
     });
   }

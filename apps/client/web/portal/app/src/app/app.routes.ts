@@ -1,5 +1,6 @@
 import { Route } from '@angular/router';
-import { MainLayoutComponent, authGuard } from '@virteex/shared-ui';
+import { MainLayoutComponent } from '@virteex/shared-ui';
+import { authGuard } from '@virteex/shared-util-auth';
 
 export const appRoutes: Route[] = [
   // Country specific auth (e.g., /es/co/auth/...)
@@ -38,6 +39,7 @@ export const appRoutes: Route[] = [
       { path: 'bi', loadChildren: () => import('@virteex/bi-ui').then(m => m.biRoutes) },
       { path: 'admin', loadChildren: () => import('@virteex/admin-ui').then(m => m.adminRoutes) },
       { path: 'fiscal', loadChildren: () => import('@virteex/fiscal-ui').then(m => m.fiscalRoutes) },
+      { path: 'account', loadChildren: () => import('@virteex/identity-ui').then(m => m.identityManagementRoutes) },
       // { path: 'sample', loadChildren: () => import('@virteex/sample-ui').then(m => m.sampleRoutes) },
     ]
   }

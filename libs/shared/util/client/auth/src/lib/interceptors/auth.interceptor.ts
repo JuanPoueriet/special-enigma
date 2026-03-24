@@ -9,9 +9,11 @@ import {
 import { inject, Injector } from '@angular/core';
 import { Observable, throwError, timer } from 'rxjs';
 import { catchError, switchMap, retry } from 'rxjs/operators';
-import { AuthService } from '../services/auth';
+import { AuthService } from '@virteex/shared-ui';
 import { AuthQueueService } from '../services/auth-queue.service';
-import { IS_PUBLIC_API } from '../tokens/http-context.tokens';
+// import { IS_PUBLIC_API } from '../tokens/http-context.tokens';
+import { HttpContextToken } from '@angular/common/http';
+export const IS_PUBLIC_API = new HttpContextToken<boolean>(() => false);
 
 export const authInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
