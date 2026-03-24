@@ -19,6 +19,9 @@ class FakeLoader implements TranslateLoader {
 const mockAuthService = {
   currentUser: () => ({ id: '1', firstName: 'John', lastName: 'Doe', email: 'john@doe.com' }),
   getSessions: vi.fn(() => of([])),
+  generateMfaSecret: vi.fn(() => of({ secret: 'secret', qrCodeUrl: 'qr' })),
+  enableMfa: vi.fn(() => of({ backupCodes: [] })),
+  checkAuthStatus: vi.fn(() => of({}))
   revokeSession: vi.fn(() => of({}))
 };
 const mockUsersService = {
