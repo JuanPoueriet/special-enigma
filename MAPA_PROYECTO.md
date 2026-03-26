@@ -1,4 +1,7 @@
 # Mapa Completo del Proyecto
+
+Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run docs:generate-map`
+
 ```
 .
 ├── .dependency-cruiser.js
@@ -37,6 +40,16 @@
 │   │           └── origin
 │   │               └── HEAD
 │   ├── objects
+│   │   ├── 38
+│   │   │   └── bf30bb4ee6fd1ded8b2b6635abfed670ae8e78
+│   │   ├── d4
+│   │   │   └── 82cedaa650366d17a2a0ef52a12d144ccc34fb
+│   │   ├── d6
+│   │   │   └── 946f947d6c70782e97901145aa89648224253e
+│   │   ├── f1
+│   │   │   └── efa619b73d388c394c5f9dcf5ec13006eb97f4
+│   │   ├── fb
+│   │   │   └── 6a8a13a730a18b6c401504b4b5e2eae44cf85f
 │   │   ├── info
 │   │   └── pack
 │   │       ├── pack-0adebc068392bc410a15575dba5df25ec9589743.idx
@@ -69,6 +82,7 @@
 │   └── launch.json
 ├── AGENTS.md
 ├── CONTRIBUTING.md
+├── MAPA_PROYECTO.md
 ├── OWNERS
 ├── README.md
 ├── SECURITY.md
@@ -1503,7 +1517,6 @@
 │   │   └── slo-compliance-history.json
 │   └── tenant-lifecycle
 │       └── 2026-03-22-test-tenant-ACTIVATE.json
-├── full_map.txt
 ├── jest.preset.js
 ├── libs
 │   ├── domain
@@ -4825,6 +4838,7 @@
 │   ├── fiscal
 │   │   ├── smoke-test-fiscal.js
 │   │   └── validate-certificate.js
+│   ├── generate-project-map.sh
 │   ├── generators
 │   │   ├── api-app
 │   │   │   ├── index.ts
@@ -4915,5 +4929,5 @@
 ├── vitest.config.ts
 └── vitest.workspace.ts
 
-1338 directories, 3576 files
+1343 directories, 3582 files
 ```
