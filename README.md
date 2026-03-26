@@ -2,6 +2,15 @@
 
 Repositorio Nx para servicios backend, frontend y runtimes de plugins de Virteex ERP.
 
+## Prerequisites
+
+To run this project, you need the following environment:
+
+- **Node.js**: `v22.12.0` or higher (mandatory). You can use `nvm` to switch to the correct version automatically by running `nvm install && nvm use` in the root directory.
+- **Python 3**: Needed for native module compilation.
+  - If you use **Python 3.12+**, you must install `setuptools`: `pip install setuptools`.
+- **C++ Compiler**: `make` and a C++ compiler are required for native modules like `isolated-vm` and `argon2`.
+
 ## Arquitectura
 
 Este monorepo sigue los principios de **Clean Architecture** y **Domain-Driven Design (DDD)**. Los límites arquitectónicos se imponen automáticamente a través de gobernanza por código.
