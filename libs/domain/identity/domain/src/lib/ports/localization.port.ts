@@ -3,7 +3,6 @@ import { LocalizationConfigDto, TaxLookupDto, FiscalRegionDto } from '@virteex/d
 export abstract class LocalizationPort {
   abstract getConfig(code: string): Promise<LocalizationConfigDto>;
   abstract lookup(taxId: string, country: string): Promise<TaxLookupDto>;
-  abstract getFiscalRegions(): Promise<FiscalRegionDto[]>;
 }
 
 export const LOCALIZATION_PORT = 'LOCALIZATION_PORT';

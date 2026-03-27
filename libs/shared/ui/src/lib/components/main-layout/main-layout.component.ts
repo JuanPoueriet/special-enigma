@@ -2,13 +2,14 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 import { ThemeToggle } from '../theme-toggle/theme-toggle';
 import { LanguageService } from '../../core/services/language';
 
 @Component({
   selector: 'virteex-main-layout',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, ThemeToggle],
+  imports: [CommonModule, RouterModule, FormsModule, TranslateModule, ThemeToggle],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss',
 })
