@@ -53,6 +53,8 @@
     },
     "REGISTER": {
         "TITLE": "Crear una cuenta",
+        "OTP_TITLE": "Verifica tu correo",
+        "OTP_SUBTITLE": "Hemos enviado un código de verificación a tu correo electrónico.",
         "TERMS_AGREEMENT_1": "Acepto los",
         "TERMS": "Términos de servicio",
         "AND": "y la",
@@ -83,6 +85,27 @@
         },
         "FOOTER": {
             "COPYRIGHT": "Todos los derechos reservados."
+        }
+    },
+    "USER": {
+        "STATUS": {
+            "ACTIVE": "Activo",
+            "ARCHIVED": "Archivado",
+            "BLOCKED": "Bloqueado",
+            "PENDING": "Pendiente"
+        }
+    },
+    "USERS": {
+        "SEARCH_PLACEHOLDER": "Buscar usuarios...",
+        "TABLE": {
+            "ACTIONS": "Acciones",
+            "EMAIL": "Correo electrónico",
+            "NAME": "Nombre",
+            "ROLE": "Rol",
+            "STATUS": "Estado"
+        },
+        "VIEWS": {
+            "ALL": "Todos los usuarios"
         }
     },
     "SETTINGS": {
@@ -126,6 +149,11 @@
                 "REGISTER_BTN": "Registrar Passkey",
                 "REGISTERED": "Passkey registrado con éxito",
                 "ERROR": "Error al registrar passkey"
+            },
+            "SESSIONS": {
+                "REVOKE": "Revocar Sesión",
+                "REVOKED": "Sesión revocada con éxito",
+                "REVOKE_ERROR": "Error al revocar la sesión"
             }
         }
     }

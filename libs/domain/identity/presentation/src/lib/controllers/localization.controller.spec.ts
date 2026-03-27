@@ -10,8 +10,7 @@ describe('LocalizationController', () => {
   beforeEach(async () => {
     service = {
       getConfig: vi.fn(),
-      lookup: vi.fn(),
-      getFiscalRegions: vi.fn()
+      lookup: vi.fn()
     } as any;
 
     const module: TestingModule = await Test.createTestingModule({
@@ -41,10 +40,11 @@ describe('LocalizationController', () => {
   it('should lookup tax id', async () => {
     const taxId = '123';
     const country = 'DO';
+    const query = { country };
     const lookupResult = { taxId, country, isValid: true };
     (service.lookup as any).mockResolvedValue(lookupResult);
 
-    const result = await controller.lookup(taxId, country);
+    const result = await controller.lookup(taxId, query as any);
     expect(service.lookup).toHaveBeenCalledWith(taxId, country);
     expect(result).toEqual(lookupResult);
   });

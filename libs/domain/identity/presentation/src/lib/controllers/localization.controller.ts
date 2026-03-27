@@ -1,10 +1,11 @@
-import { Controller, Get, Param, Query, Inject } from '@nestjs/common';
+import { Controller, Get, Param, Query, Inject, UsePipes, ValidationPipe } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Public } from '@virteex/kernel-auth';
-import { LocalizationConfigDto, TaxLookupDto, FiscalRegionDto } from '@virteex/domain-identity-contracts';
+import { LocalizationConfigDto, TaxLookupDto, FiscalRegionDto, TaxLookupQueryDto } from '@virteex/domain-identity-contracts';
 import { LocalizationPort } from '@virteex/domain-identity-domain';
 
 @ApiTags('Localization')
+@UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
 @Controller('localization')
 export class LocalizationController {
   constructor(
@@ -22,16 +23,9 @@ export class LocalizationController {
   @Public()
   @Get('lookup/:taxId')
   @ApiOperation({ summary: 'Lookup entity information by Tax ID' })
-  @ApiResponse({ type: Object, description: 'TaxLookupDto' })
-  async lookup(@Param('taxId') taxId: string, @Query('country') country: string): Promise<TaxLookupDto> {
-    return this.localizationService.lookup(taxId, country);
+  @ApiResponse({ type: TaxLookupDto, description: 'TaxLookupDto' })
+  async lookup(@Param('taxId') taxId: string, @Query() query: TaxLookupQueryDto): Promise<TaxLookupDto> {
+    return this.localizationService.lookup(taxId, query.country);
   }
 
-  @Public()
-  @Get('fiscal-regions')
-  @ApiOperation({ summary: 'Get available fiscal regions' })
-  @ApiResponse({ type: [Object], description: 'FiscalRegionDto[]' })
-  async getFiscalRegions(): Promise<FiscalRegionDto[]> {
-    return this.localizationService.getFiscalRegions();
-  }
 }

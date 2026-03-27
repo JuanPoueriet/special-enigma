@@ -53,6 +53,8 @@
     },
     "REGISTER": {
         "TITLE": "Create an account",
+        "OTP_TITLE": "Verify your email",
+        "OTP_SUBTITLE": "We've sent a verification code to your email address.",
         "TERMS_AGREEMENT_1": "I agree to the",
         "TERMS": "Terms of Service",
         "AND": "and",
@@ -83,6 +85,27 @@
         },
         "FOOTER": {
             "COPYRIGHT": "All rights reserved."
+        }
+    },
+    "USER": {
+        "STATUS": {
+            "ACTIVE": "Active",
+            "ARCHIVED": "Archived",
+            "BLOCKED": "Blocked",
+            "PENDING": "Pending"
+        }
+    },
+    "USERS": {
+        "SEARCH_PLACEHOLDER": "Search users...",
+        "TABLE": {
+            "ACTIONS": "Actions",
+            "EMAIL": "Email",
+            "NAME": "Name",
+            "ROLE": "Role",
+            "STATUS": "Status"
+        },
+        "VIEWS": {
+            "ALL": "All users"
         }
     },
     "SETTINGS": {
@@ -126,6 +149,11 @@
                 "REGISTER_BTN": "Register Passkey",
                 "REGISTERED": "Passkey registered successfully",
                 "ERROR": "Failed to register passkey"
+            },
+            "SESSIONS": {
+                "REVOKE": "Revoke Session",
+                "REVOKED": "Session revoked successfully",
+                "REVOKE_ERROR": "Error revoking session"
             }
         }
     }
