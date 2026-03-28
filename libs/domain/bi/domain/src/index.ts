@@ -1,6 +1,11 @@
-export * from './lib/entities/bi-report.entity';
-export { type BiReportRepository, BI_REPORT_REPOSITORY } from './lib/ports/bi-report.repository';
-export { type SalesPort, type TopProductDto, SALES_PORT } from './lib/ports/sales.port';
-export { type InvoicePort, type InvoiceStatusSummary, type ArAging, INVOICE_PORT } from './lib/ports/invoice.port';
-export { type ExpensesPort, type ExpenseCategory, EXPENSES_PORT } from './lib/ports/expenses.port';
-export { DashboardGateway, type DashboardStats } from './lib/ports/dashboard-gateway.port';
+export { BiReport } from './entities/bi-report.entity';
+export type { BiReportRepository } from './repository-ports/bi-report.repository';
+export { BI_REPORT_REPOSITORY } from './repository-ports/bi-report.repository';
+export type { SalesPort, TopProductDto } from './repository-ports/sales.port';
+export { SALES_PORT } from './repository-ports/sales.port';
+export type { InvoicePort, InvoiceStatusSummary, ArAging } from './repository-ports/invoice.port';
+export { INVOICE_PORT } from './repository-ports/invoice.port';
+export type { ExpensesPort, ExpenseCategory } from './repository-ports/expenses.port';
+export { EXPENSES_PORT } from './repository-ports/expenses.port';
+export { DashboardGateway } from './repository-ports/dashboard-gateway.port';
+export type { DashboardStats } from './repository-ports/dashboard-gateway.port';
