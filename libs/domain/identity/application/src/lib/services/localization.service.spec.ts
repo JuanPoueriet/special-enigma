@@ -1,16 +1,28 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { LocalizationService } from './localization.service';
-import { describe, beforeEach, it, expect } from 'vitest';
+import { describe, beforeEach, it, expect, vi } from 'vitest';
+import { HttpService } from '@nestjs/axios';
+import { of } from 'rxjs';
 
 describe('LocalizationService', () => {
   let service: LocalizationService;
+  let httpService: HttpService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [LocalizationService],
+      providers: [
+          LocalizationService,
+          {
+              provide: HttpService,
+              useValue: {
+                  get: vi.fn().mockReturnValue(of({ data: { success: false } }))
+              }
+          }
+      ],
     }).compile();
 
     service = module.get<LocalizationService>(LocalizationService);
+    httpService = module.get<HttpService>(HttpService);
   });
 
   it('should be defined', () => {
@@ -33,7 +45,7 @@ describe('LocalizationService', () => {
 
   it('should validate taxId correctly according to regex and use provider', async () => {
     // DO regex is ^[0-9]{9,11}$
-    // 101010101 is a known taxId in DominicanRepublicTaxProvider
+    // 101010101 is a known taxId in DominicanRepublicTaxProvider fallback simulation
     const validLookup = await service.lookup('101010101', 'DO');
     expect(validLookup.isValid).toBe(true);
     expect(validLookup.name).toBe('VIRTEEX DOMINICANA SRL');

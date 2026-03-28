@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import { RegisterPage } from './register.page';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
@@ -20,49 +21,23 @@ class FakeLoader implements TranslateLoader {
   }
 }
 
-// Mocks
-class MockAuthService {
-  register = vi.fn().mockReturnValue(of({}));
-  currentUser = vi.fn().mockReturnValue(null);
-  getSocialRegisterInfo = vi.fn().mockReturnValue(of({}));
-}
-class MockRecaptchaService {
-  execute = vi.fn().mockReturnValue(of('mock-token'));
-}
-class MockCountryService {
-  currentCountry = vi.fn().mockReturnValue({ code: 'DO', currencyCode: 'DOP', name: 'Dominican Republic', formSchema: {} });
-  currentCountryCode = vi.fn().mockReturnValue('do');
-  detectAndSetCountry = vi.fn();
-  getCountryConfig = vi.fn().mockReturnValue(of({}));
-  lookupTaxId = vi.fn().mockReturnValue(of(null));
-}
-class MockProfileService {
-    updateUser = vi.fn().mockReturnValue(of({}));
-}
-class MockLanguageService {
-    currentLang = vi.fn().mockReturnValue('es');
-}
-
-class MockGeoLocationService {
-    getGeoLocation = vi.fn().mockReturnValue(of({ country: 'DO' }));
-    mismatchSignal = vi.fn().mockReturnValue(null);
-}
-
-class MockConfigService {
-    getRegistrationOptions = vi.fn().mockReturnValue(of({
-        industries: ['tech'],
-        companySizes: ['1-10']
-    }));
-}
-
 describe('RegisterPage', () => {
+  beforeAll(() => {
+    try {
+      TestBed.initTestEnvironment(
+        BrowserDynamicTestingModule,
+        platformBrowserDynamicTesting()
+      );
+    } catch (e) {}
+  });
+
   let component: RegisterPage;
   let fixture: ComponentFixture<RegisterPage>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        RegisterPage, // Standalone
+        RegisterPage,
         NoopAnimationsModule,
         TranslateModule.forRoot({
             loader: { provide: TranslateLoader, useClass: FakeLoader }
@@ -72,14 +47,57 @@ describe('RegisterPage', () => {
         provideHttpClient(),
         provideHttpClientTesting(),
         provideRouter([]),
-        { provide: AuthService, useClass: MockAuthService },
-        { provide: ReCaptchaV3Service, useClass: MockRecaptchaService },
+        {
+          provide: AuthService,
+          useValue: {
+            register: vi.fn().mockReturnValue(of({})),
+            currentUser: vi.fn().mockReturnValue(null),
+            getSocialRegisterInfo: vi.fn().mockReturnValue(of({})),
+            initiateSignup: vi.fn().mockReturnValue(of({})),
+            verifySignup: vi.fn().mockReturnValue(of({ onboardingToken: 'token' })),
+            completeOnboarding: vi.fn().mockReturnValue(of({}))
+          }
+        },
+        {
+          provide: ReCaptchaV3Service,
+          useValue: { execute: vi.fn().mockReturnValue(of('mock-token')) }
+        },
         { provide: RECAPTCHA_V3_SITE_KEY, useValue: 'mock-key' },
-        { provide: CountryService, useClass: MockCountryService },
-        { provide: ProfileService, useClass: MockProfileService },
-        { provide: LanguageService, useClass: MockLanguageService },
-        { provide: GeoLocationService, useClass: MockGeoLocationService },
-        { provide: ConfigService, useClass: MockConfigService },
+        {
+          provide: CountryService,
+          useValue: {
+            currentCountry: vi.fn().mockReturnValue({ code: 'DO', currencyCode: 'DOP', name: 'Dominican Republic', formSchema: {}, taxIdRegex: '.*' }),
+            currentCountryCode: vi.fn().mockReturnValue('do'),
+            detectAndSetCountry: vi.fn(),
+            getCountryConfig: vi.fn().mockReturnValue(of({ code: 'DO', currencyCode: 'DOP', name: 'Dominican Republic', formSchema: {}, taxIdRegex: '.*' })),
+            lookupTaxId: vi.fn().mockReturnValue(of(null))
+          }
+        },
+        { provide: ProfileService, useValue: { updateUser: vi.fn().mockReturnValue(of({})) } },
+        {
+          provide: LanguageService,
+          useValue: {
+            currentLang: vi.fn().mockReturnValue('es'),
+            getInitialLanguage: vi.fn().mockReturnValue('es'),
+            setLanguage: vi.fn()
+          }
+        },
+        {
+          provide: GeoLocationService,
+          useValue: {
+            getGeoLocation: vi.fn().mockReturnValue(of({ country: 'DO' })),
+            mismatchSignal: vi.fn().mockReturnValue(null)
+          }
+        },
+        {
+          provide: ConfigService,
+          useValue: {
+            getRegistrationOptions: vi.fn().mockReturnValue(of({
+                industries: ['tech'],
+                companySizes: ['1-10']
+            }))
+          }
+        },
         { provide: APP_CONFIG, useValue: { apiUrl: 'http://localhost' } }
       ]
     }).compileComponents();
@@ -101,7 +119,6 @@ describe('RegisterPage', () => {
   it('should validate required fields', () => {
     const accountInfo = component.accountInfo;
 
-    // Set a mocked value for async validator if needed or just valid values
     accountInfo.patchValue({
       firstName: 'John',
       lastName: 'Doe',
@@ -112,14 +129,10 @@ describe('RegisterPage', () => {
       }
     });
 
-    // Remove async validators for unit test simplicity as they require complex mocking of HTTP calls within component or directive
-    // Alternatively, mock the service that the validator uses if possible.
-    // Here we just clear async validators from email control to ensure sync validation passes
     const emailControl = accountInfo.get('email');
     emailControl?.setAsyncValidators(null);
     emailControl?.updateValueAndValidity();
 
-    // Patch phone with a valid E.164 number
     accountInfo.patchValue({ phone: '+1234567890' });
 
     expect(accountInfo.valid).toBeTruthy();

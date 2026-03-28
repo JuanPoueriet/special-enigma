@@ -1,15 +1,36 @@
 import { TaxLookupDto } from '@virteex/domain-identity-contracts';
-import { TaxProviderPort } from '@virteex/domain-identity-domain';
+import { AbstractRobustTaxProvider } from './abstract-robust-tax-provider';
 import { Logger } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
 
-export class DominicanRepublicTaxProvider implements TaxProviderPort {
-  private readonly logger = new Logger(DominicanRepublicTaxProvider.name);
+export class DominicanRepublicTaxProvider extends AbstractRobustTaxProvider {
+  protected readonly logger = new Logger(DominicanRepublicTaxProvider.name);
 
-  async lookup(taxId: string): Promise<TaxLookupDto> {
-    this.logger.log(`Performing DGII lookup for RNC: ${taxId}`);
+  constructor(httpService: HttpService) {
+    super(httpService);
+  }
 
-    // TODO: Integrate with DGII real API
-    // For now, we keep the simulation but with a clear TODO and more robust handling
+  getCountryCode(): string {
+    return 'DO';
+  }
+
+  protected getApiUrl(taxId: string): string {
+    return `https://api.dgii.gov.do/v1/taxpayers/${taxId}`;
+  }
+
+  protected mapResponse(data: any, taxId: string): TaxLookupDto {
+    if (data && data.success && data.taxpayer) {
+      return {
+        taxId,
+        country: 'DO',
+        name: data.taxpayer.legalName,
+        legalName: data.taxpayer.legalName,
+        industry: data.taxpayer.industry,
+        status: data.taxpayer.status,
+        isValid: data.taxpayer.status === 'ACTIVO',
+      };
+    }
+
     const companies: Record<string, any> = {
       '101010101': { legalName: 'VIRTEEX DOMINICANA SRL', industry: 'TECNOLOGIA', status: 'ACTIVO' },
       '202020202': { legalName: 'CONSTRUCCIONES S.A.', industry: 'CONSTRUCCION', status: 'ACTIVO' },
@@ -35,9 +56,5 @@ export class DominicanRepublicTaxProvider implements TaxProviderPort {
       name: '',
       isValid: false,
     };
-  }
-
-  getCountryCode(): string {
-    return 'DO';
   }
 }

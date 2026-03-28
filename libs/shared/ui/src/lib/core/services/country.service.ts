@@ -92,6 +92,7 @@ export class CountryService {
         console.error('Error crítico obteniendo configuración regional:', err);
         // En un entorno PROD SaaS, aquí deberíamos notificar al usuario o reintentar.
         // Retornamos un objeto mínimo seguro para no romper la UI, pero SIN IDs falsos.
+        // taxIdRegex se vuelve estricto: solo permite lo que el backend especifique o falla.
         const safeFallback: CountryConfig = {
             code: code.toUpperCase(),
             name: code.toUpperCase(),
@@ -100,7 +101,7 @@ export class CountryService {
             locale: 'en-US',
             phoneCode: '',
             taxIdLabel: 'Tax ID',
-            taxIdRegex: '.*',
+            taxIdRegex: '^[A-Za-z0-9\\-\\s]+$', // Fallback más estricto que '.*'
             taxIdMask: '',
             fiscalRegionId: undefined, // Importante: undefined es mejor que un UUID inválido
             formSchema: {}

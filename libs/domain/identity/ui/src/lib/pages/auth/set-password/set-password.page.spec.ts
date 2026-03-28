@@ -1,3 +1,4 @@
+import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from "@angular/platform-browser-dynamic/testing";
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SetPasswordPage } from './set-password.page';
 import { provideHttpClient } from '@angular/common/http';
@@ -40,6 +41,14 @@ class MockCountryService {
 }
 
 describe('SetPasswordPage', () => {
+  beforeAll(() => {
+    try {
+      TestBed.initTestEnvironment(
+        BrowserDynamicTestingModule,
+        platformBrowserDynamicTesting()
+      );
+    } catch (e) {}
+  });
   let component: SetPasswordPage;
   let fixture: ComponentFixture<SetPasswordPage>;
 
