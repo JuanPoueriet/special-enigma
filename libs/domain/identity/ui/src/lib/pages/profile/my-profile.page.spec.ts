@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import { MyProfilePage } from './my-profile.page';
-import { ProfileService } from '@virteex/identity-ui';
+import { ProfileService } from '../../profile.service';
 import { AuthService, ToastService } from '@virteex/shared-ui';
 import { NotificationService } from '@virteex/domain-identity-domain';
 import { of } from 'rxjs';
@@ -16,28 +17,16 @@ class FakeLoader implements TranslateLoader {
     }
 }
 
-const mockAuthService = {
-  currentUser: () => ({ id: '1', firstName: 'John', lastName: 'Doe', email: 'john@doe.com' }),
-  getSessions: vi.fn(() => of([])),
-  generateMfaSecret: vi.fn(() => of({ secret: 'secret', qrCodeUrl: 'qr' })),
-  enableMfa: vi.fn(() => of({ backupCodes: [] })),
-  checkAuthStatus: vi.fn(() => of({})),
-  revokeSession: vi.fn(() => of({}))
-};
-const mockProfileService = {
-  updateProfile: vi.fn(() => of({})),
-  getJobTitles: vi.fn(() => of(['Developer', 'Manager']))
-};
-const mockNotificationService = {
-  showSuccess: vi.fn(),
-  showError: vi.fn()
-};
-const mockToastService = {
-  showSuccess: vi.fn(),
-  showError: vi.fn()
-};
-
 describe('MyProfilePage', () => {
+  beforeAll(() => {
+    try {
+      TestBed.initTestEnvironment(
+        BrowserDynamicTestingModule,
+        platformBrowserDynamicTesting()
+      );
+    } catch (e) {}
+  });
+
   let component: MyProfilePage;
   let fixture: ComponentFixture<MyProfilePage>;
 
@@ -53,10 +42,38 @@ describe('MyProfilePage', () => {
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
-        { provide: AuthService, useValue: mockAuthService },
-        { provide: ProfileService, useValue: mockProfileService },
-        { provide: NotificationService, useValue: mockNotificationService },
-        { provide: ToastService, useValue: mockToastService }
+        {
+          provide: AuthService,
+          useValue: {
+            currentUser: () => ({ id: '1', firstName: 'John', lastName: 'Doe', email: 'john@doe.com' }),
+            getSessions: vi.fn(() => of([])),
+            generateMfaSecret: vi.fn(() => of({ secret: 'secret', qrCodeUrl: 'qr' })),
+            enableMfa: vi.fn(() => of({ backupCodes: [] })),
+            checkAuthStatus: vi.fn(() => of({})),
+            revokeSession: vi.fn(() => of({}))
+          }
+        },
+        {
+          provide: ProfileService,
+          useValue: {
+            updateProfile: vi.fn(() => of({})),
+            getJobTitles: vi.fn(() => of(['Developer', 'Manager']))
+          }
+        },
+        {
+          provide: NotificationService,
+          useValue: {
+            showSuccess: vi.fn(),
+            showError: vi.fn()
+          }
+        },
+        {
+          provide: ToastService,
+          useValue: {
+            showSuccess: vi.fn(),
+            showError: vi.fn()
+          }
+        }
       ]
     }).compileComponents();
 

@@ -1,16 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import { ForgotPasswordPage } from './forgot-password.page';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideRouter } from '@angular/router';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthService } from '@virteex/shared-ui';
-import { LanguageService } from '@virteex/shared-ui';
+import { AuthService, LanguageService, RECAPTCHA_SITE_KEY } from '@virteex/shared-ui';
 import { of, Observable } from 'rxjs';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { AuthLayoutComponent } from '../../components/auth-layout/auth-layout.component';
-import { AuthInputComponent } from '../../components/auth-input/auth-input.component';
-import { AuthButtonComponent } from '../../components/auth-button/auth-button.component';
 import { ReCaptchaV3Service, RECAPTCHA_V3_SITE_KEY } from 'ng-recaptcha-19';
 import { APP_CONFIG } from '@virteex/shared-config';
 import { vi } from 'vitest';
@@ -21,41 +18,52 @@ class FakeLoader implements TranslateLoader {
   }
 }
 
-class MockAuthService {
-  forgotPassword = vi.fn().mockReturnValue(of({ message: 'Success' }));
-}
-class MockRecaptchaService {
-  execute = vi.fn().mockReturnValue(of('mock-token'));
-}
-class MockLanguageService {
-    currentLang = vi.fn().mockReturnValue('es');
-}
-
 describe('ForgotPasswordPage', () => {
+  beforeAll(() => {
+    try {
+      TestBed.initTestEnvironment(
+        BrowserDynamicTestingModule,
+        platformBrowserDynamicTesting()
+      );
+    } catch (e) {}
+  });
+
   let component: ForgotPasswordPage;
   let fixture: ComponentFixture<ForgotPasswordPage>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        ForgotPasswordPage, // Standalone
+        ForgotPasswordPage,
         NoopAnimationsModule,
         TranslateModule.forRoot({
             loader: { provide: TranslateLoader, useClass: FakeLoader }
-        }),
-        AuthLayoutComponent,
-        AuthInputComponent,
-        AuthButtonComponent
+        })
       ],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
         provideRouter([]),
-        { provide: AuthService, useClass: MockAuthService },
-        { provide: ReCaptchaV3Service, useClass: MockRecaptchaService },
-        { provide: LanguageService, useClass: MockLanguageService },
-        { provide: APP_CONFIG, useValue: { recaptcha: { siteKey: 'mock-key' } } },
-        { provide: RECAPTCHA_V3_SITE_KEY, useValue: 'mock-key' }
+        {
+          provide: AuthService,
+          useValue: {
+            forgotPassword: vi.fn().mockReturnValue(of({ message: 'Success' }))
+          }
+        },
+        {
+          provide: ReCaptchaV3Service,
+          useValue: { execute: vi.fn().mockReturnValue(of('mock-token')) }
+        },
+        {
+          provide: LanguageService,
+          useValue: {
+            currentLang: () => 'es',
+            setLanguage: vi.fn()
+          }
+        },
+        { provide: APP_CONFIG, useValue: { apiUrl: 'http://localhost' } },
+        { provide: RECAPTCHA_V3_SITE_KEY, useValue: 'mock-key' },
+        { provide: RECAPTCHA_SITE_KEY, useValue: 'mock-key' }
       ]
     }).compileComponents();
 

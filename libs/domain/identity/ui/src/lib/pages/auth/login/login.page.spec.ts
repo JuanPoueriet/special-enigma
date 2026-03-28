@@ -8,14 +8,12 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthService } from '@virteex/shared-ui';
 import { ReCaptchaV3Service, RECAPTCHA_V3_SITE_KEY } from 'ng-recaptcha-19';
 import { of, Observable } from 'rxjs';
-import { CountryService } from '@virteex/shared-ui';
-import { LanguageService } from '@virteex/shared-ui';
-import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
+import { CountryService, LanguageService } from '@virteex/shared-ui';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { AuthLayoutComponent } from '../components/auth-layout/auth-layout.component';
 import { AuthInputComponent } from '../components/auth-input/auth-input.component';
 import { AuthButtonComponent } from '../components/auth-button/auth-button.component';
 import { SocialAuthButtonsComponent } from '../components/social-auth-buttons/social-auth-buttons.component';
-import { PasskeyButtonComponent } from '../components/passkey-button/passkey-button.component';
 import { vi } from 'vitest';
 
 // Fake Loader for Translate
@@ -25,25 +23,16 @@ class FakeLoader implements TranslateLoader {
   }
 }
 
-// Mocks
-class MockAuthService {
-  login = vi.fn().mockReturnValue(of({ user: { id: 1 }, accessToken: 'token' }));
-  loginWithPasskey = vi.fn().mockReturnValue(Promise.resolve({ id: 1 }));
-  verifyMfa = vi.fn().mockReturnValue(of({ user: { id: 1 } }));
-}
-class MockRecaptchaService {
-  execute = vi.fn().mockReturnValue(of('mock-token'));
-}
-class MockCountryService {
-  currentCountry = vi.fn().mockReturnValue({ code: 'DO', currencyCode: 'DOP', name: 'Dominican Republic' });
-  detectAndSetCountry = vi.fn();
-}
-class MockLanguageService {
-    currentLang = vi.fn().mockReturnValue('es');
-    setLanguage = vi.fn();
-}
-
 describe('LoginPage', () => {
+  beforeAll(() => {
+    try {
+      TestBed.initTestEnvironment(
+        BrowserDynamicTestingModule,
+        platformBrowserDynamicTesting()
+      );
+    } catch (e) {}
+  });
+
   let component: LoginPage;
   let fixture: ComponentFixture<LoginPage>;
 
@@ -59,17 +48,44 @@ describe('LoginPage', () => {
         AuthInputComponent,
         AuthButtonComponent,
         SocialAuthButtonsComponent,
-        PasskeyButtonComponent
       ],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
         provideRouter([]),
-        { provide: AuthService, useValue: { login: vi.fn().mockReturnValue(of({ user: { id: 1 }, accessToken: 'token' })), loginWithPasskey: vi.fn().mockReturnValue(Promise.resolve({ id: 1 })), verifyMfa: vi.fn().mockReturnValue(of({ user: { id: 1 } })), currentUser: () => ({ id: 1, preferredLanguage: 'es' }), isAuthenticated: () => true } },
-        { provide: ReCaptchaV3Service, useClass: MockRecaptchaService },
+        {
+          provide: AuthService,
+          useValue: {
+            login: vi.fn().mockReturnValue(of({ user: { id: 1 }, accessToken: 'token' })),
+            loginWithPasskey: vi.fn().mockReturnValue(Promise.resolve({ id: 1 })),
+            verifyMfa: vi.fn().mockReturnValue(of({ user: { id: 1 } })),
+            currentUser: () => ({ id: 1, preferredLanguage: 'es' }),
+            isAuthenticated: () => true,
+            getSocialRegisterInfo: () => of({})
+          }
+        },
+        {
+          provide: ReCaptchaV3Service,
+          useValue: { execute: vi.fn().mockReturnValue(of('mock-token')) }
+        },
         { provide: RECAPTCHA_V3_SITE_KEY, useValue: 'mock-key' },
-        { provide: CountryService, useValue: { currentCountry: () => ({ code: 'DO', currencyCode: 'DOP', name: 'Dominican Republic' }), detectAndSetCountry: vi.fn(), currentCountryCode: () => 'DO' } },
-        { provide: LanguageService, useValue: { currentLang: () => 'es', setLanguage: vi.fn(), getInitialLanguage: () => 'es' } },
+        {
+          provide: CountryService,
+          useValue: {
+            currentCountry: () => ({ code: 'DO', currencyCode: 'DOP', name: 'Dominican Republic' }),
+            detectAndSetCountry: vi.fn(),
+            currentCountryCode: () => 'DO',
+            lookupTaxId: vi.fn().mockReturnValue(of(null))
+          }
+        },
+        {
+          provide: LanguageService,
+          useValue: {
+            currentLang: () => 'es',
+            setLanguage: vi.fn(),
+            getInitialLanguage: () => 'es'
+          }
+        },
       ]
     }).compileComponents();
 

@@ -1,23 +1,41 @@
 import { TaxLookupDto } from '@virteex/domain-identity-contracts';
-import { TaxProviderPort } from '@virteex/domain-identity-domain';
+import { AbstractRobustTaxProvider } from './abstract-robust-tax-provider';
 import { Logger } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
 
-export class USTaxProvider implements TaxProviderPort {
-  private readonly logger = new Logger(USTaxProvider.name);
+export class USTaxProvider extends AbstractRobustTaxProvider {
+  protected readonly logger = new Logger(USTaxProvider.name);
 
-  async lookup(taxId: string): Promise<TaxLookupDto> {
-    this.logger.log(`Performing IRS lookup for EIN/SSN: ${taxId}`);
+  constructor(httpService: HttpService) {
+    super(httpService);
+  }
 
-    // TODO: Integrate with IRS/3rd party real API
+  getCountryCode(): string {
+    return 'US';
+  }
+
+  protected getApiUrl(taxId: string): string {
+    return `https://api.ein-lookup.com/v1/ein/${taxId}`;
+  }
+
+  protected mapResponse(data: any, taxId: string): TaxLookupDto {
+    if (data && data.isValid) {
+      return {
+        taxId,
+        country: 'US',
+        name: data.companyName,
+        legalName: data.companyName,
+        industry: data.industry,
+        status: data.status,
+        isValid: true,
+      };
+    }
+
     return {
       taxId,
       country: 'US',
       name: '',
       isValid: false,
     };
-  }
-
-  getCountryCode(): string {
-    return 'US';
   }
 }

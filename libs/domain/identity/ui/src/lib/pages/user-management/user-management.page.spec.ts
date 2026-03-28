@@ -1,3 +1,4 @@
+import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from "@angular/platform-browser-dynamic/testing";
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideZonelessChangeDetection } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -8,9 +9,9 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LucideAngularModule, UserPlus, Save, X, Send, User, History, Trash2, Key, Search, Filter, ArrowUpDown, ArrowUp, ArrowDown, MoreHorizontal, FilePenLine, Ban, UserCog, Mail, ChevronLeft, ChevronRight, Plus, RefreshCw, Power, PowerOff, Building, Lock, Archive, UserCheck, Zap, FileInput, FileOutput, UserCircle2, LogOut } from 'lucide-angular';
 import { vi } from 'vitest';
 
-const mockUsers: ApiUser[] = [
-  { id: '1', firstName: 'John', lastName: 'Doe', email: 'john@doe.com', status: UserStatus.ACTIVE, roles: [{id: '1', name: 'Admin'}], organizationId: '1', isOnline: true, createdAt: new Date() },
-  { id: '2', firstName: 'Jane', lastName: 'Doe', email: 'jane@doe.com', status: UserStatus.PENDING, roles: [{id: '2', name: 'User'}], organizationId: '1', isOnline: false, createdAt: new Date() },
+const mockUsers: any[] = [
+  { id: '1', firstName: 'John', lastName: 'Doe', email: 'john@doe.com', status: 'ACTIVE', roles: [{id: '1', name: 'Admin'}], organizationId: '1', isOnline: true, createdAt: new Date() },
+  { id: '2', firstName: 'Jane', lastName: 'Doe', email: 'jane@doe.com', status: 'PENDING', roles: [{id: '2', name: 'User'}], organizationId: '1', isOnline: false, createdAt: new Date() },
 ];
 
 const mockRoles: Role[] = [
@@ -19,12 +20,18 @@ const mockRoles: Role[] = [
 ]
 
 describe('UserManagementPage', () => {
+  beforeAll(() => {
+    try {
+      TestBed.initTestEnvironment(
+        BrowserDynamicTestingModule,
+        platformBrowserDynamicTesting()
+      );
+    } catch (e) {}
+  });
   let component: UserManagementPage;
   let fixture: ComponentFixture<UserManagementPage>;
-  let usersService: ProfileService;
-  let toastService: ToastService;
 
-  const mockProfileService = {
+  const mockUsersService = {
     getUsers: vi.fn(() => of({ data: mockUsers, total: mockUsers.length })),
     inviteUser: vi.fn(() => of(mockUsers[0])),
     updateUser: vi.fn(() => of(mockUsers[0])),
@@ -66,7 +73,7 @@ describe('UserManagementPage', () => {
       ],
       providers: [
         provideZonelessChangeDetection(),
-        { provide: ProfileService, useValue: mockProfileService },
+        { provide: UsersService, useValue: mockUsersService },
         { provide: RolesService, useValue: mockRolesService },
         { provide: ToastService, useValue: mockToastService },
         { provide: WebSocketService, useValue: mockWebSocketService },
@@ -76,8 +83,6 @@ describe('UserManagementPage', () => {
 
     fixture = TestBed.createComponent(UserManagementPage);
     component = fixture.componentInstance;
-    usersService = TestBed.inject(UsersService);
-    toastService = TestBed.inject(ToastService);
     fixture.detectChanges();
   });
 
@@ -86,7 +91,7 @@ describe('UserManagementPage', () => {
   });
 
   it('should load users on init', () => {
-    expect(mockProfileService.getUsers).toHaveBeenCalled();
+    expect(mockUsersService.getUsers).toHaveBeenCalled();
     expect(component.users().length).toBe(2);
     expect(component.totalUsers()).toBe(2);
   });
@@ -123,9 +128,9 @@ describe('UserManagementPage', () => {
         email: 'test@user.com',
         roleId: '1',
     };
-    expect(mockProfileService.inviteUser).toHaveBeenCalledWith(payload);
+    expect(mockUsersService.inviteUser).toHaveBeenCalledWith(payload);
     expect(mockToastService.showSuccess).toHaveBeenCalledWith('Usuario invitado con éxito.');
-    expect(mockProfileService.getUsers).toHaveBeenCalledTimes(2); // 1 on init, 1 after save
+    expect(mockUsersService.getUsers).toHaveBeenCalledTimes(2); // 1 on init, 1 after save
   });
 
   it('should update an existing user', () => {
@@ -145,9 +150,9 @@ describe('UserManagementPage', () => {
         email: 'john.updated@doe.com',
         roleId: '2',
     };
-    expect(mockProfileService.updateUser).toHaveBeenCalledWith(userToEdit.id, payload);
+    expect(mockUsersService.updateUser).toHaveBeenCalledWith(userToEdit.id, payload);
     expect(mockToastService.showSuccess).toHaveBeenCalledWith('Usuario actualizado con éxito.');
-    expect(mockProfileService.getUsers).toHaveBeenCalledTimes(2);
+    expect(mockUsersService.getUsers).toHaveBeenCalledTimes(2);
   });
 
   it('should delete a user', () => {
@@ -158,8 +163,8 @@ describe('UserManagementPage', () => {
 
     component.confirmDelete();
 
-    expect(mockProfileService.deleteUser).toHaveBeenCalledWith(userToDelete.id);
+    expect(mockUsersService.deleteUser).toHaveBeenCalledWith(userToDelete.id);
     expect(mockToastService.showSuccess).toHaveBeenCalledWith('Usuario eliminado con éxito.');
-    expect(mockProfileService.getUsers).toHaveBeenCalledTimes(2);
+    expect(mockUsersService.getUsers).toHaveBeenCalledTimes(2);
   });
 });
