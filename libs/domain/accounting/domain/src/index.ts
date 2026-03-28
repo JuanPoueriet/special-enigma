@@ -1,12 +1,17 @@
-export * from './lib/entities/account.entity';
-export * from './lib/entities/accounting-policy.entity';
-export * from './lib/entities/journal-entry.entity';
-export * from './lib/entities/journal-entry-line.entity';
-export * from './lib/entities/fiscal-year.entity';
-export * from './lib/enums/account-type.enum';
-export * from './lib/enums/journal-entry-status.enum';
-export * from './lib/enums/journal-entry-type.enum';
-export * from './lib/errors/accounting.errors';
-export * from './lib/ports/account.repository';
-export * from './lib/ports/policy.repository';
-export { type JournalEntryRepository, JOURNAL_ENTRY_REPOSITORY } from './lib/ports/journal-entry.repository';
+export * from './entities/account.entity';
+export * from './entities/accounting-policy.entity';
+export * from './entities/journal-entry.entity';
+export * from './entities/journal-entry-line.entity';
+export * from './entities/fiscal-year.entity';
+
+export * from './value-objects/account-type.enum';
+export * from './value-objects/journal-entry-status.enum';
+export * from './value-objects/journal-entry-type.enum';
+
+export * from './errors/accounting.errors';
+
+export { type AccountRepository, ACCOUNT_REPOSITORY } from './repository-ports/account.repository';
+export { type PolicyRepository, POLICY_REPOSITORY } from './repository-ports/policy.repository';
+export { type JournalEntryRepository, JOURNAL_ENTRY_REPOSITORY } from './repository-ports/journal-entry.repository';
+
+export * from './domain-services/currency-revaluation.service';

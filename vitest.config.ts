@@ -6,6 +6,10 @@ export default defineConfig({
     globals: true,
     environment: 'node',
     include: ['**/*.spec.ts'],
+    setupFiles: [
+      path.resolve(__dirname, './libs/domain/accounting/application/vitest.setup.ts'),
+      path.resolve(__dirname, './libs/domain/accounting/ui/src/test-setup.ts')
+    ],
     alias: {
       '@virteex/domain-fiscal-domain': path.resolve(__dirname, './libs/domain/fiscal/domain/src/index.ts'),
       '@virteex/domain-fiscal-infrastructure': path.resolve(__dirname, './libs/domain/fiscal/infrastructure/src/index.ts'),
@@ -19,6 +23,14 @@ export default defineConfig({
       '@virteex/domain-pos-domain': path.resolve(__dirname, './libs/domain/pos/domain/src/index.ts'),
       '@virteex/domain-notification-application': path.resolve(__dirname, './libs/domain/notification/application/src/index.ts'),
       '@virteex/domain-notification-domain': path.resolve(__dirname, './libs/domain/notification/domain/src/index.ts'),
+      '@virteex/domain-accounting-domain': path.resolve(__dirname, './libs/domain/accounting/domain/src/index.ts'),
+      '@virteex/domain-accounting-application': path.resolve(__dirname, './libs/domain/accounting/application/src/index.ts'),
+      '@virteex/domain-accounting-contracts': path.resolve(__dirname, './libs/domain/accounting/contracts/src/index.ts'),
+      '@virteex/domain-accounting-infrastructure': path.resolve(__dirname, './libs/domain/accounting/infrastructure/src/index.ts'),
+      '@virteex/domain-accounting-presentation': path.resolve(__dirname, './libs/domain/accounting/presentation/src/index.ts'),
+      '@virteex/kernel-tenant-context': path.resolve(__dirname, './libs/kernel/tenant-context/src/index.ts'),
+      '@virteex/kernel-telemetry-interfaces': path.resolve(__dirname, './libs/kernel/telemetry-interfaces/src/index.ts'),
+      '@virteex/shared-util-server-server-config': path.resolve(__dirname, './libs/shared/util/server/server-config/src/index.ts'),
     }
   },
 });
