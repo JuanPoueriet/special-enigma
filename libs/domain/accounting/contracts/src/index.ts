@@ -1,16 +1,16 @@
-export * from './lib/journal-entry.contract';
-export * from './lib/dtos/account.dto';
-export * from './lib/dtos/create-account.dto';
-export * from './lib/dtos/accounting-ops.dto';
-export * from './lib/dtos/journal-entry.dto';
-export * from './lib/dtos/record-journal-entry.dto';
-export { type CreateAccountDto } from './lib/dtos/create-account.dto';
-export { type RecordJournalEntryDto } from './lib/dtos/record-journal-entry.dto';
-export * from './lib/enums/account-type.enum';
-export * from './lib/enums/journal-entry-status.enum';
-export * from './lib/enums/journal-entry-type.enum';
-export * from './lib/models/account.model';
-export * from './lib/models/flattened-account.model';
-export * from './lib/models/general-ledger.model';
-export * from './lib/models/journal.model';
-export * from './lib/models/ledger.model';
+export * from './api/v1/requests/create-account.dto';
+export * from './api/v1/requests/record-journal-entry.dto';
+export * from './api/v1/responses/account.dto';
+export * from './api/v1/responses/journal-entry.dto';
+
+export * from './shared/accounting-ops.dto';
+export * from './shared/account.model';
+export * from './shared/flattened-account.model';
+export * from './shared/general-ledger.model';
+export * from './shared/journal.model';
+export * from './shared/ledger.model';
+export * from './shared/journal-entry.contract';
+
+export * from './shared/enums/account-type.enum';
+export * from './shared/enums/journal-entry-status.enum';
+export * from './shared/enums/journal-entry-type.enum';

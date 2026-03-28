@@ -1,1 +1,2 @@
-export * from './lib/lib.routes';
+export * from './lib.routes';
+export * from './services/accounting.service';
