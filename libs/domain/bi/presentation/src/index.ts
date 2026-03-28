@@ -1,1 +1,3 @@
-export * from './lib/bi-presentation.module';
+export * from './http/controllers/bi.controller';
+export * from './http/controllers/dashboard.controller';
+export * from './bi-presentation.module';
