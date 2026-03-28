@@ -1,4 +1,4 @@
-import { AccountCreatedEventV1 } from '../../contracts/src/events/v1/account-created.event';
+import { AccountCreatedEventV1 } from '@virteex/domain-accounting-contracts';
 
 describe('Accounting Domain Contract Validation', () => {
   it('should validate AccountCreatedEventV1 structure', () => {
