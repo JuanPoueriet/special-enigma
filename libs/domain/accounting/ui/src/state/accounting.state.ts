@@ -1,18 +1,40 @@
 import { signal, computed } from '@angular/core';
 import { AccountDto, JournalEntryDto } from '@virteex/domain-accounting-contracts';
 
-export const accountingState = signal<{
-  accounts: AccountDto[];
-  journalEntries: JournalEntryDto[];
+export const accountsState = signal<{
+  items: AccountDto[];
   isLoading: boolean;
   error: string | null;
 }>({
-  accounts: [],
-  journalEntries: [],
+  items: [],
   isLoading: false,
-  error: null as string | null,
+  error: null,
 });
 
-export const selectAccounts = computed(() => accountingState().accounts);
-export const selectJournalEntries = computed(() => accountingState().journalEntries);
-export const selectIsLoading = computed(() => accountingState().isLoading);
+export const entriesState = signal<{
+  items: JournalEntryDto[];
+  isLoading: boolean;
+  error: string | null;
+}>({
+  items: [],
+  isLoading: false,
+  error: null,
+});
+
+export const reportsState = signal<{
+  data: unknown;
+  isLoading: boolean;
+  error: string | null;
+}>({
+  data: null,
+  isLoading: false,
+  error: null,
+});
+
+export const selectAccounts = computed(() => accountsState().items);
+export const selectIsAccountsLoading = computed(() => accountsState().isLoading);
+export const selectAccountsError = computed(() => accountsState().error);
+
+export const selectJournalEntries = computed(() => entriesState().items);
+export const selectIsEntriesLoading = computed(() => entriesState().isLoading);
+export const selectEntriesError = computed(() => entriesState().error);

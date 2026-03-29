@@ -1,11 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { EntityManager } from '@mikro-orm/core';
-import { JournalEntry, type JournalEntryRepository, JournalEntryType } from '@virteex/domain-accounting-domain';
-import { IAccountingReportingPort, IUnitOfWork } from '@virteex/domain-accounting-application';
+import { QueryOrder } from '@mikro-orm/core';
+import { EntityManager } from '@mikro-orm/knex';
+import { JournalEntry, type JournalEntryRepository, JournalEntryType, JournalEntryLine } from '@virteex/domain-accounting-domain';
+import { IUnitOfWork, DimensionValidator } from '@virteex/domain-accounting-application';
+import { IAccountingReportingPort } from '@virteex/domain-accounting-contracts';
 
 @Injectable()
 export class MikroOrmJournalEntryRepository implements JournalEntryRepository, IAccountingReportingPort, IUnitOfWork {
-  constructor(private readonly em: EntityManager) {}
+  constructor(
+    private readonly em: EntityManager,
+    private readonly dimensionValidator: DimensionValidator
+  ) {}
 
   async transactional<T>(fn: () => Promise<T>): Promise<T> {
     return this.em.transactional(fn);
@@ -17,15 +22,15 @@ export class MikroOrmJournalEntryRepository implements JournalEntryRepository, I
   }
 
   async findById(id: string): Promise<JournalEntry | null> {
-    return this.em.findOne(JournalEntry, { id } as any, { populate: ['lines'] });
+    return this.em.findOne(JournalEntry, { id }, { populate: ['lines'] });
   }
 
   async findAll(tenantId: string): Promise<JournalEntry[]> {
-    return this.em.find(JournalEntry, { tenantId } as any, { populate: ['lines'] });
+    return this.em.find(JournalEntry, { tenantId }, { populate: ['lines'] });
   }
 
   async count(tenantId: string): Promise<number> {
-    return this.em.count(JournalEntry, { tenantId } as any);
+    return this.em.count(JournalEntry, { tenantId });
   }
 
   async countJournalEntries(tenantId: string): Promise<number> {
@@ -33,7 +38,7 @@ export class MikroOrmJournalEntryRepository implements JournalEntryRepository, I
   }
 
   async getBalancesByAccount(tenantId: string, startDate?: Date, endDate?: Date, dimensions?: Record<string, string>): Promise<Map<string, { debit: string; credit: string }>> {
-    const qb = (this.em as any).createQueryBuilder('JournalEntryLine', 'l');
+    const qb = this.em.createQueryBuilder(JournalEntryLine, 'l');
     qb.select(['l.account_id', 'SUM(l.debit) as total_debit', 'SUM(l.credit) as total_credit'])
       .join('l.journalEntry', 'e')
       .where({ 'e.tenantId': tenantId });
@@ -43,16 +48,14 @@ export class MikroOrmJournalEntryRepository implements JournalEntryRepository, I
 
     if (dimensions) {
         Object.entries(dimensions).forEach(([key, value]) => {
-            if (!/^[a-zA-Z0-9_]+$/.test(key)) {
-                throw new Error(`Invalid dimension key: ${key}`);
-            }
+            this.dimensionValidator.ensureValidKey(key);
             qb.andWhere(`e.dimensions->>'${key}' = ?`, [value]);
         });
     }
 
     qb.groupBy('l.account_id');
 
-    const results: { account_id: string; total_debit: string; total_credit: string }[] = await qb.execute();
+    const results = await qb.execute<{ account_id: string; total_debit: string; total_credit: string }[]>();
     const balanceMap = new Map<string, { debit: string; credit: string }>();
 
     results.forEach((row) => {
@@ -71,9 +74,9 @@ export class MikroOrmJournalEntryRepository implements JournalEntryRepository, I
       {
         tenantId,
         type: JournalEntryType.CLOSING,
-      } as any,
+      },
       {
-        orderBy: { date: 'DESC' } as any,
+        orderBy: { date: QueryOrder.DESC },
       }
     );
 

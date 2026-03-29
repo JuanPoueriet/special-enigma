@@ -49,7 +49,7 @@ export class FinancialReportsComponent {
   endDate = new Date().toISOString().split('T')[0];
   loading = false;
   error = '';
-  reportData: any = null;
+  reportData: unknown = null;
 
   generateReport() {
     this.loading = true;

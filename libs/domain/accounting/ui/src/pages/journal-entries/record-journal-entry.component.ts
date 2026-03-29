@@ -1,10 +1,17 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormBuilder, Validators, FormArray, FormControl, FormGroup } from '@angular/forms';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { AccountingService } from '../../services/accounting.service';
-import { AccountDto } from '@virteex/domain-accounting-contracts';
+import { AccountDto, RecordJournalEntryDto } from '@virteex/domain-accounting-contracts';
 import { Decimal } from 'decimal.js';
+
+interface JournalEntryLineForm {
+  accountId: FormControl<string>;
+  description: FormControl<string | null>;
+  debit: FormControl<string>;
+  credit: FormControl<string>;
+}
 
 @Component({
   selector: 'app-record-journal-entry',
@@ -25,7 +32,7 @@ import { Decimal } from 'decimal.js';
             <div>
               <label class="block text-sm font-medium text-gray-700">Date</label>
               <input type="date" formControlName="date" class="mt-1 block w-full border rounded p-2" />
-              <div *ngIf="f['date'].touched && f['date'].invalid" class="text-red-500 text-xs mt-1">
+              <div *ngIf="f.date.touched && f.date.invalid" class="text-red-500 text-xs mt-1">
                 Date is required.
               </div>
             </div>
@@ -33,7 +40,7 @@ import { Decimal } from 'decimal.js';
             <div>
               <label class="block text-sm font-medium text-gray-700">Description</label>
               <input type="text" formControlName="description" class="mt-1 block w-full border rounded p-2" placeholder="e.g. Monthly rent payment" />
-              <div *ngIf="f['description'].touched && f['description'].invalid" class="text-red-500 text-xs mt-1">
+              <div *ngIf="f.description.touched && f.description.invalid" class="text-red-500 text-xs mt-1">
                 Description is required.
               </div>
             </div>
@@ -112,15 +119,14 @@ import { Decimal } from 'decimal.js';
   `,
 })
 export class RecordJournalEntryComponent implements OnInit {
-  private fb = inject(FormBuilder);
   private accountingService = inject(AccountingService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
-  entryForm = this.fb.group({
-    date: [new Date().toISOString().split('T')[0], Validators.required],
-    description: ['', Validators.required],
-    lines: this.fb.array([])
+  entryForm = new FormGroup({
+    date: new FormControl<string>(new Date().toISOString().split('T')[0], { nonNullable: true, validators: [Validators.required] }),
+    description: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
+    lines: new FormArray<FormGroup<JournalEntryLineForm>>([])
   });
 
   accounts: AccountDto[] = [];
@@ -130,7 +136,7 @@ export class RecordJournalEntryComponent implements OnInit {
   totalCredit = new Decimal(0);
 
   get f() { return this.entryForm.controls; }
-  get lines() { return this.entryForm.get('lines') as FormArray; }
+  get lines() { return this.entryForm.get('lines') as FormArray<FormGroup<JournalEntryLineForm>>; }
 
   ngOnInit() {
     this.accountingService.getAccounts().subscribe(data => {
@@ -143,11 +149,11 @@ export class RecordJournalEntryComponent implements OnInit {
   }
 
   addLine() {
-    const line = this.fb.group({
-      accountId: ['', Validators.required],
-      description: [''],
-      debit: ['0.00', [Validators.required, Validators.pattern(/^[0-9]+(\.[0-9]{1,2})?$/)]],
-      credit: ['0.00', [Validators.required, Validators.pattern(/^[0-9]+(\.[0-9]{1,2})?$/)]]
+    const line = new FormGroup<JournalEntryLineForm>({
+      accountId: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
+      description: new FormControl<string | null>(null),
+      debit: new FormControl<string>('0.00', { nonNullable: true, validators: [Validators.required, Validators.pattern(/^[0-9]+(\.[0-9]{1,2})?$/)] }),
+      credit: new FormControl<string>('0.00', { nonNullable: true, validators: [Validators.required, Validators.pattern(/^[0-9]+(\.[0-9]{1,2})?$/)] })
     });
     this.lines.push(line);
   }
@@ -181,10 +187,12 @@ export class RecordJournalEntryComponent implements OnInit {
     this.loading = true;
     this.error = '';
 
-    const dto = {
-        date: new Date(this.entryForm.value.date!),
-        description: this.entryForm.value.description!,
-        lines: this.entryForm.value.lines!.map((l: any) => ({
+    const formValue = this.entryForm.getRawValue();
+
+    const dto: RecordJournalEntryDto = {
+        date: new Date(formValue.date),
+        description: formValue.description,
+        lines: formValue.lines.map((l) => ({
             accountId: l.accountId,
             description: l.description || undefined,
             debit: l.debit,

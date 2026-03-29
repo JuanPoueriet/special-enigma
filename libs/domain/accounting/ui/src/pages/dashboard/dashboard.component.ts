@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { catchError, of, forkJoin } from 'rxjs';
 import { AccountingService } from '../../services/accounting.service';
-import { JournalEntryStatus } from '@virteex/domain-accounting-contracts';
+import { JournalEntryStatus, JournalEntryType } from '@virteex/domain-accounting-contracts';
 
 @Component({
   selector: 'app-accounting-dashboard',
@@ -63,17 +63,15 @@ export class DashboardComponent implements OnInit {
     }).subscribe({
       next: (data) => {
         this.stats.totalAccounts = data.accounts.length;
-    this.stats.pendingEntries = data.entries.filter(e =>
-      e.status === JournalEntryStatus.DRAFT ||
-      (e.status as any) === 'DRAFT' ||
-      (e.status as any) === 'Draft'
-    ).length;
+        this.stats.pendingEntries = data.entries.filter(e =>
+          e.status === JournalEntryStatus.DRAFT
+        ).length;
 
         // Robust logic for last closing
         const closingEntry = data.entries.find(e =>
-          (e as any).type === 'CLOSING'
+          e.type === JournalEntryType.CLOSING
         );
-    this.stats.lastClosing = closingEntry ? closingEntry.date.toString() : 'No closing found';
+        this.stats.lastClosing = closingEntry ? closingEntry.date.toString() : 'No closing found';
 
         this.loading = false;
       },

@@ -1,33 +1,44 @@
 import { inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { AccountingService } from '../services/accounting.service';
-import { accountingState } from '../state/accounting.state';
+import { accountsState, entriesState, reportsState } from '../state/accounting.state';
 
 export function useAccounting() {
   const service = inject(AccountingService);
 
   async function loadAccounts() {
-    accountingState.update(s => ({ ...s, isLoading: true }));
+    accountsState.update(s => ({ ...s, isLoading: true, error: null }));
     try {
       const accounts = await firstValueFrom(service.getAccounts());
-      accountingState.update(s => ({ ...s, accounts: accounts || [], isLoading: false }));
+      accountsState.update(s => ({ ...s, items: accounts || [], isLoading: false }));
     } catch (e) {
-      accountingState.update(s => ({ ...s, error: (e as Error).message, isLoading: false }));
+      accountsState.update(s => ({ ...s, error: (e as Error).message, isLoading: false }));
     }
   }
 
   async function loadJournalEntries() {
-    accountingState.update(s => ({ ...s, isLoading: true }));
+    entriesState.update(s => ({ ...s, isLoading: true, error: null }));
     try {
       const entries = await firstValueFrom(service.getJournalEntries());
-      accountingState.update(s => ({ ...s, journalEntries: entries || [], isLoading: false }));
+      entriesState.update(s => ({ ...s, items: entries || [], isLoading: false }));
     } catch (e) {
-      accountingState.update(s => ({ ...s, error: (e as Error).message, isLoading: false }));
+      accountsState.update(s => ({ ...s, error: (e as Error).message, isLoading: false }));
+    }
+  }
+
+  async function generateReport(type: string, endDate: string, dimensions?: Record<string, string>) {
+    reportsState.update(s => ({ ...s, isLoading: true, error: null }));
+    try {
+      const report = await firstValueFrom(service.getFinancialReport(type, endDate, dimensions));
+      reportsState.update(s => ({ ...s, data: report, isLoading: false }));
+    } catch (e) {
+      reportsState.update(s => ({ ...s, error: (e as Error).message, isLoading: false }));
     }
   }
 
   return {
     loadAccounts,
     loadJournalEntries,
+    generateReport,
   };
 }
