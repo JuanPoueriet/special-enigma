@@ -1,4 +1,4 @@
-import { Invoice } from '../../entities/invoice.entity';
+import { Invoice } from '../entities/invoice.entity';
 
 export const INVOICE_REPOSITORY = 'INVOICE_REPOSITORY';
 
