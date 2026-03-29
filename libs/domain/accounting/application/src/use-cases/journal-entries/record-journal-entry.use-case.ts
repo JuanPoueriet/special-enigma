@@ -1,4 +1,4 @@
-import { JournalEntry, JournalEntryLine, type JournalEntryRepository, type AccountRepository, AccountNotFoundError, CrossTenantAccessError, PeriodClosedError, type ITelemetryService } from '@virteex/domain-accounting-domain';
+import { JournalEntry, JournalEntryLine, type JournalEntryRepository, type AccountRepository, AccountNotFoundError, CrossTenantAccessError, PeriodClosedError, type ITelemetryService, type IdempotencyRepository } from '@virteex/domain-accounting-domain';
 import { type RecordJournalEntryDto, type JournalEntryDto } from '@virteex/domain-accounting-contracts';
 import { JournalEntryMapper } from '../../mappers/journal-entry.mapper';
 
@@ -6,12 +6,20 @@ export class RecordJournalEntryUseCase {
   constructor(
     private journalEntryRepository: JournalEntryRepository,
     private accountRepository: AccountRepository,
-    private telemetryService: ITelemetryService
+    private telemetryService: ITelemetryService,
+    private idempotencyRepository?: IdempotencyRepository
   ) {}
 
-  async execute(dto: RecordJournalEntryDto & { tenantId: string }): Promise<JournalEntryDto> {
+  async execute(dto: RecordJournalEntryDto & { tenantId: string, idempotencyKey?: string }): Promise<JournalEntryDto> {
     const startTime = Date.now();
     this.telemetryService.setTraceAttributes({ tenantId: dto.tenantId, useCase: 'RecordJournalEntry' });
+
+    if (dto.idempotencyKey && this.idempotencyRepository) {
+        const existingResponse = await this.idempotencyRepository.findByKey(dto.tenantId, dto.idempotencyKey);
+        if (existingResponse) {
+            return existingResponse.responsePayload as JournalEntryDto;
+        }
+    }
 
     const handleExecute = async () => {
         const latestClosedDate = await this.journalEntryRepository.findLatestClosedDate(dto.tenantId);
@@ -44,7 +52,19 @@ export class RecordJournalEntryUseCase {
         this.telemetryService.recordBusinessMetric('accounting_record_journal_entry_latency_ms', duration, { tenantId: dto.tenantId });
         this.telemetryService.recordBusinessMetric('accounting_record_journal_entry_success_total', 1, { tenantId: dto.tenantId });
 
-        return JournalEntryMapper.toDto(savedEntry);
+        const result = JournalEntryMapper.toDto(savedEntry);
+
+        if (dto.idempotencyKey && this.idempotencyRepository) {
+            await this.idempotencyRepository.save({
+                tenantId: dto.tenantId,
+                idempotencyKey: dto.idempotencyKey,
+                responsePayload: result,
+                status: 201,
+                createdAt: new Date()
+            });
+        }
+
+        return result;
     };
 
     const transactionalRepo = this.journalEntryRepository as any;

@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ACCOUNT_REPOSITORY, JOURNAL_ENTRY_REPOSITORY, OUTBOX_REPOSITORY, TELEMETRY_SERVICE, AccountRepository, JournalEntryRepository, OutboxRepository, ITelemetryService } from '@virteex/domain-accounting-domain';
+import { ACCOUNT_REPOSITORY, JOURNAL_ENTRY_REPOSITORY, OUTBOX_REPOSITORY, TELEMETRY_SERVICE, IDEMPOTENCY_REPOSITORY, AccountRepository, JournalEntryRepository, OutboxRepository, ITelemetryService, IdempotencyRepository } from '@virteex/domain-accounting-domain';
 import { AccountingPolicyService } from './services/accounting-policy.service';
 import { AccountingEventHandlerService } from './services/accounting-event-handler.service';
 import { AccountingListener } from './handlers/accounting.listener';
@@ -18,13 +18,13 @@ import { CloseFiscalPeriodUseCase } from './use-cases/fiscal-periods/close-fisca
     AccountingListener,
     {
       provide: CreateAccountUseCase,
-      useFactory: (repo: AccountRepository, outbox: OutboxRepository, telemetry: ITelemetryService) => new CreateAccountUseCase(repo, outbox, telemetry),
-      inject: [ACCOUNT_REPOSITORY, OUTBOX_REPOSITORY, TELEMETRY_SERVICE],
+      useFactory: (repo: AccountRepository, outbox: OutboxRepository, telemetry: ITelemetryService, idempotency: IdempotencyRepository) => new CreateAccountUseCase(repo, outbox, telemetry, idempotency),
+      inject: [ACCOUNT_REPOSITORY, OUTBOX_REPOSITORY, TELEMETRY_SERVICE, IDEMPOTENCY_REPOSITORY],
     },
     {
       provide: RecordJournalEntryUseCase,
-      useFactory: (jeRepo: JournalEntryRepository, accRepo: AccountRepository, telemetry: ITelemetryService) => new RecordJournalEntryUseCase(jeRepo, accRepo, telemetry),
-      inject: [JOURNAL_ENTRY_REPOSITORY, ACCOUNT_REPOSITORY, TELEMETRY_SERVICE],
+      useFactory: (jeRepo: JournalEntryRepository, accRepo: AccountRepository, telemetry: ITelemetryService, idempotency: IdempotencyRepository) => new RecordJournalEntryUseCase(jeRepo, accRepo, telemetry, idempotency),
+      inject: [JOURNAL_ENTRY_REPOSITORY, ACCOUNT_REPOSITORY, TELEMETRY_SERVICE, IDEMPOTENCY_REPOSITORY],
     },
     {
       provide: GetAccountsUseCase,
