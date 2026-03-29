@@ -7,13 +7,20 @@ import { ConfigService } from '@nestjs/config';
 export class OktaStrategy extends PassportStrategy(Strategy, 'okta') {
   constructor(configService: ConfigService) {
     const issuer = configService.get<string>('OKTA_ISSUER');
+    const clientID = configService.get<string>('OKTA_CLIENT_ID');
+    const clientSecret = configService.get<string>('OKTA_CLIENT_SECRET');
+
+    if (!issuer || !clientID || !clientSecret) {
+      throw new Error('Okta OAuth credentials are not fully configured');
+    }
+
     super({
       issuer,
       authorizationURL: `${issuer}/v1/authorize`,
       tokenURL: `${issuer}/v1/token`,
       userInfoURL: `${issuer}/v1/userinfo`,
-      clientID: configService.get<string>('OKTA_CLIENT_ID'),
-      clientSecret: configService.get<string>('OKTA_CLIENT_SECRET'),
+      clientID,
+      clientSecret,
       callbackURL: configService.get<string>('OKTA_CALLBACK_URL') || 'http://localhost:3000/api/auth/okta/callback',
       scope: ['openid', 'profile', 'email'],
     });

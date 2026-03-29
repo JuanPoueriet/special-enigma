@@ -9,8 +9,9 @@ export class CustomerIdentityService {
 
   async getOrCreateExternalId(email: string, name: string, paymentMethodId: string, tenantId: string): Promise<string> {
     const subscription = await this.subscriptionRepository.findByTenantId(tenantId);
-    if (subscription?.getExternalCustomerId()) {
-      return subscription.getExternalCustomerId();
+    const externalCustomerId = subscription?.getExternalCustomerId();
+    if (externalCustomerId) {
+      return externalCustomerId;
     }
     return await this.customerRegistryGateway.createCustomer(email, name, paymentMethodId);
   }

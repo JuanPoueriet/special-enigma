@@ -6,9 +6,16 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class MicrosoftStrategy extends PassportStrategy(Strategy, 'microsoft') {
   constructor(configService: ConfigService) {
+    const clientID = configService.get<string>('MICROSOFT_CLIENT_ID');
+    const clientSecret = configService.get<string>('MICROSOFT_CLIENT_SECRET');
+
+    if (!clientID || !clientSecret) {
+      throw new Error('Microsoft OAuth credentials are not fully configured');
+    }
+
     super({
-      clientID: configService.get<string>('MICROSOFT_CLIENT_ID'),
-      clientSecret: configService.get<string>('MICROSOFT_CLIENT_SECRET'),
+      clientID,
+      clientSecret,
       callbackURL: configService.get<string>('MICROSOFT_CALLBACK_URL') || 'http://localhost:3000/api/auth/microsoft/callback',
       scope: ['user.read'],
       tenant: configService.get<string>('MICROSOFT_TENANT', 'common'),
