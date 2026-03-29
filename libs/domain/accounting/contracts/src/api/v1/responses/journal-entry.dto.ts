@@ -18,5 +18,5 @@ export interface JournalEntryDto {
   type: JournalEntryType;
   lines: JournalEntryLineDto[];
   reference?: string;
-  amount?: number;
+  amount: number;
 }

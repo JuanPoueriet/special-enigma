@@ -14,4 +14,5 @@ export const accountingState = signal<{
 });
 
 export const selectAccounts = computed(() => accountingState().accounts);
+export const selectJournalEntries = computed(() => accountingState().journalEntries);
 export const selectIsLoading = computed(() => accountingState().isLoading);

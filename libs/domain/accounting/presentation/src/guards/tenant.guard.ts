@@ -13,9 +13,18 @@ export class TenantGuard implements CanActivate {
     }
 
     const tenantId = request.headers['x-virteex-tenant-id'] || request.headers['x-tenant-id'];
+    const tenantContext = request.tenantContext;
 
     if (!tenantId) {
       throw new ForbiddenException('Tenant identification is required for this operation.');
+    }
+
+    if (!tenantContext) {
+      throw new ForbiddenException('Security context is missing.');
+    }
+
+    if (tenantId !== tenantContext.tenantId) {
+      throw new ForbiddenException('Tenant context integrity violation.');
     }
 
     return true;

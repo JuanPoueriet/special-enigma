@@ -1,4 +1,4 @@
-import { OutboxMessage, OutboxRepository } from './outbox.interfaces';
+import { OutboxMessage, OutboxRepository } from '@virteex/domain-accounting-domain';
 
 export class InMemoryOutboxRepository implements OutboxRepository {
   private messages: OutboxMessage[] = [];
