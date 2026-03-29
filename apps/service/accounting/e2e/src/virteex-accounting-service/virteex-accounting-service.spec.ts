@@ -105,8 +105,11 @@ describe('Accounting Service E2E', () => {
 
         try {
             await axios.post('/api/accounting/journal-entries', recordEntryDto, axiosConfig);
-            expect.fail('Should have thrown an error');
+            throw new Error('Should have thrown an error');
         } catch (error: any) {
+            if (error.message === 'Should have thrown an error') {
+                throw error;
+            }
             expect(error.response.status).toBe(400);
         }
       });

@@ -1,10 +1,10 @@
-export { Account } from './entities/account.entity';
-export { AccountingPolicy } from './entities/accounting-policy.entity';
-export { JournalEntry } from './entities/journal-entry.entity';
-export { JournalEntryLine } from './entities/journal-entry-line.entity';
-export { FiscalYear } from './entities/fiscal-year.entity';
+export type { Account } from './entities/account.entity';
+export type { AccountingPolicy } from './entities/accounting-policy.entity';
+export type { JournalEntry } from './entities/journal-entry.entity';
+export type { JournalEntryLine } from './entities/journal-entry-line.entity';
+export type { FiscalYear } from './entities/fiscal-year.entity';
 
-export { type DomainEvent } from './events/domain-event.interface';
+export type { DomainEvent } from './events/domain-event.interface';
 export { AccountCreated } from './events/account-created.event';
 
 export { AccountType } from './value-objects/account-type.enum';
@@ -17,6 +17,7 @@ export * from './errors/accounting.errors';
 export { type AccountRepository, ACCOUNT_REPOSITORY } from './repository-ports/account.repository';
 export { type PolicyRepository, POLICY_REPOSITORY } from './repository-ports/policy.repository';
 export { type JournalEntryRepository, JOURNAL_ENTRY_REPOSITORY } from './repository-ports/journal-entry.repository';
+export { type IdempotencyRepository, IDEMPOTENCY_REPOSITORY, type IdempotencyRecord } from './repository-ports/idempotency.repository';
 
 export interface OutboxMessage {
   id: string;

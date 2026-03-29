@@ -1,4 +1,4 @@
-import { Account, AccountType, AccountAlreadyExistsError, ParentAccountNotFoundError, CrossTenantAccessError, type AccountRepository, type OutboxRepository, AccountCreated, type ITelemetryService } from '@virteex/domain-accounting-domain';
+import { Account, AccountType, AccountAlreadyExistsError, ParentAccountNotFoundError, CrossTenantAccessError, type AccountRepository, type OutboxRepository, AccountCreated, type ITelemetryService, type IdempotencyRepository } from '@virteex/domain-accounting-domain';
 import { type CreateAccountDto, type AccountDto } from '@virteex/domain-accounting-contracts';
 import { AccountMapper } from '../../mappers/account.mapper';
 
@@ -6,12 +6,20 @@ export class CreateAccountUseCase {
   constructor(
     private accountRepository: AccountRepository,
     private outboxRepository: OutboxRepository,
-    private telemetryService: ITelemetryService
+    private telemetryService: ITelemetryService,
+    private idempotencyRepository?: IdempotencyRepository
   ) {}
 
-  async execute(dto: CreateAccountDto & { tenantId: string }): Promise<AccountDto> {
+  async execute(dto: CreateAccountDto & { tenantId: string, idempotencyKey?: string }): Promise<AccountDto> {
     const startTime = Date.now();
     this.telemetryService.setTraceAttributes({ tenantId: dto.tenantId, useCase: 'CreateAccount' });
+
+    if (dto.idempotencyKey && this.idempotencyRepository) {
+        const existingResponse = await this.idempotencyRepository.findByKey(dto.tenantId, dto.idempotencyKey);
+        if (existingResponse) {
+            return existingResponse.responsePayload as AccountDto;
+        }
+    }
 
     return this.accountRepository.transactional(async () => {
         const existing = await this.accountRepository.findByCode(dto.tenantId, dto.code);
@@ -60,7 +68,19 @@ export class CreateAccountUseCase {
         this.telemetryService.recordBusinessMetric('accounting_create_account_latency_ms', duration, { tenantId: dto.tenantId });
         this.telemetryService.recordBusinessMetric('accounting_create_account_success_total', 1, { tenantId: dto.tenantId });
 
-        return AccountMapper.toDto(savedAccount);
+        const result = AccountMapper.toDto(savedAccount);
+
+        if (dto.idempotencyKey && this.idempotencyRepository) {
+            await this.idempotencyRepository.save({
+                tenantId: dto.tenantId,
+                idempotencyKey: dto.idempotencyKey,
+                responsePayload: result,
+                status: 201,
+                createdAt: new Date()
+            });
+        }
+
+        return result;
     }).catch(error => {
         this.telemetryService.recordBusinessMetric('accounting_create_account_error_total', 1, {
             tenantId: dto.tenantId,
