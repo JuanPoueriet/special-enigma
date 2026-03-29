@@ -1,7 +1,10 @@
 import { Module, MiddlewareConsumer, NestModule } from '@nestjs/common';
+import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { BffCoreModule, ResilientHttpClient } from '@virteex/kernel-bff-core';
 import { InventoryPresentationModule } from '@virteex/domain-inventory-presentation';
 import { AccountingPresentationModule } from '@virteex/domain-accounting-presentation';
+import { AccountingInfrastructureModule } from '@virteex/domain-accounting-infrastructure';
 import { PurchasingPresentationModule } from '@virteex/domain-purchasing-presentation';
 import { CatalogPresentationModule } from '@virteex/domain-catalog-presentation';
 import { SubscriptionPresentationModule } from '@virteex/domain-subscription-presentation';
@@ -21,8 +24,18 @@ import { AppService } from './app.service';
 
 @Module({
   imports: [
+    MikroOrmModule.forRoot({
+      driver: PostgreSqlDriver,
+      autoLoadEntities: true,
+      dbName: process.env['DB_NAME'] || 'virteex_erp',
+      host: process.env['DB_HOST'] || 'localhost',
+      port: Number(process.env['DB_PORT']) || 5432,
+      user: process.env['DB_USER'] || 'virteex',
+      password: process.env['DB_PASSWORD'] || 'password',
+    }),
     BffCoreModule,
     InventoryPresentationModule,
+    AccountingInfrastructureModule,
     AccountingPresentationModule,
     PurchasingPresentationModule,
     CatalogPresentationModule,

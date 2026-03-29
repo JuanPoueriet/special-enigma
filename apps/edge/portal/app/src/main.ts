@@ -6,16 +6,14 @@ import { setupGlobalConfig } from '@virteex/shared-util-server-server-config';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Apply Global Configuration (Security, Pipes, Filters, Throttling)
+  // Apply Global Configuration (Security, Pipes, Filters, Throttling, Global Prefix)
   setupGlobalConfig(app);
 
   const port = process.env.PORT || 3100;
-  const globalPrefix = 'api';
-  app.setGlobalPrefix(globalPrefix);
 
   await app.listen(port);
   Logger.log(
-    `🚀 BFF is running on: http://localhost:${port}/${globalPrefix}`
+    `🚀 BFF is running on: http://localhost:${port}/api`
   );
 }
 
