@@ -455,7 +455,8 @@ export class AuthController {
 
       let backupCodes: string[] = [];
       if (success) {
-          backupCodes = await this.generateBackupCodesUseCase.execute(user.sub);
+          const result = await this.generateBackupCodesUseCase.execute(user.sub);
+          backupCodes = result.codes;
       }
 
       return { success, backupCodes };

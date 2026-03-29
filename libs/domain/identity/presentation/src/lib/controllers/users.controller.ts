@@ -12,9 +12,9 @@ import {
     UpdateUserUseCase,
     BlockUserUseCase,
     ForceLogoutUseCase,
-    ForgotPasswordUseCase,
-    UserRepository
+    ForgotPasswordUseCase
 } from '@virteex/domain-identity-application';
+import { UserRepository } from '@virteex/domain-identity-domain';
 import { UpdateUserDto, InviteUserDto, PaginatedUsersResponse } from '@virteex/domain-identity-contracts';
 import { JwtAuthGuard, CurrentUser, StepUp, StepUpGuard } from '@virteex/kernel-auth';
 import { UserMapper } from '../mappers/user.mapper';

@@ -19,6 +19,8 @@ export enum OperationType {
   MIGRATE = 'MIGRATE',
   FAILOVER = 'FAILOVER',
   ROLLBACK = 'ROLLBACK',
+  BACKUP = 'BACKUP',
+  SNAPSHOT = 'SNAPSHOT',
 }
 
 export enum OperationState {

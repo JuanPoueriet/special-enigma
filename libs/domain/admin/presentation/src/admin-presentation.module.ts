@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { AdminController } from './controllers/admin.controller';
-import { AdminDashboardController } from './controllers/admin-dashboard.controller';
-import { TenantsController } from './controllers/tenants.controller';
-import { MonitoringController } from './controllers/monitoring.controller';
-import { SecurityController } from './controllers/security.controller';
-import { IncidentsController } from './controllers/incidents.controller';
-import { OperationsController } from './controllers/operations.controller';
+import { AdminController } from './http/controllers/admin.controller';
+import { AdminDashboardController } from './http/controllers/admin-dashboard.controller';
+import { TenantsController } from './http/controllers/tenants.controller';
+import { MonitoringController } from './http/controllers/monitoring.controller';
+import { SecurityController } from './http/controllers/security.controller';
+import { IncidentsController } from './http/controllers/incidents.controller';
+import { OperationsController } from './http/controllers/operations.controller';
 import { AdminApplicationModule } from '@virteex/domain-admin-application';
 
 @Module({
