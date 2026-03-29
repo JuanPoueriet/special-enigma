@@ -1,7 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
-import { SetupChartOfAccountsUseCase } from '../use-cases/accounts/setup-chart-of-accounts.use-case';
-import { AccountingEventHandlerService } from '../services/accounting-event-handler.service';
+import { SetupChartOfAccountsUseCase, AccountingEventHandlerService } from '@virteex/domain-accounting-application';
 
 @Injectable()
 export class AccountingListener {

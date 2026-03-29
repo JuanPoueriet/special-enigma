@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/postgresql';
-import { OutboxMessage, OutboxRepository } from '../../messaging/outbox/outbox.interfaces';
+import { OutboxMessage, OutboxRepository } from '@virteex/domain-accounting-domain';
 
 @Injectable()
 export class MikroOrmOutboxRepository implements OutboxRepository {
