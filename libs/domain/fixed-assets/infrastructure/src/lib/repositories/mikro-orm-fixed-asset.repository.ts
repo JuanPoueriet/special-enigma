@@ -1,16 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { type FixedAssetRepository, FixedAsset } from '@virteex/domain-fixed-assets-domain';
-import { InjectRepository } from '@mikro-orm/nestjs';
-import { EntityRepository } from '@mikro-orm/postgresql';
+import { EntityManager } from '@mikro-orm/postgresql';
 import { FixedAssetOrmEntity } from '../persistence/entities/fixed-asset.orm-entity';
 import { FixedAssetsPersistenceMapper } from '../persistence/mappers/fixed-assets-persistence.mapper';
 
 @Injectable()
 export class MikroOrmFixedAssetRepository implements FixedAssetRepository {
   constructor(
-    @InjectRepository(FixedAssetOrmEntity)
-    private readonly repository: EntityRepository<FixedAssetOrmEntity>
+    private readonly em: EntityManager
   ) {}
+
+  private get repository() {
+    return this.em.getRepository(FixedAssetOrmEntity);
+  }
 
   async save(asset: FixedAsset): Promise<void> {
     const ormEntity = FixedAssetsPersistenceMapper.toOrmEntity(asset);

@@ -10,12 +10,12 @@ import {
 import { MikroOrmProductionOrderRepository } from './repositories/mikro-orm-production-order.repository';
 import { MikroOrmBillOfMaterialsRepository } from './repositories/mikro-orm-bill-of-materials.repository';
 import { HttpInventoryAdapter } from './adapters/http-inventory.adapter';
-import { ProductionOrderSchema, BillOfMaterialsSchema, BillOfMaterialsComponentSchema } from './persistence/manufacturing.schemas';
+import { ProductionOrderSchema, ProductionOrderComponentSchema, BillOfMaterialsSchema, BillOfMaterialsComponentSchema } from './persistence/manufacturing.schemas';
 
 @Global()
 @Module({
   imports: [
-    MikroOrmModule.forFeature([ProductionOrderSchema, BillOfMaterialsSchema, BillOfMaterialsComponentSchema]),
+    MikroOrmModule.forFeature([ProductionOrderSchema, ProductionOrderComponentSchema, BillOfMaterialsSchema, BillOfMaterialsComponentSchema]),
     HttpModule,
     ConfigModule
   ],

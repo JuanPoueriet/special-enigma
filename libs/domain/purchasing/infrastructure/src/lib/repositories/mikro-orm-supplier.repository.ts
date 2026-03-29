@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { EntityManager } from '@mikro-orm/core';
+import { EntityManager } from '@mikro-orm/postgresql';
 import { ISupplierRepository, Supplier } from '@virteex/domain-purchasing-domain';
 
 @Injectable()

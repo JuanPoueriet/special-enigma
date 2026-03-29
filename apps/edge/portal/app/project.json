@@ -30,11 +30,13 @@
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "edge-portal-app:build"
+        "buildTarget": "edge-portal-app:build",
+        "inspect": false
       },
       "configurations": {
         "development": {
-          "buildTarget": "edge-portal-app:build:development"
+          "buildTarget": "edge-portal-app:build:development",
+          "inspect": false
         },
         "production": {
           "buildTarget": "edge-portal-app:build:production"

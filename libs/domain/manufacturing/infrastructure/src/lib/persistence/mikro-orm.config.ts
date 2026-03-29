@@ -1,5 +1,5 @@
 import { defineConfig } from '@mikro-orm/postgresql';
-import { ProductionOrder } from '@virteex/domain-manufacturing-domain';
+import { ProductionOrder, ProductionOrderComponent, BillOfMaterials, BillOfMaterialsComponent } from '@virteex/domain-manufacturing-domain';
 import { TenantModelSubscriber } from '@virteex/kernel-tenant';
 import { getTenantContext } from '@virteex/kernel-auth';
 import { join } from 'path';
@@ -9,7 +9,7 @@ if (process.env.NODE_ENV !== 'test' && !process.env.DB_PASSWORD) {
 }
 
 export default defineConfig({
-  entities: [ProductionOrder],
+  entities: [ProductionOrder, ProductionOrderComponent, BillOfMaterials, BillOfMaterialsComponent],
   subscribers: [new TenantModelSubscriber()],
   filters: {
     tenant: {
@@ -17,7 +17,7 @@ export default defineConfig({
         const context = getTenantContext();
         return context ? { tenantId: context.tenantId } : {};
       },
-      entity: ['ProductionOrder'],
+      entity: ['ProductionOrder', 'BillOfMaterials', 'BillOfMaterialsComponent'],
       default: true,
     },
   },
