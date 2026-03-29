@@ -22,7 +22,7 @@ export function useAccounting() {
       const entries = await firstValueFrom(service.getJournalEntries());
       entriesState.update(s => ({ ...s, items: entries || [], isLoading: false }));
     } catch (e) {
-      accountsState.update(s => ({ ...s, error: (e as Error).message, isLoading: false }));
+      entriesState.update(s => ({ ...s, error: (e as Error).message, isLoading: false }));
     }
   }
 

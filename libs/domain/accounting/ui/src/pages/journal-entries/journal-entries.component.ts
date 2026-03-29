@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { selectJournalEntries, selectIsLoading, accountingState } from '../../state/accounting.state';
+import { selectJournalEntries, selectIsEntriesLoading, selectEntriesError } from '../../state/accounting.state';
 import { useAccounting } from '../../hooks/use-accounting';
 
 @Component({
@@ -50,8 +50,8 @@ export class JournalEntriesComponent implements OnInit {
   private accounting = useAccounting();
 
   entries = selectJournalEntries;
-  loading = selectIsLoading;
-  error = () => accountingState().error;
+  loading = selectIsEntriesLoading;
+  error = selectEntriesError;
 
   ngOnInit() {
     this.accounting.loadJournalEntries();
