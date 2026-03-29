@@ -4,14 +4,14 @@ import { AccountType, CreateAccountDto } from '@virteex/domain-accounting-contra
 @InputType()
 export class CreateAccountInput extends CreateAccountDto {
   @Field()
-  override code!: string;
+  declare code: string;
 
   @Field()
-  override name!: string;
+  declare name: string;
 
   @Field(() => AccountType)
-  override type!: AccountType;
+  declare type: AccountType;
 
   @Field({ nullable: true })
-  override parentId?: string;
+  declare parentId?: string;
 }

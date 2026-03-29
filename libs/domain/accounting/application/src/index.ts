@@ -13,6 +13,7 @@ export * from './use-cases/fiscal-periods/close-fiscal-period.use-case';
 // Services for inter-domain or specialized integration
 export * from './services/accounting-policy.service';
 export * from './services/accounting-event-handler.service';
+export * from './services/dimension-validator.service';
 
 // Outbound ports for infrastructure implementation or cross-domain consumption
 export * from './ports/outbound/message-broker.port';

@@ -1,5 +1,5 @@
 import { EntitySchema } from '@mikro-orm/core';
-import { OutboxMessage } from '../../messaging/outbox/outbox.interfaces';
+import { OutboxMessage } from '@virteex/domain-accounting-domain';
 
 export const OutboxMessageSchema = new EntitySchema<OutboxMessage>({
   name: 'OutboxMessage',

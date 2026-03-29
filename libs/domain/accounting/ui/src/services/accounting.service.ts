@@ -1,13 +1,24 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AccountDto, JournalEntryDto, CreateAccountDto, RecordJournalEntryDto } from '@virteex/domain-accounting-contracts';
+import {
+  AccountDto,
+  JournalEntryDto,
+  CreateAccountDto,
+  RecordJournalEntryDto
+} from '@virteex/domain-accounting-contracts';
+
+export interface FinancialReportDto {
+  type: string;
+  endDate: string;
+  dimensions?: Record<string, string>;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountingService {
-  private http = inject(HttpClient);
+  private readonly http = inject(HttpClient);
 
   getAccounts(): Observable<AccountDto[]> {
     return this.http.get<AccountDto[]>('/api/accounting/accounts');
@@ -29,8 +40,12 @@ export class AccountingService {
     return this.http.post<void>('/api/accounting/setup', {});
   }
 
-  getFinancialReport(type: string, endDate: string): Observable<any> {
-    return this.http.get<any>(`/api/accounting/reports/financial?type=${type}&endDate=${endDate}`);
+  getFinancialReport(type: string, endDate: string, dimensions?: Record<string, string>): Observable<unknown> {
+    const params: Record<string, string> = { type, endDate };
+    if (dimensions) {
+      params['dimensions'] = JSON.stringify(dimensions);
+    }
+    return this.http.get<unknown>(`/api/accounting/reports/financial`, { params });
   }
 
   closeFiscalPeriod(closingDate: string): Observable<void> {

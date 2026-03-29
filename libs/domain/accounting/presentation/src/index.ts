@@ -5,6 +5,6 @@ export * from './graphql/account.loader';
 export * from './http/controllers/accounting.controller';
 export * from './http/controllers/accounting-events.controller';
 export * from './http/controllers/accounting-health.controller';
-export * from './guards/tenant.guard';
+export { TenantGuard } from '@virteex/kernel-auth';
 export * from './interceptors/presentation-logging.interceptor';
 export * from './filters/accounting-exception.filter';

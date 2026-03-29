@@ -3,6 +3,7 @@ import { ACCOUNT_REPOSITORY, JOURNAL_ENTRY_REPOSITORY, OUTBOX_REPOSITORY, TELEME
 import { I_UNIT_OF_WORK, IUnitOfWork } from './ports/outbound/unit-of-work.port';
 import { AccountingPolicyService } from './services/accounting-policy.service';
 import { AccountingEventHandlerService } from './services/accounting-event-handler.service';
+import { DimensionValidator } from './services/dimension-validator.service';
 import { CreateAccountUseCase } from './use-cases/accounts/create-account.use-case';
 import { RecordJournalEntryUseCase } from './use-cases/journal-entries/record-journal-entry.use-case';
 import { GetAccountsUseCase } from './use-cases/accounts/get-accounts.use-case';
@@ -15,6 +16,7 @@ import { CloseFiscalPeriodUseCase } from './use-cases/fiscal-periods/close-fisca
   providers: [
     AccountingPolicyService,
     AccountingEventHandlerService,
+    DimensionValidator,
     {
       provide: CreateAccountUseCase,
       useFactory: (repo: AccountRepository, outbox: OutboxRepository, telemetry: ITelemetryService) => new CreateAccountUseCase(repo, outbox, telemetry),
@@ -54,6 +56,7 @@ import { CloseFiscalPeriodUseCase } from './use-cases/fiscal-periods/close-fisca
   exports: [
     AccountingPolicyService,
     AccountingEventHandlerService,
+    DimensionValidator,
     CreateAccountUseCase,
     RecordJournalEntryUseCase,
     GetAccountsUseCase,
