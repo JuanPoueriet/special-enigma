@@ -3,6 +3,7 @@ import { JournalEntryType } from '../value-objects/journal-entry-type.enum';
 import type { JournalEntryLine } from './journal-entry-line.entity';
 import { Money } from '../value-objects/money.vo';
 import { NegativeAmountError, JournalEntryNotBalancedError } from '../errors/accounting.errors';
+import { DomainEvent } from '../events/domain-event.interface';
 
 export class JournalEntry {
   id!: string;
@@ -15,10 +16,24 @@ export class JournalEntry {
   dimensions?: Record<string, string>;
   lines: JournalEntryLine[] = [];
 
+  private _domainEvents: DomainEvent[] = [];
+
   constructor(tenantId: string, description: string, date: Date) {
     this.tenantId = tenantId;
     this.description = description;
     this.date = date;
+  }
+
+  get domainEvents(): DomainEvent[] {
+    return this._domainEvents;
+  }
+
+  recordEvent(event: DomainEvent): void {
+    this._domainEvents.push(event);
+  }
+
+  clearEvents(): void {
+    this._domainEvents = [];
   }
 
   addLine(line: JournalEntryLine) {

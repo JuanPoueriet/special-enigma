@@ -2,7 +2,7 @@ export { Account } from './entities/account.entity';
 export { AccountingPolicy } from './entities/accounting-policy.entity';
 export { JournalEntry } from './entities/journal-entry.entity';
 export { JournalEntryLine } from './entities/journal-entry-line.entity';
-export { FiscalYear } from './entities/fiscal-year.entity';
+export { FiscalYear, FiscalYearStatus } from './entities/fiscal-year.entity';
 
 export { type DomainEvent } from './events/domain-event.interface';
 export { AccountCreated } from './events/account-created.event';
