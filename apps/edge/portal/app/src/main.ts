@@ -12,9 +12,7 @@ async function bootstrap() {
   const port = process.env.PORT || 3100;
 
   await app.listen(port);
-  Logger.log(
-    `🚀 BFF is running on: http://localhost:${port}/api`
-  );
+  Logger.log(`🚀 BFF is running on: http://localhost:${port}/api`);
 }
 
 bootstrap();
