@@ -26,32 +26,32 @@ export class WebAuthnService implements IWebAuthnService {
 
   async generateRegistrationOptions(options: Partial<GenerateRegistrationOptionsOpts>) {
     return generateRegistrationOptions({
+      ...options,
       rpName: this.rpName,
       rpID: this.rpID,
-      ...options,
     } as GenerateRegistrationOptionsOpts);
   }
 
   async verifyRegistrationResponse(options: VerifyRegistrationResponseOpts) {
     return verifyRegistrationResponse({
+      ...options,
       expectedRPID: this.rpID,
       expectedOrigin: this.origin,
-      ...options,
     });
   }
 
   async generateAuthenticationOptions(options: Partial<GenerateAuthenticationOptionsOpts>) {
     return generateAuthenticationOptions({
-      rpID: this.rpID,
       ...options,
+      rpID: this.rpID,
     } as GenerateAuthenticationOptionsOpts);
   }
 
   async verifyAuthenticationResponse(options: VerifyAuthenticationResponseOpts) {
     return verifyAuthenticationResponse({
+      ...options,
       expectedRPID: this.rpID,
       expectedOrigin: this.origin,
-      ...options,
     });
   }
 }

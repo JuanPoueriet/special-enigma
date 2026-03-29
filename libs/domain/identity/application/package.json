@@ -8,7 +8,7 @@
     "@simplewebauthn/types": "^11.0.0",
     "@virteex/domain-identity-domain": "*"
   },
-  "type": "commonjs",
+  "type": "module",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "exports": {

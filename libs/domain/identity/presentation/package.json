@@ -8,7 +8,7 @@
     "@virteex/domain-identity-domain": "*",
     "@virteex/domain-identity-infrastructure": "*"
   },
-  "type": "commonjs",
+  "type": "module",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "exports": {
