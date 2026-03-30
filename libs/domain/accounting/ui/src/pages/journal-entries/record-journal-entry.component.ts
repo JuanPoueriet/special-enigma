@@ -205,9 +205,26 @@ export class RecordJournalEntryComponent implements OnInit {
         this.router.navigate(['../'], { relativeTo: this.route });
       },
       error: (err) => {
-        this.error = 'Failed to record journal entry. ' + (err.error?.message || '');
+        this.error = this.mapApiError(err);
         this.loading = false;
       }
     });
+  }
+
+  private mapApiError(err: any): string {
+    const baseMessage = 'Failed to record journal entry.';
+    if (!err.error) return baseMessage;
+
+    // Structured error mapping
+    if (err.status === 400 && err.error.errors) {
+      const firstError = Object.values(err.error.errors)[0];
+      return `${baseMessage} ${firstError}`;
+    }
+
+    if (err.error.message) {
+      return `${baseMessage} ${err.error.message}`;
+    }
+
+    return baseMessage;
   }
 }

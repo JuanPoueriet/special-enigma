@@ -1,8 +1,8 @@
 import { vi, describe, it, expect } from 'vitest';
-import { CreateAccountUseCase } from '../../application/src/use-cases/accounts/create-account.use-case';
+import { CreateAccountUseCase } from '@virteex/domain-accounting-application';
 import { AccountType } from '@virteex/domain-accounting-contracts';
 
-describe('Accounting Domain Integration (Non-gating Benchmark)', () => {
+describe('Accounting Domain Integration (Gating)', () => {
   const mockTelemetry = {
     setTraceAttributes: vi.fn(),
     recordBusinessMetric: vi.fn(),

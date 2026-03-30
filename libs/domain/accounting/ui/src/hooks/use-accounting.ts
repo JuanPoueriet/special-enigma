@@ -1,5 +1,6 @@
 import { inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
+import { CreateAccountDto } from '@virteex/domain-accounting-contracts';
 import { AccountingService } from '../services/accounting.service';
 import { accountsState, entriesState, reportsState } from '../state/accounting.state';
 
@@ -45,7 +46,7 @@ export function useAccounting() {
     }
   }
 
-  async function createAccount(dto: any) {
+  async function createAccount(dto: CreateAccountDto) {
     try {
       const account = await firstValueFrom(service.createAccount(dto));
       accountsState.update(s => ({ ...s, items: [...s.items, account] }));

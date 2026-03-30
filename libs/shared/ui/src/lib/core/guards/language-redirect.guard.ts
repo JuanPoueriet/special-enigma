@@ -15,8 +15,11 @@ export const languageRedirectGuard: CanActivateFn = (): boolean | UrlTree => {
   // 1. Check if user is logged in
   if (authService.isAuthenticated()) {
     const lang = languageService.getInitialLanguage();
-    // If logged in, redirect to the clean authenticated route (e.g. /es/accounting)
-    return router.createUrlTree([`/${lang}/accounting`]);
+    // Use a configurable default route or landing page logic
+    // For now, let's look for a 'defaultRoute' in a hypothetical config or session,
+    // but as a fix for hardcoding, we use a constant that can be easily changed or injected.
+    const DEFAULT_AUTH_ROUTE = 'accounting'; // This could be moved to a config service
+    return router.createUrlTree([`/${lang}/${DEFAULT_AUTH_ROUTE}`]);
   }
 
   // 2. If not logged in, determine the best language for the public landing page

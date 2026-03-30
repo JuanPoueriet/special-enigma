@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { AccountingEventHandlerService } from '@virteex/domain-accounting-application';
-import { InvoiceValidatedEventDto } from '@virteex/domain-accounting-contracts';
+import { InvoiceStampedV1EventDto, InvoiceValidatedEventDto } from '@virteex/domain-accounting-contracts';
 
 @Injectable()
 export class AccountingEventConsumerService {
@@ -10,10 +10,28 @@ export class AccountingEventConsumerService {
     private readonly eventHandlerService: AccountingEventHandlerService
   ) {}
 
+  /**
+   * Anti-Corruption Layer (ACL) Mapper for V1 Integration Event
+   */
+  async consumeInvoiceStampedV1(event: InvoiceStampedV1EventDto) {
+    this.logger.log(`Processing V1 Invoice Stamped integration event: ${event.invoiceId}`);
+
+    await this.eventHandlerService.handleInvoiceStamped({
+      invoiceId: event.invoiceId,
+      tenantId: event.tenantId,
+      total: event.totalAmount,
+      taxes: event.taxAmount,
+      date: new Date(event.stampedAt)
+    });
+  }
+
+  /**
+   * @deprecated Handle legacy event format
+   */
   async consumeInvoiceValidated(event: InvoiceValidatedEventDto) {
     const correlationId = event.invoiceId;
     this.logger.log({
-      message: `Processing accounting for Invoice ${event.invoiceId}`,
+      message: `Processing legacy accounting for Invoice ${event.invoiceId}`,
       correlationId,
       tenantId: event.tenantId,
       eventType: 'billing.invoice.validated'
@@ -24,7 +42,7 @@ export class AccountingEventConsumerService {
 
     while (attempt < maxRetries) {
       try {
-        const totalTax = event.lines.reduce((sum, line) => sum + line.taxAmount, 0);
+        const totalTax = event.lines ? event.lines.reduce((sum, line) => sum + line.taxAmount, 0) : 0;
         await this.eventHandlerService.handleInvoiceStamped({
           invoiceId: event.invoiceId,
           tenantId: event.tenantId,

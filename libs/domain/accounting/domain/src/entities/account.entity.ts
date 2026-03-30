@@ -36,10 +36,9 @@ export class Account {
       throw new AccountingDomainError('Parent account must be a control account');
     }
     if (parent.type !== this.type) {
-      // In some accounting systems, children can have different types, but usually they match.
-      // For now, let's enforce type consistency if it's a best practice in this system.
-      // If the audit says to be more robust, we can add this or keep it flexible.
-      // The audit mentions "ensuring a parent account is a control account".
+      throw new AccountingDomainError(
+        `Account type mismatch: Parent is ${parent.type} but child is ${this.type}`
+      );
     }
     this.parent = parent;
     this.level = parent.level + 1;
