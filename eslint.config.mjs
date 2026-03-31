@@ -202,7 +202,7 @@ export default [
             },
             {
               sourceTag: 'scope:fiscal',
-              onlyDependOnLibsWithTags: ['scope:fiscal', 'scope:shared', 'scope:kernel']
+              onlyDependOnLibsWithTags: ['scope:fiscal', 'scope:shared', 'scope:kernel', 'scope:platform']
             },
             {
               sourceTag: 'scope:pos',
@@ -220,7 +220,7 @@ export default [
             },
             {
               sourceTag: 'scope:kernel',
-              onlyDependOnLibsWithTags: ['scope:kernel', 'scope:shared']
+              onlyDependOnLibsWithTags: ['scope:kernel', 'scope:shared', 'scope:subscription']
             },
             {
               sourceTag: 'scope:edge',

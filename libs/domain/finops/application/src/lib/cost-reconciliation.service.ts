@@ -32,7 +32,7 @@ interface ReconciliationBucket {
 }
 
 @Injectable()
-export class FinopsCostService {
+export class CostReconciliationService {
   constructor(private readonly configService: ConfigService) {}
 
   async buildOpsSummary() {

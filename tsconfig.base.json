@@ -111,6 +111,9 @@
       "@virteex/domain-crm-presentation": [
         "libs/domain/crm/presentation/src/index.ts"
       ],
+      "@virteex/domain-finops-application": [
+        "libs/domain/finops/application/src/index.ts"
+      ],
       "@virteex/domain-finops-domain": [
         "libs/domain/finops/domain/src/index.ts"
       ],

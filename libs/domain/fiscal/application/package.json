@@ -7,7 +7,12 @@
   "dependencies": {
     "tslib": "^2.3.0",
     "@nestjs/common": "^11.0.0",
-    "@virteex/domain-fiscal-domain": "0.0.1"
+    "@virteex/domain-fiscal-domain": "0.0.1",
+    "@virteex/shared-util-server-server-config": "0.0.1",
+    "fast-xml-parser": "^4.0.0",
+    "@virteex/platform-xslt": "0.0.1",
+    "vitest": "^4.0.18",
+    "@nx/vite": "22.5.3"
   },
   "exports": {
     ".": {

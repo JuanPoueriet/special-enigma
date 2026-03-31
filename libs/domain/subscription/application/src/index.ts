@@ -10,4 +10,6 @@ export * from './lib/use-cases/process-checkout-success.use-case';
 export * from './lib/use-cases/handle-invoice-paid.use-case';
 export * from './lib/use-cases/handle-subscription-updated.use-case';
 export * from './lib/use-cases/handle-subscription-deleted.use-case';
+export * from './lib/use-cases/update-tenant-plan.use-case';
+export * from './lib/use-cases/get-subscription-status.use-case';
 export * from './lib/ports';

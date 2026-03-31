@@ -14,10 +14,10 @@ export class Job {
   payload!: any;
   status: JobStatus = JobStatus.PENDING;
   tenantId!: string;
-  attempts: number = 0;
-  maxAttempts: number = 3;
+  attempts = 0;
+  maxAttempts = 3;
   lastError?: string;
-  priority: number = 0;
+  priority = 0;
   scheduledAt?: Date;
   createdAt: Date = new Date();
   updatedAt: Date = new Date();

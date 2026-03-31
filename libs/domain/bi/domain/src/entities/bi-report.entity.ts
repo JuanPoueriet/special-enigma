@@ -1,31 +1,18 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
 import { v4 as uuidv4 } from 'uuid';
 
-@Entity({ schema: 'bi' })
 export class BiReport {
-  @PrimaryKey()
   readonly id: string;
-
-  @Property()
   readonly tenantId: string;
-
-  @Property()
   readonly name: string;
-
-  @Property()
   readonly type: string;
-
-  @Property({ type: 'json' })
-  readonly data  : any;
-
-  @Property()
+  readonly data: any;
   readonly createdAt: Date;
 
   constructor(
     tenantId: string,
     name: string,
     type: string,
-    data  : any,
+    data: any,
     id?: string,
     createdAt?: Date
   ) {

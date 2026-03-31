@@ -1,13 +1,13 @@
 import { Controller, Get } from '@nestjs/common';
 import { PreconditionFailedException } from '@nestjs/common';
 import { OpsReadinessService } from './ops-readiness.service';
-import { FinopsCostService } from './finops-cost.service';
+import { CostReconciliationService } from '@virteex/domain-finops-application';
 
 @Controller('ops')
 export class OpsController {
   constructor(
     private readonly readiness: OpsReadinessService,
-    private readonly finopsCostService: FinopsCostService,
+    private readonly finopsCostService: CostReconciliationService,
   ) {}
 
   @Get('health')

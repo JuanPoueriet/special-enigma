@@ -1,13 +1,12 @@
-import { Module } from '@nestjs/common';
 import { FinOpsService } from './finops.service';
 import { USAGE_REPOSITORY } from './ports/usage.repository';
 
-@Module({
-  imports: [],
-  controllers: [],
-  providers: [
-    FinOpsService,
-  ],
-  exports: [FinOpsService, USAGE_REPOSITORY],
-})
-export class FinOpsModule {}
+export class FinOpsModule {
+  static getProviders() {
+    return [
+      FinOpsService,
+    ];
+  }
+}
+
+export { USAGE_REPOSITORY };

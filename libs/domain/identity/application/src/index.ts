@@ -16,8 +16,6 @@ export * from './lib/use-cases/upload-avatar.use-case';
 export * from './lib/use-cases/list-tenants.use-case';
 export * from './lib/listeners/user-invited.listener';
 export * from './lib/use-cases/refresh-token.use-case';
-export * from './lib/use-cases/update-subscription.use-case';
-export * from './lib/use-cases/get-subscription-status.use-case';
 export * from './lib/use-cases/get-onboarding-status.use-case';
 export * from './lib/services/token-generation.service';
 export * from './lib/services/localization.service';

@@ -7,7 +7,7 @@
   "tags": [
     "scope:catalog",
     "type:ui",
-    "profile:service-domain",
+
     "platform:web",
     "criticality:high",
     "compliance:none",

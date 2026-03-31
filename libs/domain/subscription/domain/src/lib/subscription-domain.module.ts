@@ -1,7 +1,11 @@
-import { Module } from '@nestjs/common';
+import { customerIdentityService } from './services/customer-identity.service';
+import { StripeRuntimeConfigService } from './services/stripe-runtime-config.service';
 
-@Module({
-  providers: [],
-  exports: [],
-})
-export class SubscriptionDomainModule {}
+export class SubscriptionDomainModule {
+  static getProviders() {
+    return [
+      customerIdentityService,
+      StripeRuntimeConfigService
+    ];
+  }
+}

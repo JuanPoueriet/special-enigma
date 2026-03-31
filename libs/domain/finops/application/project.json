@@ -1,0 +1,26 @@
+{
+  "name": "domain-finops-application",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domain/finops/application/src",
+  "projectType": "library",
+  "prefix": "virteex",
+  "tags": [
+    "scope:finops",
+    "type:application",
+    "platform:agnostic",
+    "criticality:medium"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/domain/finops/application",
+        "main": "libs/domain/finops/application/src/index.ts",
+        "tsConfig": "libs/domain/finops/application/tsconfig.lib.json",
+        "assets": ["libs/domain/finops/application/*.md"],
+        "generateExportsField": true
+      }
+    }
+  }
+}

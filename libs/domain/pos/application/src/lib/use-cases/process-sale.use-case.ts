@@ -1,7 +1,6 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { PosRepository, PosSale, PosSaleStatus, HARDWARE_BRIDGE_PORT, HardwareBridgePort } from '@virteex/domain-pos-domain';
-import { ReserveBatchStockUseCase } from '@virteex/domain-inventory-application';
-import { CreateInvoiceUseCase } from '@virteex/domain-billing-application';
+import { POS_INVENTORY_PORT, PosInventoryPort, POS_BILLING_PORT, PosBillingPort } from '../ports/pos-integration.ports';
 
 @Injectable()
 export class ProcessSaleUseCase {
@@ -10,8 +9,8 @@ export class ProcessSaleUseCase {
   constructor(
     @Inject('PosRepository') private readonly posRepository: PosRepository,
     @Inject(HARDWARE_BRIDGE_PORT) private readonly hardwareBridge: HardwareBridgePort,
-    private readonly reserveBatchStockUseCase: ReserveBatchStockUseCase,
-    private readonly createInvoiceUseCase: CreateInvoiceUseCase,
+    @Inject(POS_INVENTORY_PORT) private readonly inventoryPort: PosInventoryPort,
+    @Inject(POS_BILLING_PORT) private readonly billingPort: PosBillingPort,
   ) {}
 
   async execute(tenantId: string, terminalId: string, saleData: any): Promise<PosSale> {
@@ -30,14 +29,14 @@ export class ProcessSaleUseCase {
         }));
 
         // Correct order: tenantId, items, reference
-        await this.reserveBatchStockUseCase.execute(tenantId, reservationItems, `POS Sale ${sale.id}`);
+        await this.inventoryPort.reserveStock(tenantId, reservationItems, `POS Sale ${sale.id}`);
         this.logger.log(`Stock reserved for POS sale ${sale.id}`);
 
         // 2. Automated Billing / Invoice Generation
         const tomorrow = new Date();
         tomorrow.setDate(tomorrow.getDate() + 1);
 
-        await this.createInvoiceUseCase.execute({
+        await this.billingPort.createInvoice({
             tenantId,
             customerId: saleData.customerId || 'walk-in-customer',
             dueDate: tomorrow.toISOString(),
