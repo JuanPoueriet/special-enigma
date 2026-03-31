@@ -20,6 +20,7 @@ import { JwtAuthGuard, CurrentUser, StepUp, StepUpGuard, TenantGuard } from '@vi
 import { UserMapper } from '../mappers/user.mapper';
 import { AuditLogMapper } from '../mappers/audit-log.mapper';
 import { UserResponseDto, AuditLogDto } from '@virteex/domain-identity-contracts';
+import { RequireEntitlement } from '@virteex/kernel-entitlements';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard, TenantGuard, StepUpGuard)
@@ -109,6 +110,7 @@ export class UsersController {
   }
 
   @Post('invite')
+  @RequireEntitlement('users')
   @StepUp({ action: 'tenant-admin', maxAgeSeconds: 300 })
   async invite(@CurrentUser() user: any, @Body() dto: InviteUserDto): Promise<UserResponseDto> {
     const currentUserId = user?.sub;

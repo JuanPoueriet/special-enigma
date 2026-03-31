@@ -1,6 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 import * as crypto from 'crypto';
 import { SessionRepository, AuthService, CachePort, User, Session } from '@virteex/domain-identity-domain';
+import { SUBSCRIPTION_REPOSITORY, type SubscriptionRepository } from '@virteex/domain-subscription-domain';
 
 export interface TokenGenerationResult {
   accessToken: string;
@@ -14,7 +15,8 @@ export class TokenGenerationService {
   constructor(
     @Inject(SessionRepository) private readonly sessionRepository: SessionRepository,
     @Inject(AuthService) private readonly authService: AuthService,
-    @Inject(CachePort) private readonly cachePort: CachePort
+    @Inject(CachePort) private readonly cachePort: CachePort,
+    @Inject(SUBSCRIPTION_REPOSITORY) private readonly subscriptionRepository: SubscriptionRepository
   ) {}
 
   async createSessionAndTokens(
@@ -35,6 +37,9 @@ export class TokenGenerationService {
 
     await this.cachePort.set(`session:${session.id}`, 'valid', SESSION_TTL);
 
+    const subscription = await this.subscriptionRepository.findByTenantId(user.company.id);
+    const entitlements = subscription?.getPlan()?.features || [];
+
     const accessToken = await this.authService.generateToken({
       sub: user.id,
       email: user.email,
@@ -42,6 +47,7 @@ export class TokenGenerationService {
       companyId: user.company.id,
       country: user.country,
       sessionId: session.id,
+      entitlements,
       amr: mfaVerified ? ['pwd', 'mfa'] : ['pwd'],
       mfa_verified_at: mfaVerified ? Math.floor(Date.now() / 1000) : undefined
     }, { tokenType: 'access', subject: user.id });
@@ -67,6 +73,9 @@ export class TokenGenerationService {
     await this.sessionRepository.save(session);
     await this.cachePort.set(`session:${session.id}`, 'valid', SESSION_TTL);
 
+    const subscription = await this.subscriptionRepository.findByTenantId(user.company.id);
+    const entitlements = subscription?.getPlan()?.features || [];
+
     const accessToken = await this.authService.generateToken({
       sub: user.id,
       email: user.email,
@@ -74,6 +83,7 @@ export class TokenGenerationService {
       companyId: user.company.id,
       country: user.country,
       sessionId: session.id,
+      entitlements,
       amr: mfaVerified ? ['pwd', 'mfa'] : ['pwd'],
       mfa_verified_at: mfaVerified ? Math.floor(Date.now() / 1000) : undefined
     }, { tokenType: 'access', subject: user.id });

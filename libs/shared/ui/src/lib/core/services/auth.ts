@@ -150,8 +150,30 @@ export class AuthService {
     );
   }
 
+  hasPermission(permission: string): boolean {
+    const user = this._currentUser();
+    if (!user) return false;
+
+    // Entitlements from backend claims take precedence
+    const entitlements = user.entitlements || [];
+    if (entitlements.includes(permission)) return true;
+
+    // Fallback to pre-existing permissions or role-based logic
+    if (user.role === 'ADMIN' || user.role === 'SUPERUSER') return true;
+
+    const rolePermissions: Record<string, string[]> = {
+        'OPERATOR': ['tenants:read', 'tenants:create', 'monitoring:read', 'support:read'],
+        'VIEWER': ['tenants:read', 'monitoring:read']
+    };
+
+    const hasRolePermission = rolePermissions[user.role]?.includes(permission) ?? false;
+    const hasExplicitPermission = hasPermission(user.permissions, [permission]);
+
+    return hasRolePermission || hasExplicitPermission;
+  }
+
   hasPermissions(requiredPermissions: string[]): boolean {
-    return hasPermission(this._currentUser()?.permissions, requiredPermissions);
+    return requiredPermissions.every(p => this.hasPermission(p));
   }
 
   impersonate(userId: string): Observable<any> {

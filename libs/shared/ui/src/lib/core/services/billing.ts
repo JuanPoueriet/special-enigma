@@ -59,10 +59,17 @@ export class BillingService {
 
   loadSubscription() {
       this.http.get<Subscription>(`${this.apiUrl}/saas/subscription`).pipe(
-          tap(sub => this.currentSubscription.set(sub)),
+          tap(sub => {
+              if (sub && sub.status) {
+                  this.currentSubscription.set(sub);
+              } else {
+                  this.currentSubscription.set(null);
+              }
+          }),
           catchError(err => {
-              // console.error('Failed to load subscription', err);
-              // Fallback to null (inactive)
+              console.error('Critical error loading subscription from SaaS contract', err);
+              // Fail-safe to null (inactive/unauthorized) to prevent inconsistent UI states
+              this.currentSubscription.set(null);
               return of(null);
           })
       ).subscribe();
