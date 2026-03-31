@@ -12,21 +12,21 @@ export interface UsageItem {
   isEnabled: boolean;
 }
 
-import { UserRepository } from '@virteex/domain-identity-domain';
+import { USER_READ_PORT, type UserReadPort } from '../../ports/user-read.port';
 
 @Injectable()
 export class GetUsageUseCase {
   constructor(
     @Inject(INVOICE_REPOSITORY) private readonly invoiceRepository: InvoiceRepository,
     @Inject(SUBSCRIPTION_REPOSITORY) private readonly subscriptionRepository: SubscriptionRepository,
-    @Inject(UserRepository) private readonly userRepository: UserRepository,
+    @Inject(USER_READ_PORT) private readonly userReadPort: UserReadPort,
     private readonly configService: ConfigService
   ) {}
 
   async execute(tenantId: string): Promise<UsageItem[]> {
     const invoiceCount = await this.invoiceRepository.countByTenantId(tenantId);
     const subscription = await this.subscriptionRepository.findByTenantId(tenantId);
-    const { total: userCount } = await this.userRepository.findAll({ page: 1, pageSize: 1, tenantId });
+    const userCount = await this.userReadPort.getUserCount(tenantId);
 
     // Default Limits if no subscription (e.g., Free Tier or Trial fallback)
     let limits = {

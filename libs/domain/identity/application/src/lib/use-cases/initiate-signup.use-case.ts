@@ -1,5 +1,6 @@
 import { DomainException } from '@virteex/shared-util-server-server-config';
-import { Injectable, Inject, BadRequestException } from '@nestjs/common';
+import { EntityNotFoundException } from "@virteex/exceptions";
+import { Injectable, Inject } from '@nestjs/common';
 import { AuthService, NotificationService, UserRepository, CachePort, RecaptchaPort } from '@virteex/domain-identity-domain';
 import { InitiateSignupDto } from '@virteex/domain-identity-contracts';
 

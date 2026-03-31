@@ -7,9 +7,9 @@
   "tags": [
     "scope:accounting",
     "type:ui",
-    "platform:angular",
+    "platform:web",
     "criticality:medium",
-    "compliance:fiscal",
+    "compliance:fiscal-critical",
     "tenant-mode:schema",
     "region:global"
   ],

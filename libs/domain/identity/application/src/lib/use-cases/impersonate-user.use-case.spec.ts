@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { EntityNotFoundException } from "@virteex/exceptions";
 import { ImpersonateUserUseCase } from './impersonate-user.use-case';
 import { UserRepository, AuditLogRepository } from '@virteex/domain-identity-domain';
 import { TokenGenerationService } from '../services/token-generation.service';

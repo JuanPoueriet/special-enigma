@@ -11,8 +11,8 @@ export class ClosingTask {
   title!: string;
   status: ClosingTaskStatus = ClosingTaskStatus.PENDING;
   description!: string;
-  requiredEvidence: boolean = false;
-  evidenceProvided: boolean = false;
+  requiredEvidence = false;
+  evidenceProvided = false;
   evidenceUrl?: string;
   completedAt?: Date;
   completedBy?: string;

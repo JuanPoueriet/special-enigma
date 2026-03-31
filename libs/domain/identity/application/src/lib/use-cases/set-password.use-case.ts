@@ -1,4 +1,5 @@
-import { Injectable, Inject, BadRequestException } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
+import { EntityNotFoundException } from "@virteex/exceptions";
 import { UserRepository, AuthService, AuditLogRepository, AuditLog, RecaptchaPort } from '@virteex/domain-identity-domain';
 import { SetPasswordDto, LoginResponseDto } from '@virteex/domain-identity-contracts';
 import { TokenGenerationService } from '../services/token-generation.service';

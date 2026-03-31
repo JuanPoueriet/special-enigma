@@ -5,8 +5,10 @@
   "projectType": "library",
   "prefix": "virteex",
   "tags": [
+    "platform:agnostic",
+    "criticality:low",
     "scope:accounting",
-    "type:testing"
+    "type:infrastructure"
   ],
   "targets": {
     "test": {

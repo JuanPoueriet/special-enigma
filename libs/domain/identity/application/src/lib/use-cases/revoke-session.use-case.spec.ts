@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { EntityNotFoundException } from "@virteex/exceptions";
 import { RevokeSessionUseCase } from './revoke-session.use-case';
 import { SessionRepository, CachePort } from '@virteex/domain-identity-domain';
 import { UnauthorizedException } from '@nestjs/common';

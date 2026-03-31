@@ -4,6 +4,8 @@
   "projectType": "library",
   "prefix": "virteex",
   "tags": [
+    "platform:agnostic",
+    "criticality:low",
     "scope:bi",
     "type:ui",
     "platform:web"

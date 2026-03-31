@@ -1,5 +1,7 @@
-import { Injectable, Inject, NotFoundException } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
+import { EntityNotFoundException } from "@virteex/exceptions";
 import { UserRepository } from '@virteex/domain-identity-domain';
+import { EntityEntityNotFoundException } from '@virteex/kernel-exceptions';
 
 @Injectable()
 export class GetOnboardingStatusUseCase {
@@ -10,7 +12,7 @@ export class GetOnboardingStatusUseCase {
   async execute(userId: string): Promise<{ status: string; step: string; isCompleted: boolean }> {
     const user = await this.userRepository.findById(userId);
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new EntityEntityNotFoundException('User', userId);
     }
 
     // Determine the current step based on user and company status

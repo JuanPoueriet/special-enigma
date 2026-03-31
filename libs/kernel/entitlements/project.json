@@ -4,8 +4,23 @@
   "sourceRoot": "libs/kernel/entitlements/src",
   "projectType": "library",
   "prefix": "virteex",
-  "tags": ["scope:kernel", "type:logic"],
+  "tags": [
+    "scope:kernel",
+    "type:util",
+    "platform:agnostic",
+    "criticality:medium"
+  ],
   "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/kernel/entitlements",
+        "main": "libs/kernel/entitlements/src/index.ts",
+        "tsConfig": "libs/kernel/entitlements/tsconfig.lib.json",
+        "generateExportsField": true
+      }
+    },
     "test": {
       "executor": "@nx/vitest:test",
       "outputs": ["{options.reportsDirectory}"],
