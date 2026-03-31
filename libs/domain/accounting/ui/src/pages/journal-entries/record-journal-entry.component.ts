@@ -2,6 +2,8 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, Validators, FormArray, FormControl, FormGroup } from '@angular/forms';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
+import { LucideAngularModule, ArrowLeft, PlusCircle, Trash2, CheckCircle, AlertTriangle, Loader2, XCircle } from 'lucide-angular';
 import { useAccounting } from '../../hooks/use-accounting';
 import { RecordJournalEntryDto } from '@virteex/domain-accounting-contracts';
 import { Decimal } from 'decimal.js';
@@ -16,107 +18,9 @@ interface JournalEntryLineForm {
 @Component({
   selector: 'app-record-journal-entry',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule],
-  template: `
-    <div class="p-6">
-      <div class="flex items-center mb-6">
-        <a routerLink="../" class="text-blue-600 hover:text-blue-800 mr-4">
-          &larr; Back to Journal Entries
-        </a>
-        <h1 class="text-2xl font-bold">Record New Journal Entry</h1>
-      </div>
-
-      <div class="bg-white p-6 rounded shadow max-w-5xl">
-        <form [formGroup]="entryForm" (ngSubmit)="onSubmit()">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Date</label>
-              <input type="date" formControlName="date" class="mt-1 block w-full border rounded p-2" />
-              <div *ngIf="f.date.touched && f.date.invalid" class="text-red-500 text-xs mt-1">
-                Date is required.
-              </div>
-            </div>
-
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Description</label>
-              <input type="text" formControlName="description" class="mt-1 block w-full border rounded p-2" placeholder="e.g. Monthly rent payment" />
-              <div *ngIf="f.description.touched && f.description.invalid" class="text-red-500 text-xs mt-1">
-                Description is required.
-              </div>
-            </div>
-          </div>
-
-          <div class="mb-4">
-            <h2 class="text-lg font-semibold mb-2">Entry Lines</h2>
-            <div class="overflow-x-auto">
-              <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                  <tr>
-                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Account</th>
-                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
-                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase w-32">Debit</th>
-                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase w-32">Credit</th>
-                    <th class="px-4 py-2 w-10"></th>
-                  </tr>
-                </thead>
-                <tbody formArrayName="lines" class="bg-white divide-y divide-gray-200">
-                  <tr *ngFor="let line of lines.controls; let i=index" [formGroupName]="i">
-                    <td class="px-4 py-2">
-                      <select formControlName="accountId" class="w-full border rounded p-1 text-sm">
-                        <option *ngFor="let acc of accounting.accounts()" [value]="acc.id">{{ acc.code }} - {{ acc.name }}</option>
-                      </select>
-                    </td>
-                    <td class="px-4 py-2">
-                      <input type="text" formControlName="description" class="w-full border rounded p-1 text-sm" />
-                    </td>
-                    <td class="px-4 py-2">
-                      <input type="text" formControlName="debit" (change)="calculateTotals()" class="w-full border rounded p-1 text-sm text-right" placeholder="0.00" />
-                    </td>
-                    <td class="px-4 py-2">
-                      <input type="text" formControlName="credit" (change)="calculateTotals()" class="w-full border rounded p-1 text-sm text-right" placeholder="0.00" />
-                    </td>
-                    <td class="px-4 py-2 text-center">
-                      <button type="button" (click)="removeLine(i)" class="text-red-600 hover:text-red-800" [disabled]="lines.length <= 2">
-                        &times;
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-                <tfoot class="bg-gray-50 font-bold">
-                  <tr>
-                    <td colspan="2" class="px-4 py-2 text-right">Totals:</td>
-                    <td class="px-4 py-2 text-right" [class.text-red-500]="!isBalanced()">{{ totalDebit.toFixed(2) }}</td>
-                    <td class="px-4 py-2 text-right" [class.text-red-500]="!isBalanced()">{{ totalCredit.toFixed(2) }}</td>
-                    <td></td>
-                  </tr>
-                </tfoot>
-              </table>
-            </div>
-            <button type="button" (click)="addLine()" class="mt-2 text-blue-600 hover:text-blue-800 text-sm font-semibold">
-              + Add Line
-            </button>
-          </div>
-
-          <div *ngIf="!isBalanced() && (totalDebit.gt(0) || totalCredit.gt(0))" class="text-red-500 text-sm mb-4">
-            Entry is not balanced. The difference is {{ totalDebit.minus(totalCredit).abs().toFixed(2) }}.
-          </div>
-
-          <div class="flex justify-end mt-6">
-            <button type="button" routerLink="../" class="mr-4 px-4 py-2 border rounded text-gray-700 hover:bg-gray-50">
-              Cancel
-            </button>
-            <button type="submit" [disabled]="entryForm.invalid || !isBalanced() || loading" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded disabled:opacity-50">
-              {{ loading ? 'Recording...' : 'Record Entry' }}
-            </button>
-          </div>
-
-          <div *ngIf="error" class="text-red-500 text-sm mt-2 text-center">
-            {{ error }}
-          </div>
-        </form>
-      </div>
-    </div>
-  `,
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule, TranslateModule, LucideAngularModule],
+  templateUrl: './record-journal-entry.component.html',
+  styleUrl: './record-journal-entry.component.scss',
 })
 export class RecordJournalEntryComponent implements OnInit {
   accounting = useAccounting();
@@ -133,6 +37,16 @@ export class RecordJournalEntryComponent implements OnInit {
   error = '';
   totalDebit = new Decimal(0);
   totalCredit = new Decimal(0);
+
+  readonly icons = {
+    ArrowLeft,
+    PlusCircle,
+    Trash2,
+    CheckCircle,
+    AlertTriangle,
+    Loader2,
+    XCircle
+  };
 
   get f() { return this.entryForm.controls; }
   get lines() { return this.entryForm.get('lines') as FormArray<FormGroup<JournalEntryLineForm>>; }
