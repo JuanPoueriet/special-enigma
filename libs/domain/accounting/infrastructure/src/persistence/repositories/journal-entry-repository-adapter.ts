@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { QueryOrder } from '@mikro-orm/core';
 import { EntityManager } from '@mikro-orm/knex';
-import { JournalEntry, type JournalEntryRepository, JournalEntryType, JournalEntryLine } from '@virteex/domain-accounting-domain';
+import { JournalEntry, type JournalEntryRepository, JournalEntryType, JournalEntryLine, JournalEntryStatus } from '@virteex/domain-accounting-domain';
 import { DimensionValidator } from '@virteex/domain-accounting-application';
 
 @Injectable()
@@ -73,5 +73,13 @@ export class JournalEntryRepositoryAdapter implements JournalEntryRepository {
     );
 
     return latestClosing ? latestClosing.date : null;
+  }
+
+  async findUnpostedEntries(tenantId: string, endDate: Date): Promise<JournalEntry[]> {
+    return this.em.find(JournalEntry, {
+      tenantId,
+      date: { $lte: endDate },
+      status: { $in: [JournalEntryStatus.DRAFT, JournalEntryStatus.PENDING_APPROVAL] }
+    });
   }
 }

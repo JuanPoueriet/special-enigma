@@ -2,8 +2,18 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { LucideAngularModule, AlertTriangle, Calendar, Lock, Loader2, XCircle, CheckCircle } from 'lucide-angular';
+import { LucideAngularModule, AlertTriangle, Calendar, Lock, Loader2, XCircle, CheckCircle, ClipboardList, ShieldCheck, FileText, ArrowLeftRight } from 'lucide-angular';
 import { accountingFacade } from '../../facades/accounting.facade';
+
+interface ClosingTask {
+  id: string;
+  title: string;
+  status: 'PENDING' | 'COMPLETED' | 'ERROR';
+  description: string;
+  icon: any;
+  requiredEvidence?: boolean;
+  evidenceProvided?: boolean;
+}
 
 @Component({
   selector: 'app-fiscal-closing',
@@ -19,14 +29,39 @@ export class FiscalClosingComponent {
   error = '';
   success = false;
 
+  tasks: ClosingTask[] = [
+    { id: 'review', title: 'ACCOUNTING.FISCAL_CLOSING.TASKS.REVIEW', status: 'PENDING', description: 'ACCOUNTING.FISCAL_CLOSING.TASKS.REVIEW_DESC', icon: ClipboardList },
+    { id: 'reconciliation', title: 'ACCOUNTING.FISCAL_CLOSING.TASKS.RECONCILIATION', status: 'PENDING', description: 'ACCOUNTING.FISCAL_CLOSING.TASKS.RECONCILIATION_DESC', icon: ArrowLeftRight },
+    { id: 'preliminary', title: 'ACCOUNTING.FISCAL_CLOSING.TASKS.REPORTS', status: 'PENDING', description: 'ACCOUNTING.FISCAL_CLOSING.TASKS.REPORTS_DESC', icon: FileText, requiredEvidence: true },
+    { id: 'approval', title: 'ACCOUNTING.FISCAL_CLOSING.TASKS.APPROVAL', status: 'PENDING', description: 'ACCOUNTING.FISCAL_CLOSING.TASKS.APPROVAL_DESC', icon: ShieldCheck },
+  ];
+
   readonly icons = {
     AlertTriangle,
     Calendar,
     Lock,
     Loader2,
     XCircle,
-    CheckCircle
+    CheckCircle,
+    ClipboardList,
+    ShieldCheck,
+    FileText,
+    ArrowLeftRight
   };
+
+  toggleTask(task: ClosingTask) {
+      if (task.status === 'PENDING') {
+          task.status = 'COMPLETED';
+          if (task.requiredEvidence) task.evidenceProvided = true;
+      } else {
+          task.status = 'PENDING';
+          if (task.requiredEvidence) task.evidenceProvided = false;
+      }
+  }
+
+  get canClose() {
+      return this.tasks.every(t => t.status === 'COMPLETED') && !this.loading;
+  }
 
   async closePeriod() {
     if (!confirm('Are you sure you want to close this fiscal period? This action cannot be undone.')) {

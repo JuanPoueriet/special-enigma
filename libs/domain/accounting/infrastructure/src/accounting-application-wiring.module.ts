@@ -30,6 +30,7 @@ import {
   GenerateFinancialReportUseCase,
   GetMonthlyOpexUseCase,
   CloseFiscalPeriodUseCase,
+  ConsolidateAccountsUseCase,
   AccountingCommandFacade,
   AccountingQueryFacade,
 } from '@virteex/domain-accounting-application';
@@ -179,6 +180,14 @@ import {
         AccountingPolicyService,
       ],
     },
+    {
+      provide: ConsolidateAccountsUseCase,
+      useFactory: (
+        jeRepo: JournalEntryRepository,
+        accRepo: AccountRepository,
+      ) => new ConsolidateAccountsUseCase(jeRepo, accRepo),
+      inject: [JOURNAL_ENTRY_REPOSITORY, ACCOUNT_REPOSITORY],
+    },
   ],
   exports: [
     AccountingPolicyService,
@@ -193,6 +202,7 @@ import {
     SetupChartOfAccountsUseCase,
     GenerateFinancialReportUseCase,
     CloseFiscalPeriodUseCase,
+    ConsolidateAccountsUseCase,
     AccountingCommandFacade,
     AccountingQueryFacade,
   ],

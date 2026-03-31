@@ -16,6 +16,7 @@ describe('CloseFiscalPeriodUseCase', () => {
     journalEntryRepository = {
       getBalancesByAccount: vi.fn(),
       create: vi.fn(),
+      findUnpostedEntries: vi.fn().mockResolvedValue([]),
     };
     accountRepository = {
       findAll: vi.fn(),

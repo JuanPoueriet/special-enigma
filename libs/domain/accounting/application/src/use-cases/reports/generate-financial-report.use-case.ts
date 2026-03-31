@@ -28,6 +28,9 @@ export class GenerateFinancialReportUseCase {
     endDate: Date,
     dimensions?: Record<string, string>
   ): Promise<FinancialReport> {
+    const startTime = Date.now();
+    console.log(`[SLO] Starting financial report generation for tenant ${tenantId}, type ${type} as of ${endDate.toISOString()}`);
+
     const balances = await this.journalEntryRepository.getBalancesByAccount(tenantId, undefined, endDate, dimensions);
     const reportLines: FinancialReportLine[] = [];
 
@@ -59,6 +62,9 @@ export class GenerateFinancialReportUseCase {
             });
         }
     }
+
+    const duration = Date.now() - startTime;
+    console.log(`[SLO] Financial report generation for tenant ${tenantId} completed in ${duration}ms`);
 
     return {
       tenantId,
