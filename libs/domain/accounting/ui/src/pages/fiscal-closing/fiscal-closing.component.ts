@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { LucideAngularModule, AlertTriangle, Calendar, Lock, Loader2, XCircle, CheckCircle } from 'lucide-angular';
-import { useAccounting } from '../../hooks/use-accounting';
+import { accountingFacade } from '../../facades/accounting.facade';
 
 @Component({
   selector: 'app-fiscal-closing',
@@ -13,7 +13,7 @@ import { useAccounting } from '../../hooks/use-accounting';
   styleUrl: './fiscal-closing.component.scss',
 })
 export class FiscalClosingComponent {
-  accounting = useAccounting();
+  accounting = accountingFacade();
   closingDate = new Date().toISOString().split('T')[0];
   loading = false;
   error = '';

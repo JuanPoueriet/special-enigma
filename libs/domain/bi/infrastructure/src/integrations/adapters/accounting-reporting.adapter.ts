@@ -72,4 +72,35 @@ export class AccountingReportingAdapter implements IAccountingReportingPort, OnM
     this.telemetry.recordBusinessMetric('accounting_reporting_fallback_applied', 1, { tenantId });
     throw new IntegrationError(`Failed to count journal entries for tenant ${tenantId} after ${maxRetries} attempts. Last error: ${lastError?.message}`);
   }
+
+  async getMonthlyOpex(tenantId: string): Promise<number> {
+    const baseUrl = process.env['ACCOUNTING_SERVICE_URL'] || 'http://accounting-service:3000';
+
+    const claims = buildSignedContextClaims({
+      tenantId,
+      userId: 'system-bi',
+      provenance: 'bi-service'
+    });
+    const encodedContext = encodeContextClaims(claims);
+    const signature = signEncodedContext(encodedContext, this.hmacSecret);
+
+    try {
+      const response = await fetch(`${baseUrl}/api/accounting/metrics/monthly-opex`, {
+          headers: {
+            'x-virteex-tenant-id': tenantId,
+            'x-virteex-context': encodedContext,
+            'x-virteex-signature': signature
+          }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        return data.amount;
+      }
+      throw new Error(`HTTP Error: ${response.status} ${response.statusText}`);
+    } catch (error) {
+      this.telemetry.recordBusinessMetric('accounting_opex_integration_failure', 1, { tenantId, error: (error as Error).message });
+      return 0; // Return 0 as fallback for BI report
+    }
+  }
 }

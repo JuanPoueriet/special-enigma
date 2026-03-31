@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { LucideAngularModule, FileText, Loader2, AlertCircle, Download } from 'lucide-angular';
-import { useAccounting } from '../../hooks/use-accounting';
+import { accountingFacade } from '../../facades/accounting.facade';
 import { FinancialReportLineDto } from '@virteex/domain-accounting-contracts';
 
 @Component({
@@ -14,7 +14,7 @@ import { FinancialReportLineDto } from '@virteex/domain-accounting-contracts';
   styleUrl: './financial-reports.component.scss',
 })
 export class FinancialReportsComponent {
-  accounting = useAccounting();
+  accounting = accountingFacade();
   reportType = 'BALANCE_SHEET';
   endDate = new Date().toISOString().split('T')[0];
 
