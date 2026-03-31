@@ -68,12 +68,31 @@ export class AccountingController {
   }
 
   @Post('closing')
-  @ApiOperation({ summary: 'Close fiscal period' })
+  @ApiOperation({ summary: 'Close fiscal period (Fiscal Closing)' })
   @ApiHeader({ name: 'x-idempotency-key', required: false, description: 'Optional idempotency key' })
   async closeFiscalPeriod(
     @CurrentTenant() tenantId: string,
     @Body() dto: CloseFiscalPeriodDto
   ) {
     return this.commandFacade.closeFiscalPeriod(tenantId, new Date(dto.closingDate));
+  }
+
+  @Post('closing/reopen')
+  @ApiOperation({ summary: 'Reopen a closed fiscal period' })
+  async reopenFiscalPeriod(
+    @CurrentTenant() tenantId: string,
+    @Body() dto: CloseFiscalPeriodDto
+  ) {
+    return this.commandFacade.reopenFiscalPeriod(tenantId, new Date(dto.closingDate));
+  }
+
+  @Post('consolidation')
+  @ApiOperation({ summary: 'Perform multi-entity consolidation' })
+  @ApiHeader({ name: 'x-idempotency-key', required: false, description: 'Optional idempotency key' })
+  async consolidate(
+    @CurrentTenant() targetTenantId: string,
+    @Body() dto: { sourceTenantIds: string[], asOfDate: string }
+  ) {
+    return this.commandFacade.consolidateAccounts(targetTenantId, dto.sourceTenantIds, new Date(dto.asOfDate));
   }
 }

@@ -51,7 +51,10 @@ export function accountingFacade() {
   }
 
   async function closeFiscalPeriod(closingDate: string) {
+    console.log(`[SLO] Triggering fiscal closing from UI for date ${closingDate}`);
+    const start = Date.now();
     await firstValueFrom(service.closeFiscalPeriod(closingDate));
+    console.log(`[SLO] UI Fiscal closing call completed in ${Date.now() - start}ms`);
     return true;
   }
 

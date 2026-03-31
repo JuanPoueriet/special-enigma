@@ -1,4 +1,4 @@
-import { type JournalEntryRepository, type AccountRepository, JournalEntry, JournalEntryLine, JournalEntryType, AccountingDomainError, AccountType } from '@virteex/domain-accounting-domain';
+import { type JournalEntryRepository, type AccountRepository, JournalEntry, JournalEntryLine, JournalEntryType, AccountingDomainError, AccountType, JournalEntryStatus } from '@virteex/domain-accounting-domain';
 import { Decimal } from 'decimal.js';
 import { AccountingPolicyService } from '../../services/accounting-policy.service';
 
@@ -11,6 +11,15 @@ export class CloseFiscalPeriodUseCase {
   ) {}
 
   async execute(tenantId: string, closingDate: Date): Promise<void> {
+    const startTime = Date.now();
+    console.log(`[SLO] Starting fiscal closing for tenant ${tenantId} as of ${closingDate.toISOString()}`);
+
+    // Pre-closing validations: Ensure all journal entries for the period are POSTED
+    const unpostedEntries = await this.journalEntryRepository.findUnpostedEntries(tenantId, closingDate);
+    if (unpostedEntries.length > 0) {
+        throw new AccountingDomainError(`Cannot close period: ${unpostedEntries.length} entries are still in DRAFT or PENDING_APPROVAL status.`);
+    }
+
     const balances = await this.journalEntryRepository.getBalancesByAccount(tenantId, undefined, closingDate);
     const accounts = await this.accountRepository.findAll(tenantId);
 
@@ -52,7 +61,30 @@ export class CloseFiscalPeriodUseCase {
     }
 
     entry.type = JournalEntryType.CLOSING;
+    entry.status = JournalEntryStatus.POSTED;
     entry.validateBalance();
     await this.journalEntryRepository.create(entry);
+
+    const duration = Date.now() - startTime;
+    console.log(`[SLO] Fiscal closing for tenant ${tenantId} completed in ${duration}ms`);
+  }
+
+  async reopen(tenantId: string, closingDate: Date): Promise<void> {
+      console.log(`[AUDIT] Re-opening fiscal period for tenant ${tenantId} as of ${closingDate.toISOString()}`);
+
+      // In a real implementation, this would mark the period as open in a FiscalPeriod entity
+      // and potentially void or reverse the closing journal entry.
+      const entries = await this.journalEntryRepository.findAll(tenantId);
+      const closingEntry = entries.find(e =>
+          e.type === JournalEntryType.CLOSING &&
+          e.date.getTime() === closingDate.getTime() &&
+          e.status === JournalEntryStatus.POSTED
+      );
+
+      if (closingEntry) {
+          closingEntry.status = JournalEntryStatus.VOID;
+          await this.journalEntryRepository.create(closingEntry); // Update
+          console.log(`[AUDIT] Closing entry ${closingEntry.id} voided for re-opening.`);
+      }
   }
 }

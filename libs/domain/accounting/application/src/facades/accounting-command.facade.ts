@@ -11,6 +11,9 @@ import {
 import {
   CloseFiscalPeriodUseCase,
 } from '../use-cases/fiscal-periods/close-fiscal-period.use-case';
+import {
+  ConsolidateAccountsUseCase,
+} from '../use-cases/consolidation/consolidate-accounts.use-case';
 import { CreateAccountDto, RecordJournalEntryDto } from '@virteex/domain-accounting-contracts';
 
 @Injectable()
@@ -20,6 +23,7 @@ export class AccountingCommandFacade {
     private readonly recordJournalEntryUseCase: RecordJournalEntryUseCase,
     private readonly setupChartOfAccountsUseCase: SetupChartOfAccountsUseCase,
     private readonly closeFiscalPeriodUseCase: CloseFiscalPeriodUseCase,
+    private readonly consolidateAccountsUseCase: ConsolidateAccountsUseCase,
   ) {}
 
   async createAccount(dto: CreateAccountDto & { tenantId: string }) {
@@ -36,5 +40,13 @@ export class AccountingCommandFacade {
 
   async closeFiscalPeriod(tenantId: string, closingDate: Date) {
     return this.closeFiscalPeriodUseCase.execute(tenantId, closingDate);
+  }
+
+  async reopenFiscalPeriod(tenantId: string, closingDate: Date) {
+    return this.closeFiscalPeriodUseCase.reopen(tenantId, closingDate);
+  }
+
+  async consolidateAccounts(targetTenantId: string, sourceTenantIds: string[], asOfDate: Date) {
+    return this.consolidateAccountsUseCase.execute(targetTenantId, sourceTenantIds, asOfDate);
   }
 }
