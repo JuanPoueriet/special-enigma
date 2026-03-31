@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { selectAccounts, selectIsAccountsLoading, selectAccountsError } from '../../state/accounting.state';
 import { useAccounting } from '../../hooks/use-accounting';
 
 @Component({
@@ -17,10 +16,10 @@ import { useAccounting } from '../../hooks/use-accounting';
         </button>
       </div>
 
-      <div *ngIf="loading()" class="text-blue-500">Loading accounts...</div>
-      <div *ngIf="error()" class="text-red-500 mb-4">{{ error() }}</div>
+      <div *ngIf="accounting.isAccountsLoading()" class="text-blue-500">Loading accounts...</div>
+      <div *ngIf="accounting.accountsError()" class="text-red-500 mb-4">{{ accounting.accountsError() }}</div>
 
-      <div *ngIf="!loading() && !error()" class="bg-white rounded shadow overflow-hidden">
+      <div *ngIf="!accounting.isAccountsLoading() && !accounting.accountsError()" class="bg-white rounded shadow overflow-hidden">
         <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-50">
             <tr>
@@ -31,13 +30,13 @@ import { useAccounting } from '../../hooks/use-accounting';
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
-            <tr *ngFor="let account of accounts()">
+            <tr *ngFor="let account of accounting.accounts()">
               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ account.code }}</td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ account.name }}</td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ account.type }}</td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ account.balance | currency }}</td>
             </tr>
-            <tr *ngIf="accounts().length === 0">
+            <tr *ngIf="accounting.accounts().length === 0">
               <td colspan="4" class="px-6 py-4 text-center text-sm text-gray-500">No accounts found.</td>
             </tr>
           </tbody>
@@ -47,11 +46,7 @@ import { useAccounting } from '../../hooks/use-accounting';
   `,
 })
 export class ChartOfAccountsComponent implements OnInit {
-  private accounting = useAccounting();
-
-  accounts = selectAccounts;
-  loading = selectIsAccountsLoading;
-  error = selectAccountsError;
+  accounting = useAccounting();
 
   ngOnInit() {
     this.accounting.loadAccounts();

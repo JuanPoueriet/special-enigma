@@ -1,8 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { useAccounting } from '../../hooks/use-accounting';
-import { selectIsReportsLoading, selectReportsError, reportsState } from '../../state/accounting.state';
 
 @Component({
   selector: 'app-financial-reports',
@@ -34,24 +33,20 @@ import { selectIsReportsLoading, selectReportsError, reportsState } from '../../
         </div>
       </div>
 
-      <div *ngIf="loading()" class="text-blue-500">Generating report...</div>
-      <div *ngIf="error()" class="text-red-500">{{ error() }}</div>
+      <div *ngIf="accounting.isReportsLoading()" class="text-blue-500">Generating report...</div>
+      <div *ngIf="accounting.reportsError()" class="text-red-500">{{ accounting.reportsError() }}</div>
 
-      <div *ngIf="reportData()" class="bg-white p-6 rounded shadow">
+      <div *ngIf="accounting.reportData()" class="bg-white p-6 rounded shadow">
         <h2 class="text-xl font-semibold mb-4">{{ reportType }} as of {{ endDate }}</h2>
-        <pre class="bg-gray-100 p-4 rounded">{{ reportData() | json }}</pre>
+        <pre class="bg-gray-100 p-4 rounded">{{ accounting.reportData() | json }}</pre>
       </div>
     </div>
   `,
 })
 export class FinancialReportsComponent {
-  private accounting = useAccounting();
+  accounting = useAccounting();
   reportType = 'BALANCE_SHEET';
   endDate = new Date().toISOString().split('T')[0];
-
-  loading = selectIsReportsLoading;
-  error = selectReportsError;
-  reportData = () => reportsState().data;
 
   generateReport() {
     this.accounting.generateReport(this.reportType, this.endDate);

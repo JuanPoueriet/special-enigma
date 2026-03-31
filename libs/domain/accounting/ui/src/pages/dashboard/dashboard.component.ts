@@ -2,7 +2,6 @@ import { Component, OnInit, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { JournalEntryStatus, JournalEntryType } from '@virteex/domain-accounting-contracts';
 import { useAccounting } from '../../hooks/use-accounting';
-import { selectAccounts, selectJournalEntries, selectIsAccountsLoading, selectIsEntriesLoading, selectAccountsError, selectEntriesError } from '../../state/accounting.state';
 
 @Component({
   selector: 'app-accounting-dashboard',
@@ -42,19 +41,14 @@ import { selectAccounts, selectJournalEntries, selectIsAccountsLoading, selectIs
   `,
 })
 export class DashboardComponent implements OnInit {
-  private accounting = useAccounting();
+  accounting = useAccounting();
 
-  accounts = selectAccounts;
-  entries = selectJournalEntries;
-  isAccountsLoading = selectIsAccountsLoading;
-  isEntriesLoading = selectIsEntriesLoading;
-
-  loading = computed(() => this.isAccountsLoading() || this.isEntriesLoading());
-  error = computed(() => selectAccountsError() || selectEntriesError());
+  loading = computed(() => this.accounting.isAccountsLoading() || this.accounting.isEntriesLoading());
+  error = computed(() => this.accounting.accountsError() || this.accounting.entriesError());
 
   stats = computed(() => {
-    const accounts = this.accounts();
-    const entries = this.entries();
+    const accounts = this.accounting.accounts();
+    const entries = this.accounting.entries();
 
     const pendingEntries = entries.filter(e => e.status === JournalEntryStatus.DRAFT).length;
 

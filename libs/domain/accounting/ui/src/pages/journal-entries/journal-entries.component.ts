@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { selectJournalEntries, selectIsEntriesLoading, selectEntriesError } from '../../state/accounting.state';
 import { useAccounting } from '../../hooks/use-accounting';
 
 @Component({
@@ -17,10 +16,10 @@ import { useAccounting } from '../../hooks/use-accounting';
         </button>
       </div>
 
-      <div *ngIf="loading()" class="text-blue-500">Loading entries...</div>
-      <div *ngIf="error()" class="text-red-500 mb-4">{{ error() }}</div>
+      <div *ngIf="accounting.isEntriesLoading()" class="text-blue-500">Loading entries...</div>
+      <div *ngIf="accounting.entriesError()" class="text-red-500 mb-4">{{ accounting.entriesError() }}</div>
 
-      <div *ngIf="!loading() && !error()" class="bg-white rounded shadow overflow-hidden">
+      <div *ngIf="!accounting.isEntriesLoading() && !accounting.entriesError()" class="bg-white rounded shadow overflow-hidden">
         <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-50">
             <tr>
@@ -31,13 +30,13 @@ import { useAccounting } from '../../hooks/use-accounting';
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
-            <tr *ngFor="let entry of entries()">
+            <tr *ngFor="let entry of accounting.entries()">
               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ entry.date | date }}</td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ entry.reference }}</td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ entry.description }}</td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ entry.amount | currency }}</td>
             </tr>
-            <tr *ngIf="entries().length === 0">
+            <tr *ngIf="accounting.entries().length === 0">
               <td colspan="4" class="px-6 py-4 text-center text-sm text-gray-500">No journal entries found.</td>
             </tr>
           </tbody>
@@ -47,11 +46,7 @@ import { useAccounting } from '../../hooks/use-accounting';
   `,
 })
 export class JournalEntriesComponent implements OnInit {
-  private accounting = useAccounting();
-
-  entries = selectJournalEntries;
-  loading = selectIsEntriesLoading;
-  error = selectEntriesError;
+  accounting = useAccounting();
 
   ngOnInit() {
     this.accounting.loadJournalEntries();

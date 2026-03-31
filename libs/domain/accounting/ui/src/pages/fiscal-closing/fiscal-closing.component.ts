@@ -33,7 +33,7 @@ import { useAccounting } from '../../hooks/use-accounting';
   `,
 })
 export class FiscalClosingComponent {
-  private accounting = useAccounting();
+  accounting = useAccounting();
   closingDate = new Date().toISOString().split('T')[0];
   loading = false;
   error = '';
