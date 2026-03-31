@@ -1,0 +1,47 @@
+<div class="p-6">
+  <h1 class="text-2xl font-bold mb-6 text-gray-800">{{ 'ACCOUNTING.FISCAL_CLOSING.TITLE' | translate }}</h1>
+
+  <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-100 max-w-2xl mx-auto overflow-hidden relative">
+    <div class="bg-red-50 -mx-8 -mt-8 px-8 py-4 mb-8 flex items-center border-b border-red-100 text-red-800">
+      <lucide-icon name="alert-triangle" class="w-6 h-6 mr-3 text-red-600"></lucide-icon>
+      <p class="text-sm font-bold uppercase tracking-wider">{{ 'ACCOUNTING.FISCAL_CLOSING.WARNING_TITLE' | translate }}</p>
+    </div>
+
+    <p class="mb-8 text-gray-600 leading-relaxed">{{ 'ACCOUNTING.FISCAL_CLOSING.DESCRIPTION' | translate }}</p>
+
+    <div class="space-y-6">
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1">{{ 'ACCOUNTING.FISCAL_CLOSING.CLOSING_DATE' | translate }}</label>
+        <div class="relative">
+          <lucide-icon name="calendar" class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></lucide-icon>
+          <input type="date" [(ngModel)]="closingDate"
+                 class="block w-full border border-gray-300 rounded-lg p-3 pl-11 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all" />
+        </div>
+      </div>
+
+      <div class="pt-4">
+        <button (click)="closePeriod()"
+                [disabled]="loading"
+                class="flex items-center justify-center px-6 py-4 bg-red-600 text-white font-bold rounded-lg shadow-md hover:bg-red-700 focus:ring-4 focus:ring-red-300 disabled:opacity-50 transition-all w-full uppercase tracking-wider">
+          <lucide-icon *ngIf="loading" name="loader-2" class="w-5 h-5 mr-3 animate-spin"></lucide-icon>
+          <lucide-icon *ngIf="!loading" name="lock" class="w-5 h-5 mr-3"></lucide-icon>
+          {{ (loading ? 'ACCOUNTING.FISCAL_CLOSING.PROCESSING' : 'ACCOUNTING.FISCAL_CLOSING.CLOSE_BUTTON') | translate }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Feedback messages -->
+    <div *ngIf="error" class="mt-8 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center text-red-700 text-sm font-medium animate-bounce">
+      <lucide-icon name="x-circle" class="w-5 h-5 mr-2 flex-shrink-0"></lucide-icon>
+      {{ error }}
+    </div>
+
+    <div *ngIf="success" class="mt-8 p-6 bg-green-50 border border-green-200 rounded-lg flex flex-col items-center text-green-800 text-center space-y-3">
+      <div class="p-3 bg-green-100 rounded-full">
+        <lucide-icon name="check-circle" class="w-8 h-8 text-green-600"></lucide-icon>
+      </div>
+      <h3 class="text-lg font-bold">{{ 'ACCOUNTING.FISCAL_CLOSING.SUCCESS_TITLE' | translate }}</h3>
+      <p class="text-sm">{{ 'ACCOUNTING.FISCAL_CLOSING.SUCCESS_DESC' | translate }}</p>
+    </div>
+  </div>
+</div>

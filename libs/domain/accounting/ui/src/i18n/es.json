@@ -1,10 +1,87 @@
 {
   "ACCOUNTING": {
     "TITLE": "Contabilidad",
-    "CHART_OF_ACCOUNTS": "Plan de Cuentas",
-    "JOURNAL_ENTRIES": "Asientos Contables",
-    "CREATE_ACCOUNT": "Crear Cuenta",
-    "RECORD_ENTRY": "Registrar Asiento",
-    "REVALUATION": "Revalorización"
+    "COMMON": {
+      "LOADING": "Cargando...",
+      "SAVING": "Guardando...",
+      "CANCEL": "Cancelar",
+      "BACK": "Volver",
+      "OPTIONAL": "Opcional",
+      "NONE": "Ninguno",
+      "ACCOUNT": "Cuenta",
+      "AMOUNT": "Monto",
+      "TOTAL": "Total",
+      "DOWNLOAD_PDF": "Descargar PDF"
+    },
+    "VALIDATION": {
+      "REQUIRED": "Este campo es obligatorio"
+    },
+    "DASHBOARD": {
+      "TITLE": "Panel de Contabilidad",
+      "LOADING": "Cargando datos del panel...",
+      "SETUP_REQUIRED_TITLE": "Configuración Inicial Requerida",
+      "SETUP_REQUIRED_DESC": "No se encontraron cuentas. ¿Desea configurar el plan de cuentas predeterminado?",
+      "SETUP_BUTTON": "Configurar Plan de Cuentas",
+      "TOTAL_ACCOUNTS": "Total de Cuentas",
+      "PENDING_ENTRIES": "Asientos Pendientes",
+      "LAST_CLOSING": "Último Cierre"
+    },
+    "CHART_OF_ACCOUNTS": {
+      "TITLE": "Plan de Cuentas",
+      "NEW_ACCOUNT": "Nueva Cuenta",
+      "CODE": "Código de Cuenta",
+      "NAME": "Nombre de Cuenta",
+      "TYPE": "Tipo de Cuenta",
+      "BALANCE": "Saldo",
+      "NO_ACCOUNTS": "No se encontraron cuentas.",
+      "CREATE_TITLE": "Crear Nueva Cuenta",
+      "SELECT_TYPE": "Seleccione tipo de cuenta",
+      "PARENT_ACCOUNT": "Cuenta Padre",
+      "CREATE_BUTTON": "Crear Cuenta"
+    },
+    "JOURNAL_ENTRIES": {
+      "TITLE": "Asientos Contables",
+      "RECORD_ENTRY": "Registrar Asiento",
+      "DATE": "Fecha",
+      "REFERENCE": "Referencia",
+      "DESCRIPTION": "Descripción",
+      "AMOUNT": "Monto",
+      "NO_ENTRIES": "No se encontraron asientos contables.",
+      "RECORD_TITLE": "Registrar Nuevo Asiento Contable",
+      "LINES": "Líneas de Asiento",
+      "ADD_LINE": "Agregar Línea",
+      "ACCOUNT": "Cuenta",
+      "DEBIT": "Débito",
+      "CREDIT": "Crédito",
+      "SELECT_ACCOUNT": "Seleccione cuenta",
+      "TOTALS": "Totales",
+      "BALANCED": "Asiento cuadrado",
+      "NOT_BALANCED": "Asiento no cuadrado",
+      "DIFFERENCE": "Diferencia",
+      "RECORD_BUTTON": "Registrar Asiento"
+    },
+    "FINANCIAL_REPORTS": {
+      "TITLE": "Informes Financieros",
+      "REPORT_TYPE": "Tipo de Informe",
+      "END_DATE": "Fecha Final",
+      "GENERATE_BUTTON": "Generar Informe",
+      "GENERATING": "Generando informe...",
+      "AS_OF": "al",
+      "TYPES": {
+        "BALANCE_SHEET": "Balance de Situación",
+        "PROFIT_AND_LOSS": "Pérdidas y Ganancias",
+        "TRIAL_BALANCE": "Balance de Comprobación"
+      }
+    },
+    "FISCAL_CLOSING": {
+      "TITLE": "Cierre de Período Fiscal",
+      "WARNING_TITLE": "Acción Crítica",
+      "DESCRIPTION": "Cerrar un período evitará que se registren más asientos contables antes de la fecha especificada. Esta acción no se puede deshacer.",
+      "CLOSING_DATE": "Fecha de Cierre",
+      "PROCESSING": "Procesando cierre...",
+      "CLOSE_BUTTON": "Cerrar Período Fiscal",
+      "SUCCESS_TITLE": "Período Cerrado",
+      "SUCCESS_DESC": "El período fiscal se ha cerrado correctamente."
+    }
   }
 }

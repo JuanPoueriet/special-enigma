@@ -1,0 +1,67 @@
+<div class="p-6">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">{{ 'ACCOUNTING.DASHBOARD.TITLE' | translate }}</h1>
+  </div>
+
+  <div *ngIf="loading()" class="flex items-center text-blue-600 mb-4 animate-pulse">
+    <lucide-icon name="loader-2" class="w-5 h-5 mr-2 animate-spin"></lucide-icon>
+    <span>{{ 'ACCOUNTING.DASHBOARD.LOADING' | translate }}</span>
+  </div>
+
+  <div *ngIf="!loading() && stats().totalAccounts === 0" class="mb-6 p-6 bg-yellow-50 border-l-4 border-yellow-400 rounded-r-lg shadow-sm">
+    <div class="flex">
+      <div class="flex-shrink-0">
+        <lucide-icon name="alert-triangle" class="h-6 w-6 text-yellow-400"></lucide-icon>
+      </div>
+      <div class="ml-3">
+        <h3 class="text-sm font-bold text-yellow-800">{{ 'ACCOUNTING.DASHBOARD.SETUP_REQUIRED_TITLE' | translate }}</h3>
+        <div class="mt-2 text-sm text-yellow-700">
+          <p>{{ 'ACCOUNTING.DASHBOARD.SETUP_REQUIRED_DESC' | translate }}</p>
+        </div>
+        <div class="mt-4">
+          <button (click)="setupChart()" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 transition-colors">
+            <lucide-icon name="settings" class="w-4 h-4 mr-2"></lucide-icon>
+            {{ 'ACCOUNTING.DASHBOARD.SETUP_BUTTON' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!loading()" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+      <div class="flex items-center justify-between mb-2">
+        <h2 class="text-sm font-medium text-gray-500 uppercase tracking-wider">{{ 'ACCOUNTING.DASHBOARD.TOTAL_ACCOUNTS' | translate }}</h2>
+        <div class="p-2 bg-blue-50 rounded-lg">
+          <lucide-icon name="book-open" class="w-5 h-5 text-blue-600"></lucide-icon>
+        </div>
+      </div>
+      <p class="text-3xl font-bold text-gray-900">{{ stats().totalAccounts }}</p>
+    </div>
+
+    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+      <div class="flex items-center justify-between mb-2">
+        <h2 class="text-sm font-medium text-gray-500 uppercase tracking-wider">{{ 'ACCOUNTING.DASHBOARD.PENDING_ENTRIES' | translate }}</h2>
+        <div class="p-2 bg-orange-50 rounded-lg">
+          <lucide-icon name="clock" class="w-5 h-5 text-orange-600"></lucide-icon>
+        </div>
+      </div>
+      <p class="text-3xl font-bold text-gray-900">{{ stats().pendingEntries }}</p>
+    </div>
+
+    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+      <div class="flex items-center justify-between mb-2">
+        <h2 class="text-sm font-medium text-gray-500 uppercase tracking-wider">{{ 'ACCOUNTING.DASHBOARD.LAST_CLOSING' | translate }}</h2>
+        <div class="p-2 bg-green-50 rounded-lg">
+          <lucide-icon name="calendar-check" class="w-5 h-5 text-green-600"></lucide-icon>
+        </div>
+      </div>
+      <p class="text-xl font-bold text-gray-900">{{ stats().lastClosing }}</p>
+    </div>
+  </div>
+
+  <div *ngIf="error()" class="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center text-red-700 text-sm">
+    <lucide-icon name="x-circle" class="w-5 h-5 mr-2"></lucide-icon>
+    {{ error() }}
+  </div>
+</div>

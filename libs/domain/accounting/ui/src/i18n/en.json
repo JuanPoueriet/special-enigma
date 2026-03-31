@@ -1,0 +1,87 @@
+{
+  "ACCOUNTING": {
+    "TITLE": "Accounting",
+    "COMMON": {
+      "LOADING": "Loading...",
+      "SAVING": "Saving...",
+      "CANCEL": "Cancel",
+      "BACK": "Back",
+      "OPTIONAL": "Optional",
+      "NONE": "None",
+      "ACCOUNT": "Account",
+      "AMOUNT": "Amount",
+      "TOTAL": "Total",
+      "DOWNLOAD_PDF": "Download PDF"
+    },
+    "VALIDATION": {
+      "REQUIRED": "This field is required"
+    },
+    "DASHBOARD": {
+      "TITLE": "Accounting Dashboard",
+      "LOADING": "Loading dashboard data...",
+      "SETUP_REQUIRED_TITLE": "Initial Setup Required",
+      "SETUP_REQUIRED_DESC": "No accounts found. Would you like to setup the default chart of accounts?",
+      "SETUP_BUTTON": "Setup Chart of Accounts",
+      "TOTAL_ACCOUNTS": "Total Accounts",
+      "PENDING_ENTRIES": "Pending Journal Entries",
+      "LAST_CLOSING": "Last Closing"
+    },
+    "CHART_OF_ACCOUNTS": {
+      "TITLE": "Chart of Accounts",
+      "NEW_ACCOUNT": "New Account",
+      "CODE": "Account Code",
+      "NAME": "Account Name",
+      "TYPE": "Account Type",
+      "BALANCE": "Balance",
+      "NO_ACCOUNTS": "No accounts found.",
+      "CREATE_TITLE": "Create New Account",
+      "SELECT_TYPE": "Select account type",
+      "PARENT_ACCOUNT": "Parent Account",
+      "CREATE_BUTTON": "Create Account"
+    },
+    "JOURNAL_ENTRIES": {
+      "TITLE": "Journal Entries",
+      "RECORD_ENTRY": "Record Entry",
+      "DATE": "Date",
+      "REFERENCE": "Reference",
+      "DESCRIPTION": "Description",
+      "AMOUNT": "Amount",
+      "NO_ENTRIES": "No journal entries found.",
+      "RECORD_TITLE": "Record New Journal Entry",
+      "LINES": "Entry Lines",
+      "ADD_LINE": "Add Line",
+      "ACCOUNT": "Account",
+      "DEBIT": "Debit",
+      "CREDIT": "Credit",
+      "SELECT_ACCOUNT": "Select account",
+      "TOTALS": "Totals",
+      "BALANCED": "Entry is balanced",
+      "NOT_BALANCED": "Entry is not balanced",
+      "DIFFERENCE": "Difference",
+      "RECORD_BUTTON": "Record Entry"
+    },
+    "FINANCIAL_REPORTS": {
+      "TITLE": "Financial Reports",
+      "REPORT_TYPE": "Report Type",
+      "END_DATE": "End Date",
+      "GENERATE_BUTTON": "Generate Report",
+      "GENERATING": "Generating report...",
+      "AS_OF": "as of",
+      "TYPES": {
+        "BALANCE_SHEET": "Balance Sheet",
+        "PROFIT_AND_LOSS": "Profit & Loss",
+        "TRIAL_BALANCE": "Trial Balance"
+      }
+    },
+    "FISCAL_CLOSING": {
+      "TITLE": "Fiscal Period Closing",
+      "WARNING_TITLE": "Critical Action",
+      "DESCRIPTION": "Closing a period will prevent any further journal entries from being recorded before the specified date. This action cannot be undone.",
+      "CLOSING_DATE": "Closing Date",
+      "PROCESSING": "Processing closing...",
+      "CLOSE_BUTTON": "Close Fiscal Period",
+      "SUCCESS_TITLE": "Period Closed",
+      "SUCCESS_DESC": "The fiscal period has been successfully closed."
+    }
+  }
+}
