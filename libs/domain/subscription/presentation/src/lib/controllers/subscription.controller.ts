@@ -53,8 +53,24 @@ export class SubscriptionController {
 
   @Post('portal')
   @ApiOperation({ summary: 'Create Stripe Portal Session' })
-  async createPortal(@Body() dto: CreatePortalSessionDto) {
-    return { url: await this.createPortalSessionUseCase.execute(dto) };
+  async createPortal(@Body() dto: Omit<CreatePortalSessionDto, 'customerId'>, @CurrentTenant() tenantId: string) {
+    if (!tenantId) {
+      throw new BadRequestException('Tenant ID is required from authentication token');
+    }
+
+    const subscription = await this.getSubscriptionUseCase.execute(tenantId);
+    const customerId = subscription?.getExternalCustomerId();
+
+    if (!customerId) {
+        throw new BadRequestException('No billing account found for this tenant.');
+    }
+
+    const fullDto: CreatePortalSessionDto = {
+        ...dto,
+        customerId
+    };
+
+    return { url: await this.createPortalSessionUseCase.execute(fullDto) };
   }
 
   @Get()

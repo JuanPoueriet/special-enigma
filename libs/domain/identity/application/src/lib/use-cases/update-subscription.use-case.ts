@@ -1,35 +1,38 @@
 import { DomainException } from '@virteex/shared-util-server-server-config';
 import { Injectable, Inject } from '@nestjs/common';
-import { Tenant } from '@virteex/kernel-tenant';
-import { TENANT_REPOSITORY } from '@virteex/domain-identity-domain';
-import type { TenantRepository } from '@virteex/domain-identity-domain';
+import { SUBSCRIPTION_REPOSITORY, type SubscriptionRepository, SUBSCRIPTION_PLAN_REPOSITORY, type SubscriptionPlanRepository, Subscription, SubscriptionStatus } from '@virteex/domain-subscription-domain';
 
 export class UpdateSubscriptionDto {
-  plan!: string; // 'STARTER', 'PROFESSIONAL', 'ENTERPRISE'
+  plan!: string; // slug: 'STARTER', 'PROFESSIONAL', 'ENTERPRISE'
   billingCycle!: string; // 'MONTHLY', 'ANNUAL'
 }
 
 @Injectable()
 export class UpdateSubscriptionUseCase {
   constructor(
-    @Inject(TENANT_REPOSITORY) private readonly tenantRepository: TenantRepository
+    @Inject(SUBSCRIPTION_REPOSITORY) private readonly subscriptionRepository: SubscriptionRepository,
+    @Inject(SUBSCRIPTION_PLAN_REPOSITORY) private readonly planRepository: SubscriptionPlanRepository
   ) {}
 
-  async execute(tenantId: string, dto: UpdateSubscriptionDto): Promise<Tenant> {
-    const tenant = await this.tenantRepository.findById(tenantId);
-    if (!tenant) {
-      throw new DomainException('Tenant not found', 'ENTITY_NOT_FOUND');
+  async execute(tenantId: string, dto: UpdateSubscriptionDto): Promise<Subscription> {
+    const plan = await this.planRepository.findBySlug(dto.plan);
+    if (!plan) {
+        throw new DomainException(`Plan ${dto.plan} not found`, 'ENTITY_NOT_FOUND');
     }
 
-    tenant.plan = dto.plan;
-    tenant.settings = {
-      ...tenant.settings,
-      billingCycle: dto.billingCycle,
-      subscriptionStatus: 'ACTIVE',
-      lastBillingUpdate: new Date()
-    };
+    let subscription = await this.subscriptionRepository.findByTenantId(tenantId);
 
-    await this.tenantRepository.save(tenant);
-    return tenant;
+    if (!subscription) {
+        subscription = new Subscription(tenantId, plan);
+    } else {
+        subscription.changePlan(plan);
+    }
+
+    subscription.status = SubscriptionStatus.ACTIVE;
+    // Note: billingCycle is not currently in the Subscription entity,
+    // in a real scenario we'd update it there or in the provider.
+
+    await this.subscriptionRepository.save(subscription);
+    return subscription;
   }
 }

@@ -2,9 +2,7 @@
 import { v4 } from 'uuid';
 
 export interface PlanLimits {
-  invoices: number; // -1 for unlimited
-  users: number;
-  storage: number; // in MB
+  [key: string]: number;
 }
 
 export class SubscriptionPlan {

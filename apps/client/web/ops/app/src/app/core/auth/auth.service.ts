@@ -44,11 +44,20 @@ export class AuthService {
     const user = this.authSessionStore.getCurrentUser();
     if (!user) return false;
     if (user.role === 'ADMIN' || user.role === 'SUPERUSER') return true;
-    // Basic mapping for now, could be expanded with real permissions from BE
+
+    // Use entitlements from backend if available
+    const entitlements = (user as any).entitlements || [];
+    if (entitlements.includes(permission)) return true;
+
+    // Fallback to role-based mapping for system permissions
     const rolePermissions: Record<string, string[]> = {
       'OPERATOR': ['tenants:read', 'tenants:create', 'monitoring:read', 'support:read'],
       'VIEWER': ['tenants:read', 'monitoring:read']
     };
     return rolePermissions[user.role]?.includes(permission) ?? false;
+  }
+
+  hasPermissions(permissions: string[]): boolean {
+    return permissions.every(p => this.hasPermission(p));
   }
 }
