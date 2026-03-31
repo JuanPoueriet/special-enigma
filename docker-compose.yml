@@ -202,7 +202,7 @@ services:
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-accounting-service
+    command: npx nx serve service-accounting-app
     depends_on:
       - postgres
       - redis

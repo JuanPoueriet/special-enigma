@@ -1,8 +1,20 @@
 import { inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import { CreateAccountDto } from '@virteex/domain-accounting-contracts';
+import { CreateAccountDto, RecordJournalEntryDto } from '@virteex/domain-accounting-contracts';
 import { AccountingService } from '../services/accounting.service';
-import { accountsState, entriesState, reportsState } from '../state/accounting.state';
+import {
+  accountsState,
+  entriesState,
+  reportsState,
+  selectAccounts,
+  selectIsAccountsLoading,
+  selectAccountsError,
+  selectJournalEntries,
+  selectIsEntriesLoading,
+  selectEntriesError,
+  selectIsReportsLoading,
+  selectReportsError
+} from '../state/accounting.state';
 
 export function useAccounting() {
   const service = inject(AccountingService);
@@ -38,29 +50,50 @@ export function useAccounting() {
   }
 
   async function closeFiscalPeriod(closingDate: string) {
-    try {
-      await firstValueFrom(service.closeFiscalPeriod(closingDate));
-      return true;
-    } catch (e) {
-      throw e;
-    }
+    await firstValueFrom(service.closeFiscalPeriod(closingDate));
+    return true;
   }
 
   async function createAccount(dto: CreateAccountDto) {
+    const account = await firstValueFrom(service.createAccount(dto));
+    accountsState.update(s => ({ ...s, items: [...s.items, account] }));
+    return account;
+  }
+
+  async function setupChartOfAccounts() {
     try {
-      const account = await firstValueFrom(service.createAccount(dto));
-      accountsState.update(s => ({ ...s, items: [...s.items, account] }));
-      return account;
+      await firstValueFrom(service.setupChartOfAccounts());
+      await loadAccounts();
     } catch (e) {
-      throw e;
+        accountsState.update(s => ({ ...s, error: (e as Error).message }));
     }
   }
 
+  async function recordJournalEntry(dto: RecordJournalEntryDto) {
+    const entry = await firstValueFrom(service.recordJournalEntry(dto));
+    entriesState.update(s => ({ ...s, items: [entry, ...s.items] }));
+    return entry;
+  }
+
   return {
+    // State (Selectors)
+    accounts: selectAccounts,
+    isAccountsLoading: selectIsAccountsLoading,
+    accountsError: selectAccountsError,
+    entries: selectJournalEntries,
+    isEntriesLoading: selectIsEntriesLoading,
+    entriesError: selectEntriesError,
+    reportData: () => reportsState().data,
+    isReportsLoading: selectIsReportsLoading,
+    reportsError: selectReportsError,
+
+    // Actions
     loadAccounts,
     loadJournalEntries,
     generateReport,
     closeFiscalPeriod,
     createAccount,
+    setupChartOfAccounts,
+    recordJournalEntry
   };
 }

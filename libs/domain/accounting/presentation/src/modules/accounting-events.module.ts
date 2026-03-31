@@ -9,5 +9,6 @@ import { AccountingListener } from '../events/accounting.listener';
   ],
   controllers: [AccountingEventsController],
   providers: [AccountingListener],
+  exports: [AccountingEventsController]
 })
 export class AccountingEventsModule {}

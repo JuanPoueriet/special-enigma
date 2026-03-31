@@ -35,6 +35,6 @@ import { PresentationLoggingInterceptor } from './interceptors/presentation-logg
       useClass: PresentationLoggingInterceptor,
     },
   ],
-  exports: [AccountingGraphqlModule]
+  exports: [AccountingGraphqlModule, AccountingEventsModule]
 })
 export class AccountingPresentationModule {}

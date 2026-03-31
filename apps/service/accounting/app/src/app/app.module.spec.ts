@@ -11,7 +11,7 @@ describe('AppModule smoke', () => {
       .filter((name): name is string => Boolean(name));
 
     expect(importedModuleNames).toContain('GraphQLModule');
-    expect(importedModuleNames.some((name) => name.endsWith('InfrastructureModule'))).toBe(true);
+    expect(importedModuleNames.some((name) => name.endsWith('WiringModule'))).toBe(true);
     expect(importedModuleNames.some((name) => name.endsWith('PresentationModule'))).toBe(true);
   });
 

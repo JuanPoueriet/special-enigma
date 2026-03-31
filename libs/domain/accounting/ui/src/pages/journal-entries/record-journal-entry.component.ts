@@ -1,9 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, FormBuilder, Validators, FormArray, FormControl, FormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, Validators, FormArray, FormControl, FormGroup } from '@angular/forms';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
-import { AccountingService } from '../../services/accounting.service';
-import { AccountDto, RecordJournalEntryDto } from '@virteex/domain-accounting-contracts';
+import { useAccounting } from '../../hooks/use-accounting';
+import { RecordJournalEntryDto } from '@virteex/domain-accounting-contracts';
 import { Decimal } from 'decimal.js';
 
 interface JournalEntryLineForm {
@@ -63,7 +63,7 @@ interface JournalEntryLineForm {
                   <tr *ngFor="let line of lines.controls; let i=index" [formGroupName]="i">
                     <td class="px-4 py-2">
                       <select formControlName="accountId" class="w-full border rounded p-1 text-sm">
-                        <option *ngFor="let acc of accounts" [value]="acc.id">{{ acc.code }} - {{ acc.name }}</option>
+                        <option *ngFor="let acc of accounting.accounts()" [value]="acc.id">{{ acc.code }} - {{ acc.name }}</option>
                       </select>
                     </td>
                     <td class="px-4 py-2">
@@ -119,7 +119,7 @@ interface JournalEntryLineForm {
   `,
 })
 export class RecordJournalEntryComponent implements OnInit {
-  private accountingService = inject(AccountingService);
+  accounting = useAccounting();
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
@@ -129,7 +129,6 @@ export class RecordJournalEntryComponent implements OnInit {
     lines: new FormArray<FormGroup<JournalEntryLineForm>>([])
   });
 
-  accounts: AccountDto[] = [];
   loading = false;
   error = '';
   totalDebit = new Decimal(0);
@@ -139,9 +138,7 @@ export class RecordJournalEntryComponent implements OnInit {
   get lines() { return this.entryForm.get('lines') as FormArray<FormGroup<JournalEntryLineForm>>; }
 
   ngOnInit() {
-    this.accountingService.getAccounts().subscribe(data => {
-      this.accounts = data;
-    });
+    this.accounting.loadAccounts();
 
     // Add initial 2 lines
     this.addLine();
@@ -200,14 +197,11 @@ export class RecordJournalEntryComponent implements OnInit {
         }))
     };
 
-    this.accountingService.recordJournalEntry(dto).subscribe({
-      next: () => {
+    this.accounting.recordJournalEntry(dto).then(() => {
         this.router.navigate(['../'], { relativeTo: this.route });
-      },
-      error: (err) => {
+    }).catch(err => {
         this.error = this.mapApiError(err);
         this.loading = false;
-      }
     });
   }
 

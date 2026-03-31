@@ -77,7 +77,7 @@ export default [
             },
             {
               sourceTag: 'type:contracts',
-              onlyDependOnLibsWithTags: ['type:util'],
+              onlyDependOnLibsWithTags: ['type:util', 'type:contracts'],
             },
 
             // Domain Scopes (Strict Boundaries)

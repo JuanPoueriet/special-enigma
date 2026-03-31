@@ -1,5 +1,6 @@
-import { Module, Logger, Global, forwardRef } from '@nestjs/common';
+import { Module, Logger } from '@nestjs/common';
 import { AccountingInfrastructureModule } from './accounting-infrastructure.module';
+import { AccountingEventConsumerService } from './messaging/consumers/accounting-event-consumer.service';
 import {
   ACCOUNT_REPOSITORY,
   JOURNAL_ENTRY_REPOSITORY,
@@ -17,6 +18,7 @@ import {
 import {
   I_UNIT_OF_WORK,
   IUnitOfWork,
+  ACCOUNTING_EVENT_CONSUMER_PORT,
   DimensionValidator,
   AccountingPolicyService,
   AccountingEventHandlerService,
@@ -49,13 +51,20 @@ import {
         recordJE: RecordJournalEntryUseCase,
         policy: AccountingPolicyService,
         accRepo: AccountRepository
-      ) =>
-        new AccountingEventHandlerService(
+      ) => {
+        const nestLogger = new Logger(AccountingEventHandlerService.name);
+        return new AccountingEventHandlerService(
           recordJE,
           policy,
           accRepo,
-          new Logger(AccountingEventHandlerService.name)
-        ),
+          {
+            debug: (msg, ...args) => nestLogger.debug(msg, ...args),
+            info: (msg, ...args) => nestLogger.log(msg, ...args),
+            warn: (msg, ...args) => nestLogger.warn(msg, ...args),
+            error: (msg, ...args) => nestLogger.error(msg, ...args),
+          }
+        );
+      },
       inject: [
         RecordJournalEntryUseCase,
         AccountingPolicyService,
@@ -134,8 +143,13 @@ import {
         AccountingPolicyService,
       ],
     },
+    {
+      provide: ACCOUNTING_EVENT_CONSUMER_PORT,
+      useClass: AccountingEventConsumerService
+    }
   ],
   exports: [
+    ACCOUNTING_EVENT_CONSUMER_PORT,
     AccountingPolicyService,
     AccountingEventHandlerService,
     DimensionValidator,

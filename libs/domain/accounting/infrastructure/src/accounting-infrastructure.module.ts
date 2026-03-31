@@ -1,6 +1,6 @@
-import { Module, Global, forwardRef } from '@nestjs/common';
-import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { Module } from '@nestjs/common';
 import { ScheduleModule } from '@nestjs/schedule';
+import { MikroOrmModule as NestMikroOrmModule } from '@mikro-orm/nestjs';
 import {
   ACCOUNT_REPOSITORY,
   JOURNAL_ENTRY_REPOSITORY,
@@ -14,7 +14,7 @@ import {
   MESSAGE_BROKER,
   I_UNIT_OF_WORK,
   DimensionValidator,
-  AccountingEventConsumerPort,
+  ACCOUNTING_EVENT_CONSUMER_PORT,
 } from '@virteex/domain-accounting-application';
 import { ACCOUNTING_REPORTING_PORT } from '@virteex/domain-accounting-contracts';
 import { TelemetryService } from '@virteex/kernel-telemetry';
@@ -35,12 +35,11 @@ import { OutboxMessageSchema } from './persistence/orm/outbox.schema';
 import { OutboxRelayService } from './messaging/outbox/outbox-relay.service';
 import { KafkaMessageBroker } from './messaging/producers/kafka-message-broker';
 import { AccountingEventConsumerService } from './messaging/consumers/accounting-event-consumer.service';
-import { AccountingApplicationWiringModule } from './accounting-application-wiring.module';
 
 @Module({
   imports: [
     ScheduleModule.forRoot(),
-    MikroOrmModule.forFeature([
+    NestMikroOrmModule.forFeature([
       AccountSchema,
       JournalEntrySchema,
       JournalEntryLineSchema,
@@ -83,14 +82,14 @@ import { AccountingApplicationWiringModule } from './accounting-application-wiri
       useClass: KafkaMessageBroker,
     },
     {
-      provide: AccountingEventConsumerPort,
+      provide: ACCOUNTING_EVENT_CONSUMER_PORT,
       useClass: AccountingEventConsumerService,
     },
     DimensionValidator,
     OutboxRelayService,
   ],
   exports: [
-    AccountingEventConsumerPort,
+    ACCOUNTING_EVENT_CONSUMER_PORT,
     ACCOUNT_REPOSITORY,
     JOURNAL_ENTRY_REPOSITORY,
     POLICY_REPOSITORY,
@@ -99,7 +98,7 @@ import { AccountingApplicationWiringModule } from './accounting-application-wiri
     I_UNIT_OF_WORK,
     MESSAGE_BROKER,
     TELEMETRY_SERVICE,
-    MikroOrmModule,
+    NestMikroOrmModule,
     DimensionValidator,
   ],
 })

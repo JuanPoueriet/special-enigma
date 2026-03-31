@@ -17,5 +17,5 @@ export class BillingProductEntity {
 
     fiscalCode?: string;
 
-    isActive: boolean = true;
+    isActive = true;
 }

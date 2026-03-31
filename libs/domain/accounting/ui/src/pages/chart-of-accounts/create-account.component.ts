@@ -5,7 +5,6 @@ import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { AccountType } from '@virteex/domain-accounting-contracts';
 import { createAccountForm } from '../../forms/account.form';
 import { useAccounting } from '../../hooks/use-accounting';
-import { selectAccounts } from '../../state/accounting.state';
 
 @Component({
   selector: 'app-create-account',
@@ -76,14 +75,13 @@ import { selectAccounts } from '../../state/accounting.state';
   `,
 })
 export class CreateAccountComponent implements OnInit {
-  private accounting = useAccounting();
+  accounting = useAccounting();
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
   accountForm = createAccountForm();
 
   accountTypes = Object.values(AccountType);
-  accounts = selectAccounts;
   loading = false;
   error = '';
 
