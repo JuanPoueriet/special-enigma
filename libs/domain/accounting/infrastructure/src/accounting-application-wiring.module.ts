@@ -29,11 +29,31 @@ import {
   SetupChartOfAccountsUseCase,
   GenerateFinancialReportUseCase,
   CloseFiscalPeriodUseCase,
+  AccountingCommandFacade,
+  AccountingQueryFacade,
 } from '@virteex/domain-accounting-application';
 
 @Module({
   imports: [AccountingInfrastructureModule],
   providers: [
+    AccountingCommandFacade,
+    {
+      provide: AccountingQueryFacade,
+      useFactory: (
+        getAcc: GetAccountsUseCase,
+        getJE: GetJournalEntriesUseCase,
+        countJE: CountJournalEntriesUseCase,
+        genReport: GenerateFinancialReportUseCase,
+        jeRepo: JournalEntryRepository
+      ) => new AccountingQueryFacade(getAcc, getJE, countJE, genReport, jeRepo),
+      inject: [
+        GetAccountsUseCase,
+        GetJournalEntriesUseCase,
+        CountJournalEntriesUseCase,
+        GenerateFinancialReportUseCase,
+        JOURNAL_ENTRY_REPOSITORY,
+      ],
+    },
     {
       provide: DimensionValidator,
       useValue: new DimensionValidator(),
@@ -155,6 +175,8 @@ import {
     SetupChartOfAccountsUseCase,
     GenerateFinancialReportUseCase,
     CloseFiscalPeriodUseCase,
+    AccountingCommandFacade,
+    AccountingQueryFacade,
   ],
 })
 export class AccountingApplicationWiringModule {}

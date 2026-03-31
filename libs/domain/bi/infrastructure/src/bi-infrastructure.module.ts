@@ -25,6 +25,7 @@ import { SqlCrmAdapter } from './integrations/adapters/sql-crm.adapter';
 import { SqlCatalogAdapter } from './integrations/adapters/sql-catalog.adapter';
 import { SqlTreasuryAdapter } from './integrations/adapters/sql-treasury.adapter';
 import { SqlBiAccountingAdapter } from './integrations/adapters/sql-bi-accounting.adapter';
+import { IAccountingReportingPort } from '@virteex/domain-accounting-contracts';
 
 @Module({
   imports: [
@@ -68,12 +69,13 @@ import { SqlBiAccountingAdapter } from './integrations/adapters/sql-bi-accountin
       useClass: SqlTreasuryAdapter,
     },
     {
-      provide: BI_ACCOUNTING_PORT,
-      useClass: SqlBiAccountingAdapter,
-    },
-    {
       provide: ACCOUNTING_REPORTING_PORT,
       useClass: AccountingReportingAdapter,
+    },
+    {
+      provide: BI_ACCOUNTING_PORT,
+      useFactory: (reporting: IAccountingReportingPort) => new SqlBiAccountingAdapter(reporting),
+      inject: [ACCOUNTING_REPORTING_PORT],
     },
   ],
   exports: [

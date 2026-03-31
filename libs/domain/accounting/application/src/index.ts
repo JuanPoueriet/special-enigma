@@ -21,3 +21,5 @@ export * from './services/dimension-validator.service';
 export * from './ports/outbound/message-broker.port';
 export * from './ports/outbound/unit-of-work.port';
 export * from './ports/logger.port';
+export * from './facades/accounting-command.facade';
+export * from './facades/accounting-query.facade';

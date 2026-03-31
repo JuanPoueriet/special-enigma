@@ -18,9 +18,13 @@ export class GenerateFinancialReportDto implements IGenerateFinancialReport {
   @Transform(({ value }) => {
     if (typeof value === 'string') {
       try {
-        return JSON.parse(value);
+        const parsed = JSON.parse(value);
+        if (typeof parsed !== 'object' || parsed === null) {
+          throw new Error('Dimensions must be a valid JSON object');
+        }
+        return parsed;
       } catch (e) {
-        return value;
+        throw new Error('Invalid JSON format for dimensions');
       }
     }
     return value;

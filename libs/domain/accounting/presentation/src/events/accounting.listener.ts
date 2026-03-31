@@ -1,14 +1,13 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
-import { SetupChartOfAccountsUseCase, AccountingEventHandlerService } from '@virteex/domain-accounting-application';
+import { SetupChartOfAccountsUseCase } from '@virteex/domain-accounting-application';
 
 @Injectable()
 export class AccountingListener {
   private readonly logger = new Logger(AccountingListener.name);
 
   constructor(
-    private readonly setupChartOfAccountsUseCase: SetupChartOfAccountsUseCase,
-    private readonly eventHandlerService: AccountingEventHandlerService
+    private readonly setupChartOfAccountsUseCase: SetupChartOfAccountsUseCase
   ) {}
 
   @OnEvent('tenant.created')

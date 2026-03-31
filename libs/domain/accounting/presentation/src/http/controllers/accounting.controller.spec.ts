@@ -1,50 +1,31 @@
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { AccountingController } from './accounting.controller';
 import {
-  type CreateAccountUseCase,
-  type RecordJournalEntryUseCase,
-  type GetAccountsUseCase,
-  type GetJournalEntriesUseCase,
-  type SetupChartOfAccountsUseCase,
-  type GenerateFinancialReportUseCase,
-  type CloseFiscalPeriodUseCase,
+  type AccountingCommandFacade,
+  type AccountingQueryFacade,
 } from '@virteex/domain-accounting-application';
 import { AccountType } from '@virteex/domain-accounting-contracts';
 
 describe('AccountingController', () => {
   let controller: AccountingController;
 
-  const mockCreateAccountUseCase = {
-    execute: vi.fn(),
+  const mockCommandFacade = {
+    createAccount: vi.fn(),
+    recordJournalEntry: vi.fn(),
+    setupChartOfAccounts: vi.fn(),
+    closeFiscalPeriod: vi.fn(),
   };
-  const mockRecordJournalEntryUseCase = {
-    execute: vi.fn(),
-  };
-  const mockGetAccountsUseCase = {
-    execute: vi.fn(),
-  };
-  const mockGetJournalEntriesUseCase = {
-    execute: vi.fn(),
-  };
-  const mockSetupChartOfAccountsUseCase = {
-    execute: vi.fn(),
-  };
-  const mockGenerateFinancialReportUseCase = {
-    execute: vi.fn(),
-  };
-  const mockCloseFiscalPeriodUseCase = {
-    execute: vi.fn(),
+  const mockQueryFacade = {
+    getAccounts: vi.fn(),
+    getJournalEntries: vi.fn(),
+    countJournalEntries: vi.fn(),
+    generateFinancialReport: vi.fn(),
   };
 
   beforeEach(async () => {
     controller = new AccountingController(
-      mockCreateAccountUseCase as unknown as CreateAccountUseCase,
-      mockRecordJournalEntryUseCase as unknown as RecordJournalEntryUseCase,
-      mockGetAccountsUseCase as unknown as GetAccountsUseCase,
-      mockGetJournalEntriesUseCase as unknown as GetJournalEntriesUseCase,
-      mockSetupChartOfAccountsUseCase as unknown as SetupChartOfAccountsUseCase,
-      mockGenerateFinancialReportUseCase as unknown as GenerateFinancialReportUseCase,
-      mockCloseFiscalPeriodUseCase as unknown as CloseFiscalPeriodUseCase
+      mockCommandFacade as unknown as AccountingCommandFacade,
+      mockQueryFacade as unknown as AccountingQueryFacade,
     );
   });
 
@@ -53,19 +34,19 @@ describe('AccountingController', () => {
   });
 
   describe('createAccount', () => {
-    it('should call CreateAccountUseCase.execute', async () => {
+    it('should call commandFacade.createAccount', async () => {
       const dto = { code: '101', name: 'Cash', type: AccountType.ASSET };
       const tenantId = 'tenant-1';
       await controller.createAccount(tenantId, dto);
-      expect(mockCreateAccountUseCase.execute).toHaveBeenCalledWith({ ...dto, tenantId });
+      expect(mockCommandFacade.createAccount).toHaveBeenCalledWith({ ...dto, tenantId });
     });
   });
 
   describe('getAccounts', () => {
-    it('should call GetAccountsUseCase.execute', async () => {
+    it('should call queryFacade.getAccounts', async () => {
       const tenantId = 'tenant-1';
       await controller.getAccounts(tenantId);
-      expect(mockGetAccountsUseCase.execute).toHaveBeenCalledWith(tenantId);
+      expect(mockQueryFacade.getAccounts).toHaveBeenCalledWith(tenantId);
     });
   });
 });

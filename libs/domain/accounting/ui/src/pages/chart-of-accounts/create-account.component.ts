@@ -6,7 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LucideAngularModule, ArrowLeft, AlertCircle, Loader2, XCircle } from 'lucide-angular';
 import { AccountType } from '@virteex/domain-accounting-contracts';
 import { createAccountForm } from '../../forms/account.form';
-import { useAccounting } from '../../hooks/use-accounting';
+import { accountingFacade } from '../../facades/accounting.facade';
 
 @Component({
   selector: 'app-create-account',
@@ -16,7 +16,7 @@ import { useAccounting } from '../../hooks/use-accounting';
   styleUrl: './create-account.component.scss',
 })
 export class CreateAccountComponent implements OnInit {
-  accounting = useAccounting();
+  accounting = accountingFacade();
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 

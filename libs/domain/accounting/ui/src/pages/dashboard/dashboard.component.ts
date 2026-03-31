@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { LucideAngularModule, Loader2, AlertTriangle, Settings, BookOpen, Clock, CalendarCheck, XCircle } from 'lucide-angular';
 import { JournalEntryStatus, JournalEntryType } from '@virteex/domain-accounting-contracts';
-import { useAccounting } from '../../hooks/use-accounting';
+import { accountingFacade } from '../../facades/accounting.facade';
 
 @Component({
   selector: 'app-accounting-dashboard',
@@ -13,7 +13,7 @@ import { useAccounting } from '../../hooks/use-accounting';
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnInit {
-  accounting = useAccounting();
+  accounting = accountingFacade();
 
   readonly icons = {
     Loader2,

@@ -16,7 +16,7 @@ import {
   selectReportsError
 } from '../state/accounting.state';
 
-export function useAccounting() {
+export function accountingFacade() {
   const service = inject(AccountingService);
 
   async function loadAccounts() {

@@ -3,7 +3,7 @@ import { APP_GUARD, APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { TerminusModule } from '@nestjs/terminus';
 import { ConfigModule } from '@nestjs/config';
 import { AccountingRestModule } from './modules/accounting-rest.module';
-import { AccountingGraphqlModule } from './modules/accounting-graphql.module';
+// import { AccountingGraphqlModule } from './modules/accounting-graphql.module';
 import { AccountingEventsModule } from './modules/accounting-events.module';
 import { AccountingExceptionFilter } from './filters/accounting-exception.filter';
 import { TenantGuard } from '@virteex/kernel-auth';
@@ -18,7 +18,7 @@ import { PresentationLoggingInterceptor } from './interceptors/presentation-logg
     TerminusModule,
     ConfigModule,
     AccountingRestModule,
-    AccountingGraphqlModule,
+    // AccountingGraphqlModule,
     AccountingEventsModule,
   ],
   providers: [
@@ -35,6 +35,6 @@ import { PresentationLoggingInterceptor } from './interceptors/presentation-logg
       useClass: PresentationLoggingInterceptor,
     },
   ],
-  exports: [AccountingGraphqlModule, AccountingEventsModule]
+  exports: [AccountingEventsModule]
 })
 export class AccountingPresentationModule {}

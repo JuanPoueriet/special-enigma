@@ -2,14 +2,8 @@ import { Body, Controller, Get, Post, Query, UseInterceptors } from '@nestjs/com
 import { ApiTags, ApiOperation, ApiHeader } from '@nestjs/swagger';
 import { CreateAccountDto, RecordJournalEntryDto, GenerateFinancialReportDto, CloseFiscalPeriodDto, FinancialReportDto } from '@virteex/domain-accounting-contracts';
 import {
-  CreateAccountUseCase,
-  RecordJournalEntryUseCase,
-  GetAccountsUseCase,
-  GetJournalEntriesUseCase,
-  CountJournalEntriesUseCase,
-  SetupChartOfAccountsUseCase,
-  GenerateFinancialReportUseCase,
-  CloseFiscalPeriodUseCase
+  AccountingCommandFacade,
+  AccountingQueryFacade
 } from '@virteex/domain-accounting-application';
 import { CurrentTenant } from '@virteex/kernel-auth';
 import { IdempotencyInterceptor } from '@virteex/shared-util-server-server-config';
@@ -19,14 +13,8 @@ import { IdempotencyInterceptor } from '@virteex/shared-util-server-server-confi
 @UseInterceptors(IdempotencyInterceptor)
 export class AccountingController {
   constructor(
-    private readonly createAccountUseCase: CreateAccountUseCase,
-    private readonly recordJournalEntryUseCase: RecordJournalEntryUseCase,
-    private readonly getAccountsUseCase: GetAccountsUseCase,
-    private readonly getJournalEntriesUseCase: GetJournalEntriesUseCase,
-    private readonly countJournalEntriesUseCase: CountJournalEntriesUseCase,
-    private readonly setupChartOfAccountsUseCase: SetupChartOfAccountsUseCase,
-    private readonly generateFinancialReportUseCase: GenerateFinancialReportUseCase,
-    private readonly closeFiscalPeriodUseCase: CloseFiscalPeriodUseCase,
+    private readonly commandFacade: AccountingCommandFacade,
+    private readonly queryFacade: AccountingQueryFacade,
   ) {}
 
   @Post('accounts')
@@ -35,7 +23,7 @@ export class AccountingController {
     @CurrentTenant() tenantId: string,
     @Body() dto: CreateAccountDto
   ) {
-    return this.createAccountUseCase.execute({ ...dto, tenantId });
+    return this.commandFacade.createAccount({ ...dto, tenantId });
   }
 
   @Post('journal-entries')
@@ -45,32 +33,39 @@ export class AccountingController {
     @CurrentTenant() tenantId: string,
     @Body() dto: RecordJournalEntryDto
   ) {
-    return this.recordJournalEntryUseCase.execute({ ...dto, tenantId });
+    return this.commandFacade.recordJournalEntry({ ...dto, tenantId });
   }
 
   @Get('accounts')
   @ApiOperation({ summary: 'Get all accounts' })
   async getAccounts(@CurrentTenant() tenantId: string) {
-    return this.getAccountsUseCase.execute(tenantId);
+    return this.queryFacade.getAccounts(tenantId);
   }
 
   @Get('journal-entries')
   @ApiOperation({ summary: 'Get all journal entries' })
   async getJournalEntries(@CurrentTenant() tenantId: string) {
-    return this.getJournalEntriesUseCase.execute(tenantId);
+    return this.queryFacade.getJournalEntries(tenantId);
   }
 
   @Get('journal-entries/count')
   @ApiOperation({ summary: 'Count journal entries (internal)' })
   async countJournalEntries(@CurrentTenant() tenantId: string) {
-    const count = await this.countJournalEntriesUseCase.execute(tenantId);
+    const count = await this.queryFacade.countJournalEntries(tenantId);
     return { count };
+  }
+
+  @Get('metrics/monthly-opex')
+  @ApiOperation({ summary: 'Get monthly OPEX (internal)' })
+  async getMonthlyOpex(@CurrentTenant() tenantId: string) {
+    const amount = await this.queryFacade.getMonthlyOpex(tenantId);
+    return { amount };
   }
 
   @Post('setup')
   @ApiOperation({ summary: 'Setup initial chart of accounts' })
   async setupChartOfAccounts(@CurrentTenant() tenantId: string) {
-    return this.setupChartOfAccountsUseCase.execute(tenantId);
+    return this.commandFacade.setupChartOfAccounts(tenantId);
   }
 
   @Get('reports/financial')
@@ -79,7 +74,7 @@ export class AccountingController {
     @CurrentTenant() tenantId: string,
     @Query() dto: GenerateFinancialReportDto
   ): Promise<FinancialReportDto> {
-    const report = await this.generateFinancialReportUseCase.execute(tenantId, dto.type, new Date(dto.endDate), dto.dimensions);
+    const report = await this.queryFacade.generateFinancialReport(tenantId, dto.type, new Date(dto.endDate), dto.dimensions);
     return {
         ...report,
         generatedAt: report.generatedAt.toISOString()
@@ -93,6 +88,6 @@ export class AccountingController {
     @CurrentTenant() tenantId: string,
     @Body() dto: CloseFiscalPeriodDto
   ) {
-    return this.closeFiscalPeriodUseCase.execute(tenantId, new Date(dto.closingDate));
+    return this.commandFacade.closeFiscalPeriod(tenantId, new Date(dto.closingDate));
   }
 }
