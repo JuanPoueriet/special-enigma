@@ -28,6 +28,7 @@ import {
   TELEMETRY_SERVICE,
   type ITelemetryService,
 } from '@virteex/kernel-telemetry';
+import { EntitlementService } from '@virteex/kernel-entitlements';
 import {
   I_UNIT_OF_WORK,
   IUnitOfWork,
@@ -46,6 +47,7 @@ import {
   CloseFiscalPeriodUseCase,
   ConsolidateAccountsUseCase,
   BankReconciliationUseCase,
+  RecordPaymentUseCase,
   AccountingCommandFacade,
   AccountingQueryFacade,
 } from '@virteex/domain-accounting-application';
@@ -130,14 +132,18 @@ import {
       useFactory: (
         jeRepo: JournalEntryRepository,
         accRepo: AccountRepository,
+        fpRepo: FiscalPeriodRepository,
         telemetry: ITelemetryService,
+        entitlement: EntitlementService,
         uow: IUnitOfWork,
         auditRepo?: AuditLogRepository,
-      ) => new RecordJournalEntryUseCase(jeRepo, accRepo, telemetry, uow, auditRepo),
+      ) => new RecordJournalEntryUseCase(jeRepo, accRepo, fpRepo, telemetry, entitlement, uow, auditRepo),
       inject: [
         JOURNAL_ENTRY_REPOSITORY,
         ACCOUNT_REPOSITORY,
+        FISCAL_PERIOD_REPOSITORY,
         TELEMETRY_SERVICE,
+        EntitlementService,
         I_UNIT_OF_WORK,
         { token: AUDIT_LOG_REPOSITORY, optional: true },
       ],
@@ -240,6 +246,23 @@ import {
       inject: [
         JOURNAL_ENTRY_REPOSITORY,
         BANK_RECONCILIATION_REPOSITORY,
+      ],
+    },
+    {
+      provide: 'RecordPaymentUseCase',
+      useFactory: (
+        jeRepo: JournalEntryRepository,
+        accRepo: AccountRepository,
+        arRepo: AccountsReceivableRepository,
+        apRepo: AccountsPayableRepository,
+        auditRepo?: AuditLogRepository,
+      ) => new RecordPaymentUseCase(jeRepo, accRepo, arRepo, apRepo, auditRepo),
+      inject: [
+        JOURNAL_ENTRY_REPOSITORY,
+        ACCOUNT_REPOSITORY,
+        ACCOUNTS_RECEIVABLE_REPOSITORY,
+        ACCOUNTS_PAYABLE_REPOSITORY,
+        { token: AUDIT_LOG_REPOSITORY, optional: true },
       ],
     },
   ],

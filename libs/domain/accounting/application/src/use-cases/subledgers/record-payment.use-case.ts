@@ -1,9 +1,12 @@
-import { type JournalEntryRepository, type AccountRepository, JournalEntry, JournalEntryLine, JournalEntryStatus, JournalEntryType, Payment, type AuditLogRepository, AuditLog } from '@virteex/domain-accounting-domain';
+import { type JournalEntryRepository, type AccountRepository, JournalEntry, JournalEntryLine, JournalEntryStatus, JournalEntryType, Payment, type AuditLogRepository, AuditLog, type AccountsReceivableRepository, type AccountsPayableRepository, InvoiceStatus } from '@virteex/domain-accounting-domain';
+import { Decimal } from 'decimal.js';
 
 export class RecordPaymentUseCase {
   constructor(
     private journalEntryRepository: JournalEntryRepository,
     private accountRepository: AccountRepository,
+    private arRepository: AccountsReceivableRepository,
+    private apRepository: AccountsPayableRepository,
     private auditLogRepository?: AuditLogRepository
   ) {}
 
@@ -27,6 +30,31 @@ export class RecordPaymentUseCase {
     entry.validateBalance();
 
     const savedEntry = await this.journalEntryRepository.create(entry);
+
+    // Update invoice subledger
+    // Try to find in AR first, then AP
+    let repo: any = this.arRepository;
+    let invoice = await this.arRepository.findById(tenantId, payment.invoiceId);
+
+    if (!invoice) {
+      invoice = await this.apRepository.findById(tenantId, payment.invoiceId);
+      repo = this.apRepository;
+    }
+
+    if (invoice) {
+      const currentPaid = new Decimal(invoice.paidAmount || '0.00');
+      const newPaid = currentPaid.plus(new Decimal(payment.amount));
+      invoice.paidAmount = newPaid.toFixed(2);
+
+      const totalAmount = new Decimal(invoice.amount);
+      if (newPaid.greaterThanOrEqualTo(totalAmount)) {
+        invoice.status = InvoiceStatus.PAID;
+      } else {
+        invoice.status = InvoiceStatus.PARTIAL;
+      }
+
+      await repo.save(invoice);
+    }
 
     if (this.auditLogRepository) {
       await this.auditLogRepository.create(new AuditLog(
