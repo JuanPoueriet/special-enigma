@@ -14,7 +14,9 @@ export interface AccountsPayableAgingReport {
 
 export interface AccountsPayableRepository {
   findAll(tenantId: string): Promise<Invoice[]>;
+  findById(tenantId: string, id: string): Promise<Invoice | null>;
   findByVendor(tenantId: string, vendorId: string): Promise<Invoice[]>;
+  countByTenant(tenantId: string): Promise<number>;
   getAgingReport(tenantId: string, asOfDate: Date): Promise<AccountsPayableAgingReport>;
   save(invoice: Invoice): Promise<Invoice>;
 }

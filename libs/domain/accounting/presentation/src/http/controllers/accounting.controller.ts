@@ -102,7 +102,8 @@ export class AccountingController {
     @CurrentUser() user: any,
     @Body() dto: ReopenFiscalPeriodDto
   ) {
-    return this.commandFacade.reopenFiscalPeriod(tenantId, new Date(dto.closingDate), user?.id || 'system', dto.reason, dto.approverId);
+    const hasOverridePermission = user?.permissions?.includes('accounting:period:override-lock') || false;
+    return this.commandFacade.reopenFiscalPeriod(tenantId, new Date(dto.closingDate), user?.id || 'system', dto.reason, dto.approverId, hasOverridePermission);
   }
 
   @Post('consolidation')

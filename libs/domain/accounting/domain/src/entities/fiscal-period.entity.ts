@@ -14,6 +14,7 @@ export class FiscalPeriod {
   startDate!: Date;
   endDate!: Date;
   status: FiscalPeriodStatus = FiscalPeriodStatus.OPEN;
+  isLocked: boolean = false;
   closedAt?: Date;
   closedBy?: string;
 
@@ -39,8 +40,9 @@ export class FiscalPeriod {
     this._domainEvents = [];
   }
 
-  close(userId: string): void {
+  close(userId: string, lock: boolean = false): void {
     this.status = FiscalPeriodStatus.CLOSED;
+    this.isLocked = lock;
     this.closedAt = new Date();
     this.closedBy = userId;
   }

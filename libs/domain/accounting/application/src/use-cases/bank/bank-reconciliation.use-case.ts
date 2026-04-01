@@ -35,6 +35,7 @@ export class BankReconciliationUseCase {
 
     const reconciliation = new BankReconciliation(tenantId, accountId, new Date());
     const entries = await this.journalEntryRepository.findAll(tenantId);
+    const matchedEntryIds = new Set<string>();
 
     let matchedCount = 0;
     let unmatchedCount = 0;
@@ -50,6 +51,8 @@ export class BankReconciliationUseCase {
       );
 
       const match = entries.find(e => {
+        if (matchedEntryIds.has(e.id)) return false;
+
         const entryDate = new Date(e.date);
         const diffInDays = Math.abs((entryDate.getTime() - statementLineDate.getTime()) / (1000 * 60 * 60 * 24));
         const isDateWithinTolerance = diffInDays <= (rules?.dateToleranceDays ?? 3);
@@ -67,6 +70,7 @@ export class BankReconciliationUseCase {
       });
 
       if (match) {
+        matchedEntryIds.add(match.id);
         statementLine.match(match.id);
         matchedCount++;
         console.log(`[BANK] Matched statement line ${lineInput.reference} with entry ${match.id}`);

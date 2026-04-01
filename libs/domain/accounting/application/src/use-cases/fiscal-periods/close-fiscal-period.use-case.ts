@@ -87,7 +87,8 @@ export class CloseFiscalPeriodUseCase {
     entry.validateBalance();
     await this.journalEntryRepository.create(entry);
 
-    period.close(userId);
+    const shouldLock = true; // Business rule: Always hard-close by default for enterprise readiness
+    period.close(userId, shouldLock);
     await this.fiscalPeriodRepository.save(period);
 
     if (this.auditLogRepository) {
@@ -105,19 +106,48 @@ export class CloseFiscalPeriodUseCase {
     console.log(`[SLO] Fiscal closing for tenant ${tenantId} completed in ${duration}ms`);
   }
 
-  async reopen(tenantId: string, closingDate: Date, userId: string = 'system', reason?: string, approverId?: string): Promise<void> {
-      console.log(`[AUDIT] Re-opening fiscal period for tenant ${tenantId} as of ${closingDate.toISOString()} by user ${userId}. Reason: ${reason}. Approved by: ${approverId}`);
+  async reopen(
+    tenantId: string,
+    closingDate: Date,
+    userId: string = 'system',
+    reason?: string,
+    approverId?: string,
+    hasOverridePermission: boolean = false,
+  ): Promise<void> {
+    console.log(
+      `[AUDIT] Re-opening fiscal period for tenant ${tenantId} as of ${closingDate.toISOString()} by user ${userId}. Reason: ${reason}. Approved by: ${approverId}`,
+    );
 
-      if (!reason || !approverId) {
-          throw new AccountingDomainError('Reason and Approver ID are required to reopen a fiscal period.');
-      }
+    if (!reason || !approverId) {
+      throw new AccountingDomainError(
+        'Reason and Approver ID are required to reopen a fiscal period.',
+      );
+    }
 
-      const period = await this.fiscalPeriodRepository.findByDate(tenantId, closingDate);
-      if (!period) {
-          throw new AccountingDomainError(`No fiscal period found for date ${closingDate.toISOString()}`);
-      }
+    // Segregation of Duties (SoD) Check
+    if (userId === approverId) {
+      throw new AccountingDomainError(
+        'Segregation of Duties Violation: Requester and Approver must be different.',
+      );
+    }
 
-      period.reopen();
+    const period = await this.fiscalPeriodRepository.findByDate(
+      tenantId,
+      closingDate,
+    );
+    if (!period) {
+      throw new AccountingDomainError(
+        `No fiscal period found for date ${closingDate.toISOString()}`,
+      );
+    }
+
+    if (period.isLocked && !hasOverridePermission) {
+      throw new AccountingDomainError(
+        'Cannot reopen a locked fiscal period without administrative override capability.',
+      );
+    }
+
+    period.reopen();
       await this.fiscalPeriodRepository.save(period);
 
       const entries = await this.journalEntryRepository.findByTypeAndDate(tenantId, JournalEntryType.CLOSING, closingDate);
