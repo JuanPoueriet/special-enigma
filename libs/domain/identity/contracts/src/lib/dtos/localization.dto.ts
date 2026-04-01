@@ -1,5 +1,19 @@
-import { IsString, IsBoolean, IsOptional, Length, Matches } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+const ApiProperty =
+  (_options?: unknown): PropertyDecorator =>
+  () =>
+    undefined;
+const ApiPropertyOptional =
+  (_options?: unknown): PropertyDecorator =>
+  () =>
+    undefined;
+
+import {
+  IsString,
+  IsBoolean,
+  IsOptional,
+  Length,
+  Matches,
+} from 'class-validator';
 
 export class LocalizationConfigDto {
   @ApiProperty({ example: 'DO' })

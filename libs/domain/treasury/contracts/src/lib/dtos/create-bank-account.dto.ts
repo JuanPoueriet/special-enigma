@@ -1,5 +1,13 @@
+const ApiProperty =
+  (_options?: unknown): PropertyDecorator =>
+  () =>
+    undefined;
+const ApiPropertyOptional =
+  (_options?: unknown): PropertyDecorator =>
+  () =>
+    undefined;
+
 import { IsString, IsNotEmpty, IsUUID, IsOptional } from 'class-validator';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateBankAccountDto {
   @ApiPropertyOptional()

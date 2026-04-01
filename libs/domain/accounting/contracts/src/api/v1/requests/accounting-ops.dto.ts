@@ -1,8 +1,19 @@
-import { ApiProperty } from '@nestjs/swagger';
+const ApiProperty =
+  (_options?: unknown): PropertyDecorator =>
+  () =>
+    undefined;
+const ApiPropertyOptional =
+  (_options?: unknown): PropertyDecorator =>
+  () =>
+    undefined;
+
 import { IsEnum, IsDateString, IsOptional, IsObject } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { FinancialReportType } from '../../../shared/enums/financial-report-type.enum';
-import { IGenerateFinancialReport, ICloseFiscalPeriod } from '../../../core/accounting-ops.interface';
+import {
+  IGenerateFinancialReport,
+  ICloseFiscalPeriod,
+} from '../../../core/accounting-ops.interface';
 
 export class GenerateFinancialReportDto implements IGenerateFinancialReport {
   @ApiProperty({ enum: FinancialReportType })
