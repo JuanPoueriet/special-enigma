@@ -44,19 +44,7 @@
           ]
         },
         "externalDependencies": [
-          "class-transformer/storage",
-          "dustjs-linkedin",
-          "atpl",
-          "jazz",
-          "hamljs",
-          "hamlet",
-          "haml-coffee",
-          "hogan.js",
-          "templayed",
-          "walrus",
-          "plates",
-          "teacup/lib/express",
-          "twing"
+          "class-transformer/storage"
         ]
       },
       "configurations": {
