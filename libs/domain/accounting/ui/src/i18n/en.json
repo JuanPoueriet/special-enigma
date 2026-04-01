@@ -11,7 +11,9 @@
       "ACCOUNT": "Account",
       "AMOUNT": "Amount",
       "TOTAL": "Total",
-      "DOWNLOAD_PDF": "Download PDF"
+      "DOWNLOAD_PDF": "Download PDF",
+      "SUBMIT": "Submit",
+      "CONFIRM": "Confirm"
     },
     "VALIDATION": {
       "REQUIRED": "This field is required"
@@ -81,7 +83,15 @@
       "PROCESSING": "Processing closing...",
       "CLOSE_BUTTON": "Close Fiscal Period",
       "SUCCESS_TITLE": "Period Closed",
-      "SUCCESS_DESC": "The fiscal period has been successfully closed."
+      "SUCCESS_DESC": "The fiscal period has been successfully closed.",
+      "COCKPIT_TITLE": "Closing Cockpit Tasks",
+      "EVIDENCE_REQUIRED": "Evidence Required",
+      "EVIDENCE_ATTACHED": "Evidence Attached",
+      "TASKS_REQUIRED_HINT": "Complete all tasks before closing",
+      "EVIDENCE_MODAL_TITLE": "Provide Evidence",
+      "EVIDENCE_MODAL_DESC": "Please provide a URL with the necessary evidence to complete this task.",
+      "CONFIRM_TITLE": "Are you sure?",
+      "CONFIRM_DESC": "This action is irreversible and will lock the accounting period."
     }
   }
 }

@@ -9,3 +9,9 @@ export interface IGenerateFinancialReport {
 export interface ICloseFiscalPeriod {
   closingDate: string;
 }
+
+export interface IReopenFiscalPeriod {
+  closingDate: string;
+  reason: string;
+  approverId: string;
+}

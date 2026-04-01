@@ -2,14 +2,15 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { LucideAngularModule, FileText, Loader2, AlertCircle, Download } from 'lucide-angular';
+import { LucideAngularModule, FileText, Loader2, AlertCircle, Download, Search } from 'lucide-angular';
+import { HasCapabilityDirective } from '../../directives/has-capability.directive';
 import { accountingFacade } from '../../facades/accounting.facade';
 import { FinancialReportLineDto } from '@virteex/domain-accounting-contracts';
 
 @Component({
   selector: 'app-financial-reports',
   standalone: true,
-  imports: [CommonModule, FormsModule, TranslateModule, LucideAngularModule],
+  imports: [CommonModule, FormsModule, TranslateModule, LucideAngularModule, HasCapabilityDirective],
   templateUrl: './financial-reports.component.html',
   styleUrl: './financial-reports.component.scss',
 })
@@ -22,7 +23,8 @@ export class FinancialReportsComponent {
     FileText,
     Loader2,
     AlertCircle,
-    Download
+    Download,
+    Search
   };
 
   generateReport() {

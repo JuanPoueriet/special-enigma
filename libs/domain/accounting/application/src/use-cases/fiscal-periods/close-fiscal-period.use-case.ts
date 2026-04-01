@@ -93,8 +93,12 @@ export class CloseFiscalPeriodUseCase {
     console.log(`[SLO] Fiscal closing for tenant ${tenantId} completed in ${duration}ms`);
   }
 
-  async reopen(tenantId: string, closingDate: Date, userId: string = 'system'): Promise<void> {
-      console.log(`[AUDIT] Re-opening fiscal period for tenant ${tenantId} as of ${closingDate.toISOString()} by user ${userId}`);
+  async reopen(tenantId: string, closingDate: Date, userId: string = 'system', reason?: string, approverId?: string): Promise<void> {
+      console.log(`[AUDIT] Re-opening fiscal period for tenant ${tenantId} as of ${closingDate.toISOString()} by user ${userId}. Reason: ${reason}. Approved by: ${approverId}`);
+
+      if (!reason || !approverId) {
+          throw new AccountingDomainError('Reason and Approver ID are required to reopen a fiscal period.');
+      }
 
       const period = await this.fiscalPeriodRepository.findByDate(tenantId, closingDate);
       if (period) {

@@ -10,6 +10,7 @@ describe('CloseFiscalPeriodUseCase', () => {
   let fiscalPeriodRepository: any;
   let closingTaskRepository: any;
   let policyService: any;
+  let logger: any;
 
   const tenantId = 'tenant-1';
   const closingDate = new Date('2026-12-31');
@@ -35,13 +36,20 @@ describe('CloseFiscalPeriodUseCase', () => {
     policyService = {
       resolveAccountsForClosing: vi.fn().mockResolvedValue({ retainedEarningsAccountCode: '302.01' }),
     };
+    logger = {
+      info: vi.fn(),
+      error: vi.fn(),
+      warn: vi.fn(),
+      debug: vi.fn(),
+    };
 
     useCase = new CloseFiscalPeriodUseCase(
       journalEntryRepository,
       accountRepository,
       fiscalPeriodRepository,
       closingTaskRepository,
-      policyService
+      policyService,
+      logger
     );
   });
 

@@ -24,6 +24,7 @@ export interface FinancialReport {
 }
 
 export interface FinancialReportLine {
+  accountId?: string;
   accountName: string;
   accountCode: string;
   balance: string;
@@ -31,6 +32,7 @@ export interface FinancialReportLine {
   percentageChange?: number;
   isHeader?: boolean;
   level?: number;
+  transactionIds?: string[];
 }
 
 export class GenerateFinancialReportUseCase {
@@ -93,6 +95,14 @@ export class GenerateFinancialReportUseCase {
       a.code.localeCompare(b.code),
     );
 
+    // Fetch relevant journal entries for drill-down (optimized query)
+    const entries = await this.journalEntryRepository.findByAccountIdsAndDateRange(
+      tenantId,
+      sortedAccounts.map(a => a.id),
+      undefined,
+      endDate
+    );
+
     for (const account of sortedAccounts) {
       const balance = balances.get(account.id) || { debit: '0', credit: '0' };
       const prevBalance = previousBalances.get(account.id) || {
@@ -128,13 +138,21 @@ export class GenerateFinancialReportUseCase {
             .toNumber();
         }
 
+        const accountEntries = entries.filter(e =>
+          e.date <= endDate &&
+          e.lines.some(l => l.account.id === account.id)
+        );
+        const transactionIds = accountEntries.map(e => e.id);
+
         reportLines.push({
+          accountId: account.id,
           accountName: account.name,
           accountCode: account.code,
           balance: netBalance.toFixed(2),
           previousBalance: netPrevBalance.toFixed(2),
           percentageChange: Math.round(percentageChange * 100) / 100,
           level: account.code.split('.').length,
+          transactionIds: transactionIds.length > 0 ? transactionIds : undefined
         });
       }
     }

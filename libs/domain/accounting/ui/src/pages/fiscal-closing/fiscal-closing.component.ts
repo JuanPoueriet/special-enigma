@@ -82,21 +82,38 @@ export class FiscalClosingComponent implements OnInit {
     ArrowLeftRight
   };
 
+  showEvidenceModal = false;
+  showConfirmModal = false;
+  currentTaskForEvidence: ClosingTask | null = null;
+  evidenceUrl = 'https://storage.virteex.io/evidence/report-123.pdf';
+
   async toggleTask(task: ClosingTask) {
-      const newStatus = task.status === 'PENDING' ? 'COMPLETED' : 'PENDING';
-      let evidenceUrl = undefined;
+    if (task.status === 'COMPLETED') {
+        await this.updateTaskStatus(task, 'PENDING');
+    } else {
+        if (task.requiredEvidence) {
+            this.currentTaskForEvidence = task;
+            this.showEvidenceModal = true;
+        } else {
+            await this.updateTaskStatus(task, 'COMPLETED');
+        }
+    }
+  }
 
-      if (newStatus === 'COMPLETED' && task.requiredEvidence) {
-          const url = prompt('Please provide evidence URL for this task:', 'https://storage.virteex.io/evidence/report-123.pdf');
-          if (!url) return;
-          evidenceUrl = url;
+  async submitEvidence() {
+      if (this.currentTaskForEvidence) {
+          await this.updateTaskStatus(this.currentTaskForEvidence, 'COMPLETED', this.evidenceUrl);
+          this.showEvidenceModal = false;
+          this.currentTaskForEvidence = null;
       }
+  }
 
+  async updateTaskStatus(task: ClosingTask, status: 'PENDING' | 'COMPLETED', evidenceUrl?: string) {
       try {
-          await this.accounting.updateClosingTaskStatus(task.id, newStatus, evidenceUrl);
-          task.status = newStatus;
+          await this.accounting.updateClosingTaskStatus(task.id, status, evidenceUrl);
+          task.status = status;
           if (task.requiredEvidence) {
-              task.evidenceProvided = newStatus === 'COMPLETED';
+              task.evidenceProvided = status === 'COMPLETED';
               task.evidenceUrl = evidenceUrl;
           }
       } catch (e) {
@@ -108,11 +125,14 @@ export class FiscalClosingComponent implements OnInit {
       return this.tasks.every(t => t.status === 'COMPLETED') && !this.loading;
   }
 
-  async closePeriod() {
-    if (!confirm('Are you sure you want to close this fiscal period? This action cannot be undone.')) {
-        return;
-    }
+  confirmClose() {
+      if (this.canClose) {
+          this.showConfirmModal = true;
+      }
+  }
 
+  async closePeriod() {
+    this.showConfirmModal = false;
     this.loading = true;
     this.error = '';
     this.success = false;

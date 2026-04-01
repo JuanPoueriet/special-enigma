@@ -6,15 +6,24 @@ describe('GenerateFinancialReportUseCase', () => {
   let service: GenerateFinancialReportUseCase;
   let journalRepo: JournalEntryRepository;
   let accountRepo: AccountRepository;
+  let logger: any;
 
   beforeEach(() => {
     journalRepo = {
         getBalancesByAccount: vi.fn(),
+        findAll: vi.fn().mockResolvedValue([]),
+        findByAccountIdsAndDateRange: vi.fn().mockResolvedValue([]),
     } as unknown as JournalEntryRepository;
     accountRepo = {
         findAll: vi.fn(),
     } as unknown as AccountRepository;
-    service = new GenerateFinancialReportUseCase(journalRepo, accountRepo);
+    logger = {
+      info: vi.fn(),
+      error: vi.fn(),
+      warn: vi.fn(),
+      debug: vi.fn(),
+    };
+    service = new GenerateFinancialReportUseCase(journalRepo, accountRepo, logger);
   });
 
   it('should generate a Balance Sheet', async () => {
