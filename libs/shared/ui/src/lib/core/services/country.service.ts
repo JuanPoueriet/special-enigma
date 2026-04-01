@@ -1,4 +1,4 @@
-import { APP_CONFIG } from '@virteex/shared-config';
+import { API_URL } from '@virteex/shared-config';
 import { Injectable, signal, inject, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -20,10 +20,10 @@ export interface CountryConfig {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CountryService {
-  private config = inject(APP_CONFIG) as any as any;
+  private apiUrl = inject(API_URL, { optional: true }) || '/api';
   private http = inject(HttpClient);
   private geoLocation = inject(GeoLocationService);
 
@@ -31,7 +31,9 @@ export class CountryService {
   currentCountry = signal<CountryConfig | null>(null);
 
   // Computed para obtener solo el código de manera segura (fallback a 'do' por defecto comercial)
-  currentCountryCode = computed(() => this.currentCountry()?.code.toLowerCase() || 'do');
+  currentCountryCode = computed(
+    () => this.currentCountry()?.code.toLowerCase() || 'do',
+  );
 
   /**
    * 1. Detecta la ubicación del usuario vía IP (GeoIP).
@@ -50,7 +52,7 @@ export class CountryService {
       error: () => {
         // Si falla GeoIP, usar defecto
         this.getCountryConfig('DO').subscribe();
-      }
+      },
     });
   }
 
@@ -66,34 +68,44 @@ export class CountryService {
       return of(cached);
     }
 
-    return this.http.get<any>(`${this.config.apiUrl}/localization/config/${code}`).pipe(
-      map(backendConfig => {
-        // Mapeo robusto de la respuesta del backend
-        const config: CountryConfig = {
-           code: backendConfig.countryCode,
-           name: backendConfig.name,
-           currencyCode: backendConfig.currency,
-           currencySymbol: backendConfig.currency === 'USD' ? '$' : (backendConfig.currency === 'DOP' ? 'RD$' : '$'),
-           locale: backendConfig.locale,
-           phoneCode: backendConfig.phoneCode,
-           taxIdLabel: backendConfig.taxIdLabel,
-           taxIdRegex: backendConfig.taxIdRegex,
-           taxIdMask: backendConfig.taxIdMask,
-           fiscalRegionId: backendConfig.fiscalRegionId,
-           formSchema: backendConfig.formSchema || {}
-        };
-        return config;
-      }),
-      tap(config => {
-        // console.log(`[Localization] Configuración cargada para ${config.name}`, config);
-        this.currentCountry.set(config);
-      }),
-      catchError(err => {
-        console.error('Error crítico obteniendo configuración regional:', err);
-        // En un entorno PROD SaaS, aquí deberíamos notificar al usuario o reintentar.
-        // Retornamos un objeto mínimo seguro para no romper la UI, pero SIN IDs falsos.
-        // taxIdRegex se vuelve estricto: solo permite lo que el backend especifique o falla.
-        const safeFallback: CountryConfig = {
+    return this.http
+      .get<any>(`${this.apiUrl}/localization/config/${code}`)
+      .pipe(
+        map((backendConfig) => {
+          // Mapeo robusto de la respuesta del backend
+          const config: CountryConfig = {
+            code: backendConfig.countryCode,
+            name: backendConfig.name,
+            currencyCode: backendConfig.currency,
+            currencySymbol:
+              backendConfig.currency === 'USD'
+                ? '$'
+                : backendConfig.currency === 'DOP'
+                  ? 'RD$'
+                  : '$',
+            locale: backendConfig.locale,
+            phoneCode: backendConfig.phoneCode,
+            taxIdLabel: backendConfig.taxIdLabel,
+            taxIdRegex: backendConfig.taxIdRegex,
+            taxIdMask: backendConfig.taxIdMask,
+            fiscalRegionId: backendConfig.fiscalRegionId,
+            formSchema: backendConfig.formSchema || {},
+          };
+          return config;
+        }),
+        tap((config) => {
+          // console.log(`[Localization] Configuración cargada para ${config.name}`, config);
+          this.currentCountry.set(config);
+        }),
+        catchError((err) => {
+          console.error(
+            'Error crítico obteniendo configuración regional:',
+            err,
+          );
+          // En un entorno PROD SaaS, aquí deberíamos notificar al usuario o reintentar.
+          // Retornamos un objeto mínimo seguro para no romper la UI, pero SIN IDs falsos.
+          // taxIdRegex se vuelve estricto: solo permite lo que el backend especifique o falla.
+          const safeFallback: CountryConfig = {
             code: code.toUpperCase(),
             name: code.toUpperCase(),
             currencyCode: 'USD',
@@ -104,16 +116,18 @@ export class CountryService {
             taxIdRegex: '^[A-Za-z0-9\\-\\s]+$', // Fallback más estricto que '.*'
             taxIdMask: '',
             fiscalRegionId: undefined, // Importante: undefined es mejor que un UUID inválido
-            formSchema: {}
-        };
-        this.currentCountry.set(safeFallback);
-        return of(safeFallback);
-      })
-    );
+            formSchema: {},
+          };
+          this.currentCountry.set(safeFallback);
+          return of(safeFallback);
+        }),
+      );
   }
 
   // Validación remota contra la DGII (DO) u otros servicios gubernamentales
   lookupTaxId(taxId: string, countryCode: string): Observable<any> {
-      return this.http.get<any>(`${this.config.apiUrl}/localization/lookup/${taxId}?country=${countryCode}`);
+    return this.http.get<any>(
+      `${this.apiUrl}/localization/lookup/${taxId}?country=${countryCode}`,
+    );
   }
 }

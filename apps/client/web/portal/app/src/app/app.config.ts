@@ -2,19 +2,32 @@ import {
   ApplicationConfig,
   provideBrowserGlobalErrorListeners,
   importProvidersFrom,
-  isDevMode
+  isDevMode,
 } from '@angular/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { provideHttpClient, withInterceptors, HttpClient } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptors,
+  HttpClient,
+} from '@angular/common/http';
 import { appRoutes } from './app.routes';
-import { authInterceptor, errorInterceptor } from '@virteex/shared-ui';
+import {
+  authInterceptor,
+  errorInterceptor,
+  RECAPTCHA_SITE_KEY,
+} from '@virteex/shared-ui';
 import { loadingInterceptor } from '@virteex/shared-util-http';
 import { globalErrorInterceptor } from './core/interceptors/global-error.interceptor';
-import { APP_CONFIG, AppConfig, getBffUrl, API_URL } from '@virteex/shared-config';
+import {
+  APP_CONFIG,
+  AppConfig,
+  getBffUrl,
+  API_URL,
+} from '@virteex/shared-config';
 import { environment } from '../environments/environment';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
@@ -32,42 +45,50 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 export const appConfig: ApplicationConfig = {
   providers: [
-      provideBrowserGlobalErrorListeners(),
-      provideAnimations(),
-      provideRouter(appRoutes),
-      provideHttpClient(withInterceptors([loadingInterceptor, authInterceptor, errorInterceptor, globalErrorInterceptor])),
-      provideStore(
-        {},
-        {
-          metaReducers: [],
-          runtimeChecks: {
-            strictStateImmutability: true,
-            strictActionImmutability: true,
-          },
-        }
-      ),
-      provideEffects([]),
-      provideStoreDevtools({
-        maxAge: 25,
-        logOnly: !isDevMode(),
-        autoPause: true,
-        trace: false,
-        traceLimit: 75,
-      }),
-      importProvidersFrom(
-        TranslateModule.forRoot({
-          loader: {
-            provide: TranslateLoader,
-            useFactory: HttpLoaderFactory,
-            deps: [HttpClient]
-          }
-        })
-      ),
-      { provide: APP_CONFIG, useValue: environment },
+    provideBrowserGlobalErrorListeners(),
+    provideAnimations(),
+    provideRouter(appRoutes),
+    provideHttpClient(
+      withInterceptors([
+        loadingInterceptor,
+        authInterceptor,
+        errorInterceptor,
+        globalErrorInterceptor,
+      ]),
+    ),
+    provideStore(
+      {},
       {
-        provide: API_URL,
-        useFactory: (config: AppConfig) => getBffUrl('portal', config.apiUrl),
-        deps: [APP_CONFIG]
-      }
+        metaReducers: [],
+        runtimeChecks: {
+          strictStateImmutability: true,
+          strictActionImmutability: true,
+        },
+      },
+    ),
+    provideEffects([]),
+    provideStoreDevtools({
+      maxAge: 25,
+      logOnly: !isDevMode(),
+      autoPause: true,
+      trace: false,
+      traceLimit: 75,
+    }),
+    importProvidersFrom(
+      TranslateModule.forRoot({
+        loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient],
+        },
+      }),
+    ),
+    { provide: APP_CONFIG, useValue: environment },
+    { provide: RECAPTCHA_SITE_KEY, useValue: environment.recaptcha.siteKey },
+    {
+      provide: API_URL,
+      useFactory: (config: AppConfig) => getBffUrl('portal', config.apiUrl),
+      deps: [APP_CONFIG],
+    },
   ],
 };
