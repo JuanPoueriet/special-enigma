@@ -50,8 +50,8 @@
       </div>
 
       <div class="pt-4">
-        <button (click)="closePeriod()"
-                [disabled]="!canClose"
+        <button (click)="confirmClose()"
+                [disabled]="!canClose || loading"
                 class="flex items-center justify-center px-6 py-4 bg-red-600 text-white font-bold rounded-lg shadow-md hover:bg-red-700 focus:ring-4 focus:ring-red-300 disabled:opacity-50 transition-all w-full uppercase tracking-wider">
           <lucide-icon *ngIf="loading" name="loader-2" class="w-5 h-5 mr-3 animate-spin"></lucide-icon>
           <lucide-icon *ngIf="!loading" name="lock" class="w-5 h-5 mr-3"></lucide-icon>
@@ -75,6 +75,54 @@
       </div>
       <h3 class="text-lg font-bold">{{ 'ACCOUNTING.FISCAL_CLOSING.SUCCESS_TITLE' | translate }}</h3>
       <p class="text-sm">{{ 'ACCOUNTING.FISCAL_CLOSING.SUCCESS_DESC' | translate }}</p>
+    </div>
+  </div>
+
+  <!-- Evidence Modal -->
+  <div *ngIf="showEvidenceModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 animate-in fade-in zoom-in duration-200">
+      <div class="flex items-center mb-4 text-blue-600">
+        <lucide-icon name="clipboard-list" class="w-6 h-6 mr-2"></lucide-icon>
+        <h3 class="text-xl font-bold">{{ 'ACCOUNTING.FISCAL_CLOSING.EVIDENCE_MODAL_TITLE' | translate }}</h3>
+      </div>
+      <p class="text-gray-600 mb-6 text-sm">{{ 'ACCOUNTING.FISCAL_CLOSING.EVIDENCE_MODAL_DESC' | translate }}</p>
+
+      <div class="mb-6">
+        <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Evidence URL</label>
+        <input type="text" [(ngModel)]="evidenceUrl"
+               class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all" />
+      </div>
+
+      <div class="flex space-x-3">
+        <button (click)="showEvidenceModal = false" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 font-bold hover:bg-gray-50 transition-all">
+          {{ 'ACCOUNTING.COMMON.CANCEL' | translate }}
+        </button>
+        <button (click)="submitEvidence()" class="flex-1 px-4 py-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 shadow-md transition-all">
+          {{ 'ACCOUNTING.COMMON.SUBMIT' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirmation Modal -->
+  <div *ngIf="showConfirmModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 animate-in fade-in zoom-in duration-200">
+      <div class="flex flex-col items-center text-center">
+        <div class="p-4 bg-red-100 rounded-full mb-4 text-red-600">
+          <lucide-icon name="alert-triangle" class="w-10 h-10"></lucide-icon>
+        </div>
+        <h3 class="text-2xl font-bold text-gray-800 mb-2">{{ 'ACCOUNTING.FISCAL_CLOSING.CONFIRM_TITLE' | translate }}</h3>
+        <p class="text-gray-600 mb-8">{{ 'ACCOUNTING.FISCAL_CLOSING.CONFIRM_DESC' | translate }}</p>
+
+        <div class="flex w-full space-x-4">
+          <button (click)="showConfirmModal = false" class="flex-1 px-6 py-3 border border-gray-300 rounded-xl text-gray-700 font-bold hover:bg-gray-50 transition-all">
+            {{ 'ACCOUNTING.COMMON.CANCEL' | translate }}
+          </button>
+          <button (click)="closePeriod()" class="flex-1 px-6 py-3 bg-red-600 text-white font-bold rounded-xl hover:bg-red-700 shadow-lg transition-all">
+            {{ 'ACCOUNTING.COMMON.CONFIRM' | translate }}
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

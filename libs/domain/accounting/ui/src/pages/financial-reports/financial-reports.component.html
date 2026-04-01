@@ -54,6 +54,7 @@
           <tr>
             <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">{{ 'ACCOUNTING.COMMON.ACCOUNT' | translate }}</th>
             <th class="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">{{ 'ACCOUNTING.COMMON.AMOUNT' | translate }}</th>
+            <th class="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">Drill-down</th>
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-100">
@@ -63,6 +64,13 @@
               {{ item.accountName }}
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-right font-mono" [class.text-red-600]="+item.balance < 0">{{ item.balance | currency }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-center">
+              <button *ngIf="item.transactionIds?.length"
+                      class="text-blue-600 hover:text-blue-800 transition-all p-1 rounded-full hover:bg-blue-50"
+                      [title]="item.transactionIds.length + ' transactions contributing'">
+                <lucide-icon name="search" class="w-4 h-4"></lucide-icon>
+              </button>
+            </td>
           </tr>
         </tbody>
         <tfoot class="bg-gray-50 font-bold border-t-2 border-gray-200">
@@ -74,7 +82,7 @@
       </table>
     </div>
 
-    <div class="mt-8 pt-6 border-t border-gray-100 flex justify-end">
+    <div *appHasCapability="'accounting:report:export'" class="mt-8 pt-6 border-t border-gray-100 flex justify-end">
       <button class="inline-flex items-center text-blue-600 hover:text-blue-800 text-sm font-bold">
         <lucide-icon name="download" class="w-4 h-4 mr-2"></lucide-icon>
         {{ 'ACCOUNTING.COMMON.DOWNLOAD_PDF' | translate }}

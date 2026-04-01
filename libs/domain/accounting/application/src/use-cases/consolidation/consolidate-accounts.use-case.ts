@@ -26,6 +26,7 @@ export class ConsolidateAccountsUseCase {
     const mapping = (policy?.rules['mapping'] as Record<string, string>) || {};
     const eliminations = (policy?.rules['eliminations'] as string[]) || [];
     const adjustmentAccountCode = (policy?.rules['adjustmentAccountCode'] as string) || '9999';
+    const intercompanyAccountCodes = (policy?.rules['intercompanyAccountCodes'] as string[]) || [];
 
     for (const sourceTenantId of sourceTenantIds) {
       const balances = await this.journalEntryRepository.getBalancesByAccount(sourceTenantId, undefined, asOfDate);
@@ -50,8 +51,9 @@ export class ConsolidateAccountsUseCase {
         const targetCode = mapping[account.code] || account.code;
 
         // Apply eliminations (skip if account is in elimination list)
-        if (eliminations.includes(account.code)) {
-            console.log(`[CONSOLIDATION] Eliminating intercompany account ${account.code} from source ${sourceTenantId}`);
+        if (eliminations.includes(account.code) || intercompanyAccountCodes.includes(account.code)) {
+            const eliminationReason = eliminations.includes(account.code) ? 'Explicit elimination' : 'Intercompany balance auto-elimination';
+            console.log(`[CONSOLIDATION][AUDIT] Eliminating account ${account.code} from source ${sourceTenantId}. Reason: ${eliminationReason}. Balance: DR ${balance.debit} / CR ${balance.credit}`);
             continue;
         }
 

@@ -1,9 +1,10 @@
-import { IsEnum, IsDateString, IsOptional, IsObject } from 'class-validator';
+import { IsEnum, IsDateString, IsOptional, IsObject, IsString, IsNotEmpty } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { FinancialReportType } from '../../../shared/enums/financial-report-type.enum';
 import {
   IGenerateFinancialReport,
   ICloseFiscalPeriod,
+  IReopenFiscalPeriod,
 } from '../../../core/accounting-ops.interface';
 
 export class GenerateFinancialReportDto implements IGenerateFinancialReport {
@@ -35,4 +36,18 @@ export class GenerateFinancialReportDto implements IGenerateFinancialReport {
 export class CloseFiscalPeriodDto implements ICloseFiscalPeriod {
   @IsDateString()
   closingDate!: string;
+}
+
+export class ReopenFiscalPeriodDto implements IReopenFiscalPeriod {
+  @IsDateString()
+  @IsNotEmpty()
+  closingDate!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  reason!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  approverId!: string;
 }

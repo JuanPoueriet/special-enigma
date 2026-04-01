@@ -11,7 +11,9 @@
       "ACCOUNT": "Cuenta",
       "AMOUNT": "Monto",
       "TOTAL": "Total",
-      "DOWNLOAD_PDF": "Descargar PDF"
+      "DOWNLOAD_PDF": "Descargar PDF",
+      "SUBMIT": "Enviar",
+      "CONFIRM": "Confirmar"
     },
     "VALIDATION": {
       "REQUIRED": "Este campo es obligatorio"
@@ -81,7 +83,15 @@
       "PROCESSING": "Procesando cierre...",
       "CLOSE_BUTTON": "Cerrar Período Fiscal",
       "SUCCESS_TITLE": "Período Cerrado",
-      "SUCCESS_DESC": "El período fiscal se ha cerrado correctamente."
+      "SUCCESS_DESC": "El período fiscal se ha cerrado correctamente.",
+      "COCKPIT_TITLE": "Cockpit de Tareas de Cierre",
+      "EVIDENCE_REQUIRED": "Evidencia Requerida",
+      "EVIDENCE_ATTACHED": "Evidencia Adjunta",
+      "TASKS_REQUIRED_HINT": "Complete todas las tareas antes de cerrar",
+      "EVIDENCE_MODAL_TITLE": "Proporcionar Evidencia",
+      "EVIDENCE_MODAL_DESC": "Por favor, proporcione una URL con la evidencia necesaria para completar esta tarea.",
+      "CONFIRM_TITLE": "¿Está seguro?",
+      "CONFIRM_DESC": "Esta acción es irreversible y bloqueará el período contable."
     }
   }
 }

@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Query, UseInterceptors, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiHeader } from '@nestjs/swagger';
-import { CreateAccountDto, RecordJournalEntryDto, GenerateFinancialReportDto, CloseFiscalPeriodDto, FinancialReportDto } from '@virteex/domain-accounting-contracts';
+import { CreateAccountDto, RecordJournalEntryDto, GenerateFinancialReportDto, CloseFiscalPeriodDto, ReopenFiscalPeriodDto, FinancialReportDto } from '@virteex/domain-accounting-contracts';
 import {
   AccountingCommandFacade,
   AccountingQueryFacade
@@ -94,9 +94,10 @@ export class AccountingController {
   @ApiOperation({ summary: 'Reopen a closed fiscal period' })
   async reopenFiscalPeriod(
     @CurrentTenant() tenantId: string,
-    @Body() dto: CloseFiscalPeriodDto
+    @CurrentUser() user: any,
+    @Body() dto: ReopenFiscalPeriodDto
   ) {
-    return this.commandFacade.reopenFiscalPeriod(tenantId, new Date(dto.closingDate));
+    return this.commandFacade.reopenFiscalPeriod(tenantId, new Date(dto.closingDate), user?.id || 'system', dto.reason, dto.approverId);
   }
 
   @Post('consolidation')
