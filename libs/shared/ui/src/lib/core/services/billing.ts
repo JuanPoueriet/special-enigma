@@ -101,7 +101,7 @@ export class BillingService {
     if (!plan) return of(false);
 
     // We would trigger the checkout flow here
-    return this.http.post<{ sessionId: string, url: string }>(`${this.apiUrl}/payment/checkout-session`, {
+    return this.http.post<{ url: string }>(`${this.apiUrl}/subscription/checkout`, {
         priceId: plan.monthlyPriceId, // Defaulting to monthly for now
         successUrl: window.location.href,
         cancelUrl: window.location.href

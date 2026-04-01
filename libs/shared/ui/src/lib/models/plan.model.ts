@@ -1,3 +1,8 @@
+export interface PlanLimit {
+  resource: string;
+  limit: number;
+}
+
 export interface Plan {
   id: string;
   name: string;
@@ -6,5 +11,6 @@ export interface Plan {
   description?: string;
   price?: number;
   features?: string[];
+  limits?: PlanLimit[];
   annualPriceId?: string;
 }

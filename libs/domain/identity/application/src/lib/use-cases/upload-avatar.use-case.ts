@@ -20,7 +20,7 @@ export class UploadAvatarUseCase {
 
     // Storage quota check (e.g., number of files or size, here we check count for simplicity)
     // In a real scenario, we might check total bytes used
-    const currentStorageCount = 50; // Mocked current count
+    const currentStorageCount = await this.storagePort.countFilesByPrefix(userId);
     await this.entitlementService.checkQuota('storage', currentStorageCount);
 
     const savedFileName = await this.storagePort.saveFile(fileName, buffer);

@@ -146,10 +146,10 @@ export class UsersController {
 
   @Post(':id/reset-password')
   @StepUp({ action: 'tenant-admin', maxAgeSeconds: 300 })
-  async sendPasswordReset(@Param('id') id: string, @Req() req: any): Promise<{ message: string }> {
-    const user = await this.userRepository.findById(id);
+  async sendPasswordReset(@Param('id') id: string, @Req() req: any, @CurrentUser() currentUser: any): Promise<{ message: string }> {
+    const user = await this.userRepository.findById(id, currentUser.tenantId);
     if (!user) {
-        throw new Error('User not found');
+        throw new Error('User not found in tenant context');
     }
     await this.forgotPasswordUseCase.execute({ email: user.email, recaptchaToken: '' }, {
         ip: req.ip,
@@ -167,7 +167,8 @@ export class UsersController {
     const userId = user?.sub;
     const buffer = file.buffer;
     const originalName = file.originalname;
-    const fileName = `${userId}-${Date.now()}-${originalName}`;
+    // Use a folder-like structure to support the prefix counting with delimiter
+    const fileName = `${userId}/${Date.now()}-${originalName}`;
     const url = await this.uploadAvatar.execute(userId, fileName, buffer);
     return { url };
   }

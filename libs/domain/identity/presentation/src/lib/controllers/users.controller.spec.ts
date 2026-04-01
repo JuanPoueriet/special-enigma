@@ -58,13 +58,14 @@ describe('UsersController', () => {
       const userId = '123';
       const body = { isOnline: true };
       const userEntity = { id: userId, status: 'ONLINE', email: 'test@test.com' };
+      const currentUser = { tenantId: 'tenant-1' };
 
       const updateUserUseCase = (controller as any).updateUserUseCase;
       updateUserUseCase.execute.mockResolvedValue(userEntity);
 
-      const result = await controller.setUserStatus(userId, body);
+      const result = await controller.setUserStatus(userId, body, currentUser as any);
 
-      expect(updateUserUseCase.execute).toHaveBeenCalledWith(userId, { status: 'ONLINE' });
+      expect(updateUserUseCase.execute).toHaveBeenCalledWith(userId, { status: 'ONLINE' }, currentUser.tenantId);
       expect(result.id).toBe(userId);
     });
   });
@@ -74,6 +75,7 @@ describe('UsersController', () => {
       const userId = '123';
       const userEntity = { id: userId, email: 'test@test.com' };
       const req = { ip: '127.0.0.1', headers: { 'user-agent': 'test' } };
+      const currentUser = { tenantId: 'tenant-1' };
 
       const userRepository = (controller as any).userRepository;
       const forgotPasswordUseCase = (controller as any).forgotPasswordUseCase;
@@ -81,9 +83,9 @@ describe('UsersController', () => {
       userRepository.findById.mockResolvedValue(userEntity);
       forgotPasswordUseCase.execute.mockResolvedValue(undefined);
 
-      const result = await controller.sendPasswordReset(userId, req as any);
+      const result = await controller.sendPasswordReset(userId, req as any, currentUser as any);
 
-      expect(userRepository.findById).toHaveBeenCalledWith(userId);
+      expect(userRepository.findById).toHaveBeenCalledWith(userId, currentUser.tenantId);
       expect(forgotPasswordUseCase.execute).toHaveBeenCalledWith(
         { email: userEntity.email, recaptchaToken: '' },
         { ip: req.ip, userAgent: req.headers['user-agent'] },

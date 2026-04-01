@@ -41,4 +41,16 @@ describe('EntitlementService', () => {
     });
     await expect(service.checkQuota('users', 5)).rejects.toThrow('Quota exceeded');
   });
+
+  it('should support capability:action:scope matching', async () => {
+    (getTenantContext as any).mockReturnValue({ tenantId: 't1' });
+    subscriptionRepository.findByTenantId.mockResolvedValue({
+      isValid: () => true,
+      getPlan: () => ({ features: ['bi:reports:*'] }),
+    });
+
+    expect(await service.isFeatureEnabled('bi:reports:read')).toBe(true);
+    expect(await service.isFeatureEnabled('bi:reports:write')).toBe(true);
+    expect(await service.isFeatureEnabled('other:reports:read')).toBe(false);
+  });
 });

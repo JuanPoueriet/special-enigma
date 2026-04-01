@@ -38,4 +38,17 @@ export class FileSystemStorageAdapter extends StoragePort {
   getFileUrl(fileName: string): string {
     return `/uploads/${fileName}`;
   }
+
+  async countFilesByPrefix(prefix: string): Promise<number> {
+    this.ensureUploadDir();
+    // Ensure prefix ends with a delimiter to avoid collisions
+    const searchPrefix = prefix.endsWith('/') ? prefix : `${prefix}/`;
+    try {
+      const files = await fs.promises.readdir(this.uploadDir);
+      return files.filter(f => f.startsWith(searchPrefix)).length;
+    } catch (error) {
+      this.logger.error(`Failed to count files with prefix ${searchPrefix}`, error);
+      return 0;
+    }
+  }
 }

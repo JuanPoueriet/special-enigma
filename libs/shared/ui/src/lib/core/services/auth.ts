@@ -156,12 +156,24 @@ export class AuthService {
 
     // Entitlements from backend claims take precedence for commercial features
     const entitlements = user.entitlements || [];
-    if (entitlements.includes(permission)) return true;
+
+    // Support capability:action:scope format in frontend as well
+    const [capability, action, scope] = permission.split(':');
+    const hasEntitlement = entitlements.some((f: string) => {
+        const [fCap, fAct, fScope] = f.split(':');
+        if (fCap !== capability) return false;
+        const actionMatches = !action || fAct === '*' || fAct === action;
+        if (!actionMatches) return false;
+        const scopeMatches = !scope || fScope === '*' || fScope === scope;
+        return scopeMatches;
+    });
+
+    if (hasEntitlement) return true;
 
     // For specific commercial entitlements, we do NOT want to fall back to roles if they are not enabled by the plan.
     // List of commercial entitlements that should be strictly governed by the plan:
-    const commercialEntitlements = ['invoices', 'users', 'storage', 'branches', 'advanced-reports', 'treasury', 'payroll'];
-    if (commercialEntitlements.includes(permission)) {
+    const commercialEntitlements = ['invoices', 'users', 'storage', 'branches', 'advanced-reports', 'treasury', 'payroll', 'bi'];
+    if (commercialEntitlements.some(ce => permission.startsWith(ce))) {
         return false;
     }
 
