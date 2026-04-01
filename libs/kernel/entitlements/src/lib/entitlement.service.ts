@@ -76,12 +76,22 @@ export class EntitlementService {
     }
 
     const plan = subscription.getPlan();
-    const limits = PlanLimitMapper.toStructuredLimits(plan?.limits || []);
-    const limit = limits[resource] ?? 0;
+    const structuredLimits = PlanLimitMapper.toStructuredLimits(plan?.limits || []);
+    const limitConfig = structuredLimits[resource];
 
-    if (limit !== -1 && currentCount >= limit) {
+    // Deny by default: if resource is not in plan limits, assume limit 0
+    const limit = limitConfig ? limitConfig.limit : 0;
+    const period = limitConfig ? limitConfig.period : 'lifetime';
+
+    if (limit === -1) return;
+
+    // For monthly limits, we should ideally check usage within the current period
+    // Since we receive currentCount from the use case, we trust it represents the relevant period
+    // if the use case is properly implemented. However, we add a warning/context if period is monthly.
+    if (currentCount >= limit) {
+      const periodContext = period === 'monthly' ? ' (this month)' : ' (lifetime)';
       throw new ForbiddenException(
-        `Quota exceeded for ${resource}. Limit: ${limit}, Current: ${currentCount}`,
+        `Quota exceeded for ${resource}${periodContext}. Limit: ${limit}, Current: ${currentCount}`,
       );
     }
   }

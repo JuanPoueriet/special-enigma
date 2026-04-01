@@ -1,4 +1,4 @@
-import { Controller, Get, Patch, Put, Post, Delete, Body, Param, Query, UseGuards, UseInterceptors, UploadedFile, Req } from '@nestjs/common';
+import { Controller, Get, Patch, Put, Post, Delete, Body, Param, Query, UseGuards, UseInterceptors, UploadedFile, Req, NotFoundException, ForbiddenException } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
     GetUserProfileUseCase,
@@ -123,9 +123,10 @@ export class UsersController {
   @Post(':id/force-logout')
   @StepUp({ action: 'tenant-admin', maxAgeSeconds: 300 })
   async forceLogout(@Param('id') id: string, @CurrentUser() user: any): Promise<void> {
-    // We should ideally verify if the target user belongs to the same tenant here or in the use case
     const targetUser = await this.userRepository.findById(id, user.tenantId);
-    if (!targetUser) throw new Error('User not found in tenant context');
+    if (!targetUser) {
+        throw new NotFoundException('User not found or does not belong to your organization');
+    }
     await this.forceLogoutUseCase.execute(id);
   }
 
@@ -133,7 +134,9 @@ export class UsersController {
   @StepUp({ action: 'tenant-admin', maxAgeSeconds: 300 })
   async blockAndLogout(@Param('id') id: string, @CurrentUser() user: any): Promise<void> {
     const targetUser = await this.userRepository.findById(id, user.tenantId);
-    if (!targetUser) throw new Error('User not found in tenant context');
+    if (!targetUser) {
+        throw new NotFoundException('User not found or does not belong to your organization');
+    }
     await this.blockUserUseCase.execute(id);
   }
 

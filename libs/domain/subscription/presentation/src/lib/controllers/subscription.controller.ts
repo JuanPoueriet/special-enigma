@@ -48,6 +48,13 @@ export class SubscriptionController {
       throw new BadRequestException('Tenant ID is required from authentication token');
     }
     dto.tenantId = tenantId;
+
+    // Resolve customerId from subscription if not provided
+    if (!dto.customerId) {
+        const subscription = await this.getSubscriptionUseCase.execute(tenantId);
+        dto.customerId = subscription?.getExternalCustomerId() || '';
+    }
+
     return { url: await this.createCheckoutSessionUseCase.execute(dto) };
   }
 

@@ -17,6 +17,7 @@ import {
 } from '@virteex/domain-identity-application';
 import { vi, describe, beforeEach, it, expect } from 'vitest';
 import { UserResponseDto } from '@virteex/domain-identity-contracts';
+import { NotFoundException } from '@nestjs/common';
 
 describe('UsersController', () => {
   let controller: UsersController;
@@ -92,6 +93,42 @@ describe('UsersController', () => {
         true
       );
       expect(result).toEqual({ message: 'Password reset email sent' });
+    });
+  });
+
+  describe('forceLogout', () => {
+    it('should throw if user not found in tenant', async () => {
+      const userId = '123';
+      const currentUser = { tenantId: 'tenant-1' };
+      const userRepository = (controller as any).userRepository;
+      userRepository.findById.mockResolvedValue(null);
+
+      await expect(controller.forceLogout(userId, currentUser as any)).rejects.toThrow(NotFoundException);
+      expect(userRepository.findById).toHaveBeenCalledWith(userId, currentUser.tenantId);
+    });
+
+    it('should call forceLogoutUseCase if user found', async () => {
+      const userId = '123';
+      const currentUser = { tenantId: 'tenant-1' };
+      const userRepository = (controller as any).userRepository;
+      const forceLogoutUseCase = (controller as any).forceLogoutUseCase;
+      userRepository.findById.mockResolvedValue({ id: userId });
+
+      await controller.forceLogout(userId, currentUser as any);
+
+      expect(forceLogoutUseCase.execute).toHaveBeenCalledWith(userId);
+    });
+  });
+
+  describe('blockAndLogout', () => {
+    it('should throw if user not found in tenant', async () => {
+      const userId = '123';
+      const currentUser = { tenantId: 'tenant-1' };
+      const userRepository = (controller as any).userRepository;
+      userRepository.findById.mockResolvedValue(null);
+
+      await expect(controller.blockAndLogout(userId, currentUser as any)).rejects.toThrow(NotFoundException);
+      expect(userRepository.findById).toHaveBeenCalledWith(userId, currentUser.tenantId);
     });
   });
 });

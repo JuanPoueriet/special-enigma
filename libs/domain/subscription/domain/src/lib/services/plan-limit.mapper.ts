@@ -1,7 +1,12 @@
 import { PlanLimit } from '@virteex/domain-subscription-contracts';
 
+export interface StructuredLimit {
+  limit: number;
+  period: 'monthly' | 'lifetime';
+}
+
 export interface StructuredLimits {
-  [key: string]: number;
+  [key: string]: StructuredLimit;
 }
 
 export class PlanLimitMapper {
@@ -9,7 +14,10 @@ export class PlanLimitMapper {
     const structured: StructuredLimits = {};
 
     limits.forEach(limit => {
-      structured[limit.resource] = limit.limit;
+      structured[limit.resource] = {
+        limit: limit.limit,
+        period: limit.period
+      };
     });
 
     return structured;

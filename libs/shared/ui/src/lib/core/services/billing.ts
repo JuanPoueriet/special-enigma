@@ -103,6 +103,7 @@ export class BillingService {
     // We would trigger the checkout flow here
     return this.http.post<{ url: string }>(`${this.apiUrl}/subscription/checkout`, {
         priceId: plan.monthlyPriceId, // Defaulting to monthly for now
+        planId: plan.id,
         successUrl: window.location.href,
         cancelUrl: window.location.href
     }).pipe(
