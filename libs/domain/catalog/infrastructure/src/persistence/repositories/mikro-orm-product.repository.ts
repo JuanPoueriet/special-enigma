@@ -17,8 +17,8 @@ export class MikroOrmProductRepository implements ProductRepository {
     return product;
   }
 
-  async findBySku(sku: string): Promise<Product | null> {
-    return this.em.findOne(Product, { sku } as any);
+  async findBySku(sku: string, tenantId: string): Promise<Product | null> {
+    return this.em.findOne(Product, { sku, tenantId } as any);
   }
 
   async save(product: Product): Promise<void> {
@@ -26,12 +26,12 @@ export class MikroOrmProductRepository implements ProductRepository {
     await this.em.flush();
   }
 
-  async findById(id: number): Promise<Product | null> {
-    return this.em.findOne(Product, { id } as any);
+  async findById(id: number, tenantId: string): Promise<Product | null> {
+    return this.em.findOne(Product, { id, tenantId } as any);
   }
 
-  async delete(id: number): Promise<void> {
-    const product = await this.em.findOne(Product, { id } as any);
+  async delete(id: number, tenantId: string): Promise<void> {
+    const product = await this.em.findOne(Product, { id, tenantId } as any);
     if (product) {
       this.em.remove(product);
       await this.em.flush();

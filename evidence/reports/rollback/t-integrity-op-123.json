@@ -1,7 +1,7 @@
 {
   "tenantId": "t-integrity",
   "operationId": "op-123",
-  "verifiedAt": "2026-03-31T20:27:44.119Z",
+  "verifiedAt": "2026-04-01T16:36:50.996Z",
   "verified": true,
   "preMigrationStats": {},
   "rollbackStats": {
@@ -11,6 +11,6 @@
       "structuralHash": "0"
     }
   },
-  "signature": "7ce3a1c5f52a59429708545bfc62cf68017afa11632939edbb7c00caac1aed2e",
+  "signature": "6728ce46e7574d218d989a7bea2997692b78e56dbb5d6df8378381a52fd72233",
   "signatureAlgorithm": "HMAC-SHA256"
 }

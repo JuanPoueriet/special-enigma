@@ -6,6 +6,7 @@ import { MikroOrmSatCatalogRepository } from './persistence/repositories/mikro-o
 import { CatalogSeederService } from './persistence/catalog-seeder.service';
 import { CatalogKafkaPublisher } from './messaging/producers/catalog-kafka.publisher';
 import { ProductSchema, SatPaymentFormSchema, SatPaymentMethodSchema, SatCfdiUsageSchema, PluginSchema, PluginVersionSchema } from './persistence/orm/mikro-orm.schemas';
+import { ProductUsageProvider } from './services/catalog-usage.providers';
 
 @Global()
 @Module({
@@ -38,6 +39,7 @@ import { ProductSchema, SatPaymentFormSchema, SatPaymentMethodSchema, SatCfdiUsa
     },
     CatalogSeederService,
     CatalogKafkaPublisher,
+    ProductUsageProvider,
   ],
   exports: [
     PRODUCT_READ_REPOSITORY,

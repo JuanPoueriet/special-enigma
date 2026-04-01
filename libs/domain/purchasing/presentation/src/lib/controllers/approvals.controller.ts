@@ -1,9 +1,13 @@
-import { Controller, Get, Post, Param, UseGuards, UnauthorizedException } from '@nestjs/common';
-import { JwtAuthGuard, getTenantContext } from '@virteex/kernel-auth';
+import { Controller, Get, Post, Param, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virteex/kernel-auth';
+import { RequireEntitlement, EntitlementGuard } from '@virteex/kernel-entitlements';
 import { GetRequisitionsUseCase, ApproveRequisitionUseCase, RejectRequisitionUseCase } from '@virteex/domain-purchasing-application';
 
+@ApiTags('Purchasing Approvals')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard, TenantGuard, EntitlementGuard)
 @Controller('approvals')
-@UseGuards(JwtAuthGuard)
 export class ApprovalsController {
   constructor(
     private readonly getRequisitionsUseCase: GetRequisitionsUseCase,
@@ -12,13 +16,9 @@ export class ApprovalsController {
   ) {}
 
   @Get('pending')
-  async getPending() {
-    const context = getTenantContext();
-    if (!context?.tenantId) {
-        return [];
-    }
-
-    const requisitions = await this.getRequisitionsUseCase.execute(context.tenantId);
+  @RequireEntitlement('purchasing:requisitions:read')
+  async getPending(@CurrentTenant() tenantId: string) {
+    const requisitions = await this.getRequisitionsUseCase.execute(tenantId);
 
     return requisitions
       .filter(req => req.status === 'Pending Approval')
@@ -31,20 +31,16 @@ export class ApprovalsController {
   }
 
   @Post(':id/approve')
-  async approve(@Param('id') id: string) {
-    const context = getTenantContext();
-    if (!context?.tenantId) throw new UnauthorizedException();
-
-    await this.approveRequisitionUseCase.execute(id, context.tenantId);
+  @RequireEntitlement('purchasing:requisitions:write')
+  async approve(@Param('id') id: string, @CurrentTenant() tenantId: string) {
+    await this.approveRequisitionUseCase.execute(id, tenantId);
     return { success: true };
   }
 
   @Post(':id/reject')
-  async reject(@Param('id') id: string) {
-    const context = getTenantContext();
-    if (!context?.tenantId) throw new UnauthorizedException();
-
-    await this.rejectRequisitionUseCase.execute(id, context.tenantId);
+  @RequireEntitlement('purchasing:requisitions:write')
+  async reject(@Param('id') id: string, @CurrentTenant() tenantId: string) {
+    await this.rejectRequisitionUseCase.execute(id, tenantId);
     return { success: true };
   }
 }

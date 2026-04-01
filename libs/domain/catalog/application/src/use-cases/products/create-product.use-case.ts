@@ -21,13 +21,14 @@ export class CreateProductUseCase {
     private readonly entitlementService: EntitlementService
   ) {}
 
-  async execute(command: CreateProductDto): Promise<Product> {
-    const existing = await this.productReadRepository.findBySku(command.sku);
+  async execute(command: CreateProductDto & { tenantId?: string }): Promise<Product> {
+    const tenantId = command.tenantId || getTenantContext()?.tenantId || 'system';
+
+    const existing = await this.productReadRepository.findBySku(command.sku, tenantId);
     if (existing) {
       throw new Error('Product with this SKU already exists');
     }
 
-    const tenantId = getTenantContext()?.tenantId || 'system';
     const allProducts = await this.productReadRepository.findAll(tenantId);
     await this.entitlementService.checkQuota('products', allProducts.length);
 

@@ -1,7 +1,7 @@
 {
   "tenantId": "t-lag",
   "operationId": "op-123",
-  "verifiedAt": "2026-03-31T20:27:44.125Z",
+  "verifiedAt": "2026-04-01T16:36:51.001Z",
   "verified": true,
   "preMigrationStats": {},
   "rollbackStats": {
@@ -11,6 +11,6 @@
       "structuralHash": "b"
     }
   },
-  "signature": "510b84b52651a660fd78765637427c230dd56c6aa7d8500ef35b070ff3028912",
+  "signature": "579922363d0b161ad660abc2e95ef36302707d5b78be5748d9d1be5ae6835cfe",
   "signatureAlgorithm": "HMAC-SHA256"
 }

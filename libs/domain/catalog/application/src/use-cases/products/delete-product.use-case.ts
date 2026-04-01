@@ -11,11 +11,11 @@ export class DeleteProductUseCase {
     private readonly productWriteRepository: ProductWriteRepository
   ) {}
 
-  async execute(id: number): Promise<void> {
-    const product = await this.productReadRepository.findById(id);
+  async execute(id: number, tenantId: string): Promise<void> {
+    const product = await this.productReadRepository.findById(id, tenantId);
     if (!product) {
       throw new DomainException(`Product with ID ${id} not found`, 'ENTITY_NOT_FOUND');
     }
-    await this.productWriteRepository.delete(id);
+    await this.productWriteRepository.delete(id, tenantId);
   }
 }

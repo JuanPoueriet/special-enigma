@@ -13,6 +13,17 @@ export class MikroOrmSubscriptionRepository implements SubscriptionRepository {
   }
 
   async findByTenantId(tenantId: string): Promise<Subscription | null> {
+    // Prioritize ACTIVE or TRIAL status, then by createdAt DESC
+    const activeSubscription = await this.repository.findOne(
+        { tenantId, status: { $in: ['ACTIVE', 'TRIAL'] } },
+        { orderBy: { createdAt: 'DESC' } }
+    );
+
+    if (activeSubscription) {
+        return activeSubscription;
+    }
+
+    // Fallback to the most recent subscription if no active one found
     return this.repository.findOne({ tenantId }, { orderBy: { createdAt: 'DESC' } });
   }
 

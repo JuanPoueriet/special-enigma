@@ -1,12 +1,14 @@
 import { Controller, Post, Body, Get, UseGuards } from '@nestjs/common';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { CreateProductionOrderUseCase, GetProductionOrdersUseCase } from '@virteex/domain-manufacturing-application';
 import { CreateProductionOrderDto } from '../dto/create-production-order.dto';
-import { JwtAuthGuard } from '@virteex/kernel-auth';
+import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virteex/kernel-auth';
+import { RequireEntitlement, EntitlementGuard } from '@virteex/kernel-entitlements';
 
 @ApiTags('Manufacturing')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard, TenantGuard, EntitlementGuard)
 @Controller('manufacturing')
-@UseGuards(JwtAuthGuard)
 export class ManufacturingController {
   constructor(
     private readonly createUseCase: CreateProductionOrderUseCase,
@@ -20,14 +22,17 @@ export class ManufacturingController {
   }
 
   @Post('orders')
+  @RequireEntitlement('manufacturing:write')
   @ApiOperation({ summary: 'Create Production Order' })
-  create(@Body() dto: CreateProductionOrderDto) {
+  create(@Body() dto: CreateProductionOrderDto, @CurrentTenant() tenantId: string) {
+    dto.tenantId = tenantId;
     return this.createUseCase.execute(dto);
   }
 
   @Get('orders')
+  @RequireEntitlement('manufacturing:read')
   @ApiOperation({ summary: 'Get all Production Orders' })
-  findAll() {
-    return this.getUseCase.execute();
+  findAll(@CurrentTenant() tenantId: string) {
+    return this.getUseCase.execute(tenantId);
   }
 }

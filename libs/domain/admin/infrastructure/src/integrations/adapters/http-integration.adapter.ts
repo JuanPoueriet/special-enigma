@@ -23,7 +23,9 @@ export class HttpIntegrationAdapter implements IntegrationGateway {
   async createProduct(dto: ProductDto): Promise<void> {
     const url = `${this.catalogUrl}/catalog/products`;
     try {
-      await firstValueFrom(this.httpService.post(url, dto));
+      await firstValueFrom(this.httpService.post(url, dto, {
+          headers: { 'x-virteex-tenant-id': dto.tenantId }
+      }));
     } catch (error  : any) {
       this.handleError('Product', error);
     }
@@ -32,7 +34,9 @@ export class HttpIntegrationAdapter implements IntegrationGateway {
   async createCustomer(dto: CustomerDto): Promise<void> {
     const url = `${this.crmUrl}/crm/customers`;
     try {
-      await firstValueFrom(this.httpService.post(url, dto));
+      await firstValueFrom(this.httpService.post(url, dto, {
+          headers: { 'x-virteex-tenant-id': dto.tenantId }
+      }));
     } catch (error  : any) {
       this.handleError('Customer', error);
     }
@@ -41,7 +45,9 @@ export class HttpIntegrationAdapter implements IntegrationGateway {
   async createSupplier(dto: SupplierDto): Promise<void> {
     const url = `${this.purchasingUrl}/purchasing/suppliers`;
     try {
-      await firstValueFrom(this.httpService.post(url, dto));
+      await firstValueFrom(this.httpService.post(url, dto, {
+          headers: { 'x-virteex-tenant-id': dto.tenantId }
+      }));
     } catch (error  : any) {
       this.handleError('Supplier', error);
     }

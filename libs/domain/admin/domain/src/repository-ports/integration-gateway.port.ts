@@ -2,18 +2,21 @@ export interface ProductDto {
   sku: string;
   name: string;
   price: number;
+  tenantId: string;
 }
 
 export interface CustomerDto {
   email: string;
   name: string;
   taxId?: string;
+  tenantId: string;
 }
 
 export interface SupplierDto {
   email: string;
   name: string;
   taxId?: string;
+  tenantId: string;
 }
 
 export interface IntegrationGateway {

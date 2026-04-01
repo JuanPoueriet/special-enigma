@@ -52,7 +52,7 @@ export class BillingController {
         planId: subscription.getPlan().slug,
         status: subscription.getStatus(),
         price: parseFloat(subscription.getPlan().price),
-        billingCycle: 'monthly',
+        billingCycle: subscription.billingCycle || 'monthly',
         nextBillingDate: subscription.getCurrentPeriodEnd()?.toISOString() || new Date().toISOString()
     };
   }

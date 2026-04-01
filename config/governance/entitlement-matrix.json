@@ -1,0 +1,57 @@
+{
+  "version": "1.0",
+  "description": "Central matrix mapping controllers and endpoints to commercial entitlements",
+  "mappings": [
+    {
+      "domain": "catalog",
+      "controller": "CatalogController",
+      "endpoints": [
+        { "path": "products", "method": "GET", "entitlement": "catalog:read" },
+        { "path": "products/sku/:sku", "method": "GET", "entitlement": "catalog:read" },
+        { "path": "products/:id", "method": "GET", "entitlement": "catalog:read" },
+        { "path": "products", "method": "POST", "entitlement": "catalog:write" },
+        { "path": "products/:id", "method": "PUT", "entitlement": "catalog:write" },
+        { "path": "products/:id", "method": "DELETE", "entitlement": "catalog:write" }
+      ]
+    },
+    {
+      "domain": "crm",
+      "controller": "CrmController",
+      "endpoints": [
+        { "path": "sales", "method": "POST", "entitlement": "crm:sales:write" },
+        { "path": "sales", "method": "GET", "entitlement": "crm:sales:read" },
+        { "path": "pipeline", "method": "GET", "entitlement": "crm:sales:read" },
+        { "path": "sales/:id/approve", "method": "POST", "entitlement": "crm:sales:write" },
+        { "path": "sales/:id/cancel", "method": "POST", "entitlement": "crm:sales:write" },
+        { "path": "sales/:id/complete", "method": "POST", "entitlement": "crm:sales:write" },
+        { "path": "customers", "method": "POST", "entitlement": "crm:customers:write" },
+        { "path": "customers", "method": "GET", "entitlement": "crm:customers:read" },
+        { "path": "customers/:id", "method": "GET", "entitlement": "crm:customers:read" }
+      ]
+    },
+    {
+      "domain": "purchasing",
+      "controller": "PurchasingController",
+      "endpoints": [
+        { "path": "suppliers", "method": "POST", "entitlement": "purchasing:suppliers:write" },
+        { "path": "orders", "method": "POST", "entitlement": "purchasing:orders:write" },
+        { "path": "requisitions", "method": "POST", "entitlement": "purchasing:requisitions:write" },
+        { "path": "requisitions", "method": "GET", "entitlement": "purchasing:requisitions:read" },
+        { "path": "bills", "method": "POST", "entitlement": "purchasing:bills:write" },
+        { "path": "bills/:id", "method": "PUT", "entitlement": "purchasing:bills:write" },
+        { "path": "bills/:id", "method": "GET", "entitlement": "purchasing:bills:read" }
+      ]
+    },
+    {
+      "domain": "inventory",
+      "controller": "WarehousesController",
+      "endpoints": [
+        { "path": "/", "method": "POST", "entitlement": "inventory:warehouses:write" },
+        { "path": "/", "method": "GET", "entitlement": "inventory:warehouses:read" },
+        { "path": "/:id", "method": "GET", "entitlement": "inventory:warehouses:read" },
+        { "path": "/:id", "method": "PUT", "entitlement": "inventory:warehouses:write" },
+        { "path": "/:id", "method": "DELETE", "entitlement": "inventory:warehouses:write" }
+      ]
+    }
+  ]
+}

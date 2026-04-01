@@ -1,8 +1,12 @@
-import { BadRequestException, Controller, Get, Post, Put, Delete, Body, Param, Query } from '@nestjs/common';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { GetProductsUseCase, GetProductByIdUseCase, CreateProductUseCase, type CreateProductDto, UpdateProductUseCase, type UpdateProductDto, DeleteProductUseCase, GetSatCatalogsUseCase, GetProductBySkuUseCase } from '@virteex/domain-catalog-application';
+import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virteex/kernel-auth';
+import { RequireEntitlement, EntitlementGuard } from '@virteex/kernel-entitlements';
 
 @ApiTags('Catalog')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard, TenantGuard, EntitlementGuard)
 @Controller('catalog')
 export class CatalogController {
   constructor(
@@ -16,43 +20,48 @@ export class CatalogController {
   ) {}
 
   @Get('products')
+  @RequireEntitlement('catalog:read')
   @ApiOperation({ summary: 'Get all products' })
-  async getProducts(@Query('tenantId') tenantId?: string) {
-    if (!tenantId) {
-      throw new BadRequestException('tenantId query parameter is required');
-    }
+  async getProducts(@CurrentTenant() tenantId: string) {
     return this.getProductsUseCase.execute(tenantId);
   }
 
   @Get('products/sku/:sku')
+  @RequireEntitlement('catalog:read')
   @ApiOperation({ summary: 'Get product by SKU' })
-  async getProductBySku(@Param('sku') sku: string) {
-    return this.getProductBySkuUseCase.execute(sku);
+  async getProductBySku(@Param('sku') sku: string, @CurrentTenant() tenantId: string) {
+    return this.getProductBySkuUseCase.execute(sku, tenantId);
   }
 
   @Get('products/:id')
+  @RequireEntitlement('catalog:read')
   @ApiOperation({ summary: 'Get product by ID' })
-  async getProductById(@Param('id') id: number) {
-    return this.getProductByIdUseCase.execute(id);
+  async getProductById(@Param('id') id: number, @CurrentTenant() tenantId: string) {
+    return this.getProductByIdUseCase.execute(id, tenantId);
   }
 
   @Post('products')
+  @RequireEntitlement('catalog:write')
   @ApiOperation({ summary: 'Create a product' })
-  async createProduct(@Body() dto: CreateProductDto) {
+  async createProduct(@Body() dto: CreateProductDto, @CurrentTenant() tenantId: string) {
+    dto.tenantId = tenantId;
     return this.createProductUseCase.execute(dto);
   }
 
   @Put('products/:id')
+  @RequireEntitlement('catalog:write')
   @ApiOperation({ summary: 'Update a product' })
-  async updateProduct(@Param('id') id: number, @Body() dto: UpdateProductDto) {
+  async updateProduct(@Param('id') id: number, @Body() dto: UpdateProductDto, @CurrentTenant() tenantId: string) {
     dto.id = id;
+    dto.tenantId = tenantId;
     return this.updateProductUseCase.execute(dto);
   }
 
   @Delete('products/:id')
+  @RequireEntitlement('catalog:write')
   @ApiOperation({ summary: 'Delete a product' })
-  async deleteProduct(@Param('id') id: number) {
-    return this.deleteProductUseCase.execute(id);
+  async deleteProduct(@Param('id') id: number, @CurrentTenant() tenantId: string) {
+    return this.deleteProductUseCase.execute(id, tenantId);
   }
 
   @Get('sat/payment-forms')

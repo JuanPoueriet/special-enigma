@@ -1,23 +1,24 @@
 import { Body, Controller, Post, UseFilters, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ReserveBatchStockUseCase } from '@virteex/domain-inventory-application';
-import { JwtAuthGuard, CurrentUser, type UserPayload } from '@virteex/kernel-auth';
-import { resolveTenantId } from '../security/tenant-context.resolver';
+import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virteex/kernel-auth';
+import { RequireEntitlement, EntitlementGuard } from '@virteex/kernel-entitlements';
 import { ReserveBatchStockDto } from './dto/reserve-batch-stock.dto';
 import { InventoryApplicationExceptionFilter } from '../filters/inventory-application-exception.filter';
 
 @ApiTags('Inventory - Reservations')
 @ApiBearerAuth()
+@UseGuards(JwtAuthGuard, TenantGuard, EntitlementGuard)
 @Controller('inventory/reservations')
-@UseGuards(JwtAuthGuard)
 @UseFilters(InventoryApplicationExceptionFilter)
 export class ReservationsController {
   constructor(private readonly reserveBatchStockUseCase: ReserveBatchStockUseCase) {}
 
   @Post('batch')
+  @RequireEntitlement('inventory:stock:write')
   @ApiOperation({ summary: 'Reserve stock for multiple products atomically' })
-  async reserveBatch(@Body() dto: ReserveBatchStockDto, @CurrentUser() user: UserPayload) {
-    await this.reserveBatchStockUseCase.execute(resolveTenantId(user), dto.items, dto.reference);
+  async reserveBatch(@Body() dto: ReserveBatchStockDto, @CurrentTenant() tenantId: string) {
+    await this.reserveBatchStockUseCase.execute(tenantId, dto.items, dto.reference);
     return { message: 'Batch reservation successful' };
   }
 }

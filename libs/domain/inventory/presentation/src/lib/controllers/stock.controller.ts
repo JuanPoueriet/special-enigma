@@ -1,15 +1,15 @@
 import { Controller, Get, Param, Post, Query, Body, UseFilters, UseGuards, BadRequestException } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CheckStockUseCase, ReserveStockUseCase } from '@virteex/domain-inventory-application';
-import { JwtAuthGuard, CurrentUser, type UserPayload } from '@virteex/kernel-auth';
+import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virteex/kernel-auth';
+import { RequireEntitlement, EntitlementGuard } from '@virteex/kernel-entitlements';
 import { ReserveStockDto } from './dto/reserve-stock.dto';
-import { resolveTenantId } from '../security/tenant-context.resolver';
 import { InventoryApplicationExceptionFilter } from '../filters/inventory-application-exception.filter';
 
 @ApiTags('Inventory - Stock')
 @ApiBearerAuth()
+@UseGuards(JwtAuthGuard, TenantGuard, EntitlementGuard)
 @Controller('inventory/stock')
-@UseGuards(JwtAuthGuard)
 @UseFilters(InventoryApplicationExceptionFilter)
 export class StockController {
   constructor(
@@ -18,13 +18,15 @@ export class StockController {
   ) {}
 
   @Post('reserve')
+  @RequireEntitlement('inventory:stock:write')
   @ApiOperation({ summary: 'Reserve stock for a product' })
-  async reserve(@Body() dto: ReserveStockDto, @CurrentUser() user: UserPayload) {
-    await this.reserveStockUseCase.execute(resolveTenantId(user), dto.warehouseId, dto.productSku, dto.quantity);
+  async reserve(@Body() dto: ReserveStockDto, @CurrentTenant() tenantId: string) {
+    await this.reserveStockUseCase.execute(tenantId, dto.warehouseId, dto.productSku, dto.quantity);
     return { message: 'Stock reserved successfully' };
   }
 
   @Get('check/:warehouseId/:productSku')
+  @RequireEntitlement('inventory:stock:read')
   @ApiOperation({ summary: 'Check stock availability' })
   async checkStock(
     @Param('warehouseId') warehouseId: string,
