@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "prepare": "husky",
-    "postinstall": "electron-builder install-app-deps",
+    "postinstall": "patch-package && electron-builder install-app-deps",
     "nx": "nx",
     "arch:check": "node tools/validate-architecture-boundaries.mjs",
     "arch:validate-tags": "node tools/validate-project-tags.mjs",
@@ -128,6 +128,7 @@
     "lint-staged": "^16.2.7",
     "nx": "22.5.3",
     "nx-electron": "^21.0.1",
+    "patch-package": "^8.0.1",
     "prettier": "~3.6.2",
     "testcontainers": "^11.13.0",
     "ts-jest": "^29.4.0",

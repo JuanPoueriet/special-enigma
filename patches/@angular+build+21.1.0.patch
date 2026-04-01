@@ -1,0 +1,42 @@
+diff --git a/node_modules/@angular/build/src/builders/dev-server/vite/index.js b/node_modules/@angular/build/src/builders/dev-server/vite/index.js
+index 64a5c13..2215114 100755
+--- a/node_modules/@angular/build/src/builders/dev-server/vite/index.js
++++ b/node_modules/@angular/build/src/builders/dev-server/vite/index.js
+@@ -145,7 +145,7 @@ async function* serveWithVite(serverOptions, builderName, builderAction, context
+     { sourcemap: true, jit: true, thirdPartySourcemaps }, 1);
+     // The index HTML path will be updated from the build results if provided by the builder
+     let htmlIndexPath = 'index.html';
+-    const { createServer, normalizePath } = await Promise.resolve().then(() => __importStar(require('vite')));
++    const { createServer, normalizePath } = await import('vite');
+     let server;
+     let serverUrl;
+     let hadError = false;
+diff --git a/node_modules/@angular/build/src/tools/vite/utils.js b/node_modules/@angular/build/src/tools/vite/utils.js
+index 27bfc3f..5c4acaf 100755
+--- a/node_modules/@angular/build/src/tools/vite/utils.js
++++ b/node_modules/@angular/build/src/tools/vite/utils.js
+@@ -37,10 +37,20 @@ function getDepOptimizationConfig({ disabled, exclude, include, target, zoneless
+             name: `angular-vite-optimize-deps${ssr ? '-ssr' : ''}${thirdPartySourcemaps ? '-vendor-sourcemap' : ''}`,
+             setup(build) {
+                 build.onLoad({ filter: /\.[cm]?js$/ }, async (args) => {
+-                    return {
+-                        contents: await prebundleTransformer.transformFile(args.path),
+-                        loader: 'js',
+-                    };
++                    if (args.path.includes('.vscode/extensions') || args.path.includes('node_modules/.vscode/extensions')) {
++                        return;
++                    }
++                    try {
++                        return {
++                            contents: await prebundleTransformer.transformFile(args.path),
++                            loader: 'js',
++                        };
++                    } catch (e) {
++                        if (e.code === 'ENOENT') {
++                            return;
++                        }
++                        throw e;
++                    }
+                 });
+             },
+         },
