@@ -1,6 +1,8 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Product, ProductCreatedEvent, PRODUCT_READ_REPOSITORY, type ProductReadRepository, PRODUCT_WRITE_REPOSITORY, type ProductWriteRepository } from '@virteex/domain-catalog-domain';
+import { EntitlementService } from '@virteex/kernel-entitlements';
+import { getTenantContext } from '@virteex/kernel-auth';
 
 export interface CreateProductDto {
   sku: string;
@@ -15,7 +17,8 @@ export class CreateProductUseCase {
     private readonly productReadRepository: ProductReadRepository,
     @Inject(PRODUCT_WRITE_REPOSITORY)
     private readonly productWriteRepository: ProductWriteRepository,
-    private readonly eventEmitter: EventEmitter2
+    private readonly eventEmitter: EventEmitter2,
+    private readonly entitlementService: EntitlementService
   ) {}
 
   async execute(command: CreateProductDto): Promise<Product> {
@@ -23,6 +26,10 @@ export class CreateProductUseCase {
     if (existing) {
       throw new Error('Product with this SKU already exists');
     }
+
+    const tenantId = getTenantContext()?.tenantId || 'system';
+    const allProducts = await this.productReadRepository.findAll(tenantId);
+    await this.entitlementService.checkQuota('products', allProducts.length);
 
     const product = new Product(command.sku, command.name, command.price);
     await this.productWriteRepository.save(product);

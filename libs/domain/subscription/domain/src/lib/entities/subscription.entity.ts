@@ -34,6 +34,8 @@ export class Subscription {
 
   public endDate?: Date;
 
+  public billingCycle?: string;
+
   public createdAt: Date = new Date();
 
   public updatedAt: Date = new Date();

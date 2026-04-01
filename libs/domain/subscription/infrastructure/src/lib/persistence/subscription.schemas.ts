@@ -35,6 +35,7 @@ export const SubscriptionSchema = new EntitySchema<Subscription>({
     currentPeriodEnd: { type: 'Date', nullable: true },
     startDate: { type: 'Date' },
     endDate: { type: 'Date', nullable: true },
+    billingCycle: { type: 'string', nullable: true },
     cancelAtPeriodEnd: { type: 'boolean', default: false },
     createdAt: { type: 'Date' },
     updatedAt: { type: 'Date', onUpdate: () => new Date() },
