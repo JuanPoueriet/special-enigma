@@ -1,5 +1,6 @@
-import { JournalEntry, JournalEntryLine, type JournalEntryRepository, type AccountRepository, AccountNotFoundError, CrossTenantAccessError, PeriodClosedError, type AuditLogRepository, AuditLog } from '@virteex/domain-accounting-domain';
+import { JournalEntry, JournalEntryLine, type JournalEntryRepository, type AccountRepository, AccountNotFoundError, CrossTenantAccessError, PeriodClosedError, type AuditLogRepository, AuditLog, type FiscalPeriodRepository } from '@virteex/domain-accounting-domain';
 import { type ITelemetryService } from '@virteex/kernel-telemetry';
+import { type EntitlementService } from '@virteex/kernel-entitlements';
 import { type RecordJournalEntryDto, type JournalEntryDto } from '@virteex/domain-accounting-contracts';
 import { JournalEntryMapper } from '../../mappers/journal-entry.mapper';
 import { IUnitOfWork } from '../../ports/outbound/unit-of-work.port';
@@ -8,7 +9,9 @@ export class RecordJournalEntryUseCase {
   constructor(
     private journalEntryRepository: JournalEntryRepository,
     private accountRepository: AccountRepository,
+    private fiscalPeriodRepository: FiscalPeriodRepository,
     private telemetryService: ITelemetryService,
+    private entitlementService: EntitlementService,
     private uow: IUnitOfWork,
     private auditLogRepository?: AuditLogRepository
   ) {}
@@ -20,16 +23,16 @@ export class RecordJournalEntryUseCase {
     const handleExecute = async () => {
         // SaaS Feature Metering: Enforce journal entry limits per plan
         const entryCount = await this.journalEntryRepository.countByTenant(dto.tenantId);
-        const MAX_ENTRIES_FOR_BASIC_PLAN = 1000; // This would typically come from an EntitlementService
-
-        if (entryCount >= MAX_ENTRIES_FOR_BASIC_PLAN) {
-            this.telemetryService.recordBusinessMetric('accounting_plan_limit_reached', 1, { tenantId: dto.tenantId, limit: MAX_ENTRIES_FOR_BASIC_PLAN });
-            throw new Error(`Plan limit reached: Maximum of ${MAX_ENTRIES_FOR_BASIC_PLAN} journal entries allowed for your current plan.`);
-        }
+        await this.entitlementService.checkQuota('accounting:journal-entries', entryCount);
 
         const latestClosedDate = await this.journalEntryRepository.findLatestClosedDate(dto.tenantId);
         if (latestClosedDate && new Date(dto.date) <= latestClosedDate) {
             throw new PeriodClosedError(new Date(dto.date));
+        }
+
+        const period = await this.fiscalPeriodRepository.findByDate(dto.tenantId, new Date(dto.date));
+        if (period && period.isLocked) {
+            throw new Error(`Cannot record entry: Fiscal period for ${new Date(dto.date).toISOString().substring(0, 7)} is locked.`);
         }
 
         const entry = new JournalEntry(dto.tenantId, dto.description, new Date(dto.date));

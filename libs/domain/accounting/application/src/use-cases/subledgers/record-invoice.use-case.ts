@@ -1,9 +1,11 @@
-import { type JournalEntryRepository, type AccountRepository, JournalEntry, JournalEntryLine, JournalEntryStatus, JournalEntryType, Invoice, type AuditLogRepository, AuditLog } from '@virteex/domain-accounting-domain';
+import { type JournalEntryRepository, type AccountRepository, JournalEntry, JournalEntryLine, JournalEntryStatus, JournalEntryType, Invoice, type AuditLogRepository, AuditLog, type AccountsReceivableRepository, type AccountsPayableRepository } from '@virteex/domain-accounting-domain';
 
 export class RecordInvoiceUseCase {
   constructor(
     private journalEntryRepository: JournalEntryRepository,
     private accountRepository: AccountRepository,
+    private arRepository: AccountsReceivableRepository,
+    private apRepository: AccountsPayableRepository,
     private auditLogRepository?: AuditLogRepository
   ) {}
 
@@ -27,6 +29,13 @@ export class RecordInvoiceUseCase {
     entry.validateBalance();
 
     const savedEntry = await this.journalEntryRepository.create(entry);
+
+    // Persist invoice in subledger
+    if (invoice.type === 'RECEIVABLE') {
+        await this.arRepository.save(invoice);
+    } else {
+        await this.apRepository.save(invoice);
+    }
 
     if (this.auditLogRepository) {
       await this.auditLogRepository.create(new AuditLog(
