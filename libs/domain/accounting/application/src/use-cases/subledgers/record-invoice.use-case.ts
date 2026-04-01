@@ -22,7 +22,7 @@ export class RecordInvoiceUseCase {
     entry.addLine(new JournalEntryLine(payableAccount, '0.00', invoice.amount));
 
     entry.status = JournalEntryStatus.POSTED;
-    entry.type = JournalEntryType.NORMAL;
+    entry.type = JournalEntryType.REGULAR;
     entry.validateBalance();
 
     await this.journalEntryRepository.create(entry);

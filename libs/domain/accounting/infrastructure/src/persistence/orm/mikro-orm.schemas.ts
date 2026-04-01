@@ -1,5 +1,23 @@
 import { EntitySchema } from '@mikro-orm/core';
-import { Account, JournalEntry, JournalEntryLine, FiscalYear, FiscalYearStatus, AccountingPolicy, AccountType, JournalEntryStatus, JournalEntryType } from '@virteex/domain-accounting-domain';
+import {
+  Account,
+  JournalEntry,
+  JournalEntryLine,
+  FiscalYear,
+  FiscalYearStatus,
+  AccountingPolicy,
+  AccountType,
+  JournalEntryStatus,
+  JournalEntryType,
+  FiscalPeriod,
+  FiscalPeriodStatus,
+  ClosingTask,
+  ClosingTaskStatus,
+  Invoice,
+  InvoiceStatus,
+  Payment,
+  BankReconciliation
+} from '@virteex/domain-accounting-domain';
 
 export const AccountSchema = new EntitySchema<Account>({
   class: Account,
@@ -15,6 +33,83 @@ export const AccountSchema = new EntitySchema<Account>({
     isControl: { type: 'boolean', default: false },
     currency: { type: 'string', nullable: true },
     domainEvents: { type: 'json', persist: false },
+  },
+});
+
+export const FiscalPeriodSchema = new EntitySchema<FiscalPeriod>({
+  class: FiscalPeriod,
+  properties: {
+    id: { primary: true, type: 'uuid' },
+    tenantId: { type: 'string', index: true },
+    fiscalYearId: { type: 'string' },
+    periodNumber: { type: 'number' },
+    startDate: { type: 'date' },
+    endDate: { type: 'date' },
+    status: { enum: true, items: () => FiscalPeriodStatus, default: FiscalPeriodStatus.OPEN },
+    closedAt: { type: 'date', nullable: true },
+    closedBy: { type: 'string', nullable: true },
+  },
+});
+
+export const ClosingTaskSchema = new EntitySchema<ClosingTask>({
+  class: ClosingTask,
+  properties: {
+    id: { primary: true, type: 'uuid' },
+    tenantId: { type: 'string', index: true },
+    fiscalPeriodId: { type: 'string', index: true },
+    title: { type: 'string' },
+    status: { enum: true, items: () => ClosingTaskStatus, default: ClosingTaskStatus.PENDING },
+    description: { type: 'string' },
+    requiredEvidence: { type: 'boolean', default: false },
+    evidenceProvided: { type: 'boolean', default: false },
+    evidenceUrl: { type: 'string', nullable: true },
+    completedAt: { type: 'date', nullable: true },
+    completedBy: { type: 'string', nullable: true },
+  },
+});
+
+export const InvoiceSchema = new EntitySchema<Invoice>({
+  class: Invoice,
+  properties: {
+    id: { primary: true, type: 'uuid' },
+    tenantId: { type: 'string', index: true },
+    vendorId: { type: 'string', nullable: true },
+    customerId: { type: 'string', nullable: true },
+    number: { type: 'string' },
+    issueDate: { type: 'date' },
+    dueDate: { type: 'date' },
+    currency: { type: 'string' },
+    amount: { type: 'string' },
+    status: { enum: true, items: () => InvoiceStatus },
+    type: { type: 'string' },
+  },
+});
+
+export const PaymentSchema = new EntitySchema<Payment>({
+  class: Payment,
+  properties: {
+    id: { primary: true, type: 'uuid' },
+    tenantId: { type: 'string', index: true },
+    invoiceId: { type: 'string', index: true },
+    amount: { type: 'string' },
+    paymentDate: { type: 'date' },
+    reference: { type: 'string' },
+    method: { type: 'string' },
+  },
+});
+
+export const BankReconciliationSchema = new EntitySchema<BankReconciliation>({
+  class: BankReconciliation,
+  properties: {
+    id: { primary: true, type: 'uuid' },
+    tenantId: { type: 'string', index: true },
+    accountId: { type: 'string', index: true },
+    statementDate: { type: 'date' },
+    matchedEntriesCount: { type: 'number', default: 0 },
+    unmatchedEntriesCount: { type: 'number', default: 0 },
+    status: { type: 'string', default: 'PENDING' },
+    completedAt: { type: 'date', nullable: true },
+    completedBy: { type: 'string', nullable: true },
   },
 });
 

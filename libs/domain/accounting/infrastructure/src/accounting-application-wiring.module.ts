@@ -168,8 +168,15 @@ import {
       useFactory: (
         jeRepo: JournalEntryRepository,
         accRepo: AccountRepository,
-      ) => new GenerateFinancialReportUseCase(jeRepo, accRepo),
-      inject: [JOURNAL_ENTRY_REPOSITORY, ACCOUNT_REPOSITORY],
+        apRepo: AccountsPayableRepository,
+        arRepo: AccountsReceivableRepository,
+      ) => new GenerateFinancialReportUseCase(jeRepo, accRepo, apRepo, arRepo),
+      inject: [
+        JOURNAL_ENTRY_REPOSITORY,
+        ACCOUNT_REPOSITORY,
+        ACCOUNTS_PAYABLE_REPOSITORY,
+        ACCOUNTS_RECEIVABLE_REPOSITORY,
+      ],
     },
     {
       provide: CloseFiscalPeriodUseCase,
@@ -183,8 +190,8 @@ import {
       inject: [
         JOURNAL_ENTRY_REPOSITORY,
         ACCOUNT_REPOSITORY,
-        { token: FISCAL_PERIOD_REPOSITORY, optional: true },
-        { token: CLOSING_TASK_REPOSITORY, optional: true },
+        FISCAL_PERIOD_REPOSITORY,
+        CLOSING_TASK_REPOSITORY,
         AccountingPolicyService,
       ],
     },

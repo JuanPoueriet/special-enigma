@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -22,19 +22,52 @@ interface ClosingTask {
   templateUrl: './fiscal-closing.component.html',
   styleUrl: './fiscal-closing.component.scss',
 })
-export class FiscalClosingComponent {
+export class FiscalClosingComponent implements OnInit {
   accounting = accountingFacade();
   closingDate = new Date().toISOString().split('T')[0];
   loading = false;
   error = '';
   success = false;
 
-  tasks: ClosingTask[] = [
-    { id: 'review', title: 'ACCOUNTING.FISCAL_CLOSING.TASKS.REVIEW', status: 'PENDING', description: 'ACCOUNTING.FISCAL_CLOSING.TASKS.REVIEW_DESC', icon: ClipboardList },
-    { id: 'reconciliation', title: 'ACCOUNTING.FISCAL_CLOSING.TASKS.RECONCILIATION', status: 'PENDING', description: 'ACCOUNTING.FISCAL_CLOSING.TASKS.RECONCILIATION_DESC', icon: ArrowLeftRight },
-    { id: 'preliminary', title: 'ACCOUNTING.FISCAL_CLOSING.TASKS.REPORTS', status: 'PENDING', description: 'ACCOUNTING.FISCAL_CLOSING.TASKS.REPORTS_DESC', icon: FileText, requiredEvidence: true },
-    { id: 'approval', title: 'ACCOUNTING.FISCAL_CLOSING.TASKS.APPROVAL', status: 'PENDING', description: 'ACCOUNTING.FISCAL_CLOSING.TASKS.APPROVAL_DESC', icon: ShieldCheck },
-  ];
+  fiscalPeriods: any[] = [];
+  selectedPeriodId: string = '';
+  tasks: ClosingTask[] = [];
+
+  ngOnInit() {
+    this.loadFiscalPeriods();
+  }
+
+  async loadFiscalPeriods() {
+    try {
+        this.fiscalPeriods = await this.accounting.getFiscalPeriods();
+        if (this.fiscalPeriods.length > 0) {
+            this.selectedPeriodId = this.fiscalPeriods[0].id;
+            this.loadTasks();
+        }
+    } catch (e) {
+        this.error = 'Failed to load fiscal periods';
+    }
+  }
+
+  async loadTasks() {
+      if (!this.selectedPeriodId) return;
+      try {
+          const backendTasks = await this.accounting.getClosingTasks(this.selectedPeriodId);
+          this.tasks = backendTasks.map((t: any) => ({
+              ...t,
+              icon: this.getIconForTask(t.title)
+          }));
+      } catch (e) {
+          this.error = 'Failed to load closing tasks';
+      }
+  }
+
+  private getIconForTask(title: string) {
+      if (title.includes('REVIEW')) return ClipboardList;
+      if (title.includes('RECONCILIATION')) return ArrowLeftRight;
+      if (title.includes('REPORTS')) return FileText;
+      return ShieldCheck;
+  }
 
   readonly icons = {
     AlertTriangle,
@@ -49,13 +82,25 @@ export class FiscalClosingComponent {
     ArrowLeftRight
   };
 
-  toggleTask(task: ClosingTask) {
-      if (task.status === 'PENDING') {
-          task.status = 'COMPLETED';
-          if (task.requiredEvidence) task.evidenceProvided = true;
-      } else {
-          task.status = 'PENDING';
-          if (task.requiredEvidence) task.evidenceProvided = false;
+  async toggleTask(task: ClosingTask) {
+      const newStatus = task.status === 'PENDING' ? 'COMPLETED' : 'PENDING';
+      let evidenceUrl = undefined;
+
+      if (newStatus === 'COMPLETED' && task.requiredEvidence) {
+          const url = prompt('Please provide evidence URL for this task:', 'https://storage.virteex.io/evidence/report-123.pdf');
+          if (!url) return;
+          evidenceUrl = url;
+      }
+
+      try {
+          await this.accounting.updateClosingTaskStatus(task.id, newStatus, evidenceUrl);
+          task.status = newStatus;
+          if (task.requiredEvidence) {
+              task.evidenceProvided = newStatus === 'COMPLETED';
+              task.evidenceUrl = evidenceUrl;
+          }
+      } catch (e) {
+          this.error = 'Failed to update task status';
       }
   }
 

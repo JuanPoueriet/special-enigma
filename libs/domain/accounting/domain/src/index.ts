@@ -7,6 +7,7 @@ export { FiscalPeriod, FiscalPeriodStatus } from './entities/fiscal-period.entit
 export { ClosingTask, ClosingTaskStatus } from './entities/closing-task.entity';
 export { Invoice, InvoiceStatus } from './entities/invoice.entity';
 export { Payment } from './entities/payment.entity';
+export { BankReconciliation } from './entities/bank-reconciliation.entity';
 
 export { type DomainEvent } from './events/domain-event.interface';
 export { AccountCreated } from './events/account-created.event';
