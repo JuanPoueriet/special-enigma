@@ -29,8 +29,7 @@ export class UpdateTenantPlanUseCase {
     }
 
     subscription.status = SubscriptionStatus.ACTIVE;
-    // Note: billingCycle is not currently in the Subscription entity,
-    // in a real scenario we'd update it there or in the provider.
+    subscription.billingCycle = dto.billingCycle;
 
     await this.subscriptionRepository.save(subscription);
     return subscription;

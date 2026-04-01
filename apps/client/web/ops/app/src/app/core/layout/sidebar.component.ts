@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'virteex-sidebar',
@@ -14,25 +15,25 @@ import { RouterModule } from '@angular/router';
       <ul class="menu">
         <li class="menu-header">Core</li>
         <li><a routerLink="/dashboard" routerLinkActive="active">Dashboard</a></li>
-        <li><a routerLink="/tenants" routerLinkActive="active">Tenants</a></li>
-        <li><a routerLink="/billing" routerLinkActive="active">Billing & Plans</a></li>
+        <li *ngIf="hasPermission('tenants:read')"><a routerLink="/tenants" routerLinkActive="active">Tenants</a></li>
+        <li *ngIf="hasPermission('invoices:read')"><a routerLink="/billing" routerLinkActive="active">Billing & Plans</a></li>
 
         <li class="menu-header">Operations</li>
-        <li><a routerLink="/feature-flags" routerLinkActive="active">Feature Flags</a></li>
-        <li><a routerLink="/finops" routerLinkActive="active">FinOps</a></li>
-        <li><a routerLink="/monitoring" routerLinkActive="active">Monitoring</a></li>
-        <li><a routerLink="/support" routerLinkActive="active">Support</a></li>
-        <li><a routerLink="/security" routerLinkActive="active">Security</a></li>
+        <li *ngIf="hasPermission('feature-flags:read')"><a routerLink="/feature-flags" routerLinkActive="active">Feature Flags</a></li>
+        <li *ngIf="hasPermission('treasury:read')"><a routerLink="/finops" routerLinkActive="active">FinOps</a></li>
+        <li *ngIf="hasPermission('monitoring:read')"><a routerLink="/monitoring" routerLinkActive="active">Monitoring</a></li>
+        <li *ngIf="hasPermission('support:read')"><a routerLink="/support" routerLinkActive="active">Support</a></li>
+        <li *ngIf="hasPermission('security:read')"><a routerLink="/security" routerLinkActive="active">Security</a></li>
 
         <li class="menu-header">Infrastructure</li>
-        <li><a routerLink="/automation" routerLinkActive="active">Automation</a></li>
-        <li><a routerLink="/config" routerLinkActive="active">Global Config</a></li>
-        <li><a routerLink="/reports" routerLinkActive="active">Reports</a></li>
-        <li><a routerLink="/databases" routerLinkActive="active">Databases</a></li>
-        <li><a routerLink="/queues" routerLinkActive="active">Queues</a></li>
-        <li><a routerLink="/storage" routerLinkActive="active">Storage</a></li>
-        <li><a routerLink="/backups" routerLinkActive="active">Backups</a></li>
-        <li><a routerLink="/releases" routerLinkActive="active">Releases</a></li>
+        <li *ngIf="hasPermission('automation:read')"><a routerLink="/automation" routerLinkActive="active">Automation</a></li>
+        <li *ngIf="hasPermission('config:read')"><a routerLink="/config" routerLinkActive="active">Global Config</a></li>
+        <li *ngIf="hasPermission('advanced-reports:read')"><a routerLink="/reports" routerLinkActive="active">Reports</a></li>
+        <li *ngIf="hasPermission('databases:read')"><a routerLink="/databases" routerLinkActive="active">Databases</a></li>
+        <li *ngIf="hasPermission('queues:read')"><a routerLink="/queues" routerLinkActive="active">Queues</a></li>
+        <li *ngIf="hasPermission('storage:read')"><a routerLink="/storage" routerLinkActive="active">Storage</a></li>
+        <li *ngIf="hasPermission('backups:read')"><a routerLink="/backups" routerLinkActive="active">Backups</a></li>
+        <li *ngIf="hasPermission('releases:read')"><a routerLink="/releases" routerLinkActive="active">Releases</a></li>
 
         <li class="menu-header">Internal</li>
         <li><a routerLink="/docs" routerLinkActive="active">Docs</a></li>
@@ -96,4 +97,10 @@ import { RouterModule } from '@angular/router';
     }
   `]
 })
-export class SidebarComponent {}
+export class SidebarComponent {
+  private readonly authService = inject(AuthService);
+
+  hasPermission(permission: string): boolean {
+    return this.authService.hasPermission(permission);
+  }
+}

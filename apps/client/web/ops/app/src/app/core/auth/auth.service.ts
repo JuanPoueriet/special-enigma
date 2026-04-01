@@ -61,7 +61,13 @@ export class AuthService {
     if (hasEntitlement) return true;
 
     // Check if it is a commercial entitlement
-    const commercialEntitlements = ['invoices', 'users', 'storage', 'branches', 'advanced-reports', 'treasury', 'payroll', 'fiscal'];
+    const commercialEntitlements = [
+      'invoices', 'users', 'storage', 'branches', 'advanced-reports',
+      'treasury', 'payroll', 'fiscal', 'feature-flags', 'plugins',
+      'monitoring', 'security', 'support', 'automation', 'config',
+      'databases', 'queues', 'backups', 'releases', 'tenants'
+    ];
+
     if (commercialEntitlements.some(ce => permission.startsWith(ce))) {
         // Commercial entitlements MUST be explicitly granted in the entitlements array
         // No role-based bypass allowed here to ensure commercial enforcement

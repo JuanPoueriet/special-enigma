@@ -18,7 +18,7 @@ export default defineConfig({
         const context = getTenantContext();
         return context ? { tenantId: context.tenantId } : {};
       },
-      entity: ['Product'],
+      entity: ['Product', 'Plugin', 'PluginVersion', 'TenantConsent', 'MeteringRecord'],
       default: true,
     },
   },

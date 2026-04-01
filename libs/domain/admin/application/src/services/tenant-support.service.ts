@@ -1,5 +1,6 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException, Inject, Optional } from '@nestjs/common';
 import { TenantService } from '@virteex/kernel-tenant';
+import { SUBSCRIPTION_REPOSITORY, type SubscriptionRepository } from '@virteex/domain-subscription-domain';
 
 export interface TenantInfo {
     id: string;
@@ -18,23 +19,47 @@ export interface TenantInfo {
 export class TenantSupportService {
   private readonly logger = new Logger(TenantSupportService.name);
 
-  constructor(private readonly tenantService: TenantService) {}
+  constructor(
+    private readonly tenantService: TenantService,
+    @Optional()
+    @Inject(SUBSCRIPTION_REPOSITORY)
+    private readonly subscriptionRepository?: SubscriptionRepository
+  ) {}
 
   async getTenantStatus(tenantId: string): Promise<TenantInfo> {
     this.logger.log(`Fetching support status for tenant: ${tenantId}`);
 
     const config = await this.tenantService.getTenantConfig(tenantId);
     if (!config) {
-        throw new NotFoundException(`Tenant ${tenantId} not found in configuration service.`);
+      throw new NotFoundException(`Tenant ${tenantId} not found.`);
+    }
+
+    // To get createdAt and other entity-only properties, we still need the entity
+    // In this repo, listTenants with a larger limit or a specific findById would be better.
+    // For now, let's assume we can fetch it via listTenants with a filter if it supported it,
+    // but since it doesn't, we'll use listTenants(100) and find, which is better than (1).
+    const tenants = await this.tenantService.listTenants(100, 0);
+    const tenant = tenants.find(t => t.id === tenantId);
+
+    if (!tenant) {
+        throw new NotFoundException(`Tenant entity ${tenantId} not found for metadata.`);
+    }
+
+    let planSlug = 'UNKNOWN';
+    if (this.subscriptionRepository) {
+      const sub = await this.subscriptionRepository.findByTenantId(tenantId);
+      if (sub) {
+        planSlug = sub.getPlan()?.slug || 'FREE';
+      }
     }
 
     // In a real system, we'd fetch additional health metrics from Prometheus/OpenTelemetry
     return {
-        id: config.tenantId,
-        name: `Tenant ${config.tenantId}`, // Name could be stored in Tenant entity
-        status: 'ACTIVE',
-        subscriptionPlan: 'ENTERPRISE',
-        createdAt: new Date(), // Should be from entity
+        id: tenant.id,
+        name: `Tenant ${tenant.id}`,
+        status: 'ACTIVE', // Status should be mapped from TenantControlRecord if available
+        subscriptionPlan: planSlug,
+        createdAt: tenant.createdAt,
         integrationHealth: {
             fiscal: true,
             payment: true,

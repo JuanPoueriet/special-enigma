@@ -30,14 +30,20 @@ export const appRoutes: Route[] = [
       },
       {
         path: 'tenants',
+        canActivate: [entitlementGuard],
+        data: { entitlement: 'tenants:read' },
         loadComponent: () => import('./tenants/tenants.component').then(m => m.TenantsComponent),
       },
       {
         path: 'tenants/create',
+        canActivate: [entitlementGuard],
+        data: { entitlement: 'tenants:write' },
         loadComponent: () => import('./tenants/create-tenant.component').then(m => m.CreateTenantComponent),
       },
       {
         path: 'tenants/:id',
+        canActivate: [entitlementGuard],
+        data: { entitlement: 'tenants:read' },
         loadComponent: () => import('./tenants/tenant-detail.component').then(m => m.TenantDetailComponent),
       },
       {
@@ -48,6 +54,8 @@ export const appRoutes: Route[] = [
       },
       {
         path: 'feature-flags',
+        canActivate: [entitlementGuard],
+        data: { entitlement: 'feature-flags:read' },
         loadComponent: () => import('./feature-flags/feature-flags.component').then(m => m.FeatureFlagsComponent),
       },
       {
@@ -58,26 +66,38 @@ export const appRoutes: Route[] = [
       },
       {
         path: 'monitoring',
+        canActivate: [entitlementGuard],
+        data: { entitlement: 'monitoring:read' },
         loadComponent: () => import('./monitoring/monitoring.component').then(m => m.MonitoringComponent),
       },
       {
         path: 'plugins',
+        canActivate: [entitlementGuard],
+        data: { entitlement: 'plugins:read' },
         loadComponent: () => import('./plugins/plugins.component').then(m => m.PluginsComponent),
       },
       {
         path: 'security',
+        canActivate: [entitlementGuard],
+        data: { entitlement: 'security:read' },
         loadComponent: () => import('./security/security.component').then(m => m.SecurityComponent),
       },
       {
         path: 'support',
+        canActivate: [entitlementGuard],
+        data: { entitlement: 'support:read' },
         loadComponent: () => import('./support/support.component').then(m => m.SupportComponent),
       },
       {
         path: 'automation',
+        canActivate: [entitlementGuard],
+        data: { entitlement: 'automation:read' },
         loadComponent: () => import('./automation/automation.component').then(m => m.AutomationComponent),
       },
       {
         path: 'config',
+        canActivate: [entitlementGuard],
+        data: { entitlement: 'config:read' },
         loadComponent: () => import('./config/config.component').then(m => m.ConfigComponent),
       },
       {
@@ -88,10 +108,14 @@ export const appRoutes: Route[] = [
       },
       {
         path: 'databases',
+        canActivate: [entitlementGuard],
+        data: { entitlement: 'databases:read' },
         loadComponent: () => import('./databases/databases.component').then(m => m.DatabasesComponent),
       },
       {
         path: 'queues',
+        canActivate: [entitlementGuard],
+        data: { entitlement: 'queues:read' },
         loadComponent: () => import('./queues/queues.component').then(m => m.QueuesComponent),
       },
       {
@@ -102,10 +126,14 @@ export const appRoutes: Route[] = [
       },
       {
         path: 'backups',
+        canActivate: [entitlementGuard],
+        data: { entitlement: 'backups:read' },
         loadComponent: () => import('./backups/backups.component').then(m => m.BackupsComponent),
       },
       {
         path: 'releases',
+        canActivate: [entitlementGuard],
+        data: { entitlement: 'releases:read' },
         loadComponent: () => import('./releases/releases.component').then(m => m.ReleasesComponent),
       },
       {
