@@ -7,7 +7,10 @@ export { FiscalPeriod, FiscalPeriodStatus } from './entities/fiscal-period.entit
 export { ClosingTask, ClosingTaskStatus } from './entities/closing-task.entity';
 export { Invoice, InvoiceStatus } from './entities/invoice.entity';
 export { Payment } from './entities/payment.entity';
-export { BankReconciliation } from './entities/bank-reconciliation.entity';
+export { BankReconciliation, BankReconciliationStatus } from './entities/bank-reconciliation.entity';
+export { BankStatementLine, BankStatementLineStatus } from './entities/bank-statement-line.entity';
+export { AuditLog } from './entities/audit-log.entity';
+export { FinancialReportSnapshot } from './entities/financial-report-snapshot.entity';
 
 export { type DomainEvent } from './events/domain-event.interface';
 export { AccountCreated } from './events/account-created.event';
@@ -27,6 +30,8 @@ export { type ClosingTaskRepository, CLOSING_TASK_REPOSITORY } from './repositor
 export { type AccountsPayableRepository, ACCOUNTS_PAYABLE_REPOSITORY } from './repository-ports/accounts-payable.repository';
 export { type AccountsReceivableRepository, ACCOUNTS_RECEIVABLE_REPOSITORY } from './repository-ports/accounts-receivable.repository';
 export { type BankReconciliationRepository, BANK_RECONCILIATION_REPOSITORY } from './repository-ports/bank-reconciliation.repository';
+export { type AuditLogRepository, AUDIT_LOG_REPOSITORY } from './repository-ports/audit-log.repository';
+export { type FinancialReportSnapshotRepository, FINANCIAL_REPORT_SNAPSHOT_REPOSITORY } from './repository-ports/financial-report-snapshot.repository';
 
 export interface OutboxMessage {
   id: string;

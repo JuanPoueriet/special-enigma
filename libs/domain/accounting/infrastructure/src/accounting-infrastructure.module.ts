@@ -11,6 +11,8 @@ import {
   ACCOUNTS_PAYABLE_REPOSITORY,
   ACCOUNTS_RECEIVABLE_REPOSITORY,
   BANK_RECONCILIATION_REPOSITORY,
+  AUDIT_LOG_REPOSITORY,
+  FINANCIAL_REPORT_SNAPSHOT_REPOSITORY,
 } from '@virteex/domain-accounting-domain';
 import { TELEMETRY_SERVICE } from '@virteex/kernel-telemetry';
 import {
@@ -32,6 +34,8 @@ import { MikroOrmClosingTaskRepository } from './persistence/repositories/mikro-
 import { MikroOrmAccountsPayableRepository } from './persistence/repositories/mikro-orm-accounts-payable.repository';
 import { MikroOrmAccountsReceivableRepository } from './persistence/repositories/mikro-orm-accounts-receivable.repository';
 import { MikroOrmBankReconciliationRepository } from './persistence/repositories/mikro-orm-bank-reconciliation.repository';
+import { MikroOrmAuditLogRepository } from './persistence/repositories/mikro-orm-audit-log.repository';
+import { MikroOrmFinancialReportSnapshotRepository } from './persistence/repositories/mikro-orm-financial-report-snapshot.repository';
 import {
   AccountSchema,
   JournalEntrySchema,
@@ -42,7 +46,10 @@ import {
   InvoiceSchema,
   PaymentSchema,
   BankReconciliationSchema,
+  BankStatementLineSchema,
   AccountingPolicySchema,
+  AuditLogSchema,
+  FinancialReportSnapshotSchema,
 } from './persistence/orm/mikro-orm.schemas';
 import { OutboxMessageSchema } from './persistence/orm/outbox.schema';
 import { OutboxRelayService } from './messaging/outbox/outbox-relay.service';
@@ -63,7 +70,10 @@ import { AccountingEventConsumerService } from './messaging/consumers/accounting
       InvoiceSchema,
       PaymentSchema,
       BankReconciliationSchema,
+      BankStatementLineSchema,
       AccountingPolicySchema,
+      AuditLogSchema,
+      FinancialReportSnapshotSchema,
       OutboxMessageSchema,
     ]),
   ],
@@ -113,6 +123,14 @@ import { AccountingEventConsumerService } from './messaging/consumers/accounting
       useClass: MikroOrmBankReconciliationRepository,
     },
     {
+      provide: AUDIT_LOG_REPOSITORY,
+      useClass: MikroOrmAuditLogRepository,
+    },
+    {
+      provide: FINANCIAL_REPORT_SNAPSHOT_REPOSITORY,
+      useClass: MikroOrmFinancialReportSnapshotRepository,
+    },
+    {
       provide: TELEMETRY_SERVICE,
       useClass: TelemetryService,
     },
@@ -140,6 +158,8 @@ import { AccountingEventConsumerService } from './messaging/consumers/accounting
     ACCOUNTS_PAYABLE_REPOSITORY,
     ACCOUNTS_RECEIVABLE_REPOSITORY,
     BANK_RECONCILIATION_REPOSITORY,
+    AUDIT_LOG_REPOSITORY,
+    FINANCIAL_REPORT_SNAPSHOT_REPOSITORY,
     MESSAGE_BROKER,
     TELEMETRY_SERVICE,
     NestMikroOrmModule,

@@ -29,10 +29,18 @@ describe('Accounting Service E2E', () => {
     baseURL: 'http://localhost:3000',
     headers: {
       'x-tenant-id': tenantId,
+      'x-virteex-tenant-id': tenantId,
       'x-virteex-context': encodedContext,
       'x-virteex-signature': signature,
     },
   };
+
+  describe('Health Check', () => {
+    it('should be live', async () => {
+      const res = await axios.get('/api/health/accounting/liveness', axiosConfig);
+      expect(res.status).toBe(200);
+    });
+  });
 
   describe('Account Management', () => {
     it('should create a new account', async () => {
@@ -121,10 +129,49 @@ describe('Accounting Service E2E', () => {
       expect(res.data).toBeDefined();
     });
 
-    it('should close a fiscal period', async () => {
+    it('should close a fiscal period and generate audit log', async () => {
       const closingDate = new Date().toISOString().split('T')[0];
       const res = await axios.post('/api/accounting/closing', { closingDate }, axiosConfig);
       expect(res.status).toBe(201);
+    });
+
+    it('should reopen a closed period with reason and approver', async () => {
+        const closingDate = new Date().toISOString().split('T')[0];
+        const reopenDto = {
+            closingDate,
+            reason: 'Missing adjustments',
+            approverId: 'senior-manager-1'
+        };
+        const res = await axios.post('/api/accounting/closing/reopen', reopenDto, axiosConfig);
+        expect(res.status).toBe(201);
+    });
+  });
+
+  describe('Bank Reconciliation', () => {
+    it('should perform robust bank reconciliation with matching rules', async () => {
+        const acc = await axios.post('/api/accounting/accounts', {
+            code: '101.03',
+            name: 'Checking Account',
+            type: 'ASSET'
+        }, axiosConfig);
+        const accountId = acc.data.id;
+
+        const reconDto = {
+            accountId,
+            statementLines: [
+                { date: new Date().toISOString(), description: 'ATM Withdrawal', amount: '-100.00', reference: 'ATM123' },
+                { date: new Date().toISOString(), description: 'Deposit', amount: '500.00', reference: 'DEP456' }
+            ],
+            rules: {
+                dateToleranceDays: 3,
+                fuzzyAmountMatch: true
+            }
+        };
+
+        const res = await axios.post('/api/accounting/bank-reconciliation', reconDto, axiosConfig);
+        expect(res.status).toBe(201);
+        expect(res.data.status).toBeDefined();
+        expect(res.data.lines.length).toBe(2);
     });
   });
 });

@@ -1,16 +1,22 @@
 import { Account, type AccountRepository } from '@virteex/domain-accounting-domain';
 import { AccountType } from '@virteex/domain-accounting-domain';
 
+export interface AccountDefinition {
+  code: string;
+  name: string;
+  type: AccountType;
+}
+
 export class SetupChartOfAccountsUseCase {
   constructor(
     private accountRepository: AccountRepository
   ) {}
 
-  async execute(tenantId: string): Promise<void> {
+  async execute(tenantId: string, template?: AccountDefinition[]): Promise<void> {
     const existing = await this.accountRepository.findAll(tenantId);
     if (existing.length > 0) return;
 
-    const defaults = [
+    const defaults: AccountDefinition[] = [
         { code: '1000', name: 'Activos', type: AccountType.ASSET },
         { code: '1100', name: 'Efectivo y Equivalentes', type: AccountType.ASSET },
         { code: '105.01', name: 'Clientes Locales', type: AccountType.ASSET },
@@ -26,8 +32,10 @@ export class SetupChartOfAccountsUseCase {
         { code: '601.01', name: 'Sueldos y Salarios', type: AccountType.EXPENSE },
     ];
 
+    const definitions = template || defaults;
+
     await this.accountRepository.transactional(async () => {
-      for (const d of defaults) {
+      for (const d of definitions) {
         await this.accountRepository.create(new Account(tenantId, d.code, d.name, d.type));
       }
     });

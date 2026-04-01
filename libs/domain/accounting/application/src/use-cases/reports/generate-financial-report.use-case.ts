@@ -3,6 +3,8 @@ import {
   type AccountRepository,
   type AccountsPayableRepository,
   type AccountsReceivableRepository,
+  type FinancialReportSnapshotRepository,
+  FinancialReportSnapshot,
   AccountType,
 } from '@virteex/domain-accounting-domain';
 import { Decimal } from 'decimal.js';
@@ -21,6 +23,7 @@ export interface FinancialReport {
   lines: FinancialReportLine[];
   dimensions?: Record<string, string>;
   totalBalance: string;
+  version?: number;
 }
 
 export interface FinancialReportLine {
@@ -41,6 +44,7 @@ export class GenerateFinancialReportUseCase {
     private accountRepository: AccountRepository,
     private apRepository?: AccountsPayableRepository,
     private arRepository?: AccountsReceivableRepository,
+    private snapshotRepository?: FinancialReportSnapshotRepository
   ) {}
 
   async execute(
@@ -53,22 +57,48 @@ export class GenerateFinancialReportUseCase {
       | 'AR_AGING',
     endDate: Date,
     dimensions?: Record<string, string>,
+    saveSnapshot: boolean = false,
+    userId: string = 'system'
   ): Promise<FinancialReport> {
     const startTime = Date.now();
     console.log(
       `[SLO] Starting financial report generation for tenant ${tenantId}, type ${type} as of ${endDate.toISOString()}`,
     );
 
+    let report: FinancialReport;
+
     if (type === 'AP_AGING' && this.apRepository) {
       const aging = await this.apRepository.getAgingReport(tenantId, endDate);
-      return this.formatAgingReport(tenantId, 'AP_AGING', endDate, aging);
-    }
-
-    if (type === 'AR_AGING' && this.arRepository) {
+      report = this.formatAgingReport(tenantId, 'AP_AGING', endDate, aging);
+    } else if (type === 'AR_AGING' && this.arRepository) {
       const aging = await this.arRepository.getAgingReport(tenantId, endDate);
-      return this.formatAgingReport(tenantId, 'AR_AGING', endDate, aging);
+      report = this.formatAgingReport(tenantId, 'AR_AGING', endDate, aging);
+    } else {
+      report = await this.generateStandardReport(tenantId, type as any, endDate, dimensions);
     }
 
+    if (saveSnapshot && this.snapshotRepository) {
+      const latest = await this.snapshotRepository.findLatest(tenantId, type, endDate);
+      const version = latest ? latest.version + 1 : 1;
+      const snapshot = new FinancialReportSnapshot(tenantId, type, endDate, report, version, userId);
+      await this.snapshotRepository.create(snapshot);
+      report.version = version;
+    }
+
+    const duration = Date.now() - startTime;
+    console.log(
+      `[SLO] Financial report generation for tenant ${tenantId} completed in ${duration}ms`,
+    );
+
+    return report;
+  }
+
+  private async generateStandardReport(
+    tenantId: string,
+    type: 'BALANCE_SHEET' | 'PROFIT_AND_LOSS' | 'TRIAL_BALANCE',
+    endDate: Date,
+    dimensions?: Record<string, string>
+  ): Promise<FinancialReport> {
     const previousEndDate = new Date(endDate);
     previousEndDate.setFullYear(previousEndDate.getFullYear() - 1);
 
@@ -156,11 +186,6 @@ export class GenerateFinancialReportUseCase {
         });
       }
     }
-
-    const duration = Date.now() - startTime;
-    console.log(
-      `[SLO] Financial report generation for tenant ${tenantId} completed in ${duration}ms`,
-    );
 
     return {
       tenantId,
