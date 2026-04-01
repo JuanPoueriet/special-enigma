@@ -1,6 +1,7 @@
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { RecordJournalEntryUseCase } from './record-journal-entry.use-case';
-import { JOURNAL_ENTRY_REPOSITORY, type JournalEntryRepository, ACCOUNT_REPOSITORY, type AccountRepository, Account, type ITelemetryService } from '@virteex/domain-accounting-domain';
+import { JOURNAL_ENTRY_REPOSITORY, type JournalEntryRepository, ACCOUNT_REPOSITORY, type AccountRepository, Account, type ITelemetryService, type FiscalPeriodRepository } from '@virteex/domain-accounting-domain';
+import { EntitlementService } from '@virteex/kernel-entitlements';
 import { AccountType } from '@virteex/domain-accounting-contracts';
 import { IUnitOfWork } from '../../ports/outbound/unit-of-work.port';
 
@@ -8,7 +9,9 @@ describe('RecordJournalEntryUseCase', () => {
   let service: RecordJournalEntryUseCase;
   let journalRepo: JournalEntryRepository;
   let accountRepo: AccountRepository;
+  let fiscalPeriodRepo: FiscalPeriodRepository;
   let telemetry: ITelemetryService;
+  let entitlement: EntitlementService;
   let uow: IUnitOfWork;
 
   beforeEach(() => {
@@ -24,14 +27,20 @@ describe('RecordJournalEntryUseCase', () => {
       findByCode: vi.fn(),
       findAll: vi.fn(),
     } as unknown as AccountRepository;
+    fiscalPeriodRepo = {
+      findByDate: vi.fn().mockResolvedValue(null),
+    } as unknown as FiscalPeriodRepository;
     telemetry = {
       recordBusinessMetric: vi.fn(),
       setTraceAttributes: vi.fn(),
     } as unknown as ITelemetryService;
+    entitlement = {
+      checkQuota: vi.fn().mockResolvedValue(undefined),
+    } as unknown as EntitlementService;
     uow = {
       transactional: vi.fn().mockImplementation((fn) => fn()),
     };
-    service = new RecordJournalEntryUseCase(journalRepo, accountRepo, telemetry, uow);
+    service = new RecordJournalEntryUseCase(journalRepo, accountRepo, fiscalPeriodRepo, telemetry, entitlement, uow);
   });
 
   it('should create a balanced journal entry', async () => {
@@ -141,7 +150,23 @@ describe('RecordJournalEntryUseCase', () => {
     };
 
     (journalRepo.countByTenant as any).mockResolvedValue(1000);
+    (entitlement.checkQuota as any).mockRejectedValue(new Error('Quota exceeded'));
 
-    await expect(service.execute(dto)).rejects.toThrow(/Plan limit reached/);
+    await expect(service.execute(dto)).rejects.toThrow(/Quota exceeded/);
+  });
+
+  it('should throw error if fiscal period is locked', async () => {
+    const dto = {
+      tenantId: 'tenant1',
+      date: new Date(),
+      description: 'Test Entry',
+      lines: [
+        { accountId: '1', debit: '100.00', credit: '100.00' },
+      ],
+    };
+
+    (fiscalPeriodRepo.findByDate as any).mockResolvedValue({ isLocked: true });
+
+    await expect(service.execute(dto)).rejects.toThrow(/is locked/);
   });
 });
