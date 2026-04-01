@@ -21,7 +21,8 @@ export class AuthSessionStore {
           id: 0,
           email: email ?? '',
           role: payload.role || 'OPERATOR',
-          token
+          token,
+          entitlements: payload.entitlements || []
       });
     } else {
       this.clear();

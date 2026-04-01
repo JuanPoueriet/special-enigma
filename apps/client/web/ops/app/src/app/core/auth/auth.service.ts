@@ -45,7 +45,7 @@ export class AuthService {
     if (!user) return false;
 
     // Entitlements from backend take precedence for commercial features
-    const entitlements: string[] = (user as any).entitlements || [];
+    const entitlements: string[] = user.entitlements || [];
 
     // Support capability:action:scope format
     const [capability, action, scope] = permission.split(':');

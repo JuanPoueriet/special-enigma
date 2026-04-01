@@ -44,16 +44,16 @@ describe('InviteUserUseCase', () => {
       .rejects.toThrow(DomainException);
   });
 
-  it('should call checkQuota and save user if valid', async () => {
+  it('should call checkQuota (centralized) and save user if valid', async () => {
     userRepository.findById.mockResolvedValue({ id: 'admin1', company: { id: 't1' }, country: 'US' });
     userRepository.findByEmail.mockResolvedValue(null);
     userRepository.findAll.mockResolvedValue({ total: 1 });
 
     await useCase.execute({ email: 'new@test.com', firstName: 'New', lastName: 'User', role: 'user' } as any, 'admin1');
 
-    expect(entitlementService.checkQuota).toHaveBeenCalledWith('users', 1);
-    expect(entitlementService.checkQuota).toHaveBeenCalledWith('seats', 1);
-    expect(entitlementService.checkQuota).toHaveBeenCalledWith('invitations', 1);
+    expect(entitlementService.checkQuota).toHaveBeenCalledWith('users');
+    expect(entitlementService.checkQuota).toHaveBeenCalledWith('seats');
+    expect(entitlementService.checkQuota).toHaveBeenCalledWith('invitations');
     expect(userRepository.save).toHaveBeenCalled();
   });
 });

@@ -1,10 +1,13 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { AccountingQueryFacade } from '@virteex/domain-accounting-application';
-import { CurrentTenant } from '@virteex/kernel-auth';
+import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virteex/kernel-auth';
+import { RequireEntitlement, EntitlementGuard } from '@virteex/kernel-entitlements';
 
 @ApiTags('Accounting (Internal)')
 @Controller('internal/accounting')
+@UseGuards(JwtAuthGuard, TenantGuard, EntitlementGuard)
+@RequireEntitlement('accounting:internal')
 export class AccountingInternalController {
   constructor(private readonly queryFacade: AccountingQueryFacade) {}
 

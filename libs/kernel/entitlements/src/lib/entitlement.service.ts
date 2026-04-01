@@ -11,13 +11,24 @@ import {
 } from '@virteex/domain-subscription-domain';
 import { getTenantContext } from '@virteex/kernel-auth';
 
+export interface UsageProvider {
+  getResource(): string;
+  countUsage(tenantId: string, period: 'monthly' | 'lifetime'): Promise<number>;
+}
+
 @Injectable()
 export class EntitlementService {
+  private readonly usageProviders = new Map<string, UsageProvider>();
+
   constructor(
     @Optional()
     @Inject(SUBSCRIPTION_REPOSITORY)
     private readonly subscriptionRepository?: SubscriptionRepository,
   ) {}
+
+  registerUsageProvider(provider: UsageProvider) {
+    this.usageProviders.set(provider.getResource(), provider);
+  }
 
   async isFeatureEnabled(entitlement: string): Promise<boolean> {
     const context = getTenantContext();
@@ -55,7 +66,7 @@ export class EntitlementService {
     });
   }
 
-  async checkQuota(resource: string, currentCount: number): Promise<void> {
+  async checkQuota(resource: string, currentCount?: number): Promise<void> {
     const context = getTenantContext();
     if (!context?.tenantId) {
       throw new ForbiddenException('Tenant context required for quota check');
@@ -81,17 +92,25 @@ export class EntitlementService {
 
     // Deny by default: if resource is not in plan limits, assume limit 0
     const limit = limitConfig ? limitConfig.limit : 0;
-    const period = limitConfig ? limitConfig.period : 'lifetime';
+    const period = (limitConfig ? limitConfig.period : 'lifetime') as 'monthly' | 'lifetime';
 
     if (limit === -1) return;
 
-    // For monthly limits, we should ideally check usage within the current period
-    // Since we receive currentCount from the use case, we trust it represents the relevant period
-    // if the use case is properly implemented. However, we add a warning/context if period is monthly.
-    if (currentCount >= limit) {
+    let usage = currentCount;
+    if (usage === undefined) {
+      const provider = this.usageProviders.get(resource);
+      if (!provider) {
+        throw new ForbiddenException(
+          `No usage provider registered for resource: ${resource} and no currentCount provided.`,
+        );
+      }
+      usage = await provider.countUsage(context.tenantId, period);
+    }
+
+    if (usage >= limit) {
       const periodContext = period === 'monthly' ? ' (this month)' : ' (lifetime)';
       throw new ForbiddenException(
-        `Quota exceeded for ${resource}${periodContext}. Limit: ${limit}, Current: ${currentCount}`,
+        `Quota exceeded for resource '${resource}'${periodContext}. Limit: ${limit}, Current Usage: ${usage}`,
       );
     }
   }
