@@ -88,7 +88,12 @@
       "defaultConfiguration": "development",
       "options": {
         "proxyConfig": "apps/client/web/portal/app/proxy.conf.json",
-        "port": 4200
+        "port": 4200,
+        "prebundle": {
+          "exclude": [
+            "@nestjs/mapped-types"
+          ]
+        }
       }
     },
     "lint": {
