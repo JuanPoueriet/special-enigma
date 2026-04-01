@@ -217,6 +217,10 @@ export class RoutingPlaneService {
 
     const signature = this.calculateSignature(snapshotData);
 
+    if (targets.signature && targets.signature !== signature) {
+      throw new ForbiddenException('Cannot persist tampered snapshot signature');
+    }
+
     let snapshot: TenantRoutingSnapshot;
     if (existing) {
       this.em.assign(existing, { ...snapshotData, signature });

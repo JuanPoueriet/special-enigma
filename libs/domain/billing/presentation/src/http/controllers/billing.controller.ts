@@ -4,11 +4,11 @@ import { CurrentTenant } from '@virteex/shared-util-server-server-config';
 import { CreateInvoiceUseCase, CreateInvoiceDto, GetInvoicesUseCase, GetPaymentHistoryUseCase, GetUsageUseCase } from '@virteex/domain-billing-application';
 import { GetSubscriptionPlansUseCase, GetSubscriptionUseCase } from '@virteex/domain-subscription-application';
 import { JwtAuthGuard, TenantGuard } from '@virteex/kernel-auth';
-import { RequireEntitlement } from '@virteex/kernel-entitlements';
+import { RequireEntitlement, EntitlementGuard } from '@virteex/kernel-entitlements';
 
 @ApiTags('SaaS Billing')
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard, TenantGuard)
+@UseGuards(JwtAuthGuard, TenantGuard, EntitlementGuard)
 @Controller('saas')
 export class BillingController {
   constructor(

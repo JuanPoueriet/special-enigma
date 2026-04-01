@@ -53,7 +53,7 @@ export const appRoutes: Route[] = [
       {
         path: 'finops',
         canActivate: [entitlementGuard],
-        data: { entitlement: 'treasury' },
+        data: { entitlement: 'treasury:read' },
         loadComponent: () => import('./finops/finops.component').then(m => m.FinopsComponent),
       },
       {
@@ -83,7 +83,7 @@ export const appRoutes: Route[] = [
       {
         path: 'reports',
         canActivate: [entitlementGuard],
-        data: { entitlement: 'advanced-reports' },
+        data: { entitlement: 'advanced-reports:read' },
         loadComponent: () => import('./reports/reports.component').then(m => m.ReportsComponent),
       },
       {
@@ -97,7 +97,7 @@ export const appRoutes: Route[] = [
       {
         path: 'storage',
         canActivate: [entitlementGuard],
-        data: { entitlement: 'storage' },
+        data: { entitlement: 'storage:read' },
         loadComponent: () => import('./storage/storage.component').then(m => m.StorageComponent),
       },
       {

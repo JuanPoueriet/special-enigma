@@ -141,7 +141,7 @@ describe('Adversarial Isolation Tests (Tenant Escape)', () => {
       };
 
       // Level 5 check: Routing snapshots must be cryptographically signed.
-      await expect(routingService.createSnapshot('t1', snapshot)).resolves.toBeDefined();
+      await expect(routingService.createSnapshot('t1', snapshot)).rejects.toThrow(ForbiddenException);
   });
 
   it('SHOULD BLOCK write attempts if RLS WITH CHECK is violated', async () => {

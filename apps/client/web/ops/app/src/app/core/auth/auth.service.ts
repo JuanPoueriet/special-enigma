@@ -45,14 +45,27 @@ export class AuthService {
     if (!user) return false;
 
     // Entitlements from backend take precedence for commercial features
-    const entitlements = (user as any).entitlements || [];
+    const entitlements: string[] = (user as any).entitlements || [];
+
+    // Support capability:action:scope format
+    const [capability, action, scope] = permission.split(':');
+    const hasEntitlement = entitlements.some((f) => {
+        const [fCap, fAct, fScope] = f.split(':');
+        if (fCap !== capability) return false;
+        const actionMatches = !action || fAct === '*' || fAct === action;
+        if (!actionMatches) return false;
+        const scopeMatches = !scope || fScope === '*' || fScope === scope;
+        return scopeMatches;
+    });
+
+    if (hasEntitlement) return true;
 
     // Check if it is a commercial entitlement
     const commercialEntitlements = ['invoices', 'users', 'storage', 'branches', 'advanced-reports', 'treasury', 'payroll', 'fiscal'];
-    if (commercialEntitlements.includes(permission)) {
+    if (commercialEntitlements.some(ce => permission.startsWith(ce))) {
         // Commercial entitlements MUST be explicitly granted in the entitlements array
         // No role-based bypass allowed here to ensure commercial enforcement
-        return entitlements.includes(permission);
+        return false;
     }
 
     // Role-based check for system/administrative permissions

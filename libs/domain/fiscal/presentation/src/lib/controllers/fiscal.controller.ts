@@ -7,12 +7,12 @@ import {
   GetTaxRateUseCase
 } from '@virteex/domain-fiscal-application';
 import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virteex/kernel-auth';
-import { RequireEntitlement } from '@virteex/kernel-entitlements';
+import { RequireEntitlement, EntitlementGuard } from '@virteex/kernel-entitlements';
 
 @ApiTags('Fiscal')
 @ApiBearerAuth()
 @Controller('fiscal')
-@UseGuards(JwtAuthGuard, TenantGuard)
+@UseGuards(JwtAuthGuard, TenantGuard, EntitlementGuard)
 @RequireEntitlement('fiscal')
 export class FiscalController {
   constructor(
