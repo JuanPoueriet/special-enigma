@@ -31,6 +31,7 @@ export const CurrentTenant = createParamDecorator(
     } else {
       request = ctx.switchToHttp().getRequest();
     }
-    return request.tenantContext?.tenantId || request.headers['x-virteex-tenant-id'] || request.headers['x-tenant-id'];
+    // Fail-closed: require signed and validated tenantContext from middleware
+    return request.tenantContext?.tenantId;
   },
 );

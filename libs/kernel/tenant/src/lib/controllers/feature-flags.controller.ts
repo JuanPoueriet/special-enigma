@@ -24,22 +24,14 @@ export class FeatureFlagsController {
 
     if (this.planRepository) {
         const plans = await this.planRepository.findAll();
-        if (plans.length > 0) {
-            const allFeatures = new Set<string>();
-            plans.forEach(plan => {
-                plan.features.forEach(f => {
-                    const [capability] = f.split(':');
-                    allFeatures.add(capability);
-                });
+        const allFeatures = new Set<string>();
+        plans.forEach(plan => {
+            plan.features.forEach(f => {
+                const [capability] = f.split(':');
+                allFeatures.add(capability);
             });
-            features = Array.from(allFeatures);
-        } else {
-            // Fallback if no plans are found in the database
-            features = ['invoices', 'users', 'storage', 'branches'];
-        }
-    } else {
-        // Fallback for safety if repository is missing
-        features = ['invoices', 'users', 'storage', 'branches'];
+        });
+        features = Array.from(allFeatures);
     }
 
     const results = await Promise.all(

@@ -22,6 +22,7 @@ import { OktaStrategy } from './strategies/okta.strategy';
 import { NodemailerNotificationService } from './services/nodemailer-notification.service';
 import { ConfigurationValidatorService } from './services/configuration-validator.service';
 import { DefaultRiskEngineService } from './services/risk-engine.service';
+import { UserUsageProvider, SeatUsageProvider, InvitationUsageProvider } from './services/identity-usage.providers';
 import { MailQueueProducer } from './services/mail-queue.producer';
 import { MailProcessor } from './services/mail.processor';
 import { GeoIpLiteAdapter } from './adapters/geo-ip-lite.adapter';
@@ -137,6 +138,9 @@ import { EntitlementsModule } from '@virteex/kernel-entitlements';
     },
     { provide: NotificationService, useClass: NodemailerNotificationService },
     { provide: RiskEngineService, useClass: DefaultRiskEngineService },
+    UserUsageProvider,
+    SeatUsageProvider,
+    InvitationUsageProvider,
     { provide: RecaptchaPort, useClass: RecaptchaService },
     RiskEvaluatorService,
     { provide: StoragePort, useClass: StorageAdapter },
