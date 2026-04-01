@@ -41,6 +41,7 @@ export class TokenGenerationService {
       ? await this.subscriptionRepository.findByTenantId(user.company.id)
       : undefined;
     const entitlements = subscription?.getPlan()?.features || [];
+    const subscriptionVersion = subscription?.updatedAt?.getTime().toString() || '1';
 
     const accessToken = await this.authService.generateToken({
       sub: user.id,
@@ -51,6 +52,7 @@ export class TokenGenerationService {
       country: user.country,
       sessionId: session.id,
       entitlements,
+      subscriptionVersion,
       amr: mfaVerified ? ['pwd', 'mfa'] : ['pwd'],
       mfa_verified_at: mfaVerified ? Math.floor(Date.now() / 1000) : undefined
     }, { tokenType: 'access', subject: user.id });
@@ -80,6 +82,7 @@ export class TokenGenerationService {
       ? await this.subscriptionRepository.findByTenantId(user.company.id)
       : undefined;
     const entitlements = subscription?.getPlan()?.features || [];
+    const subscriptionVersion = subscription?.updatedAt?.getTime().toString() || '1';
 
     const accessToken = await this.authService.generateToken({
       sub: user.id,
@@ -90,6 +93,7 @@ export class TokenGenerationService {
       country: user.country,
       sessionId: session.id,
       entitlements,
+      subscriptionVersion,
       amr: mfaVerified ? ['pwd', 'mfa'] : ['pwd'],
       mfa_verified_at: mfaVerified ? Math.floor(Date.now() / 1000) : undefined
     }, { tokenType: 'access', subject: user.id });

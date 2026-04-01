@@ -13,4 +13,8 @@ export class StorageAdapter implements StoragePort {
   getFileUrl(fileName: string): string {
     return this.storageService.getFileUrl(fileName);
   }
+
+  async countFilesByPrefix(prefix: string): Promise<number> {
+    return this.storageService.countFilesByPrefix(prefix);
+  }
 }

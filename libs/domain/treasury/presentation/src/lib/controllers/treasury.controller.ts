@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { CreateBankAccountDto, BankAccountDto } from '@virteex/domain-treasury-contracts';
 import { CreateBankAccountUseCase, GetBankAccountsUseCase, RegisterTransactionUseCase, GetCashFlowUseCase } from '@virteex/domain-treasury-application';
 import {
@@ -9,6 +9,7 @@ import {
 } from '@virteex/domain-treasury-contracts';
 import { Transaction, TransactionType as DomainTransactionType } from '@virteex/domain-treasury-domain';
 import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virteex/kernel-auth';
+import { RequireEntitlement, EntitlementGuard } from '@virteex/kernel-entitlements';
 
 
 const DOMAIN_TO_CONTRACT_TYPE: Record<DomainTransactionType, ContractTransactionType> = {
@@ -17,8 +18,9 @@ const DOMAIN_TO_CONTRACT_TYPE: Record<DomainTransactionType, ContractTransaction
 };
 
 @ApiTags('Treasury')
+@ApiBearerAuth()
 @Controller('treasury')
-@UseGuards(JwtAuthGuard, TenantGuard)
+@UseGuards(JwtAuthGuard, TenantGuard, EntitlementGuard)
 export class TreasuryController {
   constructor(
     private readonly createBankAccountUseCase: CreateBankAccountUseCase,
@@ -28,6 +30,7 @@ export class TreasuryController {
   ) {}
 
   @Post('bank-accounts')
+  @RequireEntitlement('treasury:write')
   @ApiOperation({ summary: 'Create a new bank account' })
   @ApiResponse({ status: 201, type: BankAccountDto })
   async createBankAccount(@Body() dto: CreateBankAccountDto, @CurrentTenant() tenantId: string): Promise<BankAccountDto> {
@@ -35,6 +38,7 @@ export class TreasuryController {
   }
 
   @Get('bank-accounts')
+  @RequireEntitlement('treasury:read')
   @ApiOperation({ summary: 'Get all bank accounts' })
   @ApiResponse({ status: 200, type: [BankAccountDto] })
   async getBankAccounts(@CurrentTenant() tenantId: string): Promise<BankAccountDto[]> {
@@ -42,6 +46,7 @@ export class TreasuryController {
   }
 
   @Post('transactions')
+  @RequireEntitlement('treasury:write')
   @ApiOperation({ summary: 'Register a transaction' })
   @ApiResponse({ status: 201, type: TransactionDto })
   async registerTransaction(@Body() dto: RegisterTransactionDto, @CurrentTenant() tenantId: string): Promise<TransactionDto> {
@@ -50,6 +55,7 @@ export class TreasuryController {
   }
 
   @Get('cash-flow')
+  @RequireEntitlement('treasury:read')
   @ApiOperation({ summary: 'Get cash flow (transactions)' })
   @ApiResponse({ status: 200, type: [TransactionDto] })
   async getCashFlow(@CurrentTenant() tenantId: string): Promise<TransactionDto[]> {

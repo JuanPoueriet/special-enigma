@@ -4,4 +4,5 @@ import { Injectable } from '@nestjs/common';
 export abstract class StoragePort {
   abstract saveFile(fileName: string, buffer: Buffer): Promise<string>;
   abstract getFileUrl(fileName: string): string;
+  abstract countFilesByPrefix(prefix: string): Promise<number>;
 }

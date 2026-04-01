@@ -3,7 +3,10 @@ export interface User {
   email: string;
   firstName: string;
   lastName: string;
+  role: string;
+  tenantId: string;
   permissions: string[];
+  entitlements?: string[];
 }
 
 export const hasPermission = (permissions: string[] | undefined, required: string[]) => {

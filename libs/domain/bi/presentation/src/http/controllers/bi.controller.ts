@@ -1,5 +1,8 @@
-import { Controller, Post, Body, Get, Query } from '@nestjs/common';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { Controller, Post, Body, Get, Query, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
+import { CurrentTenant } from '@virteex/shared-util-server-server-config';
+import { JwtAuthGuard, TenantGuard } from '@virteex/kernel-auth';
+import { RequireEntitlement, EntitlementGuard } from '@virteex/kernel-entitlements';
 import {
   GenerateReportHandler,
   GetTopProductsHandler,
@@ -15,6 +18,8 @@ import {
 import { GenerateReportRequest } from '@virteex/domain-bi-contracts';
 
 @ApiTags('BI')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard, TenantGuard, EntitlementGuard)
 @Controller('bi')
 export class BiController {
   constructor(
@@ -32,32 +37,37 @@ export class BiController {
   }
 
   @Post('reports')
+  @RequireEntitlement('bi:reports:write')
   @ApiOperation({ summary: 'Generate Report' })
-  generate(@Body() dto: GenerateReportRequest, @Query('tenantId') tenantId: string) {
-    return this.generateHandler.handle(new GenerateReportCommand({ ...dto, tenantId: tenantId || 'default' }));
+  generate(@Body() dto: GenerateReportRequest, @CurrentTenant() tenantId: string) {
+    return this.generateHandler.handle(new GenerateReportCommand({ ...dto, tenantId }));
   }
 
   @Get('top-products')
+  @RequireEntitlement('bi:reports:read')
   @ApiOperation({ summary: 'Get Top Products' })
-  getTopProducts(@Query('tenantId') tenantId: string) {
-    return this.getTopProductsHandler.handle(new GetTopProductsQuery(tenantId || 'default'));
+  getTopProducts(@CurrentTenant() tenantId: string) {
+    return this.getTopProductsHandler.handle(new GetTopProductsQuery(tenantId));
   }
 
   @Get('invoice-status')
+  @RequireEntitlement('bi:reports:read')
   @ApiOperation({ summary: 'Get Invoice Status Summary' })
-  getInvoiceStatus(@Query('tenantId') tenantId: string) {
-    return this.getInvoiceStatusHandler.handle(new GetInvoiceStatusQuery(tenantId || 'default'));
+  getInvoiceStatus(@CurrentTenant() tenantId: string) {
+    return this.getInvoiceStatusHandler.handle(new GetInvoiceStatusQuery(tenantId));
   }
 
   @Get('ar-aging')
+  @RequireEntitlement('bi:reports:read')
   @ApiOperation({ summary: 'Get AR Aging' })
-  getArAging(@Query('tenantId') tenantId: string) {
-    return this.getArAgingHandler.handle(new GetArAgingQuery(tenantId || 'default'));
+  getArAging(@CurrentTenant() tenantId: string) {
+    return this.getArAgingHandler.handle(new GetArAgingQuery(tenantId));
   }
 
   @Get('expenses')
+  @RequireEntitlement('bi:reports:read')
   @ApiOperation({ summary: 'Get Expenses Breakdown' })
-  getExpenses(@Query('tenantId') tenantId: string) {
-    return this.getExpensesHandler.handle(new GetExpensesQuery(tenantId || 'default'));
+  getExpenses(@CurrentTenant() tenantId: string) {
+    return this.getExpensesHandler.handle(new GetExpensesQuery(tenantId));
   }
 }

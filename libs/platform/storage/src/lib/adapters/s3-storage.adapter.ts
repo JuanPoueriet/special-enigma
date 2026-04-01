@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { StoragePort } from '../ports/storage.port';
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
@@ -49,5 +49,30 @@ export class S3StorageAdapter extends StoragePort {
     // For now, assuming public read or handled by CloudFront/CDN.
     const region = this.configService.get<string>('AWS_REGION', 'us-east-1');
     return `https://${this.bucketName}.s3.${region}.amazonaws.com/${fileName}`;
+  }
+
+  async countFilesByPrefix(prefix: string): Promise<number> {
+    // Ensure prefix ends with a delimiter to avoid collisions (e.g., user "1" matching "10")
+    const searchPrefix = prefix.endsWith('/') ? prefix : `${prefix}/`;
+    let count = 0;
+    let continuationToken: string | undefined;
+
+    try {
+      do {
+        const command: ListObjectsV2Command = new ListObjectsV2Command({
+          Bucket: this.bucketName,
+          Prefix: searchPrefix,
+          ContinuationToken: continuationToken,
+        });
+        const response = await this.s3Client.send(command);
+        count += response.KeyCount || 0;
+        continuationToken = response.NextContinuationToken;
+      } while (continuationToken);
+
+      return count;
+    } catch (error) {
+      this.logger.error(`Failed to count files with prefix ${searchPrefix} in S3`, error);
+      return 0;
+    }
   }
 }
