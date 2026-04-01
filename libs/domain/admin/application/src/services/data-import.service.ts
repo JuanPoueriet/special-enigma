@@ -10,8 +10,8 @@ export class DataImportService {
     @Inject(INTEGRATION_GATEWAY) private readonly gateway: IntegrationGateway
   ) {}
 
-  async processFile(fileBuffer: Buffer, dataType: string): Promise<{ processed: number; failed: number }> {
-    this.logger.log(`Processing import for ${dataType}`);
+  async processFile(fileBuffer: Buffer, dataType: string, tenantId: string): Promise<{ processed: number; failed: number }> {
+    this.logger.log(`Processing import for ${dataType} in tenant ${tenantId}`);
 
     const workbook = new ExcelJS.Workbook();
     try {
@@ -50,7 +50,7 @@ export class DataImportService {
 
     for (const row of data) {
         try {
-            await this.importRow(row, dataType);
+            await this.importRow(row, dataType, tenantId);
             processed++;
         } catch (e  : any) {
             this.logger.error(`Failed to import row for ${dataType}: ${e.message}`, e.stack);
@@ -61,7 +61,7 @@ export class DataImportService {
     return { processed, failed };
   }
 
-  private async importRow(row  : any, dataType: string) {
+  private async importRow(row  : any, dataType: string, tenantId: string) {
       if (!row) throw new Error('Empty row');
 
       switch (dataType) {
@@ -70,7 +70,8 @@ export class DataImportService {
           await this.gateway.createProduct({
             sku: String(row['sku']),
             name: String(row['name']),
-            price: Number(row['price'])
+            price: Number(row['price']),
+            tenantId
           });
           break;
         case 'customers':
@@ -78,7 +79,8 @@ export class DataImportService {
           await this.gateway.createCustomer({
             email: String(row['email']),
             name: String(row['name']),
-            taxId: row['taxId'] ? String(row['taxId']) : undefined
+            taxId: row['taxId'] ? String(row['taxId']) : undefined,
+            tenantId
           });
           break;
         case 'suppliers':
@@ -86,7 +88,8 @@ export class DataImportService {
           await this.gateway.createSupplier({
             email: String(row['email']),
             name: String(row['name']),
-            taxId: row['taxId'] ? String(row['taxId']) : undefined
+            taxId: row['taxId'] ? String(row['taxId']) : undefined,
+            tenantId
           });
           break;
         default:

@@ -1,18 +1,19 @@
-import { Controller, Get, UseGuards, UnauthorizedException } from '@nestjs/common';
-import { JwtAuthGuard, getTenantContext } from '@virteex/kernel-auth';
+import { Controller, Get, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virteex/kernel-auth';
+import { RequireEntitlement, EntitlementGuard } from '@virteex/kernel-entitlements';
 import { GetDashboardStatsHandler, GetDashboardStatsQuery } from '@virteex/domain-bi-application';
 
+@ApiTags('Dashboard')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard, TenantGuard, EntitlementGuard)
 @Controller('dashboard')
-@UseGuards(JwtAuthGuard)
 export class DashboardController {
   constructor(private readonly getDashboardStatsHandler: GetDashboardStatsHandler) {}
 
   @Get('stats')
-  async getStats() {
-    const context = getTenantContext();
-    if (!context?.tenantId) {
-        throw new UnauthorizedException('Tenant context missing');
-    }
-    return this.getDashboardStatsHandler.handle(new GetDashboardStatsQuery(context.tenantId));
+  @RequireEntitlement('bi:reports:read')
+  async getStats(@CurrentTenant() tenantId: string) {
+    return this.getDashboardStatsHandler.handle(new GetDashboardStatsQuery(tenantId));
   }
 }

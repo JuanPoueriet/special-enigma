@@ -25,9 +25,12 @@ export const SubscriptionPlanSchema = new EntitySchema<SubscriptionPlan>({
 
 export const SubscriptionSchema = new EntitySchema<Subscription>({
   class: Subscription,
+  indexes: [
+    { properties: ['tenantId', 'status'] }, // For faster lookup in findByTenantId
+  ],
   properties: {
     id: { primary: true, type: 'uuid' },
-    tenantId: { type: 'string' },
+    tenantId: { type: 'string', index: true },
     plan: { kind: 'm:1', entity: 'SubscriptionPlan' },
     status: { type: 'string' },
     externalSubscriptionId: { type: 'string', nullable: true },

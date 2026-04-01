@@ -1,8 +1,12 @@
-import { Controller, Post, Get, Body, Query, Param, Headers } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { Controller, Post, Get, Body, Param, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { CreateSaleUseCase, type CreateSaleDto, ListSalesUseCase, CreateCustomerUseCase, type CreateCustomerDto, ListCustomersUseCase, GetCustomerByIdUseCase, ApproveSaleUseCase, CancelSaleUseCase, CompleteSaleUseCase } from '@virteex/domain-crm-application';
+import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virteex/kernel-auth';
+import { RequireEntitlement, EntitlementGuard } from '@virteex/kernel-entitlements';
 
 @ApiTags('CRM')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard, TenantGuard, EntitlementGuard)
 @Controller('crm')
 export class CrmController {
   constructor(
@@ -17,24 +21,28 @@ export class CrmController {
   ) {}
 
   @Post('sales')
+  @RequireEntitlement('crm:sales:write')
   @ApiOperation({ summary: 'Create a new sale' })
   @ApiResponse({ status: 201, description: 'The sale has been successfully created.' })
-  async createSale(@Headers('x-virteex-tenant-id') tenantId: string, @Body() dto: CreateSaleDto) {
-    return this.createSaleUseCase.execute({ ...dto, tenantId: tenantId || dto.tenantId });
+  async createSale(@CurrentTenant() tenantId: string, @Body() dto: CreateSaleDto) {
+    dto.tenantId = tenantId;
+    return this.createSaleUseCase.execute(dto);
   }
 
   @Get('sales')
+  @RequireEntitlement('crm:sales:read')
   @ApiOperation({ summary: 'List sales' })
   @ApiResponse({ status: 200, description: 'List of sales.' })
-  async listSales(@Headers('x-virteex-tenant-id') tenantIdHeader: string, @Query('tenantId') tenantIdQuery: string) {
-    return this.listSalesUseCase.execute(tenantIdHeader || tenantIdQuery || 'default');
+  async listSales(@CurrentTenant() tenantId: string) {
+    return this.listSalesUseCase.execute(tenantId);
   }
 
   @Get('pipeline')
+  @RequireEntitlement('crm:sales:read')
   @ApiOperation({ summary: 'Get lead pipeline for UI' })
   @ApiResponse({ status: 200, description: 'Lead pipeline stages.' })
-  async getPipeline(@Headers('x-virteex-tenant-id') tenantId: string) {
-    const sales = await this.listSalesUseCase.execute(tenantId || 'default');
+  async getPipeline(@CurrentTenant() tenantId: string) {
+    const sales = await this.listSalesUseCase.execute(tenantId);
 
     // Group sales by status for the pipeline view
     const stages = [
@@ -62,6 +70,7 @@ export class CrmController {
   }
 
   @Post('sales/:id/approve')
+  @RequireEntitlement('crm:sales:write')
   @ApiOperation({ summary: 'Approve a sale' })
   @ApiResponse({ status: 200, description: 'The sale has been approved.' })
   async approveSale(@Param('id') id: string) {
@@ -69,6 +78,7 @@ export class CrmController {
   }
 
   @Post('sales/:id/cancel')
+  @RequireEntitlement('crm:sales:write')
   @ApiOperation({ summary: 'Cancel a sale' })
   @ApiResponse({ status: 200, description: 'The sale has been cancelled.' })
   async cancelSale(@Param('id') id: string) {
@@ -76,6 +86,7 @@ export class CrmController {
   }
 
   @Post('sales/:id/complete')
+  @RequireEntitlement('crm:sales:write')
   @ApiOperation({ summary: 'Complete a sale' })
   @ApiResponse({ status: 200, description: 'The sale has been completed.' })
   async completeSale(@Param('id') id: string) {
@@ -83,20 +94,24 @@ export class CrmController {
   }
 
   @Post('customers')
+  @RequireEntitlement('crm:customers:write')
   @ApiOperation({ summary: 'Create a new customer' })
   @ApiResponse({ status: 201, description: 'The customer has been successfully created.' })
-  async createCustomer(@Headers('x-virteex-tenant-id') tenantId: string, @Body() dto: CreateCustomerDto) {
-    return this.createCustomerUseCase.execute({ ...dto, tenantId: tenantId || dto.tenantId });
+  async createCustomer(@CurrentTenant() tenantId: string, @Body() dto: CreateCustomerDto) {
+    dto.tenantId = tenantId;
+    return this.createCustomerUseCase.execute(dto);
   }
 
   @Get('customers')
+  @RequireEntitlement('crm:customers:read')
   @ApiOperation({ summary: 'List customers' })
   @ApiResponse({ status: 200, description: 'List of customers.' })
-  async listCustomers(@Headers('x-virteex-tenant-id') tenantIdHeader: string, @Query('tenantId') tenantIdQuery: string) {
-    return this.listCustomersUseCase.execute(tenantIdHeader || tenantIdQuery || 'default');
+  async listCustomers(@CurrentTenant() tenantId: string) {
+    return this.listCustomersUseCase.execute(tenantId);
   }
 
   @Get('customers/:id')
+  @RequireEntitlement('crm:customers:read')
   @ApiOperation({ summary: 'Get customer by id' })
   @ApiResponse({ status: 200, description: 'The customer.' })
   @ApiResponse({ status: 404, description: 'Customer not found.' })

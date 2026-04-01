@@ -23,8 +23,9 @@ export class UpdateProductUseCase {
     private readonly eventEmitter: EventEmitter2
   ) {}
 
-  async execute(dto: UpdateProductDto): Promise<Product> {
-    const product = await this.productReadRepository.findById(dto.id);
+  async execute(dto: UpdateProductDto & { tenantId?: string }): Promise<Product> {
+    const tenantId = dto.tenantId || 'system';
+    const product = await this.productReadRepository.findById(dto.id, tenantId);
     if (!product) {
       throw new DomainException(`Product with ID ${dto.id} not found`, 'ENTITY_NOT_FOUND');
     }

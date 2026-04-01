@@ -8,7 +8,7 @@ export class GetProductBySkuUseCase {
     private readonly repository: ProductReadRepository
   ) {}
 
-  async execute(sku: string): Promise<Product | null> {
-    return this.repository.findBySku(sku);
+  async execute(sku: string, tenantId: string): Promise<Product | null> {
+    return this.repository.findBySku(sku, tenantId);
   }
 }

@@ -1,4 +1,5 @@
-import { Controller, Post, Body, Get, Put, Param, UnauthorizedException } from '@nestjs/common';
+import { Controller, Post, Body, Get, Put, Param, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import {
   CreateSupplierUseCase, CreatePurchaseOrderUseCase,
   CreateRequisitionUseCase, GetRequisitionsUseCase,
@@ -8,8 +9,12 @@ import {
   CreateSupplierDto, CreatePurchaseOrderDto,
   CreateRequisitionDto, CreateVendorBillDto, UpdateVendorBillDto
 } from '@virteex/domain-purchasing-contracts';
-import { getTenantContext } from '@virteex/kernel-auth';
+import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virteex/kernel-auth';
+import { RequireEntitlement, EntitlementGuard } from '@virteex/kernel-entitlements';
 
+@ApiTags('Purchasing')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard, TenantGuard, EntitlementGuard)
 @Controller('purchasing')
 export class PurchasingController {
   constructor(
@@ -23,55 +28,44 @@ export class PurchasingController {
   ) {}
 
   @Post('suppliers')
-  async createSupplier(@Body() dto: CreateSupplierDto) {
-    const context = getTenantContext();
-    if (!context?.tenantId) {
-        throw new UnauthorizedException('Tenant context is missing');
-    }
-    return this.createSupplierUseCase.execute(dto, context.tenantId);
+  @RequireEntitlement('purchasing:suppliers:write')
+  async createSupplier(@Body() dto: CreateSupplierDto, @CurrentTenant() tenantId: string) {
+    return this.createSupplierUseCase.execute(dto, tenantId);
   }
 
   @Post('orders')
-  async createPurchaseOrder(@Body() dto: CreatePurchaseOrderDto) {
-    const context = getTenantContext();
-    if (!context?.tenantId) {
-        throw new UnauthorizedException('Tenant context is missing');
-    }
-    return this.createPurchaseOrderUseCase.execute(dto, context.tenantId);
+  @RequireEntitlement('purchasing:orders:write')
+  async createPurchaseOrder(@Body() dto: CreatePurchaseOrderDto, @CurrentTenant() tenantId: string) {
+    return this.createPurchaseOrderUseCase.execute(dto, tenantId);
   }
 
   @Post('requisitions')
-  async createRequisition(@Body() dto: CreateRequisitionDto) {
-    const context = getTenantContext();
-    if (!context?.tenantId) throw new UnauthorizedException('Tenant context is missing');
-    return this.createRequisitionUseCase.execute(dto, context.tenantId);
+  @RequireEntitlement('purchasing:requisitions:write')
+  async createRequisition(@Body() dto: CreateRequisitionDto, @CurrentTenant() tenantId: string) {
+    return this.createRequisitionUseCase.execute(dto, tenantId);
   }
 
   @Get('requisitions')
-  async getRequisitions() {
-    const context = getTenantContext();
-    if (!context?.tenantId) throw new UnauthorizedException('Tenant context is missing');
-    return this.getRequisitionsUseCase.execute(context.tenantId);
+  @RequireEntitlement('purchasing:requisitions:read')
+  async getRequisitions(@CurrentTenant() tenantId: string) {
+    return this.getRequisitionsUseCase.execute(tenantId);
   }
 
   @Post('bills')
-  async createVendorBill(@Body() dto: CreateVendorBillDto) {
-    const context = getTenantContext();
-    if (!context?.tenantId) throw new UnauthorizedException('Tenant context is missing');
-    return this.createVendorBillUseCase.execute(dto, context.tenantId);
+  @RequireEntitlement('purchasing:bills:write')
+  async createVendorBill(@Body() dto: CreateVendorBillDto, @CurrentTenant() tenantId: string) {
+    return this.createVendorBillUseCase.execute(dto, tenantId);
   }
 
   @Put('bills/:id')
-  async updateVendorBill(@Param('id') id: string, @Body() dto: UpdateVendorBillDto) {
-    const context = getTenantContext();
-    if (!context?.tenantId) throw new UnauthorizedException('Tenant context is missing');
-    return this.updateVendorBillUseCase.execute(id, dto, context.tenantId);
+  @RequireEntitlement('purchasing:bills:write')
+  async updateVendorBill(@Param('id') id: string, @Body() dto: UpdateVendorBillDto, @CurrentTenant() tenantId: string) {
+    return this.updateVendorBillUseCase.execute(id, dto, tenantId);
   }
 
   @Get('bills/:id')
-  async getVendorBill(@Param('id') id: string) {
-    const context = getTenantContext();
-    if (!context?.tenantId) throw new UnauthorizedException('Tenant context is missing');
-    return this.getVendorBillUseCase.execute(id, context.tenantId);
+  @RequireEntitlement('purchasing:bills:read')
+  async getVendorBill(@Param('id') id: string, @CurrentTenant() tenantId: string) {
+    return this.getVendorBillUseCase.execute(id, tenantId);
   }
 }

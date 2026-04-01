@@ -9,7 +9,7 @@ export interface Subscription {
   planId: string;
   status: string;
   price: number;
-  billingCycle: 'mensual' | 'anual';
+  billingCycle: 'monthly' | 'annual';
   nextBillingDate: string;
   trialEndsDate?: string;
 }

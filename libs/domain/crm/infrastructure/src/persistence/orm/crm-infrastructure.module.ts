@@ -8,6 +8,7 @@ import { MikroOrmSaleRepository } from '../persistence/repositories/mikro-orm-sa
 import { MikroOrmCustomerRepository } from '../persistence/repositories/mikro-orm-customer.repository';
 import { HttpInventoryAdapter } from '../integrations/http/http-inventory.adapter';
 import { HttpCatalogAdapter } from '../integrations/http/http-catalog.adapter';
+import { SaleUsageProvider } from '../../services/crm-usage.providers';
 
 @Global()
 @Module({
@@ -20,6 +21,7 @@ import { HttpCatalogAdapter } from '../integrations/http/http-catalog.adapter';
     { provide: 'CustomerRepository', useClass: MikroOrmCustomerRepository },
     { provide: 'InventoryService', useClass: HttpInventoryAdapter },
     { provide: 'CatalogService', useClass: HttpCatalogAdapter },
+    SaleUsageProvider,
   ],
   exports: ['SaleRepository', 'CustomerRepository', 'InventoryService', 'CatalogService'],
 })

@@ -8,7 +8,7 @@ export class GetProductByIdUseCase {
     private readonly repository: ProductReadRepository
   ) {}
 
-  async execute(id: number): Promise<Product | null> {
-    return this.repository.findById(id);
+  async execute(id: number, tenantId: string): Promise<Product | null> {
+    return this.repository.findById(id, tenantId);
   }
 }
