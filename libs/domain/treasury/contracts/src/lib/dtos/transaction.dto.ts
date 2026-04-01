@@ -1,4 +1,12 @@
-import { ApiProperty } from '@nestjs/swagger';
+const ApiProperty =
+  (_options?: unknown): PropertyDecorator =>
+  () =>
+    undefined;
+const ApiPropertyOptional =
+  (_options?: unknown): PropertyDecorator =>
+  () =>
+    undefined;
+
 import { TransactionType } from '../enums/transaction-type.enum';
 
 export class TransactionDto {

@@ -1,4 +1,11 @@
-import { ApiProperty } from '@nestjs/swagger';
+const ApiProperty =
+  (_options?: unknown): PropertyDecorator =>
+  () =>
+    undefined;
+const ApiPropertyOptional =
+  (_options?: unknown): PropertyDecorator =>
+  () =>
+    undefined;
 
 export class BankAccountDto {
   @ApiProperty()
