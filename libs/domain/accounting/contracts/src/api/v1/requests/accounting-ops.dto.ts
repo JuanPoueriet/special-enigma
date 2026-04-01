@@ -1,12 +1,3 @@
-const ApiProperty =
-  (_options?: unknown): PropertyDecorator =>
-  () =>
-    undefined;
-const ApiPropertyOptional =
-  (_options?: unknown): PropertyDecorator =>
-  () =>
-    undefined;
-
 import { IsEnum, IsDateString, IsOptional, IsObject } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { FinancialReportType } from '../../../shared/enums/financial-report-type.enum';
@@ -16,15 +7,12 @@ import {
 } from '../../../core/accounting-ops.interface';
 
 export class GenerateFinancialReportDto implements IGenerateFinancialReport {
-  @ApiProperty({ enum: FinancialReportType })
   @IsEnum(FinancialReportType)
   type!: FinancialReportType;
 
-  @ApiProperty()
   @IsDateString()
   endDate!: string;
 
-  @ApiProperty({ required: false })
   @IsOptional()
   @Transform(({ value }) => {
     if (typeof value === 'string') {
@@ -45,7 +33,6 @@ export class GenerateFinancialReportDto implements IGenerateFinancialReport {
 }
 
 export class CloseFiscalPeriodDto implements ICloseFiscalPeriod {
-  @ApiProperty()
   @IsDateString()
   closingDate!: string;
 }
