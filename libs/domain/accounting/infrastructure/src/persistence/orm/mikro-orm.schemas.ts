@@ -16,7 +16,12 @@ import {
   Invoice,
   InvoiceStatus,
   Payment,
-  BankReconciliation
+  BankReconciliation,
+  BankReconciliationStatus,
+  BankStatementLine,
+  BankStatementLineStatus,
+  AuditLog,
+  FinancialReportSnapshot
 } from '@virteex/domain-accounting-domain';
 
 export const AccountSchema = new EntitySchema<Account>({
@@ -28,7 +33,7 @@ export const AccountSchema = new EntitySchema<Account>({
     code: { type: 'string' },
     name: { type: 'string' },
     type: { enum: true, items: () => AccountType },
-    parent: { kind: 'm:1', entity: () => Account, nullable: true },
+    parent: { kind: 'm:1', entity: () => 'Account', nullable: true },
     level: { type: 'number' },
     isControl: { type: 'boolean', default: false },
     currency: { type: 'string', nullable: true },
@@ -48,6 +53,7 @@ export const FiscalPeriodSchema = new EntitySchema<FiscalPeriod>({
     status: { enum: true, items: () => FiscalPeriodStatus, default: FiscalPeriodStatus.OPEN },
     closedAt: { type: 'date', nullable: true },
     closedBy: { type: 'string', nullable: true },
+    domainEvents: { type: 'json', persist: false },
   },
 });
 
@@ -107,9 +113,53 @@ export const BankReconciliationSchema = new EntitySchema<BankReconciliation>({
     statementDate: { type: 'date' },
     matchedEntriesCount: { type: 'number', default: 0 },
     unmatchedEntriesCount: { type: 'number', default: 0 },
-    status: { type: 'string', default: 'PENDING' },
+    status: { enum: true, items: () => BankReconciliationStatus, default: BankReconciliationStatus.PENDING },
     completedAt: { type: 'date', nullable: true },
     completedBy: { type: 'string', nullable: true },
+    lines: { kind: '1:m', entity: () => 'BankStatementLine', mappedBy: 'reconciliation', orphanRemoval: true },
+  },
+});
+
+export const BankStatementLineSchema = new EntitySchema<BankStatementLine>({
+  class: BankStatementLine,
+  properties: {
+    id: { primary: true, type: 'uuid' },
+    reconciliation: { kind: 'm:1', entity: () => 'BankReconciliation' },
+    date: { type: 'date' },
+    description: { type: 'string' },
+    amount: { type: 'string' },
+    reference: { type: 'string' },
+    status: { enum: true, items: () => BankStatementLineStatus, default: BankStatementLineStatus.UNMATCHED },
+    matchedJournalEntryId: { type: 'string', nullable: true },
+    notes: { type: 'string', nullable: true },
+  },
+});
+
+export const AuditLogSchema = new EntitySchema<AuditLog>({
+  class: AuditLog,
+  properties: {
+    id: { primary: true, type: 'uuid' },
+    tenantId: { type: 'string', index: true },
+    userId: { type: 'string', index: true },
+    action: { type: 'string' },
+    entityType: { type: 'string' },
+    entityId: { type: 'string' },
+    details: { type: 'json' },
+    createdAt: { type: 'date' },
+  },
+});
+
+export const FinancialReportSnapshotSchema = new EntitySchema<FinancialReportSnapshot>({
+  class: FinancialReportSnapshot,
+  properties: {
+    id: { primary: true, type: 'uuid' },
+    tenantId: { type: 'string', index: true },
+    type: { type: 'string' },
+    endDate: { type: 'date' },
+    generatedAt: { type: 'date' },
+    data: { type: 'json' },
+    version: { type: 'number' },
+    userId: { type: 'string' },
   },
 });
 
@@ -134,7 +184,7 @@ export const JournalEntryLineSchema = new EntitySchema<JournalEntryLine>({
   properties: {
     id: { primary: true, type: 'uuid' },
     journalEntry: { kind: 'm:1', entity: () => 'JournalEntry' },
-    account: { kind: 'm:1', entity: () => Account },
+    account: { kind: 'm:1', entity: () => 'Account' },
     debit: { type: 'string', default: '0' },
     credit: { type: 'string', default: '0' },
     description: { type: 'string', nullable: true },

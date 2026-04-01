@@ -9,6 +9,7 @@ import { CurrentTenant, CurrentUser } from '@virteex/kernel-auth';
 import { IdempotencyInterceptor } from '@virteex/shared-util-server-server-config';
 import { CapabilityGuard } from '../../guards/capability.guard';
 import { RequiresCapability } from '../../guards/requires-capability.decorator';
+import { ClosingTaskStatus } from '@virteex/domain-accounting-domain';
 
 @ApiTags('Accounting')
 @Controller('accounting')
@@ -36,9 +37,10 @@ export class AccountingController {
   @ApiHeader({ name: 'x-idempotency-key', required: false, description: 'Optional idempotency key' })
   async recordJournalEntry(
     @CurrentTenant() tenantId: string,
+    @CurrentUser() user: any,
     @Body() dto: RecordJournalEntryDto
   ) {
-    return this.commandFacade.recordJournalEntry({ ...dto, tenantId });
+    return this.commandFacade.recordJournalEntry({ ...dto, tenantId, userId: user?.id });
   }
 
   @Get('accounts')
@@ -67,14 +69,16 @@ export class AccountingController {
   @ApiOperation({ summary: 'Generate financial report' })
   async generateFinancialReport(
     @CurrentTenant() tenantId: string,
-    @Query() dto: GenerateFinancialReportDto
+    @CurrentUser() user: any,
+    @Query() dto: GenerateFinancialReportDto & { saveSnapshot?: string }
   ): Promise<FinancialReportDto> {
-    const report = await this.queryFacade.generateFinancialReport(tenantId, dto.type, new Date(dto.endDate), dto.dimensions);
+    const report = await this.queryFacade.generateFinancialReport(tenantId, dto.type as any, new Date(dto.endDate), dto.dimensions, dto.saveSnapshot === 'true', user?.id);
     return {
         ...report,
         generatedAt: report.generatedAt.toISOString(),
         endDate: report.endDate.toISOString(),
-        previousEndDate: report.previousEndDate?.toISOString()
+        previousEndDate: report.previousEndDate?.toISOString(),
+        type: report.type as any
     };
   }
 
@@ -84,9 +88,10 @@ export class AccountingController {
   @ApiHeader({ name: 'x-idempotency-key', required: false, description: 'Optional idempotency key' })
   async closeFiscalPeriod(
     @CurrentTenant() tenantId: string,
+    @CurrentUser() user: any,
     @Body() dto: CloseFiscalPeriodDto
   ) {
-    return this.commandFacade.closeFiscalPeriod(tenantId, new Date(dto.closingDate));
+    return this.commandFacade.closeFiscalPeriod(tenantId, new Date(dto.closingDate), user?.id || 'system');
   }
 
   @Post('closing/reopen')
@@ -136,6 +141,16 @@ export class AccountingController {
     @CurrentUser() user: any,
     @Body() dto: { id: string, status: string, evidenceUrl?: string }
   ) {
-    return this.commandFacade.updateClosingTask(tenantId, dto.id, dto.status, user?.id || 'system', dto.evidenceUrl);
+    return this.commandFacade.updateClosingTask(tenantId, dto.id, dto.status as ClosingTaskStatus, user?.id || 'system', dto.evidenceUrl);
+  }
+
+  @Post('bank-reconciliation')
+  @RequiresCapability('accounting:bank:reconcile')
+  @ApiOperation({ summary: 'Perform bank reconciliation' })
+  async bankReconciliation(
+    @CurrentTenant() tenantId: string,
+    @Body() dto: { accountId: string, statementLines: any[], rules?: any }
+  ) {
+    return this.commandFacade.bankReconciliation(tenantId, dto.accountId, dto.statementLines, dto.rules);
   }
 }

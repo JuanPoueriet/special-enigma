@@ -14,6 +14,9 @@ import {
 import {
   ConsolidateAccountsUseCase,
 } from '../use-cases/consolidation/consolidate-accounts.use-case';
+import {
+  BankReconciliationUseCase,
+} from '../use-cases/bank/bank-reconciliation.use-case';
 import { CreateAccountDto, RecordJournalEntryDto } from '@virteex/domain-accounting-contracts';
 import { CLOSING_TASK_REPOSITORY, type ClosingTaskRepository, type ClosingTaskStatus } from '@virteex/domain-accounting-domain';
 
@@ -25,6 +28,7 @@ export class AccountingCommandFacade {
     private readonly setupChartOfAccountsUseCase: SetupChartOfAccountsUseCase,
     private readonly closeFiscalPeriodUseCase: CloseFiscalPeriodUseCase,
     private readonly consolidateAccountsUseCase: ConsolidateAccountsUseCase,
+    private readonly bankReconciliationUseCase: BankReconciliationUseCase,
     @Inject(CLOSING_TASK_REPOSITORY) private readonly closingTaskRepository: ClosingTaskRepository,
   ) {}
 
@@ -32,7 +36,7 @@ export class AccountingCommandFacade {
     return this.createAccountUseCase.execute(dto);
   }
 
-  async recordJournalEntry(dto: RecordJournalEntryDto & { tenantId: string }) {
+  async recordJournalEntry(dto: RecordJournalEntryDto & { tenantId: string; userId?: string }) {
     return this.recordJournalEntryUseCase.execute(dto);
   }
 
@@ -40,8 +44,8 @@ export class AccountingCommandFacade {
     return this.setupChartOfAccountsUseCase.execute(tenantId);
   }
 
-  async closeFiscalPeriod(tenantId: string, closingDate: Date) {
-    return this.closeFiscalPeriodUseCase.execute(tenantId, closingDate);
+  async closeFiscalPeriod(tenantId: string, closingDate: Date, userId: string = 'system') {
+    return this.closeFiscalPeriodUseCase.execute(tenantId, closingDate, userId);
   }
 
   async reopenFiscalPeriod(tenantId: string, closingDate: Date, userId: string = 'system', reason?: string, approverId?: string) {
@@ -62,5 +66,10 @@ export class AccountingCommandFacade {
         task.reset();
     }
     return this.closingTaskRepository.save(task);
+  }
+
+  async bankReconciliation(tenantId: string, accountId: string, statementLines: any[], rules?: any) {
+    const lines = statementLines.map(l => ({ ...l, date: new Date(l.date) }));
+    return this.bankReconciliationUseCase.execute(tenantId, accountId, lines, rules);
   }
 }

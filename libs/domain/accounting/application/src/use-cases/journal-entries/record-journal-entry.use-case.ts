@@ -1,4 +1,4 @@
-import { JournalEntry, JournalEntryLine, type JournalEntryRepository, type AccountRepository, AccountNotFoundError, CrossTenantAccessError, PeriodClosedError } from '@virteex/domain-accounting-domain';
+import { JournalEntry, JournalEntryLine, type JournalEntryRepository, type AccountRepository, AccountNotFoundError, CrossTenantAccessError, PeriodClosedError, type AuditLogRepository, AuditLog } from '@virteex/domain-accounting-domain';
 import { type ITelemetryService } from '@virteex/kernel-telemetry';
 import { type RecordJournalEntryDto, type JournalEntryDto } from '@virteex/domain-accounting-contracts';
 import { JournalEntryMapper } from '../../mappers/journal-entry.mapper';
@@ -9,10 +9,11 @@ export class RecordJournalEntryUseCase {
     private journalEntryRepository: JournalEntryRepository,
     private accountRepository: AccountRepository,
     private telemetryService: ITelemetryService,
-    private uow: IUnitOfWork
+    private uow: IUnitOfWork,
+    private auditLogRepository?: AuditLogRepository
   ) {}
 
-  async execute(dto: Omit<RecordJournalEntryDto, 'date'> & { date: string | Date; tenantId: string }): Promise<JournalEntryDto> {
+  async execute(dto: Omit<RecordJournalEntryDto, 'date'> & { date: string | Date; tenantId: string; userId?: string }): Promise<JournalEntryDto> {
     const startTime = Date.now();
     this.telemetryService.setTraceAttributes({ tenantId: dto.tenantId, useCase: 'RecordJournalEntry' });
 
@@ -43,20 +44,23 @@ export class RecordJournalEntryUseCase {
 
         const savedEntry = await this.journalEntryRepository.create(entry);
 
+        if (this.auditLogRepository) {
+            await this.auditLogRepository.create(new AuditLog(
+                dto.tenantId,
+                dto.userId || 'system',
+                'RECORD_JOURNAL_ENTRY',
+                'JournalEntry',
+                savedEntry.id,
+                { description: dto.description, amount: dto.lines[0]?.debit || dto.lines[0]?.credit }
+            ));
+        }
+
         this.telemetryService.recordBusinessMetric('accounting_record_journal_entry_latency_ms', Date.now() - startTime, { tenantId: dto.tenantId });
         this.telemetryService.recordBusinessMetric('accounting_record_journal_entry_success_total', 1, { tenantId: dto.tenantId });
 
         return JournalEntryMapper.toDto(savedEntry);
     };
 
-    const promise = this.uow.transactional(handleExecute);
-
-    return promise.catch(error => {
-      this.telemetryService.recordBusinessMetric('accounting_record_journal_entry_error_total', 1, {
-        tenantId: dto.tenantId,
-        error: (error as Error).message
-      });
-      throw error;
-    });
+    return this.uow.transactional(handleExecute);
   }
 }

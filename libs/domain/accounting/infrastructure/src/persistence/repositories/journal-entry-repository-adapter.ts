@@ -17,15 +17,26 @@ export class JournalEntryRepositoryAdapter implements JournalEntryRepository {
   }
 
   async findById(tenantId: string, id: string): Promise<JournalEntry | null> {
-    return this.em.findOne(JournalEntry, { id, tenantId }, { populate: ['lines', 'lines.account'] as never });
+    return this.em.findOne(JournalEntry, { id, tenantId }, { populate: ['lines', 'lines.account'] as any });
   }
 
   async findAll(tenantId: string): Promise<JournalEntry[]> {
-    return this.em.find(JournalEntry, { tenantId }, { populate: ['lines', 'lines.account'] as never });
+    return this.em.find(JournalEntry, { tenantId }, { populate: ['lines', 'lines.account'] as any });
   }
 
   async count(tenantId: string): Promise<number> {
     return this.em.count(JournalEntry, { tenantId });
+  }
+
+  async findByAccountIdsAndDateRange(tenantId: string, accountIds: string[], startDate?: Date, endDate?: Date): Promise<JournalEntry[]> {
+    const where: any = {
+      tenantId,
+      lines: { account: { id: { $in: accountIds } } }
+    };
+    if (startDate) where.date = { ...where.date, $gte: startDate };
+    if (endDate) where.date = { ...where.date, $lte: endDate };
+
+    return this.em.find(JournalEntry, where, { populate: ['lines', 'lines.account'] as any });
   }
 
   async getBalancesByAccount(tenantId: string, startDate?: Date, endDate?: Date, dimensions?: Record<string, string>, accountIds?: string[]): Promise<Map<string, { debit: string; credit: string }>> {

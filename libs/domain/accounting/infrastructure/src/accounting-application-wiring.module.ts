@@ -7,12 +7,22 @@ import {
   POLICY_REPOSITORY,
   FISCAL_PERIOD_REPOSITORY,
   CLOSING_TASK_REPOSITORY,
+  AUDIT_LOG_REPOSITORY,
+  FINANCIAL_REPORT_SNAPSHOT_REPOSITORY,
+  BANK_RECONCILIATION_REPOSITORY,
+  ACCOUNTS_PAYABLE_REPOSITORY,
+  ACCOUNTS_RECEIVABLE_REPOSITORY,
   AccountRepository,
   JournalEntryRepository,
   OutboxRepository,
   PolicyRepository,
   FiscalPeriodRepository,
   ClosingTaskRepository,
+  AuditLogRepository,
+  FinancialReportSnapshotRepository,
+  BankReconciliationRepository,
+  AccountsPayableRepository,
+  AccountsReceivableRepository,
 } from '@virteex/domain-accounting-domain';
 import {
   TELEMETRY_SERVICE,
@@ -35,6 +45,7 @@ import {
   GetMonthlyOpexUseCase,
   CloseFiscalPeriodUseCase,
   ConsolidateAccountsUseCase,
+  BankReconciliationUseCase,
   AccountingCommandFacade,
   AccountingQueryFacade,
 } from '@virteex/domain-accounting-application';
@@ -52,6 +63,8 @@ import {
         countJE: CountJournalEntriesUseCase,
         genReport: GenerateFinancialReportUseCase,
         getOpex: GetMonthlyOpexUseCase,
+        fpRepo: FiscalPeriodRepository,
+        ctRepo: ClosingTaskRepository,
       ) =>
         new AccountingQueryFacade(
           getAcc,
@@ -59,6 +72,8 @@ import {
           countJE,
           genReport,
           getOpex,
+          fpRepo,
+          ctRepo,
         ),
       inject: [
         GetAccountsUseCase,
@@ -66,6 +81,8 @@ import {
         CountJournalEntriesUseCase,
         GenerateFinancialReportUseCase,
         GetMonthlyOpexUseCase,
+        FISCAL_PERIOD_REPOSITORY,
+        CLOSING_TASK_REPOSITORY,
       ],
     },
     {
@@ -115,12 +132,14 @@ import {
         accRepo: AccountRepository,
         telemetry: ITelemetryService,
         uow: IUnitOfWork,
-      ) => new RecordJournalEntryUseCase(jeRepo, accRepo, telemetry, uow),
+        auditRepo?: AuditLogRepository,
+      ) => new RecordJournalEntryUseCase(jeRepo, accRepo, telemetry, uow, auditRepo),
       inject: [
         JOURNAL_ENTRY_REPOSITORY,
         ACCOUNT_REPOSITORY,
         TELEMETRY_SERVICE,
         I_UNIT_OF_WORK,
+        { token: AUDIT_LOG_REPOSITORY, optional: true },
       ],
     },
     {
@@ -170,12 +189,14 @@ import {
         accRepo: AccountRepository,
         apRepo: AccountsPayableRepository,
         arRepo: AccountsReceivableRepository,
-      ) => new GenerateFinancialReportUseCase(jeRepo, accRepo, apRepo, arRepo),
+        snapshotRepo?: FinancialReportSnapshotRepository,
+      ) => new GenerateFinancialReportUseCase(jeRepo, accRepo, apRepo, arRepo, snapshotRepo),
       inject: [
         JOURNAL_ENTRY_REPOSITORY,
         ACCOUNT_REPOSITORY,
         ACCOUNTS_PAYABLE_REPOSITORY,
         ACCOUNTS_RECEIVABLE_REPOSITORY,
+        { token: FINANCIAL_REPORT_SNAPSHOT_REPOSITORY, optional: true },
       ],
     },
     {
@@ -186,13 +207,15 @@ import {
         fpRepo: FiscalPeriodRepository,
         ctRepo: ClosingTaskRepository,
         policySvc: AccountingPolicyService,
-      ) => new CloseFiscalPeriodUseCase(jeRepo, accRepo, fpRepo, ctRepo, policySvc),
+        auditRepo?: AuditLogRepository,
+      ) => new CloseFiscalPeriodUseCase(jeRepo, accRepo, fpRepo, ctRepo, policySvc, auditRepo),
       inject: [
         JOURNAL_ENTRY_REPOSITORY,
         ACCOUNT_REPOSITORY,
         FISCAL_PERIOD_REPOSITORY,
         CLOSING_TASK_REPOSITORY,
         AccountingPolicyService,
+        { token: AUDIT_LOG_REPOSITORY, optional: true },
       ],
     },
     {
@@ -206,6 +229,17 @@ import {
         JOURNAL_ENTRY_REPOSITORY,
         ACCOUNT_REPOSITORY,
         POLICY_REPOSITORY,
+      ],
+    },
+    {
+      provide: BankReconciliationUseCase,
+      useFactory: (
+        jeRepo: JournalEntryRepository,
+        reconRepo: BankReconciliationRepository,
+      ) => new BankReconciliationUseCase(jeRepo, reconRepo),
+      inject: [
+        JOURNAL_ENTRY_REPOSITORY,
+        BANK_RECONCILIATION_REPOSITORY,
       ],
     },
   ],
@@ -223,6 +257,7 @@ import {
     GenerateFinancialReportUseCase,
     CloseFiscalPeriodUseCase,
     ConsolidateAccountsUseCase,
+    BankReconciliationUseCase,
     AccountingCommandFacade,
     AccountingQueryFacade,
   ],

@@ -36,12 +36,16 @@ export class AccountingQueryFacade {
     type: FinancialReportType,
     endDate: Date,
     dimensions?: Record<string, string>,
+    saveSnapshot: boolean = false,
+    userId: string = 'system'
   ) {
     return this.generateFinancialReportUseCase.execute(
       tenantId,
-      type,
+      type as any,
       endDate,
       dimensions,
+      saveSnapshot,
+      userId
     );
   }
 
