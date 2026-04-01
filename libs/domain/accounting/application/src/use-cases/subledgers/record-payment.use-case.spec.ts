@@ -44,9 +44,14 @@ describe('RecordPaymentUseCase', () => {
 
     const auditRepo = {
         create: vi.fn().mockResolvedValue({}),
+        countByType: vi.fn().mockResolvedValue(0),
     };
 
-    service = new RecordPaymentUseCase(journalRepo, accountRepo, arRepo, apRepo, auditRepo as any);
+    const entitlementService = {
+        checkQuota: vi.fn().mockResolvedValue({}),
+    };
+
+    service = new RecordPaymentUseCase(journalRepo, accountRepo, arRepo, apRepo, entitlementService as any, auditRepo as any);
   });
 
   it('should record payment and update AR invoice status to PAID when fully paid', async () => {
@@ -90,5 +95,23 @@ describe('RecordPaymentUseCase', () => {
     expect(arRepo.save).toHaveBeenCalled();
     expect(invoice.paidAmount).toBe('40.00');
     expect(invoice.status).toBe(InvoiceStatus.PARTIAL);
+  });
+
+  it('should throw error when overpaid', async () => {
+    const tenantId = 'tenant1';
+    const invoiceId = 'inv-1';
+    const invoice = new Invoice(tenantId, 'INV-001', 'RECEIVABLE');
+    invoice.id = invoiceId;
+    invoice.amount = '100.00';
+    invoice.paidAmount = '90.00';
+    invoice.status = InvoiceStatus.PARTIAL;
+
+    (arRepo.findById as any).mockResolvedValue(invoice);
+
+    const payment = new Payment(tenantId, invoiceId, '20.00', new Date());
+    payment.reference = 'PAY-001';
+
+    await expect(service.execute(tenantId, payment, '101', '102'))
+      .rejects.toThrow(/Overpayment detected/);
   });
 });

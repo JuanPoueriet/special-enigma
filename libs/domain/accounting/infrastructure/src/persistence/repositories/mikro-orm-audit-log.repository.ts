@@ -18,4 +18,8 @@ export class MikroOrmAuditLogRepository implements AuditLogRepository {
   async findByTenant(tenantId: string): Promise<AuditLog[]> {
     return this.em.find(AuditLog, { tenantId }, { orderBy: { createdAt: 'DESC' } });
   }
+
+  async countByType(tenantId: string, action: string): Promise<number> {
+    return this.em.count(AuditLog, { tenantId, action });
+  }
 }

@@ -249,19 +249,56 @@ import {
       ],
     },
     {
-      provide: 'RecordPaymentUseCase',
+      provide: RecordInvoiceUseCase,
       useFactory: (
         jeRepo: JournalEntryRepository,
         accRepo: AccountRepository,
         arRepo: AccountsReceivableRepository,
         apRepo: AccountsPayableRepository,
+        entitlement: EntitlementService,
         auditRepo?: AuditLogRepository,
-      ) => new RecordPaymentUseCase(jeRepo, accRepo, arRepo, apRepo, auditRepo),
+      ) =>
+        new RecordInvoiceUseCase(
+          jeRepo,
+          accRepo,
+          arRepo,
+          apRepo,
+          entitlement,
+          auditRepo,
+        ),
       inject: [
         JOURNAL_ENTRY_REPOSITORY,
         ACCOUNT_REPOSITORY,
         ACCOUNTS_RECEIVABLE_REPOSITORY,
         ACCOUNTS_PAYABLE_REPOSITORY,
+        EntitlementService,
+        { token: AUDIT_LOG_REPOSITORY, optional: true },
+      ],
+    },
+    {
+      provide: RecordPaymentUseCase,
+      useFactory: (
+        jeRepo: JournalEntryRepository,
+        accRepo: AccountRepository,
+        arRepo: AccountsReceivableRepository,
+        apRepo: AccountsPayableRepository,
+        entitlement: EntitlementService,
+        auditRepo?: AuditLogRepository,
+      ) =>
+        new RecordPaymentUseCase(
+          jeRepo,
+          accRepo,
+          arRepo,
+          apRepo,
+          entitlement,
+          auditRepo,
+        ),
+      inject: [
+        JOURNAL_ENTRY_REPOSITORY,
+        ACCOUNT_REPOSITORY,
+        ACCOUNTS_RECEIVABLE_REPOSITORY,
+        ACCOUNTS_PAYABLE_REPOSITORY,
+        EntitlementService,
         { token: AUDIT_LOG_REPOSITORY, optional: true },
       ],
     },

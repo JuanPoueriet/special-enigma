@@ -1,5 +1,19 @@
-import { type JournalEntryRepository, type AccountRepository, JournalEntry, JournalEntryLine, JournalEntryStatus, JournalEntryType, Payment, type AuditLogRepository, AuditLog, type AccountsReceivableRepository, type AccountsPayableRepository, InvoiceStatus } from '@virteex/domain-accounting-domain';
+import {
+  type JournalEntryRepository,
+  type AccountRepository,
+  JournalEntry,
+  JournalEntryLine,
+  JournalEntryStatus,
+  JournalEntryType,
+  Payment,
+  type AuditLogRepository,
+  AuditLog,
+  type AccountsReceivableRepository,
+  type AccountsPayableRepository,
+  InvoiceStatus,
+} from '@virteex/domain-accounting-domain';
 import { Decimal } from 'decimal.js';
+import { type EntitlementService } from '@virteex/kernel-entitlements';
 
 export class RecordPaymentUseCase {
   constructor(
@@ -7,13 +21,35 @@ export class RecordPaymentUseCase {
     private accountRepository: AccountRepository,
     private arRepository: AccountsReceivableRepository,
     private apRepository: AccountsPayableRepository,
-    private auditLogRepository?: AuditLogRepository
+    private entitlementService: EntitlementService,
+    private auditLogRepository?: AuditLogRepository,
   ) {}
 
-  async execute(tenantId: string, payment: Payment, bankAccountCode: string, receivableAccountCode: string, userId: string = 'system'): Promise<void> {
-    console.log(`[SUBLEDGER] Recording payment ${payment.reference} for tenant ${tenantId}`);
+  async execute(
+    tenantId: string,
+    payment: Payment,
+    bankAccountCode: string,
+    receivableAccountCode: string,
+    userId: string = 'system',
+  ): Promise<void> {
+    console.log(
+      `[SUBLEDGER] Recording payment ${payment.reference} for tenant ${tenantId}`,
+    );
 
-    const entry = new JournalEntry(tenantId, `Payment ${payment.reference}`, payment.paymentDate);
+    // SaaS Quota Enforcement
+    const paymentCount = this.auditLogRepository
+      ? await this.auditLogRepository.countByType(
+          tenantId,
+          'RECORD_PAYMENT_SUBLEDGER',
+        )
+      : 0;
+    await this.entitlementService.checkQuota('accounting:payments', paymentCount);
+
+    const entry = new JournalEntry(
+      tenantId,
+      `Payment ${payment.reference}`,
+      payment.paymentDate,
+    );
 
     const bankAccount = await this.accountRepository.findByCode(tenantId, bankAccountCode);
     const receivableAccount = await this.accountRepository.findByCode(tenantId, receivableAccountCode);
@@ -42,14 +78,22 @@ export class RecordPaymentUseCase {
     }
 
     if (invoice) {
+      const totalAmount = new Decimal(invoice.amount);
       const currentPaid = new Decimal(invoice.paidAmount || '0.00');
-      const newPaid = currentPaid.plus(new Decimal(payment.amount));
+      const paymentAmount = new Decimal(payment.amount);
+      const newPaid = currentPaid.plus(paymentAmount);
+
+      if (newPaid.greaterThan(totalAmount.plus(0.01))) {
+        throw new Error(
+          `Overpayment detected. Total amount: ${totalAmount.toFixed(2)}, Already paid: ${currentPaid.toFixed(2)}, Trying to pay: ${paymentAmount.toFixed(2)}`,
+        );
+      }
+
       invoice.paidAmount = newPaid.toFixed(2);
 
-      const totalAmount = new Decimal(invoice.amount);
-      if (newPaid.greaterThanOrEqualTo(totalAmount)) {
+      if (newPaid.greaterThanOrEqualTo(totalAmount.minus(0.01))) {
         invoice.status = InvoiceStatus.PAID;
-      } else {
+      } else if (newPaid.greaterThan(0)) {
         invoice.status = InvoiceStatus.PARTIAL;
       }
 

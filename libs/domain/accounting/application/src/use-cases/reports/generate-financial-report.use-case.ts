@@ -97,6 +97,40 @@ export class GenerateFinancialReportUseCase {
     return report;
   }
 
+  async exportToCsv(report: FinancialReport): Promise<string> {
+    const headers = [
+      'Account Code',
+      'Account Name',
+      'Balance',
+      'Previous Balance',
+      'Change %',
+    ];
+
+    const escapeCsv = (val: string) => {
+      if (val.includes(',') || val.includes('"') || val.includes('\n')) {
+        return `"${val.replace(/"/g, '""')}"`;
+      }
+      return val;
+    };
+
+    const rows = report.lines.map((line) => [
+      escapeCsv(line.accountCode),
+      escapeCsv(line.accountName),
+      escapeCsv(line.balance),
+      escapeCsv(line.previousBalance || '0.00'),
+      escapeCsv(
+        line.percentageChange !== undefined ? `${line.percentageChange}%` : '0%',
+      ),
+    ]);
+
+    const csvContent = [
+      headers.join(','),
+      ...rows.map((row) => row.join(',')),
+    ].join('\n');
+
+    return csvContent;
+  }
+
   private async generateCashFlowReport(
     tenantId: string,
     endDate: Date,

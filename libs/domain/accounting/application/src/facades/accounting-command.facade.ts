@@ -52,8 +52,8 @@ export class AccountingCommandFacade {
     return this.closeFiscalPeriodUseCase.execute(tenantId, closingDate, userId);
   }
 
-  async reopenFiscalPeriod(tenantId: string, closingDate: Date, userId: string = 'system', reason?: string, approverId?: string) {
-    return this.closeFiscalPeriodUseCase.reopen(tenantId, closingDate, userId, reason, approverId);
+  async reopenFiscalPeriod(tenantId: string, closingDate: Date, userId: string = 'system', reason?: string, approverId?: string, hasOverridePermission: boolean = false) {
+    return this.closeFiscalPeriodUseCase.reopen(tenantId, closingDate, userId, reason, approverId, hasOverridePermission);
   }
 
   async consolidateAccounts(targetTenantId: string, sourceTenantIds: string[], asOfDate: Date) {

@@ -66,4 +66,44 @@ describe('BankReconciliationUseCase', () => {
     expect(result.matchedEntriesCount).toBe(0);
     expect(result.status).toBe(BankReconciliationStatus.IN_PROGRESS);
   });
+
+  it('should match using fuzzy amount rules', async () => {
+    const tenantId = 'tenant1';
+    const accountId = 'bank-acc-1';
+    const bankAccount = new Account(tenantId, '101', 'Bank', AccountType.ASSET as any);
+    bankAccount.id = accountId;
+
+    const entry = new JournalEntry(tenantId, 'Payment Test', new Date('2023-01-01'));
+    entry.id = 'entry-1';
+    entry.addLine(new JournalEntryLine(bankAccount, '100.00', '0.00'));
+
+    (journalRepo.findAll as any).mockResolvedValue([entry]);
+
+    const result = await service.execute(tenantId, accountId, [
+        { date: '2023-01-01', description: 'Payment', amount: '100.005', reference: 'REF1' }
+    ], { dateToleranceDays: 3, fuzzyAmountMatch: true });
+
+    expect(result.matchedEntriesCount).toBe(1);
+    expect(result.status).toBe(BankReconciliationStatus.COMPLETED);
+  });
+
+  it('should match within date tolerance', async () => {
+    const tenantId = 'tenant1';
+    const accountId = 'bank-acc-1';
+    const bankAccount = new Account(tenantId, '101', 'Bank', AccountType.ASSET as any);
+    bankAccount.id = accountId;
+
+    const entry = new JournalEntry(tenantId, 'Payment Test', new Date('2023-01-01'));
+    entry.id = 'entry-1';
+    entry.addLine(new JournalEntryLine(bankAccount, '100.00', '0.00'));
+
+    (journalRepo.findAll as any).mockResolvedValue([entry]);
+
+    const result = await service.execute(tenantId, accountId, [
+        { date: '2023-01-03', description: 'Payment', amount: '100.00', reference: 'REF1' }
+    ], { dateToleranceDays: 3, fuzzyAmountMatch: false });
+
+    expect(result.matchedEntriesCount).toBe(1);
+    expect(result.status).toBe(BankReconciliationStatus.COMPLETED);
+  });
 });
