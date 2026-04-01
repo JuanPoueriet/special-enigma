@@ -55,4 +55,23 @@ describe('GenerateFinancialReportUseCase', () => {
       expect(result.lines).toHaveLength(1);
       expect(result.lines[0].balance).toBe('-500.00');
   });
+
+  it('should generate a Cash Flow report', async () => {
+      const balances = new Map();
+      balances.set('1', { debit: '1200.00', credit: '200.00' });
+
+      (journalRepo.getBalancesByAccount as any).mockResolvedValue(balances);
+      (accountRepo.findAll as any).mockResolvedValue([
+          { id: '1', name: 'Main Bank Account', code: '101', type: 'ASSET' },
+          { id: '2', name: 'Account Receivable', code: '102', type: 'ASSET' }
+      ]);
+
+      const result = await service.execute('tenant1', 'CASH_FLOW', new Date());
+
+      expect(result.type).toBe('CASH_FLOW');
+      expect(result.lines).toHaveLength(1);
+      expect(result.lines[0].accountName).toBe('Main Bank Account');
+      expect(result.lines[0].balance).toBe('1000.00');
+      expect(result.totalBalance).toBe('1000.00');
+  });
 });

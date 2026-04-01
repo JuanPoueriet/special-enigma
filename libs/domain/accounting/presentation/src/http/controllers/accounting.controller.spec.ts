@@ -58,10 +58,11 @@ describe('AccountingController', () => {
         lines: [],
       };
       const tenantId = 'tenant-1';
-      await controller.recordJournalEntry(tenantId, dto as any);
+      await controller.recordJournalEntry(tenantId, { id: 'user-1' }, dto as any);
       expect(mockCommandFacade.recordJournalEntry).toHaveBeenCalledWith({
         ...dto,
         tenantId,
+        userId: 'user-1'
       });
     });
   });
@@ -92,16 +93,19 @@ describe('AccountingController', () => {
         type: 'BALANCE_SHEET',
         endDate: new Date('2023-12-31'),
         generatedAt: new Date(),
-        sections: [],
+        lines: [],
+        totalBalance: '0.00'
       };
       mockQueryFacade.generateFinancialReport.mockResolvedValue(mockReport);
 
-      await controller.generateFinancialReport(tenantId, dto as any);
+      await controller.generateFinancialReport(tenantId, { id: 'user-1' }, dto as any);
       expect(mockQueryFacade.generateFinancialReport).toHaveBeenCalledWith(
         tenantId,
         dto.type,
         expect.any(Date),
-        undefined
+        undefined,
+        false,
+        'user-1'
       );
     });
   });
@@ -110,10 +114,11 @@ describe('AccountingController', () => {
     it('should call commandFacade.closeFiscalPeriod', async () => {
       const tenantId = 'tenant-1';
       const dto = { closingDate: '2023-12-31' };
-      await controller.closeFiscalPeriod(tenantId, dto as any);
+      await controller.closeFiscalPeriod(tenantId, { id: 'user-1' }, dto as any);
       expect(mockCommandFacade.closeFiscalPeriod).toHaveBeenCalledWith(
         tenantId,
-        expect.any(Date)
+        expect.any(Date),
+        'user-1'
       );
     });
   });

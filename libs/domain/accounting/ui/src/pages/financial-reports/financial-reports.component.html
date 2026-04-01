@@ -9,6 +9,7 @@
           <option value="BALANCE_SHEET">{{ 'ACCOUNTING.FINANCIAL_REPORTS.TYPES.BALANCE_SHEET' | translate }}</option>
           <option value="PROFIT_AND_LOSS">{{ 'ACCOUNTING.FINANCIAL_REPORTS.TYPES.PROFIT_AND_LOSS' | translate }}</option>
           <option value="TRIAL_BALANCE">{{ 'ACCOUNTING.FINANCIAL_REPORTS.TYPES.TRIAL_BALANCE' | translate }}</option>
+          <option value="CASH_FLOW">{{ 'ACCOUNTING.FINANCIAL_REPORTS.TYPES.CASH_FLOW' | translate }}</option>
         </select>
       </div>
       <div>
@@ -67,7 +68,7 @@
             <td class="px-6 py-4 whitespace-nowrap text-center">
               <button *ngIf="item.transactionIds?.length"
                       class="text-blue-600 hover:text-blue-800 transition-all p-1 rounded-full hover:bg-blue-50"
-                      [title]="item.transactionIds.length + ' transactions contributing'">
+                      [title]="(item.transactionIds?.length || 0) + ' transactions contributing'">
                 <lucide-icon name="search" class="w-4 h-4"></lucide-icon>
               </button>
             </td>

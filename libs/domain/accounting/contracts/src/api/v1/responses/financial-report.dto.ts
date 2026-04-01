@@ -6,11 +6,12 @@ export interface FinancialReportLineDto {
   percentageChange?: number;
   isHeader?: boolean;
   level?: number;
+  transactionIds?: string[];
 }
 
 export interface FinancialReportDto {
   tenantId: string;
-  type: 'BALANCE_SHEET' | 'PROFIT_AND_LOSS' | 'TRIAL_BALANCE';
+  type: 'BALANCE_SHEET' | 'PROFIT_AND_LOSS' | 'TRIAL_BALANCE' | 'CASH_FLOW';
   generatedAt: string;
   endDate: string;
   previousEndDate?: string;

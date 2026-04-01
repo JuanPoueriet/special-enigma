@@ -1,12 +1,13 @@
-import { type JournalEntryRepository, type AccountRepository, JournalEntry, JournalEntryLine, JournalEntryStatus, JournalEntryType, Payment } from '@virteex/domain-accounting-domain';
+import { type JournalEntryRepository, type AccountRepository, JournalEntry, JournalEntryLine, JournalEntryStatus, JournalEntryType, Payment, type AuditLogRepository, AuditLog } from '@virteex/domain-accounting-domain';
 
 export class RecordPaymentUseCase {
   constructor(
     private journalEntryRepository: JournalEntryRepository,
-    private accountRepository: AccountRepository
+    private accountRepository: AccountRepository,
+    private auditLogRepository?: AuditLogRepository
   ) {}
 
-  async execute(tenantId: string, payment: Payment, bankAccountCode: string, receivableAccountCode: string): Promise<void> {
+  async execute(tenantId: string, payment: Payment, bankAccountCode: string, receivableAccountCode: string, userId: string = 'system'): Promise<void> {
     console.log(`[SUBLEDGER] Recording payment ${payment.reference} for tenant ${tenantId}`);
 
     const entry = new JournalEntry(tenantId, `Payment ${payment.reference}`, payment.paymentDate);
@@ -25,6 +26,17 @@ export class RecordPaymentUseCase {
     entry.type = JournalEntryType.REGULAR;
     entry.validateBalance();
 
-    await this.journalEntryRepository.create(entry);
+    const savedEntry = await this.journalEntryRepository.create(entry);
+
+    if (this.auditLogRepository) {
+      await this.auditLogRepository.create(new AuditLog(
+        tenantId,
+        userId,
+        'RECORD_PAYMENT_SUBLEDGER',
+        'Payment',
+        payment.id || payment.reference,
+        { journalEntryId: savedEntry.id, amount: payment.amount, reference: payment.reference }
+      ));
+    }
   }
 }

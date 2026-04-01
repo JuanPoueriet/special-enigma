@@ -15,6 +15,7 @@ export interface FinancialReport {
     | 'BALANCE_SHEET'
     | 'PROFIT_AND_LOSS'
     | 'TRIAL_BALANCE'
+    | 'CASH_FLOW'
     | 'AP_AGING'
     | 'AR_AGING';
   generatedAt: Date;
@@ -53,6 +54,7 @@ export class GenerateFinancialReportUseCase {
       | 'BALANCE_SHEET'
       | 'PROFIT_AND_LOSS'
       | 'TRIAL_BALANCE'
+      | 'CASH_FLOW'
       | 'AP_AGING'
       | 'AR_AGING',
     endDate: Date,
@@ -73,6 +75,8 @@ export class GenerateFinancialReportUseCase {
     } else if (type === 'AR_AGING' && this.arRepository) {
       const aging = await this.arRepository.getAgingReport(tenantId, endDate);
       report = this.formatAgingReport(tenantId, 'AR_AGING', endDate, aging);
+    } else if (type === 'CASH_FLOW') {
+      report = await this.generateCashFlowReport(tenantId, endDate, dimensions);
     } else {
       report = await this.generateStandardReport(tenantId, type as any, endDate, dimensions);
     }
@@ -91,6 +95,42 @@ export class GenerateFinancialReportUseCase {
     );
 
     return report;
+  }
+
+  private async generateCashFlowReport(
+    tenantId: string,
+    endDate: Date,
+    dimensions?: Record<string, string>
+  ): Promise<FinancialReport> {
+    const reportLines: FinancialReportLine[] = [];
+    const accounts = await this.accountRepository.findAll(tenantId);
+    const cashAccounts = accounts.filter(a => a.type === AccountType.ASSET && (a.name.toLowerCase().includes('cash') || a.name.toLowerCase().includes('bank')));
+
+    let totalCash = new Decimal(0);
+
+    for (const account of cashAccounts) {
+      const balances = await this.journalEntryRepository.getBalancesByAccount(tenantId, account.id, endDate, dimensions);
+      const balance = balances.get(account.id) || { debit: '0', credit: '0' };
+      const netBalance = new Decimal(balance.debit).minus(new Decimal(balance.credit));
+
+      totalCash = totalCash.plus(netBalance);
+      reportLines.push({
+        accountId: account.id,
+        accountName: account.name,
+        accountCode: account.code,
+        balance: netBalance.toFixed(2),
+      });
+    }
+
+    return {
+      tenantId,
+      type: 'CASH_FLOW',
+      generatedAt: new Date(),
+      endDate,
+      lines: reportLines,
+      dimensions,
+      totalBalance: totalCash.toFixed(2),
+    };
   }
 
   private async generateStandardReport(

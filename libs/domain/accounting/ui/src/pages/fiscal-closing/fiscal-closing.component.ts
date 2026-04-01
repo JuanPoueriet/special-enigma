@@ -13,6 +13,7 @@ interface ClosingTask {
   icon: any;
   requiredEvidence?: boolean;
   evidenceProvided?: boolean;
+  evidenceUrl?: string;
 }
 
 @Component({
@@ -85,7 +86,7 @@ export class FiscalClosingComponent implements OnInit {
   showEvidenceModal = false;
   showConfirmModal = false;
   currentTaskForEvidence: ClosingTask | null = null;
-  evidenceUrl = 'https://storage.virteex.io/evidence/report-123.pdf';
+  evidenceUrl = '';
 
   async toggleTask(task: ClosingTask) {
     if (task.status === 'COMPLETED') {
