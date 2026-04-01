@@ -52,6 +52,8 @@ describe('InviteUserUseCase', () => {
     await useCase.execute({ email: 'new@test.com', firstName: 'New', lastName: 'User', role: 'user' } as any, 'admin1');
 
     expect(entitlementService.checkQuota).toHaveBeenCalledWith('users', 1);
+    expect(entitlementService.checkQuota).toHaveBeenCalledWith('seats', 1);
+    expect(entitlementService.checkQuota).toHaveBeenCalledWith('invitations', 1);
     expect(userRepository.save).toHaveBeenCalled();
   });
 });

@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { IsString, IsNotEmpty, IsOptional, IsUUID } from 'class-validator';
 import { WAREHOUSE_REPOSITORY, type WarehouseRepository, Warehouse, DomainValidationError } from '@virteex/domain-inventory-domain';
+import { EntitlementService } from '@virteex/kernel-entitlements';
 
 export class CreateWarehouseDto {
   @IsUUID()
@@ -23,7 +24,8 @@ export class CreateWarehouseDto {
 @Injectable()
 export class CreateWarehouseUseCase {
   constructor(
-    @Inject(WAREHOUSE_REPOSITORY) private readonly warehouseRepo: WarehouseRepository
+    @Inject(WAREHOUSE_REPOSITORY) private readonly warehouseRepo: WarehouseRepository,
+    private readonly entitlementService: EntitlementService
   ) {}
 
   async execute(dto: CreateWarehouseDto): Promise<Warehouse> {
@@ -31,6 +33,9 @@ export class CreateWarehouseUseCase {
     if (existing) {
       throw new DomainValidationError('Warehouse code already exists');
     }
+
+    const warehouses = await this.warehouseRepo.findAll(dto.tenantId);
+    await this.entitlementService.checkQuota('branches', warehouses.length);
 
     const warehouse = new Warehouse(dto.tenantId, dto.code, dto.name);
     if (dto.description) {

@@ -8,8 +8,8 @@ export class GetWarehouseUseCase {
     private readonly warehouseRepository: WarehouseRepository,
   ) {}
 
-  async execute(id: string) {
-    const warehouse = await this.warehouseRepository.findById(id);
+  async execute(id: string, tenantId: string) {
+    const warehouse = await this.warehouseRepository.findById(id, tenantId);
     if (!warehouse) {
       throw new WarehouseNotFoundError(id);
     }

@@ -1,9 +1,8 @@
 import { Controller, Post, Body, UseGuards, Get, Param, Put, Delete, UseFilters } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { CreateWarehouseUseCase, GetWarehousesUseCase, GetWarehouseUseCase, UpdateWarehouseUseCase, DeleteWarehouseUseCase, type CreateWarehouseDto } from '@virteex/domain-inventory-application';
-import { JwtAuthGuard, CurrentUser, type UserPayload } from '@virteex/kernel-auth';
+import { JwtAuthGuard, CurrentTenant } from '@virteex/kernel-auth';
 import { UpdateWarehouseBodyDto } from './dto/update-warehouse-body.dto';
-import { resolveTenantId } from '../security/tenant-context.resolver';
 import { InventoryApplicationExceptionFilter } from '../filters/inventory-application-exception.filter';
 
 @ApiTags('Inventory - Warehouses')
@@ -22,32 +21,32 @@ export class WarehousesController {
 
   @Post()
   @ApiOperation({ summary: 'Create a new warehouse' })
-  async createWarehouse(@Body() dto: CreateWarehouseDto, @CurrentUser() user: UserPayload) {
-    dto.tenantId = resolveTenantId(user);
+  async createWarehouse(@Body() dto: CreateWarehouseDto, @CurrentTenant() tenantId: string) {
+    dto.tenantId = tenantId;
     return this.createWarehouseUseCase.execute(dto);
   }
 
   @Get()
   @ApiOperation({ summary: 'Get all warehouses for authenticated tenant' })
-  async getWarehouses(@CurrentUser() user: UserPayload) {
-    return this.getWarehousesUseCase.execute(resolveTenantId(user));
+  async getWarehouses(@CurrentTenant() tenantId: string) {
+    return this.getWarehousesUseCase.execute(tenantId);
   }
 
   @Get(':id')
   @ApiOperation({ summary: 'Get warehouse by ID' })
-  async getWarehouse(@Param('id') id: string) {
-    return this.getWarehouseUseCase.execute(id);
+  async getWarehouse(@Param('id') id: string, @CurrentTenant() tenantId: string) {
+    return this.getWarehouseUseCase.execute(id, tenantId);
   }
 
   @Put(':id')
   @ApiOperation({ summary: 'Update a warehouse' })
-  async updateWarehouse(@Param('id') id: string, @Body() dto: UpdateWarehouseBodyDto) {
-    return this.updateWarehouseUseCase.execute({ id, ...dto });
+  async updateWarehouse(@Param('id') id: string, @Body() dto: UpdateWarehouseBodyDto, @CurrentTenant() tenantId: string) {
+    return this.updateWarehouseUseCase.execute({ id, tenantId, ...dto });
   }
 
   @Delete(':id')
   @ApiOperation({ summary: 'Delete warehouse by ID' })
-  async deleteWarehouse(@Param('id') id: string) {
-    return this.deleteWarehouseUseCase.execute(id);
+  async deleteWarehouse(@Param('id') id: string, @CurrentTenant() tenantId: string) {
+    return this.deleteWarehouseUseCase.execute(id, tenantId);
   }
 }
