@@ -24,6 +24,18 @@ export class IdentityProxyController {
     await this.identityProxy.forward(req, res, this.extractPath(req));
   }
 
+  @All('users/*path')
+  @All('users')
+  async users(@Req() req: Request, @Res() res: Response): Promise<void> {
+    await this.identityProxy.forward(req, res, this.extractPath(req));
+  }
+
+  @All('admin/*path')
+  @All('admin')
+  async admin(@Req() req: Request, @Res() res: Response): Promise<void> {
+    await this.identityProxy.forward(req, res, this.extractPath(req));
+  }
+
   private extractPath(req: Request): string {
     const routePrefix = '/api/portal/';
     const urlWithoutQuery = req.originalUrl.split('?')[0];

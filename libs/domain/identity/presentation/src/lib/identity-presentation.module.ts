@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { AuthController } from './controllers/auth.controller';
 import { UsersController } from './controllers/users.controller';
 import { LocalizationController } from './controllers/localization.controller';
+import { CommonController } from './controllers/common.controller';
 import { TenantController } from './controllers/tenant.controller';
 import { IdentityInfrastructureModule } from '@virteex/domain-identity-infrastructure';
 import { AuthModule } from '@virteex/kernel-auth';
@@ -11,7 +12,7 @@ import { CookiePolicyService } from './services/cookie-policy.service';
 
 @Module({
   imports: [IdentityInfrastructureModule, AuthModule],
-  controllers: [AuthController, UsersController, LocalizationController, TenantController],
+  controllers: [AuthController, UsersController, LocalizationController, CommonController, TenantController],
   providers: [IdentityResolver, RequestContextService, CookiePolicyService],
   exports: [],
 })
