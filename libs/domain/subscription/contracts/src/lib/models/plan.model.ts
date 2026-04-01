@@ -13,5 +13,6 @@ export interface Plan {
   monthlyPriceId: string;
   annualPriceId: string;
   isActive: boolean;
+  features: string[];
   limits: PlanLimit[];
 }

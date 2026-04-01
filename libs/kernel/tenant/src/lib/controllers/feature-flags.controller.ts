@@ -20,18 +20,26 @@ export class FeatureFlagsController {
   async getFeatureFlags(@CurrentTenant() tenantId: string) {
     // Dynamically resolve features from all available plans to build a complete flag set
     // In a production environment, this catalog might be cached or come from a config service
-    let features: string[] = ['invoices', 'users', 'storage', 'branches', 'advanced-reports', 'treasury', 'payroll', 'fiscal'];
+    let features: string[] = [];
 
     if (this.planRepository) {
         const plans = await this.planRepository.findAll();
-        const allFeatures = new Set<string>(features);
-        plans.forEach(plan => {
-            plan.features.forEach(f => {
-                const [capability] = f.split(':');
-                allFeatures.add(capability);
+        if (plans.length > 0) {
+            const allFeatures = new Set<string>();
+            plans.forEach(plan => {
+                plan.features.forEach(f => {
+                    const [capability] = f.split(':');
+                    allFeatures.add(capability);
+                });
             });
-        });
-        features = Array.from(allFeatures);
+            features = Array.from(allFeatures);
+        } else {
+            // Fallback if no plans are found in the database
+            features = ['invoices', 'users', 'storage', 'branches'];
+        }
+    } else {
+        // Fallback for safety if repository is missing
+        features = ['invoices', 'users', 'storage', 'branches'];
     }
 
     const results = await Promise.all(
