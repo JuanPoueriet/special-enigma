@@ -15,6 +15,7 @@ export class IdentityProxyService {
     const targetUrl = `${this.identityBaseUrl}/${path.replace(/^\/+/, '')}`;
 
     try {
+      this.logger.debug(`Forwarding ${req.method} ${req.originalUrl} to ${targetUrl}`);
       const response = await this.httpService.axiosRef.request({
         url: targetUrl,
         method: req.method as any,
