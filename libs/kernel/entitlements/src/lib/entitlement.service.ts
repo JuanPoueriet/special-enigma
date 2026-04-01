@@ -1,19 +1,32 @@
-import { Injectable, Inject, ForbiddenException } from '@nestjs/common';
-import { SUBSCRIPTION_REPOSITORY, type SubscriptionRepository, PlanLimitMapper } from '@virteex/domain-subscription-domain';
+import {
+  Injectable,
+  Inject,
+  Optional,
+  ForbiddenException,
+} from '@nestjs/common';
+import {
+  SUBSCRIPTION_REPOSITORY,
+  type SubscriptionRepository,
+  PlanLimitMapper,
+} from '@virteex/domain-subscription-domain';
 import { getTenantContext } from '@virteex/kernel-auth';
 
 @Injectable()
 export class EntitlementService {
   constructor(
+    @Optional()
     @Inject(SUBSCRIPTION_REPOSITORY)
-    private readonly subscriptionRepository: SubscriptionRepository
+    private readonly subscriptionRepository?: SubscriptionRepository,
   ) {}
 
   async isFeatureEnabled(entitlement: string): Promise<boolean> {
     const context = getTenantContext();
     if (!context?.tenantId) return false;
+    if (!this.subscriptionRepository) return false;
 
-    const subscription = await this.subscriptionRepository.findByTenantId(context.tenantId);
+    const subscription = await this.subscriptionRepository.findByTenantId(
+      context.tenantId,
+    );
     if (!subscription || !subscription.isValid()) return false;
 
     const plan = subscription.getPlan();
@@ -26,19 +39,19 @@ export class EntitlementService {
     // Advanced parsing for capability:action:scope
     const [capability, action, scope] = entitlement.split(':');
 
-    return plan.features.some(f => {
-        const [fCap, fAct, fScope] = f.split(':');
+    return plan.features.some((f) => {
+      const [fCap, fAct, fScope] = f.split(':');
 
-        // Capability must match
-        if (fCap !== capability) return false;
+      // Capability must match
+      if (fCap !== capability) return false;
 
-        // If no action requested or plan has wildcard action
-        const actionMatches = !action || fAct === '*' || fAct === action;
-        if (!actionMatches) return false;
+      // If no action requested or plan has wildcard action
+      const actionMatches = !action || fAct === '*' || fAct === action;
+      if (!actionMatches) return false;
 
-        // If no scope requested or plan has wildcard scope
-        const scopeMatches = !scope || fScope === '*' || fScope === scope;
-        return scopeMatches;
+      // If no scope requested or plan has wildcard scope
+      const scopeMatches = !scope || fScope === '*' || fScope === scope;
+      return scopeMatches;
     });
   }
 
@@ -47,10 +60,19 @@ export class EntitlementService {
     if (!context?.tenantId) {
       throw new ForbiddenException('Tenant context required for quota check');
     }
+    if (!this.subscriptionRepository) {
+      throw new ForbiddenException(
+        'Subscription repository unavailable for quota check',
+      );
+    }
 
-    const subscription = await this.subscriptionRepository.findByTenantId(context.tenantId);
+    const subscription = await this.subscriptionRepository.findByTenantId(
+      context.tenantId,
+    );
     if (!subscription || !subscription.isValid()) {
-       throw new ForbiddenException('No active subscription found for quota check');
+      throw new ForbiddenException(
+        'No active subscription found for quota check',
+      );
     }
 
     const plan = subscription.getPlan();
@@ -58,7 +80,9 @@ export class EntitlementService {
     const limit = limits[resource] ?? 0;
 
     if (limit !== -1 && currentCount >= limit) {
-      throw new ForbiddenException(`Quota exceeded for ${resource}. Limit: ${limit}, Current: ${currentCount}`);
+      throw new ForbiddenException(
+        `Quota exceeded for ${resource}. Limit: ${limit}, Current: ${currentCount}`,
+      );
     }
   }
 }

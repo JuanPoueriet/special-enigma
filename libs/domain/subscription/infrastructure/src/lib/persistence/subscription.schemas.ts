@@ -1,5 +1,8 @@
 import { EntitySchema } from '@mikro-orm/core';
-import { Subscription, SubscriptionPlan } from '@virteex/domain-subscription-domain';
+import {
+  Subscription,
+  SubscriptionPlan,
+} from '@virteex/domain-subscription-domain';
 
 export const SubscriptionPlanSchema = new EntitySchema<SubscriptionPlan>({
   class: SubscriptionPlan,
@@ -9,6 +12,8 @@ export const SubscriptionPlanSchema = new EntitySchema<SubscriptionPlan>({
     name: { type: 'string' },
     price: { type: 'string' },
     stripePriceId: { type: 'string', nullable: true },
+    monthlyPriceId: { type: 'string' },
+    annualPriceId: { type: 'string' },
     description: { type: 'string' },
     features: { type: 'json' },
     limits: { type: 'json' },

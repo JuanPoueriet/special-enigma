@@ -12,6 +12,7 @@ export * from './use-cases/metrics/get-monthly-opex.use-case';
 export * from './use-cases/accounts/setup-chart-of-accounts.use-case';
 export * from './use-cases/reports/generate-financial-report.use-case';
 export * from './use-cases/fiscal-periods/close-fiscal-period.use-case';
+export * from './use-cases/consolidation/consolidate-accounts.use-case';
 
 // Services for inter-domain or specialized integration
 export * from './services/accounting-policy.service';
