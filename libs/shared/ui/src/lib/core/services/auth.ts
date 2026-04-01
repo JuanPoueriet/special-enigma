@@ -172,7 +172,7 @@ export class AuthService {
 
     // For specific commercial entitlements, we do NOT want to fall back to roles if they are not enabled by the plan.
     // List of commercial entitlements that should be strictly governed by the plan:
-    const commercialEntitlements = ['invoices', 'users', 'storage', 'branches', 'advanced-reports', 'treasury', 'payroll', 'bi'];
+    const commercialEntitlements = ['invoices', 'users', 'storage', 'branches', 'advanced-reports', 'treasury', 'payroll', 'bi', 'fiscal'];
     if (commercialEntitlements.some(ce => permission.startsWith(ce))) {
         return false;
     }

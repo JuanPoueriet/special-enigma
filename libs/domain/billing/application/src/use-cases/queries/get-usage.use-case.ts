@@ -13,6 +13,7 @@ export interface UsageItem {
 }
 
 import { USER_READ_PORT, type UserReadPort } from '../../ports/user-read.port';
+import { STORAGE_READ_PORT, type StorageReadPort } from '../../ports/storage-read.port';
 import { PlanLimitMapper } from '@virteex/domain-subscription-domain';
 
 @Injectable()
@@ -21,6 +22,7 @@ export class GetUsageUseCase {
     @Inject(INVOICE_REPOSITORY) private readonly invoiceRepository: InvoiceRepository,
     @Inject(SUBSCRIPTION_REPOSITORY) private readonly subscriptionRepository: SubscriptionRepository,
     @Inject(USER_READ_PORT) private readonly userReadPort: UserReadPort,
+    @Inject(STORAGE_READ_PORT) private readonly storageReadPort: StorageReadPort,
     private readonly configService: ConfigService
   ) {}
 
@@ -28,6 +30,7 @@ export class GetUsageUseCase {
     const invoiceCount = await this.invoiceRepository.countByTenantId(tenantId);
     const subscription = await this.subscriptionRepository.findByTenantId(tenantId);
     const userCount = await this.userReadPort.getUserCount(tenantId);
+    const storageCount = await this.storageReadPort.getFileCount(tenantId);
 
     // Default Limits if no subscription (e.g., Free Tier or Trial fallback)
     let limits = {
@@ -40,9 +43,9 @@ export class GetUsageUseCase {
        const planLimits = subscription.getPlan().limits;
        const structured = PlanLimitMapper.toStructuredLimits(planLimits);
        limits = {
-           invoices: structured.invoices ?? limits.invoices,
-           users: structured.users ?? limits.users,
-           storage: structured.storage ?? limits.storage
+           invoices: structured.invoices ? structured.invoices.limit : limits.invoices,
+           users: structured.users ? structured.users.limit : limits.users,
+           storage: structured.storage ? structured.storage.limit : limits.storage
        };
     }
 
@@ -65,7 +68,7 @@ export class GetUsageUseCase {
       },
       {
         resource: 'Storage',
-        used: 0, // Placeholder for actual storage tracking
+        used: storageCount,
         limit: limits.storage === -1 ? Infinity : limits.storage,
         type: 'numeric',
         isUnlimited: limits.storage === -1,

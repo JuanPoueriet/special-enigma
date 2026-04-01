@@ -20,10 +20,10 @@ import { JwtAuthGuard, CurrentUser, StepUp, StepUpGuard, TenantGuard } from '@vi
 import { UserMapper } from '../mappers/user.mapper';
 import { AuditLogMapper } from '../mappers/audit-log.mapper';
 import { UserResponseDto, AuditLogDto } from '@virteex/domain-identity-contracts';
-import { RequireEntitlement } from '@virteex/kernel-entitlements';
+import { RequireEntitlement, EntitlementGuard } from '@virteex/kernel-entitlements';
 
 @Controller('users')
-@UseGuards(JwtAuthGuard, TenantGuard, StepUpGuard)
+@UseGuards(JwtAuthGuard, TenantGuard, EntitlementGuard, StepUpGuard)
 export class UsersController {
   constructor(
     private readonly getProfile: GetUserProfileUseCase,
@@ -98,6 +98,7 @@ export class UsersController {
   }
 
   @Patch(':id')
+  @RequireEntitlement('users')
   @StepUp({ action: 'tenant-admin', maxAgeSeconds: 300 })
   async updateUser(@Param('id') id: string, @Body() dto: UpdateUserDto, @CurrentUser() user: any): Promise<UserResponseDto> {
     const userEntity = await this.updateUserUseCase.execute(id, dto, user.tenantId);
@@ -121,6 +122,7 @@ export class UsersController {
   }
 
   @Post(':id/force-logout')
+  @RequireEntitlement('users')
   @StepUp({ action: 'tenant-admin', maxAgeSeconds: 300 })
   async forceLogout(@Param('id') id: string, @CurrentUser() user: any): Promise<void> {
     const targetUser = await this.userRepository.findById(id, user.tenantId);
@@ -131,6 +133,7 @@ export class UsersController {
   }
 
   @Post(':id/block-and-logout')
+  @RequireEntitlement('users')
   @StepUp({ action: 'tenant-admin', maxAgeSeconds: 300 })
   async blockAndLogout(@Param('id') id: string, @CurrentUser() user: any): Promise<void> {
     const targetUser = await this.userRepository.findById(id, user.tenantId);
@@ -141,6 +144,7 @@ export class UsersController {
   }
 
   @Put(':id/status')
+  @RequireEntitlement('users')
   @StepUp({ action: 'tenant-admin', maxAgeSeconds: 300 })
   async setUserStatus(@Param('id') id: string, @Body() body: { isOnline: boolean }, @CurrentUser() user: any): Promise<UserResponseDto> {
     const userEntity = await this.updateUserUseCase.execute(id, { status: body.isOnline ? 'ONLINE' : 'OFFLINE' } as any, user.tenantId);
@@ -148,6 +152,7 @@ export class UsersController {
   }
 
   @Post(':id/reset-password')
+  @RequireEntitlement('users')
   @StepUp({ action: 'tenant-admin', maxAgeSeconds: 300 })
   async sendPasswordReset(@Param('id') id: string, @Req() req: any, @CurrentUser() currentUser: any): Promise<{ message: string }> {
     const user = await this.userRepository.findById(id, currentUser.tenantId);
