@@ -78,6 +78,6 @@ export class AuthModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(CanonicalTenantMiddleware, CsrfMiddleware)
-      .forRoutes({ path: '(.*)', method: RequestMethod.ALL });
+      .forRoutes({ path: '*path', method: RequestMethod.ALL });
   }
 }
