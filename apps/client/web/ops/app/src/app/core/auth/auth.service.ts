@@ -46,14 +46,16 @@ export class AuthService {
 
     // Entitlements from backend take precedence for commercial features
     const entitlements = (user as any).entitlements || [];
-    if (entitlements.includes(permission)) return true;
 
-    // Commercial entitlements should NOT fall back to role-based bypass
-    const commercialEntitlements = ['invoices', 'users', 'storage', 'branches', 'advanced-reports', 'treasury', 'payroll'];
+    // Check if it is a commercial entitlement
+    const commercialEntitlements = ['invoices', 'users', 'storage', 'branches', 'advanced-reports', 'treasury', 'payroll', 'fiscal'];
     if (commercialEntitlements.includes(permission)) {
-        return false;
+        // Commercial entitlements MUST be explicitly granted in the entitlements array
+        // No role-based bypass allowed here to ensure commercial enforcement
+        return entitlements.includes(permission);
     }
 
+    // Role-based check for system/administrative permissions
     if (user.role === 'ADMIN' || user.role === 'SUPERUSER') return true;
 
     // Fallback to role-based mapping for system permissions

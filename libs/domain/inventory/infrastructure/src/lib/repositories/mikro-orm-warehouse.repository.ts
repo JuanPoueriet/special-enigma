@@ -14,8 +14,8 @@ export class MikroOrmWarehouseRepository implements WarehouseRepository {
     await this.em.persistAndFlush(orm);
   }
 
-  async findById(id: string): Promise<Warehouse | null> {
-    const orm = await this.em.findOne(WarehouseOrmEntity, { id });
+  async findById(id: string, tenantId: string): Promise<Warehouse | null> {
+    const orm = await this.em.findOne(WarehouseOrmEntity, { id, tenantId });
     return orm ? InventoryMapper.toWarehouseDomain(orm) : null;
   }
 
@@ -44,8 +44,8 @@ export class MikroOrmWarehouseRepository implements WarehouseRepository {
     return orms.map(orm => InventoryMapper.toWarehouseDomain(orm));
   }
 
-  async delete(id: string): Promise<void> {
-    const warehouse = await this.em.findOne(WarehouseOrmEntity, { id });
+  async delete(id: string, tenantId: string): Promise<void> {
+    const warehouse = await this.em.findOne(WarehouseOrmEntity, { id, tenantId });
     if (warehouse) {
       await this.em.removeAndFlush(warehouse);
     }

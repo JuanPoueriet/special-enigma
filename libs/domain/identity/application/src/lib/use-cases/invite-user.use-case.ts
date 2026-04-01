@@ -20,9 +20,11 @@ export class InviteUserUseCase {
     if (!currentUser) throw new Error('Inviter not found');
     const tenantId = currentUser.company.id;
 
-    // Quota check for users
+    // Quota check for users/seats
     const { total: currentCount } = await this.userRepository.findAll({ page: 1, pageSize: 1, tenantId });
     await this.entitlementService.checkQuota('users', currentCount);
+    await this.entitlementService.checkQuota('seats', currentCount);
+    await this.entitlementService.checkQuota('invitations', currentCount);
 
     const existing = await this.userRepository.findByEmail(dto.email);
     if (existing) {

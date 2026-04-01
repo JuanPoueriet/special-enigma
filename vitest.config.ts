@@ -31,6 +31,13 @@ export default defineConfig({
       '@virteex/kernel-tenant-context': path.resolve(__dirname, './libs/kernel/tenant-context/src/index.ts'),
       '@virteex/kernel-telemetry-interfaces': path.resolve(__dirname, './libs/kernel/telemetry-interfaces/src/index.ts'),
       '@virteex/shared-util-server-server-config': path.resolve(__dirname, './libs/shared/util/server/server-config/src/index.ts'),
+      '@virteex/domain-identity-domain': path.resolve(__dirname, './libs/domain/identity/domain/src/index.ts'),
+      '@virteex/domain-identity-contracts': path.resolve(__dirname, './libs/domain/identity/contracts/src/index.ts'),
+      '@virteex/kernel-entitlements': path.resolve(__dirname, './libs/kernel/entitlements/src/index.ts'),
+      '@virteex/domain-subscription-domain': path.resolve(__dirname, './libs/domain/subscription/domain/src/index.ts'),
+      '@virteex/domain-inventory-domain': path.resolve(__dirname, './libs/domain/inventory/domain/src/index.ts'),
+      '@virteex/domain-inventory-contracts': path.resolve(__dirname, './libs/domain/inventory/contracts/src/index.ts'),
+      '@virteex/domain-subscription-contracts': path.resolve(__dirname, './libs/domain/subscription/contracts/src/index.ts'),
     }
   },
 });

@@ -1,6 +1,7 @@
 import { Route } from '@angular/router';
 import { MainLayoutComponent } from './core/layout/main-layout.component';
 import { authGuard } from './core/auth/auth.guard';
+import { entitlementGuard } from './core/auth/entitlement.guard';
 import { LoginComponent } from './auth/login.component';
 
 export const appRoutes: Route[] = [
@@ -41,6 +42,8 @@ export const appRoutes: Route[] = [
       },
       {
         path: 'billing',
+        canActivate: [entitlementGuard],
+        data: { entitlement: 'invoices' },
         loadComponent: () => import('./billing/billing.component').then(m => m.BillingComponent),
       },
       {
@@ -49,6 +52,8 @@ export const appRoutes: Route[] = [
       },
       {
         path: 'finops',
+        canActivate: [entitlementGuard],
+        data: { entitlement: 'treasury' },
         loadComponent: () => import('./finops/finops.component').then(m => m.FinopsComponent),
       },
       {
@@ -77,6 +82,8 @@ export const appRoutes: Route[] = [
       },
       {
         path: 'reports',
+        canActivate: [entitlementGuard],
+        data: { entitlement: 'advanced-reports' },
         loadComponent: () => import('./reports/reports.component').then(m => m.ReportsComponent),
       },
       {
@@ -89,6 +96,8 @@ export const appRoutes: Route[] = [
       },
       {
         path: 'storage',
+        canActivate: [entitlementGuard],
+        data: { entitlement: 'storage' },
         loadComponent: () => import('./storage/storage.component').then(m => m.StorageComponent),
       },
       {

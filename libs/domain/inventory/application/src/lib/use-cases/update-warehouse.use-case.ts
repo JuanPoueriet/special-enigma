@@ -3,6 +3,7 @@ import { type WarehouseRepository, WAREHOUSE_REPOSITORY, Warehouse, WarehouseNot
 
 export interface UpdateWarehouseDto {
   id: string;
+  tenantId: string;
   name?: string;
   code?: string;
   address?: string;
@@ -18,7 +19,7 @@ export class UpdateWarehouseUseCase {
   ) {}
 
   async execute(dto: UpdateWarehouseDto): Promise<Warehouse> {
-    const warehouse = await this.warehouseRepository.findById(dto.id);
+    const warehouse = await this.warehouseRepository.findById(dto.id, dto.tenantId);
     if (!warehouse) {
       throw new WarehouseNotFoundError(dto.id);
     }
