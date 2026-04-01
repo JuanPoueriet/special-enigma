@@ -18,6 +18,15 @@ export class RecordJournalEntryUseCase {
     this.telemetryService.setTraceAttributes({ tenantId: dto.tenantId, useCase: 'RecordJournalEntry' });
 
     const handleExecute = async () => {
+        // SaaS Feature Metering: Enforce journal entry limits per plan
+        const entryCount = await this.journalEntryRepository.countByTenant(dto.tenantId);
+        const MAX_ENTRIES_FOR_BASIC_PLAN = 1000; // This would typically come from an EntitlementService
+
+        if (entryCount >= MAX_ENTRIES_FOR_BASIC_PLAN) {
+            this.telemetryService.recordBusinessMetric('accounting_plan_limit_reached', 1, { tenantId: dto.tenantId, limit: MAX_ENTRIES_FOR_BASIC_PLAN });
+            throw new Error(`Plan limit reached: Maximum of ${MAX_ENTRIES_FOR_BASIC_PLAN} journal entries allowed for your current plan.`);
+        }
+
         const latestClosedDate = await this.journalEntryRepository.findLatestClosedDate(dto.tenantId);
         if (latestClosedDate && new Date(dto.date) <= latestClosedDate) {
             throw new PeriodClosedError(new Date(dto.date));

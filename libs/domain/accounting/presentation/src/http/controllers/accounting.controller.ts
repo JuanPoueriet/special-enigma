@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Query, UseInterceptors, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiHeader } from '@nestjs/swagger';
-import { CreateAccountDto, RecordJournalEntryDto, GenerateFinancialReportDto, CloseFiscalPeriodDto, ReopenFiscalPeriodDto, FinancialReportDto } from '@virteex/domain-accounting-contracts';
+import { CreateAccountDto, RecordJournalEntryDto, RecordInvoiceDto, RecordPaymentDto, GenerateFinancialReportDto, CloseFiscalPeriodDto, ReopenFiscalPeriodDto, FinancialReportDto } from '@virteex/domain-accounting-contracts';
 import {
   AccountingCommandFacade,
   AccountingQueryFacade
@@ -152,5 +152,27 @@ export class AccountingController {
     @Body() dto: { accountId: string, statementLines: any[], rules?: any }
   ) {
     return this.commandFacade.bankReconciliation(tenantId, dto.accountId, dto.statementLines, dto.rules);
+  }
+
+  @Post('invoices')
+  @RequiresCapability('accounting:invoice:create')
+  @ApiOperation({ summary: 'Record a new invoice (AP/AR)' })
+  async recordInvoice(
+    @CurrentTenant() tenantId: string,
+    @CurrentUser() user: any,
+    @Body() dto: RecordInvoiceDto
+  ) {
+    return this.commandFacade.recordInvoice(tenantId, dto, user?.id);
+  }
+
+  @Post('payments')
+  @RequiresCapability('accounting:payment:create')
+  @ApiOperation({ summary: 'Record a new payment' })
+  async recordPayment(
+    @CurrentTenant() tenantId: string,
+    @CurrentUser() user: any,
+    @Body() dto: RecordPaymentDto
+  ) {
+    return this.commandFacade.recordPayment(tenantId, dto, user?.id);
   }
 }

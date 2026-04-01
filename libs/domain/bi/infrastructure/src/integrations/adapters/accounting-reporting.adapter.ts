@@ -37,7 +37,7 @@ export class AccountingReportingAdapter implements IAccountingReportingPort, OnM
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 5000); // 5s timeout
 
-        const response = await fetch(`${baseUrl}/api/accounting/journal-entries/count`, {
+        const response = await fetch(`${baseUrl}/internal/accounting/journal-entries/count`, {
             headers: {
               'x-virteex-tenant-id': tenantId,
               'x-virteex-context': encodedContext,
@@ -85,7 +85,7 @@ export class AccountingReportingAdapter implements IAccountingReportingPort, OnM
     const signature = signEncodedContext(encodedContext, this.hmacSecret);
 
     try {
-      const response = await fetch(`${baseUrl}/api/accounting/metrics/monthly-opex`, {
+      const response = await fetch(`${baseUrl}/internal/accounting/metrics/monthly-opex`, {
           headers: {
             'x-virteex-tenant-id': tenantId,
             'x-virteex-context': encodedContext,

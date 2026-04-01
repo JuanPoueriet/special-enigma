@@ -11,6 +11,8 @@ export * as ApiV2Responses from './api/v2/responses/account.v2.dto';
 export * from './api/v1/requests/create-account.dto';
 export * from './api/v1/requests/record-journal-entry.dto';
 export * from './api/v1/requests/accounting-ops.dto';
+export * from './api/v1/requests/invoice.dto';
+export * from './api/v1/requests/payment.dto';
 export * from './api/v1/responses/account.dto';
 export * from './api/v2/responses/account.v2.dto';
 export * from './api/v1/responses/journal-entry.dto';

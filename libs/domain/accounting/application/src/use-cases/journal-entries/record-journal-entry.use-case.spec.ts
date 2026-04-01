@@ -17,6 +17,7 @@ describe('RecordJournalEntryUseCase', () => {
       findAll: vi.fn(),
       getBalancesByAccount: vi.fn(),
       findLatestClosedDate: vi.fn().mockResolvedValue(null),
+      countByTenant: vi.fn().mockResolvedValue(0),
     } as unknown as JournalEntryRepository;
     accountRepo = {
       findById: vi.fn(),
@@ -127,5 +128,20 @@ describe('RecordJournalEntryUseCase', () => {
       (journalRepo.findLatestClosedDate as any).mockResolvedValue(closedDate);
 
       await expect(service.execute(dto)).rejects.toThrow();
+  });
+
+  it('should throw error if journal entry limit is reached (SaaS metering)', async () => {
+    const dto = {
+      tenantId: 'tenant1',
+      date: new Date(),
+      description: 'Test Entry',
+      lines: [
+        { accountId: '1', debit: '100.00', credit: '100.00' },
+      ],
+    };
+
+    (journalRepo.countByTenant as any).mockResolvedValue(1000);
+
+    await expect(service.execute(dto)).rejects.toThrow(/Plan limit reached/);
   });
 });

@@ -120,12 +120,8 @@ export class CloseFiscalPeriodUseCase {
       period.reopen();
       await this.fiscalPeriodRepository.save(period);
 
-      const entries = await this.journalEntryRepository.findAll(tenantId);
-      const closingEntry = entries.find(e =>
-          e.type === JournalEntryType.CLOSING &&
-          e.date.getTime() === closingDate.getTime() &&
-          e.status === JournalEntryStatus.POSTED
-      );
+      const entries = await this.journalEntryRepository.findByTypeAndDate(tenantId, JournalEntryType.CLOSING, closingDate);
+      const closingEntry = entries.find(e => e.status === JournalEntryStatus.POSTED);
 
       let reversalEntryId: string | undefined;
 

@@ -17,8 +17,10 @@ import {
 import {
   BankReconciliationUseCase,
 } from '../use-cases/bank/bank-reconciliation.use-case';
-import { CreateAccountDto, RecordJournalEntryDto } from '@virteex/domain-accounting-contracts';
-import { CLOSING_TASK_REPOSITORY, type ClosingTaskRepository, type ClosingTaskStatus } from '@virteex/domain-accounting-domain';
+import { RecordInvoiceUseCase } from '../use-cases/subledgers/record-invoice.use-case';
+import { RecordPaymentUseCase } from '../use-cases/subledgers/record-payment.use-case';
+import { CreateAccountDto, RecordJournalEntryDto, RecordInvoiceDto, RecordPaymentDto } from '@virteex/domain-accounting-contracts';
+import { CLOSING_TASK_REPOSITORY, type ClosingTaskRepository, type ClosingTaskStatus, Invoice, Payment } from '@virteex/domain-accounting-domain';
 
 @Injectable()
 export class AccountingCommandFacade {
@@ -29,6 +31,8 @@ export class AccountingCommandFacade {
     private readonly closeFiscalPeriodUseCase: CloseFiscalPeriodUseCase,
     private readonly consolidateAccountsUseCase: ConsolidateAccountsUseCase,
     private readonly bankReconciliationUseCase: BankReconciliationUseCase,
+    private readonly recordInvoiceUseCase: RecordInvoiceUseCase,
+    private readonly recordPaymentUseCase: RecordPaymentUseCase,
     @Inject(CLOSING_TASK_REPOSITORY) private readonly closingTaskRepository: ClosingTaskRepository,
   ) {}
 
@@ -71,5 +75,27 @@ export class AccountingCommandFacade {
   async bankReconciliation(tenantId: string, accountId: string, statementLines: any[], rules?: any) {
     const lines = statementLines.map(l => ({ ...l, date: new Date(l.date) }));
     return this.bankReconciliationUseCase.execute(tenantId, accountId, lines, rules);
+  }
+
+  async recordInvoice(tenantId: string, dto: RecordInvoiceDto, userId: string = 'system') {
+    const invoice = new Invoice(tenantId, dto.number, dto.type);
+    invoice.issueDate = new Date(dto.issueDate);
+    invoice.dueDate = new Date(dto.dueDate);
+    invoice.currency = dto.currency;
+    invoice.amount = dto.amount;
+    invoice.taxAmount = dto.taxAmount || '0.00';
+    invoice.vendorId = dto.vendorId;
+    invoice.customerId = dto.customerId;
+    invoice.notes = dto.notes;
+    invoice.lineItems = (dto.lineItems || []) as any;
+
+    return this.recordInvoiceUseCase.execute(tenantId, invoice, dto.expenseAccountCode, dto.payableAccountCode, userId);
+  }
+
+  async recordPayment(tenantId: string, dto: RecordPaymentDto, userId: string = 'system') {
+    const payment = new Payment(tenantId, 'N/A', dto.amount, new Date(dto.paymentDate));
+    payment.reference = dto.reference;
+
+    return this.recordPaymentUseCase.execute(tenantId, payment, dto.bankAccountCode, dto.receivableAccountCode, userId);
   }
 }

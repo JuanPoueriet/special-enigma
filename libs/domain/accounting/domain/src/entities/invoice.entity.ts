@@ -6,6 +6,14 @@ export enum InvoiceStatus {
   CANCELLED = 'CANCELLED'
 }
 
+export interface InvoiceLineItem {
+  description: string;
+  quantity: number;
+  unitPrice: string;
+  total: string;
+  taxAmount?: string;
+}
+
 export class Invoice {
   id!: string;
   tenantId!: string;
@@ -16,8 +24,11 @@ export class Invoice {
   dueDate!: Date;
   currency!: string;
   amount!: string;
+  taxAmount: string = '0.00';
   status: InvoiceStatus = InvoiceStatus.DRAFT;
   type: 'PAYABLE' | 'RECEIVABLE';
+  notes?: string;
+  lineItems: InvoiceLineItem[] = [];
 
   constructor(tenantId: string, number: string, type: 'PAYABLE' | 'RECEIVABLE') {
     this.tenantId = tenantId;
