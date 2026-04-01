@@ -5,6 +5,7 @@ import { CountJournalEntriesUseCase } from '../use-cases/journal-entries/count-j
 import { GenerateFinancialReportUseCase } from '../use-cases/reports/generate-financial-report.use-case';
 import { GetMonthlyOpexUseCase } from '../use-cases/metrics/get-monthly-opex.use-case';
 import { FinancialReportType } from '@virteex/domain-accounting-contracts';
+import { FISCAL_PERIOD_REPOSITORY, CLOSING_TASK_REPOSITORY, type FiscalPeriodRepository, type ClosingTaskRepository } from '@virteex/domain-accounting-domain';
 
 @Injectable()
 export class AccountingQueryFacade {
@@ -14,6 +15,8 @@ export class AccountingQueryFacade {
     private readonly countJournalEntriesUseCase: CountJournalEntriesUseCase,
     private readonly generateFinancialReportUseCase: GenerateFinancialReportUseCase,
     private readonly getMonthlyOpexUseCase: GetMonthlyOpexUseCase,
+    @Inject(FISCAL_PERIOD_REPOSITORY) private readonly fiscalPeriodRepository: FiscalPeriodRepository,
+    @Inject(CLOSING_TASK_REPOSITORY) private readonly closingTaskRepository: ClosingTaskRepository,
   ) {}
 
   async getAccounts(tenantId: string) {
@@ -44,5 +47,13 @@ export class AccountingQueryFacade {
 
   async getMonthlyOpex(tenantId: string): Promise<number> {
     return this.getMonthlyOpexUseCase.execute(tenantId);
+  }
+
+  async getFiscalPeriods(tenantId: string) {
+    return this.fiscalPeriodRepository.findAll(tenantId);
+  }
+
+  async getClosingTasks(tenantId: string, fiscalPeriodId: string) {
+    return this.closingTaskRepository.findByFiscalPeriod(tenantId, fiscalPeriodId);
   }
 }

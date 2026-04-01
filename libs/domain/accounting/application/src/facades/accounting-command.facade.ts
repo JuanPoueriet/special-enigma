@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import {
   CreateAccountUseCase,
 } from '../use-cases/accounts/create-account.use-case';
@@ -15,6 +15,7 @@ import {
   ConsolidateAccountsUseCase,
 } from '../use-cases/consolidation/consolidate-accounts.use-case';
 import { CreateAccountDto, RecordJournalEntryDto } from '@virteex/domain-accounting-contracts';
+import { CLOSING_TASK_REPOSITORY, type ClosingTaskRepository, type ClosingTaskStatus } from '@virteex/domain-accounting-domain';
 
 @Injectable()
 export class AccountingCommandFacade {
@@ -24,6 +25,7 @@ export class AccountingCommandFacade {
     private readonly setupChartOfAccountsUseCase: SetupChartOfAccountsUseCase,
     private readonly closeFiscalPeriodUseCase: CloseFiscalPeriodUseCase,
     private readonly consolidateAccountsUseCase: ConsolidateAccountsUseCase,
+    @Inject(CLOSING_TASK_REPOSITORY) private readonly closingTaskRepository: ClosingTaskRepository,
   ) {}
 
   async createAccount(dto: CreateAccountDto & { tenantId: string }) {
@@ -48,5 +50,17 @@ export class AccountingCommandFacade {
 
   async consolidateAccounts(targetTenantId: string, sourceTenantIds: string[], asOfDate: Date) {
     return this.consolidateAccountsUseCase.execute(targetTenantId, sourceTenantIds, asOfDate);
+  }
+
+  async updateClosingTask(tenantId: string, taskId: string, status: ClosingTaskStatus, userId: string, evidenceUrl?: string) {
+    const task = await this.closingTaskRepository.findById(tenantId, taskId);
+    if (!task) throw new Error('Task not found');
+
+    if (status === 'COMPLETED') {
+        task.complete(userId, evidenceUrl);
+    } else {
+        task.reset();
+    }
+    return this.closingTaskRepository.save(task);
   }
 }

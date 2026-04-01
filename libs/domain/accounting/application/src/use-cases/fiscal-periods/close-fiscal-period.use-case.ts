@@ -27,6 +27,9 @@ export class CloseFiscalPeriodUseCase {
 
     // Check closing tasks
     const tasks = await this.closingTaskRepository.findByFiscalPeriod(tenantId, period.id);
+    if (tasks.length === 0) {
+        throw new AccountingDomainError(`Cannot close period: No closing tasks defined for this period.`);
+    }
     const incompleteTasks = tasks.filter(t => t.status !== ClosingTaskStatus.COMPLETED);
     if (incompleteTasks.length > 0) {
         throw new AccountingDomainError(`Cannot close period: ${incompleteTasks.length} closing tasks are incomplete.`);

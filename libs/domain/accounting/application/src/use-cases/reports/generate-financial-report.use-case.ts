@@ -1,9 +1,20 @@
-import { type JournalEntryRepository, type AccountRepository, AccountType } from '@virteex/domain-accounting-domain';
+import {
+  type JournalEntryRepository,
+  type AccountRepository,
+  type AccountsPayableRepository,
+  type AccountsReceivableRepository,
+  AccountType,
+} from '@virteex/domain-accounting-domain';
 import { Decimal } from 'decimal.js';
 
 export interface FinancialReport {
   tenantId: string;
-  type: 'BALANCE_SHEET' | 'PROFIT_AND_LOSS' | 'TRIAL_BALANCE';
+  type:
+    | 'BALANCE_SHEET'
+    | 'PROFIT_AND_LOSS'
+    | 'TRIAL_BALANCE'
+    | 'AP_AGING'
+    | 'AR_AGING';
   generatedAt: Date;
   endDate: Date;
   previousEndDate?: Date;
@@ -22,70 +33,116 @@ export interface FinancialReportLine {
   level?: number;
 }
 
-
 export class GenerateFinancialReportUseCase {
   constructor(
     private journalEntryRepository: JournalEntryRepository,
-    private accountRepository: AccountRepository
+    private accountRepository: AccountRepository,
+    private apRepository?: AccountsPayableRepository,
+    private arRepository?: AccountsReceivableRepository,
   ) {}
 
   async execute(
     tenantId: string,
-    type: 'BALANCE_SHEET' | 'PROFIT_AND_LOSS' | 'TRIAL_BALANCE',
+    type:
+      | 'BALANCE_SHEET'
+      | 'PROFIT_AND_LOSS'
+      | 'TRIAL_BALANCE'
+      | 'AP_AGING'
+      | 'AR_AGING',
     endDate: Date,
-    dimensions?: Record<string, string>
+    dimensions?: Record<string, string>,
   ): Promise<FinancialReport> {
     const startTime = Date.now();
-    console.log(`[SLO] Starting financial report generation for tenant ${tenantId}, type ${type} as of ${endDate.toISOString()}`);
+    console.log(
+      `[SLO] Starting financial report generation for tenant ${tenantId}, type ${type} as of ${endDate.toISOString()}`,
+    );
+
+    if (type === 'AP_AGING' && this.apRepository) {
+      const aging = await this.apRepository.getAgingReport(tenantId, endDate);
+      return this.formatAgingReport(tenantId, 'AP_AGING', endDate, aging);
+    }
+
+    if (type === 'AR_AGING' && this.arRepository) {
+      const aging = await this.arRepository.getAgingReport(tenantId, endDate);
+      return this.formatAgingReport(tenantId, 'AR_AGING', endDate, aging);
+    }
 
     const previousEndDate = new Date(endDate);
     previousEndDate.setFullYear(previousEndDate.getFullYear() - 1);
 
-    const balances = await this.journalEntryRepository.getBalancesByAccount(tenantId, undefined, endDate, dimensions);
-    const previousBalances = await this.journalEntryRepository.getBalancesByAccount(tenantId, undefined, previousEndDate, dimensions);
+    const balances = await this.journalEntryRepository.getBalancesByAccount(
+      tenantId,
+      undefined,
+      endDate,
+      dimensions,
+    );
+    const previousBalances =
+      await this.journalEntryRepository.getBalancesByAccount(
+        tenantId,
+        undefined,
+        previousEndDate,
+        dimensions,
+      );
 
     const reportLines: FinancialReportLine[] = [];
     const accounts = await this.accountRepository.findAll(tenantId);
     let totalBalance = new Decimal(0);
 
     // Hierarchical sort by code
-    const sortedAccounts = accounts.sort((a, b) => a.code.localeCompare(b.code));
+    const sortedAccounts = accounts.sort((a, b) =>
+      a.code.localeCompare(b.code),
+    );
 
     for (const account of sortedAccounts) {
-        const balance = balances.get(account.id) || { debit: '0', credit: '0' };
-        const prevBalance = previousBalances.get(account.id) || { debit: '0', credit: '0' };
+      const balance = balances.get(account.id) || { debit: '0', credit: '0' };
+      const prevBalance = previousBalances.get(account.id) || {
+        debit: '0',
+        credit: '0',
+      };
 
-        const netBalance = new Decimal(balance.debit).minus(new Decimal(balance.credit));
-        const netPrevBalance = new Decimal(prevBalance.debit).minus(new Decimal(prevBalance.credit));
+      const netBalance = new Decimal(balance.debit).minus(
+        new Decimal(balance.credit),
+      );
+      const netPrevBalance = new Decimal(prevBalance.debit).minus(
+        new Decimal(prevBalance.credit),
+      );
 
-        const isIncomeOrExpense = account.type === AccountType.REVENUE || account.type === AccountType.EXPENSE;
-        let include = false;
+      const isIncomeOrExpense =
+        account.type === AccountType.REVENUE ||
+        account.type === AccountType.EXPENSE;
+      let include = false;
 
-        if (type === 'PROFIT_AND_LOSS' && isIncomeOrExpense) include = true;
-        else if (type === 'BALANCE_SHEET' && !isIncomeOrExpense) include = true;
-        else if (type === 'TRIAL_BALANCE') include = true;
+      if (type === 'PROFIT_AND_LOSS' && isIncomeOrExpense) include = true;
+      else if (type === 'BALANCE_SHEET' && !isIncomeOrExpense) include = true;
+      else if (type === 'TRIAL_BALANCE') include = true;
 
-        if (include) {
-            totalBalance = totalBalance.plus(netBalance);
+      if (include) {
+        totalBalance = totalBalance.plus(netBalance);
 
-            let percentageChange = 0;
-            if (!netPrevBalance.isZero()) {
-                percentageChange = netBalance.minus(netPrevBalance).div(netPrevBalance.abs()).mul(100).toNumber();
-            }
-
-            reportLines.push({
-                accountName: account.name,
-                accountCode: account.code,
-                balance: netBalance.toFixed(2),
-                previousBalance: netPrevBalance.toFixed(2),
-                percentageChange: Math.round(percentageChange * 100) / 100,
-                level: account.code.split('.').length
-            });
+        let percentageChange = 0;
+        if (!netPrevBalance.isZero()) {
+          percentageChange = netBalance
+            .minus(netPrevBalance)
+            .div(netPrevBalance.abs())
+            .mul(100)
+            .toNumber();
         }
+
+        reportLines.push({
+          accountName: account.name,
+          accountCode: account.code,
+          balance: netBalance.toFixed(2),
+          previousBalance: netPrevBalance.toFixed(2),
+          percentageChange: Math.round(percentageChange * 100) / 100,
+          level: account.code.split('.').length,
+        });
+      }
     }
 
     const duration = Date.now() - startTime;
-    console.log(`[SLO] Financial report generation for tenant ${tenantId} completed in ${duration}ms`);
+    console.log(
+      `[SLO] Financial report generation for tenant ${tenantId} completed in ${duration}ms`,
+    );
 
     return {
       tenantId,
@@ -95,7 +152,36 @@ export class GenerateFinancialReportUseCase {
       previousEndDate,
       lines: reportLines,
       dimensions,
-      totalBalance: totalBalance.toFixed(2)
+      totalBalance: totalBalance.toFixed(2),
+    };
+  }
+
+  private formatAgingReport(
+    tenantId: string,
+    type: 'AP_AGING' | 'AR_AGING',
+    endDate: Date,
+    aging: any,
+  ): FinancialReport {
+    const reportLines: FinancialReportLine[] = Object.entries(aging).map(
+      ([bucket, balance]) => ({
+        accountName: bucket,
+        accountCode: bucket,
+        balance: balance as string,
+      }),
+    );
+
+    const total = reportLines.reduce(
+      (acc, line) => acc.plus(new Decimal(line.balance)),
+      new Decimal(0),
+    );
+
+    return {
+      tenantId,
+      type,
+      generatedAt: new Date(),
+      endDate,
+      lines: reportLines,
+      totalBalance: total.toFixed(2),
     };
   }
 }

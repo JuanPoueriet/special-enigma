@@ -7,6 +7,8 @@ describe('CloseFiscalPeriodUseCase', () => {
   let useCase: CloseFiscalPeriodUseCase;
   let journalEntryRepository: any;
   let accountRepository: any;
+  let fiscalPeriodRepository: any;
+  let closingTaskRepository: any;
   let policyService: any;
 
   const tenantId = 'tenant-1';
@@ -23,11 +25,24 @@ describe('CloseFiscalPeriodUseCase', () => {
       findById: vi.fn(),
       findByCode: vi.fn(),
     };
+    fiscalPeriodRepository = {
+      findByDate: vi.fn().mockResolvedValue({ id: 'fp-1', status: 'OPEN' }),
+      save: vi.fn(),
+    };
+    closingTaskRepository = {
+      findByFiscalPeriod: vi.fn().mockResolvedValue([{ id: 'task-1', status: 'COMPLETED' }]),
+    };
     policyService = {
       resolveAccountsForClosing: vi.fn().mockResolvedValue({ retainedEarningsAccountCode: '302.01' }),
     };
 
-    useCase = new CloseFiscalPeriodUseCase(journalEntryRepository, accountRepository, policyService);
+    useCase = new CloseFiscalPeriodUseCase(
+      journalEntryRepository,
+      accountRepository,
+      fiscalPeriodRepository,
+      closingTaskRepository,
+      policyService
+    );
   });
 
   it('should throw error if retained earnings account is missing and there is net income', async () => {

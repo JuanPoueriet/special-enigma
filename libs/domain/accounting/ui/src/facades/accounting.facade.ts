@@ -98,6 +98,9 @@ export function accountingFacade() {
     closeFiscalPeriod,
     createAccount,
     setupChartOfAccounts,
-    recordJournalEntry
+    recordJournalEntry,
+    getFiscalPeriods: () => firstValueFrom(service.getFiscalPeriods()),
+    getClosingTasks: (fiscalPeriodId: string) => firstValueFrom(service.getClosingTasks(fiscalPeriodId)),
+    updateClosingTaskStatus: (taskId: string, status: string, evidenceUrl?: string) => firstValueFrom(service.updateClosingTaskStatus(taskId, status, evidenceUrl))
   };
 }

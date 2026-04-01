@@ -46,4 +46,16 @@ export class AccountingService {
   closeFiscalPeriod(closingDate: string): Observable<void> {
     return this.http.post<void>('/api/accounting/closing', { closingDate });
   }
+
+  getFiscalPeriods(): Observable<any[]> {
+    return this.http.get<any[]>('/api/accounting/fiscal-periods');
+  }
+
+  getClosingTasks(fiscalPeriodId: string): Observable<any[]> {
+    return this.http.get<any[]>('/api/accounting/closing-tasks', { params: { fiscalPeriodId } });
+  }
+
+  updateClosingTaskStatus(taskId: string, status: string, evidenceUrl?: string): Observable<void> {
+    return this.http.post<void>(`/api/accounting/closing-tasks/${taskId}/status`, { id: taskId, status, evidenceUrl });
+  }
 }

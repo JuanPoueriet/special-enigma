@@ -6,6 +6,11 @@ import {
   JOURNAL_ENTRY_REPOSITORY,
   POLICY_REPOSITORY,
   OUTBOX_REPOSITORY,
+  FISCAL_PERIOD_REPOSITORY,
+  CLOSING_TASK_REPOSITORY,
+  ACCOUNTS_PAYABLE_REPOSITORY,
+  ACCOUNTS_RECEIVABLE_REPOSITORY,
+  BANK_RECONCILIATION_REPOSITORY,
 } from '@virteex/domain-accounting-domain';
 import { TELEMETRY_SERVICE } from '@virteex/kernel-telemetry';
 import {
@@ -22,11 +27,21 @@ import { MikroOrmReportingAdapter } from './persistence/repositories/mikro-orm-r
 import { MikroOrmUnitOfWorkAdapter } from './persistence/repositories/mikro-orm-unit-of-work-adapter';
 import { MikroOrmPolicyRepository } from './persistence/repositories/mikro-orm-policy.repository';
 import { MikroOrmOutboxRepository } from './persistence/repositories/mikro-orm-outbox.repository';
+import { MikroOrmFiscalPeriodRepository } from './persistence/repositories/mikro-orm-fiscal-period.repository';
+import { MikroOrmClosingTaskRepository } from './persistence/repositories/mikro-orm-closing-task.repository';
+import { MikroOrmAccountsPayableRepository } from './persistence/repositories/mikro-orm-accounts-payable.repository';
+import { MikroOrmAccountsReceivableRepository } from './persistence/repositories/mikro-orm-accounts-receivable.repository';
+import { MikroOrmBankReconciliationRepository } from './persistence/repositories/mikro-orm-bank-reconciliation.repository';
 import {
   AccountSchema,
   JournalEntrySchema,
   JournalEntryLineSchema,
   FiscalYearSchema,
+  FiscalPeriodSchema,
+  ClosingTaskSchema,
+  InvoiceSchema,
+  PaymentSchema,
+  BankReconciliationSchema,
   AccountingPolicySchema,
 } from './persistence/orm/mikro-orm.schemas';
 import { OutboxMessageSchema } from './persistence/orm/outbox.schema';
@@ -43,6 +58,11 @@ import { AccountingEventConsumerService } from './messaging/consumers/accounting
       JournalEntrySchema,
       JournalEntryLineSchema,
       FiscalYearSchema,
+      FiscalPeriodSchema,
+      ClosingTaskSchema,
+      InvoiceSchema,
+      PaymentSchema,
+      BankReconciliationSchema,
       AccountingPolicySchema,
       OutboxMessageSchema,
     ]),
@@ -73,6 +93,26 @@ import { AccountingEventConsumerService } from './messaging/consumers/accounting
       useClass: MikroOrmOutboxRepository,
     },
     {
+      provide: FISCAL_PERIOD_REPOSITORY,
+      useClass: MikroOrmFiscalPeriodRepository,
+    },
+    {
+      provide: CLOSING_TASK_REPOSITORY,
+      useClass: MikroOrmClosingTaskRepository,
+    },
+    {
+      provide: ACCOUNTS_PAYABLE_REPOSITORY,
+      useClass: MikroOrmAccountsPayableRepository,
+    },
+    {
+      provide: ACCOUNTS_RECEIVABLE_REPOSITORY,
+      useClass: MikroOrmAccountsReceivableRepository,
+    },
+    {
+      provide: BANK_RECONCILIATION_REPOSITORY,
+      useClass: MikroOrmBankReconciliationRepository,
+    },
+    {
       provide: TELEMETRY_SERVICE,
       useClass: TelemetryService,
     },
@@ -95,6 +135,11 @@ import { AccountingEventConsumerService } from './messaging/consumers/accounting
     OUTBOX_REPOSITORY,
     ACCOUNTING_REPORTING_PORT,
     I_UNIT_OF_WORK,
+    FISCAL_PERIOD_REPOSITORY,
+    CLOSING_TASK_REPOSITORY,
+    ACCOUNTS_PAYABLE_REPOSITORY,
+    ACCOUNTS_RECEIVABLE_REPOSITORY,
+    BANK_RECONCILIATION_REPOSITORY,
     MESSAGE_BROKER,
     TELEMETRY_SERVICE,
     NestMikroOrmModule,
