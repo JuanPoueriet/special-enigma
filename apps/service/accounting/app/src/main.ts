@@ -11,15 +11,15 @@ import { AppModule } from './app/app.module';
 import { setupGlobalConfig } from '@virtex/shared-util-server-server-config';
 
 function shouldStartKafkaMicroservice(): boolean {
-  if (process.env.ACCOUNTING_KAFKA_ENABLED === 'true') {
-    return true;
+  const isProduction = process.env.NODE_ENV === 'production';
+  const kafkaEnabled = process.env.ACCOUNTING_KAFKA_ENABLED;
+
+  if (kafkaEnabled !== undefined) {
+    return kafkaEnabled === 'true';
   }
 
-  if (process.env.ACCOUNTING_KAFKA_ENABLED === 'false') {
-    return false;
-  }
-
-  return process.env.NODE_ENV === 'production';
+  // In production, we default to TRUE for reliability unless explicitly disabled
+  return isProduction;
 }
 
 async function bootstrap() {

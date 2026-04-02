@@ -1,6 +1,10 @@
 {
   "/api": {
-    "target": "http://localhost:3102",
-    "secure": false
+    "target": "http://wms-edge.virtex.local:3102",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": "/api"
+    }
   }
 }

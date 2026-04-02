@@ -15,6 +15,14 @@ export class MikroOrmAccountsPayableRepository implements AccountsPayableReposit
     return this.em.find(Invoice, { tenantId, vendorId, type: 'PAYABLE' });
   }
 
+  async findById(tenantId: string, id: string): Promise<Invoice | null> {
+    return this.em.findOne(Invoice, { tenantId, id, type: 'PAYABLE' });
+  }
+
+  async countByTenant(tenantId: string): Promise<number> {
+    return this.em.count(Invoice, { tenantId, type: 'PAYABLE' });
+  }
+
   async save(invoice: Invoice): Promise<Invoice> {
     await this.em.persistAndFlush(invoice);
     return invoice;

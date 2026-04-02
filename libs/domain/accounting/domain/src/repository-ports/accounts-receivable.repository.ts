@@ -14,7 +14,9 @@ export interface AccountsReceivableAgingReport {
 
 export interface AccountsReceivableRepository {
   findAll(tenantId: string): Promise<Invoice[]>;
+  findById(tenantId: string, id: string): Promise<Invoice | null>;
   findByCustomer(tenantId: string, customerId: string): Promise<Invoice[]>;
+  countByTenant(tenantId: string): Promise<number>;
   getAgingReport(tenantId: string, asOfDate: Date): Promise<AccountsReceivableAgingReport>;
   save(invoice: Invoice): Promise<Invoice>;
 }

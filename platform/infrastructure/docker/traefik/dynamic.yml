@@ -2,48 +2,63 @@
 http:
   routers:
     portal-router:
-      rule: "Host(`portal.virtex.local`) && PathPrefix(`/api/portal`)"
+      rule: "Host(`portal.virtex.local`)"
       service: portal-service
       entryPoints:
         - websecure
       tls: {}
 
-    pos-router:
-      rule: "Host(`pos.virtex.local`) && PathPrefix(`/api/pos`)"
-      service: pos-service
+    ops-router:
+      rule: "Host(`ops.virtex.local`)"
+      service: ops-service
       entryPoints:
         - websecure
       tls: {}
 
-    identity-router:
-      rule: "Host(`api.virtex.local`) && PathPrefix(`/api/identity-service`)"
-      service: identity-service
+    api-router:
+      rule: "Host(`api.virtex.local`) && PathPrefix(`/api/v1/auth`)"
+      service: portal-service
       entryPoints:
         - websecure
       tls: {}
-
 
   services:
     portal-service:
       loadBalancer:
         servers:
           - url: "http://bff-portal:3100"
+    ops-service:
+      loadBalancer:
+        servers:
+          - url: "http://bff-ops:3104"
+    wms-service:
+      loadBalancer:
+        servers:
+          - url: "http://bff-wms:3102"
+    shopfloor-service:
+      loadBalancer:
+        servers:
+          - url: "http://bff-shopfloor:3103"
+    cms-service:
+      loadBalancer:
+        servers:
+          - url: "http://bff-cms:3105"
+    support-service:
+      loadBalancer:
+        servers:
+          - url: "http://bff-support:3104"
+    store-service:
+      loadBalancer:
+        servers:
+          - url: "http://bff-storefront:3107"
+    site-service:
+      loadBalancer:
+        servers:
+          - url: "http://bff-site-public:3106"
     pos-service:
       loadBalancer:
         servers:
-          - url: "http://pos-service:3008"
-    identity-service:
-      loadBalancer:
-        servers:
-          - url: "http://service-identity:3000"
-    inventory-service:
-      loadBalancer:
-        servers:
-          - url: "http://service-inventory:3001"
-    billing-service:
-      loadBalancer:
-        servers:
-          - url: "http://service-billing:3003"
+          - url: "http://bff-pos:3101"
 
 tls:
   certificates:

@@ -1,6 +1,10 @@
 {
   "/api": {
-    "target": "http://localhost:3105",
-    "secure": false
+    "target": "http://cms-edge.virtex.local:3105",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": "/api"
+    }
   }
 }

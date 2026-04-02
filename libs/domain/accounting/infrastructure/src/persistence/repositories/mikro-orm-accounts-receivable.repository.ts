@@ -15,6 +15,14 @@ export class MikroOrmAccountsReceivableRepository implements AccountsReceivableR
     return this.em.find(Invoice, { tenantId, customerId, type: 'RECEIVABLE' });
   }
 
+  async findById(tenantId: string, id: string): Promise<Invoice | null> {
+    return this.em.findOne(Invoice, { tenantId, id, type: 'RECEIVABLE' });
+  }
+
+  async countByTenant(tenantId: string): Promise<number> {
+    return this.em.count(Invoice, { tenantId, type: 'RECEIVABLE' });
+  }
+
   async save(invoice: Invoice): Promise<Invoice> {
     await this.em.persistAndFlush(invoice);
     return invoice;

@@ -2,6 +2,7 @@ export enum InvoiceStatus {
   DRAFT = 'DRAFT',
   SENT = 'SENT',
   PAID = 'PAID',
+  PARTIAL = 'PARTIAL',
   OVERDUE = 'OVERDUE',
   CANCELLED = 'CANCELLED'
 }
@@ -24,6 +25,7 @@ export class Invoice {
   dueDate!: Date;
   currency!: string;
   amount!: string;
+  paidAmount: string = '0.00';
   taxAmount: string = '0.00';
   status: InvoiceStatus = InvoiceStatus.DRAFT;
   type: 'PAYABLE' | 'RECEIVABLE';
