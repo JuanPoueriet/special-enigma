@@ -43,9 +43,9 @@ export function setupGlobalConfig(app: INestApplication, serviceName?: string) {
       credentials: true,
     });
   } else if (!isProduction) {
-    // In development, allow all for easier testing if no explicit origin is set
+    // In development, restrict to local domains by default
     app.enableCors({
-      origin: true,
+      origin: [/localhost$/, /\.local$/],
       credentials: true,
     });
   } else {
@@ -89,4 +89,11 @@ export function setupGlobalConfig(app: INestApplication, serviceName?: string) {
   // Prefix
   const globalPrefix = serviceName ? `api/${serviceName}` : 'api';
   app.setGlobalPrefix(globalPrefix);
+}
+
+export function startOtel(serviceName: string) {
+  const { createOtelSdk } = require('./tracing');
+  const sdk = createOtelSdk(serviceName);
+  sdk.start();
+  return sdk;
 }

@@ -9,7 +9,7 @@ import {
 } from '@virtex/domain-manufacturing-domain';
 import { MikroOrmProductionOrderRepository } from './repositories/mikro-orm-production-order.repository';
 import { MikroOrmBillOfMaterialsRepository } from './repositories/mikro-orm-bill-of-materials.repository';
-import { HttpInventoryAdapter } from './adapters/http-inventory.adapter';
+import { GrpcInventoryAdapter } from './adapters/grpc-inventory.adapter';
 import { ProductionOrderSchema, ProductionOrderComponentSchema, BillOfMaterialsSchema, BillOfMaterialsComponentSchema } from './persistence/manufacturing.schemas';
 
 @Global()
@@ -30,7 +30,7 @@ import { ProductionOrderSchema, ProductionOrderComponentSchema, BillOfMaterialsS
     },
     {
       provide: INVENTORY_SERVICE,
-      useClass: HttpInventoryAdapter
+      useClass: GrpcInventoryAdapter
     }
   ],
   exports: [

@@ -4,7 +4,8 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import {
   IDENTITY_PACKAGE, IDENTITY_PROTO_PATH,
   BILLING_PACKAGE, BILLING_PROTO_PATH,
-  INVENTORY_PACKAGE, INVENTORY_PROTO_PATH
+  INVENTORY_PACKAGE, INVENTORY_PROTO_PATH,
+  CATALOG_PACKAGE, CATALOG_PROTO_PATH
 } from '@virtex/shared-proto';
 import { HealthModule } from '@virtex/shared-util-server-health';
 import { TelemetryModule } from '@virtex/kernel-telemetry';
@@ -46,6 +47,15 @@ import { IdentityProxyService } from './identity-proxy.service';
           package: INVENTORY_PACKAGE,
           protoPath: INVENTORY_PROTO_PATH,
           url: process.env['INVENTORY_GRPC_URL'] || 'localhost:50053',
+        },
+      },
+      {
+        name: 'CATALOG_PACKAGE',
+        transport: Transport.GRPC,
+        options: {
+          package: CATALOG_PACKAGE,
+          protoPath: CATALOG_PROTO_PATH,
+          url: process.env['CATALOG_GRPC_URL'] || 'localhost:50051',
         },
       },
     ]),

@@ -18,3 +18,6 @@ export const BILLING_PACKAGE = 'billing';
 
 export const INVENTORY_PROTO_PATH = resolveProtoPath('inventory.proto');
 export const INVENTORY_PACKAGE = 'inventory';
+
+export const CATALOG_PROTO_PATH = resolveProtoPath('catalog.proto');
+export const CATALOG_PACKAGE = 'catalog';

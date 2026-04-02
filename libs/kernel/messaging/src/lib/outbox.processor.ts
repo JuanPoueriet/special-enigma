@@ -83,6 +83,7 @@ export class OutboxProcessor implements OnModuleInit {
       occurredAt: event.createdAt
     };
     const messageString = JSON.stringify(messagePayload);
+    const isProduction = process.env['NODE_ENV'] === 'production';
 
     // Kafka Publishing (Primary backbone as per Architecture Guidelines)
     if (this.isKafkaConnected && this.kafkaProducer) {
@@ -96,23 +97,28 @@ export class OutboxProcessor implements OnModuleInit {
             this.logger.log(`[Kafka] Published (Primary): ${event.eventType} to topic ${topic}`);
         } catch (kafkaErr) {
             this.logger.error(`[Kafka] Error publishing event ${event.id}`, kafkaErr);
+            if (isProduction) throw kafkaErr; // Mandatory in production
         }
     } else {
         this.logger.warn(`[Kafka] Primary publish skipped: Not connected.`);
+        if (isProduction) throw new Error('Kafka is required in production');
     }
 
-    // NATS Publishing (Secondary/Legacy backbone)
-    try {
-        const subject = event.aggregateType.toLowerCase().replace(/\./g, '.');
-        await firstValueFrom(this.natsClient.emit(subject, messagePayload));
-        this.logger.log(`[NATS] Published (Secondary): ${event.eventType} to subject ${subject}`);
-    } catch (natsErr) {
-        this.logger.error(`[NATS] Error publishing event ${event.id}`, natsErr);
-    }
+    // Secondary backbones only for non-production or specific use-cases
+    if (!isProduction) {
+        // NATS Publishing (Secondary/Legacy backbone)
+        try {
+            const subject = event.aggregateType.toLowerCase().replace(/\./g, '.');
+            await firstValueFrom(this.natsClient.emit(subject, messagePayload));
+            this.logger.log(`[NATS] Published (Secondary): ${event.eventType} to subject ${subject}`);
+        } catch (natsErr) {
+            this.logger.error(`[NATS] Error publishing event ${event.id}`, natsErr);
+        }
 
-    // Redis Publishing (for Real-time UI updates via WebSockets, etc.)
-    const channel = 'events';
-    await this.redisClient.publish(channel, messageString);
-    this.logger.log(`[Redis] Published: ${event.eventType} (ID: ${event.id}) to channel ${channel}`);
+        // Redis Publishing (for Real-time UI updates via WebSockets, etc.)
+        const channel = 'events';
+        await this.redisClient.publish(channel, messageString);
+        this.logger.log(`[Redis] Published: ${event.eventType} (ID: ${event.id}) to channel ${channel}`);
+    }
   }
 }

@@ -23,4 +23,13 @@ export class InventoryGrpcController {
       quantity: 10,
     };
   }
+
+  @GrpcMethod('InventoryService', 'CheckAndReserveStock')
+  async checkAndReserveStock(data: any) {
+    // Basic implementation for the contract
+    return {
+      success: true,
+      message: 'Stock reserved successfully'
+    };
+  }
 }

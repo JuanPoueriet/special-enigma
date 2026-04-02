@@ -11,6 +11,7 @@ import { SqliteDriver } from '@mikro-orm/sqlite';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { TenantModule } from '@virtex/kernel-tenant';
 import { CanonicalTenantMiddleware } from '@virtex/kernel-auth';
+import { HealthModule } from '@virtex/shared-util-server-health';
 import { KafkaModule } from '@virtex/platform-kafka';
 import { CatalogInfrastructureModule } from '@virtex/domain-catalog-infrastructure';
 import { CatalogApplicationModule } from '@virtex/domain-catalog-application';
@@ -91,6 +92,7 @@ import { CatalogPresentationModule } from '@virtex/domain-catalog-presentation';
       },
     }),
     TenantModule,
+    HealthModule,
     CatalogInfrastructureModule,
     CatalogApplicationModule,
     CatalogPresentationModule,

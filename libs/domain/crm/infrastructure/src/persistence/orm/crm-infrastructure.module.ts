@@ -7,7 +7,7 @@ import { OpportunitySchema } from '../persistence/entities/opportunity.schema';
 import { MikroOrmSaleRepository } from '../persistence/repositories/mikro-orm-sale.repository';
 import { MikroOrmCustomerRepository } from '../persistence/repositories/mikro-orm-customer.repository';
 import { HttpInventoryAdapter } from '../integrations/http/http-inventory.adapter';
-import { HttpCatalogAdapter } from '../integrations/http/http-catalog.adapter';
+import { GrpcCatalogAdapter } from '../integrations/http/grpc-catalog.adapter';
 import { SaleUsageProvider } from '../../services/crm-usage.providers';
 
 @Global()
@@ -20,7 +20,7 @@ import { SaleUsageProvider } from '../../services/crm-usage.providers';
     { provide: 'SaleRepository', useClass: MikroOrmSaleRepository },
     { provide: 'CustomerRepository', useClass: MikroOrmCustomerRepository },
     { provide: 'InventoryService', useClass: HttpInventoryAdapter },
-    { provide: 'CatalogService', useClass: HttpCatalogAdapter },
+    { provide: 'CatalogService', useClass: GrpcCatalogAdapter },
     SaleUsageProvider,
   ],
   exports: ['SaleRepository', 'CustomerRepository', 'InventoryService', 'CatalogService'],
