@@ -5,7 +5,7 @@
   "projectType": "application",
   "tags": [
     "scope:pos",
-    "type:api",
+    "type:microservice",
     "platform:node",
     "criticality:medium"
   ],

@@ -7,6 +7,7 @@ import {
   INVENTORY_PACKAGE, INVENTORY_PROTO_PATH
 } from '@virtex/shared-proto';
 import { HealthModule } from '@virtex/shared-util-server-health';
+import { TelemetryModule } from '@virtex/kernel-telemetry';
 import { ServerConfigModule } from '@virtex/shared-util-server-server-config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -17,6 +18,7 @@ import { IdentityProxyService } from './identity-proxy.service';
   imports: [
     HttpModule,
     HealthModule,
+    TelemetryModule,
     ServerConfigModule,
     ClientsModule.register([
       {

@@ -7,6 +7,7 @@ import { LoggerModule } from 'nestjs-pino';
 import { TerminusModule } from '@nestjs/terminus';
 import { ServerConfigModule } from '@virtex/shared-util-server-server-config';
 import { HealthModule } from '@virtex/shared-util-server-health';
+import { TelemetryModule } from '@virtex/kernel-telemetry';
 import { KafkaModule } from '@virtex/platform-kafka';
 import { GraphQLModule } from '@nestjs/graphql';
 import depthLimit from 'graphql-depth-limit';
@@ -39,6 +40,7 @@ import { CanonicalTenantMiddleware } from '@virtex/kernel-auth';
     TerminusModule,
     ServerConfigModule,
     HealthModule,
+    TelemetryModule,
     GraphQLModule.forRoot<ApolloFederationDriverConfig>({
       driver: ApolloFederationDriver,
       plugins: [ApolloServerPluginLandingPageLocalDefault({ embed: true })],

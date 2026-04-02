@@ -1,23 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api-gateway
+  name: edge-portal-app
   labels:
-    app: api-gateway
+    app: edge-portal-app
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: api-gateway
+      app: edge-portal-app
   template:
     metadata:
       labels:
-        app: api-gateway
+        app: edge-portal-app
     spec:
       containers:
-        - name: api-gateway
-          # Pinning to semantic version + SHA256 digest for immutability
-          image: ghcr.io/virtex/api-gateway:1.0.0@sha256:7688a100227c670000000000000000000000000000000000000000000000000a
+        - name: edge-portal-app
+          image: ghcr.io/virtex/edge-portal-app:latest
           ports:
             - containerPort: 3000
           env:
@@ -36,10 +35,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: api-gateway
+  name: edge-portal-app
 spec:
   selector:
-    app: api-gateway
+    app: edge-portal-app
   ports:
     - protocol: TCP
       port: 80

@@ -22,19 +22,6 @@ http:
         - websecure
       tls: {}
 
-    inventory-router:
-      rule: "Host(`localhost`) && PathPrefix(`/api/inventory-service`)"
-      service: inventory-service
-      entryPoints:
-        - websecure
-      tls: {}
-
-    billing-router:
-      rule: "Host(`localhost`) && PathPrefix(`/api/billing-service`)"
-      service: billing-service
-      entryPoints:
-        - websecure
-      tls: {}
 
   services:
     portal-service:

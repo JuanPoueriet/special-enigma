@@ -15,6 +15,7 @@ import { FederationSupportModule } from '@virtex/shared-util-server-server-confi
 import { TenantModule } from '@virtex/kernel-tenant';
 import { AuthModule } from '@virtex/kernel-auth';
 import { HealthModule } from '@virtex/shared-util-server-health';
+import { TelemetryModule } from '@virtex/kernel-telemetry';
 import { IdentityPresentationModule } from '@virtex/domain-identity-presentation';
 import { IdentityInfrastructureModule } from '@virtex/domain-identity-infrastructure';
 
@@ -89,6 +90,7 @@ import { AppService } from './app.service';
     IdentityInfrastructureModule,
     IdentityPresentationModule,
     HealthModule,
+    TelemetryModule,
   ],
   controllers: [AppController],
   providers: [
