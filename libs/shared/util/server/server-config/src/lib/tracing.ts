@@ -57,7 +57,21 @@ export function createOtelSdk(serviceName: string): NodeSDK {
   });
 }
 
-// Global shutdown handler
-process.on('SIGTERM', () => {
-  Logger.log('SIGTERM received. Starting graceful shutdown of Tracing SDK...', 'Tracing');
-});
+/**
+ * Standard bootstrap function for OpenTelemetry.
+ * Should be called at the very beginning of main.ts.
+ */
+export function bootstrapTracing(serviceName: string): NodeSDK {
+  const sdk = createOtelSdk(serviceName);
+
+  // Global shutdown handler
+  process.on('SIGTERM', () => {
+    Logger.log(`SIGTERM received. Starting graceful shutdown of Tracing SDK for ${serviceName}...`, 'Tracing');
+    sdk.shutdown()
+      .then(() => Logger.log('SDK shut down successfully', 'Tracing'))
+      .catch((err) => Logger.error('Error shutting down SDK', err, 'Tracing'))
+      .finally(() => process.exit(0));
+  });
+
+  return sdk;
+}

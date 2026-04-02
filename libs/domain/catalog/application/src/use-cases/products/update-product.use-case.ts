@@ -11,6 +11,7 @@ export interface UpdateProductDto {
   fiscalCode?: string;
   taxGroup?: string;
   isActive?: boolean;
+  tenantId?: string;
 }
 
 @Injectable()

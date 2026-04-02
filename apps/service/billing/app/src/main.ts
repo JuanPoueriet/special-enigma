@@ -1,6 +1,7 @@
-import { otelSDK } from './tracing';
-// Start SDK before importing other modules
+import { setupGlobalConfig, bootstrapTracing } from '@virtex/shared-util-server-server-config';
+const otelSDK = bootstrapTracing('virtex-billing-service');
 otelSDK.start();
+
 
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
@@ -9,12 +10,12 @@ import { BILLING_PACKAGE, BILLING_PROTO_PATH } from '@virtex/shared-proto';
 import { AppModule } from './app/app.module';
 import { InitialSeederService } from './app/seeds/initial-seeder.service';
 import { MikroORM } from '@mikro-orm/core';
-import { setupGlobalConfig } from '@virtex/shared-util-server-server-config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  setupGlobalConfig(app, 'virtex-billing-service');
 
-  setupGlobalConfig(app, 'billing-service');
+
 
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.KAFKA,

@@ -36,20 +36,21 @@ export function setupGlobalConfig(app: INestApplication, serviceName?: string) {
   // CORS - Same-origin by default. Allow explicit CORS_ORIGIN for development/external-integrations.
   const isProduction = process.env['NODE_ENV'] === 'production';
   const corsOrigin = process.env['CORS_ORIGIN'];
+  const allowInsecureCors = process.env['CORS_ALLOWED_INSECURE'] === 'true';
 
   if (corsOrigin) {
     app.enableCors({
       origin: corsOrigin.split(','),
       credentials: true,
     });
-  } else if (!isProduction) {
-    // In development, allow all for easier testing if no explicit origin is set
+  } else if (!isProduction && allowInsecureCors) {
+    // In development, allow all ONLY if explicitly requested via env
     app.enableCors({
       origin: true,
       credentials: true,
     });
   } else {
-    // In production, if no CORS_ORIGIN is provided, we disable it (Same-Origin)
+    // Default to same-origin (disable CORS)
     app.enableCors({
       origin: false,
     });

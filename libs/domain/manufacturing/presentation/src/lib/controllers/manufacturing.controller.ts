@@ -32,7 +32,7 @@ export class ManufacturingController {
   @Get('orders')
   @RequireEntitlement('manufacturing:read')
   @ApiOperation({ summary: 'Get all Production Orders' })
-  findAll(@CurrentTenant() tenantId: string) {
-    return this.getUseCase.execute(tenantId);
+  findAll() {
+    return this.getUseCase.execute();
   }
 }

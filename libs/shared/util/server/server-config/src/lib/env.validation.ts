@@ -14,6 +14,10 @@ export class EnvironmentVariables {
   @IsOptional()
   OTEL_EXPORTER_OTLP_ENDPOINT?: string;
 
+  @IsString()
+  @IsOptional()
+  KAFKA_BROKERS?: string;
+
   @IsNumber()
   @IsOptional()
   @Type(() => Number)
@@ -119,7 +123,12 @@ export function validate(config: Record<string, unknown>, extraRequired: string[
 
   const isProduction = validatedConfig.NODE_ENV === 'production';
   if (isProduction) {
-    const missing = extraRequired.filter(env => !config[env]);
+    const productionRequired = [
+      ...extraRequired,
+      'OTEL_EXPORTER_OTLP_ENDPOINT',
+      'KAFKA_BROKERS',
+    ];
+    const missing = productionRequired.filter(env => !config[env]);
     if (missing.length > 0) {
       throw new Error(`Missing required environment variables for production: ${missing.join(', ')}`);
     }

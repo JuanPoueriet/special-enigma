@@ -1,19 +1,19 @@
-import { otelSDK } from './tracing';
-// Start SDK before importing other modules
+import { setupGlobalConfig, bootstrapTracing } from '@virtex/shared-util-server-server-config';
+const otelSDK = bootstrapTracing('virtex-pos-service');
 otelSDK.start();
+
 
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { PosApiModule } from './app/pos-api.module';
-import { setupGlobalConfig } from '@virtex/shared-util-server-server-config';
 
 async function bootstrap() {
   const app = await NestFactory.create(PosApiModule);
-  const globalPrefix = 'api';
+  setupGlobalConfig(app, 'virtex-pos-service');
+    const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
 
   // Apply shared global config (pipes, filters, security headers)
-  setupGlobalConfig(app, 'pos-service');
 
   const port = process.env.PORT || 3008;
   await app.listen(port);

@@ -1,6 +1,7 @@
-import { otelSDK } from './tracing';
-// Start SDK before importing other modules
+import { setupGlobalConfig, bootstrapTracing } from '@virtex/shared-util-server-server-config';
+const otelSDK = bootstrapTracing('virtex-subscription-service');
 otelSDK.start();
+
 
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
@@ -10,6 +11,7 @@ import { MikroORM } from '@mikro-orm/core';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  setupGlobalConfig(app, 'virtex-subscription-service');
 
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.KAFKA,

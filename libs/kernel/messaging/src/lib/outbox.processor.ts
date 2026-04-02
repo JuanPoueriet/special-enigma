@@ -34,7 +34,12 @@ export class OutboxProcessor implements OnModuleInit {
         await this.kafkaProducer.connect();
         this.isKafkaConnected = true;
         this.logger.log('Connected to Kafka successfully.');
-      } catch (err) {
+      } catch (err: any) {
+        const isProduction = process.env['NODE_ENV'] === 'production' || process.env['RELEASE_STAGE'] === 'production';
+        if (isProduction) {
+          this.logger.error('CRITICAL: Failed to connect to Kafka in production. This is a non-negotiable event backbone.', err);
+          throw new Error(`Failed to connect to Kafka: ${err.message}`);
+        }
         this.logger.warn('Failed to connect to Kafka. Application will continue using Redis/Logs only.', err);
       }
     } else {

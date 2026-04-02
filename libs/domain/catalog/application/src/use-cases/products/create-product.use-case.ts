@@ -8,6 +8,7 @@ export interface CreateProductDto {
   sku: string;
   name: string;
   price: string;
+  tenantId?: string;
 }
 
 @Injectable()

@@ -1,11 +1,11 @@
-import { otelSDK } from './tracing';
-// Start SDK before importing other modules
+import { setupGlobalConfig, bootstrapTracing } from '@virtex/shared-util-server-server-config';
+const otelSDK = bootstrapTracing('virtex-portal-edge');
 otelSDK.start();
+
 
 import { INestApplication, Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
-import { setupGlobalConfig } from '@virtex/shared-util-server-server-config';
 import { AddressInfo } from 'net';
 
 const logger = new Logger('Bootstrap');
@@ -50,9 +50,10 @@ async function listenWithPortFallback(app: INestApplication) {
 async function bootstrap() {
   try {
     const app = await NestFactory.create(AppModule);
+  setupGlobalConfig(app, 'virtex-portal-edge');
 
     // Apply Global Configuration (Security, Pipes, Filters, Throttling, Global Prefix)
-    setupGlobalConfig(app, 'portal');
+
 
     await listenWithPortFallback(app);
   } catch (error) {

@@ -1,12 +1,16 @@
+import { setupGlobalConfig, bootstrapTracing } from '@virtex/shared-util-server-server-config';
+const otelSDK = bootstrapTracing('virtex-fiscal-service');
+otelSDK.start();
+
+
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
-import { setupGlobalConfig } from '@virtex/shared-util-server-server-config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  setupGlobalConfig(app);
-  const port = process.env.PORT || 3000;
+  setupGlobalConfig(app, 'virtex-fiscal-service');
+          const port = process.env.PORT || 3000;
   await app.listen(port);
   Logger.log(`🚀 Application is running on: http://localhost:${port}`);
 }

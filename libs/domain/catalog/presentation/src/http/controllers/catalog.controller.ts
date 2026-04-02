@@ -1,4 +1,5 @@
 import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards } from '@nestjs/common';
+import { GrpcMethod } from '@nestjs/microservices';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { GetProductsUseCase, GetProductByIdUseCase, CreateProductUseCase, type CreateProductDto, UpdateProductUseCase, type UpdateProductDto, DeleteProductUseCase, GetSatCatalogsUseCase, GetProductBySkuUseCase } from '@virtex/domain-catalog-application';
 import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virtex/kernel-auth';
@@ -38,6 +39,20 @@ export class CatalogController {
   @ApiOperation({ summary: 'Get product by ID' })
   async getProductById(@Param('id') id: number, @CurrentTenant() tenantId: string) {
     return this.getProductByIdUseCase.execute(id, tenantId);
+  }
+
+  @GrpcMethod('CatalogService', 'GetProductById')
+  async getProductByIdGrpc(data: { id: number; tenantId: string }) {
+    const product = await this.getProductByIdUseCase.execute(data.id, data.tenantId);
+    if (!product) {
+      throw new Error('Product not found');
+    }
+    return {
+      id: product.id,
+      name: product.name,
+      sku: product.sku,
+      price: product.price.toString()
+    };
   }
 
   @Post('products')

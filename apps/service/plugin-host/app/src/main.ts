@@ -1,3 +1,8 @@
+import { setupGlobalConfig, bootstrapTracing } from '@virtex/shared-util-server-server-config';
+const otelSDK = bootstrapTracing('virtex-plugin-host-service');
+otelSDK.start();
+
+
 import Fastify, { FastifyRequest } from 'fastify';
 import * as fs from 'fs';
 import * as path from 'path';

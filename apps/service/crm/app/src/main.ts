@@ -1,18 +1,19 @@
-import { otelSDK } from './tracing';
-// Start SDK before importing other modules
+import { setupGlobalConfig, bootstrapTracing } from '@virtex/shared-util-server-server-config';
+const otelSDK = bootstrapTracing('virtex-crm-service');
 otelSDK.start();
+
 
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { Transport, MicroserviceOptions } from '@nestjs/microservices';
 import { AppModule } from './app/app.module';
 import { MikroORM } from '@mikro-orm/core';
-import { setupGlobalConfig } from '@virtex/shared-util-server-server-config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  setupGlobalConfig(app, 'virtex-crm-service');
 
-  setupGlobalConfig(app, 'crm-service');
+
 
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.KAFKA,

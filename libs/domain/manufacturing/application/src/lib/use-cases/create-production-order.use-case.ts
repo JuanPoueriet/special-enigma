@@ -2,11 +2,11 @@ import { Injectable, Inject, Logger } from '@nestjs/common';
 import {
   ProductionOrder,
   ProductionOrderComponent,
-  ProductionOrderRepository,
+  type ProductionOrderRepository,
   PRODUCTION_ORDER_REPOSITORY,
-  InventoryService,
+  type InventoryService,
   INVENTORY_SERVICE,
-  BillOfMaterialsRepository,
+  type BillOfMaterialsRepository,
   BILL_OF_MATERIALS_REPOSITORY
 } from '@virtex/domain-manufacturing-domain';
 import { EntityNotFoundException } from '@virtex/kernel-exceptions';

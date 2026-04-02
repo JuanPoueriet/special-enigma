@@ -1,6 +1,7 @@
-import { otelSDK } from './tracing';
-// Start SDK before importing other modules
+import { setupGlobalConfig, bootstrapTracing } from '@virtex/shared-util-server-server-config';
+const otelSDK = bootstrapTracing('virtex-accounting-service');
 otelSDK.start();
+
 
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
@@ -8,7 +9,6 @@ import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import cookieParser from 'cookie-parser';
 
 import { AppModule } from './app/app.module';
-import { setupGlobalConfig } from '@virtex/shared-util-server-server-config';
 
 function shouldStartKafkaMicroservice(): boolean {
   if (process.env.ACCOUNTING_KAFKA_ENABLED === 'true') {
@@ -24,8 +24,8 @@ function shouldStartKafkaMicroservice(): boolean {
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  setupGlobalConfig(app);
-  app.use(cookieParser());
+  setupGlobalConfig(app, 'virtex-accounting-service');
+          app.use(cookieParser());
 
   if (shouldStartKafkaMicroservice()) {
     app.connectMicroservice<MicroserviceOptions>({

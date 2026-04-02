@@ -1,3 +1,8 @@
+import { setupGlobalConfig, bootstrapTracing } from '@virtex/shared-util-server-server-config';
+const otelSDK = bootstrapTracing('virtex-identity-service');
+otelSDK.start();
+
+
 import { INestApplication, Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { Transport, MicroserviceOptions } from '@nestjs/microservices';
@@ -8,12 +13,9 @@ import { RedisStore } from 'connect-redis';
 import Redis from 'ioredis';
 import { AddressInfo } from 'net';
 import passport from 'passport';
-import { otelSDK } from './tracing';
-// Start SDK before importing other modules
-otelSDK.start();
+
 
 import { AppModule } from './app/app.module';
-import { setupGlobalConfig, validate } from '@virtex/shared-util-server-server-config';
 
 const logger = new Logger('Bootstrap');
 
@@ -105,6 +107,7 @@ async function listenWithPortFallback(app: INestApplication) {
 async function bootstrap() {
   validateEnv();
   const app = await NestFactory.create(AppModule);
+  setupGlobalConfig(app, 'virtex-identity-service');
 
 
   app.connectMicroservice<MicroserviceOptions>({
@@ -118,7 +121,7 @@ async function bootstrap() {
 
   await app.startAllMicroservices();
 
-  setupGlobalConfig(app, 'identity-service');
+
 
   app.use(cookieParser());
 

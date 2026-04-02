@@ -2,21 +2,21 @@
 http:
   routers:
     portal-router:
-      rule: "Host(`localhost`) && PathPrefix(`/api/portal`)"
+      rule: "Host(`portal.virtex.local`) && PathPrefix(`/api/portal`)"
       service: portal-service
       entryPoints:
         - websecure
       tls: {}
 
     pos-router:
-      rule: "Host(`localhost`) && PathPrefix(`/api/pos`)"
+      rule: "Host(`pos.virtex.local`) && PathPrefix(`/api/pos`)"
       service: pos-service
       entryPoints:
         - websecure
       tls: {}
 
     identity-router:
-      rule: "Host(`localhost`) && PathPrefix(`/api/identity-service`)"
+      rule: "Host(`identity.virtex.local`) && PathPrefix(`/api/identity-service`)"
       service: identity-service
       entryPoints:
         - websecure

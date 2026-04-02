@@ -4,6 +4,7 @@ package inventory;
 
 service InventoryService {
   rpc GetProduct (GetProductRequest) returns (Product) {}
+  rpc CheckAndReserveStock (CheckAndReserveStockRequest) returns (CheckAndReserveStockResponse) {}
 }
 
 message GetProductRequest {
@@ -15,4 +16,16 @@ message Product {
   string tenantId = 2;
   string name = 3;
   int32 quantity = 4;
+}
+
+message CheckAndReserveStockRequest {
+  string tenantId = 1;
+  string warehouseId = 2;
+  string productSku = 3;
+  int32 quantity = 4;
+}
+
+message CheckAndReserveStockResponse {
+  bool success = 1;
+  string message = 2;
 }

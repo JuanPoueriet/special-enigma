@@ -1,14 +1,13 @@
-
-import { otelSDK } from './tracing';
-// Start SDK before importing other modules
+import { setupGlobalConfig, bootstrapTracing } from '@virtex/shared-util-server-server-config';
+const otelSDK = bootstrapTracing('virtex-inventory-service');
 otelSDK.start();
+
 
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { Transport, MicroserviceOptions } from '@nestjs/microservices';
 import { INVENTORY_PACKAGE, INVENTORY_PROTO_PATH } from '@virtex/shared-proto';
 import { AppModule } from './app/app.module';
-import { setupGlobalConfig, validate } from '@virtex/shared-util-server-server-config';
 
 function validateEnv() {
   validate(process.env, ['DATABASE_URL']);
@@ -17,6 +16,7 @@ function validateEnv() {
 async function bootstrap() {
   validateEnv();
   const app = await NestFactory.create(AppModule);
+  setupGlobalConfig(app, 'virtex-inventory-service');
 
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.GRPC,
@@ -27,7 +27,7 @@ async function bootstrap() {
     },
   });
 
-  setupGlobalConfig(app, 'inventory-service');
+
 
   await app.startAllMicroservices();
   const globalPrefix = 'api';
