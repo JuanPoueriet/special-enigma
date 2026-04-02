@@ -19,59 +19,61 @@ import type { Request } from 'express';
 import { Metadata } from '@grpc/grpc-js';
 import { firstValueFrom, Observable } from 'rxjs';
 
+type GrpcMethod<T, R = any> = (data: T, metadata?: Metadata) => Observable<R>;
+
 interface IdentityService {
-  getMe(data: { access_token: string }): Observable<any>;
-  login(data: any): Observable<any>;
-  initiateSignup(data: any): Observable<any>;
-  verifySignup(data: any): Observable<any>;
-  completeOnboarding(data: any): Observable<any>;
-  verifyMfa(data: any): Observable<any>;
-  refreshToken(data: any): Observable<any>;
-  logout(data: any): Observable<any>;
-  getOnboardingStatus(data: any): Observable<any>;
-  forgotPassword(data: any): Observable<any>;
-  resetPassword(data: any): Observable<any>;
-  setPassword(data: any): Observable<any>;
-  getSocialRegisterInfo(data: any): Observable<any>;
-  getPasskeyRegisterOptions(data: any): Observable<any>;
-  verifyPasskeyRegister(data: any): Observable<any>;
-  getPasskeyLoginOptions(data: any): Observable<any>;
-  verifyPasskeyLogin(data: any): Observable<any>;
-  checkSecurityContext(data: any): Observable<any>;
-  getSessions(data: any): Observable<any>;
-  revokeSession(data: any): Observable<any>;
-  impersonate(data: any): Observable<any>;
-  changePassword(data: any): Observable<any>;
-  generate2faSecret(data: any): Observable<any>;
-  enable2fa(data: any): Observable<any>;
-  disable2fa(data: any): Observable<any>;
-  generateBackupCodes(data: any): Observable<any>;
-  send2faEmailVerification(data: any): Observable<any>;
-  verify2faEmailVerification(data: any): Observable<any>;
-  getLocation(data: any): Observable<any>;
+  getMe: GrpcMethod<{ access_token: string }>;
+  login: GrpcMethod<any>;
+  initiateSignup: GrpcMethod<any>;
+  verifySignup: GrpcMethod<any>;
+  completeOnboarding: GrpcMethod<any>;
+  verifyMfa: GrpcMethod<any>;
+  refreshToken: GrpcMethod<any>;
+  logout: GrpcMethod<any>;
+  getOnboardingStatus: GrpcMethod<any>;
+  forgotPassword: GrpcMethod<any>;
+  resetPassword: GrpcMethod<any>;
+  setPassword: GrpcMethod<any>;
+  getSocialRegisterInfo: GrpcMethod<any>;
+  getPasskeyRegisterOptions: GrpcMethod<any>;
+  verifyPasskeyRegister: GrpcMethod<any>;
+  getPasskeyLoginOptions: GrpcMethod<any>;
+  verifyPasskeyLogin: GrpcMethod<any>;
+  checkSecurityContext: GrpcMethod<any>;
+  getSessions: GrpcMethod<any>;
+  revokeSession: GrpcMethod<any>;
+  impersonate: GrpcMethod<any>;
+  changePassword: GrpcMethod<any>;
+  generate2faSecret: GrpcMethod<any>;
+  enable2fa: GrpcMethod<any>;
+  disable2fa: GrpcMethod<any>;
+  generateBackupCodes: GrpcMethod<any>;
+  send2faEmailVerification: GrpcMethod<any>;
+  verify2faEmailVerification: GrpcMethod<any>;
+  getLocation: GrpcMethod<any>;
 
-  listUsers(data: any): Observable<any>;
-  getJobTitles(data: any): Observable<any>;
-  getUserProfile(data: any): Observable<any>;
-  getUserAuditLogs(data: any): Observable<any>;
-  updateUserProfile(data: any): Observable<any>;
-  updateUser(data: any): Observable<any>;
-  deleteUser(data: any): Observable<any>;
-  inviteUser(data: any): Observable<any>;
-  forceLogout(data: any): Observable<any>;
-  blockAndLogout(data: any): Observable<any>;
-  setUserStatus(data: any): Observable<any>;
-  sendPasswordReset(data: any): Observable<any>;
-  uploadAvatar(data: any): Observable<any>;
+  listUsers: GrpcMethod<any>;
+  getJobTitles: GrpcMethod<any>;
+  getUserProfile: GrpcMethod<any>;
+  getUserAuditLogs: GrpcMethod<any>;
+  updateUserProfile: GrpcMethod<any>;
+  updateUser: GrpcMethod<any>;
+  deleteUser: GrpcMethod<any>;
+  inviteUser: GrpcMethod<any>;
+  forceLogout: GrpcMethod<any>;
+  blockAndLogout: GrpcMethod<any>;
+  setUserStatus: GrpcMethod<any>;
+  sendPasswordReset: GrpcMethod<any>;
+  uploadAvatar: GrpcMethod<any>;
 
-  getLocalizationConfig(data: any): Observable<any>;
-  localizationLookup(data: any): Observable<any>;
+  getLocalizationConfig: GrpcMethod<any>;
+  localizationLookup: GrpcMethod<any>;
 
-  checkUserExists(data: any): Observable<any>;
-  checkOrganizationExists(data: any): Observable<any>;
+  checkUserExists: GrpcMethod<any>;
+  checkOrganizationExists: GrpcMethod<any>;
 
-  listTenants(data: any): Observable<any>;
-  healthCheck(data: any): Observable<any>;
+  listTenants: GrpcMethod<any>;
+  healthCheck: GrpcMethod<any>;
 }
 
 @Injectable()
@@ -128,12 +130,6 @@ export class IdentityProxyService implements OnModuleInit {
     request$: Observable<T>,
   ): Promise<T> {
     try {
-      const metadata = new Metadata();
-      const requestId = this.request.headers['x-request-id'] || this.request.headers['X-Request-Id'];
-      if (requestId) {
-        metadata.add('x-request-id', requestId as string);
-      }
-
       return await firstValueFrom(request$, { defaultValue: undefined } as any);
     } catch (error) {
       this.mapGrpcError(error, operation);
@@ -145,6 +141,10 @@ export class IdentityProxyService implements OnModuleInit {
     const requestId = this.request.headers['x-request-id'] || this.request.headers['X-Request-Id'];
     if (requestId) {
       metadata.add('x-request-id', requestId as string);
+    }
+    const tenantId = this.request.headers['x-tenant-id'] || (this.request as any).user?.tenantId;
+    if (tenantId) {
+      metadata.add('x-tenant-id', tenantId);
     }
     return metadata;
   }
@@ -161,39 +161,50 @@ export class IdentityProxyService implements OnModuleInit {
   // --- Auth Wrappers ---
 
   async getMe(accessToken: string) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'getMe',
       this.identityService.getMe({ access_token: accessToken }, this.getMetadata()),
     );
   }
 
   async login(data: any, context: any) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'login',
       this.identityService.login({ ...data, context }, this.getMetadata()),
     );
   }
 
   async initiateSignup(data: any) {
-    return await firstValueFrom(this.identityService.initiateSignup(data, this.getMetadata()));
+    return await this.callIdentity(
+      'initiateSignup',
+      this.identityService.initiateSignup(data, this.getMetadata())
+    );
   }
 
   async verifySignup(data: any) {
-    return await firstValueFrom(this.identityService.verifySignup(data, this.getMetadata()));
+    return await this.callIdentity(
+      'verifySignup',
+      this.identityService.verifySignup(data, this.getMetadata())
+    );
   }
 
   async completeOnboarding(data: any, context: any) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'completeOnboarding',
       this.identityService.completeOnboarding({ ...data, context }, this.getMetadata()),
     );
   }
 
   async verifyMfa(data: any, context: any) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'verifyMfa',
       this.identityService.verifyMfa({ ...data, context }, this.getMetadata()),
     );
   }
 
   async refreshToken(refreshToken: string, context: any) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'refreshToken',
       this.identityService.refreshToken({
         refresh_token: refreshToken,
         context,
@@ -202,49 +213,57 @@ export class IdentityProxyService implements OnModuleInit {
   }
 
   async logout(accessToken: string) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'logout',
       this.identityService.logout({ access_token: accessToken }, this.getMetadata()),
     );
   }
 
   async getOnboardingStatus(userId: string) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'getOnboardingStatus',
       this.identityService.getOnboardingStatus({ user_id: userId }, this.getMetadata()),
     );
   }
 
   async forgotPassword(data: any, context: any) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'forgotPassword',
       this.identityService.forgotPassword({ ...data, context }, this.getMetadata()),
     );
   }
 
   async resetPassword(data: any, context: any) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'resetPassword',
       this.identityService.resetPassword({ ...data, context }, this.getMetadata()),
     );
   }
 
   async setPassword(data: any, context: any) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'setPassword',
       this.identityService.setPassword({ ...data, context }, this.getMetadata()),
     );
   }
 
   async getSocialRegisterInfo(token: string) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'getSocialRegisterInfo',
       this.identityService.getSocialRegisterInfo({ token }, this.getMetadata()),
     );
   }
 
   async getPasskeyRegisterOptions(userId: string) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'getPasskeyRegisterOptions',
       this.identityService.getPasskeyRegisterOptions({ user_id: userId }, this.getMetadata()),
     );
   }
 
   async verifyPasskeyRegister(userId: string, challenge: any, response: any) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'verifyPasskeyRegister',
       this.identityService.verifyPasskeyRegister({
         user_id: userId,
         challenge_json: JSON.stringify(challenge),
@@ -261,7 +280,8 @@ export class IdentityProxyService implements OnModuleInit {
   }
 
   async verifyPasskeyLogin(response: any, challenge: any, context: any) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'verifyPasskeyLogin',
       this.identityService.verifyPasskeyLogin({
         response_json: JSON.stringify(response),
         challenge_json: JSON.stringify(challenge),
@@ -271,7 +291,8 @@ export class IdentityProxyService implements OnModuleInit {
   }
 
   async checkSecurityContext(urlCountry: string, ip: string) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'checkSecurityContext',
       this.identityService.checkSecurityContext({
         url_country: urlCountry,
         ip,
@@ -280,13 +301,15 @@ export class IdentityProxyService implements OnModuleInit {
   }
 
   async getSessions(userId: string) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'getSessions',
       this.identityService.getSessions({ user_id: userId }, this.getMetadata()),
     );
   }
 
   async revokeSession(userId: string, sessionId: string) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'revokeSession',
       this.identityService.revokeSession({
         user_id: userId,
         session_id: sessionId,
@@ -295,7 +318,8 @@ export class IdentityProxyService implements OnModuleInit {
   }
 
   async impersonate(adminUserId: string, targetUserId: string, context: any) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'impersonate',
       this.identityService.impersonate({
         admin_user_id: adminUserId,
         target_user_id: targetUserId,
@@ -305,7 +329,8 @@ export class IdentityProxyService implements OnModuleInit {
   }
 
   async changePassword(userId: string, data: any) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'changePassword',
       this.identityService.changePassword({
         user_id: userId,
         current_password: data.currentPassword,
@@ -315,37 +340,43 @@ export class IdentityProxyService implements OnModuleInit {
   }
 
   async generate2faSecret(userId: string) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'generate2faSecret',
       this.identityService.generate2faSecret({ user_id: userId }, this.getMetadata()),
     );
   }
 
   async enable2fa(userId: string, token: string) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'enable2fa',
       this.identityService.enable2fa({ user_id: userId, token }, this.getMetadata()),
     );
   }
 
   async disable2fa(userId: string) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'disable2fa',
       this.identityService.disable2fa({ user_id: userId }, this.getMetadata()),
     );
   }
 
   async generateBackupCodes(userId: string) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'generateBackupCodes',
       this.identityService.generateBackupCodes({ user_id: userId }, this.getMetadata()),
     );
   }
 
   async send2faEmailVerification(userId: string) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'send2faEmailVerification',
       this.identityService.send2faEmailVerification({ user_id: userId }, this.getMetadata()),
     );
   }
 
   async verify2faEmailVerification(userId: string, code: string) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'verify2faEmailVerification',
       this.identityService.verify2faEmailVerification({
         user_id: userId,
         code,
@@ -363,7 +394,8 @@ export class IdentityProxyService implements OnModuleInit {
   // --- Users Wrappers ---
 
   async listUsers(data: any) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'listUsers',
       this.identityService.listUsers({
         page: data.page,
         page_size: data.pageSize,
@@ -377,23 +409,29 @@ export class IdentityProxyService implements OnModuleInit {
   }
 
   async getJobTitles() {
-    return await firstValueFrom(this.identityService.getJobTitles({}, this.getMetadata()));
+    return await this.callIdentity(
+      'getJobTitles',
+      this.identityService.getJobTitles({}, this.getMetadata())
+    );
   }
 
   async getUserProfile(userId: string) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'getUserProfile',
       this.identityService.getUserProfile({ user_id: userId }, this.getMetadata()),
     );
   }
 
   async getUserAuditLogs(userId: string) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'getUserAuditLogs',
       this.identityService.getUserAuditLogs({ user_id: userId }, this.getMetadata()),
     );
   }
 
   async updateUserProfile(userId: string, data: any) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'updateUserProfile',
       this.identityService.updateUserProfile({
         user_id: userId,
         first_name: data.firstName,
@@ -406,7 +444,8 @@ export class IdentityProxyService implements OnModuleInit {
   }
 
   async updateUser(id: string, data: any, tenantId: string) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'updateUser',
       this.identityService.updateUser({
         id,
         first_name: data.firstName,
@@ -420,13 +459,15 @@ export class IdentityProxyService implements OnModuleInit {
   }
 
   async deleteUser(id: string, tenantId: string) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'deleteUser',
       this.identityService.deleteUser({ id, tenant_id: tenantId }, this.getMetadata()),
     );
   }
 
   async inviteUser(data: any, inviterId: string) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'inviteUser',
       this.identityService.inviteUser({
         email: data.email,
         first_name: data.firstName,
@@ -438,19 +479,22 @@ export class IdentityProxyService implements OnModuleInit {
   }
 
   async forceLogout(userId: string) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'forceLogout',
       this.identityService.forceLogout({ user_id: userId }, this.getMetadata()),
     );
   }
 
   async blockAndLogout(userId: string) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'blockAndLogout',
       this.identityService.blockAndLogout({ user_id: userId }, this.getMetadata()),
     );
   }
 
   async setUserStatus(id: string, isOnline: boolean, tenantId: string) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'setUserStatus',
       this.identityService.setUserStatus({
         id,
         is_online: isOnline,
@@ -460,7 +504,8 @@ export class IdentityProxyService implements OnModuleInit {
   }
 
   async sendPasswordReset(id: string, tenantId: string, context: any) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'sendPasswordReset',
       this.identityService.sendPasswordReset({
         id,
         tenant_id: tenantId,
@@ -470,7 +515,8 @@ export class IdentityProxyService implements OnModuleInit {
   }
 
   async uploadAvatar(userId: string, fileName: string, fileContent: Buffer) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'uploadAvatar',
       this.identityService.uploadAvatar({
         user_id: userId,
         file_name: fileName,
@@ -489,7 +535,8 @@ export class IdentityProxyService implements OnModuleInit {
   }
 
   async localizationLookup(taxId: string, country: string) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'localizationLookup',
       this.identityService.localizationLookup({ tax_id: taxId, country }, this.getMetadata()),
     );
   }
@@ -497,13 +544,15 @@ export class IdentityProxyService implements OnModuleInit {
   // --- Common Wrappers ---
 
   async checkUserExists(email: string) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'checkUserExists',
       this.identityService.checkUserExists({ email }, this.getMetadata()),
     );
   }
 
   async checkOrganizationExists(taxId: string) {
-    return await firstValueFrom(
+    return await this.callIdentity(
+      'checkOrganizationExists',
       this.identityService.checkOrganizationExists({ tax_id: taxId }, this.getMetadata()),
     );
   }
@@ -511,20 +560,16 @@ export class IdentityProxyService implements OnModuleInit {
   // --- Admin Wrappers ---
 
   async listTenants() {
-    return await firstValueFrom(this.identityService.listTenants({}));
+    return await this.callIdentity(
+      'listTenants',
+      this.identityService.listTenants({}, this.getMetadata())
+    );
   }
 
   async checkConnectivity() {
-    try {
-      const response = await firstValueFrom(
-        this.identityService.healthCheck({}),
-      );
-      return response;
-    } catch (error) {
-      this.logger.error(
-        `Identity Service connectivity check failed: ${error.message}`,
-      );
-      return { status: 'error', message: error.message };
-    }
+    return await this.callIdentity(
+      'healthCheck',
+      this.identityService.healthCheck({}, this.getMetadata())
+    );
   }
 }
