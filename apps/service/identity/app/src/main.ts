@@ -84,86 +84,81 @@ async function buildSessionStore(): Promise<session.Store> {
   }
 }
 
-async function listenWithPortFallback(app: INestApplication) {
-  const isProduction = process.env.NODE_ENV === 'production';
-  const preferredPort = Number(process.env.PORT || 3000);
-  const maxAttempts = isProduction ? 1 : 10;
+async function bootstrap() {
+  try {
+    validateEnv();
+    const app = await NestFactory.create(AppModule);
 
-  for (let offset = 0; offset < maxAttempts; offset += 1) {
-    const candidatePort = preferredPort + offset;
-    try {
-      await app.listen(candidatePort);
-      const address = app.getHttpServer().address() as
-        | AddressInfo
-        | string
-        | null;
-      const boundPort =
-        typeof address === 'object' && address ? address.port : candidatePort;
-      logger.log(`🚀 Application is running on: http://localhost:${boundPort}`);
-      return;
-    } catch (error) {
-      if (!isAddressInUseError(error) || offset === maxAttempts - 1) {
-        throw error;
+    const grpcPort = process.env['GRPC_PORT'] || 50051;
+    app.connectMicroservice<MicroserviceOptions>({
+      transport: Transport.GRPC,
+      options: {
+        package: IDENTITY_PACKAGE,
+        protoPath: IDENTITY_PROTO_PATH,
+        url: `0.0.0.0:${grpcPort}`,
+      },
+    });
+
+    await app.startAllMicroservices();
+
+    setupGlobalConfig(app, 'identity-service');
+
+    app.use(cookieParser());
+
+    const isProduction = process.env.NODE_ENV === 'production';
+    const resolvedSessionSecret = process.env.SESSION_SECRET;
+
+    if (!resolvedSessionSecret) {
+      if (isProduction) {
+        throw new Error('SESSION_SECRET is required in production');
       }
-
       logger.warn(
-        `Port ${candidatePort} is in use. Retrying with port ${candidatePort + 1}.`,
+        'SESSION_SECRET is missing; using an insecure development fallback.',
       );
     }
-  }
-}
 
-async function bootstrap() {
-  validateEnv();
-  const app = await NestFactory.create(AppModule);
+    const redisStore = await buildSessionStore();
 
-  app.connectMicroservice<MicroserviceOptions>({
-    transport: Transport.GRPC,
-    options: {
-      package: IDENTITY_PACKAGE,
-      protoPath: IDENTITY_PROTO_PATH,
-      url: `0.0.0.0:${process.env.GRPC_PORT || 50051}`,
-    },
-  });
-
-  await app.startAllMicroservices();
-
-  setupGlobalConfig(app, 'identity-service');
-
-  app.use(cookieParser());
-
-  const isProduction = process.env.NODE_ENV === 'production';
-  const resolvedSessionSecret = process.env.SESSION_SECRET;
-
-  if (!resolvedSessionSecret) {
-    if (isProduction) {
-      throw new Error('SESSION_SECRET is required in production');
-    }
-    logger.warn(
-      'SESSION_SECRET is missing; using an insecure development fallback.',
+    app.use(
+      session({
+        store: redisStore,
+        secret: resolvedSessionSecret || 'virtex-dev-secret-session',
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+          secure: process.env.NODE_ENV === 'production',
+          httpOnly: true,
+          sameSite: 'lax',
+        },
+      }),
     );
+
+    app.use(passport.initialize());
+    app.use(passport.session());
+
+    const port = Number(process.env['PORT'] || 3000);
+    const server = app.getHttpServer();
+
+    server.on('error', (error: NodeJS.ErrnoException) => {
+      if (error.code === 'EADDRINUSE') {
+        logger.error(
+          `❌ Port ${port} is already in use. Local topology requires this exact port. ` +
+            `Please check for other running processes or update your .env.identity file.`,
+        );
+        process.exit(1);
+      }
+    });
+
+    await app.listen(port);
+    logger.log(`🚀 Identity Service is running on: http://localhost:${port}`);
+    logger.log(`🧬 gRPC Identity Service is running on: 0.0.0.0:${grpcPort}`);
+  } catch (error) {
+    logger.error(
+      `Failed to start Identity Service: ${(error as Error).message}`,
+      (error as Error).stack,
+    );
+    process.exit(1);
   }
-
-  const redisStore = await buildSessionStore();
-
-  app.use(
-    session({
-      store: redisStore,
-      secret: resolvedSessionSecret || 'virtex-dev-secret-session',
-      resave: false,
-      saveUninitialized: false,
-      cookie: {
-        secure: process.env.NODE_ENV === 'production',
-        httpOnly: true,
-        sameSite: 'lax',
-      },
-    }),
-  );
-
-  app.use(passport.initialize());
-  app.use(passport.session());
-
-  await listenWithPortFallback(app);
 }
 
 bootstrap();

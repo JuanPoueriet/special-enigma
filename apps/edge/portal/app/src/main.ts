@@ -1,4 +1,4 @@
-import { INestApplication, Logger } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import {
@@ -6,7 +6,6 @@ import {
   startOtel,
   validate,
 } from '@virtex/shared-util-server-server-config';
-import { AddressInfo } from 'net';
 
 const logger = new Logger('Bootstrap');
 
@@ -22,45 +21,6 @@ function validateEnv() {
   ]);
 }
 
-function isAddressInUseError(error: unknown): error is NodeJS.ErrnoException {
-  return Boolean(
-    error &&
-      typeof error === 'object' &&
-      (error as NodeJS.ErrnoException).code === 'EADDRINUSE',
-  );
-}
-
-async function listenWithPortFallback(app: INestApplication) {
-  const isProduction = process.env.NODE_ENV === 'production';
-  const preferredPort = Number(process.env.PORT || 3100);
-  const maxAttempts = isProduction ? 1 : 10;
-
-  for (let offset = 0; offset < maxAttempts; offset += 1) {
-    const candidatePort = preferredPort + offset;
-    try {
-      await app.listen(candidatePort);
-      const address = app.getHttpServer().address() as
-        | AddressInfo
-        | string
-        | null;
-      const boundPort =
-        typeof address === 'object' && address ? address.port : candidatePort;
-      logger.log(
-        `🚀 BFF is running on: http://localhost:${boundPort}/api/portal`,
-      );
-      return;
-    } catch (error) {
-      if (!isAddressInUseError(error) || offset === maxAttempts - 1) {
-        throw error;
-      }
-
-      logger.warn(
-        `Port ${candidatePort} is in use. Retrying with port ${candidatePort + 1}.`,
-      );
-    }
-  }
-}
-
 async function bootstrap() {
   try {
     validateEnv();
@@ -69,7 +29,21 @@ async function bootstrap() {
     // Apply Global Configuration (Security, Pipes, Filters, Throttling, Global Prefix)
     setupGlobalConfig(app, 'portal');
 
-    await listenWithPortFallback(app);
+    const port = Number(process.env['PORT'] || 3100);
+    const server = app.getHttpServer();
+
+    server.on('error', (error: NodeJS.ErrnoException) => {
+      if (error.code === 'EADDRINUSE') {
+        logger.error(
+          `❌ Port ${port} is already in use. Local topology requires this exact port. ` +
+            `Please check for other running processes or update your .env.edge-portal file.`,
+        );
+        process.exit(1);
+      }
+    });
+
+    await app.listen(port);
+    logger.log(`🚀 Edge Portal BFF is running on: http://localhost:${port}/api/portal`);
   } catch (error) {
     logger.error(
       `Failed to start BFF: ${(error as Error).message}`,

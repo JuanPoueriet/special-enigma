@@ -37,17 +37,16 @@ export class IdentityProxyController {
 
   @Get('auth/me')
   async getMe(@Req() req: Request) {
-    const authHeader = req.headers.authorization;
-    if (authHeader && authHeader.startsWith('Bearer ')) {
-      const token = authHeader.split(' ')[1];
-      const user = await this.identityProxy.getMe(token);
-      return {
-        ...user,
-        bff_aggregated: true,
-        timestamp: new Date().toISOString(),
-      };
+    const token = req.cookies['access_token'];
+    if (!token) {
+      throw new UnauthorizedException('Missing access token');
     }
-    throw new UnauthorizedException();
+    const user = await this.identityProxy.getMe(token);
+    return {
+      ...user,
+      bff_aggregated: true,
+      timestamp: new Date().toISOString(),
+    };
   }
 
   @Post('auth/login')
@@ -99,9 +98,8 @@ export class IdentityProxyController {
 
   @Post('auth/logout')
   async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
-    const authHeader = req.headers.authorization;
-    if (authHeader && authHeader.startsWith('Bearer ')) {
-      const token = authHeader.split(' ')[1];
+    const token = req.cookies['access_token'];
+    if (token) {
       await this.identityProxy.logout(token);
     }
     this.cookiePolicy.clearAuthCookies(res);
