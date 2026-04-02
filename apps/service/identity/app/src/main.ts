@@ -6,7 +6,7 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import { RedisStore } from 'connect-redis';
 import Redis from 'ioredis';
-import { AddressInfo } from 'net';
+import { AddressInfo, createServer } from 'net';
 import { inspect } from 'util';
 import passport from 'passport';
 import { AppModule } from './app/app.module';
@@ -38,6 +38,50 @@ function formatError(error: unknown): string {
   }
 
   return inspect(error, { depth: 2 });
+}
+
+async function isPortInUse(port: number): Promise<boolean> {
+  return new Promise((resolve, reject) => {
+    const probe = createServer();
+
+    probe.once('error', (error: NodeJS.ErrnoException) => {
+      if (isAddressInUseError(error)) {
+        resolve(true);
+        return;
+      }
+      reject(error);
+    });
+
+    probe.once('listening', () => {
+      probe.close(() => resolve(false));
+    });
+
+    probe.listen(port, '0.0.0.0');
+  });
+}
+
+async function resolveHttpPort(requestedPort: number): Promise<number> {
+  const exactPortRequired =
+    process.env.NODE_ENV === 'production' ||
+    process.env.REQUIRE_EXACT_PORT === 'true';
+
+  if (!(await isPortInUse(requestedPort))) {
+    return requestedPort;
+  }
+
+  if (exactPortRequired) {
+    throw new Error(
+      `❌ Port ${requestedPort} is already in use. Local topology requires this exact port. ` +
+        `Please check for other running processes or update your .env.identity file.`,
+    );
+  }
+
+  const fallbackPort = requestedPort + 1;
+  logger.warn(
+    `⚠️ Port ${requestedPort} is in use. Falling back to ${fallbackPort} for local development. ` +
+      `Set REQUIRE_EXACT_PORT=true to enforce strict binding.`,
+  );
+  return fallbackPort;
 }
 
 async function buildSessionStore(): Promise<session.Store> {
@@ -136,21 +180,16 @@ async function bootstrap() {
     app.use(passport.initialize());
     app.use(passport.session());
 
-    const port = Number(process.env['PORT'] || 3000);
-    const server = app.getHttpServer();
-
-    server.on('error', (error: NodeJS.ErrnoException) => {
-      if (error.code === 'EADDRINUSE') {
-        logger.error(
-          `❌ Port ${port} is already in use. Local topology requires this exact port. ` +
-            `Please check for other running processes or update your .env.identity file.`,
-        );
-        process.exit(1);
-      }
-    });
+    const requestedPort = Number(process.env['PORT'] || 3000);
+    const port = await resolveHttpPort(requestedPort);
 
     await app.listen(port);
     logger.log(`🚀 Identity Service is running on: http://localhost:${port}`);
+    if (port !== requestedPort) {
+      logger.warn(
+        `Identity Service requested port ${requestedPort} but is listening on fallback port ${port}.`,
+      );
+    }
     logger.log(`🧬 gRPC Identity Service is running on: 0.0.0.0:${grpcPort}`);
   } catch (error) {
     logger.error(
