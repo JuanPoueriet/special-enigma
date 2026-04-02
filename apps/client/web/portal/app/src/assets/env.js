@@ -1,10 +1,9 @@
 (function(window) {
   window.env = window.env || {};
 
-  // API url
-  window.env.apiUrl = 'http://localhost:3100/api';
+  // API url - In production this should be same-origin
+  window.env.apiUrl = window.location ? window.location.origin + '/api' : 'http://localhost:3100/api';
 
   // Whether or not to enable debug mode
-  // Setting this to false will disable console output
   window.env.enableDebug = true;
 }(this));

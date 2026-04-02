@@ -1,16 +1,27 @@
 import { HttpService } from '@nestjs/axios';
-import { HttpException, Injectable, Logger } from '@nestjs/common';
+import { HttpException, Injectable, Logger, OnModuleInit, Inject } from '@nestjs/common';
+import { ClientGrpc } from '@nestjs/microservices';
 import type { Request, Response } from 'express';
 import axiosRetry from 'axios-retry';
+import { firstValueFrom } from 'rxjs';
+
+interface IdentityService {
+  getMe(data: { access_token: string }): any;
+}
 
 @Injectable()
-export class IdentityProxyService {
+export class IdentityProxyService implements OnModuleInit {
   private readonly logger = new Logger(IdentityProxyService.name);
   private readonly identityBaseUrl =
     process.env['IDENTITY_SERVICE_URL'] ||
     'http://localhost:3000/api/identity-service';
 
-  constructor(private readonly httpService: HttpService) {
+  private identityService: IdentityService;
+
+  constructor(
+    private readonly httpService: HttpService,
+    @Inject('IDENTITY_PACKAGE') private client: ClientGrpc,
+  ) {
     // Configure axios-retry for resilient communication
     axiosRetry(this.httpService.axiosRef, {
       retries: 3,
@@ -38,6 +49,19 @@ export class IdentityProxyService {
     } catch (error: any) {
       this.logger.error(`Identity service connectivity check failed at ${this.identityBaseUrl}: ${error.message}`);
       return { status: 'down', url: this.identityBaseUrl };
+    }
+  }
+
+  onModuleInit() {
+    this.identityService = this.client.getService<IdentityService>('IdentityService');
+  }
+
+  async getMeGrpc(accessToken: string) {
+    try {
+      return await firstValueFrom(this.identityService.getMe({ access_token: accessToken }));
+    } catch (e) {
+      this.logger.error('gRPC getMe failed', e);
+      throw e;
     }
   }
 

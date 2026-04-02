@@ -1,0 +1,52 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: virteex-gateway
+  namespace: {{ .Release.Namespace }}
+spec:
+  gatewayClassName: traefik
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+      allowedRoutes:
+        namespaces:
+          from: Same
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: portal-route
+  namespace: {{ .Release.Namespace }}
+spec:
+  parentRefs:
+    - name: virteex-gateway
+  hostnames:
+    - "portal.virteex.local"
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: bff-portal
+          port: 80
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: identity-route
+  namespace: {{ .Release.Namespace }}
+spec:
+  parentRefs:
+    - name: virteex-gateway
+  hostnames:
+    - "api.virteex.local"
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /api/v1/auth
+      backendRefs:
+        - name: bff-portal
+          port: 80

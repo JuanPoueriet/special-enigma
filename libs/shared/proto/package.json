@@ -1,0 +1,8 @@
+{
+  "name": "@virteex/shared-proto",
+  "version": "0.0.1",
+  "type": "commonjs",
+  "dependencies": {
+    "path": "^0.12.7"
+  }
+}

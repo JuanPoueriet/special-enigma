@@ -1,0 +1,19 @@
+{
+  "name": "shared-proto",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/shared/proto/src",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/shared/proto",
+        "main": "libs/shared/proto/src/index.ts",
+        "tsConfig": "libs/shared/proto/tsconfig.lib.json",
+        "assets": ["libs/shared/proto/src/lib/*.proto"]
+      }
+    }
+  },
+  "tags": ["scope:shared", "type:proto"]
+}

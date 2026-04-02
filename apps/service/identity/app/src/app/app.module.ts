@@ -14,6 +14,7 @@ import { ApolloServerPluginLandingPageLocalDefault, ApolloServerPluginLandingPag
 import { FederationSupportModule } from '@virteex/shared-util-server-server-config';
 import { TenantModule } from '@virteex/kernel-tenant';
 import { AuthModule } from '@virteex/kernel-auth';
+import { HealthModule } from '@virteex/shared-util-server-health';
 import { IdentityPresentationModule } from '@virteex/domain-identity-presentation';
 import { IdentityInfrastructureModule } from '@virteex/domain-identity-infrastructure';
 
@@ -87,6 +88,7 @@ import { AppService } from './app.service';
     }),
     IdentityInfrastructureModule,
     IdentityPresentationModule,
+    HealthModule,
   ],
   controllers: [AppController],
   providers: [

@@ -1,0 +1,19 @@
+{
+  "name": "platform-nats",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/platform/nats/src",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/platform/nats",
+        "main": "libs/platform/nats/src/index.ts",
+        "tsConfig": "libs/platform/nats/tsconfig.lib.json",
+        "assets": ["libs/platform/nats/*.md"]
+      }
+    }
+  },
+  "tags": ["scope:platform", "type:util"]
+}

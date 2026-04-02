@@ -1,0 +1,19 @@
+{
+  "name": "shared-util-server-health",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/shared/util/server/health/src",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/shared/util/server/health",
+        "main": "libs/shared/util/server/health/src/index.ts",
+        "tsConfig": "libs/shared/util/server/health/tsconfig.lib.json",
+        "assets": ["libs/shared/util/server/health/*.md"]
+      }
+    }
+  },
+  "tags": ["scope:shared", "type:util", "platform:server"]
+}

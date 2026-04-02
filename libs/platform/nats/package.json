@@ -1,0 +1,9 @@
+{
+  "name": "@virteex/platform-nats",
+  "version": "0.0.1",
+  "type": "commonjs",
+  "dependencies": {
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/microservices": "^11.0.0"
+  }
+}

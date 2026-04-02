@@ -40,6 +40,18 @@ spec:
           image: {{ $config.image }}
           ports:
             - containerPort: 3000
+          livenessProbe:
+            httpGet:
+              path: /health/liveness
+              port: 3000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /health/readiness
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
           resources:
             requests:
               cpu: {{ $config.resources.requests.cpu | default "200m" }}
