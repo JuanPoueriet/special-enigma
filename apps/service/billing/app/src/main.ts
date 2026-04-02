@@ -1,4 +1,4 @@
-import { startOtel, setupGlobalConfig } from '@virtex/shared-util-server-server-config';
+import { startOtel, setupGlobalConfig, validate } from '@virtex/shared-util-server-server-config';
 startOtel('virtex-billing-service');
 
 import { Logger } from '@nestjs/common';
@@ -9,7 +9,12 @@ import { AppModule } from './app/app.module';
 import { InitialSeederService } from './app/seeds/initial-seeder.service';
 import { MikroORM } from '@mikro-orm/core';
 
+function validateEnv() {
+  validate(process.env, ['KAFKA_BROKERS', 'DATABASE_URL']);
+}
+
 async function bootstrap() {
+  validateEnv();
   const app = await NestFactory.create(AppModule);
 
   setupGlobalConfig(app, 'billing-service');
@@ -18,7 +23,7 @@ async function bootstrap() {
     transport: Transport.KAFKA,
     options: {
       client: {
-        brokers: process.env.KAFKA_BROKERS?.split(',') || ['localhost:9092'],
+        brokers: process.env.KAFKA_BROKERS!.split(','),
       },
       consumer: {
         groupId: 'billing-service-consumer',

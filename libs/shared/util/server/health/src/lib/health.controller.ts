@@ -1,11 +1,15 @@
-import { Controller, Get, Optional } from '@nestjs/common';
-import { HealthCheckService, HealthCheck, MikroOrmHealthIndicator, HealthIndicatorResult } from '@nestjs/terminus';
+import { Controller, Get, Optional, Inject } from '@nestjs/common';
+import { HealthCheckService, HealthCheck, MikroOrmHealthIndicator, HealthIndicatorResult, GRPCHealthIndicator } from '@nestjs/terminus';
+import { ClientGrpc } from '@nestjs/microservices';
 
 @Controller('health')
 export class HealthController {
   constructor(
     private health: HealthCheckService,
     @Optional() private db?: MikroOrmHealthIndicator,
+    @Optional() private grpc?: GRPCHealthIndicator,
+    @Optional() @Inject('IDENTITY_PACKAGE') private identityClient?: ClientGrpc,
+    @Optional() @Inject('INVENTORY_PACKAGE') private inventoryClient?: ClientGrpc,
   ) {}
 
   @Get()
@@ -15,6 +19,15 @@ export class HealthController {
 
     if (this.db) {
       checks.push(() => this.db!.pingCheck('database'));
+    }
+
+    if (this.grpc) {
+      if (this.identityClient) {
+        checks.push(() => this.grpc!.checkService('identity', 'identity.IdentityService', { timeout: 2000 }));
+      }
+      if (this.inventoryClient) {
+        checks.push(() => this.grpc!.checkService('inventory', 'inventory.InventoryService', { timeout: 2000 }));
+      }
     }
 
     return this.health.check(checks);
@@ -36,6 +49,15 @@ export class HealthController {
 
     if (this.db) {
       checks.push(() => this.db!.pingCheck('database'));
+    }
+
+    if (this.grpc) {
+      if (this.identityClient) {
+        checks.push(() => this.grpc!.checkService('identity', 'identity.IdentityService', { timeout: 2000 }));
+      }
+      if (this.inventoryClient) {
+        checks.push(() => this.grpc!.checkService('inventory', 'inventory.InventoryService', { timeout: 2000 }));
+      }
     }
 
     return this.health.check(checks);

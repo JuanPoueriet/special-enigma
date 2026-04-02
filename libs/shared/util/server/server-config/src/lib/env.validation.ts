@@ -103,6 +103,26 @@ export class EnvironmentVariables {
   @MinLength(1)
   @IsOptional()
   NATS_URL?: string;
+
+  @IsString()
+  @IsOptional()
+  IDENTITY_GRPC_URL?: string;
+
+  @IsString()
+  @IsOptional()
+  INVENTORY_GRPC_URL?: string;
+
+  @IsString()
+  @IsOptional()
+  BILLING_GRPC_URL?: string;
+
+  @IsString()
+  @IsOptional()
+  CATALOG_GRPC_URL?: string;
+
+  @IsString()
+  @IsOptional()
+  KAFKA_BROKERS?: string;
 }
 
 export function validate(config: Record<string, unknown>, extraRequired: string[] = []) {
