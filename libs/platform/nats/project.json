@@ -6,14 +6,23 @@
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/libs/platform/nats",
         "main": "libs/platform/nats/src/index.ts",
         "tsConfig": "libs/platform/nats/tsconfig.lib.json",
-        "assets": ["libs/platform/nats/*.md"]
+        "assets": [
+          "libs/platform/nats/*.md"
+        ]
       }
     }
   },
-  "tags": ["scope:platform", "type:util"]
+  "tags": [
+    "scope:platform",
+    "type:util",
+    "platform:agnostic",
+    "criticality:medium"
+  ]
 }

@@ -1,11 +1,20 @@
 import { Module } from '@nestjs/common';
 import { BffCoreModule } from '@virtex/kernel-bff-core';
+import { HealthModule } from '@virtex/shared-util-server-health';
+import { TelemetryModule } from '@virtex/kernel-telemetry';
+import { ServerConfigModule } from '@virtex/shared-util-server-server-config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { StoreApiModule } from './store-api.module';
 
 @Module({
-  imports: [BffCoreModule, StoreApiModule],
+  imports: [
+    BffCoreModule,
+    HealthModule,
+    TelemetryModule,
+    ServerConfigModule,
+    StoreApiModule
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
