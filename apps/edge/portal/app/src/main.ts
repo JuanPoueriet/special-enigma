@@ -5,10 +5,20 @@ otelSDK.start();
 import { INestApplication, Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
-import { setupGlobalConfig } from '@virtex/shared-util-server-server-config';
+import { setupGlobalConfig, validate } from '@virtex/shared-util-server-server-config';
 import { AddressInfo } from 'net';
 
 const logger = new Logger('Bootstrap');
+
+function validateEnv() {
+  validate(process.env, [
+    'IDENTITY_GRPC_URL',
+    'BILLING_GRPC_URL',
+    'INVENTORY_GRPC_URL',
+    'CATALOG_GRPC_URL',
+    'IDENTITY_SERVICE_URL',
+  ]);
+}
 
 function isAddressInUseError(error: unknown): error is NodeJS.ErrnoException {
   return Boolean(
@@ -49,6 +59,7 @@ async function listenWithPortFallback(app: INestApplication) {
 
 async function bootstrap() {
   try {
+    validateEnv();
     const app = await NestFactory.create(AppModule);
 
     // Apply Global Configuration (Security, Pipes, Filters, Throttling, Global Prefix)

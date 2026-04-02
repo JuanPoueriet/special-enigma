@@ -13,9 +13,7 @@ interface IdentityService {
 @Injectable()
 export class IdentityProxyService implements OnModuleInit {
   private readonly logger = new Logger(IdentityProxyService.name);
-  private readonly identityBaseUrl =
-    process.env['IDENTITY_SERVICE_URL'] ||
-    'http://localhost:3000/api/identity-service';
+  private readonly identityBaseUrl = process.env['IDENTITY_SERVICE_URL'];
 
   private identityService: IdentityService;
 
@@ -42,6 +40,9 @@ export class IdentityProxyService implements OnModuleInit {
   }
 
   async checkConnectivity(): Promise<{ status: string; url: string }> {
+    if (!this.identityBaseUrl) {
+      return { status: 'unknown', url: 'not_configured' };
+    }
     try {
       await this.httpService.axiosRef.head(this.identityBaseUrl, {
         timeout: 2000,
@@ -82,6 +83,9 @@ export class IdentityProxyService implements OnModuleInit {
    * Forward is maintained only for legacy routes or when gRPC is not available.
    */
   async forward(req: Request, res: Response, path: string): Promise<void> {
+    if (!this.identityBaseUrl) {
+      throw new HttpException('Identity service HTTP proxy not configured', 503);
+    }
     const targetUrl = `${this.identityBaseUrl}/${path.replace(/^\/+/, '')}`;
 
     try {

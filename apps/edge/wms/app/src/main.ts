@@ -1,9 +1,14 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
-import { setupGlobalConfig } from '@virtex/shared-util-server-server-config';
+import { setupGlobalConfig, validate } from '@virtex/shared-util-server-server-config';
+
+function validateEnv() {
+  validate(process.env, ['INVENTORY_GRPC_URL']);
+}
 
 async function bootstrap() {
+  validateEnv();
   const app = await NestFactory.create(AppModule);
 
   // Apply Global Configuration (Security, Pipes, Filters, Throttling)
