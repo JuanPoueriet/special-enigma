@@ -37,7 +37,7 @@ export function redactSensitiveData(obj: any): any {
 }
 
 export function createOtelSdk(serviceName: string): NodeSDK {
-  return new NodeSDK({
+  const sdk = new NodeSDK({
     resource: resourceFromAttributes({
       [SemanticResourceAttributes.SERVICE_NAME]: serviceName,
     }),
@@ -55,9 +55,15 @@ export function createOtelSdk(serviceName: string): NodeSDK {
       new KafkaJsInstrumentation({}),
     ],
   });
-}
 
-// Global shutdown handler
-process.on('SIGTERM', () => {
-  Logger.log('SIGTERM received. Starting graceful shutdown of Tracing SDK...', 'Tracing');
-});
+  // Global shutdown handler
+  process.on('SIGTERM', () => {
+    Logger.log(`SIGTERM received. Starting graceful shutdown of Tracing SDK for ${serviceName}...`, 'Tracing');
+    sdk.shutdown()
+      .then(() => Logger.log('Tracing SDK shut down successfully', 'Tracing'))
+      .catch((err) => Logger.error('Error shutting down Tracing SDK', err, 'Tracing'))
+      .finally(() => process.exit(0));
+  });
+
+  return sdk;
+}

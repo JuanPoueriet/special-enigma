@@ -1,6 +1,5 @@
-import { otelSDK } from './tracing';
-// Start SDK before importing other modules
-otelSDK.start();
+import { startOtel, setupGlobalConfig } from '@virtex/shared-util-server-server-config';
+startOtel('virtex-billing-service');
 
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
@@ -9,7 +8,6 @@ import { BILLING_PACKAGE, BILLING_PROTO_PATH } from '@virtex/shared-proto';
 import { AppModule } from './app/app.module';
 import { InitialSeederService } from './app/seeds/initial-seeder.service';
 import { MikroORM } from '@mikro-orm/core';
-import { setupGlobalConfig } from '@virtex/shared-util-server-server-config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -55,7 +53,7 @@ async function bootstrap() {
   await seeder.seed();
 
   await app.listen(port);
-  Logger.log(`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`);
+  Logger.log(`🚀 Application is running on: http://localhost:${port}/api/billing-service`);
 }
 
 bootstrap();

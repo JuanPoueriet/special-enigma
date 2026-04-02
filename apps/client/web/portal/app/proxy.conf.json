@@ -1,10 +1,12 @@
 {
   "/api": {
-    "target": "http://localhost:3100",
-    "secure": false
+    "target": "http://portal-edge.virtex.local:3100",
+    "secure": false,
+    "changeOrigin": true
   },
   "/desktop-app-api": {
-    "target": "http://localhost:3100",
-    "secure": false
+    "target": "http://portal-edge.virtex.local:3100",
+    "secure": false,
+    "changeOrigin": true
   }
 }

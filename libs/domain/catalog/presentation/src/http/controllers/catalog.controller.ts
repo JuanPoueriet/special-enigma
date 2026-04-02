@@ -1,4 +1,5 @@
 import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards } from '@nestjs/common';
+import { GrpcMethod } from '@nestjs/microservices';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { GetProductsUseCase, GetProductByIdUseCase, CreateProductUseCase, type CreateProductDto, UpdateProductUseCase, type UpdateProductDto, DeleteProductUseCase, GetSatCatalogsUseCase, GetProductBySkuUseCase } from '@virtex/domain-catalog-application';
 import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virtex/kernel-auth';
@@ -80,5 +81,13 @@ export class CatalogController {
   @ApiOperation({ summary: 'Get SAT CFDI Usages' })
   getCfdiUsages() {
     return this.getSatCatalogsUseCase.getCfdiUsages();
+  }
+
+  @GrpcMethod('CatalogService', 'GetProduct')
+  async getProduct(data: { id: number }, metadata: any) {
+    // Note: tenantId handling in gRPC usually comes from metadata/interceptors
+    // For this migration, we'll use a default or extract if available
+    const tenantId = metadata.get('tenant-id')?.[0] || 'default';
+    return this.getProductByIdUseCase.execute(data.id, tenantId);
   }
 }

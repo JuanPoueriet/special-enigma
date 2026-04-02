@@ -1,14 +1,12 @@
 
-import { otelSDK } from './tracing';
-// Start SDK before importing other modules
-otelSDK.start();
+import { startOtel, setupGlobalConfig, validate } from '@virtex/shared-util-server-server-config';
+startOtel('virtex-inventory-service');
 
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { Transport, MicroserviceOptions } from '@nestjs/microservices';
 import { INVENTORY_PACKAGE, INVENTORY_PROTO_PATH } from '@virtex/shared-proto';
 import { AppModule } from './app/app.module';
-import { setupGlobalConfig, validate } from '@virtex/shared-util-server-server-config';
 
 function validateEnv() {
   validate(process.env, ['DATABASE_URL']);
@@ -30,12 +28,10 @@ async function bootstrap() {
   setupGlobalConfig(app, 'inventory-service');
 
   await app.startAllMicroservices();
-  const globalPrefix = 'api';
-  app.setGlobalPrefix(globalPrefix);
   const port = process.env.PORT || 3000;
   await app.listen(port);
   Logger.log(
-    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`,
+    `🚀 Application is running on: http://localhost:${port}/api/inventory-service`,
   );
 }
 
