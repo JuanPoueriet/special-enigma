@@ -1,9 +1,11 @@
 import { Injectable, Logger, Inject, OnModuleInit } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { ClientProxy } from '@nestjs/microservices';
 import { EntityManager, LockMode } from '@mikro-orm/core';
 import { OutboxEvent } from './entities/outbox-event.entity';
 import Redis from 'ioredis';
 import { Kafka, Producer } from 'kafkajs';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class OutboxProcessor implements OnModuleInit {
@@ -13,7 +15,8 @@ export class OutboxProcessor implements OnModuleInit {
 
   constructor(
     private readonly em: EntityManager,
-    @Inject('REDIS_CLIENT') private readonly redisClient: Redis
+    @Inject('REDIS_CLIENT') private readonly redisClient: Redis,
+    @Inject('NATS_SERVICE') private readonly natsClient: ClientProxy,
   ) {}
 
   async onModuleInit() {
@@ -97,6 +100,15 @@ export class OutboxProcessor implements OnModuleInit {
             // but in strict mode we might want to fail to ensure consistency.
             // For now, we prioritize system availability.
         }
+    }
+
+    // NATS Publishing (Target backbone)
+    try {
+        const subject = event.aggregateType.toLowerCase().replace(/\./g, '.');
+        await firstValueFrom(this.natsClient.emit(subject, messagePayload));
+        this.logger.log(`[NATS] Published: ${event.eventType} to subject ${subject}`);
+    } catch (natsErr) {
+        this.logger.error(`[NATS] Error publishing event ${event.id}`, natsErr);
     }
 
     // Redis Publishing (for Real-time UI updates via WebSockets, etc.)

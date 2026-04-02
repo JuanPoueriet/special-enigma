@@ -1,0 +1,9 @@
+{
+  "name": "@virteex/shared-util-server-health",
+  "version": "0.0.1",
+  "type": "commonjs",
+  "dependencies": {
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/terminus": "^11.0.0"
+  }
+}

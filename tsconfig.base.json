@@ -336,6 +336,9 @@
       "@virteex/platform-kafka": [
         "libs/platform/kafka/src/index.ts"
       ],
+      "@virteex/platform-nats": [
+        "libs/platform/nats/src/index.ts"
+      ],
       "@virteex/platform-storage": [
         "libs/platform/storage/src/index.ts"
       ],
@@ -377,6 +380,12 @@
       ],
       "@virteex/shared-util-server-server-config": [
         "libs/shared/util/server/server-config/src/index.ts"
+      ],
+      "@virteex/shared-util-server-health": [
+        "libs/shared/util/server/health/src/index.ts"
+      ],
+      "@virteex/shared-proto": [
+        "libs/shared/proto/src/index.ts"
       ],
       "@virteex/shared-validators": [
         "libs/shared/validators/src/index.ts"

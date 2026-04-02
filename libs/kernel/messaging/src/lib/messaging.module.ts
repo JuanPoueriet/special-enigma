@@ -12,6 +12,7 @@ import { RedisCacheModule } from '@virteex/platform-cache';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 import { EgressProxyService } from './egress-proxy.service';
+import { NatsModule } from '@virteex/platform-nats';
 
 @Global()
 @Module({
@@ -19,6 +20,7 @@ import { EgressProxyService } from './egress-proxy.service';
     MikroOrmModule.forFeature([OutboxEvent, InboxMessage]),
     ScheduleModule.forRoot(),
     HttpModule,
+    NatsModule.forRoot({ name: 'NATS_SERVICE' }),
     ConfigModule,
     RedisCacheModule.forRootAsync({
       useFactory: () => {

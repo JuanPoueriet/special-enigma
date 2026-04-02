@@ -1,10 +1,46 @@
-import { All, Controller, Req, Res } from '@nestjs/common';
+import { All, Controller, Req, Res, Logger } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import { IdentityProxyService } from './identity-proxy.service';
 
-@Controller()
+@Controller('v1')
 export class IdentityProxyController {
+  private readonly logger = new Logger(IdentityProxyController.name);
   constructor(private readonly identityProxy: IdentityProxyService) {}
+
+  @All('auth/me')
+  async getMe(@Req() req: Request, @Res() res: Response): Promise<void> {
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      const token = authHeader.split(' ')[1];
+      try {
+        // Aggregate data from multiple sources (BFF pattern)
+        const [user, preferences] = await Promise.all([
+          this.identityProxy.getMeGrpc(token),
+          this.fetchMockPreferences(token),
+        ]);
+
+        res.json({
+          ...user,
+          preferences,
+          bff_aggregated: true,
+          timestamp: new Date().toISOString(),
+        });
+        return;
+      } catch (e) {
+        this.logger.warn('BFF Aggregation failed, falling back to HTTP proxy');
+      }
+    }
+    await this.identityProxy.forward(req, res, this.extractPath(req));
+  }
+
+  private async fetchMockPreferences(token: string) {
+    // In a real scenario, this would call another service via gRPC or HTTP
+    return {
+      theme: 'dark',
+      language: 'es',
+      notifications: true,
+    };
+  }
 
   @All('auth/*path')
   @All('auth')
@@ -37,7 +73,7 @@ export class IdentityProxyController {
   }
 
   private extractPath(req: Request): string {
-    const routePrefix = '/api/portal/';
+    const routePrefix = '/api/v1/';
     const urlWithoutQuery = req.originalUrl.split('?')[0];
     const normalized = urlWithoutQuery.startsWith(routePrefix)
       ? urlWithoutQuery.slice(routePrefix.length)

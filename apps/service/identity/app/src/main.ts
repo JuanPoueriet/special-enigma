@@ -1,5 +1,7 @@
 import { INestApplication, Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { Transport, MicroserviceOptions } from '@nestjs/microservices';
+import { IDENTITY_PACKAGE, IDENTITY_PROTO_PATH } from '@virteex/shared-proto';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import { RedisStore } from 'connect-redis';
@@ -94,6 +96,18 @@ async function listenWithPortFallback(app: INestApplication) {
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.connectMicroservice<MicroserviceOptions>({
+    transport: Transport.GRPC,
+    options: {
+      package: IDENTITY_PACKAGE,
+      protoPath: IDENTITY_PROTO_PATH,
+      url: `0.0.0.0:${process.env.GRPC_PORT || 50051}`,
+    },
+  });
+
+  await app.startAllMicroservices();
+
   setupGlobalConfig(app, 'identity-service');
 
   app.use(cookieParser());
