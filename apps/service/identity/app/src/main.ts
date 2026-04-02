@@ -84,35 +84,6 @@ async function buildSessionStore(): Promise<session.Store> {
   }
 }
 
-async function listenWithPortFallback(app: INestApplication) {
-  const isProduction = process.env.NODE_ENV === 'production';
-  const preferredPort = Number(process.env.PORT || 3000);
-  const maxAttempts = isProduction ? 1 : 10;
-
-  for (let offset = 0; offset < maxAttempts; offset += 1) {
-    const candidatePort = preferredPort + offset;
-    try {
-      await app.listen(candidatePort);
-      const address = app.getHttpServer().address() as
-        | AddressInfo
-        | string
-        | null;
-      const boundPort =
-        typeof address === 'object' && address ? address.port : candidatePort;
-      logger.log(`🚀 Application is running on: http://localhost:${boundPort}`);
-      return;
-    } catch (error) {
-      if (!isAddressInUseError(error) || offset === maxAttempts - 1) {
-        throw error;
-      }
-
-      logger.warn(
-        `Port ${candidatePort} is in use. Retrying with port ${candidatePort + 1}.`,
-      );
-    }
-  }
-}
-
 async function bootstrap() {
   validateEnv();
   const app = await NestFactory.create(AppModule);
@@ -163,7 +134,18 @@ async function bootstrap() {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  await listenWithPortFallback(app);
+  const port = Number(process.env.IDENTITY_PORT || 3000);
+  try {
+    await app.listen(port);
+    logger.log(`🚀 Identity Service is running on: http://localhost:${port}`);
+  } catch (error) {
+    if (isAddressInUseError(error)) {
+      logger.error(`Port ${port} is already in use. Identity Service failed to start.`);
+    } else {
+      logger.error(`Failed to start Identity Service: ${formatError(error)}`);
+    }
+    process.exit(1);
+  }
 }
 
 bootstrap();

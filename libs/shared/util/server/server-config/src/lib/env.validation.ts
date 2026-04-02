@@ -17,7 +17,12 @@ export class EnvironmentVariables {
   @IsNumber()
   @IsOptional()
   @Type(() => Number)
-  PORT = 3000;
+  IDENTITY_PORT = 3000;
+
+  @IsNumber()
+  @IsOptional()
+  @Type(() => Number)
+  EDGE_PORTAL_PORT = 3100;
 
   @IsString()
   @MinLength(1)

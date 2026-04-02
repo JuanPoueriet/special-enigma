@@ -38,8 +38,15 @@ export class IdentityProxyController {
   @Get('auth/me')
   async getMe(@Req() req: Request) {
     const authHeader = req.headers.authorization;
+    let token: string | undefined;
+
     if (authHeader && authHeader.startsWith('Bearer ')) {
-      const token = authHeader.split(' ')[1];
+      token = authHeader.split(' ')[1];
+    } else if (req.cookies && req.cookies['access_token']) {
+      token = req.cookies['access_token'];
+    }
+
+    if (token) {
       const user = await this.identityProxy.getMe(token);
       return {
         ...user,
