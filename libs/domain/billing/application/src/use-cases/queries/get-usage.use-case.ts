@@ -41,11 +41,11 @@ export class GetUsageUseCase {
 
     if (subscription && subscription.isValid() && subscription.getPlan()) {
        const planLimits = subscription.getPlan().limits;
-       const structured = PlanLimitMapper.toStructuredLimits(planLimits);
+       const structured = PlanLimitMapper.toStructuredLimits(planLimits) as any;
        limits = {
-           invoices: structured.invoices ? structured.invoices.limit : limits.invoices,
-           users: structured.users ? structured.users.limit : limits.users,
-           storage: structured.storage ? structured.storage.limit : limits.storage
+           invoices: structured['invoices'] ? structured['invoices'].limit : limits.invoices,
+           users: structured['users'] ? structured['users'].limit : limits.users,
+           storage: structured['storage'] ? structured['storage'].limit : limits.storage
        };
     }
 

@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { TaxStrategyFactory } from '@virteex/domain-billing-domain';
 import { TaxStrategy } from '@virteex/domain-billing-domain';
-import { MxTaxStrategy } from '../../strategies/mx-tax.strategy';
-import { BrTaxStrategy } from '../../strategies/br-tax.strategy';
-import { UsTaxStrategy } from '../../strategies/us-tax.strategy';
-import { DoTaxStrategy } from '../../strategies/do-tax.strategy';
+import { MxTaxStrategy } from './mx-tax.strategy';
+import { BrTaxStrategy } from './br-tax.strategy';
+import { UsTaxStrategy } from './us-tax.strategy';
+import { DoTaxStrategy } from './do-tax.strategy';
 
 @Injectable()
 export class TaxStrategyFactoryImpl implements TaxStrategyFactory {

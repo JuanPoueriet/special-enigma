@@ -33,9 +33,12 @@ export function setupGlobalConfig(app: INestApplication, serviceName?: string) {
   // Security Headers
   app.use(helmet());
 
-  // CORS - Allow based on env or default to true for development
+  // CORS - Allow based on env or default to false in production, true in development
+  const isProduction = process.env['NODE_ENV'] === 'production';
+  const corsOrigin = process.env['CORS_ORIGIN'];
+
   app.enableCors({
-    origin: process.env['CORS_ORIGIN']?.split(',') || true,
+    origin: corsOrigin ? corsOrigin.split(',') : (isProduction ? false : true),
     credentials: true,
   });
 

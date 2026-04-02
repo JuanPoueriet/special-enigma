@@ -20,7 +20,7 @@ export class IdentityProxyController {
         ]);
 
         res.json({
-          ...user,
+          ...(user as any),
           preferences,
           bff_aggregated: true,
           timestamp: new Date().toISOString(),

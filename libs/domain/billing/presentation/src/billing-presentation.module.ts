@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { BillingController } from './http/controllers/billing.controller';
+import { BillingGrpcController } from './billing-grpc.controller';
 import { PaymentMethodController } from './http/controllers/payment-method.controller';
 import { PaymentController } from './http/controllers/payment.controller';
 import { BillingApplicationModule } from '@virteex/domain-billing-application';
@@ -11,7 +12,7 @@ import { BillingResolver } from './graphql/billing.resolver';
     BillingApplicationModule,
     SubscriptionApplicationModule,
   ],
-  controllers: [BillingController, PaymentMethodController, PaymentController],
+  controllers: [BillingController, BillingGrpcController, PaymentMethodController, PaymentController],
   providers: [BillingResolver],
 })
 export class BillingPresentationModule {}

@@ -91,6 +91,7 @@
         "{options.reportsDirectory}"
       ],
       "options": {
+        "jestConfig": "apps/service/inventory/app/jest.config.cts",
         "reportsDirectory": "../../coverage/apps/service-inventory-app"
       }
     }

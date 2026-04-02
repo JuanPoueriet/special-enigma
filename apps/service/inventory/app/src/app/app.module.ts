@@ -8,6 +8,7 @@ import { ServerConfigModule } from '@virteex/shared-util-server-server-config';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { LoggerModule } from 'nestjs-pino';
 import { TerminusModule } from '@nestjs/terminus';
+import { HealthModule } from '@virteex/shared-util-server-health';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { JwtAuthGuard, CanonicalTenantMiddleware } from '@virteex/kernel-auth';
 import { TenantRlsInterceptor, TenantModule } from '@virteex/kernel-tenant';
@@ -36,6 +37,7 @@ import { InventoryPresentationModule } from '@virteex/domain-inventory-presentat
       },
     }),
     TerminusModule,
+    HealthModule,
     EventEmitterModule.forRoot(),
     ServerConfigModule,
     ThrottlerModule.forRoot([

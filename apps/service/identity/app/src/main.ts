@@ -8,6 +8,10 @@ import { RedisStore } from 'connect-redis';
 import Redis from 'ioredis';
 import { AddressInfo } from 'net';
 import passport from 'passport';
+import { otelSDK } from './tracing';
+// Start SDK before importing other modules
+otelSDK.start();
+
 import { AppModule } from './app/app.module';
 import { setupGlobalConfig } from '@virteex/shared-util-server-server-config';
 

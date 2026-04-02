@@ -1,6 +1,6 @@
 import { Invoice, InvoiceItem } from '@virteex/domain-billing-domain';
-import { InvoiceRecord } from '../../entities/invoice.record';
-import { InvoiceItemRecord } from '../../entities/invoice-item.record';
+import { InvoiceRecord } from '../entities/invoice.record';
+import { InvoiceItemRecord } from '../entities/invoice-item.record';
 
 export class InvoiceMapper {
   static toDomain(record: InvoiceRecord): Invoice {

@@ -7,9 +7,12 @@ import { NestFactory } from '@nestjs/core';
 import { Transport, MicroserviceOptions } from '@nestjs/microservices';
 import { AppModule } from './app/app.module';
 import { MikroORM } from '@mikro-orm/core';
+import { setupGlobalConfig } from '@virteex/shared-util-server-server-config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  setupGlobalConfig(app, 'crm-service');
 
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.KAFKA,

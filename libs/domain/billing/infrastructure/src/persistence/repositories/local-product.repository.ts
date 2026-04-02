@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/core';
 import { type ProductRepository, type BillingProduct } from '@virteex/domain-billing-domain';
-import { BillingProductEntity } from '../../entities/billing-product.entity';
+import { BillingProductEntity } from '../entities/billing-product.entity';
 
 @Injectable()
 export class LocalProductRepository implements ProductRepository {
@@ -15,12 +15,13 @@ export class LocalProductRepository implements ProductRepository {
       return null;
     }
 
+    const p = product as any;
     return {
-      id: product.id,
-      name: product["name"],
-      price: product.price,
-      taxGroup: product.taxGroup,
-      fiscalCode: product.fiscalCode
+      id: p.id,
+      name: p.name,
+      price: p.price,
+      taxGroup: p.taxGroup,
+      fiscalCode: p.fiscalCode
     };
   }
 }

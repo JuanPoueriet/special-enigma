@@ -47,15 +47,19 @@ export class InventoryResolver {
   @UseGuards(JwtAuthGuard)
   async updateWarehouse(
     @Args('id', { type: () => ID }) id: string,
-    @Args('input') input: UpdateWarehouseInput
+    @Args('input') input: UpdateWarehouseInput,
+    @CurrentTenant() tenantId: string
   ) {
-    return this.updateWarehouseUseCase.execute({ id, ...input });
+    return this.updateWarehouseUseCase.execute({ id, tenantId, ...input });
   }
 
   @Mutation(() => Boolean)
   @UseGuards(JwtAuthGuard)
-  async deleteWarehouse(@Args('id', { type: () => ID }) id: string) {
-    await this.deleteWarehouseUseCase.execute(id);
+  async deleteWarehouse(
+    @Args('id', { type: () => ID }) id: string,
+    @CurrentTenant() tenantId: string
+  ) {
+    await this.deleteWarehouseUseCase.execute(id, tenantId);
     return true;
   }
 

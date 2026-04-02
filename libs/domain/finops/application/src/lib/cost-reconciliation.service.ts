@@ -95,29 +95,29 @@ export class CostReconciliationService {
 
   private mapCurCsvRow(header: string[], row: string): CloudCostRecord | null {
     const columns = row.split(',').map((item) => item.trim());
-    const data = Object.fromEntries(header.map((name, index) => [name, columns[index] ?? '']));
+    const data = Object.fromEntries(header.map((name, index) => [name, columns[index] ?? ''])) as any;
 
-    if (!data.tenant_id || !data.region || !data.tenant_mode || !data.cost_usd || !data.usage_start) {
+    if (!data['tenant_id'] || !data['region'] || !data['tenant_mode'] || !data['cost_usd'] || !data['usage_start']) {
       return null;
     }
 
-    const tenantMode = String(data.tenant_mode).toUpperCase() as CloudCostRecord['tenantMode'];
+    const tenantMode = String(data['tenant_mode']).toUpperCase() as CloudCostRecord['tenantMode'];
     if (!['SHARED', 'SCHEMA', 'DATABASE'].includes(tenantMode)) {
       return null;
     }
 
-    const parsedCost = Number(data.cost_usd);
+    const parsedCost = Number(data['cost_usd']);
     if (!Number.isFinite(parsedCost)) {
       return null;
     }
 
     return {
-      timestamp: data.usage_start,
-      tenantId: data.tenant_id,
-      region: data.region,
+      timestamp: data['usage_start'],
+      tenantId: data['tenant_id'],
+      region: data['region'],
       tenantMode,
       costUsd: parsedCost,
-      sourceRef: data.line_item_id || `${data.tenant_id}:${data.usage_start}`,
+      sourceRef: data['line_item_id'] || `${data['tenant_id']}:${data['usage_start']}`,
     };
   }
 
