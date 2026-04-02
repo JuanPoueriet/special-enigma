@@ -6,14 +6,23 @@
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/libs/shared/proto",
         "main": "libs/shared/proto/src/index.ts",
         "tsConfig": "libs/shared/proto/tsconfig.lib.json",
-        "assets": ["libs/shared/proto/src/lib/*.proto"]
+        "assets": [
+          "libs/shared/proto/src/lib/*.proto"
+        ]
       }
     }
   },
-  "tags": ["scope:shared", "type:proto"]
+  "tags": [
+    "scope:shared",
+    "type:contract",
+    "platform:agnostic",
+    "criticality:medium"
+  ]
 }

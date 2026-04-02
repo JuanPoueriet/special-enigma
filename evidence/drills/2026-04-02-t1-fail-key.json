@@ -1,0 +1,80 @@
+{
+  "tenantId": "t1",
+  "drillId": "op-123",
+  "idempotencyKey": "fail-key",
+  "environment": "development",
+  "region": "sa-east-1",
+  "scheduledBy": "scheduler/unknown",
+  "inputs": {
+    "sourceRegion": "us-east-1",
+    "targetRegion": "sa-east-1",
+    "probeInventorySource": "config/operations/regional-health-inventory.json"
+  },
+  "telemetry": {
+    "rtoMs": 32.41122499999983,
+    "rpoMs": 0,
+    "backlogBefore": 0,
+    "backlogAfter": 0
+  },
+  "validation": {
+    "integrityPostPromotion": true,
+    "integrityHash": "297316990918b57bc4f745f8b1922ebc637a9fc52b47110ac64ccbc9f59bafbe"
+  },
+  "rollback": {
+    "triggered": false
+  },
+  "postmortem": {
+    "summary": "Drill completed without rollback and integrity checks passed.",
+    "actionItems": [
+      "No immediate action items."
+    ]
+  },
+  "timeline": [
+    {
+      "step": "PREPARING",
+      "at": "2026-04-02T19:06:35.288Z",
+      "status": "completed",
+      "details": {
+        "sourceRegion": "us-east-1",
+        "targetRegion": "sa-east-1"
+      }
+    },
+    {
+      "step": "VALIDATING",
+      "at": "2026-04-02T19:06:35.288Z",
+      "status": "started"
+    },
+    {
+      "step": "VALIDATING",
+      "at": "2026-04-02T19:06:35.289Z",
+      "status": "completed"
+    },
+    {
+      "step": "RPO_VALIDATION",
+      "at": "2026-04-02T19:06:35.289Z",
+      "status": "completed"
+    },
+    {
+      "step": "SWITCHING",
+      "at": "2026-04-02T19:06:35.289Z",
+      "status": "started"
+    },
+    {
+      "step": "SWITCHING",
+      "at": "2026-04-02T19:06:35.289Z",
+      "status": "completed"
+    },
+    {
+      "step": "POST_PROMOTION_VALIDATION",
+      "at": "2026-04-02T19:06:35.320Z",
+      "status": "completed",
+      "details": {
+        "integrityPostPromotion": true,
+        "integrityHash": "297316990918b57bc4f745f8b1922ebc637a9fc52b47110ac64ccbc9f59bafbe"
+      }
+    }
+  ],
+  "status": "SUCCESS",
+  "executedAt": "2026-04-02T19:06:35.320Z",
+  "signature": "9b591a618d3b066bf04cd0df2a44d2aaaa991d6039d86ffc8b2388d98276ba6a"
+}

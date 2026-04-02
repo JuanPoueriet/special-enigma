@@ -86,8 +86,7 @@ export class EnvironmentVariables {
 
   @IsString()
   @MinLength(1)
-  @IsOptional()
-  SESSION_SECRET?: string;
+  SESSION_SECRET!: string;
 
   @IsString()
   @MinLength(1)
