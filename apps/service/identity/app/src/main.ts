@@ -7,15 +7,18 @@ import session from 'express-session';
 import { RedisStore } from 'connect-redis';
 import Redis from 'ioredis';
 import { AddressInfo } from 'net';
+import { inspect } from 'util';
 import passport from 'passport';
-import { otelSDK } from './tracing';
-// Start SDK before importing other modules
-otelSDK.start();
-
 import { AppModule } from './app/app.module';
-import { setupGlobalConfig, validate } from '@virtex/shared-util-server-server-config';
+import {
+  setupGlobalConfig,
+  startOtel,
+  validate,
+} from '@virtex/shared-util-server-server-config';
 
 const logger = new Logger('Bootstrap');
+
+startOtel('service-identity-app');
 
 function isAddressInUseError(error: unknown): error is NodeJS.ErrnoException {
   return Boolean(
@@ -29,6 +32,14 @@ function validateEnv() {
   validate(process.env, ['SESSION_SECRET', 'REDIS_URL', 'DATABASE_URL']);
 }
 
+function formatError(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message || inspect(error, { depth: 2 });
+  }
+
+  return inspect(error, { depth: 2 });
+}
+
 async function buildSessionStore(): Promise<session.Store> {
   const isProduction = process.env.NODE_ENV === 'production';
   const redisUrl = process.env.REDIS_URL || 'redis://localhost:6379';
@@ -36,12 +47,12 @@ async function buildSessionStore(): Promise<session.Store> {
     lazyConnect: true,
     enableReadyCheck: true,
     maxRetriesPerRequest: 1,
-    retryStrategy: (attempt) =>
-      attempt <= 3 ? Math.min(attempt * 100, 1000) : null,
+    enableOfflineQueue: false,
+    retryStrategy: () => null,
   });
 
   redisClient.on('error', (error) => {
-    logger.warn(`Redis session client error: ${error.message}`);
+    logger.warn(`Redis session client error: ${formatError(error)}`);
   });
 
   try {
@@ -62,12 +73,12 @@ async function buildSessionStore(): Promise<session.Store> {
 
     if (isProduction) {
       throw new Error(
-        `Redis is required in production for session storage: ${(error as Error).message}`,
+        `Redis is required in production for session storage: ${formatError(error)}`,
       );
     }
 
     logger.warn(
-      `Redis unavailable in non-production; falling back to in-memory session store. Reason: ${(error as Error).message}`,
+      `Redis unavailable in non-production; falling back to in-memory session store. Reason: ${formatError(error)}`,
     );
     return new session.MemoryStore();
   }
@@ -106,7 +117,6 @@ async function bootstrap() {
   validateEnv();
   const app = await NestFactory.create(AppModule);
 
-
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.GRPC,
     options: {
@@ -129,7 +139,9 @@ async function bootstrap() {
     if (isProduction) {
       throw new Error('SESSION_SECRET is required in production');
     }
-    logger.warn('SESSION_SECRET is missing; using an insecure development fallback.');
+    logger.warn(
+      'SESSION_SECRET is missing; using an insecure development fallback.',
+    );
   }
 
   const redisStore = await buildSessionStore();
