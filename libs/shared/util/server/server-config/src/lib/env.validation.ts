@@ -83,9 +83,29 @@ export class EnvironmentVariables {
   @IsString()
   @IsOptional()
   JWT_EXPIRATION = '1d';
+
+  @IsString()
+  @MinLength(1)
+  @IsOptional()
+  SESSION_SECRET?: string;
+
+  @IsString()
+  @MinLength(1)
+  @IsOptional()
+  REDIS_URL?: string;
+
+  @IsString()
+  @MinLength(1)
+  @IsOptional()
+  DATABASE_URL?: string;
+
+  @IsString()
+  @MinLength(1)
+  @IsOptional()
+  NATS_URL?: string;
 }
 
-export function validate(config: Record<string, unknown>) {
+export function validate(config: Record<string, unknown>, extraRequired: string[] = []) {
   const validatedConfig = plainToClass(
     EnvironmentVariables,
     config,
@@ -96,5 +116,14 @@ export function validate(config: Record<string, unknown>) {
   if (errors.length > 0) {
     throw new Error(errors.toString());
   }
+
+  const isProduction = validatedConfig.NODE_ENV === 'production';
+  if (isProduction) {
+    const missing = extraRequired.filter(env => !config[env]);
+    if (missing.length > 0) {
+      throw new Error(`Missing required environment variables for production: ${missing.join(', ')}`);
+    }
+  }
+
   return validatedConfig;
 }

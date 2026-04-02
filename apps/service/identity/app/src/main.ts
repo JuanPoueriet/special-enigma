@@ -13,7 +13,7 @@ import { otelSDK } from './tracing';
 otelSDK.start();
 
 import { AppModule } from './app/app.module';
-import { setupGlobalConfig } from '@virteex/shared-util-server-server-config';
+import { setupGlobalConfig, validate } from '@virteex/shared-util-server-server-config';
 
 const logger = new Logger('Bootstrap');
 
@@ -23,6 +23,10 @@ function isAddressInUseError(error: unknown): error is NodeJS.ErrnoException {
       typeof error === 'object' &&
       (error as NodeJS.ErrnoException).code === 'EADDRINUSE',
   );
+}
+
+function validateEnv() {
+  validate(process.env, ['SESSION_SECRET', 'REDIS_URL', 'DATABASE_URL', 'NATS_URL']);
 }
 
 async function buildSessionStore(): Promise<session.Store> {
@@ -99,6 +103,7 @@ async function listenWithPortFallback(app: INestApplication) {
 }
 
 async function bootstrap() {
+  validateEnv();
   const app = await NestFactory.create(AppModule);
 
   app.connectMicroservice<MicroserviceOptions>({
@@ -116,11 +121,7 @@ async function bootstrap() {
 
   app.use(cookieParser());
 
-  const sessionSecret = process.env.SESSION_SECRET;
-  if (!sessionSecret && process.env.NODE_ENV === 'production') {
-    throw new Error('SESSION_SECRET must be set in production');
-  }
-  const resolvedSessionSecret = sessionSecret ?? 'virteex-dev-secret-session';
+  const resolvedSessionSecret = process.env.SESSION_SECRET ?? 'virteex-dev-secret-session';
 
   const redisStore = await buildSessionStore();
 

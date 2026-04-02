@@ -1,5 +1,5 @@
 
-export default {
+module.exports = {
   displayName: 'messaging',
   preset: '../../../jest.preset.js',
   testEnvironment: 'node',

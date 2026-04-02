@@ -28,6 +28,14 @@
         ],
         "generateExportsField": true
       }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/kernel/messaging"],
+      "options": {
+        "jestConfig": "libs/kernel/messaging/jest.config.cts",
+        "passWithNoTests": true
+      }
     }
   }
 }

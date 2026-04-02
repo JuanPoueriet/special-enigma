@@ -8,9 +8,14 @@ import { NestFactory } from '@nestjs/core';
 import { Transport, MicroserviceOptions } from '@nestjs/microservices';
 import { INVENTORY_PACKAGE, INVENTORY_PROTO_PATH } from '@virteex/shared-proto';
 import { AppModule } from './app/app.module';
-import { setupGlobalConfig } from '@virteex/shared-util-server-server-config';
+import { setupGlobalConfig, validate } from '@virteex/shared-util-server-server-config';
+
+function validateEnv() {
+  validate(process.env, ['DATABASE_URL', 'NATS_URL']);
+}
 
 async function bootstrap() {
+  validateEnv();
   const app = await NestFactory.create(AppModule);
 
   app.connectMicroservice<MicroserviceOptions>({
