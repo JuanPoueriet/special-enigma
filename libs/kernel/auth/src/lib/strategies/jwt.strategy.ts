@@ -10,12 +10,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
         (request: Request) => {
-          let token = null;
-          if (request?.cookies?.['access_token']) token = request.cookies['access_token'];
-          if (!token && request.headers.authorization?.startsWith('Bearer ')) {
-            token = request.headers.authorization.substring(7);
-          }
-          return token;
+          return request?.cookies?.['access_token'] || null;
         },
       ]),
       ignoreExpiration: false,
@@ -33,8 +28,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(request: Request, _payload: unknown) {
-    const token = request?.cookies?.['access_token']
-      || (request.headers.authorization?.startsWith('Bearer ') ? request.headers.authorization.substring(7) : undefined);
+    const token = request?.cookies?.['access_token'];
 
     if (!token) {
       throw new UnauthorizedException('Missing access token');

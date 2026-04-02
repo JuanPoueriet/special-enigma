@@ -14,7 +14,9 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
+import { REQUEST } from '@nestjs/core';
 import type { Request } from 'express';
+import { Metadata } from '@grpc/grpc-js';
 import { firstValueFrom, Observable } from 'rxjs';
 
 interface IdentityService {
@@ -77,7 +79,10 @@ export class IdentityProxyService implements OnModuleInit {
   private readonly logger = new Logger(IdentityProxyService.name);
   private identityService: IdentityService;
 
-  constructor(@Inject('IDENTITY_PACKAGE') private client: ClientGrpc) {}
+  constructor(
+    @Inject('IDENTITY_PACKAGE') private client: ClientGrpc,
+    @Inject(REQUEST) private request: Request,
+  ) {}
 
   onModuleInit() {
     this.identityService =
@@ -123,10 +128,25 @@ export class IdentityProxyService implements OnModuleInit {
     request$: Observable<T>,
   ): Promise<T> {
     try {
-      return await firstValueFrom(request$);
+      const metadata = new Metadata();
+      const requestId = this.request.headers['x-request-id'] || this.request.headers['X-Request-Id'];
+      if (requestId) {
+        metadata.add('x-request-id', requestId as string);
+      }
+
+      return await firstValueFrom(request$, { defaultValue: undefined } as any);
     } catch (error) {
       this.mapGrpcError(error, operation);
     }
+  }
+
+  private getMetadata(): Metadata {
+    const metadata = new Metadata();
+    const requestId = this.request.headers['x-request-id'] || this.request.headers['X-Request-Id'];
+    if (requestId) {
+      metadata.add('x-request-id', requestId as string);
+    }
+    return metadata;
   }
 
   // --- Request Context Helper ---
@@ -142,33 +162,33 @@ export class IdentityProxyService implements OnModuleInit {
 
   async getMe(accessToken: string) {
     return await firstValueFrom(
-      this.identityService.getMe({ access_token: accessToken }),
+      this.identityService.getMe({ access_token: accessToken }, this.getMetadata()),
     );
   }
 
   async login(data: any, context: any) {
     return await firstValueFrom(
-      this.identityService.login({ ...data, context }),
+      this.identityService.login({ ...data, context }, this.getMetadata()),
     );
   }
 
   async initiateSignup(data: any) {
-    return await firstValueFrom(this.identityService.initiateSignup(data));
+    return await firstValueFrom(this.identityService.initiateSignup(data, this.getMetadata()));
   }
 
   async verifySignup(data: any) {
-    return await firstValueFrom(this.identityService.verifySignup(data));
+    return await firstValueFrom(this.identityService.verifySignup(data, this.getMetadata()));
   }
 
   async completeOnboarding(data: any, context: any) {
     return await firstValueFrom(
-      this.identityService.completeOnboarding({ ...data, context }),
+      this.identityService.completeOnboarding({ ...data, context }, this.getMetadata()),
     );
   }
 
   async verifyMfa(data: any, context: any) {
     return await firstValueFrom(
-      this.identityService.verifyMfa({ ...data, context }),
+      this.identityService.verifyMfa({ ...data, context }, this.getMetadata()),
     );
   }
 
@@ -177,49 +197,49 @@ export class IdentityProxyService implements OnModuleInit {
       this.identityService.refreshToken({
         refresh_token: refreshToken,
         context,
-      }),
+      }, this.getMetadata()),
     );
   }
 
   async logout(accessToken: string) {
     return await firstValueFrom(
-      this.identityService.logout({ access_token: accessToken }),
+      this.identityService.logout({ access_token: accessToken }, this.getMetadata()),
     );
   }
 
   async getOnboardingStatus(userId: string) {
     return await firstValueFrom(
-      this.identityService.getOnboardingStatus({ user_id: userId }),
+      this.identityService.getOnboardingStatus({ user_id: userId }, this.getMetadata()),
     );
   }
 
   async forgotPassword(data: any, context: any) {
     return await firstValueFrom(
-      this.identityService.forgotPassword({ ...data, context }),
+      this.identityService.forgotPassword({ ...data, context }, this.getMetadata()),
     );
   }
 
   async resetPassword(data: any, context: any) {
     return await firstValueFrom(
-      this.identityService.resetPassword({ ...data, context }),
+      this.identityService.resetPassword({ ...data, context }, this.getMetadata()),
     );
   }
 
   async setPassword(data: any, context: any) {
     return await firstValueFrom(
-      this.identityService.setPassword({ ...data, context }),
+      this.identityService.setPassword({ ...data, context }, this.getMetadata()),
     );
   }
 
   async getSocialRegisterInfo(token: string) {
     return await firstValueFrom(
-      this.identityService.getSocialRegisterInfo({ token }),
+      this.identityService.getSocialRegisterInfo({ token }, this.getMetadata()),
     );
   }
 
   async getPasskeyRegisterOptions(userId: string) {
     return await firstValueFrom(
-      this.identityService.getPasskeyRegisterOptions({ user_id: userId }),
+      this.identityService.getPasskeyRegisterOptions({ user_id: userId }, this.getMetadata()),
     );
   }
 
@@ -229,14 +249,14 @@ export class IdentityProxyService implements OnModuleInit {
         user_id: userId,
         challenge_json: JSON.stringify(challenge),
         response_json: JSON.stringify(response),
-      }),
+      }, this.getMetadata()),
     );
   }
 
   async getPasskeyLoginOptions(email?: string) {
     return await this.callIdentity(
       'getPasskeyLoginOptions',
-      this.identityService.getPasskeyLoginOptions({ email }),
+      this.identityService.getPasskeyLoginOptions({ email }, this.getMetadata()),
     );
   }
 
@@ -246,7 +266,7 @@ export class IdentityProxyService implements OnModuleInit {
         response_json: JSON.stringify(response),
         challenge_json: JSON.stringify(challenge),
         context,
-      }),
+      }, this.getMetadata()),
     );
   }
 
@@ -255,13 +275,13 @@ export class IdentityProxyService implements OnModuleInit {
       this.identityService.checkSecurityContext({
         url_country: urlCountry,
         ip,
-      }),
+      }, this.getMetadata()),
     );
   }
 
   async getSessions(userId: string) {
     return await firstValueFrom(
-      this.identityService.getSessions({ user_id: userId }),
+      this.identityService.getSessions({ user_id: userId }, this.getMetadata()),
     );
   }
 
@@ -270,7 +290,7 @@ export class IdentityProxyService implements OnModuleInit {
       this.identityService.revokeSession({
         user_id: userId,
         session_id: sessionId,
-      }),
+      }, this.getMetadata()),
     );
   }
 
@@ -280,7 +300,7 @@ export class IdentityProxyService implements OnModuleInit {
         admin_user_id: adminUserId,
         target_user_id: targetUserId,
         context,
-      }),
+      }, this.getMetadata()),
     );
   }
 
@@ -290,37 +310,37 @@ export class IdentityProxyService implements OnModuleInit {
         user_id: userId,
         current_password: data.currentPassword,
         new_password: data.newPassword,
-      }),
+      }, this.getMetadata()),
     );
   }
 
   async generate2faSecret(userId: string) {
     return await firstValueFrom(
-      this.identityService.generate2faSecret({ user_id: userId }),
+      this.identityService.generate2faSecret({ user_id: userId }, this.getMetadata()),
     );
   }
 
   async enable2fa(userId: string, token: string) {
     return await firstValueFrom(
-      this.identityService.enable2fa({ user_id: userId, token }),
+      this.identityService.enable2fa({ user_id: userId, token }, this.getMetadata()),
     );
   }
 
   async disable2fa(userId: string) {
     return await firstValueFrom(
-      this.identityService.disable2fa({ user_id: userId }),
+      this.identityService.disable2fa({ user_id: userId }, this.getMetadata()),
     );
   }
 
   async generateBackupCodes(userId: string) {
     return await firstValueFrom(
-      this.identityService.generateBackupCodes({ user_id: userId }),
+      this.identityService.generateBackupCodes({ user_id: userId }, this.getMetadata()),
     );
   }
 
   async send2faEmailVerification(userId: string) {
     return await firstValueFrom(
-      this.identityService.send2faEmailVerification({ user_id: userId }),
+      this.identityService.send2faEmailVerification({ user_id: userId }, this.getMetadata()),
     );
   }
 
@@ -329,14 +349,14 @@ export class IdentityProxyService implements OnModuleInit {
       this.identityService.verify2faEmailVerification({
         user_id: userId,
         code,
-      }),
+      }, this.getMetadata()),
     );
   }
 
   async getLocation(ip: string) {
     return await this.callIdentity(
       'getLocation',
-      this.identityService.getLocation({ ip }),
+      this.identityService.getLocation({ ip }, this.getMetadata()),
     );
   }
 
@@ -352,23 +372,23 @@ export class IdentityProxyService implements OnModuleInit {
         sort_column: data.sortColumn,
         sort_direction: data.sortDirection,
         tenant_id: data.tenantId,
-      }),
+      }, this.getMetadata()),
     );
   }
 
   async getJobTitles() {
-    return await firstValueFrom(this.identityService.getJobTitles({}));
+    return await firstValueFrom(this.identityService.getJobTitles({}, this.getMetadata()));
   }
 
   async getUserProfile(userId: string) {
     return await firstValueFrom(
-      this.identityService.getUserProfile({ user_id: userId }),
+      this.identityService.getUserProfile({ user_id: userId }, this.getMetadata()),
     );
   }
 
   async getUserAuditLogs(userId: string) {
     return await firstValueFrom(
-      this.identityService.getUserAuditLogs({ user_id: userId }),
+      this.identityService.getUserAuditLogs({ user_id: userId }, this.getMetadata()),
     );
   }
 
@@ -381,7 +401,7 @@ export class IdentityProxyService implements OnModuleInit {
         phone: data.phone,
         preferred_language: data.preferredLanguage,
         status: data.status,
-      }),
+      }, this.getMetadata()),
     );
   }
 
@@ -395,13 +415,13 @@ export class IdentityProxyService implements OnModuleInit {
         preferred_language: data.preferredLanguage,
         status: data.status,
         tenant_id: tenantId,
-      }),
+      }, this.getMetadata()),
     );
   }
 
   async deleteUser(id: string, tenantId: string) {
     return await firstValueFrom(
-      this.identityService.deleteUser({ id, tenant_id: tenantId }),
+      this.identityService.deleteUser({ id, tenant_id: tenantId }, this.getMetadata()),
     );
   }
 
@@ -413,19 +433,19 @@ export class IdentityProxyService implements OnModuleInit {
         last_name: data.lastName,
         role: data.role,
         inviter_id: inviterId,
-      }),
+      }, this.getMetadata()),
     );
   }
 
   async forceLogout(userId: string) {
     return await firstValueFrom(
-      this.identityService.forceLogout({ user_id: userId }),
+      this.identityService.forceLogout({ user_id: userId }, this.getMetadata()),
     );
   }
 
   async blockAndLogout(userId: string) {
     return await firstValueFrom(
-      this.identityService.blockAndLogout({ user_id: userId }),
+      this.identityService.blockAndLogout({ user_id: userId }, this.getMetadata()),
     );
   }
 
@@ -435,7 +455,7 @@ export class IdentityProxyService implements OnModuleInit {
         id,
         is_online: isOnline,
         tenant_id: tenantId,
-      }),
+      }, this.getMetadata()),
     );
   }
 
@@ -445,7 +465,7 @@ export class IdentityProxyService implements OnModuleInit {
         id,
         tenant_id: tenantId,
         context,
-      }),
+      }, this.getMetadata()),
     );
   }
 
@@ -455,7 +475,7 @@ export class IdentityProxyService implements OnModuleInit {
         user_id: userId,
         file_name: fileName,
         file_content: fileContent,
-      }),
+      }, this.getMetadata()),
     );
   }
 
@@ -464,13 +484,13 @@ export class IdentityProxyService implements OnModuleInit {
   async getLocalizationConfig(code: string) {
     return await this.callIdentity(
       'getLocalizationConfig',
-      this.identityService.getLocalizationConfig({ code }),
+      this.identityService.getLocalizationConfig({ code }, this.getMetadata()),
     );
   }
 
   async localizationLookup(taxId: string, country: string) {
     return await firstValueFrom(
-      this.identityService.localizationLookup({ tax_id: taxId, country }),
+      this.identityService.localizationLookup({ tax_id: taxId, country }, this.getMetadata()),
     );
   }
 
@@ -478,13 +498,13 @@ export class IdentityProxyService implements OnModuleInit {
 
   async checkUserExists(email: string) {
     return await firstValueFrom(
-      this.identityService.checkUserExists({ email }),
+      this.identityService.checkUserExists({ email }, this.getMetadata()),
     );
   }
 
   async checkOrganizationExists(taxId: string) {
     return await firstValueFrom(
-      this.identityService.checkOrganizationExists({ tax_id: taxId }),
+      this.identityService.checkOrganizationExists({ tax_id: taxId }, this.getMetadata()),
     );
   }
 

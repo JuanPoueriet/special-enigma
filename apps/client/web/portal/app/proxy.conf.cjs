@@ -1,36 +1,35 @@
-const { execSync } = require('node:child_process');
+/**
+ * Frontend Proxy Configuration
+ *
+ * This proxy is strictly configured to point to the Edge Portal (BFF).
+ * It requires the PORTAL_EDGE_PROXY_TARGET environment variable.
+ * Fallbacks and silent failures are disabled to ensure deterministic behavior.
+ */
 
-const CUSTOM_TARGET =
-  process.env['PORTAL_EDGE_PROXY_TARGET'] ||
-  'http://portal-edge.virtex.local:3100';
-const FALLBACK_TARGET =
-  process.env['PORTAL_EDGE_PROXY_FALLBACK'] || 'http://localhost:3100';
+const target = process.env['PORTAL_EDGE_PROXY_TARGET'];
 
-function canResolveHost(hostname) {
-  const command =
-    process.platform === 'win32'
-      ? `nslookup ${hostname}`
-      : `getent hosts ${hostname}`;
-
-  try {
-    execSync(command, {
-      stdio: ['ignore', 'pipe', 'ignore'],
-    });
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-const host = new URL(CUSTOM_TARGET).hostname;
-const target = canResolveHost(host) ? CUSTOM_TARGET : FALLBACK_TARGET;
-
-if (target !== CUSTOM_TARGET) {
-  console.warn(
-    `[web-portal proxy] Could not resolve ${host}. Falling back to ${FALLBACK_TARGET}. ` +
-      'Set PORTAL_EDGE_PROXY_TARGET or configure /etc/hosts to use the custom edge domain.',
+if (!target) {
+  console.error(
+    '\x1b[31m%s\x1b[0m',
+    '[web-portal proxy] FATAL: PORTAL_EDGE_PROXY_TARGET is not defined.',
   );
+  console.error(
+    'Please set it in your .env.portal-web or .env file (e.g., http://localhost:3100).',
+  );
+  process.exit(1);
 }
+
+try {
+  new URL(target);
+} catch {
+  console.error(
+    '\x1b[31m%s\x1b[0m',
+    `[web-portal proxy] FATAL: Invalid PORTAL_EDGE_PROXY_TARGET format: "${target}"`,
+  );
+  process.exit(1);
+}
+
+console.log(`\x1b[32m[web-portal proxy] Routing /api to: ${target}\x1b[0m`);
 
 module.exports = {
   '/api': {
@@ -40,6 +39,16 @@ module.exports = {
     pathRewrite: {
       '^/api': '/api',
     },
+    onProxyReq: (proxyReq, req) => {
+      // Ensure X-Request-Id is propagated if present in the original request
+      const requestId = req.headers['x-request-id'];
+      if (requestId) {
+        proxyReq.setHeader('X-Request-Id', requestId);
+      }
+    },
+    onError: (err, req) => {
+      console.error(`[web-portal proxy] Proxy error for ${req.url}:`, err.message);
+    }
   },
   '/desktop-app-api': {
     target,
