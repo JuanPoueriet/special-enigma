@@ -42,7 +42,7 @@ async function bootstrap() {
       }
     });
 
-    await app.listen(port);
+    await app.listen(port, '0.0.0.0');
     logger.log(`🚀 Edge Portal BFF is running on: http://localhost:${port}/api/portal`);
   } catch (error) {
     logger.error(

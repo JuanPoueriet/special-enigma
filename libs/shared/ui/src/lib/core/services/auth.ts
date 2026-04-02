@@ -17,7 +17,7 @@ export class AuthService {
   private router = inject(Router);
   private languageService = inject(LanguageService);
   private countryService = inject(CountryService);
-  private readonly _baseUrl = inject(API_URL, { optional: true }) ? `${inject(API_URL)}/auth` : '/api/auth';
+  private readonly _baseUrl = inject(API_URL, { optional: true }) ? `${inject(API_URL)}/auth` : '/api/portal/v1/auth';
 
   public get baseUrl(): string {
       return this._baseUrl;

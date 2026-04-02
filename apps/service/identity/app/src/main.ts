@@ -183,7 +183,7 @@ async function bootstrap() {
     const requestedPort = Number(process.env['PORT'] || 3000);
     const port = await resolveHttpPort(requestedPort);
 
-    await app.listen(port);
+    await app.listen(port, '0.0.0.0');
     logger.log(`🚀 Identity Service is running on: http://localhost:${port}`);
     if (port !== requestedPort) {
       logger.warn(
