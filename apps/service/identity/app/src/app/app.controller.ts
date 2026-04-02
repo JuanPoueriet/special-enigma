@@ -679,4 +679,9 @@ export class AppController {
       })),
     };
   }
+
+  @GrpcMethod('IdentityService', 'HealthCheck')
+  async healthCheck() {
+    return { status: 'ok' };
+  }
 }

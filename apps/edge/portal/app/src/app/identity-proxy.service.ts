@@ -1,7 +1,7 @@
 import { Injectable, Logger, OnModuleInit, Inject } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import type { Request } from 'express';
-import { firstValueFrom, Observable } from 'rxjs';
+import { firstValueFrom, Observable, of } from 'rxjs';
 
 interface IdentityService {
   getMe(data: { access_token: string }): Observable<any>;
@@ -55,6 +55,7 @@ interface IdentityService {
   checkOrganizationExists(data: any): Observable<any>;
 
   listTenants(data: any): Observable<any>;
+  healthCheck(data: any): Observable<any>;
 }
 
 @Injectable()
@@ -316,5 +317,15 @@ export class IdentityProxyService implements OnModuleInit {
 
   async listTenants() {
     return await firstValueFrom(this.identityService.listTenants({}));
+  }
+
+  async checkConnectivity() {
+    try {
+      const response = await firstValueFrom(this.identityService.healthCheck({}));
+      return response;
+    } catch (error) {
+      this.logger.error(`Identity Service connectivity check failed: ${error.message}`);
+      return { status: 'error', message: error.message };
+    }
   }
 }
