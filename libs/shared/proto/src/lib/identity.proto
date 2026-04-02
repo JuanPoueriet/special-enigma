@@ -62,6 +62,9 @@ service IdentityService {
 
   // --- Admin ---
   rpc ListTenants (google.protobuf.Empty) returns (TenantsResponse);
+
+  // --- Health ---
+  rpc HealthCheck (google.protobuf.Empty) returns (HealthCheckResponse);
 }
 
 // --- Common Messages ---
@@ -266,6 +269,10 @@ message Enable2faRequest {
 message Enable2faResponse {
   bool success = 1;
   repeated string backup_codes = 2;
+}
+
+message Disable2faRequest {
+  string user_id = 1;
 }
 
 message GenerateBackupCodesRequest {
@@ -477,4 +484,8 @@ message TenantInfo {
 
 message TenantsResponse {
   repeated TenantInfo tenants = 1;
+}
+
+message HealthCheckResponse {
+  string status = 1;
 }

@@ -1,13 +1,24 @@
-import { join } from 'path';
+import { join, resolve } from 'path';
+import { existsSync } from 'fs';
 
 function resolveProtoPath(fileName: string): string {
-  const bundledPath = join(__dirname, `lib/${fileName}`);
-  const workspacePath = join(
+  const bundledPath = resolve(__dirname, `lib/${fileName}`);
+  const workspacePath = resolve(
     process.cwd(),
     `libs/shared/proto/src/lib/${fileName}`,
   );
 
-  return process.env.NODE_ENV === 'production' ? bundledPath : workspacePath;
+  const resolvedPath = process.env.NODE_ENV === 'production' ? bundledPath : workspacePath;
+
+  if (!resolvedPath || resolvedPath === 'undefined') {
+    throw new Error(`Failed to resolve proto path for ${fileName}: path is ${resolvedPath}`);
+  }
+
+  if (!existsSync(resolvedPath)) {
+    console.warn(`[ProtoResolver] WARNING: File not found at ${resolvedPath}`);
+  }
+
+  return resolvedPath;
 }
 
 export const IDENTITY_PROTO_PATH = resolveProtoPath('identity.proto');
