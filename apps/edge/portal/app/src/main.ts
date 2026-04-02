@@ -1,14 +1,16 @@
-import { otelSDK } from './tracing';
-// Start SDK before importing other modules
-otelSDK.start();
-
 import { INestApplication, Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
-import { setupGlobalConfig, validate } from '@virtex/shared-util-server-server-config';
+import {
+  setupGlobalConfig,
+  startOtel,
+  validate,
+} from '@virtex/shared-util-server-server-config';
 import { AddressInfo } from 'net';
 
 const logger = new Logger('Bootstrap');
+
+startOtel('edge-portal-app');
 
 function validateEnv() {
   validate(process.env, [
@@ -43,7 +45,9 @@ async function listenWithPortFallback(app: INestApplication) {
         | null;
       const boundPort =
         typeof address === 'object' && address ? address.port : candidatePort;
-      logger.log(`🚀 BFF is running on: http://localhost:${boundPort}/api/portal`);
+      logger.log(
+        `🚀 BFF is running on: http://localhost:${boundPort}/api/portal`,
+      );
       return;
     } catch (error) {
       if (!isAddressInUseError(error) || offset === maxAttempts - 1) {
@@ -67,7 +71,10 @@ async function bootstrap() {
 
     await listenWithPortFallback(app);
   } catch (error) {
-    logger.error(`Failed to start BFF: ${(error as Error).message}`, (error as Error).stack);
+    logger.error(
+      `Failed to start BFF: ${(error as Error).message}`,
+      (error as Error).stack,
+    );
     process.exit(1);
   }
 }
