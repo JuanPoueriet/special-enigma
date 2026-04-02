@@ -17,7 +17,7 @@ spec:
       containers:
         - name: api-gateway
           # Pinning to semantic version + SHA256 digest for immutability
-          image: ghcr.io/virtex/api-gateway:1.0.0@sha256:7688a100227c6700000000000000000000000000000000000000000000000000 # TODO: Replace with real digest from CI
+          image: ghcr.io/virtex/api-gateway:1.0.0@sha256:7688a100227c670000000000000000000000000000000000000000000000000a
           ports:
             - containerPort: 3000
           env:

@@ -5,7 +5,7 @@
   "projectType": "application",
   "tags": [
     "scope:identity",
-    "type:app",
+    "type:microservice",
     "platform:identity",
     "criticality:medium"
   ],

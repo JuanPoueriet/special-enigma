@@ -11,7 +11,7 @@ import { AppModule } from './app/app.module';
 import { setupGlobalConfig, validate } from '@virtex/shared-util-server-server-config';
 
 function validateEnv() {
-  validate(process.env, ['DATABASE_URL', 'NATS_URL']);
+  validate(process.env, ['DATABASE_URL']);
 }
 
 async function bootstrap() {

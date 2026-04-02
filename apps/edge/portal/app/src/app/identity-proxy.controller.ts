@@ -26,6 +26,17 @@ export class IdentityProxyController {
       });
       return;
     }
+    // Fallback or guest me
+    await this.identityProxy.forward(req, res, this.extractPath(req));
+  }
+
+  @All('auth/login')
+  async login(@Req() req: Request, @Res() res: Response): Promise<void> {
+    if (req.method === 'POST') {
+      const result = await this.identityProxy.loginGrpc(req.body);
+      res.json(result);
+      return;
+    }
     await this.identityProxy.forward(req, res, this.extractPath(req));
   }
 

@@ -5,7 +5,7 @@
   "projectType": "application",
   "tags": [
     "scope:fiscal",
-    "type:app",
+    "type:microservice",
     "platform:fiscal",
     "criticality:medium"
   ],

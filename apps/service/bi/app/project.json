@@ -5,7 +5,7 @@
   "projectType": "application",
   "tags": [
     "scope:bi",
-    "type:app",
+    "type:microservice",
     "platform:agnostic",
     "criticality:medium"
   ],

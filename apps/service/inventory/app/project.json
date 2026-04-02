@@ -5,7 +5,7 @@
   "projectType": "application",
   "tags": [
     "scope:inventory",
-    "type:app",
+    "type:microservice",
     "platform:backend",
     "criticality:high",
     "compliance:none",

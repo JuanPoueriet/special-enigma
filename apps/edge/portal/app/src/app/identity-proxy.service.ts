@@ -7,6 +7,7 @@ import { firstValueFrom } from 'rxjs';
 
 interface IdentityService {
   getMe(data: { access_token: string }): any;
+  login(data: any): any;
 }
 
 @Injectable()
@@ -61,6 +62,15 @@ export class IdentityProxyService implements OnModuleInit {
       return await firstValueFrom(this.identityService.getMe({ access_token: accessToken }));
     } catch (e) {
       this.logger.error('gRPC getMe failed', e);
+      throw e;
+    }
+  }
+
+  async loginGrpc(data: any) {
+    try {
+      return await firstValueFrom(this.identityService.login(data));
+    } catch (e) {
+      this.logger.error('gRPC login failed', e);
       throw e;
     }
   }
