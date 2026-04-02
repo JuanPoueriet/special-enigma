@@ -27,7 +27,7 @@ import { CookiePolicyService } from '@virtex/domain-identity-presentation';
         options: {
           package: IDENTITY_PACKAGE,
           protoPath: IDENTITY_PROTO_PATH,
-          url: process.env['IDENTITY_GRPC_URL'] || 'localhost:50051',
+          url: process.env['IDENTITY_GRPC_URL'] || '0.0.0.0:50051',
         },
       },
       {

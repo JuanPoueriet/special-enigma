@@ -77,18 +77,28 @@ interface IdentityService {
 }
 
 @Injectable()
-export class IdentityProxyService implements OnModuleInit {
+export class IdentityProxyService {
   private readonly logger = new Logger(IdentityProxyService.name);
-  private identityService: IdentityService;
+  private _identityService: IdentityService;
 
   constructor(
     @Inject('IDENTITY_PACKAGE') private client: ClientGrpc,
     @Inject(REQUEST) private request: Request,
   ) {}
 
-  onModuleInit() {
-    this.identityService =
-      this.client.getService<IdentityService>('IdentityService');
+  private get identityService(): IdentityService {
+    if (!this._identityService) {
+      try {
+        this._identityService =
+          this.client.getService<IdentityService>('IdentityService');
+      } catch (error) {
+        this.logger.error(
+          `Failed to lazy-load Identity gRPC service: ${error.message}`,
+        );
+        throw new ServiceUnavailableException('Identity service unavailable');
+      }
+    }
+    return this._identityService;
   }
 
   private mapGrpcError(error: any, operation: string): never {
