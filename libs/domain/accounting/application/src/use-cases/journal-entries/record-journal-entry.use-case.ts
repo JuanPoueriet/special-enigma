@@ -22,7 +22,7 @@ export class RecordJournalEntryUseCase {
 
     const handleExecute = async () => {
         // SaaS Feature Metering: Enforce journal entry limits per plan
-        const entryCount = await this.journalEntryRepository.countByTenant(dto.tenantId);
+        const entryCount = await this.journalEntryRepository.count(dto.tenantId);
         await this.entitlementService.checkQuota('accounting:journal-entries', entryCount);
 
         const latestClosedDate = await this.journalEntryRepository.findLatestClosedDate(dto.tenantId);

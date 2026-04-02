@@ -51,6 +51,7 @@ export const FiscalPeriodSchema = new EntitySchema<FiscalPeriod>({
     startDate: { type: 'date' },
     endDate: { type: 'date' },
     status: { enum: true, items: () => FiscalPeriodStatus, default: FiscalPeriodStatus.OPEN },
+    isLocked: { type: 'boolean', default: false },
     closedAt: { type: 'date', nullable: true },
     closedBy: { type: 'string', nullable: true },
     domainEvents: { type: 'json', persist: false },
@@ -86,8 +87,12 @@ export const InvoiceSchema = new EntitySchema<Invoice>({
     dueDate: { type: 'date' },
     currency: { type: 'string' },
     amount: { type: 'string' },
+    paidAmount: { type: 'string', default: '0.00' },
+    taxAmount: { type: 'string', default: '0.00' },
     status: { enum: true, items: () => InvoiceStatus },
     type: { type: 'string' },
+    notes: { type: 'string', nullable: true },
+    lineItems: { type: 'json', default: [] },
   },
 });
 

@@ -12,9 +12,14 @@
   "// targets": "to see all targets run: nx show project platform-kafka --web",
   "targets": {
     "test": {
+      "executor": "@nx/jest:jest",
       "outputs": [
         "{workspaceRoot}/coverage/libs/platform/kafka"
-      ]
+      ],
+      "options": {
+        "jestConfig": "libs/platform/kafka/jest.config.cts",
+        "passWithNoTests": true
+      }
     },
     "build": {
       "executor": "@nx/js:tsc",

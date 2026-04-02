@@ -26,7 +26,8 @@ export class IdentityProxyController {
       });
       return;
     }
-    // Fallback or guest me
+
+    this.logger.warn('Accessing auth/me without valid bearer token. Forwarding to legacy.');
     await this.identityProxy.forward(req, res, this.extractPath(req));
   }
 
@@ -37,6 +38,8 @@ export class IdentityProxyController {
       res.json(result);
       return;
     }
+
+    this.logger.warn(`auth/login accessed with non-POST method: ${req.method}. Forwarding to legacy.`);
     await this.identityProxy.forward(req, res, this.extractPath(req));
   }
 

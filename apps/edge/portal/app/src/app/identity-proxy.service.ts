@@ -80,10 +80,16 @@ export class IdentityProxyService implements OnModuleInit {
 
   /**
    * @deprecated Standard internal communication should be gRPC.
-   * Forward is maintained only for legacy routes or when gRPC is not available.
+   * Forward is maintained only for legacy routes.
+   * In production, this will log a warning as we transition to 100% gRPC.
    */
   async forward(req: Request, res: Response, path: string): Promise<void> {
+    this.logger.warn(`Legacy HTTP forward used for path: ${path}. Plan to migrate to gRPC.`);
+
     if (!this.identityBaseUrl) {
+      if (process.env.NODE_ENV === 'production') {
+        this.logger.error('Identity service HTTP proxy NOT configured in production!');
+      }
       throw new HttpException('Identity service HTTP proxy not configured', 503);
     }
     const targetUrl = `${this.identityBaseUrl}/${path.replace(/^\/+/, '')}`;

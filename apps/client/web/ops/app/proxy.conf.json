@@ -1,18 +1,10 @@
 {
-  "/auth": {
-    "target": "http://localhost:3000",
-    "secure": false
-  },
-  "/admin": {
-    "target": "http://localhost:3000",
-    "secure": false
-  },
-  "/subscription": {
-    "target": "http://localhost:3000",
-    "secure": false
-  },
-  "/tenant": {
-    "target": "http://localhost:3000",
-    "secure": false
+  "/api": {
+    "target": "http://ops-edge.virtex.local:3104",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": "/api"
+    }
   }
 }

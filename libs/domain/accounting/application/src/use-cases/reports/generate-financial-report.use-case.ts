@@ -143,7 +143,7 @@ export class GenerateFinancialReportUseCase {
     let totalCash = new Decimal(0);
 
     for (const account of cashAccounts) {
-      const balances = await this.journalEntryRepository.getBalancesByAccount(tenantId, account.id, endDate, dimensions);
+      const balances = await this.journalEntryRepository.getBalancesByAccount(tenantId, undefined, endDate, dimensions, [account.id]);
       const balance = balances.get(account.id) || { debit: '0', credit: '0' };
       const netBalance = new Decimal(balance.debit).minus(new Decimal(balance.credit));
 

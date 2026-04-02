@@ -1,6 +1,10 @@
 {
   "/api": {
-    "target": "http://localhost:3101",
-    "secure": false
+    "target": "http://pos-edge.virtex.local:3101",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": "/api"
+    }
   }
 }

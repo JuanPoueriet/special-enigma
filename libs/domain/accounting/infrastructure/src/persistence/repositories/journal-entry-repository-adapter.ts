@@ -93,4 +93,12 @@ export class JournalEntryRepositoryAdapter implements JournalEntryRepository {
       status: { $in: [JournalEntryStatus.DRAFT, JournalEntryStatus.PENDING_APPROVAL] }
     });
   }
+
+  async findByTypeAndDate(tenantId: string, type: any, date: Date): Promise<JournalEntry[]> {
+    return this.em.find(JournalEntry, {
+      tenantId,
+      type,
+      date
+    });
+  }
 }

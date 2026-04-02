@@ -19,6 +19,18 @@ spec:
           image: ghcr.io/virtex/edge-portal-app:latest
           ports:
             - containerPort: 3000
+          livenessProbe:
+            httpGet:
+              path: /health/liveness
+              port: 3000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /health/readiness
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
           env:
             - name: NODE_ENV
               value: "production"
