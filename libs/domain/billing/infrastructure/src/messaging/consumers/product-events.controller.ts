@@ -1,7 +1,7 @@
 import { Controller, Logger } from '@nestjs/common';
 import { EventPattern, Payload } from '@nestjs/microservices';
 import { EntityManager } from '@mikro-orm/core';
-import { BillingProductEntity } from '../../entities/billing-product.entity';
+import { BillingProductEntity } from '../../persistence/entities/billing-product.entity';
 import { ProductCreatedEvent, ProductUpdatedEvent } from '@virteex/domain-catalog-domain';
 
 @Controller()
@@ -16,7 +16,7 @@ export class ProductEventsController {
 
     const em = this.em.fork();
 
-    const existing = await em.findOne(BillingProductEntity, { id: data.id.toString() });
+    const existing = await em.findOne(BillingProductEntity, { id: data.id.toString() }) as any;
     if (existing) {
         this.logger.warn(`Product ${data.id} already exists in billing replica. Updating instead.`);
         existing.name = data.name;
@@ -28,7 +28,7 @@ export class ProductEventsController {
         return;
     }
 
-    const product = new BillingProductEntity();
+    const product = new BillingProductEntity() as any;
     product.id = data.id.toString();
     product.tenantId = data.tenantId;
     product.name = data.name;
@@ -45,10 +45,10 @@ export class ProductEventsController {
     this.logger.log(`Received catalog.product.updated for Product ${data.id}`);
     const em = this.em.fork();
 
-    let product = await em.findOne(BillingProductEntity, { id: data.id.toString() });
+    let product = await em.findOne(BillingProductEntity, { id: data.id.toString() }) as any;
     if (!product) {
         this.logger.warn(`Product ${data.id} not found in billing replica. Creating it.`);
-        product = new BillingProductEntity();
+        product = new BillingProductEntity() as any;
         product.id = data.id.toString();
         product.tenantId = data.tenantId;
         await em.persistAndFlush(product);

@@ -1,0 +1,31 @@
+# Dynamic configuration
+http:
+  routers:
+    portal-router:
+      rule: "Host(`localhost`) && PathPrefix(`/api/portal`)"
+      service: portal-service
+      entryPoints:
+        - websecure
+      tls: {}
+
+    pos-router:
+      rule: "Host(`localhost`) && PathPrefix(`/api/pos`)"
+      service: pos-service
+      entryPoints:
+        - websecure
+      tls: {}
+
+  services:
+    portal-service:
+      loadBalancer:
+        servers:
+          - url: "http://bff-portal:3100"
+    pos-service:
+      loadBalancer:
+        servers:
+          - url: "http://pos-service:3008"
+
+tls:
+  certificates:
+    - certFile: /etc/traefik/certs/cert.crt
+      keyFile: /etc/traefik/certs/cert.key

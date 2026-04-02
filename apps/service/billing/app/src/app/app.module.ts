@@ -6,6 +6,7 @@ import { SqliteDriver } from '@mikro-orm/sqlite';
 import { LoggerModule } from 'nestjs-pino';
 import { TerminusModule } from '@nestjs/terminus';
 import { ServerConfigModule } from '@virteex/shared-util-server-server-config';
+import { HealthModule } from '@virteex/shared-util-server-health';
 import { KafkaModule } from '@virteex/platform-kafka';
 import { GraphQLModule } from '@nestjs/graphql';
 import depthLimit from 'graphql-depth-limit';
@@ -37,6 +38,7 @@ import { CanonicalTenantMiddleware } from '@virteex/kernel-auth';
     }),
     TerminusModule,
     ServerConfigModule,
+    HealthModule,
     GraphQLModule.forRoot<ApolloFederationDriverConfig>({
       driver: ApolloFederationDriver,
       plugins: [ApolloServerPluginLandingPageLocalDefault({ embed: true })],

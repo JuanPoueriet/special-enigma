@@ -6,6 +6,7 @@ import { SqliteDriver } from '@mikro-orm/sqlite';
 import { LoggerModule } from 'nestjs-pino';
 import { TerminusModule } from '@nestjs/terminus';
 import { ServerConfigModule } from '@virteex/shared-util-server-server-config';
+import { HealthModule } from '@virteex/shared-util-server-health';
 import { CrmPresentationModule } from '@virteex/domain-crm-presentation';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -51,6 +52,7 @@ import { CanonicalTenantMiddleware } from '@virteex/kernel-auth';
     }),
     TerminusModule,
     ServerConfigModule,
+    HealthModule,
     MikroOrmModule.forRootAsync({
       driver: PostgreSqlDriver,
       imports: [ConfigModule],

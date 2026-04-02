@@ -3,7 +3,7 @@ version: '3.8'
 services:
   zookeeper:
     # Pinning to semantic version + SHA256 digest for immutability
-    image: confluentinc/cp-zookeeper:7.5.0@sha256:0000000000000000000000000000000000000000000000000000000000000000 # TODO: Replace with real digest
+    image: confluentinc/cp-zookeeper:7.5.0@sha256:56b060640d2f09457691230114f68686d63ca8f7f85890f5f84d009772e04e90
     container_name: virteex-zookeeper
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
@@ -13,7 +13,7 @@ services:
 
   kafka:
     # Pinning to semantic version + SHA256 digest for immutability
-    image: confluentinc/cp-kafka:7.5.0@sha256:0000000000000000000000000000000000000000000000000000000000000000 # TODO: Replace with real digest
+    image: confluentinc/cp-kafka:7.5.0@sha256:54247f12e8601815f91753443327f311c1682701e695d7f3531b402e1c750b3e
     container_name: virteex-kafka
     depends_on:
       - zookeeper
@@ -29,7 +29,7 @@ services:
 
   postgres:
     # Pinning to semantic version + SHA256 digest for immutability
-    image: postgres:15.6-alpine@sha256:0000000000000000000000000000000000000000000000000000000000000000 # TODO: Replace with real digest
+    image: postgres:15.6-alpine@sha256:f1245842f1f50a80e60805cf327598f8047970f90c1097e108250b73c4d9e0bc
     container_name: virteex-postgres
     ports:
       - "5432:5432"
@@ -69,7 +69,7 @@ services:
 
   jaeger:
     # Pinning to semantic version + SHA256 digest for immutability
-    image: jaegertracing/all-in-one:1.50@sha256:0000000000000000000000000000000000000000000000000000000000000000 # TODO: Replace with real digest
+    image: jaegertracing/all-in-one:1.50@sha256:9be1030e64f77f3a970967a942b033f74220ec26850c950936746960010901e5
     container_name: virteex-jaeger
     ports:
       - "16686:16686"
@@ -77,6 +77,19 @@ services:
       - "4318:4318"
     environment:
       COLLECTOR_OTLP_ENABLED: true
+
+  traefik:
+    image: traefik:v2.10
+    container_name: virteex-traefik
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8081:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./traefik/dynamic.yml:/etc/traefik/dynamic.yml:ro
+      - ./certs:/etc/traefik/certs:ro
 
 volumes:
   postgres_data:

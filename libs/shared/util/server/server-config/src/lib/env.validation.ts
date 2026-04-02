@@ -6,6 +6,14 @@ export class EnvironmentVariables {
   @IsOptional()
   NODE_ENV = 'development';
 
+  @IsString()
+  @IsOptional()
+  CORS_ORIGIN?: string;
+
+  @IsString()
+  @IsOptional()
+  OTEL_EXPORTER_OTLP_ENDPOINT?: string;
+
   @IsNumber()
   @IsOptional()
   @Type(() => Number)

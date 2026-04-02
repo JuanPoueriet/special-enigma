@@ -32,7 +32,7 @@ export class RegisterMovementUseCase {
     }
 
     // 1. Validate Warehouse
-    const warehouse = await this.warehouseRepo.findById(dto.warehouseId);
+    const warehouse = await this.warehouseRepo.findById(dto.warehouseId, dto.tenantId);
     if (!warehouse) {
       throw new WarehouseNotFoundException(dto.warehouseId);
     }

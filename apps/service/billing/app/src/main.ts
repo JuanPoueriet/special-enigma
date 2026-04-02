@@ -5,13 +5,16 @@ otelSDK.start();
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { Transport, MicroserviceOptions } from '@nestjs/microservices';
+import { BILLING_PACKAGE, BILLING_PROTO_PATH } from '@virteex/shared-proto';
 import { AppModule } from './app/app.module';
 import { InitialSeederService } from './app/seeds/initial-seeder.service';
 import { MikroORM } from '@mikro-orm/core';
-import { ConfigService } from '@nestjs/config';
+import { setupGlobalConfig } from '@virteex/shared-util-server-server-config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  setupGlobalConfig(app, 'billing-service');
 
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.KAFKA,
@@ -22,6 +25,15 @@ async function bootstrap() {
       consumer: {
         groupId: 'billing-service-consumer',
       },
+    },
+  });
+
+  app.connectMicroservice<MicroserviceOptions>({
+    transport: Transport.GRPC,
+    options: {
+      package: BILLING_PACKAGE,
+      protoPath: BILLING_PROTO_PATH,
+      url: `0.0.0.0:${process.env.BILLING_GRPC_PORT || 50052}`,
     },
   });
 

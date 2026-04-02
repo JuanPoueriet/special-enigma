@@ -1,3 +1,7 @@
+import { otelSDK } from './tracing';
+// Start SDK before importing other modules
+otelSDK.start();
+
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { PosApiModule } from './app/pos-api.module';
@@ -9,7 +13,7 @@ async function bootstrap() {
   app.setGlobalPrefix(globalPrefix);
 
   // Apply shared global config (pipes, filters, security headers)
-  setupGlobalConfig(app);
+  setupGlobalConfig(app, 'pos-service');
 
   const port = process.env.PORT || 3008;
   await app.listen(port);

@@ -5,12 +5,13 @@ import { WarehousesController } from './controllers/warehouses.controller';
 import { MovementsController } from './controllers/movements.controller';
 import { StockController } from './controllers/stock.controller';
 import { ReservationsController } from './controllers/reservations.controller';
+import { InventoryGrpcController } from './controllers/inventory-grpc.controller';
 import { InventoryResolver } from './graphql/inventory.resolver';
 import { WarehouseLoader } from './loaders/warehouse.loader';
 
 @Module({
   imports: [InventoryApplicationModule, InventoryInfrastructureModule],
-  controllers: [WarehousesController, MovementsController, StockController, ReservationsController],
+  controllers: [WarehousesController, MovementsController, StockController, ReservationsController, InventoryGrpcController],
   providers: [InventoryResolver, WarehouseLoader],
   exports: [WarehouseLoader]
 })

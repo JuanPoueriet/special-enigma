@@ -65,6 +65,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{options.reportsDirectory}"],
       "options": {
+        "jestConfig": "apps/service/crm/app/jest.config.cts",
         "reportsDirectory": "../../coverage/apps/service-crm-app"
       }
     }
