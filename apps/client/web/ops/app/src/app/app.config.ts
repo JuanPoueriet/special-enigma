@@ -7,6 +7,9 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { appRoutes } from './app.routes';
 import { API_BASE_URL } from './core/config/api-base-url.token';
+import { environment } from '../environments/environment';
+
+const normalizedApiBaseUrl = (environment.apiUrl || '').replace(/\/$/, '');
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,6 +17,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(appRoutes),
     provideHttpClient(withFetch()),
     provideAnimations(),
-    { provide: API_BASE_URL, useValue: '/api' }
+    { provide: API_BASE_URL, useValue: normalizedApiBaseUrl },
   ],
 };
