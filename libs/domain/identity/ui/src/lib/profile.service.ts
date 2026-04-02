@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { API_URL } from '@virteex/shared-config';
-import { UserResponseDto, UpdateUserDto, AuditLogDto } from '@virteex/domain-identity-contracts';
+import { API_URL } from '@virtex/shared-config';
+import { UserResponseDto, UpdateUserDto, AuditLogDto } from '@virtex/domain-identity-contracts';
 
 @Injectable({ providedIn: 'root' })
 export class ProfileService {

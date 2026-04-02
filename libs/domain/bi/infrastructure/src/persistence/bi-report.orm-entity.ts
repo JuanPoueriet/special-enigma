@@ -1,5 +1,5 @@
 import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
-import { BiReport } from '@virteex/domain-bi-domain';
+import { BiReport } from '@virtex/domain-bi-domain';
 
 @Entity({ schema: 'bi', tableName: 'bi_report' })
 export class BiReportRecord {

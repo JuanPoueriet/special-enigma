@@ -1,5 +1,5 @@
 import { EntitySchema } from '@mikro-orm/core';
-import { FixedAsset, Asset, Depreciation, AssetStatus } from '@virteex/domain-fixed-assets-domain';
+import { FixedAsset, Asset, Depreciation, AssetStatus } from '@virtex/domain-fixed-assets-domain';
 
 export const FixedAssetSchema = new EntitySchema<FixedAsset>({
   class: FixedAsset,

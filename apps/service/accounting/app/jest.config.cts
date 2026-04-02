@@ -1,5 +1,5 @@
 module.exports = {
-  displayName: 'virteex-accounting-service',
+  displayName: 'virtex-accounting-service',
   preset: '../../../../jest.preset.js',
   testEnvironment: 'node',
   transform: {
@@ -9,5 +9,5 @@ module.exports = {
     'node_modules/(?!(@scure|otplib|@noble|noble-base|@otplib)/)'
   ],
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/apps/virteex-accounting-service'
+  coverageDirectory: '../../coverage/apps/virtex-accounting-service'
 };

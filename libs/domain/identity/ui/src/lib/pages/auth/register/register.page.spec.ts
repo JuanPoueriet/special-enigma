@@ -5,12 +5,12 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideRouter } from '@angular/router';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthService } from '@virteex/shared-ui';
+import { AuthService } from '@virtex/shared-ui';
 import { ReCaptchaV3Service, RECAPTCHA_V3_SITE_KEY } from 'ng-recaptcha-19';
 import { of, Observable } from 'rxjs';
-import { ProfileService } from '@virteex/identity-ui';
-import { CountryService, LanguageService, GeoLocationService, ConfigService } from '@virteex/shared-ui';
-import { APP_CONFIG } from '@virteex/shared-config';
+import { ProfileService } from '@virtex/identity-ui';
+import { CountryService, LanguageService, GeoLocationService, ConfigService } from '@virtex/shared-ui';
+import { APP_CONFIG } from '@virtex/shared-config';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { vi } from 'vitest';
 

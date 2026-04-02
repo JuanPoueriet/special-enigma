@@ -8,11 +8,11 @@ This domain manages the product catalog, including product definitions, SAT cata
 **Description:** Orchestration, workers, and integrations for catalog-related data.
 
 ## 👥 Owners
-- **Team:** Virteex Core Team
+- **Team:** virtex Core Team
 - **Slack:** #team-catalog
 
 ## 🏗 Architecture
-This domain follows the **Clean Architecture** and **Domain-Driven Design (DDD)** principles as defined in the [Virteex Architecture Guide](../../../docs/architecture/GUIA_MIGRACION_DOMINIOS_V2.md).
+This domain follows the **Clean Architecture** and **Domain-Driven Design (DDD)** principles as defined in the [virtex Architecture Guide](../../../docs/architecture/GUIA_MIGRACION_DOMINIOS_V2.md).
 
 ### Layers:
 - **Domain:** Pure business logic and entities.

@@ -5,9 +5,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 // ✅ CORREGIDO: Se importa el ícono 'X' que se usará como CloseIcon.
 import { LucideAngularModule, Plus, Edit, Trash, Copy, X } from 'lucide-angular';
 
-import { RolesService, Role, CreateRoleDto, UpdateRoleDto } from '@virteex/shared-ui';
-import { ToastService as NotificationService } from '@virteex/shared-ui';
-import { HasPermissionDirective } from '@virteex/shared-ui';
+import { RolesService, Role, CreateRoleDto, UpdateRoleDto } from '@virtex/shared-ui';
+import { ToastService as NotificationService } from '@virtex/shared-ui';
+import { HasPermissionDirective } from '@virtex/shared-ui';
 
 interface PermissionGroup {
   name: string;
@@ -15,7 +15,7 @@ interface PermissionGroup {
 }
 
 @Component({
-  selector: 'virteex-roles-management-page',
+  selector: 'virtex-roles-management-page',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, LucideAngularModule, HasPermissionDirective],
   templateUrl: './roles.page.html',

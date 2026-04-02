@@ -1,6 +1,6 @@
 import { RecordJournalEntryUseCase } from '../use-cases/journal-entries/record-journal-entry.use-case';
-import { type AccountRepository } from '@virteex/domain-accounting-domain';
-import { type RecordJournalEntryDto } from '@virteex/domain-accounting-contracts';
+import { type AccountRepository } from '@virtex/domain-accounting-domain';
+import { type RecordJournalEntryDto } from '@virtex/domain-accounting-contracts';
 import { AccountingPolicyService } from './accounting-policy.service';
 import { LoggerPort } from '../ports/logger.port';
 

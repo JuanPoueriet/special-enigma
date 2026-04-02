@@ -2,8 +2,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Test, TestingModule } from '@nestjs/testing';
 import { GetUsageUseCase } from './get-usage.use-case';
 import { ConfigService } from '@nestjs/config';
-import { INVOICE_REPOSITORY } from '@virteex/domain-billing-domain';
-import { SUBSCRIPTION_REPOSITORY } from '@virteex/domain-subscription-domain';
+import { INVOICE_REPOSITORY } from '@virtex/domain-billing-domain';
+import { SUBSCRIPTION_REPOSITORY } from '@virtex/domain-subscription-domain';
 
 const mockInvoiceRepository = {
   countByTenantId: vi.fn(),

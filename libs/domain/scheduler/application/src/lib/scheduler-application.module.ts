@@ -4,7 +4,7 @@ import { JobOrchestrator } from './job-orchestrator';
 import { SchedulerService } from './scheduler.service';
 import { FiscalJobHandler } from './handlers/fiscal-job.handler';
 import { BillingJobHandler } from './handlers/billing-job.handler';
-import { NotificationApplicationModule } from '@virteex/domain-notification-application';
+import { NotificationApplicationModule } from '@virtex/domain-notification-application';
 
 @Module({
   imports: [NotificationApplicationModule],

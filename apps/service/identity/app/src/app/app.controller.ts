@@ -9,7 +9,7 @@ export class AppController {
   @Get()
   getData() {
     if (!this.appService) {
-        return { service: 'virteex-identity-service', status: 'ok', timestamp: new Date().toISOString() };
+        return { service: 'virtex-identity-service', status: 'ok', timestamp: new Date().toISOString() };
     }
     return this.appService.getData();
   }

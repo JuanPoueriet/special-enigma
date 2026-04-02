@@ -16,8 +16,8 @@ BASE_URL="${BASE_URL:-http://localhost:3000}"
 RESULT_DIR="${1:-artifacts/poc-results}"
 mkdir -p "$RESULT_DIR"
 
-if [[ -z "${VIRTEEX_HMAC_SECRET:-}" ]]; then
-  echo "ERROR: VIRTEEX_HMAC_SECRET environment variable is mandatory for POC execution."
+if [[ -z "${virtex_HMAC_SECRET:-}" ]]; then
+  echo "ERROR: virtex_HMAC_SECRET environment variable is mandatory for POC execution."
   exit 1
 fi
 
@@ -30,7 +30,7 @@ run_poc() {
   echo "== Running ${key}: ${script}"
 
   set +e
-  BASE_URL="$BASE_URL" VIRTEEX_HMAC_SECRET="${VIRTEEX_HMAC_SECRET}" \
+  BASE_URL="$BASE_URL" virtex_HMAC_SECRET="${virtex_HMAC_SECRET}" \
     ${K6_CMD} run "$script" --summary-export "$out_file"
   local status=$?
   set -e
@@ -46,7 +46,7 @@ run_poc() {
 
 - Script: \
   - \
-	https://github.com/virteex/special-enigma/blob/main/${script}
+	https://github.com/virtex/special-enigma/blob/main/${script}
 - Acceptance criteria: ${acceptance}
 - Exit code: ${status}
 - Summary export: ${out_file}

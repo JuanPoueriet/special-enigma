@@ -1,10 +1,10 @@
 module.exports = {
-  displayName: 'virteex-manufacturing-service',
+  displayName: 'virtex-manufacturing-service',
   preset: '../../../../jest.preset.js',
   testEnvironment: 'node',
   transform: {
     '^.+\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }]
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/apps/virteex-manufacturing-service'
+  coverageDirectory: '../../coverage/apps/virtex-manufacturing-service'
 };

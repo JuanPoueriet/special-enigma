@@ -1,5 +1,5 @@
 {
-  "name": "@virteex/domain-accounting-presentation",
+  "name": "@virtex/domain-accounting-presentation",
   "version": "0.0.1",
   "private": true,
   "main": "./src/index.js",
@@ -8,8 +8,8 @@
     "tslib": "^2.3.0",
     "@nestjs/common": "^11.0.0",
     "@nestjs/graphql": "^13.2.3",
-    "@virteex/domain-accounting-application": "0.0.1",
-    "@virteex/domain-accounting-contracts": "0.0.1"
+    "@virtex/domain-accounting-application": "0.0.1",
+    "@virtex/domain-accounting-contracts": "0.0.1"
   },
   "exports": {
     ".": {

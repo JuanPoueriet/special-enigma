@@ -1,7 +1,7 @@
-import { DomainException } from '@virteex/shared-util-server-server-config';
+import { DomainException } from '@virtex/shared-util-server-server-config';
 import { Injectable, Inject } from '@nestjs/common';
-import { ProjectRepository, PROJECT_REPOSITORY } from '@virteex/domain-projects-domain';
-import { Task } from '@virteex/domain-projects-domain';
+import { ProjectRepository, PROJECT_REPOSITORY } from '@virtex/domain-projects-domain';
+import { Task } from '@virtex/domain-projects-domain';
 
 @Injectable()
 export class AddTaskUseCase {

@@ -7,7 +7,7 @@ import { SecureStoragePlugin } from 'capacitor-secure-storage-plugin';
 })
 export class SecureStorageService {
   private encryptionKey: CryptoKey | null = null;
-  private readonly DB_NAME = 'virteex_secure_db';
+  private readonly DB_NAME = 'virtex_secure_db';
   private readonly STORE_NAME = 'keys';
   private readonly KEY_ID = 'session_encryption_key';
 
@@ -78,7 +78,7 @@ export class SecureStorageService {
     } catch (e) {
         console.error('Failed to initialize SecureStorage with IndexedDB', e);
         // Fallback or cleanup if needed
-        localStorage.removeItem('virteex_secure_storage_key'); // Cleanup old insecure key if exists
+        localStorage.removeItem('virtex_secure_storage_key'); // Cleanup old insecure key if exists
     }
   }
 

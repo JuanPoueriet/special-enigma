@@ -12,7 +12,7 @@ describe('Authentication E2E Tests', () => {
     // Dynamically create or ensure a test user exists
     const timestamp = Date.now();
     testUser = {
-      email: `e2e-test-${timestamp}@virteex.com`,
+      email: `e2e-test-${timestamp}@virtex.com`,
       password: 'Password123!',
       firstName: 'E2E',
       lastName: 'Tester',
@@ -30,7 +30,7 @@ describe('Authentication E2E Tests', () => {
 
       // For now, let's keep the fallback to the standard test user if creation fails
     } catch (e) {
-      testUser.email = 'test@virteex.com';
+      testUser.email = 'test@virtex.com';
     }
   });
 
@@ -70,7 +70,7 @@ describe('Authentication E2E Tests', () => {
       for (let i = 0; i < 3; i++) {
         try {
           await axios.post(`${BASE_URL}/auth/login`, {
-            email: 'lockout-test@virteex.com',
+            email: 'lockout-test@virtex.com',
             password: 'WrongPassword',
             recaptchaToken: 'mock-recaptcha-token',
           });
@@ -81,7 +81,7 @@ describe('Authentication E2E Tests', () => {
 
       try {
         await axios.post(`${BASE_URL}/auth/login`, {
-          email: 'lockout-test@virteex.com',
+          email: 'lockout-test@virtex.com',
           password: 'AnyPassword',
           recaptchaToken: 'mock-recaptcha-token',
         });
@@ -173,7 +173,7 @@ describe('Authentication E2E Tests', () => {
   describe('MFA Flow', () => {
     it('should require MFA if enabled', async () => {
       const res = await axios.post(`${BASE_URL}/auth/login`, {
-        email: 'mfa-user@virteex.com',
+        email: 'mfa-user@virtex.com',
         password: 'Password123!',
         recaptchaToken: 'mock-recaptcha-token',
       });

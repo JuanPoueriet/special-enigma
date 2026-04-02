@@ -1,6 +1,6 @@
 import { EntitySchema } from '@mikro-orm/core';
-import { Opportunity } from '@virteex/domain-crm-domain';
-import { OpportunityStage } from '@virteex/shared-contracts';
+import { Opportunity } from '@virtex/domain-crm-domain';
+import { OpportunityStage } from '@virtex/shared-contracts';
 
 export const OpportunitySchema = new EntitySchema<Opportunity>({
   class: Opportunity,

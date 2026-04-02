@@ -1,6 +1,6 @@
-import { DomainException } from '@virteex/shared-util-server-server-config';
+import { DomainException } from '@virtex/shared-util-server-server-config';
 import { Injectable, Inject } from '@nestjs/common';
-import { SUBSCRIPTION_REPOSITORY, type SubscriptionRepository } from '@virteex/domain-subscription-domain';
+import { SUBSCRIPTION_REPOSITORY, type SubscriptionRepository } from '@virtex/domain-subscription-domain';
 
 @Injectable()
 export class GetSubscriptionStatusUseCase {

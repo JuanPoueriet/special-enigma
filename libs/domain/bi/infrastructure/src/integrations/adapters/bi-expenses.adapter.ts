@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { type ExpensesPort, type ExpenseCategory } from '@virteex/domain-bi-domain';
-import { PAYROLL_REPOSITORY, type PayrollRepository } from '@virteex/domain-payroll-domain';
+import { type ExpensesPort, type ExpenseCategory } from '@virtex/domain-bi-domain';
+import { PAYROLL_REPOSITORY, type PayrollRepository } from '@virtex/domain-payroll-domain';
 
 @Injectable()
 export class BiExpensesAdapter implements ExpensesPort {

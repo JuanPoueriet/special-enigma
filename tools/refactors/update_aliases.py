@@ -11,7 +11,7 @@ def update_tsconfig():
     new_paths = {}
 
     for key, value in paths.items():
-        new_key = key.replace('@virteex-erp/', '@virteex/')
+        new_key = key.replace('@virtex-erp/', '@virtex/')
         new_paths[new_key] = value
 
     data['compilerOptions']['paths'] = new_paths
@@ -25,7 +25,7 @@ def update_package_json():
     with open(filepath, 'r') as f:
         content = f.read()
 
-    new_content = content.replace('@virteex-erp/', '@virteex/')
+    new_content = content.replace('@virtex-erp/', '@virtex/')
 
     if content != new_content:
         with open(filepath, 'w') as f:
@@ -44,7 +44,7 @@ def update_files_in_dir(directory):
                     with open(filepath, 'r') as f:
                         content = f.read()
 
-                    new_content = content.replace('@virteex-erp/', '@virteex/')
+                    new_content = content.replace('@virtex-erp/', '@virtex/')
 
                     if content != new_content:
                         with open(filepath, 'w') as f:

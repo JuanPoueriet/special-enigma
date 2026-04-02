@@ -35,8 +35,8 @@ describe('JwtTokenService', () => {
       JWT_ALLOWED_ALGORITHMS: 'HS256',
       JWT_JWKS: buildJwks('super-secret'),
       JWT_CURRENT_KID: 'default',
-      JWT_ISSUER: 'virteex-issuer',
-      JWT_AUDIENCE: 'virteex-api',
+      JWT_ISSUER: 'virtex-issuer',
+      JWT_AUDIENCE: 'virtex-api',
       JWT_ALLOW_HS_IN_PRODUCTION: 'false',
       JWT_HS_OVERRIDE_AUDIT_REF: '',
     };
@@ -72,7 +72,7 @@ describe('JwtTokenService', () => {
   });
 
   it('should issue and verify a token', async () => {
-    const payload = { org: 'virteex' };
+    const payload = { org: 'virtex' };
     const options: TokenIssueOptions = { tokenType: 'access', subject: 'user123' };
 
     const token = service.issueToken(payload, options);
@@ -83,7 +83,7 @@ describe('JwtTokenService', () => {
   });
 
   it('should check for revoked tokens in redis', async () => {
-    const payload = { org: 'virteex' };
+    const payload = { org: 'virtex' };
     const options: TokenIssueOptions = { tokenType: 'access', subject: 'user123' };
     const token = service.issueToken(payload, options);
     const decoded: any = jwt.decode(token);
@@ -100,7 +100,7 @@ describe('JwtTokenService', () => {
   });
 
   it('should detect replay with enforceOneTime', async () => {
-    const payload = { org: 'virteex' };
+    const payload = { org: 'virtex' };
     const token = service.issueToken(payload, { tokenType: 'stepup', subject: 'user123' });
 
     const redisGet = vi.fn().mockResolvedValue(null);

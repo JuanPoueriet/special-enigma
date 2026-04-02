@@ -4,7 +4,7 @@ import { GeoLocationService } from '../../core/services/geo-location.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'virteex-geo-mismatch-modal',
+  selector: 'virtex-geo-mismatch-modal',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './geo-mismatch-modal.component.html',

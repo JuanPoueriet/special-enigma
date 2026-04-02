@@ -3,7 +3,7 @@ import { rendererAppName, rendererAppPort } from './constants';
 import { environment } from '../environments/environment';
 import { join } from 'path';
 import { format } from 'url';
-import { FileSystemApi } from '@virteex/platform-desktop-file-system';
+import { FileSystemApi } from '@virtex/platform-desktop-file-system';
 
 export default class App {
   // Keep a global reference of the window object, if you don't, the window will

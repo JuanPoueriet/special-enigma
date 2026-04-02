@@ -6,7 +6,7 @@ import { AccountingRestModule } from './modules/accounting-rest.module';
 // import { AccountingGraphqlModule } from './modules/accounting-graphql.module';
 import { AccountingEventsModule } from './modules/accounting-events.module';
 import { AccountingExceptionFilter } from './filters/accounting-exception.filter';
-import { TenantGuard } from '@virteex/kernel-auth';
+import { TenantGuard } from '@virtex/kernel-auth';
 import { PresentationLoggingInterceptor } from './interceptors/presentation-logging.interceptor';
 
 /**

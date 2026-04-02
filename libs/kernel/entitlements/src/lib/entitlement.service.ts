@@ -8,8 +8,8 @@ import {
   SUBSCRIPTION_REPOSITORY,
   type SubscriptionRepository,
   PlanLimitMapper,
-} from '@virteex/domain-subscription-domain';
-import { getTenantContext } from '@virteex/kernel-auth';
+} from '@virtex/domain-subscription-domain';
+import { getTenantContext } from '@virtex/kernel-auth';
 
 export interface UsageProvider {
   getResource(): string;

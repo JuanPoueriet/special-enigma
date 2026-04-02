@@ -1,6 +1,6 @@
 import { Injectable, Logger, Inject } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/core';
-import { TelemetryService, TELEMETRY_SERVICE } from '@virteex/kernel-telemetry-interfaces';
+import { TelemetryService, TELEMETRY_SERVICE } from '@virtex/kernel-telemetry-interfaces';
 
 /**
  * Enterprise FinOps Service

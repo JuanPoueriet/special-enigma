@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../auth/auth.service';
 
 @Component({
-  selector: 'virteex-header',
+  selector: 'virtex-header',
   standalone: true,
   imports: [CommonModule],
   template: `

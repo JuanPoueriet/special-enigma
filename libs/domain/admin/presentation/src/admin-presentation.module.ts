@@ -6,7 +6,7 @@ import { MonitoringController } from './http/controllers/monitoring.controller';
 import { SecurityController } from './http/controllers/security.controller';
 import { IncidentsController } from './http/controllers/incidents.controller';
 import { OperationsController } from './http/controllers/operations.controller';
-import { AdminApplicationModule } from '@virteex/domain-admin-application';
+import { AdminApplicationModule } from '@virtex/domain-admin-application';
 
 @Module({
   imports: [AdminApplicationModule],

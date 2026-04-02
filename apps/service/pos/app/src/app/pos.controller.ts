@@ -1,7 +1,7 @@
 import { Controller, Post, Get, Body, Param, Headers, UseGuards } from '@nestjs/common';
-import { ProcessSaleUseCase } from '@virteex/domain-pos-application';
-import { OpenShiftUseCase } from '@virteex/domain-pos-application';
-import { StepUp, StepUpGuard } from '@virteex/kernel-auth';
+import { ProcessSaleUseCase } from '@virtex/domain-pos-application';
+import { OpenShiftUseCase } from '@virtex/domain-pos-application';
+import { StepUp, StepUpGuard } from '@virtex/kernel-auth';
 
 @Controller('pos')
 export class PosController {
@@ -11,14 +11,14 @@ export class PosController {
   ) {}
 
   @Post('sales')
-  async processSale(@Headers('x-virteex-tenant-id') tenantId: string, @Body() saleData: any) {
+  async processSale(@Headers('x-virtex-tenant-id') tenantId: string, @Body() saleData: any) {
     return this.processSaleUseCase.execute(tenantId, saleData.terminalId, saleData);
   }
 
   @Post('shifts/open')
   @UseGuards(StepUpGuard)
   @StepUp({ action: 'tenant-admin', maxAgeSeconds: 600 })
-  async openShift(@Headers('x-virteex-tenant-id') tenantId: string, @Body() shiftData: any) {
+  async openShift(@Headers('x-virtex-tenant-id') tenantId: string, @Body() shiftData: any) {
     return this.openShiftUseCase.execute(tenantId, shiftData.terminalId, shiftData.userId, shiftData.openingBalance);
   }
 }

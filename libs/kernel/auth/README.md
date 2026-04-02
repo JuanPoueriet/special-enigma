@@ -1,7 +1,7 @@
 # auth (Kernel)
 
 ## 🎯 Purpose
-This library is part of the **Shared Kernel**, providing core utilities, base classes, and cross-cutting concerns used throughout the Virteex ERP ecosystem.
+This library is part of the **Shared Kernel**, providing core utilities, base classes, and cross-cutting concerns used throughout the virtex ERP ecosystem.
 
 ## 🔑 Key Features
 - **Authentication/Authorization:** Guards, Strategies.

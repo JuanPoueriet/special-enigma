@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { LucideAngularModule, User as UserIcon, Mail, Phone, Building2, Save, Image, Shield, Check } from 'lucide-angular';
 import { ProfileService } from '../../profile.service';
-import { AuthService, FileUtil, ToastService } from '@virteex/shared-ui';
+import { AuthService, FileUtil, ToastService } from '@virtex/shared-ui';
 import { SecuritySettingsComponent } from '../components/security-settings/security-settings.component';
 import { PhoneVerificationModalComponent } from '../components/phone-verification-modal/phone-verification-modal.component';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -23,7 +23,7 @@ interface ProfileForm {
 }
 
 @Component({
-  selector: 'virteex-my-profile-page',
+  selector: 'virtex-my-profile-page',
   standalone: true,
   imports: [
     CommonModule,

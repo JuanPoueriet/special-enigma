@@ -1,6 +1,6 @@
 import { EventSubscriber, EventArgs } from '@mikro-orm/core';
 import { Injectable, Logger } from '@nestjs/common';
-import { getTenantContext } from '@virteex/kernel-tenant-context';
+import { getTenantContext } from '@virtex/kernel-tenant-context';
 import { TenantControlRecord } from '../entities/tenant-control-record.entity';
 import { TenantStatus } from '../interfaces/tenant-config.interface';
 

@@ -1,4 +1,4 @@
-package virteex.security.plugins
+package virtex.security.plugins
 
 default allow = false
 

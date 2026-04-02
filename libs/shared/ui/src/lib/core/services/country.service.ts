@@ -1,4 +1,4 @@
-import { API_URL } from '@virteex/shared-config';
+import { API_URL } from '@virtex/shared-config';
 import { Injectable, signal, inject, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 

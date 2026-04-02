@@ -86,7 +86,7 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 ├── OWNERS
 ├── README.md
 ├── SECURITY.md
-├── VIRTEEX_OVERVIEW.md
+├── virtex_OVERVIEW.md
 ├── apps
 │   ├── client
 │   │   ├── desktop
@@ -830,8 +830,8 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │       │   │   ├── global-setup.ts
 │   │   │       │   │   ├── global-teardown.ts
 │   │   │       │   │   └── test-setup.ts
-│   │   │       │   └── virteex-accounting-service
-│   │   │       │       └── virteex-accounting-service.spec.ts
+│   │   │       │   └── virtex-accounting-service
+│   │   │       │       └── virtex-accounting-service.spec.ts
 │   │   │       ├── tsconfig.json
 │   │   │       └── tsconfig.spec.json
 │   │   ├── admin
@@ -860,9 +860,9 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │       │   │   ├── global-setup.ts
 │   │   │       │   │   ├── global-teardown.ts
 │   │   │       │   │   └── test-setup.ts
-│   │   │       │   └── virteex-admin-service
+│   │   │       │   └── virtex-admin-service
 │   │   │       │       ├── operations.spec.ts
-│   │   │       │       └── virteex-admin-service.spec.ts
+│   │   │       │       └── virtex-admin-service.spec.ts
 │   │   │       ├── tsconfig.json
 │   │   │       └── tsconfig.spec.json
 │   │   ├── bi
@@ -891,8 +891,8 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │       │   │   ├── global-setup.ts
 │   │   │       │   │   ├── global-teardown.ts
 │   │   │       │   │   └── test-setup.ts
-│   │   │       │   └── virteex-bi-service
-│   │   │       │       └── virteex-bi-service.spec.ts
+│   │   │       │   └── virtex-bi-service
+│   │   │       │       └── virtex-bi-service.spec.ts
 │   │   │       ├── tsconfig.json
 │   │   │       └── tsconfig.spec.json
 │   │   ├── billing
@@ -928,8 +928,8 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │       │   │   ├── global-setup.ts
 │   │   │       │   │   ├── global-teardown.ts
 │   │   │       │   │   └── test-setup.ts
-│   │   │       │   └── virteex-billing-service
-│   │   │       │       └── virteex-billing-service.spec.ts
+│   │   │       │   └── virtex-billing-service
+│   │   │       │       └── virtex-billing-service.spec.ts
 │   │   │       ├── tsconfig.json
 │   │   │       └── tsconfig.spec.json
 │   │   ├── catalog
@@ -959,8 +959,8 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │       │   │   ├── global-setup.ts
 │   │   │       │   │   ├── global-teardown.ts
 │   │   │       │   │   └── test-setup.ts
-│   │   │       │   └── virteex-catalog-service
-│   │   │       │       └── virteex-catalog-service.spec.ts
+│   │   │       │   └── virtex-catalog-service
+│   │   │       │       └── virtex-catalog-service.spec.ts
 │   │   │       ├── tsconfig.json
 │   │   │       └── tsconfig.spec.json
 │   │   ├── crm
@@ -1011,8 +1011,8 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │       │   │   ├── global-setup.ts
 │   │   │       │   │   ├── global-teardown.ts
 │   │   │       │   │   └── test-setup.ts
-│   │   │       │   └── virteex-fiscal-connector
-│   │   │       │       └── virteex-fiscal-connector.spec.ts
+│   │   │       │   └── virtex-fiscal-connector
+│   │   │       │       └── virtex-fiscal-connector.spec.ts
 │   │   │       ├── tsconfig.json
 │   │   │       └── tsconfig.spec.json
 │   │   ├── fixed-assets
@@ -1040,8 +1040,8 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │       │   │   ├── global-setup.ts
 │   │   │       │   │   ├── global-teardown.ts
 │   │   │       │   │   └── test-setup.ts
-│   │   │       │   └── virteex-fixed-assets-service
-│   │   │       │       └── virteex-fixed-assets-service.spec.ts
+│   │   │       │   └── virtex-fixed-assets-service
+│   │   │       │       └── virtex-fixed-assets-service.spec.ts
 │   │   │       ├── tsconfig.json
 │   │   │       └── tsconfig.spec.json
 │   │   ├── gateway
@@ -1079,8 +1079,8 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │       │   │   ├── global-setup.ts
 │   │   │       │   │   ├── global-teardown.ts
 │   │   │       │   │   └── test-setup.ts
-│   │   │       │   └── virteex-auth-server
-│   │   │       │       └── virteex-auth-server.spec.ts
+│   │   │       │   └── virtex-auth-server
+│   │   │       │       └── virtex-auth-server.spec.ts
 │   │   │       ├── tsconfig.json
 │   │   │       └── tsconfig.spec.json
 │   │   ├── inventory
@@ -1128,8 +1128,8 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │       │   │   ├── global-setup.ts
 │   │   │       │   │   ├── global-teardown.ts
 │   │   │       │   │   └── test-setup.ts
-│   │   │       │   └── virteex-manufacturing-service
-│   │   │       │       └── virteex-manufacturing-service.spec.ts
+│   │   │       │   └── virtex-manufacturing-service
+│   │   │       │       └── virtex-manufacturing-service.spec.ts
 │   │   │       ├── tsconfig.json
 │   │   │       └── tsconfig.spec.json
 │   │   ├── payroll
@@ -1157,8 +1157,8 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │       │   │   ├── global-setup.ts
 │   │   │       │   │   ├── global-teardown.ts
 │   │   │       │   │   └── test-setup.ts
-│   │   │       │   └── virteex-payroll-service
-│   │   │       │       └── virteex-payroll-service.spec.ts
+│   │   │       │   └── virtex-payroll-service
+│   │   │       │       └── virtex-payroll-service.spec.ts
 │   │   │       ├── tsconfig.json
 │   │   │       └── tsconfig.spec.json
 │   │   ├── plugin-host
@@ -1226,8 +1226,8 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │       │   │   ├── global-setup.ts
 │   │   │       │   │   ├── global-teardown.ts
 │   │   │       │   │   └── test-setup.ts
-│   │   │       │   └── virteex-projects-service
-│   │   │       │       └── virteex-projects-service.spec.ts
+│   │   │       │   └── virtex-projects-service
+│   │   │       │       └── virtex-projects-service.spec.ts
 │   │   │       ├── tsconfig.json
 │   │   │       └── tsconfig.spec.json
 │   │   ├── purchasing
@@ -1255,8 +1255,8 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │       │   │   ├── global-setup.ts
 │   │   │       │   │   ├── global-teardown.ts
 │   │   │       │   │   └── test-setup.ts
-│   │   │       │   └── virteex-purchasing-service
-│   │   │       │       └── virteex-purchasing-service.spec.ts
+│   │   │       │   └── virtex-purchasing-service
+│   │   │       │       └── virtex-purchasing-service.spec.ts
 │   │   │       ├── tsconfig.json
 │   │   │       └── tsconfig.spec.json
 │   │   ├── subscription
@@ -1302,8 +1302,8 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │           │   │   ├── global-setup.ts
 │   │           │   │   ├── global-teardown.ts
 │   │           │   │   └── test-setup.ts
-│   │           │   └── virteex-treasury-service
-│   │           │       └── virteex-treasury-service.spec.ts
+│   │           │   └── virtex-treasury-service
+│   │           │       └── virtex-treasury-service.spec.ts
 │   │           ├── tsconfig.json
 │   │           └── tsconfig.spec.json
 │   └── worker
@@ -1334,8 +1334,8 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │       │       │   │   ├── global-setup.ts
 │       │       │   │   ├── global-teardown.ts
 │       │       │   │   └── test-setup.ts
-│       │       │   └── virteex-notification-service
-│       │       │       └── virteex-notification-service.spec.ts
+│       │       │   └── virtex-notification-service
+│       │       │       └── virtex-notification-service.spec.ts
 │       │       ├── tsconfig.json
 │       │       └── tsconfig.spec.json
 │       └── scheduler
@@ -1367,8 +1367,8 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │               │   │   ├── global-setup.ts
 │               │   │   ├── global-teardown.ts
 │               │   │   └── test-setup.ts
-│               │   └── virteex-jobs
-│               │       └── virteex-jobs.spec.ts
+│               │   └── virtex-jobs
+│               │       └── virtex-jobs.spec.ts
 │               ├── tsconfig.json
 │               └── tsconfig.spec.json
 ├── artifacts
@@ -4762,7 +4762,7 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 ├── package.json
 ├── platform
 │   ├── helm
-│   │   └── virteex
+│   │   └── virtex
 │   │       ├── Chart.yaml
 │   │       ├── templates
 │   │       │   └── all-apps.yaml

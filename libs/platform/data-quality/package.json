@@ -1,5 +1,5 @@
 {
-  "name": "@virteex/platform-data-quality",
+  "name": "@virtex/platform-data-quality",
   "version": "0.0.1",
   "type": "commonjs",
   "main": "./src/index.js",

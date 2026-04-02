@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { type SatCatalogRepository, SAT_CATALOG_REPOSITORY } from '@virteex/domain-catalog-domain';
+import { type SatCatalogRepository, SAT_CATALOG_REPOSITORY } from '@virtex/domain-catalog-domain';
 
 @Injectable()
 export class GetSatCatalogsUseCase {

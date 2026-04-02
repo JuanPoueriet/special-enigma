@@ -66,7 +66,7 @@ export class MailProcessor implements OnModuleInit {
   }
 
   private async sendEmail(data: { to: string; subject: string; text: string; html: string; from?: string }) {
-    const from = data.from || this.configService.get<string>('SMTP_FROM') || '"Virteex ERP" <no-reply@virteex.com>';
+    const from = data.from || this.configService.get<string>('SMTP_FROM') || '"virtex ERP" <no-reply@virtex.com>';
 
     await this.transporter.sendMail({
       from,

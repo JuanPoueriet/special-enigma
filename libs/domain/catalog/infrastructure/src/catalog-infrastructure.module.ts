@@ -1,6 +1,6 @@
 import { Module, Global, OnModuleInit } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { SAT_CATALOG_REPOSITORY, PRODUCT_READ_REPOSITORY, PRODUCT_WRITE_REPOSITORY } from '@virteex/domain-catalog-domain';
+import { SAT_CATALOG_REPOSITORY, PRODUCT_READ_REPOSITORY, PRODUCT_WRITE_REPOSITORY } from '@virtex/domain-catalog-domain';
 import { MikroOrmProductRepository } from './persistence/repositories/mikro-orm-product.repository';
 import { MikroOrmSatCatalogRepository } from './persistence/repositories/mikro-orm-sat-catalog.repository';
 import { CatalogSeederService } from './persistence/catalog-seeder.service';

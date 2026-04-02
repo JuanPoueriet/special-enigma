@@ -1,7 +1,7 @@
 import { Controller, HttpCode, HttpStatus, Head, Query, NotFoundException } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { Public } from '@virteex/kernel-auth';
-import { UserRepository, CompanyRepository } from '@virteex/domain-identity-domain';
+import { Public } from '@virtex/kernel-auth';
+import { UserRepository, CompanyRepository } from '@virtex/domain-identity-domain';
 
 @ApiTags('Common')
 @Controller('common')

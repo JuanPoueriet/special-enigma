@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { UserRepository, AuditLogRepository, AuditLog } from '@virteex/domain-identity-domain';
+import { UserRepository, AuditLogRepository, AuditLog } from '@virtex/domain-identity-domain';
 
 @Injectable()
 export class Disable2faUseCase {

@@ -1,6 +1,6 @@
 import { vi, describe, it, expect } from 'vitest';
-import { CreateAccountUseCase } from '@virteex/domain-accounting-application';
-import { Account, AccountType } from '@virteex/domain-accounting-domain';
+import { CreateAccountUseCase } from '@virtex/domain-accounting-application';
+import { Account, AccountType } from '@virtex/domain-accounting-domain';
 
 describe('Accounting Domain Security', () => {
   const mockTelemetry = {

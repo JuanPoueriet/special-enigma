@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const mainTfPath = 'platform/infrastructure/terraform/regions/v1/main.tf';
-const valuesPath = 'platform/helm/virteex/values.yaml';
+const valuesPath = 'platform/helm/virtex/values.yaml';
 
 if (!fs.existsSync(mainTfPath)) {
     console.error(`❌ CRITICAL: ${mainTfPath} not found.`);

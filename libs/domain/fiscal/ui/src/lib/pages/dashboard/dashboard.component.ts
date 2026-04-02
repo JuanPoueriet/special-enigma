@@ -5,7 +5,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { FiscalService } from '../../services/fiscal.service';
 
 @Component({
-  selector: 'virteex-fiscal-dashboard',
+  selector: 'virtex-fiscal-dashboard',
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './dashboard.component.html',

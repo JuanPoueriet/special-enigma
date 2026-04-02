@@ -3,7 +3,7 @@
   "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/client/desktop/portal/app/src",
   "projectType": "application",
-  "prefix": "virteex",
+  "prefix": "virtex",
   "tags": [
     "scope:desktop-portal",
     "type:app",

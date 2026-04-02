@@ -2,10 +2,10 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardService } from './dashboard.service';
 import { Observable } from 'rxjs';
-import { DashboardMetricsDto } from '@virteex/domain-admin-contracts';
+import { DashboardMetricsDto } from '@virtex/domain-admin-contracts';
 
 @Component({
-  selector: 'virteex-dashboard',
+  selector: 'virtex-dashboard',
   standalone: true,
   imports: [CommonModule],
   template: `

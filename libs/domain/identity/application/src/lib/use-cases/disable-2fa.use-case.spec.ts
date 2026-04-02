@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { Disable2faUseCase } from './disable-2fa.use-case';
-import { UserRepository, AuditLogRepository } from '@virteex/domain-identity-domain';
+import { UserRepository, AuditLogRepository } from '@virtex/domain-identity-domain';
 
 describe('Disable2faUseCase', () => {
   let useCase: Disable2faUseCase;

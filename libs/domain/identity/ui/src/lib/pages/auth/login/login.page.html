@@ -1,13 +1,13 @@
-<virteex-auth-layout>
+<virtex-auth-layout>
   <!-- 2FA Verification View -->
   <div *ngIf="show2faInput(); else loginFormTemplate" class="auth-header animate-fade-in-up">
     <!-- Using new OTP Component -->
-    <virteex-otp
+    <virtex-otp
        [title]="'LOGIN.2FA.TITLE' | translate"
        [description]="'LOGIN.2FA.SUBTITLE' | translate"
        [otpLength]="6"
        (verify)="onOtpVerify($event)">
-    </virteex-otp>
+    </virtex-otp>
 
     <div class="mt-4 text-center">
        <button (click)="show2faInput.set(false)" class="back-to-login-btn">
@@ -27,7 +27,7 @@
 
       <!-- Quick Login Section (Social + Passkey) -->
       <div class="quick-login-section">
-        <virteex-social-auth-buttons (onLogin)="socialLogin($event)"></virteex-social-auth-buttons>
+        <virtex-social-auth-buttons (onLogin)="socialLogin($event)"></virtex-social-auth-buttons>
       </div>
 
       <!-- Divider -->
@@ -38,7 +38,7 @@
       <!-- Login Form -->
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
 
-        <virteex-auth-input
+        <virtex-auth-input
           formControlName="email"
           type="email"
           [label]="'LOGIN.EMAIL_LABEL' | translate"
@@ -48,10 +48,10 @@
           autocomplete="username"
           [errorMessage]="getErrorMessage('email')">
           <lucide-icon icon [img]="icons.Mail" size="18"></lucide-icon>
-        </virteex-auth-input>
+        </virtex-auth-input>
 
         <div class="password-group">
-          <virteex-auth-input
+          <virtex-auth-input
             formControlName="password"
             type="password"
             [label]="'LOGIN.PASSWORD_LABEL' | translate"
@@ -61,7 +61,7 @@
             autocomplete="current-password"
             [errorMessage]="getErrorMessage('password')">
             <lucide-icon icon [img]="icons.Lock" size="18"></lucide-icon>
-          </virteex-auth-input>
+          </virtex-auth-input>
 
           <div class="forgot-password-container">
             <a [routerLink]="['/', languageService.currentLang(), 'auth', 'forgot-password']" class="forgot-link" tabindex="0">
@@ -87,14 +87,14 @@
            <span>{{ errorMessage() | translate }}</span>
         </div>
 
-        <virteex-auth-button
+        <virtex-auth-button
           type="submit"
           variant="primary"
           [loading]="isLoggingIn()"
           [disabled]="loginForm.invalid">
           {{ (isLoggingIn() ? 'LOGIN.LOGGING_IN' : 'LOGIN.SUBMIT_BUTTON') | translate }}
           <lucide-icon *ngIf="!isLoggingIn()" [img]="icons.ArrowRight" size="18" class="btn-icon"></lucide-icon>
-        </virteex-auth-button>
+        </virtex-auth-button>
 
       </form>
 
@@ -118,4 +118,4 @@
       </a>
     </p>
   </div>
-</virteex-auth-layout>
+</virtex-auth-layout>

@@ -1,6 +1,6 @@
 import { Injectable, OnModuleInit, Inject } from '@nestjs/common';
-import { EntitlementService, UsageProvider } from '@virteex/kernel-entitlements';
-import { SaleRepository } from '@virteex/domain-crm-domain';
+import { EntitlementService, UsageProvider } from '@virtex/kernel-entitlements';
+import { SaleRepository } from '@virtex/domain-crm-domain';
 
 @Injectable()
 export class SaleUsageProvider implements UsageProvider, OnModuleInit {

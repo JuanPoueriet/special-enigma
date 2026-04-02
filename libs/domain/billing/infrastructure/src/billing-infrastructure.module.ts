@@ -1,10 +1,10 @@
 import { Module, Global } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { AuthModule } from '@virteex/kernel-auth';
-import { FiscalInfrastructureModule } from '@virteex/domain-fiscal-infrastructure';
-import { PAC_STRATEGY_FACTORY, TENANT_CONFIG_REPOSITORY, INVOICE_REPOSITORY, PAYMENT_METHOD_REPOSITORY, PRODUCT_REPOSITORY, CUSTOMER_REPOSITORY, BillingDomainModule } from '@virteex/domain-billing-domain';
-import { FISCAL_DOCUMENT_BUILDER_FACTORY } from '@virteex/domain-fiscal-domain';
-import { BILLING_TAX_STRATEGY_FACTORY } from '@virteex/domain-billing-domain';
+import { AuthModule } from '@virtex/kernel-auth';
+import { FiscalInfrastructureModule } from '@virtex/domain-fiscal-infrastructure';
+import { PAC_STRATEGY_FACTORY, TENANT_CONFIG_REPOSITORY, INVOICE_REPOSITORY, PAYMENT_METHOD_REPOSITORY, PRODUCT_REPOSITORY, CUSTOMER_REPOSITORY, BillingDomainModule } from '@virtex/domain-billing-domain';
+import { FISCAL_DOCUMENT_BUILDER_FACTORY } from '@virtex/domain-fiscal-domain';
+import { BILLING_TAX_STRATEGY_FACTORY } from '@virtex/domain-billing-domain';
 
 import { FinkokPacProvider } from './integrations/adapters/finkok-pac.provider';
 import { NullPacProvider } from './integrations/adapters/null-pac.provider';
@@ -30,10 +30,10 @@ import { InvoiceRecord } from './persistence/entities/invoice.record';
 import { InvoiceItemRecord } from './persistence/entities/invoice-item.record';
 import { ProductEventsController } from './messaging/consumers/product-events.controller';
 
-import { XsltService } from '@virteex/platform-xslt';
-import { INVOICE_INTEGRATION_PUBLISHER } from '@virteex/domain-billing-application';
+import { XsltService } from '@virtex/platform-xslt';
+import { INVOICE_INTEGRATION_PUBLISHER } from '@virtex/domain-billing-application';
 import { PaymentMethodSchema, TaxLineSchema, TaxRuleSchema } from './persistence/orm/mikro-orm.schemas';
-import { EntitlementsModule } from '@virteex/kernel-entitlements';
+import { EntitlementsModule } from '@virtex/kernel-entitlements';
 
 @Global()
 @Module({

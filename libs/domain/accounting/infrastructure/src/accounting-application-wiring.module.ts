@@ -23,12 +23,12 @@ import {
   BankReconciliationRepository,
   AccountsPayableRepository,
   AccountsReceivableRepository,
-} from '@virteex/domain-accounting-domain';
+} from '@virtex/domain-accounting-domain';
 import {
   TELEMETRY_SERVICE,
   type ITelemetryService,
-} from '@virteex/kernel-telemetry';
-import { EntitlementService } from '@virteex/kernel-entitlements';
+} from '@virtex/kernel-telemetry';
+import { EntitlementService } from '@virtex/kernel-entitlements';
 import {
   I_UNIT_OF_WORK,
   IUnitOfWork,
@@ -50,7 +50,7 @@ import {
   RecordPaymentUseCase,
   AccountingCommandFacade,
   AccountingQueryFacade,
-} from '@virteex/domain-accounting-application';
+} from '@virtex/domain-accounting-application';
 
 @Global()
 @Module({

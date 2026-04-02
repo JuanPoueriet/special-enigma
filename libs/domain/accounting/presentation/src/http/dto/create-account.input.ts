@@ -1,5 +1,5 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { AccountType, CreateAccountDto } from '@virteex/domain-accounting-contracts';
+import { AccountType, CreateAccountDto } from '@virtex/domain-accounting-contracts';
 
 @InputType()
 export class CreateAccountInput extends CreateAccountDto {

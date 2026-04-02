@@ -1,5 +1,5 @@
 {
-  "name": "@virteex/kernel-tenant-context",
+  "name": "@virtex/kernel-tenant-context",
   "version": "0.0.1",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",

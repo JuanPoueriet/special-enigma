@@ -1,6 +1,6 @@
 # Scorecard de Remediación Técnica (Marzo 2026)
 
-Este documento detalla el estado de remediación de los hallazgos críticos identificados en el monorepo Virteex.
+Este documento detalla el estado de remediación de los hallazgos críticos identificados en el monorepo virtex.
 
 | ID | Hallazgo | Estado | Acción Realizada |
 |:---|:---|:---:|:---|

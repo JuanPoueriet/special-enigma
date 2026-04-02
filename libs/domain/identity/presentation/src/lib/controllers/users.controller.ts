@@ -13,14 +13,14 @@ import {
     BlockUserUseCase,
     ForceLogoutUseCase,
     ForgotPasswordUseCase
-} from '@virteex/domain-identity-application';
-import { UserRepository } from '@virteex/domain-identity-domain';
-import { UpdateUserDto, InviteUserDto, PaginatedUsersResponse } from '@virteex/domain-identity-contracts';
-import { JwtAuthGuard, CurrentUser, StepUp, StepUpGuard, TenantGuard } from '@virteex/kernel-auth';
+} from '@virtex/domain-identity-application';
+import { UserRepository } from '@virtex/domain-identity-domain';
+import { UpdateUserDto, InviteUserDto, PaginatedUsersResponse } from '@virtex/domain-identity-contracts';
+import { JwtAuthGuard, CurrentUser, StepUp, StepUpGuard, TenantGuard } from '@virtex/kernel-auth';
 import { UserMapper } from '../mappers/user.mapper';
 import { AuditLogMapper } from '../mappers/audit-log.mapper';
-import { UserResponseDto, AuditLogDto } from '@virteex/domain-identity-contracts';
-import { RequireEntitlement, EntitlementGuard } from '@virteex/kernel-entitlements';
+import { UserResponseDto, AuditLogDto } from '@virtex/domain-identity-contracts';
+import { RequireEntitlement, EntitlementGuard } from '@virtex/kernel-entitlements';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard, TenantGuard, EntitlementGuard, StepUpGuard)

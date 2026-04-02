@@ -1,4 +1,4 @@
-import { CashDrawerPort } from '@virteex/domain-pos-application';
+import { CashDrawerPort } from '@virtex/domain-pos-application';
 
 export class DesktopCashDrawerAdapter implements CashDrawerPort {
   async openDrawer(): Promise<{ success: boolean; error?: string }> {

@@ -1,6 +1,6 @@
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { MikroOrmAccountRepository } from './mikro-orm-account.repository';
-import { Account, AccountType } from '@virteex/domain-accounting-domain';
+import { Account, AccountType } from '@virtex/domain-accounting-domain';
 import { EntityManager } from '@mikro-orm/core';
 
 describe('MikroOrmAccountRepository', () => {

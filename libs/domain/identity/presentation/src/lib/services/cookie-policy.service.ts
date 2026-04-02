@@ -1,7 +1,7 @@
 import { Injectable, Optional } from '@nestjs/common';
 import { Response } from 'express';
-import { SecretManagerService, buildAccessCookieOptions, buildRefreshCookieOptions } from '@virteex/kernel-auth';
-import { CriticalConfigurationException } from '@virteex/kernel-exceptions';
+import { SecretManagerService, buildAccessCookieOptions, buildRefreshCookieOptions } from '@virtex/kernel-auth';
+import { CriticalConfigurationException } from '@virtex/kernel-exceptions';
 
 @Injectable()
 export class CookiePolicyService {

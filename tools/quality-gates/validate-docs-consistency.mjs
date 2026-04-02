@@ -3,7 +3,7 @@ import path from 'node:path';
 
 const baseDir = process.cwd();
 const docsDir = path.join(baseDir, 'docs');
-const allowedMissingByDesign = new Set(['mailto:security@virteex.com']);
+const allowedMissingByDesign = new Set(['mailto:security@virtex.com']);
 
 function normalizeRelativeLink(rawLink) {
   const [linkWithoutQuery] = rawLink.split('?');

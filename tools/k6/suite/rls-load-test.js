@@ -32,10 +32,10 @@ export const options = {
 };
 
 const BASE_URL = __ENV.BASE_URL || 'http://localhost:3000';
-const SECRET = __ENV.VIRTEEX_HMAC_SECRET;
+const SECRET = __ENV.virtex_HMAC_SECRET;
 
 if (!SECRET) {
-  throw new Error('VIRTEEX_HMAC_SECRET must be set as an environment variable for security validation.');
+  throw new Error('virtex_HMAC_SECRET must be set as an environment variable for security validation.');
 }
 
 const TENANT_COUNT = 1000;
@@ -57,8 +57,8 @@ export default function () {
 
   const headers = {
     'Content-Type': 'application/json',
-    'x-virteex-context': contextBase64,
-    'x-virteex-signature': signature,
+    'x-virtex-context': contextBase64,
+    'x-virtex-signature': signature,
   };
 
   const res = http.get(`\${BASE_URL}/api/samples`, { headers });

@@ -9,7 +9,7 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { CanonicalTenantMiddleware } from './middleware/canonical-tenant.middleware';
 import { TenantGuard } from './guards/tenant.guard';
-import { TelemetryModule } from '@virteex/kernel-telemetry-interfaces';
+import { TelemetryModule } from '@virtex/kernel-telemetry-interfaces';
 import {
   SecretManagerService,
   SECRET_PROVIDER,

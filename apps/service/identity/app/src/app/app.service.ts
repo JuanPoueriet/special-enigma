@@ -10,7 +10,7 @@ export interface ServiceStatusDto {
 export class AppService {
   getData(): ServiceStatusDto {
     return {
-      service: 'virteex-identity-service',
+      service: 'virtex-identity-service',
       status: 'ok',
       timestamp: new Date().toISOString(),
     };

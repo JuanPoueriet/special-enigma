@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { PosRepository } from '@virteex/domain-pos-domain';
-import { PosShift } from '@virteex/domain-pos-domain';
+import { PosRepository } from '@virtex/domain-pos-domain';
+import { PosShift } from '@virtex/domain-pos-domain';
 
 @Injectable()
 export class OpenShiftUseCase {

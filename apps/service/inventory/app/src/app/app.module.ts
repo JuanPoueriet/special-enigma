@@ -4,14 +4,14 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { SqliteDriver } from '@mikro-orm/sqlite';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { ServerConfigModule } from '@virteex/shared-util-server-server-config';
+import { ServerConfigModule } from '@virtex/shared-util-server-server-config';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { LoggerModule } from 'nestjs-pino';
 import { TerminusModule } from '@nestjs/terminus';
-import { HealthModule } from '@virteex/shared-util-server-health';
+import { HealthModule } from '@virtex/shared-util-server-health';
 import { EventEmitterModule } from '@nestjs/event-emitter';
-import { JwtAuthGuard, CanonicalTenantMiddleware } from '@virteex/kernel-auth';
-import { TenantRlsInterceptor, TenantModule } from '@virteex/kernel-tenant';
+import { JwtAuthGuard, CanonicalTenantMiddleware } from '@virtex/kernel-auth';
+import { TenantRlsInterceptor, TenantModule } from '@virtex/kernel-tenant';
 import { GraphQLModule } from '@nestjs/graphql';
 import depthLimit from 'graphql-depth-limit';
 import { createComplexityRule, simpleEstimator } from 'graphql-query-complexity';
@@ -21,9 +21,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 // Domain Modules
-import { InventoryApplicationModule } from '@virteex/domain-inventory-application';
-import { InventoryInfrastructureModule } from '@virteex/domain-inventory-infrastructure';
-import { InventoryPresentationModule } from '@virteex/domain-inventory-presentation';
+import { InventoryApplicationModule } from '@virtex/domain-inventory-application';
+import { InventoryInfrastructureModule } from '@virtex/domain-inventory-infrastructure';
+import { InventoryPresentationModule } from '@virtex/domain-inventory-presentation';
 
 @Module({
   imports: [

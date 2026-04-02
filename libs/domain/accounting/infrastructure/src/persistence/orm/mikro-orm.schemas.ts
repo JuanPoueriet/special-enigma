@@ -22,7 +22,7 @@ import {
   BankStatementLineStatus,
   AuditLog,
   FinancialReportSnapshot
-} from '@virteex/domain-accounting-domain';
+} from '@virtex/domain-accounting-domain';
 
 export const AccountSchema = new EntitySchema<Account>({
   class: Account,

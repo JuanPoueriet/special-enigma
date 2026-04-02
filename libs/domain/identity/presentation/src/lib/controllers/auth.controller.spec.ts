@@ -31,9 +31,9 @@ import {
     GenerateBackupCodesUseCase,
     Send2faEmailVerificationUseCase,
     Verify2faEmailVerificationUseCase
-} from '@virteex/domain-identity-application';
+} from '@virtex/domain-identity-application';
 import { vi, describe, beforeEach, it, expect } from 'vitest';
-import { CachePort } from '@virteex/domain-identity-domain';
+import { CachePort } from '@virtex/domain-identity-domain';
 
 describe('AuthController', () => {
   let controller: AuthController;

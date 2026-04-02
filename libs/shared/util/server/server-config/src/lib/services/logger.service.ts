@@ -1,7 +1,7 @@
 import { Injectable, LoggerService as NestLoggerService } from '@nestjs/common';
 import { trace, context } from '@opentelemetry/api';
 import { PinoLogger } from 'nestjs-pino';
-import { getTenantContext } from '@virteex/kernel-auth';
+import { getTenantContext } from '@virtex/kernel-auth';
 
 @Injectable()
 export class LoggerService implements NestLoggerService {

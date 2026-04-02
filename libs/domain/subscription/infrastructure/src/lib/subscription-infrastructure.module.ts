@@ -1,11 +1,11 @@
 import { Module, Global, Logger } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { SUBSCRIPTION_REPOSITORY, SUBSCRIPTION_PLAN_REPOSITORY, CUSTOMER_REGISTRY_GATEWAY, SUBSCRIPTION_PROVIDER_GATEWAY, PAYMENT_SESSION_PROVIDER } from '@virteex/domain-subscription-domain';
-import { IProcessCheckoutSuccessUseCase, IHandleInvoicePaidUseCase, IHandleSubscriptionUpdatedUseCase, IHandleSubscriptionDeletedUseCase } from '@virteex/domain-subscription-contracts';
-import { EVENT_BUS_PORT, LOGGER_PORT } from '@virteex/domain-subscription-application';
+import { SUBSCRIPTION_REPOSITORY, SUBSCRIPTION_PLAN_REPOSITORY, CUSTOMER_REGISTRY_GATEWAY, SUBSCRIPTION_PROVIDER_GATEWAY, PAYMENT_SESSION_PROVIDER } from '@virtex/domain-subscription-domain';
+import { IProcessCheckoutSuccessUseCase, IHandleInvoicePaidUseCase, IHandleSubscriptionUpdatedUseCase, IHandleSubscriptionDeletedUseCase } from '@virtex/domain-subscription-contracts';
+import { EVENT_BUS_PORT, LOGGER_PORT } from '@virtex/domain-subscription-application';
 import { SubscriptionPersistenceModule } from './subscription-persistence.module';
-import { ProcessCheckoutSuccessUseCase, HandleInvoicePaidUseCase, HandleSubscriptionUpdatedUseCase, HandleSubscriptionDeletedUseCase } from '@virteex/domain-subscription-application';
+import { ProcessCheckoutSuccessUseCase, HandleInvoicePaidUseCase, HandleSubscriptionUpdatedUseCase, HandleSubscriptionDeletedUseCase } from '@virtex/domain-subscription-application';
 
 import { MikroOrmSubscriptionRepository } from './repositories/mikro-orm-subscription.repository';
 import { MikroOrmSubscriptionPlanRepository } from './repositories/mikro-orm-subscription-plan.repository';

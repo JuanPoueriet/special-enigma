@@ -1,4 +1,4 @@
-# Virteex ERP Release Readiness Report
+# virtex ERP Release Readiness Report
 
 **Date:** 2026-03-15T00:00:00.000Z
 **Version:** DEV-SNAPSHOT
@@ -54,4 +54,4 @@
 | DATABASE | eu-central-1 | 99.995% | 110ms | 30d | 175000 | commercial, isolation-adversarial, failover-drill |
 
 ---
-*Report generated automatically by Virteex readiness tooling*
+*Report generated automatically by virtex readiness tooling*

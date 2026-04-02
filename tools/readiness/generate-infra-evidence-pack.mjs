@@ -25,7 +25,7 @@ for (const region of regions) {
 
   fs.writeFileSync(path.join(dir, 'topology.tf.snippet.txt'), `${topologySection}\n`);
 
-  const gitHistory = execSync(`git log --date=iso --pretty=format:'%h | %ad | %an | %s' -- platform/infrastructure/terraform/regions/v1 platform/helm/virteex .github/workflows/ci-cd.yml`, {
+  const gitHistory = execSync(`git log --date=iso --pretty=format:'%h | %ad | %an | %s' -- platform/infrastructure/terraform/regions/v1 platform/helm/virtex .github/workflows/ci-cd.yml`, {
     encoding: 'utf8',
   });
   fs.writeFileSync(path.join(dir, 'changes.log'), `${gitHistory}\n`);
@@ -43,7 +43,7 @@ for (const region of regions) {
     generatedAt: new Date().toISOString(),
     source: {
       topology: 'platform/infrastructure/terraform/regions/v1/main.tf',
-      deployment: 'platform/helm/virteex/templates/all-apps.yaml',
+      deployment: 'platform/helm/virtex/templates/all-apps.yaml',
       pipeline: '.github/workflows/ci-cd.yml',
     },
     traceability: 'See changes.log for git commit trace',

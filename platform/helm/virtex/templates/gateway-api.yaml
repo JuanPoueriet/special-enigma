@@ -1,7 +1,7 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
-  name: virteex-gateway
+  name: virtex-gateway
   namespace: {{ .Release.Namespace }}
 spec:
   gatewayClassName: traefik
@@ -20,9 +20,9 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   parentRefs:
-    - name: virteex-gateway
+    - name: virtex-gateway
   hostnames:
-    - "portal.virteex.local"
+    - "portal.virtex.local"
   rules:
     - matches:
         - path:
@@ -39,9 +39,9 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   parentRefs:
-    - name: virteex-gateway
+    - name: virtex-gateway
   hostnames:
-    - "api.virteex.local"
+    - "api.virtex.local"
   rules:
     - matches:
         - path:

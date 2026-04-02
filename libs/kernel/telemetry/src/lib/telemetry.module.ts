@@ -1,5 +1,5 @@
 import { Module, Global } from '@nestjs/common';
-import { TELEMETRY_SERVICE, TelemetryService as AbstractTelemetryService } from '@virteex/kernel-telemetry-interfaces';
+import { TELEMETRY_SERVICE, TelemetryService as AbstractTelemetryService } from '@virtex/kernel-telemetry-interfaces';
 import { TelemetryService } from './telemetry';
 import { PersistenceMetricsService } from './persistence-metrics.service';
 

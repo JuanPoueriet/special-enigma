@@ -41,7 +41,7 @@ El pipeline ejecuta `npm run governance:consistency` y `npm run arch:validate-ta
 ## Convenciones de estructura
 - Apps frontend deben vivir en `apps/client/web/*`.
 - Apps backend deben vivir en `apps/service/*`.
-- Se movió `ops-console-web` y su e2e a `apps/client/web/virteex-ops*` para alinear ubicación física con runtime y ownership.
+- Se movió `ops-console-web` y su e2e a `apps/client/web/virtex-ops*` para alinear ubicación física con runtime y ownership.
 
 ## Política de evolución
 Para cambios de arquitectura en tags o boundaries:

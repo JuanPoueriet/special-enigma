@@ -1,8 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { XMLBuilder } from 'fast-xml-parser';
-import { FiscalDocumentBuilder } from '@virteex/domain-fiscal-domain';
-import { TenantFiscalConfig } from '@virteex/domain-fiscal-domain';
-import { InvoiceContract, CustomerBillingInfoContract } from '@virteex/domain-billing-contracts';
+import { FiscalDocumentBuilder } from '@virtex/domain-fiscal-domain';
+import { TenantFiscalConfig } from '@virtex/domain-fiscal-domain';
+import { InvoiceContract, CustomerBillingInfoContract } from '@virtex/domain-billing-contracts';
 
 
 @Injectable()

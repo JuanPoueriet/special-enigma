@@ -2,7 +2,7 @@ import { Component, OnInit, inject, effect } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthService, LanguageService, CountryService } from '@virteex/shared-ui';
+import { AuthService, LanguageService, CountryService } from '@virtex/shared-ui';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 // Shared
@@ -31,7 +31,7 @@ const passwordMatchValidator: ValidatorFn = (group: AbstractControl): Validation
 };
 
 @Component({
-  selector: 'virteex-reset-password-page',
+  selector: 'virtex-reset-password-page',
   standalone: true,
   imports: [
     CommonModule,

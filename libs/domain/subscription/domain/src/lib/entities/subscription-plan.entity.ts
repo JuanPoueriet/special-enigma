@@ -1,6 +1,6 @@
 
 import { v4 } from 'uuid';
-import { PlanLimit } from '@virteex/domain-subscription-contracts';
+import { PlanLimit } from '@virtex/domain-subscription-contracts';
 
 export class SubscriptionPlan {
     id: string = v4();

@@ -7,7 +7,7 @@ import {
   CreateAccountDto,
   RecordJournalEntryDto,
   FinancialReportDto
-} from '@virteex/domain-accounting-contracts';
+} from '@virtex/domain-accounting-contracts';
 
 @Injectable({
   providedIn: 'root'

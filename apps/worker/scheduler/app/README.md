@@ -1,4 +1,4 @@
-# Virteex Jobs
+# virtex Jobs
 
 ## Background Worker Service
 

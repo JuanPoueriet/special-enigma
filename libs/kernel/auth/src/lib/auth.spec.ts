@@ -7,7 +7,7 @@ import { ConfigService } from '@nestjs/config';
 import { DefaultSecretProvider } from './services/providers/default-secret.provider';
 import { VaultSecretProvider } from './services/providers/vault-secret.provider';
 import { KmsSecretProvider } from './services/providers/kms-secret.provider';
-import { TELEMETRY_SERVICE } from '@virteex/kernel-telemetry-interfaces';
+import { TELEMETRY_SERVICE } from '@virtex/kernel-telemetry-interfaces';
 
 describe('AuthModule', () => {
   beforeEach(() => {

@@ -1,10 +1,10 @@
 import { Module, MiddlewareConsumer, NestModule, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { SchedulerInfrastructureModule } from '@virteex/domain-scheduler-infrastructure';
-import { SchedulerApplicationModule } from '@virteex/domain-scheduler-application';
-import { TenantModule } from '@virteex/kernel-tenant';
-import { CanonicalTenantMiddleware } from '@virteex/kernel-auth';
+import { SchedulerInfrastructureModule } from '@virtex/domain-scheduler-infrastructure';
+import { SchedulerApplicationModule } from '@virtex/domain-scheduler-application';
+import { TenantModule } from '@virtex/kernel-tenant';
+import { CanonicalTenantMiddleware } from '@virtex/kernel-auth';
 
 @Module({
   imports: [

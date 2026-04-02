@@ -9,7 +9,7 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": "../../../..",
     "paths": {
-      "@virteex/shared-config": ["libs/shared/config/src/index.ts"]
+      "@virtex/shared-config": ["libs/shared/config/src/index.ts"]
     }
   },
   "files": [],

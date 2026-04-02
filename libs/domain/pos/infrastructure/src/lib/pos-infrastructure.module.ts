@@ -4,9 +4,9 @@ import { PosSaleSchema, PosSaleItemSchema, PosShiftSchema } from './entities/pos
 import { MikroOrmPosRepository } from './repositories/mikro-orm-pos.repository';
 import { HardwareBridgeAdapter } from './adapters/hardware-bridge.adapter';
 import { GrpcPosIntegrationAdapter } from './adapters/grpc-pos-integration.adapter';
-import { HARDWARE_BRIDGE_PORT } from '@virteex/domain-pos-domain';
-import { POS_BILLING_PORT, POS_INVENTORY_PORT } from '@virteex/domain-pos-application';
-import { DataQualityModule } from '@virteex/platform-data-quality';
+import { HARDWARE_BRIDGE_PORT } from '@virtex/domain-pos-domain';
+import { POS_BILLING_PORT, POS_INVENTORY_PORT } from '@virtex/domain-pos-application';
+import { DataQualityModule } from '@virtex/platform-data-quality';
 
 @Global()
 @Module({

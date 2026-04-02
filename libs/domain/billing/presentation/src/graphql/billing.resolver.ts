@@ -1,5 +1,5 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
-import { CreateInvoiceUseCase, mapCreateInvoiceInputToDto } from '@virteex/domain-billing-application';
+import { CreateInvoiceUseCase, mapCreateInvoiceInputToDto } from '@virtex/domain-billing-application';
 import { CreateInvoiceInput } from '../http/request-dto/create-invoice.input';
 import { InvoiceObject } from '../http/response-dto/invoice.object';
 import { presentInvoice } from '../http/response-dto/invoice.presenter';

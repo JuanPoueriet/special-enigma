@@ -3,7 +3,7 @@
 import { Injectable, OnDestroy, inject } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import { Observable, Subject } from 'rxjs'; // Importa Subject
-import { APP_CONFIG } from '@virteex/shared-config';
+import { APP_CONFIG } from '@virtex/shared-config';
 
 @Injectable({
   providedIn: 'root'

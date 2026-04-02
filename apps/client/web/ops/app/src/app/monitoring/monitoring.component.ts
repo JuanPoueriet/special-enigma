@@ -4,7 +4,7 @@ import { MonitoringService, ServiceHealth } from './monitoring.service';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'virteex-monitoring',
+  selector: 'virtex-monitoring',
   standalone: true,
   imports: [CommonModule],
   template: `

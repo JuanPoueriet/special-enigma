@@ -1,6 +1,6 @@
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { InviteUserUseCase } from './invite-user.use-case';
-import { DomainException } from '@virteex/shared-util-server-server-config';
+import { DomainException } from '@virtex/shared-util-server-server-config';
 
 describe('InviteUserUseCase', () => {
   let useCase: InviteUserUseCase;

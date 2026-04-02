@@ -1,6 +1,6 @@
 import { Global, Module } from '@nestjs/common';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
-import { JwtAuthGuard, AuthModule } from '@virteex/kernel-auth';
+import { JwtAuthGuard, AuthModule } from '@virtex/kernel-auth';
 import { TenantModule } from './tenant.module';
 import { TenantThrottlerGuard } from './guards/tenant-throttler.guard';
 import { TenantRlsInterceptor } from './interceptors/tenant-rls.interceptor';

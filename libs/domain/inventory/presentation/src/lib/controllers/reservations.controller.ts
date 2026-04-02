@@ -1,8 +1,8 @@
 import { Body, Controller, Post, UseFilters, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { ReserveBatchStockUseCase } from '@virteex/domain-inventory-application';
-import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virteex/kernel-auth';
-import { RequireEntitlement, EntitlementGuard } from '@virteex/kernel-entitlements';
+import { ReserveBatchStockUseCase } from '@virtex/domain-inventory-application';
+import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virtex/kernel-auth';
+import { RequireEntitlement, EntitlementGuard } from '@virtex/kernel-entitlements';
 import { ReserveBatchStockDto } from './dto/reserve-batch-stock.dto';
 import { InventoryApplicationExceptionFilter } from '../filters/inventory-application-exception.filter';
 

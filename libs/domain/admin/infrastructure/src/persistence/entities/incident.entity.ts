@@ -1,5 +1,5 @@
 import { Entity, PrimaryKey, Property, Enum } from '@mikro-orm/core';
-import { IncidentSeverity, IncidentStatus } from '@virteex/domain-admin-domain';
+import { IncidentSeverity, IncidentStatus } from '@virtex/domain-admin-domain';
 
 @Entity({ tableName: 'incidents' })
 export class OrmIncident {

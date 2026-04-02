@@ -1,5 +1,5 @@
 {
-  "name": "@virteex/domain-manufacturing-presentation",
+  "name": "@virtex/domain-manufacturing-presentation",
   "version": "0.0.1",
   "private": true,
   "type": "commonjs",
@@ -9,8 +9,8 @@
     "tslib": "^2.3.0",
     "@nestjs/common": "^11.0.0",
     "@nestjs/swagger": "^11.2.6",
-    "@virteex/domain-manufacturing-application": "0.0.1",
-    "@virteex/kernel-auth": "0.0.1"
+    "@virtex/domain-manufacturing-application": "0.0.1",
+    "@virtex/kernel-auth": "0.0.1"
   },
   "exports": {
     ".": {

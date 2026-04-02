@@ -4,7 +4,7 @@ export type Theme = 'light' | 'dark' | 'system';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
-  private readonly THEME_KEY = 'virteex-theme';
+  private readonly THEME_KEY = 'virtex-theme';
 
   public theme = signal<Theme>(this.getStoredTheme());
 

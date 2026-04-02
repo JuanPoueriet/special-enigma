@@ -1,6 +1,6 @@
-import { type JournalEntryDto } from '@virteex/domain-accounting-contracts';
+import { type JournalEntryDto } from '@virtex/domain-accounting-contracts';
 import { JournalEntryMapper } from '../../mappers/journal-entry.mapper';
-import { type JournalEntryRepository } from '@virteex/domain-accounting-domain';
+import { type JournalEntryRepository } from '@virtex/domain-accounting-domain';
 
 export class GetJournalEntriesUseCase {
   constructor(

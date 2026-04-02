@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { ProvisioningService, ProvisioningStatus } from '../use-cases/provisioning.service';
-import { TenantMode, OperationState } from '@virteex/kernel-tenant';
+import { TenantMode, OperationState } from '@virtex/kernel-tenant';
 
 describe('Provisioning Operational Validation', () => {
   let service: ProvisioningService;

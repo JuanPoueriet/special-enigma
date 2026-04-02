@@ -4,13 +4,13 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../core/auth/auth.service';
 
 @Component({
-  selector: 'virteex-login',
+  selector: 'virtex-login',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   template: `
     <div class="login-container">
       <div class="login-box">
-        <h2>Virteex Ops Login</h2>
+        <h2>virtex Ops Login</h2>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label for="email">Email</label>

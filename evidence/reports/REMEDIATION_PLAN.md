@@ -1,7 +1,7 @@
-# Remediation Plan - Virteex ERP Hardening
+# Remediation Plan - virtex ERP Hardening
 
 ## Overview
-This plan outlines the steps taken to address the critical gaps identified in the Virteex ERP audit, transforming the system from "Not Ready for Production" to a hardened, enterprise-ready state.
+This plan outlines the steps taken to address the critical gaps identified in the virtex ERP audit, transforming the system from "Not Ready for Production" to a hardened, enterprise-ready state.
 
 ## Phase 1: Infrastructure & QA (G01)
 - **Problem:** Broken test infrastructure due to Jest/ESM inconsistencies.

@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { HardwareBridgePort } from '@virteex/domain-pos-domain';
+import { HardwareBridgePort } from '@virtex/domain-pos-domain';
 
 @Injectable()
 export class HardwareBridgeAdapter implements HardwareBridgePort {

@@ -1,5 +1,5 @@
 import { BadRequestException } from '@nestjs/common';
-import { type UserPayload } from '@virteex/kernel-auth';
+import { type UserPayload } from '@virtex/kernel-auth';
 import { resolveTenantId } from './tenant-context.resolver';
 
 describe('resolveTenantId', () => {

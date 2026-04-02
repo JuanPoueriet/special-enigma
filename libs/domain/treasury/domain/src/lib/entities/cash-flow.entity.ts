@@ -1,5 +1,5 @@
 
-import { CashFlowType } from '@virteex/shared-contracts';
+import { CashFlowType } from '@virtex/shared-contracts';
 import type { BankAccount } from './bank-account.entity';
 
 

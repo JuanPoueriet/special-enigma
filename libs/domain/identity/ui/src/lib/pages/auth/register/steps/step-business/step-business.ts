@@ -5,7 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AuthInputComponent } from '../../../components/auth-input/auth-input.component';
 
 @Component({
-  selector: 'virteex-step-business',
+  selector: 'virtex-step-business',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, TranslateModule, AuthInputComponent],
   templateUrl: './step-business.html',

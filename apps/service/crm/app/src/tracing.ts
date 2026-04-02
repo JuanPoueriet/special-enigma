@@ -11,7 +11,7 @@ import { Logger } from '@nestjs/common';
 // Configure the SDK
 export const otelSDK = new NodeSDK({
   resource: resourceFromAttributes({
-    [SemanticResourceAttributes.SERVICE_NAME]: 'virteex-crm-service',
+    [SemanticResourceAttributes.SERVICE_NAME]: 'virtex-crm-service',
   }),
   traceExporter: new OTLPTraceExporter({
     // Usually http://localhost:4318/v1/traces for Jaeger OTLP HTTP

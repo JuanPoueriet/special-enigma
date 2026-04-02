@@ -1,4 +1,4 @@
-import { TaxLookupDto } from '@virteex/domain-identity-contracts';
+import { TaxLookupDto } from '@virtex/domain-identity-contracts';
 
 export interface TaxProviderPort {
   lookup(taxId: string): Promise<TaxLookupDto>;

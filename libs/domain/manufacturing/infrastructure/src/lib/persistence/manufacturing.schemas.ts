@@ -1,5 +1,5 @@
 import { EntitySchema, Cascade } from '@mikro-orm/core';
-import { ProductionOrder, ProductionOrderComponent, BillOfMaterials, BillOfMaterialsComponent } from '@virteex/domain-manufacturing-domain';
+import { ProductionOrder, ProductionOrderComponent, BillOfMaterials, BillOfMaterialsComponent } from '@virtex/domain-manufacturing-domain';
 
 export const ProductionOrderSchema = new EntitySchema<ProductionOrder>({
   class: ProductionOrder,

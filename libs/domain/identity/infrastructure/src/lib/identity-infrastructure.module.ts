@@ -2,7 +2,7 @@ import { Module, Global } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
-import { UserRepository, CompanyRepository, AuditLogRepository, SessionRepository, JobTitleRepository, AuthService, RecaptchaPort, NotificationService, RiskEngineService, CachePort, RiskEvaluatorService, WebAuthnService, LocalizationPort, UNIT_OF_WORK_PORT, TENANT_REPOSITORY } from '@virteex/domain-identity-domain';
+import { UserRepository, CompanyRepository, AuditLogRepository, SessionRepository, JobTitleRepository, AuthService, RecaptchaPort, NotificationService, RiskEngineService, CachePort, RiskEvaluatorService, WebAuthnService, LocalizationPort, UNIT_OF_WORK_PORT, TENANT_REPOSITORY } from '@virtex/domain-identity-domain';
 
 import { MikroOrmUserRepository } from './persistence/mikro-orm-user.repository';
 import { UserSchema, CompanySchema, AuditLogSchema, SessionSchema, JobTitleSchema, UserAuthenticatorSchema } from './persistence/identity.schemas';
@@ -26,7 +26,7 @@ import { UserUsageProvider, SeatUsageProvider, InvitationUsageProvider } from '.
 import { MailQueueProducer } from './services/mail-queue.producer';
 import { MailProcessor } from './services/mail.processor';
 import { GeoIpLiteAdapter } from './adapters/geo-ip-lite.adapter';
-import { GEO_IP_PORT } from '@virteex/domain-identity-domain';
+import { GEO_IP_PORT } from '@virtex/domain-identity-domain';
 
 import {
   LoginUserUseCase,
@@ -73,17 +73,17 @@ import {
   Verify2faEmailVerificationUseCase,
   SetupMfaUseCase,
   ConfirmMfaUseCase
-} from '@virteex/domain-identity-application';
-import { SharedInfrastructureStorageModule } from '@virteex/platform-storage';
+} from '@virtex/domain-identity-application';
+import { SharedInfrastructureStorageModule } from '@virtex/platform-storage';
 import { StorageAdapter } from './adapters/storage.adapter';
-import { RedisCacheModule } from '@virteex/platform-cache';
+import { RedisCacheModule } from '@virtex/platform-cache';
 import { RedisCacheAdapter } from './adapters/redis-cache.adapter';
 import { MikroOrmUnitOfWorkAdapter } from './adapters/mikro-orm-unit-of-work.adapter';
 import { MikroOrmTenantRepository } from './adapters/mikro-orm-tenant.repository';
-import { AuthModule } from '@virteex/kernel-auth';
-import { TenantModule } from '@virteex/kernel-tenant';
+import { AuthModule } from '@virtex/kernel-auth';
+import { TenantModule } from '@virtex/kernel-tenant';
 import { HttpModule } from '@nestjs/axios';
-import { EntitlementsModule } from '@virteex/kernel-entitlements';
+import { EntitlementsModule } from '@virtex/kernel-entitlements';
 
 @Global()
 @Module({

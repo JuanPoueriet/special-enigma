@@ -1,5 +1,5 @@
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AccountType } from '@virteex/domain-accounting-contracts';
+import { AccountType } from '@virtex/domain-accounting-contracts';
 
 export function createAccountForm() {
   return new FormGroup({

@@ -1,5 +1,5 @@
 module.exports = {
-  displayName: 'virteex-admin-service',
+  displayName: 'virtex-admin-service',
   preset: '../../../../jest.preset.js',
   testEnvironment: 'node',
   transform: {
@@ -9,5 +9,5 @@ module.exports = {
     'node_modules/(?!(@scure|otplib|@noble)/)'
   ],
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/apps/virteex-admin-service'
+  coverageDirectory: '../../coverage/apps/virtex-admin-service'
 };

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/core';
-import type { TenantRepository } from '@virteex/domain-identity-domain';
-import { Tenant } from '@virteex/kernel-tenant';
+import type { TenantRepository } from '@virtex/domain-identity-domain';
+import { Tenant } from '@virtex/kernel-tenant';
 
 @Injectable()
 export class MikroOrmTenantRepository implements TenantRepository {

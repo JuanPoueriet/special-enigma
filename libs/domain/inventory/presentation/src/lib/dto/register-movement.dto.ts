@@ -1,5 +1,5 @@
 import { IsString, IsNotEmpty, IsOptional, IsUUID, IsEnum, IsNumberString } from 'class-validator';
-import { InventoryMovementType } from '@virteex/domain-inventory-domain';
+import { InventoryMovementType } from '@virtex/domain-inventory-domain';
 
 export class RegisterMovementDto {
   @IsUUID()

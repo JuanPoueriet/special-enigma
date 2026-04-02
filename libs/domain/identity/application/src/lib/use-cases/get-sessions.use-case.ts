@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { SessionRepository, Session } from '@virteex/domain-identity-domain';
+import { SessionRepository, Session } from '@virtex/domain-identity-domain';
 
 @Injectable()
 export class GetSessionsUseCase {

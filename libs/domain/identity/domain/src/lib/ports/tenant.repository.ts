@@ -1,4 +1,4 @@
-import { Tenant } from '@virteex/kernel-tenant';
+import { Tenant } from '@virtex/kernel-tenant';
 
 export interface TenantRepository {
   findById(id: string): Promise<Tenant | null>;

@@ -1,5 +1,5 @@
 {
-  "name": "@virteex/kernel-audit",
+  "name": "@virtex/kernel-audit",
   "version": "0.0.1",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",

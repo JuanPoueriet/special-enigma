@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { UserRepository, NotificationService, CachePort } from '@virteex/domain-identity-domain';
+import { UserRepository, NotificationService, CachePort } from '@virtex/domain-identity-domain';
 import * as crypto from 'crypto';
 
 @Injectable()

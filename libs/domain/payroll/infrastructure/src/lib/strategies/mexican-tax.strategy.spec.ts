@@ -1,7 +1,7 @@
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { Test, TestingModule } from '@nestjs/testing';
 import { MexicanTaxStrategy } from './mexican-tax.strategy';
-import { TAX_TABLE_REPOSITORY, MissingTaxTableException } from '@virteex/domain-payroll-domain';
+import { TAX_TABLE_REPOSITORY, MissingTaxTableException } from '@virtex/domain-payroll-domain';
 
 const mockTaxTableRepository = {
   findForYear: vi.fn(),

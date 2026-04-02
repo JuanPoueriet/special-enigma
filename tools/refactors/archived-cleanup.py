@@ -18,9 +18,9 @@ def fix_tsconfig():
         if valid_locs:
             new_paths[alias] = valid_locs
 
-    if '@virteex/domain-finops-application' not in new_paths:
-        new_paths['@virteex/domain-finops-application'] = ["libs/domain/finops/application/src/index.ts"]
-        new_paths['@virteex/domain-finops-application/*'] = ["libs/domain/finops/application/src/*"]
+    if '@virtex/domain-finops-application' not in new_paths:
+        new_paths['@virtex/domain-finops-application'] = ["libs/domain/finops/application/src/index.ts"]
+        new_paths['@virtex/domain-finops-application/*'] = ["libs/domain/finops/application/src/*"]
 
     config['compilerOptions']['paths'] = new_paths
     with open('tsconfig.base.json', 'w') as f:

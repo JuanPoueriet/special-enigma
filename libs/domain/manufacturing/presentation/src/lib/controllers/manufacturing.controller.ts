@@ -1,9 +1,9 @@
 import { Controller, Post, Body, Get, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { CreateProductionOrderUseCase, GetProductionOrdersUseCase } from '@virteex/domain-manufacturing-application';
+import { CreateProductionOrderUseCase, GetProductionOrdersUseCase } from '@virtex/domain-manufacturing-application';
 import { CreateProductionOrderDto } from '../dto/create-production-order.dto';
-import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virteex/kernel-auth';
-import { RequireEntitlement, EntitlementGuard } from '@virteex/kernel-entitlements';
+import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virtex/kernel-auth';
+import { RequireEntitlement, EntitlementGuard } from '@virtex/kernel-entitlements';
 
 @ApiTags('Manufacturing')
 @ApiBearerAuth()

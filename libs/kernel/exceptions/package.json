@@ -1,5 +1,5 @@
 {
-  "name": "@virteex/kernel-exceptions",
+  "name": "@virtex/kernel-exceptions",
   "version": "0.0.1",
   "private": true,
   "main": "./src/index.js",

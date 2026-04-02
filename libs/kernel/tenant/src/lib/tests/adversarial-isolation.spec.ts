@@ -5,7 +5,7 @@ import { EntityManager, RequestContext } from '@mikro-orm/core';
 import { TenantService } from '../tenant.service';
 import { ForbiddenException } from '@nestjs/common';
 import { of, from } from 'rxjs';
-import * as TenantContextLib from '@virteex/kernel-tenant-context';
+import * as TenantContextLib from '@virtex/kernel-tenant-context';
 import { TenantModelSubscriber } from '../subscribers/tenant-model.subscriber';
 import { RoutingPlaneService } from '../routing-plane.service';
 

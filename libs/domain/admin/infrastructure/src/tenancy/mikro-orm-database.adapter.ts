@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { MikroORM } from '@mikro-orm/core';
-import { DatabasePort } from '@virteex/domain-admin-domain';
+import { DatabasePort } from '@virtex/domain-admin-domain';
 
 @Injectable()
 export class MikroOrmDatabaseAdapter implements DatabasePort {

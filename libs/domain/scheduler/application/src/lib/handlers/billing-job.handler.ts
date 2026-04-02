@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Job } from '@virteex/domain-scheduler-domain';
-import { NotificationService } from '@virteex/domain-notification-application';
-import { NotificationChannel } from '@virteex/domain-notification-domain';
+import { Job } from '@virtex/domain-scheduler-domain';
+import { NotificationService } from '@virtex/domain-notification-application';
+import { NotificationChannel } from '@virtex/domain-notification-domain';
 import { EntityManager } from '@mikro-orm/core';
 
 @Injectable()

@@ -4,7 +4,7 @@ import { OperationsService } from '../core/operations/operations.service';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'virteex-reports',
+  selector: 'virtex-reports',
   standalone: true,
   imports: [CommonModule],
   template: `

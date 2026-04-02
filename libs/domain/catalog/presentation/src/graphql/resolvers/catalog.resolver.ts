@@ -1,9 +1,9 @@
 import { Resolver, Query, Context } from '@nestjs/graphql';
 import { UseGuards, UnauthorizedException } from '@nestjs/common';
-import { GetSatCatalogsUseCase, GetProductsUseCase } from '@virteex/domain-catalog-application';
+import { GetSatCatalogsUseCase, GetProductsUseCase } from '@virtex/domain-catalog-application';
 import { Product } from '../../models/product.model';
 import { SatPaymentMethod, SatPaymentForm, SatCfdiUsage } from '../../models/sat-catalog.model';
-import { JwtAuthGuard } from '@virteex/kernel-auth';
+import { JwtAuthGuard } from '@virtex/kernel-auth';
 
 @Resolver()
 export class CatalogResolver {
@@ -31,7 +31,7 @@ export class CatalogResolver {
   @UseGuards(JwtAuthGuard)
   async products(@Context() context  : any) {
     const req = context.req;
-    const tenantId = req.user?.tenantId || req.headers['x-virteex-tenant-id'];
+    const tenantId = req.user?.tenantId || req.headers['x-virtex-tenant-id'];
 
     if (!tenantId) {
       throw new UnauthorizedException('Tenant context is missing');

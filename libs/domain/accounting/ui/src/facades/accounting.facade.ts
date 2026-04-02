@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import { CreateAccountDto, RecordJournalEntryDto } from '@virteex/domain-accounting-contracts';
+import { CreateAccountDto, RecordJournalEntryDto } from '@virtex/domain-accounting-contracts';
 import { AccountingService } from '../services/accounting.service';
 import { mapAccountingError } from '../utils/error-mapper';
 import {

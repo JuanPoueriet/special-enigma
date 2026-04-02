@@ -19,15 +19,15 @@ import {
   authInterceptor,
   errorInterceptor,
   RECAPTCHA_SITE_KEY,
-} from '@virteex/shared-ui';
-import { loadingInterceptor } from '@virteex/shared-util-http';
+} from '@virtex/shared-ui';
+import { loadingInterceptor } from '@virtex/shared-util-http';
 import { globalErrorInterceptor } from './core/interceptors/global-error.interceptor';
 import {
   APP_CONFIG,
   AppConfig,
   getBffUrl,
   API_URL,
-} from '@virteex/shared-config';
+} from '@virtex/shared-config';
 import { environment } from '../environments/environment';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { Observable } from 'rxjs';

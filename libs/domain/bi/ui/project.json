@@ -2,7 +2,7 @@
   "name": "domain-bi-ui",
   "sourceRoot": "libs/domain/bi/ui/src",
   "projectType": "library",
-  "prefix": "virteex",
+  "prefix": "virtex",
   "tags": [
     "platform:agnostic",
     "criticality:low",

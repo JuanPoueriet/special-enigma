@@ -1,5 +1,5 @@
 import { Entity, PrimaryKey, Property } from "@mikro-orm/core";
-import { TaxDeclaration as DomainTaxDeclaration } from "@virteex/domain-fiscal-domain";
+import { TaxDeclaration as DomainTaxDeclaration } from "@virtex/domain-fiscal-domain";
 
 @Entity({ tableName: 'tax_declarations' })
 export class TaxDeclarationRecord extends DomainTaxDeclaration {

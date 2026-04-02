@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ClientKafka } from '@nestjs/microservices';
-import { Invoice, InvoiceStampedEvent } from '@virteex/domain-billing-domain';
-import { type InvoiceIntegrationPublisherPort } from '@virteex/domain-billing-application';
-import { ACCOUNTING_INTEGRATION_EVENTS, InvoiceStampedV1EventDto } from '@virteex/domain-accounting-contracts';
+import { Invoice, InvoiceStampedEvent } from '@virtex/domain-billing-domain';
+import { type InvoiceIntegrationPublisherPort } from '@virtex/domain-billing-application';
+import { ACCOUNTING_INTEGRATION_EVENTS, InvoiceStampedV1EventDto } from '@virtex/domain-accounting-contracts';
 
 @Injectable()
 export class InvoiceIntegrationPublisher implements InvoiceIntegrationPublisherPort {

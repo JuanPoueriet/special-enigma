@@ -4,7 +4,7 @@
 Propuesto
 
 ## Contexto
-Virteex es una plataforma multi-tenant. El dominio de Contabilidad debe garantizar la separación estricta de datos entre clientes.
+virtex es una plataforma multi-tenant. El dominio de Contabilidad debe garantizar la separación estricta de datos entre clientes.
 
 ## Decisión
 Reforzaremos la resolución y validación de `tenantId` en la capa de **Presentación**:

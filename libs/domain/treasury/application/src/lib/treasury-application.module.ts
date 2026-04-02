@@ -3,7 +3,7 @@ import { CreateBankAccountUseCase } from './use-cases/create-bank-account.use-ca
 import { GetBankAccountsUseCase } from './use-cases/get-bank-accounts.use-case';
 import { RegisterTransactionUseCase } from './use-cases/register-transaction.use-case';
 import { GetCashFlowUseCase } from './use-cases/get-cash-flow.use-case';
-import { TreasuryInfrastructureModule } from '@virteex/domain-treasury-infrastructure';
+import { TreasuryInfrastructureModule } from '@virtex/domain-treasury-infrastructure';
 import { BankStatementParserService } from './services/bank-statement-parser.service';
 import { ReconciliationService } from './services/reconciliation.service';
 

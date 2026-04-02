@@ -8,6 +8,6 @@ export const appRoutes: Route[] = [
   },
   {
     path: 'kiosk',
-    loadComponent: () => import('@virteex/manufacturing-ui-shopfloor').then((m) => m.KioskComponent),
+    loadComponent: () => import('@virtex/manufacturing-ui-shopfloor').then((m) => m.KioskComponent),
   },
 ];

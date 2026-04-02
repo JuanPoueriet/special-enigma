@@ -1,4 +1,4 @@
-import { LocalizationConfigDto, TaxLookupDto, FiscalRegionDto } from '@virteex/domain-identity-contracts';
+import { LocalizationConfigDto, TaxLookupDto, FiscalRegionDto } from '@virtex/domain-identity-contracts';
 
 export abstract class LocalizationPort {
   abstract getConfig(code: string): Promise<LocalizationConfigDto>;

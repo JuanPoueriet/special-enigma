@@ -2,7 +2,7 @@ import { Entity, PrimaryKey, Property, ManyToOne, Enum } from '@mikro-orm/core';
 import { v4 } from 'uuid';
 import { WarehouseOrmEntity } from './warehouse.orm-entity';
 import { LocationOrmEntity } from './location.orm-entity';
-import { InventoryMovementType } from '@virteex/domain-inventory-domain';
+import { InventoryMovementType } from '@virtex/domain-inventory-domain';
 
 @Entity({ tableName: 'inventory_movement' })
 export class InventoryMovementOrmEntity {

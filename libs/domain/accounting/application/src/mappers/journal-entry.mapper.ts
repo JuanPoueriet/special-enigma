@@ -1,11 +1,11 @@
-import { JournalEntry } from '@virteex/domain-accounting-domain';
+import { JournalEntry } from '@virtex/domain-accounting-domain';
 import {
   type JournalEntryDto,
   JournalEntryLineDto,
   JournalEntryStatus as JournalEntryStatusDto,
   JournalEntryType as JournalEntryTypeDto,
   JournalEntryDtoV2
-} from '@virteex/domain-accounting-contracts';
+} from '@virtex/domain-accounting-contracts';
 import { Decimal } from 'decimal.js';
 
 export class JournalEntryMapper {

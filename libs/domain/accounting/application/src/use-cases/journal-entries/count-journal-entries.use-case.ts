@@ -1,4 +1,4 @@
-import { type JournalEntryRepository } from '@virteex/domain-accounting-domain';
+import { type JournalEntryRepository } from '@virtex/domain-accounting-domain';
 
 export class CountJournalEntriesUseCase {
   constructor(

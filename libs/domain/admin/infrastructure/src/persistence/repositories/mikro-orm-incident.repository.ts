@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { IncidentRepository, Incident } from '@virteex/domain-admin-domain';
+import { IncidentRepository, Incident } from '@virtex/domain-admin-domain';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityRepository } from '@mikro-orm/postgresql';
 import { OrmIncident } from '../entities/incident.entity';

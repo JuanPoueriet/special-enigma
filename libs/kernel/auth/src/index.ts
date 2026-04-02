@@ -1,4 +1,4 @@
-export * from '@virteex/kernel-tenant-context';
+export * from '@virtex/kernel-tenant-context';
 export * from './lib/middleware/canonical-tenant.middleware';
 export * from './lib/guards/tenant.guard';
 export * from './lib/auth.module';

@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { EntityNotFoundException } from "@virteex/kernel-exceptions";
+import { EntityNotFoundException } from "@virtex/kernel-exceptions";
 import { Verify2faEmailVerificationUseCase } from './verify-2fa-email-verification.use-case';
-import { UserRepository, CachePort } from '@virteex/domain-identity-domain';
-import { UnauthorizedException } from '@virteex/kernel-exceptions';
+import { UserRepository, CachePort } from '@virtex/domain-identity-domain';
+import { UnauthorizedException } from '@virtex/kernel-exceptions';
 
 describe('Verify2faEmailVerificationUseCase', () => {
   let useCase: Verify2faEmailVerificationUseCase;

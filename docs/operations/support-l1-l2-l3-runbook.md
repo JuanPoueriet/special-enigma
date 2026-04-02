@@ -1,4 +1,4 @@
-# Soporte Operativo L1/L2/L3 - Virteex ERP
+# Soporte Operativo L1/L2/L3 - virtex ERP
 
 ## Severidades y SLA
 

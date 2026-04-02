@@ -1,5 +1,5 @@
 import { EntitySchema, Cascade } from '@mikro-orm/core';
-import { Project, Task } from '@virteex/domain-projects-domain';
+import { Project, Task } from '@virtex/domain-projects-domain';
 
 export const ProjectSchema = new EntitySchema<Project>({
   class: Project,

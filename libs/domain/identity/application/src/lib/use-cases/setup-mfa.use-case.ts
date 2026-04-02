@@ -1,6 +1,6 @@
-import { DomainException } from '@virteex/shared-util-server-server-config';
+import { DomainException } from '@virtex/shared-util-server-server-config';
 import { Injectable, Inject } from '@nestjs/common';
-import { UserRepository, AuditLogRepository, AuditLog, AuthService } from '@virteex/domain-identity-domain';
+import { UserRepository, AuditLogRepository, AuditLog, AuthService } from '@virtex/domain-identity-domain';
 
 export interface SetupMfaResult {
   secret: string;
@@ -30,7 +30,7 @@ export class SetupMfaUseCase {
     await this.userRepository.update(user);
     await this.auditLogRepository.save(new AuditLog('MFA_SETUP_INITIATED', user.id, {}));
 
-    const otpauthUrl = `otpauth://totp/Virteex:${user.email}?secret=${secret}&issuer=Virteex`;
+    const otpauthUrl = `otpauth://totp/virtex:${user.email}?secret=${secret}&issuer=virtex`;
 
     return {
       secret,

@@ -4,13 +4,13 @@ import {
   CreateSupplierUseCase, CreatePurchaseOrderUseCase,
   CreateRequisitionUseCase, GetRequisitionsUseCase,
   CreateVendorBillUseCase, UpdateVendorBillUseCase, GetVendorBillUseCase
-} from '@virteex/domain-purchasing-application';
+} from '@virtex/domain-purchasing-application';
 import {
   CreateSupplierDto, CreatePurchaseOrderDto,
   CreateRequisitionDto, CreateVendorBillDto, UpdateVendorBillDto
-} from '@virteex/domain-purchasing-contracts';
-import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virteex/kernel-auth';
-import { RequireEntitlement, EntitlementGuard } from '@virteex/kernel-entitlements';
+} from '@virtex/domain-purchasing-contracts';
+import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virtex/kernel-auth';
+import { RequireEntitlement, EntitlementGuard } from '@virtex/kernel-entitlements';
 
 @ApiTags('Purchasing')
 @ApiBearerAuth()

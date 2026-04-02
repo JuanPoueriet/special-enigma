@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { FiscalDocumentBuilder, TenantFiscalConfig } from '@virteex/domain-fiscal-domain';
-import { InvoiceContract, CustomerBillingInfoContract } from '@virteex/domain-billing-contracts';
+import { FiscalDocumentBuilder, TenantFiscalConfig } from '@virtex/domain-fiscal-domain';
+import { InvoiceContract, CustomerBillingInfoContract } from '@virtex/domain-billing-contracts';
 
 @Injectable()
 export class UsFiscalDocumentBuilder implements FiscalDocumentBuilder {

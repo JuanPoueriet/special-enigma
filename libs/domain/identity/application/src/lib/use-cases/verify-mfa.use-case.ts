@@ -1,7 +1,7 @@
-import { DomainException } from '@virteex/shared-util-server-server-config';
+import { DomainException } from '@virtex/shared-util-server-server-config';
 import { Injectable, Inject } from '@nestjs/common';
-import { VerifyMfaDto, LoginResponseDto } from '@virteex/domain-identity-contracts';
-import { UserRepository, AuditLogRepository, AuditLog, AuthService } from '@virteex/domain-identity-domain';
+import { VerifyMfaDto, LoginResponseDto } from '@virtex/domain-identity-contracts';
+import { UserRepository, AuditLogRepository, AuditLog, AuthService } from '@virtex/domain-identity-domain';
 import { TokenGenerationService } from '../services/token-generation.service';
 
 export interface VerifyMfaContext {
@@ -27,7 +27,7 @@ export class VerifyMfaUseCase {
         throw new DomainException('Invalid or expired token', 'UNAUTHORIZED');
     }
 
-    if (!payload.partial || !payload.sub || payload.typ !== 'virteex+stepup') {
+    if (!payload.partial || !payload.sub || payload.typ !== 'virtex+stepup') {
         throw new DomainException('Invalid token type', 'UNAUTHORIZED');
     }
 

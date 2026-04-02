@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'virteex-button',
+  selector: 'virtex-button',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './button.component.html',

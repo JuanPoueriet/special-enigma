@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/core';
-import { BankReconciliation, type BankReconciliationRepository } from '@virteex/domain-accounting-domain';
+import { BankReconciliation, type BankReconciliationRepository } from '@virtex/domain-accounting-domain';
 
 @Injectable()
 export class MikroOrmBankReconciliationRepository implements BankReconciliationRepository {

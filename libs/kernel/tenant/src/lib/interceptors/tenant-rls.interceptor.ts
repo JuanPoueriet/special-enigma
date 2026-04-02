@@ -2,7 +2,7 @@ import { CallHandler, ExecutionContext, ForbiddenException, Injectable, Logger, 
 import { EntityManager, RequestContext } from '@mikro-orm/core';
 import { Observable, from, lastValueFrom } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
-import { getTenantContext } from '@virteex/kernel-tenant-context';
+import { getTenantContext } from '@virtex/kernel-tenant-context';
 import { TenantService } from '../tenant.service';
 import { TenantControlRecord } from '../entities/tenant-control-record.entity';
 import { TenantMode, TenantStatus } from '../interfaces/tenant-config.interface';
@@ -13,7 +13,7 @@ import { ResidencyComplianceService } from '../residency-compliance.service';
 @Injectable()
 export class TenantRlsInterceptor implements NestInterceptor {
   private readonly logger = new Logger(TenantRlsInterceptor.name);
-  private readonly meter = metrics.getMeter('virteex-tenant-meter');
+  private readonly meter = metrics.getMeter('virtex-tenant-meter');
 
   private readonly requestCounter: Counter;
   private readonly latencyHistogram: Histogram;

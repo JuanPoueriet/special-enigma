@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { type PaymentProvider, PAYMENT_PROVIDER } from '@virteex/domain-billing-domain';
+import { type PaymentProvider, PAYMENT_PROVIDER } from '@virtex/domain-billing-domain';
 
 @Injectable()
 export class CreateCheckoutSessionUseCase {

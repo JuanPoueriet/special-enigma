@@ -1,7 +1,7 @@
-import { DomainException } from '@virteex/shared-util-server-server-config';
+import { DomainException } from '@virtex/shared-util-server-server-config';
 import { Injectable, Inject } from '@nestjs/common';
-import { AuthService, CachePort } from '@virteex/domain-identity-domain';
-import { VerifySignupDto, VerifySignupResponse } from '@virteex/domain-identity-contracts';
+import { AuthService, CachePort } from '@virtex/domain-identity-domain';
+import { VerifySignupDto, VerifySignupResponse } from '@virtex/domain-identity-contracts';
 
 @Injectable()
 export class VerifySignupUseCase {

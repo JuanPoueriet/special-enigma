@@ -1,5 +1,5 @@
 {
-  "name": "@virteex/domain-fiscal-presentation",
+  "name": "@virtex/domain-fiscal-presentation",
   "version": "0.0.1",
   "private": true,
   "main": "./src/index.js",

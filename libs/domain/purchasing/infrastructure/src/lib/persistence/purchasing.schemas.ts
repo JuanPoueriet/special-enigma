@@ -1,5 +1,5 @@
 import { EntitySchema, Cascade } from '@mikro-orm/core';
-import { Supplier, PurchaseOrder, PurchaseOrderItem, Requisition, VendorBill } from '@virteex/domain-purchasing-domain';
+import { Supplier, PurchaseOrder, PurchaseOrderItem, Requisition, VendorBill } from '@virtex/domain-purchasing-domain';
 
 export const SupplierSchema = new EntitySchema<Supplier>({
   class: Supplier,

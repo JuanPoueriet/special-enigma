@@ -1,8 +1,8 @@
 import { Injectable, Inject, Logger } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { type PayrollRepository, PAYROLL_REPOSITORY, type TenantConfigRepository, TENANT_CONFIG_REPOSITORY, PayrollStampedEvent, type Payroll, PayrollStatus } from '@virteex/domain-payroll-domain';
-import { ACCOUNTING_INTEGRATION_EVENTS, PayrollStampedV1EventDto } from '@virteex/shared-contracts';
-import { EntityNotFoundException } from '@virteex/kernel-exceptions';
+import { type PayrollRepository, PAYROLL_REPOSITORY, type TenantConfigRepository, TENANT_CONFIG_REPOSITORY, PayrollStampedEvent, type Payroll, PayrollStatus } from '@virtex/domain-payroll-domain';
+import { ACCOUNTING_INTEGRATION_EVENTS, PayrollStampedV1EventDto } from '@virtex/shared-contracts';
+import { EntityNotFoundException } from '@virtex/kernel-exceptions';
 import { FISCAL_STAMPING_PORT, FiscalStampingPort } from '../../ports/fiscal-stamping.port';
 
 @Injectable()

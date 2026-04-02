@@ -5,7 +5,7 @@ otelSDK.start();
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { PosApiModule } from './app/pos-api.module';
-import { setupGlobalConfig } from '@virteex/shared-util-server-server-config';
+import { setupGlobalConfig } from '@virtex/shared-util-server-server-config';
 
 async function bootstrap() {
   const app = await NestFactory.create(PosApiModule);

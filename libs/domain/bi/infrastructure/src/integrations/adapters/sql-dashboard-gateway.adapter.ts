@@ -12,7 +12,7 @@ import {
   TreasuryPort,
   BI_ACCOUNTING_PORT,
   BiAccountingPort,
-} from '@virteex/domain-bi-domain';
+} from '@virtex/domain-bi-domain';
 
 @Injectable()
 export class SqlDashboardGateway extends DashboardGateway {

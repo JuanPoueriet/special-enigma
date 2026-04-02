@@ -13,7 +13,7 @@
       }
     ],
     "component": {
-      "group": "@virteex",
+      "group": "@virtex",
       "name": "source",
       "version": "0.0.0",
       "type": "library"

@@ -5,9 +5,9 @@ import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { SqliteDriver } from '@mikro-orm/sqlite';
 import { LoggerModule } from 'nestjs-pino';
 import { TerminusModule } from '@nestjs/terminus';
-import { ServerConfigModule } from '@virteex/shared-util-server-server-config';
-import { HealthModule } from '@virteex/shared-util-server-health';
-import { CrmPresentationModule } from '@virteex/domain-crm-presentation';
+import { ServerConfigModule } from '@virtex/shared-util-server-server-config';
+import { HealthModule } from '@virtex/shared-util-server-health';
+import { CrmPresentationModule } from '@virtex/domain-crm-presentation';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { GraphQLModule } from '@nestjs/graphql';
@@ -15,9 +15,9 @@ import depthLimit from 'graphql-depth-limit';
 import { createComplexityRule, simpleEstimator } from 'graphql-query-complexity';
 import { ApolloFederationDriver, ApolloFederationDriverConfig } from '@nestjs/apollo';
 import { ApolloServerPluginLandingPageLocalDefault, ApolloServerPluginLandingPageProductionDefault } from '@apollo/server/plugin/landingPage/default';
-import { FederationSupportModule } from '@virteex/shared-util-server-server-config';
-import { TenantModule } from '@virteex/kernel-tenant';
-import { CanonicalTenantMiddleware } from '@virteex/kernel-auth';
+import { FederationSupportModule } from '@virtex/shared-util-server-server-config';
+import { TenantModule } from '@virtex/kernel-tenant';
+import { CanonicalTenantMiddleware } from '@virtex/kernel-auth';
 
 @Module({
   imports: [

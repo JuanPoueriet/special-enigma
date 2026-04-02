@@ -1,10 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
 import * as crypto from 'crypto';
 import { XMLBuilder } from 'fast-xml-parser';
-import { XsltService } from '@virteex/platform-xslt';
-import { FiscalDocumentBuilder } from '@virteex/domain-fiscal-domain';
-import { TenantFiscalConfig } from '@virteex/domain-fiscal-domain';
-import { InvoiceContract, CustomerBillingInfoContract } from '@virteex/domain-billing-contracts';
+import { XsltService } from '@virtex/platform-xslt';
+import { FiscalDocumentBuilder } from '@virtex/domain-fiscal-domain';
+import { TenantFiscalConfig } from '@virtex/domain-fiscal-domain';
+import { InvoiceContract, CustomerBillingInfoContract } from '@virtex/domain-billing-contracts';
 
 @Injectable()
 export class MxFiscalDocumentBuilder implements FiscalDocumentBuilder {

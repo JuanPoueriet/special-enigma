@@ -8,8 +8,8 @@ import {
   INVENTORY_SERVICE,
   BillOfMaterialsRepository,
   BILL_OF_MATERIALS_REPOSITORY
-} from '@virteex/domain-manufacturing-domain';
-import { EntityNotFoundException } from '@virteex/kernel-exceptions';
+} from '@virtex/domain-manufacturing-domain';
+import { EntityNotFoundException } from '@virtex/kernel-exceptions';
 
 export interface CreateProductionOrderInput {
   tenantId: string;

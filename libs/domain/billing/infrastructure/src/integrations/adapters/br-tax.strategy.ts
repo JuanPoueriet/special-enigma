@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { TaxStrategy, TaxResult } from '@virteex/domain-billing-domain';
+import { TaxStrategy, TaxResult } from '@virtex/domain-billing-domain';
 
 @Injectable()
 export class BrTaxStrategy implements TaxStrategy {

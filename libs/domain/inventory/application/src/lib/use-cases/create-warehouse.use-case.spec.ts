@@ -1,6 +1,6 @@
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { CreateWarehouseUseCase } from './create-warehouse.use-case';
-import { DomainValidationError } from '@virteex/domain-inventory-domain';
+import { DomainValidationError } from '@virtex/domain-inventory-domain';
 
 describe('CreateWarehouseUseCase', () => {
   let useCase: CreateWarehouseUseCase;

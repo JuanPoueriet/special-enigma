@@ -1,4 +1,4 @@
-package virteex.compliance.fiscal
+package virtex.compliance.fiscal
 
 valid_fiscal_stamp[invoice] {
     invoice := input.invoice

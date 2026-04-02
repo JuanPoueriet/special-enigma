@@ -1,8 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { XMLBuilder } from 'fast-xml-parser';
-import { FiscalDocumentBuilder } from '@virteex/domain-fiscal-domain';
-import { TenantFiscalConfig } from '@virteex/domain-fiscal-domain';
-import { InvoiceContract, CustomerBillingInfoContract } from '@virteex/domain-billing-contracts';
+import { FiscalDocumentBuilder } from '@virtex/domain-fiscal-domain';
+import { TenantFiscalConfig } from '@virtex/domain-fiscal-domain';
+import { InvoiceContract, CustomerBillingInfoContract } from '@virtex/domain-billing-contracts';
 
 
 @Injectable()
@@ -47,7 +47,7 @@ export class BrFiscalDocumentBuilder implements FiscalDocumentBuilder {
                     'indFinal': '1',
                     'indPres': '1',
                     'procEmi': '0',
-                    'verProc': 'Virteex 13.0'
+                    'verProc': 'virtex 13.0'
                 },
                 'emit': {
                     'CNPJ': tenantConfig.taxId,

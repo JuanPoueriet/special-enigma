@@ -10,7 +10,7 @@ export class TelemetryService {
   private readonly jobLatencyHistogram: Histogram;
 
   constructor() {
-    const meter = metrics.getMeter('virteex-scheduler');
+    const meter = metrics.getMeter('virtex-scheduler');
     this.jobSuccessCounter = meter.createCounter('scheduler.job.success', {
       description: 'Count of successful job executions',
     });

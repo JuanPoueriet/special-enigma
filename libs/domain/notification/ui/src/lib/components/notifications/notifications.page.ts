@@ -9,7 +9,7 @@ interface NotificationGroup {
 }
 
 @Component({
-  selector: 'virteex-notifications-page',
+  selector: 'virtex-notifications-page',
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './notifications.page.html',

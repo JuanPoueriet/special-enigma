@@ -1,10 +1,10 @@
 import { Injectable, Inject, Logger } from '@nestjs/common';
-import { EntityNotFoundException } from "@virteex/kernel-exceptions";
-import { UserRepository, NotificationService, AuditLogRepository, AuditLog, AuthService } from '@virteex/domain-identity-domain';
-import { ForgotPasswordDto } from '@virteex/domain-identity-contracts';
+import { EntityNotFoundException } from "@virtex/kernel-exceptions";
+import { UserRepository, NotificationService, AuditLogRepository, AuditLog, AuthService } from '@virtex/domain-identity-domain';
+import { ForgotPasswordDto } from '@virtex/domain-identity-contracts';
 import { randomBytes } from 'crypto';
-import { BadRequestException } from '@virteex/kernel-exceptions';
-import { RecaptchaPort } from '@virteex/domain-identity-domain';
+import { BadRequestException } from '@virtex/kernel-exceptions';
+import { RecaptchaPort } from '@virtex/domain-identity-domain';
 
 @Injectable()
 export class ForgotPasswordUseCase {

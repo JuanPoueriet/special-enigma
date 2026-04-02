@@ -5,7 +5,7 @@ services:
   nginx:
     # Pinning to semantic version + SHA256 digest for immutability
     image: nginx:1.27-alpine@sha256:f46cb72c7df02710e693e863a983ac42f6a9579058a59a35f1ae36c9958e4ce0
-    container_name: virteex-unified-gateway
+    container_name: virtex-unified-gateway
     ports:
       - "3000:80"
       - "3443:443"
@@ -26,24 +26,24 @@ services:
   # API GATEWAY (Monolith)
   api-gateway:
     image: node:22.12.0-alpine
-    container_name: virteex-api-gateway
+    container_name: virtex-api-gateway
     working_dir: /app
     volumes:
       - .:/app
     environment:
       - PORT=3000
-      - VIRTEEX_HMAC_SECRET=${VIRTEEX_HMAC_SECRET}
+      - virtex_HMAC_SECRET=${virtex_HMAC_SECRET}
       - REDIS_URL=${REDIS_URL:-redis://redis:6379}
-      - POSTGRES_URL=${POSTGRES_URL:-postgres://virteex:${POSTGRES_PASSWORD}@postgres:5432/virteex_erp}
+      - POSTGRES_URL=${POSTGRES_URL:-postgres://virtex:${POSTGRES_PASSWORD}@postgres:5432/virtex_erp}
       - DB_HOST=postgres
       - DB_PORT=5432
-      - DB_USER=virteex
+      - DB_USER=virtex
       - DB_PASSWORD=${POSTGRES_PASSWORD}
-      - DB_NAME=virteex_erp
+      - DB_NAME=virtex_erp
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-api-gateway
+    command: npx nx serve virtex-api-gateway
     depends_on:
       - postgres
       - redis
@@ -52,7 +52,7 @@ services:
   # IDENTITY SERVICE
   identity-service:
     image: node:22.12.0-alpine
-    container_name: virteex-identity-service
+    container_name: virtex-identity-service
     working_dir: /app
     volumes:
       - .:/app
@@ -61,13 +61,13 @@ services:
       - REDIS_URL=${REDIS_URL:-redis://redis:6379}
       - IDENTITY_DB_HOST=postgres
       - IDENTITY_DB_PORT=5432
-      - IDENTITY_DB_USER=virteex
+      - IDENTITY_DB_USER=virtex
       - IDENTITY_DB_PASSWORD=${POSTGRES_PASSWORD}
-      - IDENTITY_DB_NAME=virteex_identity
+      - IDENTITY_DB_NAME=virtex_identity
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-identity-service
+    command: npx nx serve virtex-identity-service
     depends_on:
       - postgres
       - redis
@@ -76,7 +76,7 @@ services:
   # INVENTORY SERVICE
   inventory-service:
     image: node:22.12.0-alpine
-    container_name: virteex-inventory-service
+    container_name: virtex-inventory-service
     working_dir: /app
     volumes:
       - .:/app
@@ -85,13 +85,13 @@ services:
       - REDIS_URL=${REDIS_URL:-redis://redis:6379}
       - INVENTORY_DB_HOST=postgres
       - INVENTORY_DB_PORT=5432
-      - INVENTORY_DB_USER=virteex
+      - INVENTORY_DB_USER=virtex
       - INVENTORY_DB_PASSWORD=${POSTGRES_PASSWORD}
-      - INVENTORY_DB_NAME=virteex_inventory
+      - INVENTORY_DB_NAME=virtex_inventory
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-inventory-service
+    command: npx nx serve virtex-inventory-service
     depends_on:
       - postgres
       - redis
@@ -100,7 +100,7 @@ services:
   # BILLING SERVICE
   billing-service:
     image: node:22.12.0-alpine
-    container_name: virteex-billing-service
+    container_name: virtex-billing-service
     working_dir: /app
     volumes:
       - .:/app
@@ -109,13 +109,13 @@ services:
       - REDIS_URL=${REDIS_URL:-redis://redis:6379}
       - BILLING_DB_HOST=postgres
       - BILLING_DB_PORT=5432
-      - BILLING_DB_USER=virteex
+      - BILLING_DB_USER=virtex
       - BILLING_DB_PASSWORD=${POSTGRES_PASSWORD}
-      - BILLING_DB_NAME=virteex_billing
+      - BILLING_DB_NAME=virtex_billing
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-billing-service
+    command: npx nx serve virtex-billing-service
     depends_on:
       - postgres
       - redis
@@ -124,7 +124,7 @@ services:
   # CRM SERVICE
   crm-service:
     image: node:22.12.0-alpine
-    container_name: virteex-crm-service
+    container_name: virtex-crm-service
     working_dir: /app
     volumes:
       - .:/app
@@ -133,13 +133,13 @@ services:
       - REDIS_URL=${REDIS_URL:-redis://redis:6379}
       - CRM_DB_HOST=postgres
       - CRM_DB_PORT=5432
-      - CRM_DB_USER=virteex
+      - CRM_DB_USER=virtex
       - CRM_DB_PASSWORD=${POSTGRES_PASSWORD}
-      - CRM_DB_NAME=virteex_crm
+      - CRM_DB_NAME=virtex_crm
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-crm-service
+    command: npx nx serve virtex-crm-service
     depends_on:
       - postgres
       - redis
@@ -148,7 +148,7 @@ services:
   # FISCAL SERVICE
   fiscal-service:
     image: node:22.12.0-alpine
-    container_name: virteex-fiscal-service
+    container_name: virtex-fiscal-service
     working_dir: /app
     volumes:
       - .:/app
@@ -157,13 +157,13 @@ services:
       - REDIS_URL=${REDIS_URL:-redis://redis:6379}
       - FISCAL_DB_HOST=postgres
       - FISCAL_DB_PORT=5432
-      - FISCAL_DB_USER=virteex
+      - FISCAL_DB_USER=virtex
       - FISCAL_DB_PASSWORD=${POSTGRES_PASSWORD}
-      - FISCAL_DB_NAME=virteex_fiscal
+      - FISCAL_DB_NAME=virtex_fiscal
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-fiscal-service
+    command: npx nx serve virtex-fiscal-service
     depends_on:
       - postgres
       - redis
@@ -172,7 +172,7 @@ services:
   # SCHEDULER SERVICE
   scheduler-service:
     image: node:22.12.0-alpine
-    container_name: virteex-scheduler-service
+    container_name: virtex-scheduler-service
     working_dir: /app
     volumes:
       - .:/app
@@ -180,14 +180,14 @@ services:
       - PORT=3000
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-scheduler-service
+    command: npx nx serve virtex-scheduler-service
     depends_on:
       - kafka
 
   # ACCOUNTING SERVICE
   accounting-service:
     image: node:22.12.0-alpine
-    container_name: virteex-accounting-service
+    container_name: virtex-accounting-service
     working_dir: /app
     volumes:
       - .:/app
@@ -196,9 +196,9 @@ services:
       - REDIS_URL=${REDIS_URL:-redis://redis:6379}
       - ACCOUNTING_DB_HOST=postgres
       - ACCOUNTING_DB_PORT=5432
-      - ACCOUNTING_DB_USER=virteex
+      - ACCOUNTING_DB_USER=virtex
       - ACCOUNTING_DB_PASSWORD=${POSTGRES_PASSWORD}
-      - ACCOUNTING_DB_NAME=virteex_accounting
+      - ACCOUNTING_DB_NAME=virtex_accounting
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
@@ -211,7 +211,7 @@ services:
   # PAYROLL SERVICE
   payroll-service:
     image: node:22.12.0-alpine
-    container_name: virteex-payroll-service
+    container_name: virtex-payroll-service
     working_dir: /app
     volumes:
       - .:/app
@@ -220,13 +220,13 @@ services:
       - REDIS_URL=${REDIS_URL:-redis://redis:6379}
       - PAYROLL_DB_HOST=postgres
       - PAYROLL_DB_PORT=5432
-      - PAYROLL_DB_USER=virteex
+      - PAYROLL_DB_USER=virtex
       - PAYROLL_DB_PASSWORD=${POSTGRES_PASSWORD}
-      - PAYROLL_DB_NAME=virteex_payroll
+      - PAYROLL_DB_NAME=virtex_payroll
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-payroll-service
+    command: npx nx serve virtex-payroll-service
     depends_on:
       - postgres
       - redis
@@ -235,7 +235,7 @@ services:
   # PROJECTS SERVICE
   projects-service:
     image: node:22.12.0-alpine
-    container_name: virteex-projects-service
+    container_name: virtex-projects-service
     working_dir: /app
     volumes:
       - .:/app
@@ -244,13 +244,13 @@ services:
       - REDIS_URL=${REDIS_URL:-redis://redis:6379}
       - PROJECTS_DB_HOST=postgres
       - PROJECTS_DB_PORT=5432
-      - PROJECTS_DB_USER=virteex
+      - PROJECTS_DB_USER=virtex
       - PROJECTS_DB_PASSWORD=${POSTGRES_PASSWORD}
-      - PROJECTS_DB_NAME=virteex_projects
+      - PROJECTS_DB_NAME=virtex_projects
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-projects-service
+    command: npx nx serve virtex-projects-service
     depends_on:
       - postgres
       - redis
@@ -259,7 +259,7 @@ services:
   # MANUFACTURING SERVICE
   manufacturing-service:
     image: node:22.12.0-alpine
-    container_name: virteex-manufacturing-service
+    container_name: virtex-manufacturing-service
     working_dir: /app
     volumes:
       - .:/app
@@ -268,13 +268,13 @@ services:
       - REDIS_URL=${REDIS_URL:-redis://redis:6379}
       - MANUFACTURING_DB_HOST=postgres
       - MANUFACTURING_DB_PORT=5432
-      - MANUFACTURING_DB_USER=virteex
+      - MANUFACTURING_DB_USER=virtex
       - MANUFACTURING_DB_PASSWORD=${POSTGRES_PASSWORD}
-      - MANUFACTURING_DB_NAME=virteex_manufacturing
+      - MANUFACTURING_DB_NAME=virtex_manufacturing
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-manufacturing-service
+    command: npx nx serve virtex-manufacturing-service
     depends_on:
       - postgres
       - redis
@@ -283,7 +283,7 @@ services:
   # TREASURY SERVICE
   treasury-service:
     image: node:22.12.0-alpine
-    container_name: virteex-treasury-service
+    container_name: virtex-treasury-service
     working_dir: /app
     volumes:
       - .:/app
@@ -292,13 +292,13 @@ services:
       - REDIS_URL=${REDIS_URL:-redis://redis:6379}
       - TREASURY_DB_HOST=postgres
       - TREASURY_DB_PORT=5432
-      - TREASURY_DB_USER=virteex
+      - TREASURY_DB_USER=virtex
       - TREASURY_DB_PASSWORD=${POSTGRES_PASSWORD}
-      - TREASURY_DB_NAME=virteex_treasury
+      - TREASURY_DB_NAME=virtex_treasury
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-treasury-service
+    command: npx nx serve virtex-treasury-service
     depends_on:
       - postgres
       - redis
@@ -307,7 +307,7 @@ services:
   # PURCHASING SERVICE
   purchasing-service:
     image: node:22.12.0-alpine
-    container_name: virteex-purchasing-service
+    container_name: virtex-purchasing-service
     working_dir: /app
     volumes:
       - .:/app
@@ -316,13 +316,13 @@ services:
       - REDIS_URL=${REDIS_URL:-redis://redis:6379}
       - PURCHASING_DB_HOST=postgres
       - PURCHASING_DB_PORT=5432
-      - PURCHASING_DB_USER=virteex
+      - PURCHASING_DB_USER=virtex
       - PURCHASING_DB_PASSWORD=${POSTGRES_PASSWORD}
-      - PURCHASING_DB_NAME=virteex_purchasing
+      - PURCHASING_DB_NAME=virtex_purchasing
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-purchasing-service
+    command: npx nx serve virtex-purchasing-service
     depends_on:
       - postgres
       - redis
@@ -331,7 +331,7 @@ services:
   # BI SERVICE
   bi-service:
     image: node:22.12.0-alpine
-    container_name: virteex-bi-service
+    container_name: virtex-bi-service
     working_dir: /app
     volumes:
       - .:/app
@@ -340,13 +340,13 @@ services:
       - REDIS_URL=${REDIS_URL:-redis://redis:6379}
       - BI_DB_HOST=postgres
       - BI_DB_PORT=5432
-      - BI_DB_USER=virteex
+      - BI_DB_USER=virtex
       - BI_DB_PASSWORD=${POSTGRES_PASSWORD}
-      - BI_DB_NAME=virteex_bi
+      - BI_DB_NAME=virtex_bi
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-bi-service
+    command: npx nx serve virtex-bi-service
     depends_on:
       - postgres
       - redis
@@ -355,7 +355,7 @@ services:
   # ADMIN SERVICE
   admin-service:
     image: node:22.12.0-alpine
-    container_name: virteex-admin-service
+    container_name: virtex-admin-service
     working_dir: /app
     volumes:
       - .:/app
@@ -364,13 +364,13 @@ services:
       - REDIS_URL=${REDIS_URL:-redis://redis:6379}
       - ADMIN_DB_HOST=postgres
       - ADMIN_DB_PORT=5432
-      - ADMIN_DB_USER=virteex
+      - ADMIN_DB_USER=virtex
       - ADMIN_DB_PASSWORD=${POSTGRES_PASSWORD}
-      - ADMIN_DB_NAME=virteex_admin
+      - ADMIN_DB_NAME=virtex_admin
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-admin-service
+    command: npx nx serve virtex-admin-service
     depends_on:
       - postgres
       - redis
@@ -379,7 +379,7 @@ services:
   # FIXED ASSETS SERVICE
   fixed-assets-service:
     image: node:22.12.0-alpine
-    container_name: virteex-fixed-assets-service
+    container_name: virtex-fixed-assets-service
     working_dir: /app
     volumes:
       - .:/app
@@ -388,13 +388,13 @@ services:
       - REDIS_URL=${REDIS_URL:-redis://redis:6379}
       - FIXED_ASSETS_DB_HOST=postgres
       - FIXED_ASSETS_DB_PORT=5432
-      - FIXED_ASSETS_DB_USER=virteex
+      - FIXED_ASSETS_DB_USER=virtex
       - FIXED_ASSETS_DB_PASSWORD=${POSTGRES_PASSWORD}
-      - FIXED_ASSETS_DB_NAME=virteex_fixed_assets
+      - FIXED_ASSETS_DB_NAME=virtex_fixed_assets
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-fixed-assets-service
+    command: npx nx serve virtex-fixed-assets-service
     depends_on:
       - postgres
       - redis
@@ -403,7 +403,7 @@ services:
   # CATALOG SERVICE (Subgraph)
   catalog-service:
     image: node:22.12.0-alpine
-    container_name: virteex-catalog-service
+    container_name: virtex-catalog-service
     working_dir: /app
     volumes:
       - .:/app
@@ -411,13 +411,13 @@ services:
       - PORT=3000
       - CATALOG_DB_HOST=postgres
       - CATALOG_DB_PORT=5432
-      - CATALOG_DB_USER=virteex
+      - CATALOG_DB_USER=virtex
       - CATALOG_DB_PASSWORD=${POSTGRES_PASSWORD}
-      - CATALOG_DB_NAME=virteex_catalog
+      - CATALOG_DB_NAME=virtex_catalog
       - DB_DRIVER=postgres
       - NODE_ENV=${NODE_ENV:-development}
       - KAFKA_BROKERS=${KAFKA_BROKERS:-kafka:9092}
-    command: npx nx serve virteex-catalog-service
+    command: npx nx serve virtex-catalog-service
     depends_on:
       - postgres
       - kafka
@@ -425,7 +425,7 @@ services:
   # GATEWAY (Apollo)
   gateway:
     image: node:22.12.0-alpine
-    container_name: virteex-gateway
+    container_name: virtex-gateway
     working_dir: /app
     volumes:
       - .:/app
@@ -433,19 +433,19 @@ services:
       - PORT=3000
       - CATALOG_SERVICE_URL=http://catalog-service:3000/graphql
       - NODE_ENV=${NODE_ENV:-development}
-    command: npx nx serve virteex-gateway
+    command: npx nx serve virtex-gateway
     depends_on:
       - catalog-service
 
   postgres:
     # Pinning to semantic version + SHA256 digest for immutability
     image: timescale/timescaledb:2.13.0-pg15@sha256:a4994627d9067ec44b1da8483b3de795389b3a783a9c8db915c7b2ca5b172f52
-    container_name: virteex-postgres
+    container_name: virtex-postgres
     restart: always
     environment:
-      POSTGRES_USER: virteex
+      POSTGRES_USER: virtex
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: virteex_erp
+      POSTGRES_DB: virtex_erp
     ports:
       - "5432:5432"
     volumes:
@@ -455,7 +455,7 @@ services:
   redis:
     # Pinning to semantic version + SHA256 digest for immutability
     image: redis:7.2.4-alpine@sha256:8b81dd37ff027bec4e516d41acfbe9fe2460070dc6d4a4570a2ac5b9d59df065
-    container_name: virteex-redis
+    container_name: virtex-redis
     restart: always
     ports:
       - "6379:6379"
@@ -465,7 +465,7 @@ services:
   zookeeper:
     # Pinning to semantic version + SHA256 digest for immutability
     image: bitnami/zookeeper:3.9.1@sha256:f56ea4f9013021b45597fb2133efa1a64218feeb8866cf2a998be1c58ac021b4
-    container_name: virteex-zookeeper
+    container_name: virtex-zookeeper
     ports:
       - "2181:2181"
     environment:
@@ -475,7 +475,7 @@ services:
   kafka:
     # Pinning to semantic version + SHA256 digest for immutability
     image: bitnami/kafka:3.6.1@sha256:b7bccfd8bb24e342fa0465e4dbcf9334236fc4df5483bc30edbb585071a2f0b0
-    container_name: virteex-kafka
+    container_name: virtex-kafka
     ports:
       - "9092:9092"
     environment:
@@ -493,7 +493,7 @@ services:
   jaeger:
     # Pinning to semantic version + SHA256 digest for immutability
     image: jaegertracing/all-in-one:1.53@sha256:ab6f1a1f0fb49ea08bcd19f6b84f6081d0d44b364b6de148e1798eb5816bacac
-    container_name: virteex-jaeger
+    container_name: virtex-jaeger
     ports:
       - "16686:16686"
       - "4317:4317"
@@ -502,7 +502,7 @@ services:
   prometheus:
     # Pinning to semantic version + SHA256 digest for immutability
     image: prom/prometheus:v2.49.1@sha256:d1010a52641b282b6c8584431b7e01589b4d556396904396446f72db54549aa9
-    container_name: virteex-prometheus
+    container_name: virtex-prometheus
     ports:
       - "9090:9090"
     volumes:
@@ -511,7 +511,7 @@ services:
   grafana:
     # Pinning to semantic version + SHA256 digest for immutability
     image: grafana/grafana:10.3.3@sha256:e932bd6ed0e026595b08483cd0141e5103e1ab7ff8604839ff899b8dc54cabcb
-    container_name: virteex-grafana
+    container_name: virtex-grafana
     ports:
       - "3001:3000"
     depends_on:

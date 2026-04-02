@@ -1,4 +1,4 @@
-# Trust Center Base - Virteex ERP
+# Trust Center Base - virtex ERP
 
 ## Controles publicados
 - Security by default (deny-by-default en admisión de plugins, secretos productivos, hardening de configuración).

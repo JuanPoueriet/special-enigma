@@ -1,5 +1,5 @@
 import { Injectable, Inject, Logger } from '@nestjs/common';
-import { INVOICE_REPOSITORY, type InvoiceRepository, TENANT_CONFIG_REPOSITORY, type TenantConfigRepository } from '@virteex/domain-billing-domain';
+import { INVOICE_REPOSITORY, type InvoiceRepository, TENANT_CONFIG_REPOSITORY, type TenantConfigRepository } from '@virtex/domain-billing-domain';
 
 @Injectable()
 export class ReconcileBillingUseCase {

@@ -8,7 +8,7 @@ export default defineConfig({
     include: ['src/**/*.spec.ts'],
     setupFiles: ['src/test-setup.ts'],
     alias: {
-      '@virteex/domain-accounting-contracts': path.resolve(__dirname, '../contracts/src/index.ts'),
+      '@virtex/domain-accounting-contracts': path.resolve(__dirname, '../contracts/src/index.ts'),
     }
   },
 });

@@ -2,16 +2,16 @@ import { Module, MiddlewareConsumer, NestModule, RequestMethod } from '@nestjs/c
 import { ConfigModule } from '@nestjs/config';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
-import { PurchasingInfrastructureModule } from '@virteex/domain-purchasing-infrastructure';
-import { PurchasingPresentationModule } from '@virteex/domain-purchasing-presentation';
+import { PurchasingInfrastructureModule } from '@virtex/domain-purchasing-infrastructure';
+import { PurchasingPresentationModule } from '@virtex/domain-purchasing-presentation';
 import { GraphQLModule } from '@nestjs/graphql';
 import depthLimit from 'graphql-depth-limit';
 import { createComplexityRule, simpleEstimator } from 'graphql-query-complexity';
 import { ApolloFederationDriver, ApolloFederationDriverConfig } from '@nestjs/apollo';
 import { ApolloServerPluginLandingPageLocalDefault, ApolloServerPluginLandingPageProductionDefault } from '@apollo/server/plugin/landingPage/default';
-import { FederationSupportModule } from '@virteex/shared-util-server-server-config';
-import { TenantModule } from '@virteex/kernel-tenant';
-import { CanonicalTenantMiddleware } from '@virteex/kernel-auth';
+import { FederationSupportModule } from '@virtex/shared-util-server-server-config';
+import { TenantModule } from '@virtex/kernel-tenant';
+import { CanonicalTenantMiddleware } from '@virtex/kernel-auth';
 
 @Module({
   imports: [

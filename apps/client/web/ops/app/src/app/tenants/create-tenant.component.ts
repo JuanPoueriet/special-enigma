@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { TenantService } from './tenant.service';
 
 @Component({
-  selector: 'virteex-create-tenant',
+  selector: 'virtex-create-tenant',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   template: `

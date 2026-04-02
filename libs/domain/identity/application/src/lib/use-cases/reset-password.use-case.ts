@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { BadRequestException } from '@virteex/kernel-exceptions';
-import { UserRepository, AuthService, AuditLogRepository, AuditLog, SessionRepository } from '@virteex/domain-identity-domain';
-import { ResetPasswordDto } from '@virteex/domain-identity-contracts';
+import { BadRequestException } from '@virtex/kernel-exceptions';
+import { UserRepository, AuthService, AuditLogRepository, AuditLog, SessionRepository } from '@virtex/domain-identity-domain';
+import { ResetPasswordDto } from '@virtex/domain-identity-contracts';
 
 @Injectable()
 export class ResetPasswordUseCase {

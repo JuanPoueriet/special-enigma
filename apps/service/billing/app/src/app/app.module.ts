@@ -5,23 +5,23 @@ import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { SqliteDriver } from '@mikro-orm/sqlite';
 import { LoggerModule } from 'nestjs-pino';
 import { TerminusModule } from '@nestjs/terminus';
-import { ServerConfigModule } from '@virteex/shared-util-server-server-config';
-import { HealthModule } from '@virteex/shared-util-server-health';
-import { KafkaModule } from '@virteex/platform-kafka';
+import { ServerConfigModule } from '@virtex/shared-util-server-server-config';
+import { HealthModule } from '@virtex/shared-util-server-health';
+import { KafkaModule } from '@virtex/platform-kafka';
 import { GraphQLModule } from '@nestjs/graphql';
 import depthLimit from 'graphql-depth-limit';
 import { createComplexityRule, simpleEstimator } from 'graphql-query-complexity';
 import { ApolloFederationDriver, ApolloFederationDriverConfig } from '@nestjs/apollo';
 import { ApolloServerPluginLandingPageLocalDefault, ApolloServerPluginLandingPageProductionDefault } from '@apollo/server/plugin/landingPage/default';
-import { BillingPresentationModule } from '@virteex/domain-billing-presentation';
-import { BillingInfrastructureModule } from '@virteex/domain-billing-infrastructure';
-import { BillingApplicationModule } from '@virteex/domain-billing-application';
+import { BillingPresentationModule } from '@virtex/domain-billing-presentation';
+import { BillingInfrastructureModule } from '@virtex/domain-billing-infrastructure';
+import { BillingApplicationModule } from '@virtex/domain-billing-application';
 import { InitialSeederService } from './seeds/initial-seeder.service';
 import { OpsController } from './ops.controller';
 import { OpsReadinessService } from './ops-readiness.service';
-import { CostReconciliationService } from '@virteex/domain-finops-application';
-import { TenantModule } from '@virteex/kernel-tenant';
-import { CanonicalTenantMiddleware } from '@virteex/kernel-auth';
+import { CostReconciliationService } from '@virtex/domain-finops-application';
+import { TenantModule } from '@virtex/kernel-tenant';
+import { CanonicalTenantMiddleware } from '@virtex/kernel-auth';
 
 @Module({
   imports: [

@@ -1,6 +1,6 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { EntitlementService } from '@virteex/kernel-entitlements';
+import { EntitlementService } from '@virtex/kernel-entitlements';
 import { CAPABILITIES_KEY } from './requires-capability.decorator';
 
 @Injectable()

@@ -1,6 +1,6 @@
 import { Injectable, OnModuleInit, Inject } from '@nestjs/common';
-import { EntitlementService, UsageProvider } from '@virteex/kernel-entitlements';
-import { PRODUCT_READ_REPOSITORY, type ProductReadRepository } from '@virteex/domain-catalog-domain';
+import { EntitlementService, UsageProvider } from '@virtex/kernel-entitlements';
+import { PRODUCT_READ_REPOSITORY, type ProductReadRepository } from '@virtex/domain-catalog-domain';
 
 @Injectable()
 export class ProductUsageProvider implements UsageProvider, OnModuleInit {

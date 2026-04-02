@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { WebAuthnService } from './webauthn.service';
-import { SecretManagerService } from '@virteex/kernel-auth';
+import { SecretManagerService } from '@virtex/kernel-auth';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 
 describe('WebAuthnService', () => {
@@ -25,7 +25,7 @@ describe('WebAuthnService', () => {
         userDisplayName: 'User Name',
     });
     expect(options).toBeDefined();
-    expect(options.rp.name).toBe('Virteex ERP');
+    expect(options.rp.name).toBe('virtex ERP');
     expect(options.user.id).toBe('AQID'); // base64url for [1,2,3] is AQID
   });
 });

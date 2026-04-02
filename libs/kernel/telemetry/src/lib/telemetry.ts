@@ -1,5 +1,5 @@
 import { Injectable, OnModuleInit, OnModuleDestroy, Logger } from '@nestjs/common';
-import { TelemetryService as AbstractTelemetryService } from '@virteex/kernel-telemetry-interfaces';
+import { TelemetryService as AbstractTelemetryService } from '@virtex/kernel-telemetry-interfaces';
 import { NodeSDK } from '@opentelemetry/sdk-node';
 import { resourceFromAttributes } from '@opentelemetry/resources';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
@@ -18,7 +18,7 @@ export class TelemetryService extends AbstractTelemetryService implements OnModu
 
   constructor() {
     super();
-    this.meter = metrics.getMeter('virteex-business-metrics');
+    this.meter = metrics.getMeter('virtex-business-metrics');
     let traceExporter;
     let spanProcessor;
 
@@ -32,7 +32,7 @@ export class TelemetryService extends AbstractTelemetryService implements OnModu
 
     this.sdk = new NodeSDK({
       resource: resourceFromAttributes({
-        [SemanticResourceAttributes.SERVICE_NAME]: process.env['SERVICE_NAME'] || 'virteex-service',
+        [SemanticResourceAttributes.SERVICE_NAME]: process.env['SERVICE_NAME'] || 'virtex-service',
         'tenant.mode': process.env['TENANT_MODE'] || 'unknown',
         'region': process.env['AWS_REGION'] || 'unknown',
       }),
@@ -59,7 +59,7 @@ export class TelemetryService extends AbstractTelemetryService implements OnModu
     }
   }
 
-  getTracer(name = 'virteex-kernel') {
+  getTracer(name = 'virtex-kernel') {
     return trace.getTracer(name);
   }
 

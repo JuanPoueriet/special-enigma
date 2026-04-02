@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/core';
-import { Incident, IncidentStatus } from '@virteex/domain-admin-domain';
+import { Incident, IncidentStatus } from '@virtex/domain-admin-domain';
 
 @Injectable()
 export class IncidentService {

@@ -4,7 +4,7 @@ import { ModalOptions } from '../../services/modal.interface';
 import { UiModalComponent } from '../ui/modal';
 
 @Component({
-  selector: 'virteex-modal',
+  selector: 'virtex-modal',
   standalone: true,
   imports: [CommonModule, UiModalComponent],
   templateUrl: './modal.component.html',

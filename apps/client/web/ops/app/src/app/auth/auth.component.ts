@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'virteex-auth',
+  selector: 'virtex-auth',
   standalone: true,
   imports: [CommonModule],
   template: `

@@ -1,6 +1,6 @@
 import { Injectable, Logger, Inject } from '@nestjs/common';
-import { StatementLine } from '@virteex/domain-treasury-contracts';
-import { TransactionRepository, Transaction } from '@virteex/domain-treasury-domain';
+import { StatementLine } from '@virtex/domain-treasury-contracts';
+import { TransactionRepository, Transaction } from '@virtex/domain-treasury-domain';
 
 export interface ReconciliationMatch {
     statementLine: StatementLine;

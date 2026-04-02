@@ -4,12 +4,12 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-import { API_URL } from '@virteex/shared-config';
-import { SessionService } from '@virteex/shared-ui';
-import { SecureStorageService } from '@virteex/shared-ui';
+import { API_URL } from '@virtex/shared-config';
+import { SessionService } from '@virtex/shared-ui';
+import { SecureStorageService } from '@virtex/shared-ui';
 
 @Component({
-  selector: 'virteex-mobile-login',
+  selector: 'virtex-mobile-login',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login.page.html',

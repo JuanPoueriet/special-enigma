@@ -1,5 +1,5 @@
 import { Customer } from './customer.entity';
-import { CustomerType } from '@virteex/shared-contracts';
+import { CustomerType } from '@virtex/shared-contracts';
 import { describe, it, expect } from 'vitest';
 
 describe('Customer Entity - Dominican Republic Tax ID Validation', () => {

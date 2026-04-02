@@ -9,7 +9,7 @@ export class PersistenceMetricsService {
   private readonly migrationSuccessRateCounter: Counter;
 
   constructor() {
-    this.meter = metrics.getMeter('virteex-persistence-meter');
+    this.meter = metrics.getMeter('virtex-persistence-meter');
 
     this.replicationLagGauge = this.meter.createObservableGauge('persistence_replication_lag_ms', {
       description: 'Current replication lag in milliseconds',

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/postgresql';
-import type { UnitOfWorkPort } from '@virteex/domain-identity-domain';
+import type { UnitOfWorkPort } from '@virtex/domain-identity-domain';
 
 @Injectable()
 export class MikroOrmUnitOfWorkAdapter implements UnitOfWorkPort {

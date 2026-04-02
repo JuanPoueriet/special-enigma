@@ -1,14 +1,14 @@
 import { Injectable, NestMiddleware, UnauthorizedException, Logger, OnModuleInit, Inject } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
-import { runWithTenantContext, TenantContext } from '@virteex/kernel-tenant-context';
-import { TelemetryService, TELEMETRY_SERVICE } from '@virteex/kernel-telemetry-interfaces';
+import { runWithTenantContext, TenantContext } from '@virtex/kernel-tenant-context';
+import { TelemetryService, TELEMETRY_SERVICE } from '@virtex/kernel-telemetry-interfaces';
 import { SecretManagerService } from '../services/secret-manager.service';
 import {
   claimsFromJwtPayload,
   parseAndValidateSignedContext,
 } from '../services/tenant-context-contract.service';
-import { TenantContextValidationError } from '@virteex/kernel-tenant-context';
+import { TenantContextValidationError } from '@virtex/kernel-tenant-context';
 import '../interfaces/express.interface';
 
 @Injectable()
@@ -24,7 +24,7 @@ export class CanonicalTenantMiddleware implements NestMiddleware, OnModuleInit {
 
   onModuleInit() {
     try {
-      this.hmacSecret = this.secretManager.getSecret('VIRTEEX_HMAC_SECRET');
+      this.hmacSecret = this.secretManager.getSecret('virtex_HMAC_SECRET');
       this.jwtSecret = this.secretManager.getSecret('JWT_SECRET');
     } catch {
       this.logger.error('FATAL: Security secrets missing in SecretManager.');
@@ -33,8 +33,8 @@ export class CanonicalTenantMiddleware implements NestMiddleware, OnModuleInit {
   }
 
   use(req: Request, _res: Response, next: NextFunction) {
-    const contextHeader = this.getHeader(req, 'x-virteex-context');
-    const signatureHeader = this.getHeader(req, 'x-virteex-signature');
+    const contextHeader = this.getHeader(req, 'x-virtex-context');
+    const signatureHeader = this.getHeader(req, 'x-virtex-signature');
     const authHeader = req.headers.authorization;
 
     let context: TenantContext | null = null;
@@ -57,7 +57,7 @@ export class CanonicalTenantMiddleware implements NestMiddleware, OnModuleInit {
       throw new UnauthorizedException('Tenant context is required for all enterprise operations.');
     }
 
-    const tenantIdHeader = this.getHeader(req, 'x-virteex-tenant-id');
+    const tenantIdHeader = this.getHeader(req, 'x-virtex-tenant-id');
     if (tenantIdHeader && tenantIdHeader !== context.tenantId) {
       this.auditViolation(req, 'invalid_claims', 'Tenant context integrity violation');
       throw new UnauthorizedException('Tenant context integrity violation');

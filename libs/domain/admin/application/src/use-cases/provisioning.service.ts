@@ -1,8 +1,8 @@
 import { Injectable, Logger, Inject } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { TenantOperationService, TenantService, OperationType, OperationState, TenantMode } from '@virteex/kernel-tenant';
-import { type DatabasePort, DATABASE_PORT } from '@virteex/domain-admin-domain';
-import { ConflictException } from '@virteex/kernel-exceptions';
+import { TenantOperationService, TenantService, OperationType, OperationState, TenantMode } from '@virtex/kernel-tenant';
+import { type DatabasePort, DATABASE_PORT } from '@virtex/domain-admin-domain';
+import { ConflictException } from '@virtex/kernel-exceptions';
 import Redis from 'ioredis';
 
 export enum ProvisioningStatus {

@@ -1,4 +1,4 @@
-import { InvalidDimensionKeyError } from '@virteex/domain-accounting-domain';
+import { InvalidDimensionKeyError } from '@virtex/domain-accounting-domain';
 
 export class DimensionValidator {
   private readonly keyRegex = /^[a-zA-Z0-9_]+$/;

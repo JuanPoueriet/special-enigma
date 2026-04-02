@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { TenantService } from './tenant.service';
 import { TenantsTableComponent } from './components/tenants-table.component';
-import { TenantDto } from '@virteex/domain-admin-contracts';
+import { TenantDto } from '@virtex/domain-admin-contracts';
 
 @Component({
-  selector: 'virteex-tenants-page-container',
+  selector: 'virtex-tenants-page-container',
   standalone: true,
   imports: [CommonModule, TenantsTableComponent],
   template: `
@@ -28,7 +28,7 @@ import { TenantDto } from '@virteex/domain-admin-contracts';
          </div>
       </div>
 
-      <virteex-tenants-table
+      <virtex-tenants-table
         [tenants]="tenants"
         (view)="onView($event)"
         (suspend)="onSuspend($event)"

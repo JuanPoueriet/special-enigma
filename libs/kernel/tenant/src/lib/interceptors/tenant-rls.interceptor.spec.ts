@@ -6,9 +6,9 @@ import { TenantService } from '../tenant.service';
 import { ResidencyComplianceService } from '../residency-compliance.service';
 import { CallHandler, ExecutionContext } from '@nestjs/common';
 import { of, lastValueFrom } from 'rxjs';
-import * as TenantContextLib from '@virteex/kernel-tenant-context';
+import * as TenantContextLib from '@virtex/kernel-tenant-context';
 
-vi.mock('@virteex/kernel-tenant-context', () => ({
+vi.mock('@virtex/kernel-tenant-context', () => ({
     getTenantContext: vi.fn(),
 }));
 

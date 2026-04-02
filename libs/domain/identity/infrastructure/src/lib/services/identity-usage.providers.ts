@@ -1,6 +1,6 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import { UserRepository } from '@virteex/domain-identity-domain';
-import { EntitlementService, UsageProvider } from '@virteex/kernel-entitlements';
+import { UserRepository } from '@virtex/domain-identity-domain';
+import { EntitlementService, UsageProvider } from '@virtex/kernel-entitlements';
 
 @Injectable()
 export class UserUsageProvider implements UsageProvider, OnModuleInit {

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { InventoryMovementType } from '@virteex/domain-inventory-domain';
+import { InventoryMovementType } from '@virtex/domain-inventory-domain';
 import { RegisterMovementUseCase } from './register-movement.use-case';
 
 export interface RegisterMovementBatchItemDto {

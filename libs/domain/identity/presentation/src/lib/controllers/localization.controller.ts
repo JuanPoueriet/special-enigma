@@ -1,8 +1,8 @@
 import { Controller, Get, Param, Query, Inject, UsePipes, ValidationPipe } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { Public } from '@virteex/kernel-auth';
-import { LocalizationConfigDto, TaxLookupDto, FiscalRegionDto, TaxLookupQueryDto } from '@virteex/domain-identity-contracts';
-import { LocalizationPort } from '@virteex/domain-identity-domain';
+import { Public } from '@virtex/kernel-auth';
+import { LocalizationConfigDto, TaxLookupDto, FiscalRegionDto, TaxLookupQueryDto } from '@virtex/domain-identity-contracts';
+import { LocalizationPort } from '@virtex/domain-identity-domain';
 
 @ApiTags('Localization')
 @UsePipes(new ValidationPipe({ transform: true, whitelist: true }))

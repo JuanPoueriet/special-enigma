@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { TaxStrategy, TaxResult, TaxDetail, TaxRuleEngine } from '@virteex/domain-billing-domain';
+import { TaxStrategy, TaxResult, TaxDetail, TaxRuleEngine } from '@virtex/domain-billing-domain';
 
 @Injectable()
 export class DoTaxStrategy implements TaxStrategy {

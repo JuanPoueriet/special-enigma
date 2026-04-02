@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/postgresql';
-import { VendorBill, VendorBillRepository } from '@virteex/domain-purchasing-domain';
+import { VendorBill, VendorBillRepository } from '@virtex/domain-purchasing-domain';
 
 @Injectable()
 export class MikroOrmVendorBillRepository implements VendorBillRepository {

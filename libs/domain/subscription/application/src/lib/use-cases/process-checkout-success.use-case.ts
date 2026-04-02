@@ -1,5 +1,5 @@
 import { Injectable, Inject, Logger } from '@nestjs/common';
-import { Subscription, SubscriptionStatus, type SubscriptionRepository, SUBSCRIPTION_REPOSITORY, type SubscriptionPlanRepository, SUBSCRIPTION_PLAN_REPOSITORY } from '@virteex/domain-subscription-domain';
+import { Subscription, SubscriptionStatus, type SubscriptionRepository, SUBSCRIPTION_REPOSITORY, type SubscriptionPlanRepository, SUBSCRIPTION_PLAN_REPOSITORY } from '@virtex/domain-subscription-domain';
 
 export interface ProcessCheckoutSuccessDto {
   tenantId: string;

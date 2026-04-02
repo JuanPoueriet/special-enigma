@@ -9,7 +9,7 @@ import {
   InventoryService,
   BillOfMaterialsRepository,
   BillOfMaterials
-} from '@virteex/domain-manufacturing-domain';
+} from '@virtex/domain-manufacturing-domain';
 import { NotFoundException } from '@nestjs/common';
 
 describe('CreateProductionOrderUseCase', () => {

@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { GeoIpPort, GeoResult } from '@virteex/domain-identity-domain';
+import { GeoIpPort, GeoResult } from '@virtex/domain-identity-domain';
 import * as geoip from 'geoip-lite';
 
 @Injectable()

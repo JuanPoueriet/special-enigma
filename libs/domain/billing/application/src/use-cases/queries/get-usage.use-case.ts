@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { type InvoiceRepository, INVOICE_REPOSITORY } from '@virteex/domain-billing-domain';
-import { type SubscriptionRepository, SUBSCRIPTION_REPOSITORY } from '@virteex/domain-subscription-domain';
+import { type InvoiceRepository, INVOICE_REPOSITORY } from '@virtex/domain-billing-domain';
+import { type SubscriptionRepository, SUBSCRIPTION_REPOSITORY } from '@virtex/domain-subscription-domain';
 
 export interface UsageItem {
   resource: string;
@@ -14,7 +14,7 @@ export interface UsageItem {
 
 import { USER_READ_PORT, type UserReadPort } from '../../ports/user-read.port';
 import { STORAGE_READ_PORT, type StorageReadPort } from '../../ports/storage-read.port';
-import { PlanLimitMapper } from '@virteex/domain-subscription-domain';
+import { PlanLimitMapper } from '@virtex/domain-subscription-domain';
 
 @Injectable()
 export class GetUsageUseCase {

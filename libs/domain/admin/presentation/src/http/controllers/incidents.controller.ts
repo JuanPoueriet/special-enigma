@@ -1,6 +1,6 @@
 import { Controller, Get, Patch, Param } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { IncidentService } from '@virteex/domain-admin-application';
+import { IncidentService } from '@virtex/domain-admin-application';
 
 @ApiTags('Admin/Incidents')
 @Controller('admin/incidents')

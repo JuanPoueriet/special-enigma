@@ -1,7 +1,7 @@
 import { Injectable, Inject, Optional } from '@nestjs/common';
 import * as crypto from 'crypto';
-import { SessionRepository, AuthService, CachePort, User, Session } from '@virteex/domain-identity-domain';
-import { SUBSCRIPTION_REPOSITORY, type SubscriptionRepository } from '@virteex/domain-subscription-domain';
+import { SessionRepository, AuthService, CachePort, User, Session } from '@virtex/domain-identity-domain';
+import { SUBSCRIPTION_REPOSITORY, type SubscriptionRepository } from '@virtex/domain-subscription-domain';
 
 export interface TokenGenerationResult {
   accessToken: string;

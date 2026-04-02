@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { UserRepository } from '@virteex/domain-identity-domain';
-import { DomainException } from '@virteex/shared-util-server-server-config';
+import { UserRepository } from '@virtex/domain-identity-domain';
+import { DomainException } from '@virtex/shared-util-server-server-config';
 
 @Injectable()
 export class DeleteUserUseCase {

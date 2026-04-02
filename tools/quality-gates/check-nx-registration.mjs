@@ -10,7 +10,7 @@ let errors = 0;
 console.log('🔍 Checking Nx registration for all paths in tsconfig.base.json...');
 
 for (const alias in paths) {
-  if (alias.startsWith('@virteex/')) {
+  if (alias.startsWith('@virtex/')) {
     const relativePath = paths[alias][0].replace('/src/index.ts', '');
     const projectJsonPath = path.join(relativePath, 'project.json');
 
@@ -25,6 +25,6 @@ if (errors > 0) {
   console.error(`\nFound ${errors} missing project.json registrations.`);
   process.exit(1);
 } else {
-  console.log('\n✅ All @virteex/* libraries are correctly registered in Nx.');
+  console.log('\n✅ All @virtex/* libraries are correctly registered in Nx.');
   process.exit(0);
 }

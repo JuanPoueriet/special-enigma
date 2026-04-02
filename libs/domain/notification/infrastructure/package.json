@@ -1,5 +1,5 @@
 {
-  "name": "@virteex/domain-notification-infrastructure",
+  "name": "@virtex/domain-notification-infrastructure",
   "version": "0.0.1",
   "type": "commonjs",
   "main": "./src/index.js",

@@ -1,8 +1,8 @@
-# Virteex Auth Server
+# virtex Auth Server
 
 ## Identity Provider (IdP)
 
-This application serves as the dedicated Identity Provider for the Virteex ecosystem.
+This application serves as the dedicated Identity Provider for the virtex ecosystem.
 
 ### Purpose
 

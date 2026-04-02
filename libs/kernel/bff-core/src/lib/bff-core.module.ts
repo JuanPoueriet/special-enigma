@@ -1,7 +1,7 @@
 import { Module, MiddlewareConsumer, NestModule } from '@nestjs/common';
-import { AuthModule, CanonicalTenantMiddleware } from '@virteex/kernel-auth';
-import { TenantModule } from '@virteex/kernel-tenant';
-import { TelemetryModule } from '@virteex/kernel-telemetry';
+import { AuthModule, CanonicalTenantMiddleware } from '@virtex/kernel-auth';
+import { TenantModule } from '@virtex/kernel-tenant';
+import { TelemetryModule } from '@virtex/kernel-telemetry';
 import { TenantContextMiddleware } from './middleware/tenant-context.middleware';
 import { BffAuthGuard } from './guards/bff-auth.guard';
 import { ResilientHttpClient } from './client/resilient-http.client';

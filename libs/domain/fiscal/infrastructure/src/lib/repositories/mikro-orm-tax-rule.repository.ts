@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/core';
-import { FiscalTaxRule, TaxRuleRepository } from '@virteex/domain-fiscal-domain';
+import { FiscalTaxRule, TaxRuleRepository } from '@virtex/domain-fiscal-domain';
 import { FiscalTaxRuleRecord } from '../entities/fiscal-tax-rule.record';
 
 @Injectable()

@@ -6,8 +6,8 @@ import {
   runWithTenantContext,
   SignedTenantContextClaims,
   TenantContextValidationError,
-} from '@virteex/kernel-auth';
-import { EmailService, SmsService, PushNotificationService } from '@virteex/domain-notification-infrastructure';
+} from '@virtex/kernel-auth';
+import { EmailService, SmsService, PushNotificationService } from '@virtex/domain-notification-infrastructure';
 
 type TenantPayload = { tenantId: string; region?: string; currency?: string; language?: string };
 
@@ -20,7 +20,7 @@ interface SignedEventPayload<T> {
 @Controller()
 export class NotificationConsumer {
   private readonly logger = new Logger(NotificationConsumer.name);
-  private readonly meter = metrics.getMeter('virteex-worker-notification');
+  private readonly meter = metrics.getMeter('virtex-worker-notification');
   private readonly violationCounter = this.meter.createCounter('tenant_context_violations_total');
 
   constructor(
@@ -71,8 +71,8 @@ export class NotificationConsumer {
       this.logger.log(`User registered: ${data.email}`);
       await this.emailService.sendEmail(
         data.email,
-        'Welcome to Virteex ERP',
-        `Hello ${data.name}, welcome to Virteex ERP! Your account has been created.`
+        'Welcome to virtex ERP',
+        `Hello ${data.name}, welcome to virtex ERP! Your account has been created.`
       );
     });
   }
@@ -87,9 +87,9 @@ export class NotificationConsumer {
   }
 
   private extractContext(event: SignedEventPayload<unknown>, eventName: string): SignedTenantContextClaims {
-    const secret = process.env['VIRTEEX_HMAC_SECRET'] ?? '';
+    const secret = process.env['virtex_HMAC_SECRET'] ?? '';
     if (!secret) {
-      throw new UnauthorizedException('Worker misconfigured: VIRTEEX_HMAC_SECRET is required.');
+      throw new UnauthorizedException('Worker misconfigured: virtex_HMAC_SECRET is required.');
     }
 
     try {

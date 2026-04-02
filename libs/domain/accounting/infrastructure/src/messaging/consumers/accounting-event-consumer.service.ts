@@ -1,11 +1,11 @@
 import { Injectable, Logger, Optional } from '@nestjs/common';
-import { AccountingEventHandlerService } from '@virteex/domain-accounting-application';
-import type { AccountingEventConsumerPort } from '@virteex/domain-accounting-application';
+import { AccountingEventHandlerService } from '@virtex/domain-accounting-application';
+import type { AccountingEventConsumerPort } from '@virtex/domain-accounting-application';
 import {
   InvoiceStampedV1EventDto,
   InvoiceValidatedEventDto,
   PayrollStampedV1EventDto,
-} from '@virteex/domain-accounting-contracts';
+} from '@virtex/domain-accounting-contracts';
 
 @Injectable()
 export class AccountingEventConsumerService

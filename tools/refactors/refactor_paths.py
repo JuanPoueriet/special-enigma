@@ -20,19 +20,19 @@ def get_alias_from_path(path):
     if len(parts) > libs_index + 3 and parts[libs_index+1] == "domains":
         domain = parts[libs_index+2]
         layer = parts[libs_index+3]
-        return f"@virteex/{domain}-{layer}"
+        return f"@virtex/{domain}-{layer}"
 
     if len(parts) > libs_index + 2 and parts[libs_index+1] == "shared":
         shared_type = parts[libs_index+2]
         # handle shared-ui, shared-util-auth, etc.
         if shared_type == "ui":
-            return "@virteex/shared-ui"
+            return "@virtex/shared-ui"
         if shared_type == "util":
             if len(parts) > libs_index + 3:
                 util_name = parts[libs_index+3]
-                return f"@virteex/shared-util-{util_name}"
+                return f"@virtex/shared-util-{util_name}"
         if shared_type == "contracts":
-            return "@virteex/contracts"
+            return "@virtex/contracts"
 
     return None
 
@@ -43,10 +43,10 @@ def refactor_file(filepath):
     original_content = content
 
     # 1. Replace generic aliases
-    content = content.replace("'@virteex/domain'", "'@virteex/sample-domain'")
-    content = content.replace("'@virteex/application'", "'@virteex/sample-application'")
-    content = content.replace("'@virteex/infrastructure'", "'@virteex/sample-infrastructure'")
-    content = content.replace("'@virteex/presentation'", "'@virteex/sample-presentation'")
+    content = content.replace("'@virtex/domain'", "'@virtex/sample-domain'")
+    content = content.replace("'@virtex/application'", "'@virtex/sample-application'")
+    content = content.replace("'@virtex/infrastructure'", "'@virtex/sample-infrastructure'")
+    content = content.replace("'@virtex/presentation'", "'@virtex/sample-presentation'")
 
     # 2. Fix relative imports
     def replace_relative(match):

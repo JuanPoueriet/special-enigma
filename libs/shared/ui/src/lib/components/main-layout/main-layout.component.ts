@@ -7,7 +7,7 @@ import { ThemeToggle } from '../theme-toggle/theme-toggle';
 import { LanguageService } from '../../core/services/language';
 
 @Component({
-  selector: 'virteex-main-layout',
+  selector: 'virtex-main-layout',
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule, TranslateModule, ThemeToggle],
   templateUrl: './main-layout.component.html',

@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { EntityNotFoundException } from "@virteex/kernel-exceptions";
+import { EntityNotFoundException } from "@virtex/kernel-exceptions";
 import { RevokeSessionUseCase } from './revoke-session.use-case';
-import { SessionRepository, CachePort } from '@virteex/domain-identity-domain';
-import { UnauthorizedException } from '@virteex/kernel-exceptions';
+import { SessionRepository, CachePort } from '@virtex/domain-identity-domain';
+import { UnauthorizedException } from '@virtex/kernel-exceptions';
 
 describe('RevokeSessionUseCase', () => {
   let useCase: RevokeSessionUseCase;

@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { type PaymentProvider } from '@virteex/domain-billing-domain';
+import { type PaymentProvider } from '@virtex/domain-billing-domain';
 import Stripe from 'stripe';
 
 @Injectable()
@@ -34,7 +34,7 @@ export class StripePaymentProvider implements PaymentProvider {
         amount: Math.round(amount * 100),
         currency: currency.toLowerCase(),
         source,
-        description: 'Virteex ERP Payment',
+        description: 'virtex ERP Payment',
       });
 
       this.logger.log(`Payment successful: ${charge.id}`);

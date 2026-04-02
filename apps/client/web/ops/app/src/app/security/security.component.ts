@@ -4,7 +4,7 @@ import { SecurityService } from './security.service';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'virteex-security',
+  selector: 'virtex-security',
   standalone: true,
   imports: [CommonModule],
   template: `

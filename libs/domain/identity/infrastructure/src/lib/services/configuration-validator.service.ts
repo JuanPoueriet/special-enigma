@@ -1,7 +1,7 @@
 import { Injectable, OnModuleInit, Logger, Inject } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { CriticalConfigurationException } from '@virteex/kernel-exceptions';
-import { CachePort, NotificationService } from '@virteex/domain-identity-domain';
+import { CriticalConfigurationException } from '@virtex/kernel-exceptions';
+import { CachePort, NotificationService } from '@virtex/domain-identity-domain';
 
 @Injectable()
 export class ConfigurationValidatorService implements OnModuleInit {

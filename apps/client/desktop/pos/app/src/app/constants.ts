@@ -1,4 +1,4 @@
 export const rendererAppPort = 4204;
 export const rendererAppName = 'web-pos-app';
-export const electronAppName = 'virteex-pos-desktop';
-export const updateServerUrl = process.env.UPDATE_SERVER_URL || 'https://updates.virteex.com';
+export const electronAppName = 'virtex-pos-desktop';
+export const updateServerUrl = process.env.UPDATE_SERVER_URL || 'https://updates.virtex.com';

@@ -6,7 +6,7 @@
 - Contraseña de la llave privada.
 - Registro con PAC autorizado (SAT).
 
-## Pasos de configuración en Virteex
+## Pasos de configuración en virtex
 1. Navegar a **Admin > Configuración Fiscal**.
 2. Seleccionar **País: MX**.
 3. Cargar archivos CSD y validar vigencia.

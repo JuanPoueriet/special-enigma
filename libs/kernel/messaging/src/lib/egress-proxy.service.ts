@@ -33,7 +33,7 @@ export class EgressProxyService {
         data,
         headers: {
           ...headers,
-          'X-Virteex-Proxy': 'true'
+          'X-virtex-Proxy': 'true'
         }
       })
     );

@@ -7,8 +7,8 @@ test.describe('Operations Console - Functional Flows', () => {
     await page.addInitScript(() => {
       const mockToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjI1MTYyMzkwMjJ9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
       window.sessionStorage.setItem('token', mockToken);
-      window.sessionStorage.setItem('email', 'ops-engineer@virteex.com');
-      window.localStorage.setItem('email', 'ops-engineer@virteex.com');
+      window.sessionStorage.setItem('email', 'ops-engineer@virtex.com');
+      window.localStorage.setItem('email', 'ops-engineer@virtex.com');
     });
     await page.goto('/dashboard');
   });

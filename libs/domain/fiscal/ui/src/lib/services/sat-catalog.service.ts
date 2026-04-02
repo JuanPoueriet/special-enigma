@@ -1,7 +1,7 @@
 import { inject, Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { API_URL } from '@virteex/shared-config';
+import { API_URL } from '@virtex/shared-config';
 
 export interface SatCatalogItem {
   code: string;

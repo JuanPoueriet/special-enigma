@@ -8,7 +8,7 @@ import {
   TAX_RULE_REPOSITORY,
   TENANT_CONFIG_REPOSITORY,
   HARDWARE_TOKEN_PORT
-} from '@virteex/domain-fiscal-domain';
+} from '@virtex/domain-fiscal-domain';
 import { MikroOrmTaxDeclarationRepository } from './repositories/mikro-orm-tax-declaration.repository';
 import { MikroOrmTaxRuleRepository } from './repositories/mikro-orm-tax-rule.repository';
 import { FiscalDataAdapter } from './adapters/fiscal-data.adapter';
@@ -27,8 +27,8 @@ import { BrFiscalDocumentBuilder } from './builders/br-fiscal-document.builder';
 import { DoFiscalDocumentBuilder } from './builders/do-fiscal-document.builder';
 import { FiscalTaxRuleRecord } from './entities/fiscal-tax-rule.record';
 import { TaxDeclarationRecord } from './entities/tax-declaration.record';
-import { FiscalDomainService } from '@virteex/domain-fiscal-domain';
-import { XsltModule } from '@virteex/platform-xslt';
+import { FiscalDomainService } from '@virtex/domain-fiscal-domain';
+import { XsltModule } from '@virtex/platform-xslt';
 
 @Global()
 @Module({

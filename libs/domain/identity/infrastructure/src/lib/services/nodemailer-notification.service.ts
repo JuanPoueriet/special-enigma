@@ -1,6 +1,6 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { NotificationService, User } from '@virteex/domain-identity-domain';
+import { NotificationService, User } from '@virtex/domain-identity-domain';
 import { MailQueueProducer } from './mail-queue.producer';
 
 @Injectable()
@@ -55,7 +55,7 @@ export class NodemailerNotificationService implements NotificationService, OnMod
 
     try {
       let htmlContent = `
-          <h1>Welcome to Virteex ERP</h1>
+          <h1>Welcome to virtex ERP</h1>
           <p>Hello <strong>${user.email}</strong>,</p>
           <p>Your company <strong>${user.company.name}</strong> has been registered successfully.</p>
       `;
@@ -70,11 +70,11 @@ export class NodemailerNotificationService implements NotificationService, OnMod
         htmlContent += `<p>You can now login and start using the platform.</p>`;
       }
 
-      const textContent = `Welcome ${user.email} to Virteex ERP! Your company ${user.company.name} has been registered successfully.${tempPassword ? ' Your temporary password is: ' + tempPassword : ''}`;
+      const textContent = `Welcome ${user.email} to virtex ERP! Your company ${user.company.name} has been registered successfully.${tempPassword ? ' Your temporary password is: ' + tempPassword : ''}`;
 
       await this.mailQueueProducer.addEmailJob({
         to: user.email,
-        subject: 'Welcome to Virteex ERP',
+        subject: 'Welcome to virtex ERP',
         text: textContent,
         html: htmlContent,
       });
@@ -92,18 +92,18 @@ export class NodemailerNotificationService implements NotificationService, OnMod
       const inviteUrl = `${frontendUrl}/auth/set-password?token=${token}`;
 
       const htmlContent = `
-          <h1>You have been invited to Virteex ERP</h1>
+          <h1>You have been invited to virtex ERP</h1>
           <p>Hello,</p>
-          <p>You have been invited to join <strong>${user.company.name}</strong> on Virteex.</p>
+          <p>You have been invited to join <strong>${user.company.name}</strong> on virtex.</p>
           <p>Click the button below to set your password and access your account:</p>
           <p><a href="${inviteUrl}" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">Accept Invitation</a></p>
           <p>Or copy this link: ${inviteUrl}</p>
       `;
-      const textContent = `You have been invited to Virteex ERP. Click here to accept: ${inviteUrl}`;
+      const textContent = `You have been invited to virtex ERP. Click here to accept: ${inviteUrl}`;
 
       await this.mailQueueProducer.addEmailJob({
         to: user.email,
-        subject: 'Invitation to Virteex ERP',
+        subject: 'Invitation to virtex ERP',
         text: textContent,
         html: htmlContent,
       });
@@ -118,16 +118,16 @@ export class NodemailerNotificationService implements NotificationService, OnMod
 
     try {
       const htmlContent = `
-          <h1>Virteex Verification</h1>
+          <h1>virtex Verification</h1>
           <p>Your verification code is:</p>
           <p style="font-size: 2em; font-weight: bold; letter-spacing: 5px; background-color: #f0f0f0; padding: 10px; display: inline-block;">${otp}</p>
           <p>This code will expire in 10 minutes.</p>
       `;
-      const textContent = `Your Virteex verification code is: ${otp}`;
+      const textContent = `Your virtex verification code is: ${otp}`;
 
       await this.mailQueueProducer.addEmailJob({
         to: email,
-        subject: 'Verify your email - Virteex',
+        subject: 'Verify your email - virtex',
         text: textContent,
         html: htmlContent,
       });
@@ -147,17 +147,17 @@ export class NodemailerNotificationService implements NotificationService, OnMod
       const htmlContent = `
           <h1>Reset your password</h1>
           <p>Hello,</p>
-          <p>We received a request to reset your password for your Virteex account.</p>
+          <p>We received a request to reset your password for your virtex account.</p>
           <p>Click the button below to reset your password:</p>
           <p><a href="${resetUrl}" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">Reset Password</a></p>
           <p>This link will expire in 1 hour.</p>
           <p>If you did not request a password reset, please ignore this email.</p>
       `;
-      const textContent = `Reset your password for Virteex: ${resetUrl}`;
+      const textContent = `Reset your password for virtex: ${resetUrl}`;
 
       await this.mailQueueProducer.addEmailJob({
         to: user.email,
-        subject: 'Reset your password - Virteex',
+        subject: 'Reset your password - virtex',
         text: textContent,
         html: htmlContent,
       });

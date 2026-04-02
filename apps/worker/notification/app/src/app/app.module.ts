@@ -3,10 +3,10 @@ import { BullModule } from '@nestjs/bullmq';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { NotificationConsumer } from './notification.consumer';
-import { NotificationInfrastructureModule } from '@virteex/domain-notification-infrastructure';
-import { KafkaModule } from '@virteex/platform-kafka';
-import { TenantModule } from '@virteex/kernel-tenant';
-import { CanonicalTenantMiddleware } from '@virteex/kernel-auth';
+import { NotificationInfrastructureModule } from '@virtex/domain-notification-infrastructure';
+import { KafkaModule } from '@virtex/platform-kafka';
+import { TenantModule } from '@virtex/kernel-tenant';
+import { CanonicalTenantMiddleware } from '@virtex/kernel-auth';
 
 @Module({
   imports: [

@@ -33,7 +33,7 @@ def refactor_file(filepath):
     content = re.sub(env_import_pattern, "", content)
 
     if "import { APP_CONFIG }" not in content:
-        content = "import { APP_CONFIG } from '@virteex/shared-config';\n" + content
+        content = "import { APP_CONFIG } from '@virtex/shared-config';\n" + content
 
     if "import { inject" not in content and "import {inject" not in content:
          core_pattern = r"import\s+\{([^}]*)\}\s+from\s+['\"]@angular/core['\"];"

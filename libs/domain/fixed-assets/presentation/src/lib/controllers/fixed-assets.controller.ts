@@ -1,8 +1,8 @@
 import { Controller, Post, Body, Get, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { CreateFixedAssetUseCase, CreateFixedAssetDto, GetFixedAssetsUseCase } from '@virteex/domain-fixed-assets-application';
-import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virteex/kernel-auth';
-import { RequireEntitlement, EntitlementGuard } from '@virteex/kernel-entitlements';
+import { CreateFixedAssetUseCase, CreateFixedAssetDto, GetFixedAssetsUseCase } from '@virtex/domain-fixed-assets-application';
+import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virtex/kernel-auth';
+import { RequireEntitlement, EntitlementGuard } from '@virtex/kernel-entitlements';
 
 @ApiTags('Fixed Assets')
 @ApiBearerAuth()

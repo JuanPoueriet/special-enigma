@@ -1,16 +1,16 @@
-# Virteex: Ecosistema ERP SaaS de Clase Empresarial
+# virtex: Ecosistema ERP SaaS de Clase Empresarial
 
 ## 🚀 Resumen Ejecutivo
 
-Virteex es un ecosistema suite ERP SaaS diseñado para operar de forma escalable, segura y localizada en Latinoamérica y Estados Unidos. Combina una arquitectura moderna multi-tenant y multi-región con localización fiscal completa por país (impuestos, tipos de documento, reportes oficiales y conectores con autoridades tributarias), soporte multilingüe y una experiencia de usuario uniforme en sus aplicaciones web, móvil (offline-first) y de escritorio.
+virtex es un ecosistema suite ERP SaaS diseñado para operar de forma escalable, segura y localizada en Latinoamérica y Estados Unidos. Combina una arquitectura moderna multi-tenant y multi-región con localización fiscal completa por país (impuestos, tipos de documento, reportes oficiales y conectores con autoridades tributarias), soporte multilingüe y una experiencia de usuario uniforme en sus aplicaciones web, móvil (offline-first) y de escritorio.
 
-Construido sobre microservicios, GraphQL Federation y un sistema de plugins basado en V8 Isolates y WebAssembly, Virteex ofrece un marketplace extensible, altos estándares de seguridad (cifrado extremo a extremo, SBOM, pipeline de admisión de plugins) y un riguroso cumplimiento normativo, con el objetivo de competir directamente con los líderes globales del mercado ERP.
+Construido sobre microservicios, GraphQL Federation y un sistema de plugins basado en V8 Isolates y WebAssembly, virtex ofrece un marketplace extensible, altos estándares de seguridad (cifrado extremo a extremo, SBOM, pipeline de admisión de plugins) y un riguroso cumplimiento normativo, con el objetivo de competir directamente con los líderes globales del mercado ERP.
 
 ---
 
 ## 🏗️ Arquitectura de Clase Mundial
 
-Virteex se basa en principios de ingeniería de software de vanguardia para garantizar mantenibilidad, testabilidad y escalabilidad infinita.
+virtex se basa en principios de ingeniería de software de vanguardia para garantizar mantenibilidad, testabilidad y escalabilidad infinita.
 
 ### Pilares Arquitectónicos
 
@@ -33,7 +33,7 @@ Virteex se basa en principios de ingeniería de software de vanguardia para gara
 
 ## 📱 Ecosistema de Aplicaciones
 
-Virteex ofrece una experiencia omnicanal consistente en todas las plataformas:
+virtex ofrece una experiencia omnicanal consistente en todas las plataformas:
 
 | Aplicación             | Tecnología          | Propósito y Capacidades                                                                                    |
 | :--------------------- | :------------------ | :--------------------------------------------------------------------------------------------------------- |
@@ -47,7 +47,7 @@ Virteex ofrece una experiencia omnicanal consistente en todas las plataformas:
 
 ## 🧩 Módulos Funcionales
 
-La suite Virteex es modular, permitiendo a las empresas activar solo lo que necesitan:
+La suite virtex es modular, permitiendo a las empresas activar solo lo que necesitan:
 
 | Módulo                    | Descripción Extendida                                                                          |
 | :------------------------ | :--------------------------------------------------------------------------------------------- |
@@ -66,7 +66,7 @@ La suite Virteex es modular, permitiendo a las empresas activar solo lo que nece
 
 ## 🌎 Localización Fiscal (Country Readiness)
 
-Virteex está diseñado para la complejidad fiscal de las Américas:
+virtex está diseñado para la complejidad fiscal de las Américas:
 
 | País              | Status      | Provider Principal | Capacidades Incluidas                                           |
 | :---------------- | :---------- | :----------------- | :-------------------------------------------------------------- |
@@ -105,7 +105,7 @@ Virteex está diseñado para la complejidad fiscal de las Américas:
 
 ## 🛡️ Seguridad, Calidad y Gobernanza Automatizada
 
-Virteex implementa un modelo de "Confianza Cero" (Zero-Trust) y gobernanza por código.
+virtex implementa un modelo de "Confianza Cero" (Zero-Trust) y gobernanza por código.
 
 - **Seguridad de Suministros**: Generación automática de **SBOM** (Software Bill of Materials) y firma de artefactos con **Cosign**.
 - **Políticas OPA**: Validación de políticas de infraestructura y acceso mediante Open Policy Agent.
@@ -119,7 +119,7 @@ Virteex implementa un modelo de "Confianza Cero" (Zero-Trust) y gobernanza por c
 
 ## 🔌 Marketplace y Ecosistema de Terceros
 
-El corazón de la extensibilidad de Virteex radica en su sistema de plugins:
+El corazón de la extensibilidad de virtex radica en su sistema de plugins:
 
 1.  **Aislamiento**: Los plugins no comparten memoria con el core, evitando "cascading failures".
 2.  **Marketplace**: Catálogo donde desarrolladores pueden publicar soluciones verticales (ej: Conector para Shopify).

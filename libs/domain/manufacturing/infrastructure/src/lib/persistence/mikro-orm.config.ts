@@ -1,7 +1,7 @@
 import { defineConfig } from '@mikro-orm/postgresql';
-import { ProductionOrder, ProductionOrderComponent, BillOfMaterials, BillOfMaterialsComponent } from '@virteex/domain-manufacturing-domain';
-import { TenantModelSubscriber } from '@virteex/kernel-tenant';
-import { getTenantContext } from '@virteex/kernel-auth';
+import { ProductionOrder, ProductionOrderComponent, BillOfMaterials, BillOfMaterialsComponent } from '@virtex/domain-manufacturing-domain';
+import { TenantModelSubscriber } from '@virtex/kernel-tenant';
+import { getTenantContext } from '@virtex/kernel-auth';
 import { join } from 'path';
 
 if (process.env.NODE_ENV !== 'test' && !process.env.DB_PASSWORD) {
@@ -21,7 +21,7 @@ export default defineConfig({
       default: true,
     },
   },
-  dbName: 'virteex_manufacturing',
+  dbName: 'virtex_manufacturing',
   host: process.env.DB_HOST || 'localhost',
   port: 5432,
   user: process.env.DB_USER || 'postgres',

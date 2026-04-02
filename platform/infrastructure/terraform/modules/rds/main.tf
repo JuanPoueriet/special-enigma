@@ -19,16 +19,16 @@ variable "source_cluster_arn" {
 }
 
 resource "aws_db_subnet_group" "default" {
-  name       = "virteex-db-subnet-${var.environment}-${var.region}"
+  name       = "virtex-db-subnet-${var.environment}-${var.region}"
   subnet_ids = var.subnet_ids
 
   tags = {
-    Name = "Virteex DB subnet group - ${var.region}"
+    Name = "virtex DB subnet group - ${var.region}"
   }
 }
 
 resource "aws_rds_cluster" "aurora" {
-  cluster_identifier         = "virteex-aurora-${var.environment}-${var.region}"
+  cluster_identifier         = "virtex-aurora-${var.environment}-${var.region}"
   engine                     = "aurora-postgresql"
   engine_version             = "15.3"
   global_cluster_identifier  = var.global_cluster_identifier
@@ -37,9 +37,9 @@ resource "aws_rds_cluster" "aurora" {
   backup_retention_period    = 30
   preferred_backup_window    = "07:00-09:00"
   skip_final_snapshot        = false
-  final_snapshot_identifier  = "virteex-aurora-${var.environment}-${var.region}-final-${formatdate("YYYYMMDDHHmmss", timestamp())}"
+  final_snapshot_identifier  = "virtex-aurora-${var.environment}-${var.region}-final-${formatdate("YYYYMMDDHHmmss", timestamp())}"
 
-  database_name = var.is_primary ? "virteex" : null
+  database_name = var.is_primary ? "virtex" : null
   master_username = var.is_primary ? "postgres" : null
   master_password = var.is_primary ? var.db_password : null
   replication_source_identifier = var.is_primary ? null : var.source_cluster_arn
@@ -47,7 +47,7 @@ resource "aws_rds_cluster" "aurora" {
   tags = {
     Region      = var.region
     Environment = var.environment
-    Service     = "virteex-erp"
+    Service     = "virtex-erp"
     MultiRegion = "true"
     ManagedBy   = "Terraform"
     Role        = var.is_primary ? "primary" : "secondary"
@@ -56,7 +56,7 @@ resource "aws_rds_cluster" "aurora" {
 
 resource "aws_rds_cluster_instance" "cluster_instances" {
   count              = 2
-  identifier         = "virteex-aurora-${var.environment}-${var.region}-${count.index}"
+  identifier         = "virtex-aurora-${var.environment}-${var.region}-${count.index}"
   cluster_identifier = aws_rds_cluster.aurora.id
   instance_class     = "db.r5.large"
   engine             = aws_rds_cluster.aurora.engine

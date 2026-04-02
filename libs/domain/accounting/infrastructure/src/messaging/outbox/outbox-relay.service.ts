@@ -3,15 +3,15 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 import {
   OUTBOX_REPOSITORY,
   type OutboxRepository,
-} from '@virteex/domain-accounting-domain';
+} from '@virtex/domain-accounting-domain';
 import {
   TELEMETRY_SERVICE,
   type ITelemetryService,
-} from '@virteex/kernel-telemetry';
+} from '@virtex/kernel-telemetry';
 import {
   MESSAGE_BROKER,
   type IMessageBroker,
-} from '@virteex/domain-accounting-application';
+} from '@virtex/domain-accounting-application';
 
 /**
  * Service responsible for relaying domain events from the outbox table to the message broker.

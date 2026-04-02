@@ -1,4 +1,4 @@
-import { DomainException } from '@virteex/shared-util-server-server-config';
+import { DomainException } from '@virtex/shared-util-server-server-config';
 import { Injectable, Inject, Logger } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import {
@@ -14,12 +14,12 @@ import {
     SessionRepository,
     CachePort,
     UNIT_OF_WORK_PORT
-} from '@virteex/domain-identity-domain';
-import type { UnitOfWorkPort } from '@virteex/domain-identity-domain';
-import { Tenant, TenantMode } from '@virteex/kernel-tenant';
+} from '@virtex/domain-identity-domain';
+import type { UnitOfWorkPort } from '@virtex/domain-identity-domain';
+import { Tenant, TenantMode } from '@virtex/kernel-tenant';
 import { TokenGenerationService } from '../services/token-generation.service';
-import { CompleteOnboardingDto } from '@virteex/domain-identity-contracts';
-import { TaxIdValidator, RecaptchaPort } from '@virteex/domain-identity-domain';
+import { CompleteOnboardingDto } from '@virtex/domain-identity-contracts';
+import { TaxIdValidator, RecaptchaPort } from '@virtex/domain-identity-domain';
 
 @Injectable()
 export class CompleteOnboardingUseCase {

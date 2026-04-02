@@ -2,7 +2,7 @@ import { Component, OnInit, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { LucideAngularModule, Loader2, AlertTriangle, Settings, BookOpen, Clock, CalendarCheck, XCircle } from 'lucide-angular';
-import { JournalEntryStatus, JournalEntryType } from '@virteex/domain-accounting-contracts';
+import { JournalEntryStatus, JournalEntryType } from '@virtex/domain-accounting-contracts';
 import { accountingFacade } from '../../facades/accounting.facade';
 
 @Component({

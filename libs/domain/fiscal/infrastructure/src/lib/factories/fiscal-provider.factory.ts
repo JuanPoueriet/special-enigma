@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { FiscalProvider } from '@virteex/domain-fiscal-domain';
+import { FiscalProvider } from '@virtex/domain-fiscal-domain';
 import { SatFiscalAdapter } from '../adapters/sat-fiscal-provider.adapter';
 import { SefazFiscalAdapter } from '../adapters/sefaz-fiscal-provider.adapter';
 import { DianFiscalAdapter } from '../adapters/dian-fiscal-provider.adapter';

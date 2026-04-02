@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProcessSaleUseCase } from '../process-sale.use-case';
-import { PosRepository, PosSaleStatus, HARDWARE_BRIDGE_PORT, HardwareBridgePort } from '@virteex/domain-pos-domain';
+import { PosRepository, PosSaleStatus, HARDWARE_BRIDGE_PORT, HardwareBridgePort } from '@virtex/domain-pos-domain';
 import { POS_INVENTORY_PORT, PosInventoryPort, POS_BILLING_PORT, PosBillingPort } from '../../ports/pos-integration.ports';
 import { vi, Mock } from 'vitest';
 

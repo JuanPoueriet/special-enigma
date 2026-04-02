@@ -1,6 +1,6 @@
 import { NotificationConsumer } from './notification.consumer';
-import { EmailService, SmsService, PushNotificationService } from '@virteex/domain-notification-infrastructure';
-import { buildSignedContextClaims, encodeContextClaims, signEncodedContext } from '@virteex/kernel-auth';
+import { EmailService, SmsService, PushNotificationService } from '@virtex/domain-notification-infrastructure';
+import { buildSignedContextClaims, encodeContextClaims, signEncodedContext } from '@virtex/kernel-auth';
 
 describe('NotificationConsumer tenant enforcement', () => {
   let consumer: NotificationConsumer;
@@ -14,9 +14,9 @@ describe('NotificationConsumer tenant enforcement', () => {
   });
 
   it('rejects Kafka payloads without tenantId', async () => {
-    process.env['VIRTEEX_HMAC_SECRET'] = 'test-secret';
+    process.env['virtex_HMAC_SECRET'] = 'test-secret';
     await expect(
-      consumer.handleNotification({ to: 'user@virteex.com', subject: 'hello', body: 'body' } as any)
+      consumer.handleNotification({ to: 'user@virtex.com', subject: 'hello', body: 'body' } as any)
     ).rejects.toThrow('Rejected event without valid signed tenant context.');
 
     expect((emailService.sendEmail as jest.Mock)).not.toHaveBeenCalled();
@@ -24,7 +24,7 @@ describe('NotificationConsumer tenant enforcement', () => {
 
   it('processes Kafka payloads scoped to tenantId', async () => {
     const secret = 'test-secret';
-    process.env['VIRTEEX_HMAC_SECRET'] = secret;
+    process.env['virtex_HMAC_SECRET'] = secret;
     const claims = buildSignedContextClaims({ tenantId: 'tenant-a' });
     const encoded = encodeContextClaims(claims);
     const signature = signEncodedContext(encoded, secret);
@@ -32,7 +32,7 @@ describe('NotificationConsumer tenant enforcement', () => {
     await consumer.handleNotification({
       context: encoded,
       signature: signature,
-      payload: { to: 'user@virteex.com', subject: 'hello', body: 'body' }
+      payload: { to: 'user@virtex.com', subject: 'hello', body: 'body' }
     });
 
     expect((emailService.sendEmail as jest.Mock)).toHaveBeenCalledTimes(1);

@@ -11,15 +11,15 @@ test.describe('Journey: Order to Cash (O2C)', () => {
         await page.route('**/api/auth/login', async route => {
             await route.fulfill({
                 status: 200,
-                json: { accessToken: 'st-auth-session-v1-production-simulated', user: { id: '1', email: 'o2c-bot@virteex.com' } }
+                json: { accessToken: 'st-auth-session-v1-production-simulated', user: { id: '1', email: 'o2c-bot@virtex.com' } }
             });
         });
         await page.route('**/api/users/profile', async route => {
-            await route.fulfill({ json: { id: '1', email: 'o2c-bot@virteex.com', roles: ['sales_manager'] } });
+            await route.fulfill({ json: { id: '1', email: 'o2c-bot@virtex.com', roles: ['sales_manager'] } });
         });
 
         await page.goto('/auth/login');
-        await page.fill('input[name="email"]', 'o2c-bot@virteex.com');
+        await page.fill('input[name="email"]', 'o2c-bot@virtex.com');
         await page.fill('input[name="password"]', 'CorrectHorseBatteryStaple1!');
         await page.click('button[type="submit"]');
     });

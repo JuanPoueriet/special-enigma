@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { StoragePort } from '@virteex/domain-identity-application';
-import { StorageService as SharedStorageService } from '@virteex/platform-storage';
+import { StoragePort } from '@virtex/domain-identity-application';
+import { StorageService as SharedStorageService } from '@virtex/platform-storage';
 
 @Injectable()
 export class StorageAdapter implements StoragePort {

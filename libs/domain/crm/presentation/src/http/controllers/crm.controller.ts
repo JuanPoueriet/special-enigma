@@ -1,8 +1,8 @@
 import { Controller, Post, Get, Body, Param, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
-import { CreateSaleUseCase, type CreateSaleDto, ListSalesUseCase, CreateCustomerUseCase, type CreateCustomerDto, ListCustomersUseCase, GetCustomerByIdUseCase, ApproveSaleUseCase, CancelSaleUseCase, CompleteSaleUseCase } from '@virteex/domain-crm-application';
-import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virteex/kernel-auth';
-import { RequireEntitlement, EntitlementGuard } from '@virteex/kernel-entitlements';
+import { CreateSaleUseCase, type CreateSaleDto, ListSalesUseCase, CreateCustomerUseCase, type CreateCustomerDto, ListCustomersUseCase, GetCustomerByIdUseCase, ApproveSaleUseCase, CancelSaleUseCase, CompleteSaleUseCase } from '@virtex/domain-crm-application';
+import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virtex/kernel-auth';
+import { RequireEntitlement, EntitlementGuard } from '@virtex/kernel-entitlements';
 
 @ApiTags('CRM')
 @ApiBearerAuth()

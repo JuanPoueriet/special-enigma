@@ -1,4 +1,4 @@
-import { FixedAsset } from '@virteex/domain-fixed-assets-domain';
+import { FixedAsset } from '@virtex/domain-fixed-assets-domain';
 import { FixedAssetOrmEntity } from '../entities/fixed-asset.orm-entity';
 
 export class FixedAssetsPersistenceMapper {

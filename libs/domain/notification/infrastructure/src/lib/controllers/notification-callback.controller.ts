@@ -1,7 +1,7 @@
 import { Controller, Post, Body, Headers, Logger, BadRequestException } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/core';
-import { Notification, NotificationStatus } from '@virteex/domain-notification-domain';
-import { NotificationStateMachine } from '@virteex/domain-notification-domain';
+import { Notification, NotificationStatus } from '@virtex/domain-notification-domain';
+import { NotificationStateMachine } from '@virtex/domain-notification-domain';
 import * as twilio from 'twilio'; // Twilio specific example
 
 @Controller('webhooks/notifications')

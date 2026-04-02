@@ -3,7 +3,7 @@ import { MikroORM, EntityManager } from '@mikro-orm/postgresql';
 import { TenantModelSubscriber } from '../subscribers/tenant-model.subscriber';
 import { TenantControlRecord } from '../entities/tenant-control-record.entity';
 import { TenantStatus } from '../interfaces/tenant-config.interface';
-import * as TenantContextLib from '@virteex/kernel-tenant-context';
+import * as TenantContextLib from '@virtex/kernel-tenant-context';
 
 /**
  * Enterprise Adversarial Integration Test: Tenant Isolation
@@ -12,7 +12,7 @@ import * as TenantContextLib from '@virteex/kernel-tenant-context';
  * correctly block cross-tenant write attempts and respect tenant freezing.
  */
 
-vi.mock('@virteex/kernel-tenant-context', () => ({
+vi.mock('@virtex/kernel-tenant-context', () => ({
     getTenantContext: vi.fn(),
     runWithTenantContext: vi.fn(),
 }));

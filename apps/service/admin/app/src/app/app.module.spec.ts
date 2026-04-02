@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { PATH_METADATA } from '@nestjs/common/constants';
 import { AppModule } from './app.module';
-import { TenantsController } from '@virteex/domain-admin-presentation';
+import { TenantsController } from '@virtex/domain-admin-presentation';
 
 describe('Admin service smoke', () => {
   it('should register admin presentation module in module wiring', () => {

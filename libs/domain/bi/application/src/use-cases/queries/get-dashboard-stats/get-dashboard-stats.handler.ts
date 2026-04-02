@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DashboardGateway, type DashboardStats } from '@virteex/domain-bi-domain';
+import { DashboardGateway, type DashboardStats } from '@virtex/domain-bi-domain';
 import { GetDashboardStatsQuery } from './get-dashboard-stats.query';
 
 @Injectable()

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AuthFooterComponent } from '../auth-footer/auth-footer.component';
 
 @Component({
-  selector: 'virteex-auth-layout',
+  selector: 'virtex-auth-layout',
   standalone: true,
   imports: [CommonModule, AuthFooterComponent],
   templateUrl: './auth-layout.component.html',

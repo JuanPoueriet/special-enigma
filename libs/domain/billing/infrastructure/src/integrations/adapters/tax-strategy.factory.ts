@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { TaxStrategyFactory } from '@virteex/domain-billing-domain';
-import { TaxStrategy } from '@virteex/domain-billing-domain';
+import { TaxStrategyFactory } from '@virtex/domain-billing-domain';
+import { TaxStrategy } from '@virtex/domain-billing-domain';
 import { MxTaxStrategy } from './mx-tax.strategy';
 import { BrTaxStrategy } from './br-tax.strategy';
 import { UsTaxStrategy } from './us-tax.strategy';

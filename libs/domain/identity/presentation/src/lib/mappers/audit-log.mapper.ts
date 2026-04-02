@@ -1,5 +1,5 @@
-import { AuditLog } from '@virteex/domain-identity-domain';
-import { AuditLogDto } from '@virteex/domain-identity-contracts';
+import { AuditLog } from '@virtex/domain-identity-domain';
+import { AuditLogDto } from '@virtex/domain-identity-contracts';
 
 export class AuditLogMapper {
   static toDto(entity: AuditLog): AuditLogDto {

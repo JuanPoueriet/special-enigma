@@ -1,6 +1,6 @@
 import { Injectable, Logger, NotFoundException, Inject, Optional } from '@nestjs/common';
-import { TenantService } from '@virteex/kernel-tenant';
-import { SUBSCRIPTION_REPOSITORY, type SubscriptionRepository } from '@virteex/domain-subscription-domain';
+import { TenantService } from '@virtex/kernel-tenant';
+import { SUBSCRIPTION_REPOSITORY, type SubscriptionRepository } from '@virtex/domain-subscription-domain';
 
 export interface TenantInfo {
     id: string;

@@ -3,7 +3,7 @@ import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom, timer, throwError } from 'rxjs';
 import { retry, catchError, timeout } from 'rxjs/operators';
-import { FiscalProvider } from '@virteex/domain-fiscal-domain';
+import { FiscalProvider } from '@virtex/domain-fiscal-domain';
 
 @Injectable()
 export class UsTaxPartnerFiscalAdapter implements FiscalProvider {
@@ -95,8 +95,8 @@ export class UsTaxPartnerFiscalAdapter implements FiscalProvider {
           headers: {
             'Authorization': `Bearer ${this.partnerApiKey}`,
             'Content-Type': 'application/json',
-            'X-Virteex-Region': 'US',
-            'X-Virteex-Tenant': payload && (payload as any).tenantId ? (payload as any).tenantId : 'unknown',
+            'X-virtex-Region': 'US',
+            'X-virtex-Tenant': payload && (payload as any).tenantId ? (payload as any).tenantId : 'unknown',
             'X-Request-ID': crypto.randomUUID(),
           }
         }).pipe(

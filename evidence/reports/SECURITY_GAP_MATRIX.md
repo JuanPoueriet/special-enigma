@@ -1,8 +1,8 @@
-# Matriz de Brechas de Seguridad - Virteex ERP
+# Matriz de Brechas de Seguridad - virtex ERP
 
 | Hallazgo | Evidencia | Impacto | Componente / Archivo | Severidad | Plan de Remediación | Estado |
 |----------|-----------|---------|----------------------|-----------|----------------------|--------|
-| Inconsistencia de hardening entre gateways | `apps/gateways/virteex-gateway/src/main.ts` no llama a `setupGlobalConfig(app)` | Exposición de servicios GraphQL a ataques comunes por falta de headers de seguridad, CORS mal configurado, etc. | `virteex-gateway` | P0 | Centralizar bootstrap security y forzar su uso en todos los gateways. | Corregido |
+| Inconsistencia de hardening entre gateways | `apps/gateways/virtex-gateway/src/main.ts` no llama a `setupGlobalConfig(app)` | Exposición de servicios GraphQL a ataques comunes por falta de headers de seguridad, CORS mal configurado, etc. | `virtex-gateway` | P0 | Centralizar bootstrap security y forzar su uso en todos los gateways. | Corregido |
 | Vulnerabilidad de CSRF en GraphQL | `libs/kernel/auth/src/lib/middleware/csrf.middleware.ts` tiene bypass explícito para `/graphql` | Posibilidad de ataques CSRF en mutaciones de GraphQL si se usan cookies de sesión. | `CsrfMiddleware` | P0 | Eliminar bypass y exigir `X-XSRF-TOKEN` para mutaciones. | Corregido |
 | Dependencias con vulnerabilidades graves | `npm audit` reportaba 92 vulnerabilidades | Riesgo de ejecución de código, denegación de servicio y compromiso de integridad. | `package.json` | P0 | Ejecutar `npm audit fix`, actualizar paquetes y sustituir `xlsx`. | Corregido (Mitigado) |
 | Permisividad en `TenantRlsInterceptor` | Permitía peticiones `GET` sin contexto de tenant | Riesgo de fuga de información entre tenants si una lectura no está correctamente filtrada. | `TenantRlsInterceptor` | P0 | Cambiar a enfoque closed-by-default para todas las operaciones. | Corregido |

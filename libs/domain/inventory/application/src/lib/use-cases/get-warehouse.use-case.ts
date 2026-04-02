@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { WAREHOUSE_REPOSITORY, type WarehouseRepository, WarehouseNotFoundError } from '@virteex/domain-inventory-domain';
+import { WAREHOUSE_REPOSITORY, type WarehouseRepository, WarehouseNotFoundError } from '@virtex/domain-inventory-domain';
 
 @Injectable()
 export class GetWarehouseUseCase {

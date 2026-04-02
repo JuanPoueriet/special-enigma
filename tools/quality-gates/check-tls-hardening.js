@@ -20,7 +20,7 @@ const FORBIDDEN_PATTERNS = [
       reason: 'Unsafe fallback for DB_PASSWORD detected.'
   },
   {
-      regex: /connectionString:\s*process\.env\.DATABASE_URL\s*\|\|\s*['"]postgresql:\/\/postgres:postgres@localhost:5432\/virteex['"]/g,
+      regex: /connectionString:\s*process\.env\.DATABASE_URL\s*\|\|\s*['"]postgresql:\/\/postgres:postgres@localhost:5432\/virtex['"]/g,
       reason: 'Hardcoded connection string fallback for DATABASE_URL detected.'
   }
 ];

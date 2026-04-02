@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { UserRepository } from '@virteex/domain-identity-domain';
-import { User } from '@virteex/domain-identity-domain';
+import { UserRepository } from '@virtex/domain-identity-domain';
+import { User } from '@virtex/domain-identity-domain';
 
 export interface ListUsersOptions {
   page: number;

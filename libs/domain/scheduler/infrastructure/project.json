@@ -3,7 +3,7 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/domain/scheduler/infrastructure/src",
   "projectType": "library",
-  "prefix": "virteex",
+  "prefix": "virtex",
   "tags": [
     "scope:scheduler",
     "type:infrastructure",

@@ -1,4 +1,4 @@
-import { OpportunityStage } from '@virteex/shared-contracts';
+import { OpportunityStage } from '@virtex/shared-contracts';
 import type { Customer } from './customer.entity';
 
 export class Opportunity {

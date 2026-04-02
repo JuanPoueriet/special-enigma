@@ -17,7 +17,7 @@ spec:
     metadata:
       labels:
         app: {{ $name }}
-        topology.virteex.io/service: {{ $name }}
+        topology.virtex.io/service: {{ $name }}
     spec:
       affinity:
         podAntiAffinity:

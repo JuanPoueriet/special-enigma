@@ -14,9 +14,9 @@ import {
     ForceLogoutUseCase,
     ForgotPasswordUseCase,
     UserRepository
-} from '@virteex/domain-identity-application';
+} from '@virtex/domain-identity-application';
 import { vi, describe, beforeEach, it, expect } from 'vitest';
-import { UserResponseDto } from '@virteex/domain-identity-contracts';
+import { UserResponseDto } from '@virtex/domain-identity-contracts';
 import { NotFoundException } from '@nestjs/common';
 
 describe('UsersController', () => {

@@ -1,7 +1,7 @@
 import { Injectable, Inject, Logger } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import { ClientKafka } from '@nestjs/microservices';
-import { ProductCreatedEvent, ProductUpdatedEvent } from '@virteex/domain-catalog-domain';
+import { ProductCreatedEvent, ProductUpdatedEvent } from '@virtex/domain-catalog-domain';
 
 @Injectable()
 export class CatalogKafkaPublisher {

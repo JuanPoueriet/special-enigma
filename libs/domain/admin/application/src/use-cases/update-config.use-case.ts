@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { TenantConfig, TenantConfigRepository, TENANT_CONFIG_REPOSITORY } from '@virteex/domain-admin-domain';
+import { TenantConfig, TenantConfigRepository, TENANT_CONFIG_REPOSITORY } from '@virtex/domain-admin-domain';
 
 export class UpdateConfigDto {
   tenantId!: string;

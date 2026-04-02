@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class StorageService {
-  private dbName = 'virteex_mobile_db';
+  private dbName = 'virtex_mobile_db';
   private storeName = 'keyvalue_store';
   private dbPromise: Promise<IDBDatabase>;
 

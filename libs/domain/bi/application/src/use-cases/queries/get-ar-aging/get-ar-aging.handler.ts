@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { type InvoicePort, INVOICE_PORT, type ArAging } from '@virteex/domain-bi-domain';
+import { type InvoicePort, INVOICE_PORT, type ArAging } from '@virtex/domain-bi-domain';
 import { GetArAgingQuery } from './get-ar-aging.query';
 
 @Injectable()

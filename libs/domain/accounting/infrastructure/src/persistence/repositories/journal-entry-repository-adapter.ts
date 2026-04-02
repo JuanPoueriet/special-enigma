@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { QueryOrder } from '@mikro-orm/core';
 import { EntityManager } from '@mikro-orm/knex';
-import { JournalEntry, type JournalEntryRepository, JournalEntryType, JournalEntryLine, JournalEntryStatus } from '@virteex/domain-accounting-domain';
-import { DimensionValidator } from '@virteex/domain-accounting-application';
+import { JournalEntry, type JournalEntryRepository, JournalEntryType, JournalEntryLine, JournalEntryStatus } from '@virtex/domain-accounting-domain';
+import { DimensionValidator } from '@virtex/domain-accounting-application';
 
 @Injectable()
 export class JournalEntryRepositoryAdapter implements JournalEntryRepository {

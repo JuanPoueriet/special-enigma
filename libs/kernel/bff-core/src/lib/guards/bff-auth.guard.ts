@@ -1,5 +1,5 @@
 import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
-import { JwtAuthGuard } from '@virteex/kernel-auth';
+import { JwtAuthGuard } from '@virtex/kernel-auth';
 
 @Injectable()
 export class BffAuthGuard extends JwtAuthGuard implements CanActivate {

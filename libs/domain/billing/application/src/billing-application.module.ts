@@ -9,7 +9,7 @@ import { ProcessPaymentUseCase } from './use-cases/commands/process-payment.use-
 import { CreateCheckoutSessionUseCase } from './use-cases/commands/create-checkout-session.use-case';
 import { ReconcileBillingUseCase } from './use-cases/commands/reconcile-billing.use-case';
 import { StripeEventListener } from './handlers/stripe-event.listener';
-import { BillingDomainModule } from '@virteex/domain-billing-domain';
+import { BillingDomainModule } from '@virtex/domain-billing-domain';
 import { PriceValidationPolicy } from './services/price-validation.policy';
 import { InvoiceStampingOrchestrator } from './services/invoice-stamping.orchestrator';
 

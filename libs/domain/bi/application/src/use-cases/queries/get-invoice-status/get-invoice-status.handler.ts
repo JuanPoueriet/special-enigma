@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { type InvoicePort, INVOICE_PORT, type InvoiceStatusSummary } from '@virteex/domain-bi-domain';
+import { type InvoicePort, INVOICE_PORT, type InvoiceStatusSummary } from '@virtex/domain-bi-domain';
 import { GetInvoiceStatusQuery } from './get-invoice-status.query';
 
 @Injectable()

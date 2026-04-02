@@ -5,7 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LucideAngularModule, FileText, Loader2, AlertCircle, Download, Search } from 'lucide-angular';
 import { HasCapabilityDirective } from '../../directives/has-capability.directive';
 import { accountingFacade } from '../../facades/accounting.facade';
-import { FinancialReportLineDto } from '@virteex/domain-accounting-contracts';
+import { FinancialReportLineDto } from '@virtex/domain-accounting-contracts';
 
 @Component({
   selector: 'app-financial-reports',

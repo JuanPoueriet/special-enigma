@@ -1,6 +1,6 @@
 import { SecretManagerService } from './secret-manager.service';
 import { SecretProvider } from '../interfaces/secret-provider.interface';
-import { TelemetryService } from '@virteex/kernel-telemetry-interfaces';
+import { TelemetryService } from '@virtex/kernel-telemetry-interfaces';
 
 describe('SecretManagerService Hardening', () => {
   let provider: SecretProvider;

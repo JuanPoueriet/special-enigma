@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { FiscalStampingService, Invoice } from '@virteex/domain-billing-domain';
+import { FiscalStampingService, Invoice } from '@virtex/domain-billing-domain';
 
 @Injectable()
 export class InvoiceStampingOrchestrator {

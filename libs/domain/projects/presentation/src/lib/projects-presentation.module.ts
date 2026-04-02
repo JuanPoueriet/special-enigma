@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ProjectsController } from './controllers/projects.controller';
-import { ProjectsApplicationModule } from '@virteex/domain-projects-application';
-import { ProjectsInfrastructureModule } from '@virteex/domain-projects-infrastructure';
+import { ProjectsApplicationModule } from '@virtex/domain-projects-application';
+import { ProjectsInfrastructureModule } from '@virtex/domain-projects-infrastructure';
 
 @Module({
   imports: [ProjectsApplicationModule, ProjectsInfrastructureModule],

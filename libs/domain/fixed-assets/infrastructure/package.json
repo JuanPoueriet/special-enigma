@@ -1,5 +1,5 @@
 {
-  "name": "@virteex/domain-fixed-assets-infrastructure",
+  "name": "@virtex/domain-fixed-assets-infrastructure",
   "version": "0.0.1",
   "type": "commonjs",
   "main": "./src/index.js",

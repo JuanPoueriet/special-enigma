@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
-import { InventoryService } from '@virteex/domain-manufacturing-domain';
+import { InventoryService } from '@virtex/domain-manufacturing-domain';
 
 @Injectable()
 export class HttpInventoryAdapter implements InventoryService {
@@ -13,7 +13,7 @@ export class HttpInventoryAdapter implements InventoryService {
     private readonly httpService: HttpService,
     private readonly configService: ConfigService
   ) {
-    this.inventoryServiceUrl = this.configService.get<string>('INVENTORY_SERVICE_URL', 'http://virteex-inventory-service:3000');
+    this.inventoryServiceUrl = this.configService.get<string>('INVENTORY_SERVICE_URL', 'http://virtex-inventory-service:3000');
   }
 
   async checkAndReserveStock(tenantId: string, warehouseId: string, productSku: string, quantity: number): Promise<void> {

@@ -7,8 +7,8 @@ import { Observable, of, tap, map, catchError, lastValueFrom } from 'rxjs';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { HttpContext } from '@angular/common/http';
 import { IS_PUBLIC_API } from '../interceptors/auth.interceptor';
-import { API_URL } from '@virteex/shared-config';
-import { hasPermission } from '@virteex/shared-types';
+import { API_URL } from '@virtex/shared-config';
+import { hasPermission } from '@virtex/shared-types';
 import { startRegistration, startAuthentication } from '@simplewebauthn/browser';
 
 @Injectable({ providedIn: 'root' })

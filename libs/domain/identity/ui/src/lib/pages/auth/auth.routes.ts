@@ -5,7 +5,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { createAuthTranslateLoader } from '../../core/utils/auth-translate-loader';
 
 // Importa el nuevo guard que acabamos de crear.
-import { publicGuard } from '@virteex/shared-ui';
+import { publicGuard } from '@virtex/shared-ui';
 
 export const AUTH_ROUTES: Routes = [
   {

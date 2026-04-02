@@ -1,4 +1,4 @@
-import { ReceiptPrinterPort } from '@virteex/domain-pos-application';
+import { ReceiptPrinterPort } from '@virtex/domain-pos-application';
 
 export class DesktopReceiptPrinterAdapter implements ReceiptPrinterPort {
   async printReceipt(content: string): Promise<{ success: boolean; error?: string }> {

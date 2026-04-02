@@ -1,15 +1,15 @@
-import { DomainException } from '@virteex/shared-util-server-server-config';
+import { DomainException } from '@virtex/shared-util-server-server-config';
 import { Injectable, Inject } from '@nestjs/common';
 import {
   Transaction,
   TransactionType as DomainTransactionType,
   TransactionRepository,
   BankAccountRepository
-} from '@virteex/domain-treasury-domain';
+} from '@virtex/domain-treasury-domain';
 import {
   RegisterTransactionDto,
   TransactionType as ContractTransactionType
-} from '@virteex/domain-treasury-contracts';
+} from '@virtex/domain-treasury-contracts';
 
 
 const TRANSACTION_TYPE_MAP: Record<ContractTransactionType, DomainTransactionType> = {

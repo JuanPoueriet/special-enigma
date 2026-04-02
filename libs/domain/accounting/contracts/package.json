@@ -1,5 +1,5 @@
 {
-  "name": "@virteex/domain-accounting-contracts",
+  "name": "@virtex/domain-accounting-contracts",
   "version": "0.0.1",
   "private": true,
   "main": "./src/index.js",
@@ -9,7 +9,7 @@
     "class-validator": "^0.14.3",
     "class-transformer": "^0.5.1",
     "@nestjs/swagger": "^11.2.6",
-    "@virteex/shared-contracts": "0.0.1"
+    "@virtex/shared-contracts": "0.0.1"
   },
   "exports": {
     ".": {

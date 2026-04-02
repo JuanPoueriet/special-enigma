@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { KafkaMessageBroker } from '@virteex/domain-accounting-infrastructure';
+import { KafkaMessageBroker } from '@virtex/domain-accounting-infrastructure';
 import { Kafka } from 'kafkajs';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 

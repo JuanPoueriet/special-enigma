@@ -1,8 +1,8 @@
 import { Injectable, Inject, Logger } from '@nestjs/common';
-import { Saga, SagaOrchestrator, SagaStep } from '@virteex/kernel-messaging';
+import { Saga, SagaOrchestrator, SagaStep } from '@virtex/kernel-messaging';
 import { CompleteOnboardingUseCase } from './complete-onboarding.use-case';
-import { SubscribeToPlanUseCase } from '@virteex/domain-subscription-application';
-import { CompleteOnboardingDto } from '@virteex/domain-identity-contracts';
+import { SubscribeToPlanUseCase } from '@virtex/domain-subscription-application';
+import { CompleteOnboardingDto } from '@virtex/domain-identity-contracts';
 
 export interface OnboardingContext {
   onboardingDto: CompleteOnboardingDto;

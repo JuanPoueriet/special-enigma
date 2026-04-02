@@ -1,9 +1,9 @@
 import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { CurrentTenant, DomainException } from '@virteex/shared-util-server-server-config';
-import { JwtAuthGuard, StepUp, StepUpGuard, TenantGuard } from '@virteex/kernel-auth';
-import { AddPaymentMethodUseCase, type AddPaymentMethodDto, GetPaymentMethodUseCase } from '@virteex/domain-billing-application';
-import { RequireEntitlement, EntitlementGuard } from '@virteex/kernel-entitlements';
+import { CurrentTenant, DomainException } from '@virtex/shared-util-server-server-config';
+import { JwtAuthGuard, StepUp, StepUpGuard, TenantGuard } from '@virtex/kernel-auth';
+import { AddPaymentMethodUseCase, type AddPaymentMethodDto, GetPaymentMethodUseCase } from '@virtex/domain-billing-application';
+import { RequireEntitlement, EntitlementGuard } from '@virtex/kernel-entitlements';
 
 @ApiTags('Billing')
 @ApiBearerAuth()

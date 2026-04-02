@@ -10,7 +10,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { ResidencyComplianceService } from './residency-compliance.service';
 import { createHmac, randomUUID } from 'crypto';
-import { SecretManagerService } from '@virteex/kernel-auth';
+import { SecretManagerService } from '@virtex/kernel-auth';
 
 type ProbeLayer = 'lb' | 'api' | 'data';
 
@@ -239,7 +239,7 @@ export class FailoverService {
       try {
           const lbResponse = await axios.get(probeConfig.lbEndpoint, {
               timeout: timeoutMs,
-              headers: { 'Cache-Control': 'no-cache', 'X-Virteex-Probe-Type': 'lb-independent' }
+              headers: { 'Cache-Control': 'no-cache', 'X-virtex-Probe-Type': 'lb-independent' }
           });
           const lbDuration = performance.now() - lbStartTime;
           if (lbResponse.status !== 200) {
@@ -257,9 +257,9 @@ export class FailoverService {
           const response = await axios.get(probeConfig.apiEndpoint, {
               timeout: timeoutMs,
               headers: {
-                  'x-virteex-tenant-id': tenantId,
+                  'x-virtex-tenant-id': tenantId,
                   'Cache-Control': 'no-cache',
-                  'X-Virteex-Probe-Type': 'api-independent'
+                  'X-virtex-Probe-Type': 'api-independent'
               }
           });
           const apiDuration = performance.now() - apiStartTime;
@@ -355,14 +355,14 @@ export class FailoverService {
 
       if (!secret) {
           try {
-              secret = this.secretManager.getSecret('VIRTEEX_HMAC_SECRET');
+              secret = this.secretManager.getSecret('virtex_HMAC_SECRET');
           } catch {
               this.logger.error('Security secrets missing for DR drill evidence signing.');
           }
       }
 
       if (!secret) {
-          throw new Error('Secure signing secret is required to persist DR drill evidence (EVIDENCE_SIGNING_SECRET or VIRTEEX_HMAC_SECRET).');
+          throw new Error('Secure signing secret is required to persist DR drill evidence (EVIDENCE_SIGNING_SECRET or virtex_HMAC_SECRET).');
       }
       const payload = JSON.stringify(result);
       result.signature = createHmac('sha256', secret).update(payload).digest('hex');

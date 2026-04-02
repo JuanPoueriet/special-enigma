@@ -11,12 +11,12 @@ import depthLimit from 'graphql-depth-limit';
 import { createComplexityRule, simpleEstimator } from 'graphql-query-complexity';
 import { ApolloFederationDriver, ApolloFederationDriverConfig } from '@nestjs/apollo';
 import { ApolloServerPluginLandingPageLocalDefault, ApolloServerPluginLandingPageProductionDefault } from '@apollo/server/plugin/landingPage/default';
-import { FederationSupportModule } from '@virteex/shared-util-server-server-config';
-import { TenantModule } from '@virteex/kernel-tenant';
-import { AuthModule } from '@virteex/kernel-auth';
-import { HealthModule } from '@virteex/shared-util-server-health';
-import { IdentityPresentationModule } from '@virteex/domain-identity-presentation';
-import { IdentityInfrastructureModule } from '@virteex/domain-identity-infrastructure';
+import { FederationSupportModule } from '@virtex/shared-util-server-server-config';
+import { TenantModule } from '@virtex/kernel-tenant';
+import { AuthModule } from '@virtex/kernel-auth';
+import { HealthModule } from '@virtex/shared-util-server-health';
+import { IdentityPresentationModule } from '@virtex/domain-identity-presentation';
+import { IdentityInfrastructureModule } from '@virtex/domain-identity-infrastructure';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';

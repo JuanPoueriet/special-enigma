@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, beforeAll } from 'vitest';
-import { TelemetryService } from '@virteex/kernel-telemetry-interfaces';
+import { TelemetryService } from '@virtex/kernel-telemetry-interfaces';
 import { TenantOperationService } from '../tenant-operation.service';
 import { OperationType, OperationState } from '../interfaces/tenant-config.interface';
 

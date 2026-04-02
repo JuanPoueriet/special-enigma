@@ -2,10 +2,10 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SupportService } from './support.service';
 import { Observable } from 'rxjs';
-import { IncidentDto } from '@virteex/domain-admin-contracts';
+import { IncidentDto } from '@virtex/domain-admin-contracts';
 
 @Component({
-  selector: 'virteex-support',
+  selector: 'virtex-support',
   standalone: true,
   imports: [CommonModule],
   template: `

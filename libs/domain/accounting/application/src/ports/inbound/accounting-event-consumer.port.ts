@@ -1,4 +1,4 @@
-import { InvoiceStampedV1EventDto, InvoiceValidatedEventDto, PayrollStampedV1EventDto } from '@virteex/domain-accounting-contracts';
+import { InvoiceStampedV1EventDto, InvoiceValidatedEventDto, PayrollStampedV1EventDto } from '@virtex/domain-accounting-contracts';
 
 export const ACCOUNTING_EVENT_CONSUMER_PORT = Symbol('ACCOUNTING_EVENT_CONSUMER_PORT');
 

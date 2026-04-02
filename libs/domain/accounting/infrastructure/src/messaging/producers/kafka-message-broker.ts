@@ -1,5 +1,5 @@
 import { Injectable, Logger, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
-import { IMessageBroker } from '@virteex/domain-accounting-application';
+import { IMessageBroker } from '@virtex/domain-accounting-application';
 import { Kafka, Producer } from 'kafkajs';
 
 @Injectable()

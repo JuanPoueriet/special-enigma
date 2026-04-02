@@ -1,6 +1,6 @@
 import { EntitySchema } from '@mikro-orm/core';
-import { Customer } from '@virteex/domain-crm-domain';
-import { CustomerType } from '@virteex/shared-contracts';
+import { Customer } from '@virtex/domain-crm-domain';
+import { CustomerType } from '@virtex/shared-contracts';
 
 export const CustomerSchema = new EntitySchema<Customer>({
   class: Customer,
