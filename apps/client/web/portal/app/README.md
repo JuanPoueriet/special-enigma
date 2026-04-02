@@ -1,7 +1,7 @@
-# Virteex Web Portal
+# virtex Web Portal
 
 ## 🎯 Purpose
-The **Virteex Web Portal** is the primary **Micro-Frontend Host** for the Virteex ERP system. Built with **Angular** and **Module Federation**, it dynamically loads domain-specific UI libraries (e.g., `Inventory`, `Accounting`) to provide a seamless user experience.
+The **virtex Web Portal** is the primary **Micro-Frontend Host** for the virtex ERP system. Built with **Angular** and **Module Federation**, it dynamically loads domain-specific UI libraries (e.g., `Inventory`, `Accounting`) to provide a seamless user experience.
 
 ## 🏗 Architecture
 - **Shell Application:** Handles authentication, routing, and global layout.
@@ -27,13 +27,13 @@ The application requires the following environment variables (in `src/environmen
 
 ### Development Server
 ```bash
-npx nx serve virteex-web
+npx nx serve virtex-web
 ```
 Navigate to `http://localhost:4200/`. The app will automatically reload if you change any source files.
 
 ### Production Build
 ```bash
-npx nx build virteex-web --configuration production
+npx nx build virtex-web --configuration production
 ```
 The build artifacts will be stored in the `dist/` directory.
 
@@ -41,12 +41,12 @@ The build artifacts will be stored in the `dist/` directory.
 
 ### Unit Tests
 ```bash
-npx nx test virteex-web
+npx nx test virtex-web
 ```
 
 ### End-to-End Tests
 ```bash
-npx nx e2e virteex-web-e2e
+npx nx e2e virtex-web-e2e
 ```
 
 ## ⚠️ Notes

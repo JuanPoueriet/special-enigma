@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'virteex-kiosk',
+  selector: 'virtex-kiosk',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './kiosk.component.html',

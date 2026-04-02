@@ -1,4 +1,4 @@
-import { Invoice, InvoiceItem } from '@virteex/domain-billing-domain';
+import { Invoice, InvoiceItem } from '@virtex/domain-billing-domain';
 import { InvoiceRecord } from '../entities/invoice.record';
 import { InvoiceItemRecord } from '../entities/invoice-item.record';
 

@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { UnauthorizedException } from '@virteex/kernel-exceptions';
-import { AuthService, UserRepository } from '@virteex/domain-identity-domain';
+import { UnauthorizedException } from '@virtex/kernel-exceptions';
+import { AuthService, UserRepository } from '@virtex/domain-identity-domain';
 
 @Injectable()
 export class GetSocialRegisterInfoUseCase {

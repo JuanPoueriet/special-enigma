@@ -2,7 +2,7 @@ import { Injectable, inject, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { API_URL } from '@virteex/shared-config';
+import { API_URL } from '@virtex/shared-config';
 
 export interface GraphQLResponse<T> {
   data: T;

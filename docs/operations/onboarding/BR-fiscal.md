@@ -6,7 +6,7 @@
 - Inscripción Estadual / Municipal.
 - Código de Servicio (CNAE).
 
-## Pasos de configuración en Virteex
+## Pasos de configuración en virtex
 1. Navegar a **Admin > Configuración Fiscal**.
 2. Seleccionar **País: BR**.
 3. Cargar Certificado A1 (.pfx / .p12).

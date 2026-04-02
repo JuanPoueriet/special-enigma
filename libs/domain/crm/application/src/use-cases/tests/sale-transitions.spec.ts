@@ -3,7 +3,7 @@ import { ApproveSaleUseCase } from '../commands/approve-sale.use-case';
 import { CancelSaleUseCase } from '../commands/cancel-sale.use-case';
 import { CompleteSaleUseCase } from '../commands/complete-sale.use-case';
 
-vi.mock('@virteex/shared-util-server-server-config', () => ({
+vi.mock('@virtex/shared-util-server-server-config', () => ({
   DomainException: class extends Error {
     constructor(message: string, public code: string) {
       super(message);
@@ -60,7 +60,7 @@ describe('CRM Sale Transitions', () => {
   });
 });
 
-vi.mock('@virteex/domain-crm-domain', () => ({
+vi.mock('@virtex/domain-crm-domain', () => ({
   SaleStatus: {
     DRAFT: 'DRAFT',
     NEGOTIATION: 'NEGOTIATION',

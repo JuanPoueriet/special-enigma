@@ -1,5 +1,5 @@
 {
-  "name": "@virteex/platform-nats",
+  "name": "@virtex/platform-nats",
   "version": "0.0.1",
   "type": "commonjs",
   "dependencies": {

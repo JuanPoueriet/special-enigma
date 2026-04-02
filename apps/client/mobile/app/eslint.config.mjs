@@ -12,7 +12,7 @@ export default [
         'error',
         {
           type: 'attribute',
-          prefix: 'virteex',
+          prefix: 'virtex',
           style: 'camelCase',
         },
       ],
@@ -20,7 +20,7 @@ export default [
         'error',
         {
           type: 'element',
-          prefix: 'virteex',
+          prefix: 'virtex',
           style: 'kebab-case',
         },
       ],

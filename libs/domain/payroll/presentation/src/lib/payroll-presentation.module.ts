@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { PayrollApplicationModule, CalculatePayrollUseCase, GetEmployeesUseCase } from '@virteex/domain-payroll-application';
-import { PayrollInfrastructureModule } from '@virteex/domain-payroll-infrastructure';
+import { PayrollApplicationModule, CalculatePayrollUseCase, GetEmployeesUseCase } from '@virtex/domain-payroll-application';
+import { PayrollInfrastructureModule } from '@virtex/domain-payroll-infrastructure';
 import { PayrollController } from './controllers/payroll.controller';
 import { PayrollResolver } from './resolvers/payroll.resolver';
 

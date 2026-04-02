@@ -1,4 +1,4 @@
-import { TaxProviderPort } from '@virteex/domain-identity-domain';
+import { TaxProviderPort } from '@virtex/domain-identity-domain';
 import { GenericTaxProvider } from './generic-tax-provider';
 import { DominicanRepublicTaxProvider } from './dominican-republic-tax-provider';
 import { MexicoTaxProvider } from './mexico-tax-provider';

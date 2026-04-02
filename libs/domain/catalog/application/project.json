@@ -3,7 +3,7 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/domain/catalog/application/src",
   "projectType": "library",
-  "prefix": "virteex",
+  "prefix": "virtex",
   "tags": [
     "scope:catalog",
     "type:application",

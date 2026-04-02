@@ -3,14 +3,14 @@ import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@ang
 import { StepConfiguration } from './step-configuration';
 import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { CountryService } from '@virteex/shared-ui';
+import { CountryService } from '@virtex/shared-ui';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 import { vi } from 'vitest';
 import { HttpClient } from '@angular/common/http';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { APP_CONFIG } from '@virteex/shared-config';
+import { APP_CONFIG } from '@virtex/shared-config';
 
 describe('StepConfiguration', () => {
   beforeAll(() => {

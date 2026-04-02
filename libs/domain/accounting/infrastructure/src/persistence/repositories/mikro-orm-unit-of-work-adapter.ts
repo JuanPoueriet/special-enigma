@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/knex';
-import { IUnitOfWork } from '@virteex/domain-accounting-application';
+import { IUnitOfWork } from '@virtex/domain-accounting-application';
 
 @Injectable()
 export class MikroOrmUnitOfWorkAdapter implements IUnitOfWork {

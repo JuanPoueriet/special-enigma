@@ -1,4 +1,4 @@
-import { SubscriptionStatus } from '@virteex/domain-subscription-domain';
+import { SubscriptionStatus } from '@virtex/domain-subscription-domain';
 
 export class StripeMapper {
   static toSubscriptionStatus(stripeStatus: string): SubscriptionStatus {

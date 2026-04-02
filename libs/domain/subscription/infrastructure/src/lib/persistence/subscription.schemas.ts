@@ -2,7 +2,7 @@ import { EntitySchema } from '@mikro-orm/core';
 import {
   Subscription,
   SubscriptionPlan,
-} from '@virteex/domain-subscription-domain';
+} from '@virtex/domain-subscription-domain';
 
 export const SubscriptionPlanSchema = new EntitySchema<SubscriptionPlan>({
   class: SubscriptionPlan,

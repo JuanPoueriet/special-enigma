@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { UserRepository } from '@virteex/domain-identity-domain';
-import { EntityNotFoundException } from '@virteex/kernel-exceptions';
+import { UserRepository } from '@virtex/domain-identity-domain';
+import { EntityNotFoundException } from '@virtex/kernel-exceptions';
 
 @Injectable()
 export class GetOnboardingStatusUseCase {

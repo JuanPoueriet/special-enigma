@@ -7,8 +7,8 @@ import {
     type AccountsPayableRepository,
     Account,
     Invoice,
-} from '@virteex/domain-accounting-domain';
-import { AccountType } from '@virteex/domain-accounting-contracts';
+} from '@virtex/domain-accounting-domain';
+import { AccountType } from '@virtex/domain-accounting-contracts';
 
 describe('RecordInvoiceUseCase', () => {
   let service: RecordInvoiceUseCase;

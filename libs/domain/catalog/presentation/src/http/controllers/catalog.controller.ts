@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { GetProductsUseCase, GetProductByIdUseCase, CreateProductUseCase, type CreateProductDto, UpdateProductUseCase, type UpdateProductDto, DeleteProductUseCase, GetSatCatalogsUseCase, GetProductBySkuUseCase } from '@virteex/domain-catalog-application';
-import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virteex/kernel-auth';
-import { RequireEntitlement, EntitlementGuard } from '@virteex/kernel-entitlements';
+import { GetProductsUseCase, GetProductByIdUseCase, CreateProductUseCase, type CreateProductDto, UpdateProductUseCase, type UpdateProductDto, DeleteProductUseCase, GetSatCatalogsUseCase, GetProductBySkuUseCase } from '@virtex/domain-catalog-application';
+import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virtex/kernel-auth';
+import { RequireEntitlement, EntitlementGuard } from '@virtex/kernel-entitlements';
 
 @ApiTags('Catalog')
 @ApiBearerAuth()

@@ -5,9 +5,9 @@ import {
   IDENTITY_PACKAGE, IDENTITY_PROTO_PATH,
   BILLING_PACKAGE, BILLING_PROTO_PATH,
   INVENTORY_PACKAGE, INVENTORY_PROTO_PATH
-} from '@virteex/shared-proto';
-import { HealthModule } from '@virteex/shared-util-server-health';
-import { ServerConfigModule } from '@virteex/shared-util-server-server-config';
+} from '@virtex/shared-proto';
+import { HealthModule } from '@virtex/shared-util-server-health';
+import { ServerConfigModule } from '@virtex/shared-util-server-server-config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { IdentityProxyController } from './identity-proxy.controller';

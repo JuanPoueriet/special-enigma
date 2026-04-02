@@ -10,8 +10,8 @@ import {
   AuditLog,
   type AccountsPayableRepository,
   type AccountsReceivableRepository,
-} from '@virteex/domain-accounting-domain';
-import { type EntitlementService } from '@virteex/kernel-entitlements';
+} from '@virtex/domain-accounting-domain';
+import { type EntitlementService } from '@virtex/kernel-entitlements';
 
 export class RecordInvoiceUseCase {
   constructor(

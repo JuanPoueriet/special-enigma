@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { JobProcessorService } from '@virteex/domain-scheduler-application';
+import { JobProcessorService } from '@virtex/domain-scheduler-application';
 
 export interface ServiceStatusDto {
   service: string;
@@ -22,7 +22,7 @@ export class AppService {
     }
 
     return {
-      service: 'virteex-scheduler-service',
+      service: 'virtex-scheduler-service',
       status: isWorkerActive ? 'ok' : 'degraded',
       timestamp: new Date().toISOString(),
       workerActive: isWorkerActive,

@@ -22,6 +22,6 @@ describe('tenant context contract', () => {
     const claims = buildSignedContextClaims({ tenantId: 'tenant-1', userId: 'user-1', requestId: 'req-1' });
     const encoded = encodeContextClaims(claims);
 
-    expect(() => parseAndValidateSignedContext(encoded, undefined, 'secret')).toThrowError(/Missing x-virteex-signature/i);
+    expect(() => parseAndValidateSignedContext(encoded, undefined, 'secret')).toThrowError(/Missing x-virtex-signature/i);
   });
 });

@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 @Component({
   standalone: true,
   imports: [RouterModule],
-  selector: 'virteex-web-root',
+  selector: 'virtex-web-root',
   template: `<router-outlet></router-outlet>`,
 })
 export class App {}

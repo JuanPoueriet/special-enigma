@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { TreasuryApplicationModule } from '@virteex/domain-treasury-application';
-import { TreasuryInfrastructureModule } from '@virteex/domain-treasury-infrastructure';
+import { TreasuryApplicationModule } from '@virtex/domain-treasury-application';
+import { TreasuryInfrastructureModule } from '@virtex/domain-treasury-infrastructure';
 import { TreasuryController } from './controllers/treasury.controller';
 import { TreasuryResolver } from './resolvers/treasury.resolver';
 

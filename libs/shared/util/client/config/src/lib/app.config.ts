@@ -39,7 +39,7 @@ export function getBffUrl(channel: string, baseApiUrl: string): string {
   // Ensure we don't end up with double slashes
   const normalizedBase = baseApiUrl.endsWith('/') ? baseApiUrl.slice(0, -1) : baseApiUrl;
 
-  // If the base URL is the root (e.g. api.virteex.com), append the subpath
-  // In the new architecture: api.virteex.com/portal, api.virteex.com/pos, etc.
+  // If the base URL is the root (e.g. api.virtex.com), append the subpath
+  // In the new architecture: api.virtex.com/portal, api.virtex.com/pos, etc.
   return `${normalizedBase}/${subpath}`;
 }

@@ -10,7 +10,7 @@ export class SecureLoggerService {
       },
     },
     mixin() {
-      return { service: 'virteex-workers' };
+      return { service: 'virtex-workers' };
     },
     hooks: {
       logMethod(inputArgs, method) {

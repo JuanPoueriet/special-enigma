@@ -4,11 +4,11 @@ import { SyncService } from './core/services/sync.service';
 
 @Component({
   imports: [RouterModule],
-  selector: 'virteex-root',
+  selector: 'virtex-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
 export class App {
-  protected title = 'virteex-mobile';
+  protected title = 'virtex-mobile';
   private syncService = inject(SyncService);
 }

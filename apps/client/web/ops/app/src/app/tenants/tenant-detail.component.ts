@@ -2,11 +2,11 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TenantService } from './tenant.service';
-import { TenantDto } from '@virteex/domain-admin-contracts';
+import { TenantDto } from '@virtex/domain-admin-contracts';
 import { switchMap, timer, takeWhile } from 'rxjs';
 
 @Component({
-  selector: 'virteex-tenant-detail',
+  selector: 'virtex-tenant-detail',
   standalone: true,
   imports: [CommonModule],
   template: `

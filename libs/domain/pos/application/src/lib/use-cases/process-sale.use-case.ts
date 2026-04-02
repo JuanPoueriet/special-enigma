@@ -1,5 +1,5 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { PosRepository, PosSale, PosSaleStatus, HARDWARE_BRIDGE_PORT, HardwareBridgePort } from '@virteex/domain-pos-domain';
+import { PosRepository, PosSale, PosSaleStatus, HARDWARE_BRIDGE_PORT, HardwareBridgePort } from '@virtex/domain-pos-domain';
 import { POS_INVENTORY_PORT, PosInventoryPort, POS_BILLING_PORT, PosBillingPort } from '../ports/pos-integration.ports';
 
 @Injectable()
@@ -57,7 +57,7 @@ export class ProcessSaleUseCase {
 
         // 3. Hardware integration (Ticket printing)
         try {
-            const ticketContent = `VIRTEEX ERP POS\nSale: ${sale.id}\nTerminal: ${sale.terminalId}\nTotal: ${sale.total}\nItems: ${sale.items.length}\nThanks for your purchase!`;
+            const ticketContent = `virtex ERP POS\nSale: ${sale.id}\nTerminal: ${sale.terminalId}\nTotal: ${sale.total}\nItems: ${sale.items.length}\nThanks for your purchase!`;
             await this.hardwareBridge.printTicket(ticketContent);
             await this.hardwareBridge.openDrawer();
         } catch (hwError: any) {

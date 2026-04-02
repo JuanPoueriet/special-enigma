@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { CreateSupplierDto } from '@virteex/domain-purchasing-contracts';
-import { Supplier, ISupplierRepository, SUPPLIER_REPOSITORY, SupplierType } from '@virteex/domain-purchasing-domain';
-import { EntitlementService } from '@virteex/kernel-entitlements';
+import { CreateSupplierDto } from '@virtex/domain-purchasing-contracts';
+import { Supplier, ISupplierRepository, SUPPLIER_REPOSITORY, SupplierType } from '@virtex/domain-purchasing-domain';
+import { EntitlementService } from '@virtex/kernel-entitlements';
 
 @Injectable()
 export class CreateSupplierUseCase {

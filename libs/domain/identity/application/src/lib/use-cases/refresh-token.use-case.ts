@@ -1,8 +1,8 @@
-import { DomainException } from '@virteex/shared-util-server-server-config';
+import { DomainException } from '@virtex/shared-util-server-server-config';
 import { Injectable, Inject } from '@nestjs/common';
 import * as crypto from 'crypto';
-import { RefreshTokenDto, LoginResponseDto } from '@virteex/domain-identity-contracts';
-import { SessionRepository, AuditLogRepository, AuditLog, UserRepository, CachePort } from '@virteex/domain-identity-domain';
+import { RefreshTokenDto, LoginResponseDto } from '@virtex/domain-identity-contracts';
+import { SessionRepository, AuditLogRepository, AuditLog, UserRepository, CachePort } from '@virtex/domain-identity-domain';
 import { TokenGenerationService } from '../services/token-generation.service';
 
 @Injectable()

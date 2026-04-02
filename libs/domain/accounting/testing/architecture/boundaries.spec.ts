@@ -21,7 +21,7 @@ describe('Accounting Domain Architecture Boundaries', () => {
       imports.forEach(imp => {
         const moduleSpecifier = imp.getModuleSpecifierValue();
         expect(moduleSpecifier).not.toContain('../application');
-        expect(moduleSpecifier).not.toContain('@virteex/domain-accounting-application');
+        expect(moduleSpecifier).not.toContain('@virtex/domain-accounting-application');
       });
     });
   });
@@ -34,7 +34,7 @@ describe('Accounting Domain Architecture Boundaries', () => {
       imports.forEach(imp => {
         const moduleSpecifier = imp.getModuleSpecifierValue();
         expect(moduleSpecifier).not.toContain('../infrastructure');
-        expect(moduleSpecifier).not.toContain('@virteex/domain-accounting-infrastructure');
+        expect(moduleSpecifier).not.toContain('@virtex/domain-accounting-infrastructure');
       });
     });
   });
@@ -47,7 +47,7 @@ describe('Accounting Domain Architecture Boundaries', () => {
       imports.forEach(imp => {
         const moduleSpecifier = imp.getModuleSpecifierValue();
         expect(moduleSpecifier).not.toContain('../infrastructure');
-        expect(moduleSpecifier).not.toContain('@virteex/domain-accounting-infrastructure');
+        expect(moduleSpecifier).not.toContain('@virtex/domain-accounting-infrastructure');
       });
     });
   });
@@ -60,7 +60,7 @@ describe('Accounting Domain Architecture Boundaries', () => {
       imports.forEach(imp => {
         const moduleSpecifier = imp.getModuleSpecifierValue();
         expect(moduleSpecifier).not.toContain('../presentation');
-        expect(moduleSpecifier).not.toContain('@virteex/domain-accounting-presentation');
+        expect(moduleSpecifier).not.toContain('@virtex/domain-accounting-presentation');
       });
     });
   });

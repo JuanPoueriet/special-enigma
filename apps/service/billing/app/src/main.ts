@@ -5,11 +5,11 @@ otelSDK.start();
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { Transport, MicroserviceOptions } from '@nestjs/microservices';
-import { BILLING_PACKAGE, BILLING_PROTO_PATH } from '@virteex/shared-proto';
+import { BILLING_PACKAGE, BILLING_PROTO_PATH } from '@virtex/shared-proto';
 import { AppModule } from './app/app.module';
 import { InitialSeederService } from './app/seeds/initial-seeder.service';
 import { MikroORM } from '@mikro-orm/core';
-import { setupGlobalConfig } from '@virteex/shared-util-server-server-config';
+import { setupGlobalConfig } from '@virtex/shared-util-server-server-config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

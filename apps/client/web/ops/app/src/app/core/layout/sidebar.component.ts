@@ -4,13 +4,13 @@ import { RouterModule } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 
 @Component({
-  selector: 'virteex-sidebar',
+  selector: 'virtex-sidebar',
   standalone: true,
   imports: [CommonModule, RouterModule],
   template: `
     <nav class="sidebar">
       <div class="brand">
-        <h1>Virteex Ops</h1>
+        <h1>virtex Ops</h1>
       </div>
       <ul class="menu">
         <li class="menu-header">Core</li>

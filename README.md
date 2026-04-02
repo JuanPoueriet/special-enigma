@@ -1,6 +1,6 @@
-# Virteex ERP Monorepo
+# virtex ERP Monorepo
 
-Repositorio Nx para servicios backend, frontend y runtimes de plugins de Virteex ERP.
+Repositorio Nx para servicios backend, frontend y runtimes de plugins de virtex ERP.
 
 ## Arquitectura
 

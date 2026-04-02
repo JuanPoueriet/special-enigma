@@ -48,8 +48,8 @@ describe('LocalizationService', () => {
     // 101010101 is a known taxId in DominicanRepublicTaxProvider fallback simulation
     const validLookup = await service.lookup('101010101', 'DO');
     expect(validLookup.isValid).toBe(true);
-    expect(validLookup.name).toBe('VIRTEEX DOMINICANA SRL');
-    expect(validLookup.legalName).toBe('VIRTEEX DOMINICANA SRL');
+    expect(validLookup.name).toBe('virtex DOMINICANA SRL');
+    expect(validLookup.legalName).toBe('virtex DOMINICANA SRL');
 
     const invalidLookup = await service.lookup('ABC', 'DO');
     expect(invalidLookup.isValid).toBe(false);

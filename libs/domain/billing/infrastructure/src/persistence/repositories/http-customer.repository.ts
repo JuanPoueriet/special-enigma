@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
-import { type CustomerRepository, CustomerBillingInfo } from '@virteex/domain-billing-domain';
+import { type CustomerRepository, CustomerBillingInfo } from '@virtex/domain-billing-domain';
 
 @Injectable()
 export class HttpCustomerRepository implements CustomerRepository {

@@ -2,7 +2,7 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule, Monitor, Smartphone, Globe, XCircle, Clock } from 'lucide-angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { AuthService, ToastService } from '@virteex/shared-ui';
+import { AuthService, ToastService } from '@virtex/shared-ui';
 
 export interface Session {
   id: string;
@@ -15,7 +15,7 @@ export interface Session {
 }
 
 @Component({
-  selector: 'virteex-session-management',
+  selector: 'virtex-session-management',
   standalone: true,
   imports: [CommonModule, LucideAngularModule, TranslateModule],
   templateUrl: './session-management.component.html',

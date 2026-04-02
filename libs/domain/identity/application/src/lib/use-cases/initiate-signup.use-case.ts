@@ -1,8 +1,8 @@
-import { DomainException } from '@virteex/shared-util-server-server-config';
+import { DomainException } from '@virtex/shared-util-server-server-config';
 import { Injectable, Inject } from '@nestjs/common';
-import { BadRequestException } from '@virteex/kernel-exceptions';
-import { AuthService, NotificationService, UserRepository, CachePort, RecaptchaPort } from '@virteex/domain-identity-domain';
-import { InitiateSignupDto } from '@virteex/domain-identity-contracts';
+import { BadRequestException } from '@virtex/kernel-exceptions';
+import { AuthService, NotificationService, UserRepository, CachePort, RecaptchaPort } from '@virtex/domain-identity-domain';
+import { InitiateSignupDto } from '@virtex/domain-identity-contracts';
 
 @Injectable()
 export class InitiateSignupUseCase {

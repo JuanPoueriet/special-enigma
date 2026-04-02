@@ -97,7 +97,7 @@ export class KmsSecretProvider implements SecretProvider {
   }
 
   private writeCipherToTemp(key: string, ciphertext: string): string {
-    const path = `/tmp/virteex-kms-${key}-${process.pid}.bin`;
+    const path = `/tmp/virtex-kms-${key}-${process.pid}.bin`;
     writeFileSync(path, Buffer.from(ciphertext, 'base64'));
     return path;
   }

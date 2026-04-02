@@ -1,6 +1,6 @@
 import { Controller, Inject, Logger } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
-import { FiscalProvider, FiscalInvoiceData } from '@virteex/domain-fiscal-domain';
+import { FiscalProvider, FiscalInvoiceData } from '@virtex/domain-fiscal-domain';
 
 @Controller()
 export class InvoiceConsumer {

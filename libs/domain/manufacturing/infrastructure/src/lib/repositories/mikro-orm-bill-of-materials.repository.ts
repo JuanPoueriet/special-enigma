@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import {
   BillOfMaterialsRepository,
   BillOfMaterials,
-} from '@virteex/domain-manufacturing-domain';
+} from '@virtex/domain-manufacturing-domain';
 import { EntityManager } from '@mikro-orm/core';
 import { EntityRepository } from '@mikro-orm/postgresql';
 

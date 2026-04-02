@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Virteex Critical Flows', () => {
+test.describe('virtex Critical Flows', () => {
   test('should redirect to login when accessing dashboard unauthenticated', async ({
     page,
   }) => {

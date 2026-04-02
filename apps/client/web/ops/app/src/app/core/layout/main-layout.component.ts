@@ -5,12 +5,12 @@ import { SidebarComponent } from './sidebar.component';
 import { HeaderComponent } from './header.component';
 
 @Component({
-  selector: 'virteex-main-layout',
+  selector: 'virtex-main-layout',
   standalone: true,
   imports: [CommonModule, RouterModule, SidebarComponent, HeaderComponent],
   template: `
-    <virteex-sidebar></virteex-sidebar>
-    <virteex-header></virteex-header>
+    <virtex-sidebar></virtex-sidebar>
+    <virtex-header></virtex-header>
     <main class="content">
       <router-outlet></router-outlet>
     </main>

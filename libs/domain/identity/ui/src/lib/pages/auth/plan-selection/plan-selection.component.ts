@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthLayoutComponent } from '../components/auth-layout/auth-layout.component';
-import { AuthService, LanguageService, CountryService, BillingService } from '@virteex/shared-ui';
+import { AuthService, LanguageService, CountryService, BillingService } from '@virtex/shared-ui';
 
 @Component({
-  selector: 'virteex-plan-selection',
+  selector: 'virtex-plan-selection',
   standalone: true,
   imports: [CommonModule, RouterModule, TranslateModule, AuthLayoutComponent],
   templateUrl: './plan-selection.component.html',

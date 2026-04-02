@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { FiscalDocumentBuilderFactory, FiscalDocumentBuilder } from '@virteex/domain-fiscal-domain';
-import { MxFiscalDocumentBuilder, UsFiscalDocumentBuilder, CoFiscalDocumentBuilder, BrFiscalDocumentBuilder, DoFiscalDocumentBuilder } from '@virteex/domain-fiscal-infrastructure';
+import { FiscalDocumentBuilderFactory, FiscalDocumentBuilder } from '@virtex/domain-fiscal-domain';
+import { MxFiscalDocumentBuilder, UsFiscalDocumentBuilder, CoFiscalDocumentBuilder, BrFiscalDocumentBuilder, DoFiscalDocumentBuilder } from '@virtex/domain-fiscal-infrastructure';
 
 @Injectable()
 export class FiscalDocumentBuilderFactoryImpl extends FiscalDocumentBuilderFactory {

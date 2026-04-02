@@ -1,8 +1,8 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { AuthService } from '@virteex/domain-identity-domain';
+import { AuthService } from '@virtex/domain-identity-domain';
 import * as crypto from 'crypto';
 import * as argon2 from 'argon2';
-import { JwtTokenService, SecretManagerService, MfaHelperService } from '@virteex/kernel-auth';
+import { JwtTokenService, SecretManagerService, MfaHelperService } from '@virtex/kernel-auth';
 
 interface JwtPayload {
   [key: string]: unknown;

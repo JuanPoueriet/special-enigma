@@ -4,6 +4,6 @@ export const appRoutes: Route[] = [
   {
     path: '',
     loadChildren: () =>
-      import('@virteex/pos-ui').then((m) => m.posRoutes),
+      import('@virtex/pos-ui').then((m) => m.posRoutes),
   },
 ];

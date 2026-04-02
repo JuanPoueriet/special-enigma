@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
-import { type CatalogService, type Product } from '@virteex/domain-crm-domain';
+import { type CatalogService, type Product } from '@virtex/domain-crm-domain';
 
 @Injectable()
 export class HttpCatalogAdapter implements CatalogService {
@@ -13,7 +13,7 @@ export class HttpCatalogAdapter implements CatalogService {
     private readonly httpService: HttpService,
     private readonly configService: ConfigService
   ) {
-    this.catalogServiceUrl = this.configService.get<string>('CATALOG_SERVICE_URL', 'http://virteex-catalog-service:3000');
+    this.catalogServiceUrl = this.configService.get<string>('CATALOG_SERVICE_URL', 'http://virtex-catalog-service:3000');
   }
 
   async getProductById(id: number): Promise<Product | null> {

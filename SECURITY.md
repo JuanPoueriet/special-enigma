@@ -2,7 +2,7 @@
 
 ## Reporting
 
-Reporta vulnerabilidades a security@virteex.com con:
+Reporta vulnerabilidades a security@virtex.com con:
 - impacto,
 - pasos de reproducción,
 - alcance de tenant/región.

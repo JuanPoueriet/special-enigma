@@ -1,6 +1,6 @@
 import { Logger } from '@nestjs/common';
-import { TaxLookupDto } from '@virteex/domain-identity-contracts';
-import { TaxProviderPort } from '@virteex/domain-identity-domain';
+import { TaxLookupDto } from '@virtex/domain-identity-contracts';
+import { TaxProviderPort } from '@virtex/domain-identity-domain';
 import { firstValueFrom, timeout, retry, catchError, of } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
 

@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { Send2faEmailVerificationUseCase } from './send-2fa-email-verification.use-case';
-import { UserRepository, NotificationService, CachePort } from '@virteex/domain-identity-domain';
+import { UserRepository, NotificationService, CachePort } from '@virtex/domain-identity-domain';
 
 describe('Send2faEmailVerificationUseCase', () => {
   let useCase: Send2faEmailVerificationUseCase;

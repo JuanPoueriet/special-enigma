@@ -1,5 +1,5 @@
 {
-  "name": "@virteex/domain-catalog-contracts",
+  "name": "@virtex/domain-catalog-contracts",
   "version": "0.0.1",
   "private": true,
   "main": "./src/index.js",

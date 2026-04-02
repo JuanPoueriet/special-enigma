@@ -1,6 +1,6 @@
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { AccountingInternalController } from './accounting-internal.controller';
-import { type AccountingQueryFacade } from '@virteex/domain-accounting-application';
+import { type AccountingQueryFacade } from '@virtex/domain-accounting-application';
 
 describe('AccountingInternalController', () => {
   let controller: AccountingInternalController;

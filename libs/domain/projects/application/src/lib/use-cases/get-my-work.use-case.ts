@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { Project } from '@virteex/domain-projects-domain';
-import { type ProjectRepository, PROJECT_REPOSITORY } from '@virteex/domain-projects-domain';
+import { Project } from '@virtex/domain-projects-domain';
+import { type ProjectRepository, PROJECT_REPOSITORY } from '@virtex/domain-projects-domain';
 
 @Injectable()
 export class GetMyWorkUseCase {

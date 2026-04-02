@@ -62,7 +62,7 @@ module "vpc_secondary" {
 module "eks_primary" {
   providers = { aws = aws.primary }
   source       = "./modules/eks"
-  cluster_name = "virteex-eks-${var.environment}-primary"
+  cluster_name = "virtex-eks-${var.environment}-primary"
   vpc_id       = module.vpc_primary.vpc_id
   subnet_ids   = module.vpc_primary.private_subnets
 }
@@ -70,7 +70,7 @@ module "eks_primary" {
 module "eks_secondary" {
   providers = { aws = aws.secondary }
   source       = "./modules/eks"
-  cluster_name = "virteex-eks-${var.environment}-secondary"
+  cluster_name = "virtex-eks-${var.environment}-secondary"
   vpc_id       = module.vpc_secondary.vpc_id
   subnet_ids   = module.vpc_secondary.private_subnets
 }
@@ -85,7 +85,7 @@ module "vpc_mexico" {
 module "eks_mexico" {
   providers = { aws = aws.mexico }
   source       = "./modules/eks"
-  cluster_name = "virteex-eks-${var.environment}-mexico"
+  cluster_name = "virtex-eks-${var.environment}-mexico"
   vpc_id       = module.vpc_mexico.vpc_id
   subnet_ids   = module.vpc_mexico.private_subnets
 }
@@ -100,7 +100,7 @@ module "vpc_europe" {
 module "eks_europe" {
   providers = { aws = aws.europe }
   source       = "./modules/eks"
-  cluster_name = "virteex-eks-${var.environment}-europe"
+  cluster_name = "virtex-eks-${var.environment}-europe"
   vpc_id       = module.vpc_europe.vpc_id
   subnet_ids   = module.vpc_europe.private_subnets
 }
@@ -108,10 +108,10 @@ module "eks_europe" {
 
 resource "aws_rds_global_cluster" "global" {
   provider                  = aws.primary
-  global_cluster_identifier = "virteex-global-${var.environment}"
+  global_cluster_identifier = "virtex-global-${var.environment}"
   engine                    = "aurora-postgresql"
   engine_version            = "15.3"
-  database_name             = "virteex"
+  database_name             = "virtex"
   storage_encrypted         = true
 }
 
@@ -190,31 +190,31 @@ resource "aws_vpc_peering_connection_accepter" "secondary" {
 }
 
 # Cross-Region DNS & Routing (Level 5)
-resource "aws_route53_zone" "virteex" {
-  name = "virteex.erp"
+resource "aws_route53_zone" "virtex" {
+  name = "virtex.erp"
 }
 
 resource "aws_route53_record" "primary" {
-  zone_id = aws_route53_zone.virteex.zone_id
-  name    = "primary.virteex.erp"
+  zone_id = aws_route53_zone.virtex.zone_id
+  name    = "primary.virtex.erp"
   type    = "A"
 
   alias {
-    name                   = aws_globalaccelerator_accelerator.virteex.dns_name
-    zone_id                = aws_globalaccelerator_accelerator.virteex.hosted_zone_id
+    name                   = aws_globalaccelerator_accelerator.virtex.dns_name
+    zone_id                = aws_globalaccelerator_accelerator.virtex.hosted_zone_id
     evaluate_target_health = true
   }
 }
 
 # Global Traffic Plane (Level 5)
-resource "aws_globalaccelerator_accelerator" "virteex" {
-  name            = "virteex-global-traffic-plane"
+resource "aws_globalaccelerator_accelerator" "virtex" {
+  name            = "virtex-global-traffic-plane"
   ip_address_type = "IPV4"
   enabled         = true
 }
 
 resource "aws_globalaccelerator_listener" "http" {
-  accelerator_arn = aws_globalaccelerator_accelerator.virteex.id
+  accelerator_arn = aws_globalaccelerator_accelerator.virtex.id
   client_affinity = "SOURCE_IP"
   protocol        = "TCP"
 

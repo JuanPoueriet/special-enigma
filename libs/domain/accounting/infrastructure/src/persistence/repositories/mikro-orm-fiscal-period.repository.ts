@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/core';
-import { FiscalPeriod, type FiscalPeriodRepository } from '@virteex/domain-accounting-domain';
+import { FiscalPeriod, type FiscalPeriodRepository } from '@virtex/domain-accounting-domain';
 
 @Injectable()
 export class MikroOrmFiscalPeriodRepository implements FiscalPeriodRepository {

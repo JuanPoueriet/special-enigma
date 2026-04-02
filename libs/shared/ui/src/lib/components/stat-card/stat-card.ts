@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LucideAngularModule, DollarSign, Receipt, Package, Users } from 'lucide-angular';
 
 @Component({
-  selector: 'virteex-stat-card',
+  selector: 'virtex-stat-card',
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './stat-card.html',

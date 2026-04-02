@@ -1,10 +1,10 @@
-# INFORME ARQUITECTÓNICO DEFINITIVO v2.0: GUÍA DE MIGRACIÓN DE DOMINIOS (VIRTEEX MONOREPO)
+# INFORME ARQUITECTÓNICO DEFINITIVO v2.0: GUÍA DE MIGRACIÓN DE DOMINIOS (virtex MONOREPO)
 
 **Fecha:** 2026-03-28 (UTC)
 **Estado:** Obligatorio / Guía de Ejecución
 **Contexto:** Estandarización de estructura para TODOS los dominios
 
-Esta guía establece el estándar obligatorio para la migración y estructuración de todos los dominios en el monorepo Virteex. Siga estas instrucciones de forma imperativa para garantizar la consistencia, escalabilidad y mantenibilidad del sistema. No resuma ni simplifique ningún paso.
+Esta guía establece el estándar obligatorio para la migración y estructuración de todos los dominios en el monorepo virtex. Siga estas instrucciones de forma imperativa para garantizar la consistencia, escalabilidad y mantenibilidad del sistema. No resuma ni simplifique ningún paso.
 
 ---
 

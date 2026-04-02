@@ -2,7 +2,7 @@
   "name": "platform-storage",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/platform/storage/src",
-  "prefix": "virteex",
+  "prefix": "virtex",
   "projectType": "library",
   "tags": [
     "type:infrastructure",

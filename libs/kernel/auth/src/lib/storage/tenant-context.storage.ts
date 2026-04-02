@@ -3,4 +3,4 @@ export {
   getTenantContext,
   requireTenantContext,
   runWithRequiredTenantContext,
-} from '@virteex/kernel-tenant-context';
+} from '@virtex/kernel-tenant-context';

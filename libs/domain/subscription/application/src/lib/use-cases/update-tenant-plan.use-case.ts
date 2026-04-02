@@ -1,6 +1,6 @@
-import { DomainException } from '@virteex/shared-util-server-server-config';
+import { DomainException } from '@virtex/shared-util-server-server-config';
 import { Injectable, Inject } from '@nestjs/common';
-import { SUBSCRIPTION_REPOSITORY, type SubscriptionRepository, SUBSCRIPTION_PLAN_REPOSITORY, type SubscriptionPlanRepository, Subscription, SubscriptionStatus } from '@virteex/domain-subscription-domain';
+import { SUBSCRIPTION_REPOSITORY, type SubscriptionRepository, SUBSCRIPTION_PLAN_REPOSITORY, type SubscriptionPlanRepository, Subscription, SubscriptionStatus } from '@virtex/domain-subscription-domain';
 
 export class UpdateTenantPlanDto {
   plan!: string; // slug: 'STARTER', 'PROFESSIONAL', 'ENTERPRISE'

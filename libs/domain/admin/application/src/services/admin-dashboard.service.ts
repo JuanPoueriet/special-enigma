@@ -1,6 +1,6 @@
 import { Injectable, Inject, Logger } from '@nestjs/common';
-import { type DashboardGateway, DASHBOARD_GATEWAY, type DashboardMetrics } from '@virteex/domain-admin-domain';
-import { TenantService, TenantStatus } from '@virteex/kernel-tenant';
+import { type DashboardGateway, DASHBOARD_GATEWAY, type DashboardMetrics } from '@virtex/domain-admin-domain';
+import { TenantService, TenantStatus } from '@virtex/kernel-tenant';
 import { EntityManager } from '@mikro-orm/core';
 import * as fs from 'fs';
 import * as path from 'path';

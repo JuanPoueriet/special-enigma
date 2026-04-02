@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { EntityNotFoundException } from "@virteex/kernel-exceptions";
+import { EntityNotFoundException } from "@virtex/kernel-exceptions";
 import { LoginUserUseCase } from './login-user.use-case';
-import { UserRepository, AuditLogRepository, AuthService, RiskEngineService, RecaptchaPort } from '@virteex/domain-identity-domain';
+import { UserRepository, AuditLogRepository, AuthService, RiskEngineService, RecaptchaPort } from '@virtex/domain-identity-domain';
 import { TokenGenerationService } from '../services/token-generation.service';
-import { ForbiddenException, UnauthorizedException } from '@virteex/kernel-exceptions';
+import { ForbiddenException, UnauthorizedException } from '@virtex/kernel-exceptions';
 import { vi, Mock } from 'vitest';
 
 describe('LoginUserUseCase', () => {

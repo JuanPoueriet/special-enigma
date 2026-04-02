@@ -11,7 +11,7 @@ describe('IdentityResolver', () => {
       { execute: vi.fn() } as any
     );
 
-    const input = { email: 'test@virteex.com', password: 'super-secret-password' };
+    const input = { email: 'test@virtex.com', password: 'super-secret-password' };
     const result = await resolver.initiateSignup(input as any);
 
     expect(initiateSignupUseCase.execute).toHaveBeenCalledWith(input);

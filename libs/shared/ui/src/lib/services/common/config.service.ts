@@ -1,8 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, shareReplay } from 'rxjs';
-import { Industry, CompanySize } from '@virteex/shared-types';
-import { APP_CONFIG, AppConfig } from '@virteex/shared-config';
+import { Industry, CompanySize } from '@virtex/shared-types';
+import { APP_CONFIG, AppConfig } from '@virtex/shared-config';
 
 export interface RegistrationOptions {
   industries: Industry[];

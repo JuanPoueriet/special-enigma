@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { GenerateBackupCodesUseCase } from './generate-backup-codes.use-case';
-import { UserRepository, AuditLogRepository, AuthService } from '@virteex/domain-identity-domain';
+import { UserRepository, AuditLogRepository, AuthService } from '@virtex/domain-identity-domain';
 
 describe('GenerateBackupCodesUseCase', () => {
   let useCase: GenerateBackupCodesUseCase;

@@ -1,8 +1,8 @@
 import { Injectable, Scope, Inject } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import DataLoader from 'dataloader';
-import { GetAccountsByIdsUseCase } from '@virteex/domain-accounting-application';
-import { type AccountDto } from '@virteex/domain-accounting-contracts';
+import { GetAccountsByIdsUseCase } from '@virtex/domain-accounting-application';
+import { type AccountDto } from '@virtex/domain-accounting-contracts';
 
 @Injectable({ scope: Scope.REQUEST })
 export class AccountLoader extends DataLoader<string, AccountDto | null> {

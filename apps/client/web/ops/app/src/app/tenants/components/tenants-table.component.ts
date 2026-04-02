@@ -1,9 +1,9 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TenantDto } from '@virteex/domain-admin-contracts';
+import { TenantDto } from '@virtex/domain-admin-contracts';
 
 @Component({
-  selector: 'virteex-tenants-table',
+  selector: 'virtex-tenants-table',
   standalone: true,
   imports: [CommonModule],
   template: `

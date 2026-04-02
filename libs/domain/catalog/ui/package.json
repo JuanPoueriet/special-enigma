@@ -1,5 +1,5 @@
 {
-  "name": "@virteex/domain-catalog-ui",
+  "name": "@virtex/domain-catalog-ui",
   "version": "0.0.1",
   "private": true,
   "main": "src/index.ts",

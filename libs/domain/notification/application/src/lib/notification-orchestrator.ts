@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Notification, NotificationChannel, NotificationStatus } from '../domain/entities/notification.entity';
 import { NotificationStateMachine } from '../domain/notification-state-machine';
-import { EmailService, SmsService, PushNotificationService } from '@virteex/domain-notification-infrastructure';
+import { EmailService, SmsService, PushNotificationService } from '@virtex/domain-notification-infrastructure';
 import { EntityManager } from '@mikro-orm/core';
 
 @Injectable()

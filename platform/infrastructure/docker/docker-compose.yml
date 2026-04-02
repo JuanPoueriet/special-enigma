@@ -4,7 +4,7 @@ services:
   zookeeper:
     # Pinning to semantic version + SHA256 digest for immutability
     image: confluentinc/cp-zookeeper:7.5.0@sha256:56b060640d2f09457691230114f68686d63ca8f7f85890f5f84d009772e04e90
-    container_name: virteex-zookeeper
+    container_name: virtex-zookeeper
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
@@ -14,7 +14,7 @@ services:
   kafka:
     # Pinning to semantic version + SHA256 digest for immutability
     image: confluentinc/cp-kafka:7.5.0@sha256:54247f12e8601815f91753443327f311c1682701e695d7f3531b402e1c750b3e
-    container_name: virteex-kafka
+    container_name: virtex-kafka
     depends_on:
       - zookeeper
     ports:
@@ -30,7 +30,7 @@ services:
   postgres:
     # Pinning to semantic version + SHA256 digest for immutability
     image: postgres:15.6-alpine@sha256:f1245842f1f50a80e60805cf327598f8047970f90c1097e108250b73c4d9e0bc
-    container_name: virteex-postgres
+    container_name: virtex-postgres
     ports:
       - "5432:5432"
     environment:
@@ -44,7 +44,7 @@ services:
   redis:
     # Pinning to semantic version + SHA256 digest for immutability
     image: redis:7.2.4-alpine@sha256:8b81dd37ff027bec4e516d41acfbe9fe2460070dc6d4a4570a2ac5b9d59df065
-    container_name: virteex-redis
+    container_name: virtex-redis
     ports:
       - "6379:6379"
     volumes:
@@ -53,11 +53,11 @@ services:
   keycloak:
     # Pinning to semantic version + SHA256 digest for immutability
     image: quay.io/keycloak/keycloak:23.0.0@sha256:b7bccfd8bb24e342fa0465e4dbcf9334236fc4df5483bc30edbb585071a2f0b0
-    container_name: virteex-keycloak
+    container_name: virtex-keycloak
     command: start-dev
     environment:
       KC_DB: postgres
-      KC_DB_URL: jdbc:postgresql://postgres:5432/virteex_keycloak
+      KC_DB_URL: jdbc:postgresql://postgres:5432/virtex_keycloak
       KC_DB_USERNAME: ${POSTGRES_USER}
       KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
       KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
@@ -70,7 +70,7 @@ services:
   jaeger:
     # Pinning to semantic version + SHA256 digest for immutability
     image: jaegertracing/all-in-one:1.50@sha256:9be1030e64f77f3a970967a942b033f74220ec26850c950936746960010901e5
-    container_name: virteex-jaeger
+    container_name: virtex-jaeger
     ports:
       - "16686:16686"
       - "4317:4317"
@@ -80,7 +80,7 @@ services:
 
   traefik:
     image: traefik:v2.10
-    container_name: virteex-traefik
+    container_name: virtex-traefik
     ports:
       - "80:80"
       - "443:443"

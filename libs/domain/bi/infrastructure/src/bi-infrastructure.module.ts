@@ -12,20 +12,20 @@ import {
   CATALOG_PORT,
   TREASURY_PORT,
   BI_ACCOUNTING_PORT,
-} from '@virteex/domain-bi-domain';
+} from '@virtex/domain-bi-domain';
 import { MikroOrmBiReportRepository } from './persistence/repositories/mikro-orm-bi-report.repository';
 import { BiExpensesAdapter } from './integrations/adapters/bi-expenses.adapter';
 import { BiInvoiceAdapter } from './integrations/adapters/bi-invoice.adapter';
 import { CrmSalesAdapter } from './integrations/adapters/crm-sales.adapter';
 import { SqlDashboardGateway } from './integrations/adapters/sql-dashboard-gateway.adapter';
 import { AccountingReportingAdapter } from './integrations/adapters/accounting-reporting.adapter';
-import { ACCOUNTING_REPORTING_PORT } from '@virteex/domain-accounting-contracts';
+import { ACCOUNTING_REPORTING_PORT } from '@virtex/domain-accounting-contracts';
 import { SqlPurchasingAdapter } from './integrations/adapters/sql-purchasing.adapter';
 import { SqlCrmAdapter } from './integrations/adapters/sql-crm.adapter';
 import { SqlCatalogAdapter } from './integrations/adapters/sql-catalog.adapter';
 import { SqlTreasuryAdapter } from './integrations/adapters/sql-treasury.adapter';
 import { SqlBiAccountingAdapter } from './integrations/adapters/sql-bi-accounting.adapter';
-import { IAccountingReportingPort } from '@virteex/domain-accounting-contracts';
+import { IAccountingReportingPort } from '@virtex/domain-accounting-contracts';
 
 @Module({
   imports: [

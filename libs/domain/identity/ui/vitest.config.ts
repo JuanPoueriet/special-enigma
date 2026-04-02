@@ -18,10 +18,10 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['src/test-setup.ts'],
     alias: {
-      '@virteex/shared-config': resolve(__dirname, '../../../../libs/shared/config/src/index.ts'),
-      '@virteex/identity-ui': resolve(__dirname, './src/index.ts'),
-      '@virteex/domain-identity-contracts': resolve(__dirname, '../../../../libs/domain/identity/contracts/src/index.ts'),
-      '@virteex/shared-ui': resolve(__dirname, '../../../../libs/shared/ui/src/index.ts'),
+      '@virtex/shared-config': resolve(__dirname, '../../../../libs/shared/config/src/index.ts'),
+      '@virtex/identity-ui': resolve(__dirname, './src/index.ts'),
+      '@virtex/domain-identity-contracts': resolve(__dirname, '../../../../libs/domain/identity/contracts/src/index.ts'),
+      '@virtex/shared-ui': resolve(__dirname, '../../../../libs/shared/ui/src/index.ts'),
       '@ngx-translate/core': resolve(__dirname, '../../../../node_modules/@ngx-translate/core/fesm2022/ngx-translate-core.mjs')
     },
     include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],

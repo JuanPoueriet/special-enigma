@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/knex';
-import { IAccountingReportingPort } from '@virteex/domain-accounting-contracts';
+import { IAccountingReportingPort } from '@virtex/domain-accounting-contracts';
 import {
   AccountType,
   JournalEntry,
   JournalEntryLine,
-} from '@virteex/domain-accounting-domain';
+} from '@virtex/domain-accounting-domain';
 
 @Injectable()
 export class MikroOrmReportingAdapter implements IAccountingReportingPort {

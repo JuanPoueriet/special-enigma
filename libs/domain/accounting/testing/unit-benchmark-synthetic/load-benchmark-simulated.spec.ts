@@ -1,5 +1,5 @@
 import { vi, describe, it, expect } from 'vitest';
-import { GenerateFinancialReportUseCase } from '@virteex/domain-accounting-application';
+import { GenerateFinancialReportUseCase } from '@virtex/domain-accounting-application';
 
 describe('Accounting Domain Performance (Gating Benchmark)', () => {
   it('should meet performance requirements for report generation with a large simulated dataset', async () => {

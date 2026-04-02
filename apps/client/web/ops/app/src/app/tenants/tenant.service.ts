@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TenantsApiClient } from './tenants-api.client';
-import { TenantDto, CreateTenantRequest } from '@virteex/domain-admin-contracts';
+import { TenantDto, CreateTenantRequest } from '@virtex/domain-admin-contracts';
 
 @Injectable({
   providedIn: 'root'

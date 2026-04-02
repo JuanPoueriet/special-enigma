@@ -1,6 +1,6 @@
 import { Injectable, Logger, InternalServerErrorException, RequestTimeoutException } from '@nestjs/common';
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import { TelemetryService } from '@virteex/kernel-telemetry';
+import { TelemetryService } from '@virtex/kernel-telemetry';
 
 // Circuit Breaker State
 enum CircuitState { CLOSED, OPEN, HALF_OPEN }

@@ -2,9 +2,9 @@ import { Module } from '@nestjs/common';
 import { CalculatePayrollUseCase } from './use-cases/calculate-payroll.use-case';
 import { GetEmployeesUseCase } from './use-cases/get-employees.use-case';
 import { StampPayrollUseCase } from './use-cases/stamp-payroll.use-case';
-import { PayrollCalculationService } from '@virteex/domain-payroll-domain';
-import { XsltService } from '@virteex/platform-xslt';
-import { ServerConfigModule } from '@virteex/shared-util-server-server-config';
+import { PayrollCalculationService } from '@virtex/domain-payroll-domain';
+import { XsltService } from '@virtex/platform-xslt';
+import { ServerConfigModule } from '@virtex/shared-util-server-server-config';
 
 @Module({
   imports: [ServerConfigModule],

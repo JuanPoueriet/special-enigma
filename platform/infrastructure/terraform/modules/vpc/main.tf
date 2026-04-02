@@ -15,7 +15,7 @@ resource "aws_vpc" "main" {
   enable_dns_support   = true
 
   tags = {
-    Name        = "virteex-vpc-${var.environment}"
+    Name        = "virtex-vpc-${var.environment}"
     Environment = var.environment
   }
 }
@@ -24,7 +24,7 @@ resource "aws_internet_gateway" "main" {
   vpc_id = aws_vpc.main.id
 
   tags = {
-    Name = "virteex-igw-${var.environment}"
+    Name = "virtex-igw-${var.environment}"
   }
 }
 
@@ -35,7 +35,7 @@ resource "aws_subnet" "public" {
   availability_zone = data.aws_availability_zones.available.names[count.index]
 
   tags = {
-    Name = "virteex-public-${count.index}-${var.environment}"
+    Name = "virtex-public-${count.index}-${var.environment}"
     "kubernetes.io/role/elb" = "1"
   }
 }
@@ -47,7 +47,7 @@ resource "aws_subnet" "private" {
   availability_zone = data.aws_availability_zones.available.names[count.index]
 
   tags = {
-    Name = "virteex-private-${count.index}-${var.environment}"
+    Name = "virtex-private-${count.index}-${var.environment}"
     "kubernetes.io/role/internal-elb" = "1"
   }
 }

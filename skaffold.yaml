@@ -1,13 +1,13 @@
 apiVersion: skaffold/v4beta1
 kind: Config
 metadata:
-  name: virteex-erp
+  name: virtex-erp
 build:
   artifacts:
-    - image: ghcr.io/virteex/api-gateway
+    - image: ghcr.io/virtex/api-gateway
       context: .
       docker:
-        dockerfile: apps/virteex-api-gateway/Dockerfile
+        dockerfile: apps/virtex-api-gateway/Dockerfile
   local:
     push: false
 manifests:

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { StripeMapper } from './stripe.mapper';
-import { SubscriptionStatus } from '@virteex/domain-subscription-domain';
+import { SubscriptionStatus } from '@virtex/domain-subscription-domain';
 
 describe('StripeMapper', () => {
   describe('toSubscriptionStatus', () => {

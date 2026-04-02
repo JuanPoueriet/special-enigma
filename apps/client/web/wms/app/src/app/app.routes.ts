@@ -8,6 +8,6 @@ export const appRoutes: Route[] = [
   },
   {
     path: 'scan',
-    loadComponent: () => import('@virteex/inventory-ui-wms').then((m) => m.ScanComponent),
+    loadComponent: () => import('@virtex/inventory-ui-wms').then((m) => m.ScanComponent),
   },
 ];

@@ -4,7 +4,7 @@ import {
   SignedTenantContextClaims,
   TENANT_CONTEXT_VERSION,
   TenantContextValidationError,
-} from '@virteex/kernel-tenant-context';
+} from '@virtex/kernel-tenant-context';
 
 const REQUIRED_STRING_CLAIMS: Array<keyof SignedTenantContextClaims> = [
   'tenantId',
@@ -64,22 +64,22 @@ export const parseAndValidateSignedContext = (
   nowEpochSeconds = Math.floor(Date.now() / 1000)
 ): SignedTenantContextClaims => {
   if (!encodedContext) {
-    throw new TenantContextValidationError('missing_context', 'Missing x-virteex-context header.');
+    throw new TenantContextValidationError('missing_context', 'Missing x-virtex-context header.');
   }
 
   if (!signature) {
-    throw new TenantContextValidationError('missing_signature', 'Missing x-virteex-signature header.');
+    throw new TenantContextValidationError('missing_signature', 'Missing x-virtex-signature header.');
   }
 
   if (!verifySignature(encodedContext, signature, hmacSecret)) {
-    throw new TenantContextValidationError('invalid_signature', 'Invalid x-virteex-signature value.');
+    throw new TenantContextValidationError('invalid_signature', 'Invalid x-virtex-signature value.');
   }
 
   let parsed: SignedTenantContextClaims;
   try {
     parsed = JSON.parse(Buffer.from(encodedContext, 'base64').toString('utf8')) as SignedTenantContextClaims;
   } catch {
-    throw new TenantContextValidationError('invalid_payload', 'Malformed x-virteex-context payload.');
+    throw new TenantContextValidationError('invalid_payload', 'Malformed x-virtex-context payload.');
   }
 
   validateClaims(parsed, nowEpochSeconds);

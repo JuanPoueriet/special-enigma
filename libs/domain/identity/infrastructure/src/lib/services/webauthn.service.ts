@@ -9,8 +9,8 @@ import {
   GenerateAuthenticationOptionsOpts,
   VerifyAuthenticationResponseOpts,
 } from '@simplewebauthn/server';
-import { SecretManagerService } from '@virteex/kernel-auth';
-import { WebAuthnService as IWebAuthnService } from '@virteex/domain-identity-domain';
+import { SecretManagerService } from '@virtex/kernel-auth';
+import { WebAuthnService as IWebAuthnService } from '@virtex/domain-identity-domain';
 
 @Injectable()
 export class WebAuthnService implements IWebAuthnService {
@@ -19,7 +19,7 @@ export class WebAuthnService implements IWebAuthnService {
   private readonly origin: string;
 
   constructor(private readonly secretManager: SecretManagerService) {
-    this.rpName = this.secretManager.getSecret('WEBAUTHN_RP_NAME', 'Virteex ERP');
+    this.rpName = this.secretManager.getSecret('WEBAUTHN_RP_NAME', 'virtex ERP');
     this.rpID = this.secretManager.getSecret('WEBAUTHN_RP_ID', 'localhost');
     this.origin = this.secretManager.getSecret('WEBAUTHN_ORIGIN', 'http://localhost:4200');
   }

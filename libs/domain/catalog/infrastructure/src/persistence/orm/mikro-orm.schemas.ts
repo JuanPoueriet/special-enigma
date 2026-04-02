@@ -1,5 +1,5 @@
 import { EntitySchema, t } from '@mikro-orm/core';
-import { Product, SatPaymentForm, SatPaymentMethod, SatCfdiUsage, Plugin, PluginVersion, PluginStatus, PluginChannel } from '@virteex/domain-catalog-domain';
+import { Product, SatPaymentForm, SatPaymentMethod, SatCfdiUsage, Plugin, PluginVersion, PluginStatus, PluginChannel } from '@virtex/domain-catalog-domain';
 
 export const PluginSchema = new EntitySchema<Plugin>({
   class: Plugin,

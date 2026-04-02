@@ -3,7 +3,7 @@ import { EntityManager } from '@mikro-orm/postgresql';
 import {
   OutboxMessage,
   OutboxRepository,
-} from '@virteex/domain-accounting-domain';
+} from '@virtex/domain-accounting-domain';
 
 @Injectable()
 export class MikroOrmOutboxRepository implements OutboxRepository {

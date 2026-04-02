@@ -1,5 +1,5 @@
 module.exports = {
-  displayName: 'virteex-notification-service',
+  displayName: 'virtex-notification-service',
   preset: '../../../../jest.preset.js',
   testEnvironment: 'node',
   transform: {
@@ -7,5 +7,5 @@ module.exports = {
   },
   transformIgnorePatterns: ['node_modules/(?!(@scure|otplib|@noble|uuid))'],
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../../../coverage/apps/virteex-notification-service'
+  coverageDirectory: '../../../../coverage/apps/virtex-notification-service'
 };

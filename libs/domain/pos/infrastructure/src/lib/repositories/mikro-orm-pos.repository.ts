@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/postgresql';
-import { PosSale, PosShift, PosRepository } from '@virteex/domain-pos-domain';
-import { DataQualityService } from '@virteex/platform-data-quality';
+import { PosSale, PosShift, PosRepository } from '@virtex/domain-pos-domain';
+import { DataQualityService } from '@virtex/platform-data-quality';
 
 @Injectable()
 export class MikroOrmPosRepository implements PosRepository {

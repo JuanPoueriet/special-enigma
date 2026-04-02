@@ -1,5 +1,5 @@
 {
-  "name": "@virteex/domain-billing-presentation",
+  "name": "@virtex/domain-billing-presentation",
   "version": "0.0.1",
   "type": "commonjs",
   "main": "./src/index.js",
@@ -16,10 +16,10 @@
   "dependencies": {
     "tslib": "^2.3.0",
     "@nestjs/common": "^11.0.0",
-    "@virteex/domain-billing-application": "*",
-    "@virteex/domain-subscription-application": "*",
+    "@virtex/domain-billing-application": "*",
+    "@virtex/domain-subscription-application": "*",
     "@nestjs/swagger": "^11.2.6",
-    "@virteex/shared-util-server-server-config": "*",
+    "@virtex/shared-util-server-server-config": "*",
     "vitest": "^4.0.18",
     "@nx/vite": "22.5.3"
   }

@@ -1,6 +1,6 @@
 import { Injectable, UnauthorizedException, Logger } from '@nestjs/common';
-import { AuthService } from '@virteex/domain-identity-domain';
-import { JwtTokenService, SecretManagerService, MfaHelperService } from '@virteex/kernel-auth';
+import { AuthService } from '@virtex/domain-identity-domain';
+import { JwtTokenService, SecretManagerService, MfaHelperService } from '@virtex/kernel-auth';
 import * as jwt from 'jsonwebtoken';
 import * as crypto from 'crypto';
 import * as argon2 from 'argon2';
@@ -19,7 +19,7 @@ export class KeycloakAuthService implements AuthService {
     private readonly mfaHelper: MfaHelperService
   ) {
       this.clientSecret = this.secretManager.getSecret('KEYCLOAK_CLIENT_SECRET', 'dev-keycloak-secret');
-      this.issuer = this.secretManager.getSecret('KEYCLOAK_ISSUER', 'https://keycloak.virteex.com/auth/realms/virteex');
+      this.issuer = this.secretManager.getSecret('KEYCLOAK_ISSUER', 'https://keycloak.virtex.com/auth/realms/virtex');
 
       const mfaKey = this.secretManager.getSecret('MFA_ENCRYPTION_KEY', this.clientSecret);
       const salt = this.secretManager.getSecret('ENCRYPTION_SALT', 'keycloak-default-salt');
@@ -63,7 +63,7 @@ export class KeycloakAuthService implements AuthService {
         }
 
         const verificationKey = publicKey || this.clientSecret;
-          const audience = this.secretManager.getSecret('KEYCLOAK_AUDIENCE', 'virteex-api');
+          const audience = this.secretManager.getSecret('KEYCLOAK_AUDIENCE', 'virtex-api');
         const allowedAlgorithms: jwt.Algorithm[] = isProd ? ['RS256'] : ['HS256', 'RS256'];
 
           return jwt.verify(token, verificationKey, {

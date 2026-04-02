@@ -1,6 +1,6 @@
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
-import { PosBillingPort, PosInventoryPort } from '@virteex/domain-pos-application';
+import { PosBillingPort, PosInventoryPort } from '@virtex/domain-pos-application';
 import { firstValueFrom, Observable } from 'rxjs';
 
 interface BillingService {

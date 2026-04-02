@@ -3,10 +3,10 @@ import { Component, Input, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { LucideAngularModule, Building, Users, Globe, Briefcase } from 'lucide-angular';
-import { ConfigService, RegistrationOptions } from '@virteex/shared-ui';
+import { ConfigService, RegistrationOptions } from '@virtex/shared-ui';
 
 @Component({
-  selector: 'virteex-step-business',
+  selector: 'virtex-step-business',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, LucideAngularModule],
   template: `

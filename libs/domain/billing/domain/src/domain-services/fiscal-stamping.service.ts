@@ -1,10 +1,10 @@
-import { BadRequestException, EntityNotFoundException } from '@virteex/kernel-exceptions';
+import { BadRequestException, EntityNotFoundException } from '@virtex/kernel-exceptions';
 import { Invoice } from '../entities/invoice.entity';
 import { FiscalStamp } from '../repository-ports/pac-provider.port';
 import { type TenantConfigRepository } from '../repository-ports/tenant-config.port';
 import { type CustomerRepository } from '../repository-ports/customer.repository';
 import { type PacStrategyFactory } from '../factories/pac-strategy.factory';
-import { FiscalDocumentBuilderFactory } from '@virteex/domain-fiscal-domain';
+import { FiscalDocumentBuilderFactory } from '@virtex/domain-fiscal-domain';
 
 export class FiscalStampingService {
   constructor(

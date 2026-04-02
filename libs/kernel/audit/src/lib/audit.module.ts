@@ -3,8 +3,8 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { EntityManager } from '@mikro-orm/core';
 import { DataAuditLog } from './entities/data-audit-log.entity';
 import { DataAuditSubscriber } from './subscribers/data-audit.subscriber';
-import { AuditLedgerService } from '@virteex/platform-audit';
-import { AuditLedger } from '@virteex/platform-audit';
+import { AuditLedgerService } from '@virtex/platform-audit';
+import { AuditLedger } from '@virtex/platform-audit';
 
 @Global()
 @Module({

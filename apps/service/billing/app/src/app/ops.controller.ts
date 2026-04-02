@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { PreconditionFailedException } from '@nestjs/common';
 import { OpsReadinessService } from './ops-readiness.service';
-import { CostReconciliationService } from '@virteex/domain-finops-application';
+import { CostReconciliationService } from '@virtex/domain-finops-application';
 
 @Controller('ops')
 export class OpsController {
@@ -12,7 +12,7 @@ export class OpsController {
 
   @Get('health')
   health() {
-    return { status: 'up', service: 'virteex-billing-service', timestamp: new Date().toISOString() };
+    return { status: 'up', service: 'virtex-billing-service', timestamp: new Date().toISOString() };
   }
 
   @Get('readiness')

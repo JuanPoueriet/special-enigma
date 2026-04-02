@@ -1,7 +1,7 @@
 import { Injectable, Inject, Logger } from '@nestjs/common';
-import { PAC_PROVIDER, PacProvider } from '@virteex/domain-fiscal-domain';
+import { PAC_PROVIDER, PacProvider } from '@virtex/domain-fiscal-domain';
 import { XMLBuilder } from 'fast-xml-parser';
-import { XsltService } from '@virteex/platform-xslt';
+import { XsltService } from '@virtex/platform-xslt';
 import * as crypto from 'crypto';
 
 export interface FiscalStampingRequest {

@@ -1,5 +1,5 @@
 import { EntitySchema, Cascade } from '@mikro-orm/core';
-import { Stock, StockBatch, Warehouse, Location, InventoryMovement, InventoryMovementType } from '@virteex/domain-inventory-domain';
+import { Stock, StockBatch, Warehouse, Location, InventoryMovement, InventoryMovementType } from '@virtex/domain-inventory-domain';
 
 export const WarehouseSchema = new EntitySchema<Warehouse>({
   class: Warehouse,

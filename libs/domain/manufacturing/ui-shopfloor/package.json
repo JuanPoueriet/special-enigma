@@ -1,5 +1,5 @@
 {
-  "name": "@virteex/domain-manufacturing-ui-shopfloor",
+  "name": "@virtex/domain-manufacturing-ui-shopfloor",
   "version": "0.0.1",
   "type": "commonjs",
   "main": "./src/index.js",

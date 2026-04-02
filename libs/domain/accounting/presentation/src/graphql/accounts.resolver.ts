@@ -1,6 +1,6 @@
 import { Resolver, Query, Mutation, Args, ResolveField, Parent } from '@nestjs/graphql';
-import { CreateAccountUseCase, GetAccountsUseCase } from '@virteex/domain-accounting-application';
-import { CurrentTenant } from '@virteex/kernel-auth';
+import { CreateAccountUseCase, GetAccountsUseCase } from '@virtex/domain-accounting-application';
+import { CurrentTenant } from '@virtex/kernel-auth';
 import { AccountObject } from '../http/dto/account.object';
 import { CreateAccountInput } from '../http/dto/create-account.input';
 import { AccountLoader } from './account.loader';

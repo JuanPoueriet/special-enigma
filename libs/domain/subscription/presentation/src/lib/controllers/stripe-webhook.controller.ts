@@ -1,8 +1,8 @@
 import { Controller, Post, Headers, Req, BadRequestException, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { ProcessStripeWebhookUseCase } from '@virteex/domain-subscription-application';
+import { ProcessStripeWebhookUseCase } from '@virtex/domain-subscription-application';
 import Stripe from 'stripe';
-import { resolveStripeSecretKey } from '@virteex/domain-subscription-domain';
+import { resolveStripeSecretKey } from '@virtex/domain-subscription-domain';
 
 @Controller('stripe/webhook')
 export class StripeWebhookController {

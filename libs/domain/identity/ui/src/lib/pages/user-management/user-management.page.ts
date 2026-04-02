@@ -3,12 +3,12 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { LucideAngularModule, UserPlus, Save, X, Send, User, History, Trash2, Key, Search, Filter, ArrowUpDown, ArrowUp, ArrowDown, MoreHorizontal, FilePenLine, Ban, UserCog, Mail, ChevronLeft, ChevronRight, Plus, RefreshCw, Power, PowerOff, Building, Lock, Archive, UserCheck, Zap, FileInput, FileOutput, UserCircle2, LogOut } from 'lucide-angular';
-import { UsersService, InviteUserDto, UpdateUserDto, RolesService, Role, AuthService, User as ApiUser, UserStatus, WebSocketService, HasPermissionDirective, ToastService, PaginatedUsersResponse } from '@virteex/shared-ui';
+import { UsersService, InviteUserDto, UpdateUserDto, RolesService, Role, AuthService, User as ApiUser, UserStatus, WebSocketService, HasPermissionDirective, ToastService, PaginatedUsersResponse } from '@virtex/shared-ui';
 import { TranslateModule } from '@ngx-translate/core';
 import { debounceTime, distinctUntilChanged, Subject, Subscription } from 'rxjs';
 
 @Component({
-  selector: 'virteex-user-management-page',
+  selector: 'virtex-user-management-page',
   standalone: true,
   imports: [
     CommonModule,

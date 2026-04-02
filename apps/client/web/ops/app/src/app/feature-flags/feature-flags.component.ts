@@ -1,10 +1,10 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { API_URL } from '@virteex/shared-config';
+import { API_URL } from '@virtex/shared-config';
 
 @Component({
-  selector: 'virteex-feature-flags',
+  selector: 'virtex-feature-flags',
   standalone: true,
   imports: [CommonModule],
   template: `

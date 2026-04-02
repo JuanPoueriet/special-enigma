@@ -1,8 +1,8 @@
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { RecordJournalEntryUseCase } from './record-journal-entry.use-case';
-import { JOURNAL_ENTRY_REPOSITORY, type JournalEntryRepository, ACCOUNT_REPOSITORY, type AccountRepository, Account, type ITelemetryService, type FiscalPeriodRepository } from '@virteex/domain-accounting-domain';
-import { EntitlementService } from '@virteex/kernel-entitlements';
-import { AccountType } from '@virteex/domain-accounting-contracts';
+import { JOURNAL_ENTRY_REPOSITORY, type JournalEntryRepository, ACCOUNT_REPOSITORY, type AccountRepository, Account, type ITelemetryService, type FiscalPeriodRepository } from '@virtex/domain-accounting-domain';
+import { EntitlementService } from '@virtex/kernel-entitlements';
+import { AccountType } from '@virtex/domain-accounting-contracts';
 import { IUnitOfWork } from '../../ports/outbound/unit-of-work.port';
 
 describe('RecordJournalEntryUseCase', () => {

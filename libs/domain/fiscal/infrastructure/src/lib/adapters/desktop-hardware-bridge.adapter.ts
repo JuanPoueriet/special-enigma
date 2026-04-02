@@ -1,5 +1,5 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { HardwareTokenPort, HardwareTokenInfo } from '@virteex/domain-fiscal-domain';
+import { HardwareTokenPort, HardwareTokenInfo } from '@virtex/domain-fiscal-domain';
 
 @Injectable()
 export class DesktopHardwareBridge implements HardwareTokenPort {

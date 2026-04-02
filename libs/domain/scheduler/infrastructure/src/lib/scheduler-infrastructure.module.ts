@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { Job } from '@virteex/domain-scheduler-domain';
+import { Job } from '@virtex/domain-scheduler-domain';
 
 @Module({
   imports: [MikroOrmModule.forFeature([Job])],

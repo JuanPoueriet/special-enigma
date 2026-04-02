@@ -13,7 +13,7 @@ export interface CountryInfo {
 }
 
 @Component({
-  selector: 'virteex-country-selector',
+  selector: 'virtex-country-selector',
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `

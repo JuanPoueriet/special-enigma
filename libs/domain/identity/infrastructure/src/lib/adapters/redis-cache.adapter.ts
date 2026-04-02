@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { CachePort } from '@virteex/domain-identity-domain';
-import { RedisCacheService } from '@virteex/platform-cache';
+import { CachePort } from '@virtex/domain-identity-domain';
+import { RedisCacheService } from '@virtex/platform-cache';
 
 @Injectable()
 export class RedisCacheAdapter implements CachePort {

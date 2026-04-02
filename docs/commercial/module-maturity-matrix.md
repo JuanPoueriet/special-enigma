@@ -1,4 +1,4 @@
-# Matriz de madurez funcional (GA / Beta / No listo) - Virteex ERP v2026.02
+# Matriz de madurez funcional (GA / Beta / No listo) - virtex ERP v2026.02
 
 | Clave módulo  | Estado         | Notas de venta / Evidencia Nivel 5                                                       |
 | ------------- | -------------- | ---------------------------------------------------------------------------------------- |

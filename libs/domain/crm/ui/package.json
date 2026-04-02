@@ -1,5 +1,5 @@
 {
-  "name": "@virteex/crm-ui",
+  "name": "@virtex/crm-ui",
   "version": "0.0.1",
   "private": true,
   "main": "./src/index.js",

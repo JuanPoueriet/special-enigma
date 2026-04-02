@@ -1,4 +1,4 @@
-import { type JournalEntryRepository, type AccountRepository, type PolicyRepository, JournalEntry, JournalEntryLine, JournalEntryType, JournalEntryStatus } from '@virteex/domain-accounting-domain';
+import { type JournalEntryRepository, type AccountRepository, type PolicyRepository, JournalEntry, JournalEntryLine, JournalEntryType, JournalEntryStatus } from '@virtex/domain-accounting-domain';
 import { Decimal } from 'decimal.js';
 
 export class ConsolidateAccountsUseCase {

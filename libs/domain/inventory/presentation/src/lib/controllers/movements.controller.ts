@@ -1,9 +1,9 @@
 import { Controller, Post, Body, UseGuards, UseFilters } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { RegisterMovementUseCase } from '@virteex/domain-inventory-application';
+import { RegisterMovementUseCase } from '@virtex/domain-inventory-application';
 import { RegisterMovementDto } from '../dto/register-movement.dto';
-import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virteex/kernel-auth';
-import { RequireEntitlement, EntitlementGuard } from '@virteex/kernel-entitlements';
+import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virtex/kernel-auth';
+import { RequireEntitlement, EntitlementGuard } from '@virtex/kernel-entitlements';
 import { InventoryApplicationExceptionFilter } from '../filters/inventory-application-exception.filter';
 
 @ApiTags('Inventory - Movements')

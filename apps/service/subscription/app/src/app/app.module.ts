@@ -5,17 +5,17 @@ import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { SqliteDriver } from '@mikro-orm/sqlite';
 import { LoggerModule } from 'nestjs-pino';
 import { TerminusModule } from '@nestjs/terminus';
-import { ServerConfigModule } from '@virteex/shared-util-server-server-config';
+import { ServerConfigModule } from '@virtex/shared-util-server-server-config';
 import { GraphQLModule } from '@nestjs/graphql';
 import depthLimit from 'graphql-depth-limit';
 import { createComplexityRule, simpleEstimator } from 'graphql-query-complexity';
 import { ApolloFederationDriver, ApolloFederationDriverConfig } from '@nestjs/apollo';
 import { ApolloServerPluginLandingPageLocalDefault, ApolloServerPluginLandingPageProductionDefault } from '@apollo/server/plugin/landingPage/default';
-import { SubscriptionPresentationModule } from '@virteex/domain-subscription-presentation';
-import { SubscriptionInfrastructureModule } from '@virteex/domain-subscription-infrastructure';
-import { SubscriptionApplicationModule } from '@virteex/domain-subscription-application';
-import { TenantModule } from '@virteex/kernel-tenant';
-import { CanonicalTenantMiddleware } from '@virteex/kernel-auth';
+import { SubscriptionPresentationModule } from '@virtex/domain-subscription-presentation';
+import { SubscriptionInfrastructureModule } from '@virtex/domain-subscription-infrastructure';
+import { SubscriptionApplicationModule } from '@virtex/domain-subscription-application';
+import { TenantModule } from '@virtex/kernel-tenant';
+import { CanonicalTenantMiddleware } from '@virtex/kernel-auth';
 
 @Module({
   imports: [
@@ -64,7 +64,7 @@ import { CanonicalTenantMiddleware } from '@virteex/kernel-auth';
           user: isPostgres ? (configService.get<string>('SUBSCRIPTION_DB_USER') || configService.get<string>('DB_USER')) : undefined,
           password: isPostgres ? (configService.get<string>('SUBSCRIPTION_DB_PASSWORD') || configService.get<string>('DB_PASSWORD')) : undefined,
           dbName: (() => {
-            const dbName = configService.get<string>('SUBSCRIPTION_DB_NAME') || 'virteex_subscription';
+            const dbName = configService.get<string>('SUBSCRIPTION_DB_NAME') || 'virtex_subscription';
             return dbName;
           })(),
           autoLoadEntities: true,

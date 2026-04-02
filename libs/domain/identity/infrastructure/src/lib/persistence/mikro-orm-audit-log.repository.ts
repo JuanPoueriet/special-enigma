@@ -1,8 +1,8 @@
 import { EntityRepository, LockMode } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
-import { AuditLog, AuditLogRepository } from '@virteex/domain-identity-domain';
-import { SecretManagerService } from '@virteex/kernel-auth';
+import { AuditLog, AuditLogRepository } from '@virtex/domain-identity-domain';
+import { SecretManagerService } from '@virtex/kernel-auth';
 import { createHash } from 'crypto';
 
 @Injectable()

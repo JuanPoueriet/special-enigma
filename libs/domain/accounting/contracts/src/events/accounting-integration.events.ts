@@ -2,7 +2,7 @@ import {
   InvoiceStampedV1EventDto as SharedInvoiceStampedV1EventDto,
   PayrollStampedV1EventDto as SharedPayrollStampedV1EventDto,
   ACCOUNTING_INTEGRATION_EVENTS as SharedACCOUNTING_INTEGRATION_EVENTS,
-} from '@virteex/shared-contracts';
+} from '@virtex/shared-contracts';
 
 /**
  * Integration Events for Accounting Module (V1)

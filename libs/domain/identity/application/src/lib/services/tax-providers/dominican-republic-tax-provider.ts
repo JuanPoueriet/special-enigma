@@ -1,4 +1,4 @@
-import { TaxLookupDto } from '@virteex/domain-identity-contracts';
+import { TaxLookupDto } from '@virtex/domain-identity-contracts';
 import { AbstractRobustTaxProvider } from './abstract-robust-tax-provider';
 import { Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
@@ -32,7 +32,7 @@ export class DominicanRepublicTaxProvider extends AbstractRobustTaxProvider {
     }
 
     const companies: Record<string, any> = {
-      '101010101': { legalName: 'VIRTEEX DOMINICANA SRL', industry: 'TECNOLOGIA', status: 'ACTIVO' },
+      '101010101': { legalName: 'virtex DOMINICANA SRL', industry: 'TECNOLOGIA', status: 'ACTIVO' },
       '202020202': { legalName: 'CONSTRUCCIONES S.A.', industry: 'CONSTRUCCION', status: 'ACTIVO' },
     };
 

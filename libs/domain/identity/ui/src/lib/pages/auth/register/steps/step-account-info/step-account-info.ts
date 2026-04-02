@@ -9,11 +9,11 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AuthInputComponent } from '../../../components/auth-input/auth-input.component';
 import { PasswordValidatorComponent } from '../../../components/password-validator/password-validator.component';
 import { HttpClient } from '@angular/common/http';
-import { AsyncValidators } from '@virteex/shared-ui';
-import { API_URL } from '@virteex/shared-config';
+import { AsyncValidators } from '@virtex/shared-ui';
+import { API_URL } from '@virtex/shared-config';
 
 @Component({
-  selector: 'virteex-step-account-info',
+  selector: 'virtex-step-account-info',
   standalone: true,
   imports: [
     CommonModule,

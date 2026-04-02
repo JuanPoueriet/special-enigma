@@ -1,4 +1,4 @@
-import { getTenantContext as getContext } from '@virteex/kernel-tenant-context';
+import { getTenantContext as getContext } from '@virtex/kernel-tenant-context';
 
 export const getTenantContext = () => {
   return getContext();

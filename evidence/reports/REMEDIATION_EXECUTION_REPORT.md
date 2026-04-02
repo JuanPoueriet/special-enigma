@@ -1,7 +1,7 @@
 # Remediation Execution Report: Multi-tenant / Multi-region Level 5 Certification
 
 ## 1. Inventario Real de Multi-tenant / Multi-región
-- **Tenant Context:** JWT-based propagation with mandatory signature verification and cross-check against `x-virteex-tenant-id`.
+- **Tenant Context:** JWT-based propagation with mandatory signature verification and cross-check against `x-virtex-tenant-id`.
 - **Isolation Layers:** Interceptor (Request level), Subscriber (Persistence level), Guard (Async/Channel level).
 - **Control Plane:** Centralized `TenantService` with full lifecycle support and `TenantOperationService` with distributed locking and immutable journaling.
 - **Data Resilience:** Multi-region enabled (Terraform & Runtime), Failover with RTO < 30s, Industrial migrations (SHARED/SCHEMA/DATABASE).
@@ -56,7 +56,7 @@
 - Bloqueo automático de acceso y persistencia para tenants no activos.
 
 ## 9. Context Propagation y Enforcement Universal
-- Contrato único via `x-virteex-tenant-id` y `Authorization`.
+- Contrato único via `x-virtex-tenant-id` y `Authorization`.
 - Propagación a través de `runWithTenantContext` (Async Local Storage).
 - Validación en cada punto de entrada (Gateway, Workers, Cron).
 
@@ -105,7 +105,7 @@
 - **Gap Técnico:** 0%. Todas las capacidades requeridas por el nivel 5 enterprise han sido implementadas, endurecidas y certificadas.
 
 ## 21. Conclusión de Evidencia
-La plataforma Virteex ERP ya no depende de simulaciones ni validaciones manuales. El aislamiento, la soberanía regional y la resiliencia multirregional están integradas en el runtime y protegidas por gates de seguridad fall-closed.
+La plataforma virtex ERP ya no depende de simulaciones ni validaciones manuales. El aislamiento, la soberanía regional y la resiliencia multirregional están integradas en el runtime y protegidas por gates de seguridad fall-closed.
 
 ## 22. Clasificación de Capacidades
 

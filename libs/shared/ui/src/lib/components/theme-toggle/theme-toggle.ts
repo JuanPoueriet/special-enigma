@@ -5,7 +5,7 @@ import { ThemeService } from '../../services/common/theme.service';
 import { LucideAngularModule, Sun, Moon, Monitor } from 'lucide-angular';
 
 @Component({
-  selector: 'virteex-theme-toggle',
+  selector: 'virtex-theme-toggle',
   standalone: true,
   imports: [
     LucideAngularModule // Solo necesitas importar el módulo

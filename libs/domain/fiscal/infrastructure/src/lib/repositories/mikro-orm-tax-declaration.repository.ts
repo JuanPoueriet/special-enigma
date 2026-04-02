@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { TaxDeclarationRepository, TaxDeclaration } from '@virteex/domain-fiscal-domain';
+import { TaxDeclarationRepository, TaxDeclaration } from '@virtex/domain-fiscal-domain';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityRepository } from '@mikro-orm/postgresql';
 import { TaxDeclarationRecord } from '../entities/tax-declaration.record';

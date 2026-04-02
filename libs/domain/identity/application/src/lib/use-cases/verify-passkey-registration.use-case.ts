@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { EntityNotFoundException } from "@virteex/kernel-exceptions";
-import { UserRepository, UserAuthenticator, WebAuthnService } from '@virteex/domain-identity-domain';
-import { UnauthorizedException } from '@virteex/kernel-exceptions';
+import { EntityNotFoundException } from "@virtex/kernel-exceptions";
+import { UserRepository, UserAuthenticator, WebAuthnService } from '@virtex/domain-identity-domain';
+import { UnauthorizedException } from '@virtex/kernel-exceptions';
 import { RegistrationResponseJSON } from '@simplewebauthn/types';
 
 @Injectable()

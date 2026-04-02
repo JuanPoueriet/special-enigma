@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule, FormControl } from '@angular/forms';
 
 @Component({
-  selector: 'virteex-auth-input',
+  selector: 'virtex-auth-input',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   providers: [

@@ -24,7 +24,7 @@ export class OutboxProcessor implements OnModuleInit {
     if (brokers.length > 0) {
       try {
         const kafka = new Kafka({
-          clientId: process.env['KAFKA_CLIENT_ID'] || 'virteex-api-gateway',
+          clientId: process.env['KAFKA_CLIENT_ID'] || 'virtex-api-gateway',
           brokers: brokers,
           retry: {
             retries: 2

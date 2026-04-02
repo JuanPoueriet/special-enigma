@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { type SalesPort, SALES_PORT, TopProductDto } from '@virteex/domain-bi-domain';
+import { type SalesPort, SALES_PORT, TopProductDto } from '@virtex/domain-bi-domain';
 import { GetTopProductsQuery } from './get-top-products.query';
 
 @Injectable()

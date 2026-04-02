@@ -1,7 +1,7 @@
-# Virteex Plugin Host (Secure Sandbox)
+# virtex Plugin Host (Secure Sandbox)
 
 ## 🎯 Purpose
-The **Virteex Plugin Host** is the **Secure Execution Environment** for untrusted third-party code (plugins/extensions). It allows tenants to extend the ERP's functionality (e.g., custom tax calculators, report generators) without compromising the security or stability of the core system.
+The **virtex Plugin Host** is the **Secure Execution Environment** for untrusted third-party code (plugins/extensions). It allows tenants to extend the ERP's functionality (e.g., custom tax calculators, report generators) without compromising the security or stability of the core system.
 
 ## 🛡 Security & Isolation
 The application implements strict isolation using **isolated-vm** (V8 Isolates) or a carefully configured **Node.js VM** fallback.
@@ -25,13 +25,13 @@ The application implements strict isolation using **isolated-vm** (V8 Isolates) 
 
 ### Development
 ```bash
-npx nx serve virteex-plugin-host
+npx nx serve virtex-plugin-host
 ```
 
 ### Production Build
 ```bash
-npx nx build virteex-plugin-host
-node dist/apps/virteex-plugin-host/main.js
+npx nx build virtex-plugin-host
+node dist/apps/virtex-plugin-host/main.js
 ```
 
 ## 🧪 Testing

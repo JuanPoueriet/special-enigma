@@ -6,7 +6,7 @@ import {
   type FinancialReportSnapshotRepository,
   FinancialReportSnapshot,
   AccountType,
-} from '@virteex/domain-accounting-domain';
+} from '@virtex/domain-accounting-domain';
 import { Decimal } from 'decimal.js';
 
 export interface FinancialReport {

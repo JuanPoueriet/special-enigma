@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { type FixedAssetRepository, FixedAsset } from '@virteex/domain-fixed-assets-domain';
+import { type FixedAssetRepository, FixedAsset } from '@virtex/domain-fixed-assets-domain';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { FixedAssetOrmEntity } from '../persistence/entities/fixed-asset.orm-entity';
 import { FixedAssetsPersistenceMapper } from '../persistence/mappers/fixed-assets-persistence.mapper';

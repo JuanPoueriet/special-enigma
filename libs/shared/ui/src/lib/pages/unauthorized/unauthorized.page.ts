@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'virteex-unauthorized-page',
+  selector: 'virtex-unauthorized-page',
   standalone: true,
   imports: [CommonModule, LucideAngularModule, RouterLink],
   templateUrl: './unauthorized.page.html',

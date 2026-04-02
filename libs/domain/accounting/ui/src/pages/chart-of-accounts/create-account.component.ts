@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { LucideAngularModule, ArrowLeft, AlertCircle, Loader2, XCircle } from 'lucide-angular';
-import { AccountType } from '@virteex/domain-accounting-contracts';
+import { AccountType } from '@virtex/domain-accounting-contracts';
 import { createAccountForm } from '../../forms/account.form';
 import { accountingFacade } from '../../facades/accounting.facade';
 

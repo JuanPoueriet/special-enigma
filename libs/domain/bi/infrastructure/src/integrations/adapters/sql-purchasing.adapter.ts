@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PurchasingPort } from '@virteex/domain-bi-domain';
+import { PurchasingPort } from '@virtex/domain-bi-domain';
 import { EntityManager } from '@mikro-orm/core';
 
 @Injectable()

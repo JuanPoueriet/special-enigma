@@ -1,6 +1,6 @@
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { GenerateFinancialReportUseCase } from './generate-financial-report.use-case';
-import { type JournalEntryRepository, type AccountRepository } from '@virteex/domain-accounting-domain';
+import { type JournalEntryRepository, type AccountRepository } from '@virtex/domain-accounting-domain';
 
 describe('GenerateFinancialReportUseCase Hardening', () => {
   let service: GenerateFinancialReportUseCase;

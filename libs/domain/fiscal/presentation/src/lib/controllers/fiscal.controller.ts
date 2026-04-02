@@ -5,9 +5,9 @@ import {
   GetFiscalStatsUseCase, GetTaxRulesUseCase,
   CreateTaxRuleUseCase, CreateTaxRuleDto,
   GetTaxRateUseCase
-} from '@virteex/domain-fiscal-application';
-import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virteex/kernel-auth';
-import { RequireEntitlement, EntitlementGuard } from '@virteex/kernel-entitlements';
+} from '@virtex/domain-fiscal-application';
+import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virtex/kernel-auth';
+import { RequireEntitlement, EntitlementGuard } from '@virtex/kernel-entitlements';
 
 @ApiTags('Fiscal')
 @ApiBearerAuth()

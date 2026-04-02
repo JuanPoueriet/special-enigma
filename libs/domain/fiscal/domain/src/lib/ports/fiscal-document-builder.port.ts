@@ -1,4 +1,4 @@
-import { InvoiceContract, CustomerBillingInfoContract } from '@virteex/domain-billing-contracts';
+import { InvoiceContract, CustomerBillingInfoContract } from '@virtex/domain-billing-contracts';
 import { TenantFiscalConfig } from './tenant-config.port';
 
 export interface HardwareTokenInfo {

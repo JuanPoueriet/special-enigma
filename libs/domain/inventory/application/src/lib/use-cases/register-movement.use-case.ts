@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { INVENTORY_REPOSITORY, type InventoryRepository, WAREHOUSE_REPOSITORY, type WarehouseRepository, InventoryMovement, Stock, InventoryMovementType, InsufficientStockException, WarehouseNotFoundException, PRODUCT_GATEWAY, type ProductGateway } from '@virteex/domain-inventory-domain';
+import { INVENTORY_REPOSITORY, type InventoryRepository, WAREHOUSE_REPOSITORY, type WarehouseRepository, InventoryMovement, Stock, InventoryMovementType, InsufficientStockException, WarehouseNotFoundException, PRODUCT_GATEWAY, type ProductGateway } from '@virtex/domain-inventory-domain';
 
 export interface RegisterMovementInput {
   tenantId: string;

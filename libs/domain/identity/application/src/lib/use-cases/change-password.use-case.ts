@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { EntityNotFoundException } from "@virteex/kernel-exceptions";
-import { UnauthorizedException } from '@virteex/kernel-exceptions';
-import { UserRepository, AuthService, AuditLogRepository, AuditLog, SessionRepository } from '@virteex/domain-identity-domain';
+import { EntityNotFoundException } from "@virtex/kernel-exceptions";
+import { UnauthorizedException } from '@virtex/kernel-exceptions';
+import { UserRepository, AuthService, AuditLogRepository, AuditLog, SessionRepository } from '@virtex/domain-identity-domain';
 
 @Injectable()
 export class ChangePasswordUseCase {

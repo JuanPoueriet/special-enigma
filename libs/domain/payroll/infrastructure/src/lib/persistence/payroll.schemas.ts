@@ -1,5 +1,5 @@
 import { EntitySchema, Cascade } from '@mikro-orm/core';
-import { TaxTable, Employee, Payroll, Attendance, PayrollDetail } from '@virteex/domain-payroll-domain';
+import { TaxTable, Employee, Payroll, Attendance, PayrollDetail } from '@virtex/domain-payroll-domain';
 
 export const TaxTableSchema = new EntitySchema<TaxTable>({
   class: TaxTable,

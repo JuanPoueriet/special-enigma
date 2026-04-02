@@ -5,7 +5,7 @@ test.describe('Operations Console - Enterprise Flows', () => {
     // Mock login by setting local storage
     await page.addInitScript(() => {
       window.localStorage.setItem('token', 'mock-enterprise-token');
-      window.localStorage.setItem('email', 'admin@virteex.com');
+      window.localStorage.setItem('email', 'admin@virtex.com');
     });
     await page.goto('/dashboard');
   });

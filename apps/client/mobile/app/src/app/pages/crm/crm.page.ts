@@ -5,7 +5,7 @@ import { CrmService } from '../../core/services/crm.service';
 import { catchError, of } from 'rxjs';
 
 @Component({
-  selector: 'virteex-mobile-crm',
+  selector: 'virtex-mobile-crm',
   standalone: true,
   imports: [CommonModule, RouterLink],
   template: `

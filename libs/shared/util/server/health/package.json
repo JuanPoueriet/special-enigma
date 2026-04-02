@@ -1,5 +1,5 @@
 {
-  "name": "@virteex/shared-util-server-health",
+  "name": "@virtex/shared-util-server-health",
   "version": "0.0.1",
   "type": "commonjs",
   "dependencies": {

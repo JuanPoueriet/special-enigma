@@ -1,7 +1,7 @@
-# Readiness Gap Analysis - Virteex ERP
+# Readiness Gap Analysis - virtex ERP
 
 ## 1. Contexto y Objetivos
-Este documento detalla el estado real del repositorio Virteex ERP frente a los requerimientos de salida comercial (GA) para LatAm y EE. UU.
+Este documento detalla el estado real del repositorio virtex ERP frente a los requerimientos de salida comercial (GA) para LatAm y EE. UU.
 
 ## 2. Estado Real vs Informe de Brechas
 

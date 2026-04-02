@@ -1,8 +1,8 @@
 import { ipcMain } from 'electron';
-import { DesktopReceiptPrinterAdapter } from '@virteex/platform-desktop-printing';
-import { DesktopCashDrawerAdapter } from '@virteex/platform-desktop-hardware';
-import { DesktopLocalJournalAdapter } from '@virteex/platform-desktop-storage';
-import { DesktopOfflineSyncAdapter } from '@virteex/platform-desktop-core';
+import { DesktopReceiptPrinterAdapter } from '@virtex/platform-desktop-printing';
+import { DesktopCashDrawerAdapter } from '@virtex/platform-desktop-hardware';
+import { DesktopLocalJournalAdapter } from '@virtex/platform-desktop-storage';
+import { DesktopOfflineSyncAdapter } from '@virtex/platform-desktop-core';
 
 export class PosNativeApi {
   private static printer = new DesktopReceiptPrinterAdapter();

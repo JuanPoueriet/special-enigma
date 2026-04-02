@@ -3,7 +3,7 @@ import { createHmac } from 'crypto';
 
 describe('Accounting Service E2E', () => {
   const tenantId = 'test-tenant-123';
-  const hmacSecret = process.env['VIRTEEX_HMAC_SECRET'] || 'test-secret';
+  const hmacSecret = process.env['virtex_HMAC_SECRET'] || 'test-secret';
 
   const contextPayload = {
     tenantId,
@@ -29,9 +29,9 @@ describe('Accounting Service E2E', () => {
     baseURL: 'http://localhost:3000',
     headers: {
       'x-tenant-id': tenantId,
-      'x-virteex-tenant-id': tenantId,
-      'x-virteex-context': encodedContext,
-      'x-virteex-signature': signature,
+      'x-virtex-tenant-id': tenantId,
+      'x-virtex-context': encodedContext,
+      'x-virtex-signature': signature,
     },
   };
 

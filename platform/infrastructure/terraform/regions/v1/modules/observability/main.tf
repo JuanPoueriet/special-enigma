@@ -9,7 +9,7 @@ provider "aws" {
 }
 
 resource "aws_cloudwatch_log_group" "regional" {
-  name              = "/virteex/${var.environment}/${var.region}/platform"
+  name              = "/virtex/${var.environment}/${var.region}/platform"
   retention_in_days = var.compliance_tier == "lgpd" ? 365 : 90
 
   tags = {
@@ -22,7 +22,7 @@ resource "aws_cloudwatch_log_group" "regional" {
 }
 
 resource "aws_cloudwatch_dashboard" "regional" {
-  dashboard_name = "virteex-platform-${var.environment}-${var.region}-v1"
+  dashboard_name = "virtex-platform-${var.environment}-${var.region}-v1"
   dashboard_body = jsonencode({
     widgets = [
       {
@@ -32,7 +32,7 @@ resource "aws_cloudwatch_dashboard" "regional" {
         width  = 24
         height = 3
         properties = {
-          markdown = "# Virteex Regional Observability (${var.region})\\nSovereignty: ${var.sovereignty_mode} / Residency: ${var.data_residency_boundary}"
+          markdown = "# virtex Regional Observability (${var.region})\\nSovereignty: ${var.sovereignty_mode} / Residency: ${var.data_residency_boundary}"
         }
       }
     ]

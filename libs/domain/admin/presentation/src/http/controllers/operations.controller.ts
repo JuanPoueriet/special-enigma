@@ -1,8 +1,8 @@
 import { Controller, Get, Logger, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { EntityManager } from '@mikro-orm/core';
-import { TenantOperation, OperationType, OperationState } from '@virteex/kernel-tenant';
-import { StepUpGuard, StepUp } from '@virteex/kernel-auth';
+import { TenantOperation, OperationType, OperationState } from '@virtex/kernel-tenant';
+import { StepUpGuard, StepUp } from '@virtex/kernel-auth';
 
 @ApiTags('Admin/Operations')
 @Controller('admin/operations')

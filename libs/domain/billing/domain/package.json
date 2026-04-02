@@ -1,5 +1,5 @@
 {
-  "name": "@virteex/domain-billing-domain",
+  "name": "@virtex/domain-billing-domain",
   "version": "0.0.1",
   "type": "commonjs",
   "main": "./src/index.js",
@@ -16,8 +16,8 @@
   "dependencies": {
     "tslib": "^2.3.0",
     "@nestjs/common": "^11.0.0",
-    "@virteex/kernel-exceptions": "*",
-    "@virteex/domain-fiscal-domain": "*",
+    "@virtex/kernel-exceptions": "*",
+    "@virtex/domain-fiscal-domain": "*",
     "decimal.js": "^10.6.0"
   }
 }

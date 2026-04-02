@@ -13,16 +13,16 @@ import {
   BANK_RECONCILIATION_REPOSITORY,
   AUDIT_LOG_REPOSITORY,
   FINANCIAL_REPORT_SNAPSHOT_REPOSITORY,
-} from '@virteex/domain-accounting-domain';
-import { TELEMETRY_SERVICE } from '@virteex/kernel-telemetry';
+} from '@virtex/domain-accounting-domain';
+import { TELEMETRY_SERVICE } from '@virtex/kernel-telemetry';
 import {
   MESSAGE_BROKER,
   I_UNIT_OF_WORK,
   DimensionValidator,
   ACCOUNTING_EVENT_CONSUMER_PORT,
-} from '@virteex/domain-accounting-application';
-import { ACCOUNTING_REPORTING_PORT } from '@virteex/domain-accounting-contracts';
-import { TelemetryService } from '@virteex/kernel-telemetry';
+} from '@virtex/domain-accounting-application';
+import { ACCOUNTING_REPORTING_PORT } from '@virtex/domain-accounting-contracts';
+import { TelemetryService } from '@virtex/kernel-telemetry';
 import { MikroOrmAccountRepository } from './persistence/repositories/mikro-orm-account.repository';
 import { JournalEntryRepositoryAdapter } from './persistence/repositories/journal-entry-repository-adapter';
 import { MikroOrmReportingAdapter } from './persistence/repositories/mikro-orm-reporting-adapter';

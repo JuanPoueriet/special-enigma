@@ -1,11 +1,11 @@
-# Informe de Remediación de Auditoría Técnico-Comercial - Virteex ERP
+# Informe de Remediación de Auditoría Técnico-Comercial - virtex ERP
 
 ## Sección A — Verificación exhaustiva del informe
 
 | Hallazgo | Estado de Verificación | Evidencia Técnica | Impacto Real | Severidad | Recomendación | Corregido |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Localización Fiscal Simulada** | Confirmado | `MockFiscalProvider`, `NullPacProvider` encontrados como fallbacks. | Riesgo legal de incumplimiento en MX/BR/CO. | Crítica | Bloquear uso en prod y encapsular. | Sí (Hardened) |
-| **Integración de Datos Rota** | Confirmado | Fallos masivos en imports de `@virteex/infra-*` y `@virteex/contracts-*`. | Imposibilidad de ejecutar tests core o compilar limpiamente. | Alta | Refactorizar imports a nuevas convenciones. | Sí |
+| **Integración de Datos Rota** | Confirmado | Fallos masivos en imports de `@virtex/infra-*` y `@virtex/contracts-*`. | Imposibilidad de ejecutar tests core o compilar limpiamente. | Alta | Refactorizar imports a nuevas convenciones. | Sí |
 | **Seguridad de Plugins (Firma)** | Confirmado | `SandboxService` tenía el método de verificación pero no fallaba correctamente o no se usaba en tests. | Ejecución de código no verificado en el sandbox. | Crítica | Forzar validación de firma en el host. | Sí |
 | **Provisioning de Tenants Incompleto** | Parcialmente confirmado | Encontrados placeholders en controladores de administración. | Retraso en el onboarding comercial. | Media | Completar controladores de tenants. | Parcial |
 | **Lógica de Inventario Simulada** | No confirmado | Se encontró implementación real en `InventoryRepository`. | Ninguno (el reporte inicial era impreciso). | Baja | Mantener y extender tests reales. | N/A |

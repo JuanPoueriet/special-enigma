@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { type PaymentSessionProvider, PAYMENT_SESSION_PROVIDER } from '@virteex/domain-subscription-domain';
+import { type PaymentSessionProvider, PAYMENT_SESSION_PROVIDER } from '@virtex/domain-subscription-domain';
 
 export interface CreatePortalSessionDto {
   customerId: string;

@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
-import { INTEGRATION_GATEWAY, IntegrationGateway, ProductDto, CustomerDto, SupplierDto } from '@virteex/domain-admin-domain';
+import { INTEGRATION_GATEWAY, IntegrationGateway, ProductDto, CustomerDto, SupplierDto } from '@virtex/domain-admin-domain';
 
 @Injectable()
 export class HttpIntegrationAdapter implements IntegrationGateway {
@@ -15,16 +15,16 @@ export class HttpIntegrationAdapter implements IntegrationGateway {
     private readonly httpService: HttpService,
     private readonly configService: ConfigService
   ) {
-    this.catalogUrl = this.configService.get<string>('CATALOG_SERVICE_URL', 'http://virteex-catalog-service:3000');
-    this.crmUrl = this.configService.get<string>('CRM_SERVICE_URL', 'http://virteex-crm-service:3000');
-    this.purchasingUrl = this.configService.get<string>('PURCHASING_SERVICE_URL', 'http://virteex-purchasing-service:3000');
+    this.catalogUrl = this.configService.get<string>('CATALOG_SERVICE_URL', 'http://virtex-catalog-service:3000');
+    this.crmUrl = this.configService.get<string>('CRM_SERVICE_URL', 'http://virtex-crm-service:3000');
+    this.purchasingUrl = this.configService.get<string>('PURCHASING_SERVICE_URL', 'http://virtex-purchasing-service:3000');
   }
 
   async createProduct(dto: ProductDto): Promise<void> {
     const url = `${this.catalogUrl}/catalog/products`;
     try {
       await firstValueFrom(this.httpService.post(url, dto, {
-          headers: { 'x-virteex-tenant-id': dto.tenantId }
+          headers: { 'x-virtex-tenant-id': dto.tenantId }
       }));
     } catch (error  : any) {
       this.handleError('Product', error);
@@ -35,7 +35,7 @@ export class HttpIntegrationAdapter implements IntegrationGateway {
     const url = `${this.crmUrl}/crm/customers`;
     try {
       await firstValueFrom(this.httpService.post(url, dto, {
-          headers: { 'x-virteex-tenant-id': dto.tenantId }
+          headers: { 'x-virtex-tenant-id': dto.tenantId }
       }));
     } catch (error  : any) {
       this.handleError('Customer', error);
@@ -46,7 +46,7 @@ export class HttpIntegrationAdapter implements IntegrationGateway {
     const url = `${this.purchasingUrl}/purchasing/suppliers`;
     try {
       await firstValueFrom(this.httpService.post(url, dto, {
-          headers: { 'x-virteex-tenant-id': dto.tenantId }
+          headers: { 'x-virtex-tenant-id': dto.tenantId }
       }));
     } catch (error  : any) {
       this.handleError('Supplier', error);

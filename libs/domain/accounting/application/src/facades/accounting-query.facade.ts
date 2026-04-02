@@ -4,8 +4,8 @@ import { GetJournalEntriesUseCase } from '../use-cases/journal-entries/get-journ
 import { CountJournalEntriesUseCase } from '../use-cases/journal-entries/count-journal-entries.use-case';
 import { GenerateFinancialReportUseCase } from '../use-cases/reports/generate-financial-report.use-case';
 import { GetMonthlyOpexUseCase } from '../use-cases/metrics/get-monthly-opex.use-case';
-import { FinancialReportType } from '@virteex/domain-accounting-contracts';
-import { FISCAL_PERIOD_REPOSITORY, CLOSING_TASK_REPOSITORY, type FiscalPeriodRepository, type ClosingTaskRepository } from '@virteex/domain-accounting-domain';
+import { FinancialReportType } from '@virtex/domain-accounting-contracts';
+import { FISCAL_PERIOD_REPOSITORY, CLOSING_TASK_REPOSITORY, type FiscalPeriodRepository, type ClosingTaskRepository } from '@virtex/domain-accounting-domain';
 
 @Injectable()
 export class AccountingQueryFacade {

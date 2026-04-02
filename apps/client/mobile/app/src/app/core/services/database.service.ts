@@ -3,7 +3,7 @@ import { Capacitor } from '@capacitor/core';
 import { CapacitorSQLite, SQLiteConnection, SQLiteDBConnection } from '@capacitor-community/sqlite';
 import { defineCustomElements as jeepSqlite } from 'jeep-sqlite/loader';
 import { v4 as uuidv4 } from 'uuid';
-import { SecureStorageService } from '@virteex/shared-ui';
+import { SecureStorageService } from '@virtex/shared-ui';
 
 jeepSqlite(window);
 
@@ -39,7 +39,7 @@ export class DatabaseService {
       }
 
       this.db = await this.sqlite.createConnection(
-        'virteex_offline_db',
+        'virtex_offline_db',
         false,
         encryptionMode,
         1,

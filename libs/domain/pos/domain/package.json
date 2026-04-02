@@ -1,5 +1,5 @@
 {
-  "name": "@virteex/domain-pos-domain",
+  "name": "@virtex/domain-pos-domain",
   "version": "0.0.1",
   "type": "commonjs",
   "main": "./src/index.js",

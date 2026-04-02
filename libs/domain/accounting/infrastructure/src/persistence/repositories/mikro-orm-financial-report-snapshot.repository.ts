@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/core';
-import { FinancialReportSnapshot, type FinancialReportSnapshotRepository } from '@virteex/domain-accounting-domain';
+import { FinancialReportSnapshot, type FinancialReportSnapshotRepository } from '@virtex/domain-accounting-domain';
 
 @Injectable()
 export class MikroOrmFinancialReportSnapshotRepository implements FinancialReportSnapshotRepository {

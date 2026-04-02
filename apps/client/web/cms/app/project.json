@@ -2,7 +2,7 @@
   "name": "web-cms-app",
   "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "prefix": "virteex",
+  "prefix": "virtex",
   "sourceRoot": "apps/client/web/cms/app/src",
   "tags": [
     "scope:web-cms",

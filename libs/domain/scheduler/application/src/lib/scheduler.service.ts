@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/core';
-import { OutboxService } from '@virteex/kernel-messaging';
-import { Job } from '@virteex/domain-scheduler-domain';
+import { OutboxService } from '@virtex/kernel-messaging';
+import { Job } from '@virtex/domain-scheduler-domain';
 import { JobOrchestrator } from './job-orchestrator';
 
 @Injectable()

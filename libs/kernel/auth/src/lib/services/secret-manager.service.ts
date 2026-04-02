@@ -1,7 +1,7 @@
 import { Injectable, Logger, Inject } from '@nestjs/common';
 import { randomBytes } from 'node:crypto';
 import type { SecretProvider } from '../interfaces/secret-provider.interface';
-import { TelemetryService, TELEMETRY_SERVICE } from '@virteex/kernel-telemetry-interfaces';
+import { TelemetryService, TELEMETRY_SERVICE } from '@virtex/kernel-telemetry-interfaces';
 
 export const SECRET_PROVIDER = 'SECRET_PROVIDER';
 

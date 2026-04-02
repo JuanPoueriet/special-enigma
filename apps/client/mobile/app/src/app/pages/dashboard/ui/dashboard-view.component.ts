@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'virteex-dashboard-view',
+  selector: 'virtex-dashboard-view',
   standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './dashboard-view.component.html',

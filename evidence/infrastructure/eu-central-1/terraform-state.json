@@ -38,7 +38,7 @@
       "instances": [
         {
           "attributes": {
-            "cluster_identifier": "virteex-prod-db-eu",
+            "cluster_identifier": "virtex-prod-db-eu",
             "engine": "aurora-postgresql",
             "availability_zones": ["eu-central-1a", "eu-central-1b"]
           }

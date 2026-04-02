@@ -1,4 +1,4 @@
-import { User, UserAuthenticator, Company } from '@virteex/domain-identity-domain';
+import { User, UserAuthenticator, Company } from '@virtex/domain-identity-domain';
 import { UserOrmEntity } from '../persistence/entities/user.orm-entity';
 import { UserAuthenticatorOrmEntity } from '../persistence/entities/user-authenticator.orm-entity';
 import { CompanyOrmEntity } from '../persistence/entities/company.orm-entity';

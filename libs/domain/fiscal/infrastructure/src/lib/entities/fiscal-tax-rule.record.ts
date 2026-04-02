@@ -1,5 +1,5 @@
 import { Entity, PrimaryKey, Property } from "@mikro-orm/core";
-import { FiscalTaxRule as DomainFiscalTaxRule } from "@virteex/domain-fiscal-domain";
+import { FiscalTaxRule as DomainFiscalTaxRule } from "@virtex/domain-fiscal-domain";
 
 @Entity({ tableName: 'fiscal_tax_rules' })
 export class FiscalTaxRuleRecord extends DomainFiscalTaxRule {

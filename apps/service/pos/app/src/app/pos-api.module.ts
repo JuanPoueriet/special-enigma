@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
 import { PosController } from './pos.controller';
-import { ProcessSaleUseCase } from '@virteex/domain-pos-application';
-import { OpenShiftUseCase } from '@virteex/domain-pos-application';
-import { PosInfrastructureModule } from '@virteex/domain-pos-infrastructure';
-import { HealthModule } from '@virteex/shared-util-server-health';
-import { ServerConfigModule } from '@virteex/shared-util-server-server-config';
+import { ProcessSaleUseCase } from '@virtex/domain-pos-application';
+import { OpenShiftUseCase } from '@virtex/domain-pos-application';
+import { PosInfrastructureModule } from '@virtex/domain-pos-infrastructure';
+import { HealthModule } from '@virtex/shared-util-server-health';
+import { ServerConfigModule } from '@virtex/shared-util-server-server-config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import {
   BILLING_PACKAGE, BILLING_PROTO_PATH,
   INVENTORY_PACKAGE, INVENTORY_PROTO_PATH
-} from '@virteex/shared-proto';
+} from '@virtex/shared-proto';
 
 @Module({
   imports: [

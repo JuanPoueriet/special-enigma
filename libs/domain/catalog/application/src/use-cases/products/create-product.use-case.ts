@@ -1,8 +1,8 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { Product, ProductCreatedEvent, PRODUCT_READ_REPOSITORY, type ProductReadRepository, PRODUCT_WRITE_REPOSITORY, type ProductWriteRepository } from '@virteex/domain-catalog-domain';
-import { EntitlementService } from '@virteex/kernel-entitlements';
-import { getTenantContext } from '@virteex/kernel-auth';
+import { Product, ProductCreatedEvent, PRODUCT_READ_REPOSITORY, type ProductReadRepository, PRODUCT_WRITE_REPOSITORY, type ProductWriteRepository } from '@virtex/domain-catalog-domain';
+import { EntitlementService } from '@virtex/kernel-entitlements';
+import { getTenantContext } from '@virtex/kernel-auth';
 
 export interface CreateProductDto {
   sku: string;

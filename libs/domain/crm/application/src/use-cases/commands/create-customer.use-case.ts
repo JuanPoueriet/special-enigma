@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { Customer, type CustomerRepository } from '@virteex/domain-crm-domain';
-import { CustomerType } from '@virteex/shared-contracts';
+import { Customer, type CustomerRepository } from '@virtex/domain-crm-domain';
+import { CustomerType } from '@virtex/shared-contracts';
 
 export interface CreateCustomerDto {
   tenantId: string;

@@ -4,7 +4,7 @@ import { execSync } from 'child_process';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as os from 'os';
-import { AwsSecretManagerAdapter } from '@virteex/platform-storage';
+import { AwsSecretManagerAdapter } from '@virtex/platform-storage';
 
 export interface AdmissionResult {
   status: 'approved' | 'rejected' | 'pending';
@@ -201,11 +201,11 @@ export class PluginAdmissionService {
 
             const opaBin = path.join('.', 'tools/opa');
             const policyPath = path.join('.', 'platform/policies/security/plugin_admission.rego');
-        const inputPath = path.join(os.tmpdir(), `virteex-opa-input-${crypto.randomBytes(8).toString('hex')}.json`);
+        const inputPath = path.join(os.tmpdir(), `virtex-opa-input-${crypto.randomBytes(8).toString('hex')}.json`);
 
         try {
             fs.writeFileSync(inputPath, JSON.stringify(input));
-            const cmd = `${opaBin} eval --data ${policyPath} --input ${inputPath} "data.virteex.security.plugins.allow"`;
+            const cmd = `${opaBin} eval --data ${policyPath} --input ${inputPath} "data.virtex.security.plugins.allow"`;
             const result = execSync(cmd).toString();
             const parsed = JSON.parse(result);
             const allow = parsed.result?.[0]?.expressions?.[0]?.value === true;

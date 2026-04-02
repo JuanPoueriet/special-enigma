@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable, ForbiddenException } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
-import { TenantContext } from '@virteex/kernel-tenant-context';
+import { TenantContext } from '@virtex/kernel-tenant-context';
 import '../interfaces/express.interface';
 
 @Injectable()
@@ -14,7 +14,7 @@ export class TenantGuard implements CanActivate {
       request = context.switchToHttp().getRequest();
     }
 
-    const tenantId = request.headers['x-virteex-tenant-id'] || request.headers['x-tenant-id'];
+    const tenantId = request.headers['x-virtex-tenant-id'] || request.headers['x-tenant-id'];
     const tenantContext: TenantContext = request.tenantContext;
 
     if (!tenantId) {

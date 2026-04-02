@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { LucideAngularModule } from 'lucide-angular';
 
 @Component({
-  selector: 'virteex-live-preview',
+  selector: 'virtex-live-preview',
   standalone: true,
   imports: [LucideAngularModule],
   templateUrl: './live-preview.html',

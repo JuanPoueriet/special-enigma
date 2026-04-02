@@ -1,5 +1,5 @@
 import { Injectable, Inject, Logger } from '@nestjs/common';
-import { INVENTORY_REPOSITORY, type InventoryRepository, InsufficientStockException, StockNotFoundError, InventoryMovement, InventoryMovementType } from '@virteex/domain-inventory-domain';
+import { INVENTORY_REPOSITORY, type InventoryRepository, InsufficientStockException, StockNotFoundError, InventoryMovement, InventoryMovementType } from '@virtex/domain-inventory-domain';
 import Decimal from 'decimal.js';
 
 export interface StockReservationItem {

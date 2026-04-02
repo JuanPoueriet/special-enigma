@@ -1,9 +1,9 @@
 import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { CreateProjectUseCase, CreateProjectDto } from '@virteex/domain-projects-application';
-import { GetProjectsUseCase } from '@virteex/domain-projects-application';
-import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virteex/kernel-auth';
-import { RequireEntitlement, EntitlementGuard } from '@virteex/kernel-entitlements';
+import { CreateProjectUseCase, CreateProjectDto } from '@virtex/domain-projects-application';
+import { GetProjectsUseCase } from '@virtex/domain-projects-application';
+import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virtex/kernel-auth';
+import { RequireEntitlement, EntitlementGuard } from '@virtex/kernel-entitlements';
 
 @ApiTags('Projects')
 @ApiBearerAuth()

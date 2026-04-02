@@ -1,9 +1,9 @@
 import { HttpInterceptorFn, HttpHandlerFn, HttpRequest, HttpErrorResponse, HttpClient, HttpBackend } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { from, switchMap, catchError, throwError, BehaviorSubject, filter, take } from 'rxjs';
-import { SecureStorageService } from '@virteex/shared-ui';
+import { SecureStorageService } from '@virtex/shared-ui';
 import { Router } from '@angular/router';
-import { API_URL } from '@virteex/shared-config';
+import { API_URL } from '@virtex/shared-config';
 
 let isRefreshing = false;
 const refreshTokenSubject = new BehaviorSubject<string | null>(null);

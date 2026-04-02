@@ -1,12 +1,12 @@
 import { Injectable, Logger, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
 import { Worker, Job as BullJob } from 'bullmq';
 import { EntityManager } from '@mikro-orm/core';
-import { Job, JobStatus } from '@virteex/domain-scheduler-domain';
-import { JobStateMachine } from '@virteex/domain-scheduler-domain';
-import { InboxService } from '@virteex/kernel-messaging';
+import { Job, JobStatus } from '@virtex/domain-scheduler-domain';
+import { JobStateMachine } from '@virtex/domain-scheduler-domain';
+import { InboxService } from '@virtex/kernel-messaging';
 import { FiscalJobHandler } from './handlers/fiscal-job.handler';
 import { BillingJobHandler } from './handlers/billing-job.handler';
-import { runWithRequiredTenantContext } from '@virteex/kernel-auth';
+import { runWithRequiredTenantContext } from '@virtex/kernel-auth';
 
 @Injectable()
 export class JobProcessorService implements OnModuleInit, OnModuleDestroy {

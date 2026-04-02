@@ -24,7 +24,7 @@ export default defineConfig({
   },
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'npx nx run virteex-mobile:serve',
+    command: 'npx nx run virtex-mobile:serve',
     url: 'http://localhost:4200',
     reuseExistingServer: true,
     cwd: workspaceRoot,

@@ -1,5 +1,5 @@
-import { User } from '@virteex/domain-identity-domain';
-import { UserResponseDto } from '@virteex/domain-identity-contracts';
+import { User } from '@virtex/domain-identity-domain';
+import { UserResponseDto } from '@virtex/domain-identity-contracts';
 
 export class UserMapper {
   static toDto(user: User): UserResponseDto {

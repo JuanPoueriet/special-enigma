@@ -1,8 +1,8 @@
 import { Controller, Post, Body, UseGuards, Get, Param, Put, Delete, UseFilters } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { CreateWarehouseUseCase, GetWarehousesUseCase, GetWarehouseUseCase, UpdateWarehouseUseCase, DeleteWarehouseUseCase, type CreateWarehouseDto } from '@virteex/domain-inventory-application';
-import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virteex/kernel-auth';
-import { RequireEntitlement, EntitlementGuard } from '@virteex/kernel-entitlements';
+import { CreateWarehouseUseCase, GetWarehousesUseCase, GetWarehouseUseCase, UpdateWarehouseUseCase, DeleteWarehouseUseCase, type CreateWarehouseDto } from '@virtex/domain-inventory-application';
+import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virtex/kernel-auth';
+import { RequireEntitlement, EntitlementGuard } from '@virtex/kernel-entitlements';
 import { UpdateWarehouseBodyDto } from './dto/update-warehouse-body.dto';
 import { InventoryApplicationExceptionFilter } from '../filters/inventory-application-exception.filter';
 

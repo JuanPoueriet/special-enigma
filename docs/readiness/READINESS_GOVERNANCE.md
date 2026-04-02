@@ -1,4 +1,4 @@
-# Readiness Governance - Virteex ERP
+# Readiness Governance - virtex ERP
 
 ## 1. Source of Truth (SOT)
 

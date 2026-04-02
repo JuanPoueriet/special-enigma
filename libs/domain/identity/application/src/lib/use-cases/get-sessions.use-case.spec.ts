@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { GetSessionsUseCase } from './get-sessions.use-case';
-import { SessionRepository } from '@virteex/domain-identity-domain';
+import { SessionRepository } from '@virtex/domain-identity-domain';
 
 describe('GetSessionsUseCase', () => {
   let useCase: GetSessionsUseCase;

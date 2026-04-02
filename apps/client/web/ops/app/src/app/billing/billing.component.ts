@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { BillingService } from './billing.service';
 
 @Component({
-  selector: 'virteex-billing',
+  selector: 'virtex-billing',
   standalone: true,
   imports: [CommonModule],
   template: `

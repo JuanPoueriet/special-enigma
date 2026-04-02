@@ -19,18 +19,18 @@ import {
   ApolloFederationDriverConfig,
 } from '@nestjs/apollo';
 import { EventEmitterModule } from '@nestjs/event-emitter';
-import { AccountingPresentationModule } from '@virteex/domain-accounting-presentation';
-import { AccountingApplicationWiringModule } from '@virteex/domain-accounting-infrastructure';
-import { TenantModule } from '@virteex/kernel-tenant';
-import { AuthModule, CanonicalTenantMiddleware } from '@virteex/kernel-auth';
-import { ServerConfigModule } from '@virteex/shared-util-server-server-config';
+import { AccountingPresentationModule } from '@virtex/domain-accounting-presentation';
+import { AccountingApplicationWiringModule } from '@virtex/domain-accounting-infrastructure';
+import { TenantModule } from '@virtex/kernel-tenant';
+import { AuthModule, CanonicalTenantMiddleware } from '@virtex/kernel-auth';
+import { ServerConfigModule } from '@virtex/shared-util-server-server-config';
 
 const DEFAULT_ACCOUNTING_DB_CONFIG = {
   host: 'localhost',
   port: 5432,
   user: 'postgres',
   password: 'postgres',
-  dbName: 'virteex_accounting',
+  dbName: 'virtex_accounting',
 } as const;
 
 function getDatabaseConfig() {

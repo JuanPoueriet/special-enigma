@@ -3,8 +3,8 @@ import { AccountingController } from './accounting.controller';
 import {
   type AccountingCommandFacade,
   type AccountingQueryFacade,
-} from '@virteex/domain-accounting-application';
-import { AccountType } from '@virteex/domain-accounting-contracts';
+} from '@virtex/domain-accounting-application';
+import { AccountType } from '@virtex/domain-accounting-contracts';
 
 describe('AccountingController', () => {
   let controller: AccountingController;

@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { LucideAngularModule, Mail, Lock, Eye, EyeOff, Check, X } from 'lucide-angular';
 
 @Component({
-  selector: 'virteex-step-access',
+  selector: 'virtex-step-access',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, LucideAngularModule],
   templateUrl: './step-access.html',

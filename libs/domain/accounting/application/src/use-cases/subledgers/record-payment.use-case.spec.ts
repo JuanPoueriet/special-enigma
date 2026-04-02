@@ -9,8 +9,8 @@ import {
     Payment,
     Invoice,
     InvoiceStatus
-} from '@virteex/domain-accounting-domain';
-import { AccountType } from '@virteex/domain-accounting-contracts';
+} from '@virtex/domain-accounting-domain';
+import { AccountType } from '@virtex/domain-accounting-contracts';
 
 describe('RecordPaymentUseCase', () => {
   let service: RecordPaymentUseCase;

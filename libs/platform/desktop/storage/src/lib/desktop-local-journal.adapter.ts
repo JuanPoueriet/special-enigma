@@ -1,4 +1,4 @@
-import { LocalJournalPort } from '@virteex/domain-pos-application';
+import { LocalJournalPort } from '@virtex/domain-pos-application';
 
 export class DesktopLocalJournalAdapter implements LocalJournalPort {
   private entries: any[] = [];

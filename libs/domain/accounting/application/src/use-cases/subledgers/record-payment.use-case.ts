@@ -11,9 +11,9 @@ import {
   type AccountsReceivableRepository,
   type AccountsPayableRepository,
   InvoiceStatus,
-} from '@virteex/domain-accounting-domain';
+} from '@virtex/domain-accounting-domain';
 import { Decimal } from 'decimal.js';
-import { type EntitlementService } from '@virteex/kernel-entitlements';
+import { type EntitlementService } from '@virtex/kernel-entitlements';
 
 export class RecordPaymentUseCase {
   constructor(

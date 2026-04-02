@@ -3,7 +3,7 @@ variable "vpc_id" { type = string }
 variable "subnet_ids" { type = list(string) }
 
 resource "aws_msk_cluster" "main" {
-  cluster_name           = "virteex-kafka-${var.environment}"
+  cluster_name           = "virtex-kafka-${var.environment}"
   kafka_version          = "3.4.0"
   number_of_broker_nodes = 3
 
@@ -20,7 +20,7 @@ resource "aws_msk_cluster" "main" {
 }
 
 resource "aws_security_group" "msk" {
-  name        = "virteex-msk-sg-${var.environment}"
+  name        = "virtex-msk-sg-${var.environment}"
   description = "Security group for MSK"
   vpc_id      = var.vpc_id
 

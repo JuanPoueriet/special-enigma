@@ -120,8 +120,8 @@ async function seedDatabaseDataset(client: Client) {
 }
 
 describe('Migration real DB suite (testcontainer-backed)', () => {
-  const sharedTc = new PostgresTestcontainer('virteex-shared-migration-tc', 55432, 'virteex');
-  const dedicatedTc = new PostgresTestcontainer('virteex-dedicated-migration-tc', 55433, 'tenantdb');
+  const sharedTc = new PostgresTestcontainer('virtex-shared-migration-tc', 55432, 'virtex');
+  const dedicatedTc = new PostgresTestcontainer('virtex-dedicated-migration-tc', 55433, 'tenantdb');
   let sharedClient: Client;
   let dedicatedClient: Client;
   let dockerAvailable = true;
@@ -144,7 +144,7 @@ describe('Migration real DB suite (testcontainer-backed)', () => {
       return;
     }
 
-    sharedClient = new Client({ host: '127.0.0.1', port: 55432, database: 'virteex', user: 'postgres', password: 'postgres' });
+    sharedClient = new Client({ host: '127.0.0.1', port: 55432, database: 'virtex', user: 'postgres', password: 'postgres' });
     dedicatedClient = new Client({ host: '127.0.0.1', port: 55433, database: 'tenantdb', user: 'postgres', password: 'postgres' });
 
     await sharedClient.connect();

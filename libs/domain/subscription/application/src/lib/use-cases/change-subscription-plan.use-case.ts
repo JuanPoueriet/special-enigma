@@ -1,6 +1,6 @@
-import { DomainException } from '@virteex/shared-util-server-server-config';
+import { DomainException } from '@virtex/shared-util-server-server-config';
 import { Injectable, Inject } from '@nestjs/common';
-import { Subscription, type SubscriptionRepository, SUBSCRIPTION_REPOSITORY, type SubscriptionPlanRepository, SUBSCRIPTION_PLAN_REPOSITORY, type SubscriptionProviderGateway, SUBSCRIPTION_PROVIDER_GATEWAY } from '@virteex/domain-subscription-domain';
+import { Subscription, type SubscriptionRepository, SUBSCRIPTION_REPOSITORY, type SubscriptionPlanRepository, SUBSCRIPTION_PLAN_REPOSITORY, type SubscriptionProviderGateway, SUBSCRIPTION_PROVIDER_GATEWAY } from '@virtex/domain-subscription-domain';
 
 export interface ChangeSubscriptionPlanDto {
   tenantId: string;

@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { type ExpensesPort, EXPENSES_PORT, type ExpenseCategory } from '@virteex/domain-bi-domain';
+import { type ExpensesPort, EXPENSES_PORT, type ExpenseCategory } from '@virtex/domain-bi-domain';
 import { GetExpensesQuery } from './get-expenses.query';
 
 @Injectable()

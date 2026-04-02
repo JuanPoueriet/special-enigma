@@ -1,8 +1,8 @@
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { EntitlementService } from './entitlement.service';
-import { getTenantContext } from '@virteex/kernel-auth';
+import { getTenantContext } from '@virtex/kernel-auth';
 
-vi.mock('@virteex/kernel-auth', () => ({
+vi.mock('@virtex/kernel-auth', () => ({
   getTenantContext: vi.fn(),
 }));
 

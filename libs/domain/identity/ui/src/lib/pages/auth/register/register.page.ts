@@ -5,14 +5,14 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LucideAngularModule, CheckCircle, BarChart2, Package, Check, ArrowLeft, ArrowRight, Rocket, AlertCircle } from 'lucide-angular';
 import { trigger, style, transition, animate } from '@angular/animations';
-import { AuthService } from '@virteex/shared-ui';
+import { AuthService } from '@virtex/shared-ui';
 import { StepAccountInfo } from './steps/step-account-info/step-account-info';
 import { StepBusiness } from './steps/step-business/step-business';
 import { StepConfiguration } from './steps/step-configuration/step-configuration';
 import { StepPlan } from './steps/step-plan/step-plan';
-import { strongPasswordValidator } from '@virteex/shared-ui';
+import { strongPasswordValidator } from '@virtex/shared-ui';
 import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module, ReCaptchaV3Service } from 'ng-recaptcha-19';
-import { CountryService, LanguageService, OtpComponent, RECAPTCHA_SITE_KEY } from '@virteex/shared-ui';
+import { CountryService, LanguageService, OtpComponent, RECAPTCHA_SITE_KEY } from '@virtex/shared-ui';
 import { AuthLayoutComponent } from '../components/auth-layout/auth-layout.component';
 import { AuthButtonComponent } from '../components/auth-button/auth-button.component';
 
@@ -26,7 +26,7 @@ export function passwordMatchValidator(
 }
 
 @Component({
-  selector: 'virteex-register',
+  selector: 'virtex-register',
   standalone: true,
   imports: [
     CommonModule,

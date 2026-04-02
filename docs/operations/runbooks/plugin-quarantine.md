@@ -10,6 +10,6 @@ Place a plugin in quarantine when anomalous telemetry is detected but full revoc
 
 ## CLI Execution
 ```bash
-# Using virteex-cli
-virteex marketplace quarantine {{PLUGIN_NAME}} --reason "Anomalous CPU spike detected"
+# Using virtex-cli
+virtex marketplace quarantine {{PLUGIN_NAME}} --reason "Anomalous CPU spike detected"
 ```

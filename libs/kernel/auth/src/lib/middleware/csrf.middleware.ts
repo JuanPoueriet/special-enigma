@@ -40,7 +40,7 @@ export class CsrfMiddleware implements NestMiddleware {
     }
 
     // Bypass for signed context (E2E tests / Service-to-Service)
-    const hasSignedContext = Boolean(req.headers['x-virteex-context'] && req.headers['x-virteex-signature']);
+    const hasSignedContext = Boolean(req.headers['x-virtex-context'] && req.headers['x-virtex-signature']);
     if (hasSignedContext) {
         return true;
     }

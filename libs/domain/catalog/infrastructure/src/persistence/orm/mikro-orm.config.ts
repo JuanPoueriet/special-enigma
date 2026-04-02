@@ -1,7 +1,7 @@
 import { defineConfig } from '@mikro-orm/postgresql';
-import { Product, Plugin, PluginVersion, TenantConsent, MeteringRecord } from '@virteex/domain-catalog-domain';
-import { TenantModelSubscriber } from '@virteex/kernel-tenant';
-import { getTenantContext } from '@virteex/kernel-auth';
+import { Product, Plugin, PluginVersion, TenantConsent, MeteringRecord } from '@virtex/domain-catalog-domain';
+import { TenantModelSubscriber } from '@virtex/kernel-tenant';
+import { getTenantContext } from '@virtex/kernel-auth';
 
 const isProduction = process.env['NODE_ENV'] === 'production' || process.env['RELEASE_STAGE'] === 'production';
 
@@ -22,7 +22,7 @@ export default defineConfig({
       default: true,
     },
   },
-  dbName: 'virteex_catalog', // Domain specific DB
+  dbName: 'virtex_catalog', // Domain specific DB
   host: process.env['DB_HOST'] || 'localhost',
   port: 5432,
   user: process.env['DB_USER'] || 'postgres',

@@ -4,7 +4,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { FiscalService } from '../../services/fiscal.service';
 
 @Component({
-  selector: 'virteex-fiscal-list',
+  selector: 'virtex-fiscal-list',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './list.component.html',

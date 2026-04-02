@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { <%= className %> } from '@virteex/<%= domain %>-<%= name %>-domain';
+import { <%= className %> } from '@virtex/<%= domain %>-<%= name %>-domain';
 
 @Injectable()
 export class <%= className %>Repository {

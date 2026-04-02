@@ -2,7 +2,7 @@
   "name": "domain-identity-ui",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/domain/identity/ui/src",
-  "prefix": "virteex",
+  "prefix": "virtex",
   "projectType": "library",
   "tags": [
     "scope:identity",

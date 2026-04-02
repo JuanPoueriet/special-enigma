@@ -1,4 +1,4 @@
-import { Warehouse, Location, Stock, StockBatch, InventoryMovement } from '@virteex/domain-inventory-domain';
+import { Warehouse, Location, Stock, StockBatch, InventoryMovement } from '@virtex/domain-inventory-domain';
 import { WarehouseOrmEntity } from '../entities/warehouse.orm-entity';
 import { LocationOrmEntity } from '../entities/location.orm-entity';
 import { StockOrmEntity, StockBatchOrmEntity } from '../entities/stock.orm-entity';

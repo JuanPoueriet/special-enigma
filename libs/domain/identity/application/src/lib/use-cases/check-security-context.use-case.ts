@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { RiskEvaluatorService, GEO_IP_PORT } from '@virteex/domain-identity-domain';
-import type { GeoIpPort, ContextAnalysis } from '@virteex/domain-identity-domain';
+import { RiskEvaluatorService, GEO_IP_PORT } from '@virtex/domain-identity-domain';
+import type { GeoIpPort, ContextAnalysis } from '@virtex/domain-identity-domain';
 
 export interface CheckSecurityContextCommand {
   urlCountry: string;

@@ -1,5 +1,5 @@
 import { Entity, PrimaryKey, Property, Enum, OneToMany, Collection, Cascade } from '@mikro-orm/core';
-import { AssetStatus, DepreciationMethod } from '@virteex/domain-fixed-assets-domain';
+import { AssetStatus, DepreciationMethod } from '@virtex/domain-fixed-assets-domain';
 
 @Entity({ tableName: 'assets' })
 export class AssetOrmEntity {

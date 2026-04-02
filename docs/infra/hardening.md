@@ -1,4 +1,4 @@
-# Infra Hardening Evidence - Virteex ERP
+# Infra Hardening Evidence - virtex ERP
 
 ## 1. TLS/SSL Hardening
 Se ha eliminado el uso de `rejectUnauthorized: false` en todos los microservicios core.

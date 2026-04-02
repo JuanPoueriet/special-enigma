@@ -1,5 +1,5 @@
 import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
-import { AssetStatus } from '@virteex/domain-fixed-assets-domain';
+import { AssetStatus } from '@virtex/domain-fixed-assets-domain';
 
 @Entity({ tableName: 'fixed_assets' })
 export class FixedAssetOrmEntity {

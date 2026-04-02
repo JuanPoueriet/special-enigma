@@ -1,5 +1,5 @@
 import { EntitySchema } from '@mikro-orm/core';
-import { TaxRule, PaymentMethod, TaxLine } from '@virteex/domain-billing-domain';
+import { TaxRule, PaymentMethod, TaxLine } from '@virtex/domain-billing-domain';
 
 export const TaxRuleSchema = new EntitySchema<TaxRule>({
   class: TaxRule,

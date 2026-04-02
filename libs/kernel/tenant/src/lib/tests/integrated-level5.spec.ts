@@ -6,7 +6,7 @@ import { FailoverService } from '../failover.service';
 import { RegionalResidencyGuard } from '../guards/regional-residency.guard';
 import { EntityManager, RequestContext } from '@mikro-orm/core';
 import { TenantMode, TenantStatus, OperationState, OperationType } from '../interfaces/tenant-config.interface';
-import * as TenantContextLib from '@virteex/kernel-tenant-context';
+import * as TenantContextLib from '@virtex/kernel-tenant-context';
 import { of, lastValueFrom } from 'rxjs';
 import axios from 'axios';
 

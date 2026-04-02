@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { FiscalProvider } from '@virteex/domain-fiscal-domain';
+import { FiscalProvider } from '@virtex/domain-fiscal-domain';
 
 @Injectable()
 export class MockFiscalProvider implements FiscalProvider {

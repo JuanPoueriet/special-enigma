@@ -1,9 +1,9 @@
-import { APP_CONFIG } from '@virteex/shared-config';
+import { APP_CONFIG } from '@virtex/shared-config';
 import { Component, OnInit, inject, effect } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthService, LanguageService, CountryService, RECAPTCHA_SITE_KEY } from '@virteex/shared-ui';
+import { AuthService, LanguageService, CountryService, RECAPTCHA_SITE_KEY } from '@virtex/shared-ui';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ReCaptchaV3Service, RecaptchaV3Module, RECAPTCHA_V3_SITE_KEY } from 'ng-recaptcha-19';
 
@@ -28,7 +28,7 @@ const passwordMatchValidator: ValidatorFn = (group: AbstractControl): Validation
 };
 
 @Component({
-  selector: 'virteex-set-password',
+  selector: 'virtex-set-password',
   standalone: true,
   imports: [
     CommonModule,

@@ -5,7 +5,7 @@ import { ApprovalsService } from '../../core/services/approvals.service';
 import { catchError, of } from 'rxjs';
 
 @Component({
-  selector: 'virteex-mobile-approvals',
+  selector: 'virtex-mobile-approvals',
   standalone: true,
   imports: [CommonModule, RouterLink],
   template: `

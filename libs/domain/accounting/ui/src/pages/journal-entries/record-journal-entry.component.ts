@@ -5,7 +5,7 @@ import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { LucideAngularModule, ArrowLeft, PlusCircle, Trash2, CheckCircle, AlertTriangle, Loader2, XCircle } from 'lucide-angular';
 import { accountingFacade } from '../../facades/accounting.facade';
-import { RecordJournalEntryDto } from '@virteex/domain-accounting-contracts';
+import { RecordJournalEntryDto } from '@virtex/domain-accounting-contracts';
 import { Decimal } from 'decimal.js';
 
 interface JournalEntryLineForm {

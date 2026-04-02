@@ -21,7 +21,7 @@ export class VaultSecretProvider implements SecretProvider {
     }
 
     try {
-        const response = await axios.get(`${this.vaultUrl}/v1/secret/data/virteex`, {
+        const response = await axios.get(`${this.vaultUrl}/v1/secret/data/virtex`, {
             headers: { 'X-Vault-Token': this.vaultToken }
         });
         this.secrets = response.data.data.data;

@@ -12,7 +12,7 @@ import {
 } from './interfaces/tenant-config.interface';
 import Redis from 'ioredis';
 import { createHmac } from 'crypto';
-import { TelemetryService } from '@virteex/kernel-telemetry-interfaces';
+import { TelemetryService } from '@virtex/kernel-telemetry-interfaces';
 
 @Injectable()
 export class TenantOperationService implements OnModuleInit {

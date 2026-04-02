@@ -29,7 +29,7 @@ import {
     GenerateBackupCodesUseCase,
     Send2faEmailVerificationUseCase,
     Verify2faEmailVerificationUseCase
-} from '@virteex/domain-identity-application';
+} from '@virtex/domain-identity-application';
 import {
     LoginUserDto,
     VerifyMfaDto,
@@ -41,9 +41,9 @@ import {
     ResetPasswordDto,
     SetPasswordDto,
     ChangePasswordDto
-} from '@virteex/domain-identity-contracts';
+} from '@virtex/domain-identity-contracts';
 import { Request, Response } from 'express';
-import { Public, JwtAuthGuard, SecretManagerService } from '@virteex/kernel-auth';
+import { Public, JwtAuthGuard, SecretManagerService } from '@virtex/kernel-auth';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Throttle, ThrottlerGuard } from '@nestjs/throttler';
 import { SessionGuard } from '../guards/session.guard';

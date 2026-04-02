@@ -7,8 +7,8 @@ import * as path from 'node:path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { InvoiceConsumer } from './invoice.consumer';
-import { KafkaModule } from '@virteex/platform-kafka';
-import { FiscalPresentationModule } from '@virteex/domain-fiscal-presentation';
+import { KafkaModule } from '@virtex/platform-kafka';
+import { FiscalPresentationModule } from '@virtex/domain-fiscal-presentation';
 import {
   FiscalInfrastructureModule,
   DianFiscalAdapter,
@@ -16,7 +16,7 @@ import {
   SefazFiscalAdapter,
   UsTaxPartnerFiscalAdapter,
   DgiiFiscalAdapter,
-} from '@virteex/domain-fiscal-infrastructure';
+} from '@virtex/domain-fiscal-infrastructure';
 import { HttpModule, HttpService } from '@nestjs/axios';
 
 type FiscalCountryStatus = {
@@ -31,8 +31,8 @@ function loadFiscalCommercialEligibility(): Record<string, FiscalCountryStatus> 
   const matrix = JSON.parse(raw);
   return matrix.modules.fiscal;
 }
-import { TenantModule } from '@virteex/kernel-tenant';
-import { CanonicalTenantMiddleware } from '@virteex/kernel-auth';
+import { TenantModule } from '@virtex/kernel-tenant';
+import { CanonicalTenantMiddleware } from '@virtex/kernel-auth';
 
 @Module({
   imports: [

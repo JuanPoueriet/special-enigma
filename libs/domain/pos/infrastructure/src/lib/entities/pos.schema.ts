@@ -1,5 +1,5 @@
 import { EntitySchema, Cascade } from '@mikro-orm/core';
-import { PosSale, PosSaleItem, PosShift, ShiftStatus, PosSaleStatus } from '@virteex/domain-pos-domain';
+import { PosSale, PosSaleItem, PosShift, ShiftStatus, PosSaleStatus } from '@virtex/domain-pos-domain';
 
 export const PosSaleSchema = new EntitySchema<PosSale>({
   class: PosSale,

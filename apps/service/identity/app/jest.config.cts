@@ -1,5 +1,5 @@
 module.exports = {
-  displayName: 'virteex-identity-service',
+  displayName: 'virtex-identity-service',
   preset: '../../../../jest.preset.js',
   testEnvironment: 'node',
   transform: {
@@ -16,5 +16,5 @@ module.exports = {
     'node_modules/(?!(@scure|otplib|@noble|@apollo/server|@otplib)/)',
   ],
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/apps/virteex-identity-service',
+  coverageDirectory: '../../coverage/apps/virtex-identity-service',
 };

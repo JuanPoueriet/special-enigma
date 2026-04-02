@@ -2,8 +2,8 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
-import { ToastService } from '@virteex/shared-ui';
-import { API_URL } from '@virteex/shared-config';
+import { ToastService } from '@virtex/shared-ui';
+import { API_URL } from '@virtex/shared-config';
 
 export interface ContextSignal {
   source: 'url' | 'ip' | 'browser' | 'cookie';

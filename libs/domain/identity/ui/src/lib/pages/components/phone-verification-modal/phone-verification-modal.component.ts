@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, WritableSignal, signal } from '
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'virteex-phone-verification-modal',
+  selector: 'virtex-phone-verification-modal',
   standalone: true,
   imports: [CommonModule],
   template: ''

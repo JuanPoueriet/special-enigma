@@ -4,7 +4,7 @@ import { SyncItem } from './sync.types';
 
 @Injectable({ providedIn: 'root' })
 export class SyncPersistenceService {
-  private readonly storageKey = 'virteex_sync_queue_v2';
+  private readonly storageKey = 'virtex_sync_queue_v2';
 
   constructor(private readonly storage: StorageService) {}
 

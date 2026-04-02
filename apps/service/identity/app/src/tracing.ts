@@ -10,7 +10,7 @@ import { Logger } from '@nestjs/common';
 // Configure the SDK
 export const otelSDK = new NodeSDK({
   resource: resourceFromAttributes({
-    [SemanticResourceAttributes.SERVICE_NAME]: 'virteex-identity-service',
+    [SemanticResourceAttributes.SERVICE_NAME]: 'virtex-identity-service',
   }),
   traceExporter: new OTLPTraceExporter({
     url: process.env.OTEL_EXPORTER_OTLP_ENDPOINT || 'http://localhost:4318/v1/traces',

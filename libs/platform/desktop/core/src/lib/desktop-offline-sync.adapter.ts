@@ -1,4 +1,4 @@
-import { OfflineSyncPort } from '@virteex/domain-pos-application';
+import { OfflineSyncPort } from '@virtex/domain-pos-application';
 import { net } from 'electron';
 
 export class DesktopOfflineSyncAdapter implements OfflineSyncPort {

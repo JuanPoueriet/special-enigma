@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'virteex-social-auth-buttons',
+  selector: 'virtex-social-auth-buttons',
   standalone: true,
   imports: [CommonModule, TranslateModule],
   templateUrl: './social-auth-buttons.component.html',

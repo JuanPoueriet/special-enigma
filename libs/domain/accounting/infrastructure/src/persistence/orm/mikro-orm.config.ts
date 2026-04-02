@@ -3,7 +3,7 @@ import { AccountSchema, JournalEntrySchema, JournalEntryLineSchema, FiscalYearSc
 
 export default defineConfig({
   entities: [AccountSchema, JournalEntrySchema, JournalEntryLineSchema, FiscalYearSchema, AccountingPolicySchema],
-  dbName: process.env['ACCOUNTING_DB_NAME'] || 'virteex_accounting',
+  dbName: process.env['ACCOUNTING_DB_NAME'] || 'virtex_accounting',
   host: process.env['ACCOUNTING_DB_HOST'] || 'localhost',
   port: Number(process.env['ACCOUNTING_DB_PORT']) || 5432,
   user: process.env['ACCOUNTING_DB_USER'] || 'postgres',

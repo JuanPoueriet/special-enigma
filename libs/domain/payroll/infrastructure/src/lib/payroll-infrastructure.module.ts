@@ -1,7 +1,7 @@
 import { Module, Global } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { AuthModule } from '@virteex/kernel-auth';
-import { EMPLOYEE_REPOSITORY, PAYROLL_REPOSITORY, TAX_TABLE_REPOSITORY, TAX_STRATEGY_FACTORY, ATTENDANCE_REPOSITORY, PAC_PROVIDER, TENANT_CONFIG_REPOSITORY } from '@virteex/domain-payroll-domain';
+import { AuthModule } from '@virtex/kernel-auth';
+import { EMPLOYEE_REPOSITORY, PAYROLL_REPOSITORY, TAX_TABLE_REPOSITORY, TAX_STRATEGY_FACTORY, ATTENDANCE_REPOSITORY, PAC_PROVIDER, TENANT_CONFIG_REPOSITORY } from '@virtex/domain-payroll-domain';
 import { TaxTableSchema, EmployeeSchema, PayrollSchema, AttendanceSchema, PayrollDetailSchema } from './persistence/payroll.schemas';
 import { MikroOrmEmployeeRepository } from './repositories/mikro-orm-employee.repository';
 import { MikroOrmPayrollRepository } from './repositories/mikro-orm-payroll.repository';

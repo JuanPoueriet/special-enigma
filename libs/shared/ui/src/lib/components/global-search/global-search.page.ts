@@ -9,7 +9,7 @@ interface SearchResultGroup extends BaseSearchResultGroup {
 }
 
 @Component({
-  selector: 'virteex-global-search-page',
+  selector: 'virtex-global-search-page',
   standalone: true,
   imports: [CommonModule, RouterLink, LucideAngularModule],
   templateUrl: './global-search.page.html',

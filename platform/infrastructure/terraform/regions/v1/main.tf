@@ -83,10 +83,10 @@ provider "aws" {
 }
 
 resource "aws_rds_global_cluster" "global" {
-  global_cluster_identifier = "virteex-global-v1-${var.environment}"
+  global_cluster_identifier = "virtex-global-v1-${var.environment}"
   engine                    = "aurora-postgresql"
   engine_version            = "15.3"
-  database_name             = "virteex"
+  database_name             = "virtex"
   storage_encrypted         = true
 }
 
@@ -111,7 +111,7 @@ module "compute" {
   environment             = var.environment
   region                  = each.value.region
   sovereignty_mode        = each.value.sovereignty_mode
-  cluster_name            = "virteex-eks-${var.environment}-${each.key}-v1"
+  cluster_name            = "virtex-eks-${var.environment}-${each.key}-v1"
   subnet_ids              = module.regional_stack[each.key].private_subnets
   vpc_id                  = module.regional_stack[each.key].vpc_id
   node_min_size           = 2

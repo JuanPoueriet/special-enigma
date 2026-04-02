@@ -1,13 +1,13 @@
-import { APP_CONFIG } from '@virteex/shared-config';
+import { APP_CONFIG } from '@virtex/shared-config';
 import { Component, inject, signal, effect } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module, ReCaptchaV3Service } from 'ng-recaptcha-19';
-import { RECAPTCHA_SITE_KEY } from '@virteex/shared-ui';
+import { RECAPTCHA_SITE_KEY } from '@virtex/shared-ui';
 import { switchMap } from 'rxjs';
 
-import { AuthService, LanguageService } from '@virteex/shared-ui';
+import { AuthService, LanguageService } from '@virtex/shared-ui';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 // Shared Components
@@ -16,7 +16,7 @@ import { AuthInputComponent } from '../../components/auth-input/auth-input.compo
 import { AuthButtonComponent } from '../../components/auth-button/auth-button.component';
 
 @Component({
-  selector: 'virteex-forgot-password',
+  selector: 'virtex-forgot-password',
   standalone: true,
   imports: [
     CommonModule,

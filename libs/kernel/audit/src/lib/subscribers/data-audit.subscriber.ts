@@ -4,7 +4,7 @@ import {
   ChangeSetType,
 } from '@mikro-orm/core';
 import { DataAuditLog } from '../entities/data-audit-log.entity';
-import { getTenantContext } from '@virteex/kernel-tenant-context';
+import { getTenantContext } from '@virtex/kernel-tenant-context';
 import { Injectable, Logger, InternalServerErrorException } from '@nestjs/common';
 import { createHmac } from 'crypto';
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/postgresql';
-import { IPurchaseOrderRepository, PurchaseOrder } from '@virteex/domain-purchasing-domain';
+import { IPurchaseOrderRepository, PurchaseOrder } from '@virtex/domain-purchasing-domain';
 
 @Injectable()
 export class MikroOrmPurchaseOrderRepository implements IPurchaseOrderRepository {

@@ -1,4 +1,4 @@
-import { TaxLookupDto } from '@virteex/domain-identity-contracts';
+import { TaxLookupDto } from '@virtex/domain-identity-contracts';
 import { AbstractRobustTaxProvider } from './abstract-robust-tax-provider';
 import { Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';

@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { MainLayoutComponent, authGuard, languageInitGuard, languageRedirectGuard } from '@virteex/shared-ui';
+import { MainLayoutComponent, authGuard, languageInitGuard, languageRedirectGuard } from '@virtex/shared-ui';
 
 export const appRoutes: Route[] = [
   // Redirect root to language/country specific or default
@@ -13,18 +13,18 @@ export const appRoutes: Route[] = [
   {
     path: ':lang/:country/auth',
     canActivate: [languageInitGuard],
-    loadChildren: () => import('@virteex/identity-ui').then(m => m.authRoutes)
+    loadChildren: () => import('@virtex/identity-ui').then(m => m.authRoutes)
   },
   // Language specific auth (e.g., /es/auth/...)
   {
     path: ':lang/auth',
     canActivate: [languageInitGuard],
-    loadChildren: () => import('@virteex/identity-ui').then(m => m.authRoutes)
+    loadChildren: () => import('@virtex/identity-ui').then(m => m.authRoutes)
   },
   // Fallback or default auth
   {
     path: 'auth',
-    loadChildren: () => import('@virteex/identity-ui').then(m => m.authRoutes)
+    loadChildren: () => import('@virtex/identity-ui').then(m => m.authRoutes)
   },
   {
     path: ':lang',
@@ -32,22 +32,22 @@ export const appRoutes: Route[] = [
     canActivate: [authGuard, languageInitGuard],
     children: [
       { path: '', redirectTo: 'accounting', pathMatch: 'full' },
-      { path: 'accounting', loadChildren: () => import('@virteex/accounting-ui').then(m => m.accountingRoutes) },
-      { path: 'inventory', loadChildren: () => import('@virteex/inventory-ui').then(m => m.inventoryRoutes) },
-      { path: 'payroll', loadChildren: () => import('@virteex/payroll-ui').then(m => m.payrollRoutes) },
-      { path: 'crm', loadChildren: () => import('@virteex/crm-ui').then(m => m.crmRoutes) },
-      { path: 'purchasing', loadChildren: () => import('@virteex/purchasing-ui').then(m => m.purchasingRoutes) },
-      { path: 'treasury', loadChildren: () => import('@virteex/treasury-ui').then(m => m.treasuryRoutes) },
-      { path: 'fixed-assets', loadChildren: () => import('@virteex/fixed-assets-ui').then(m => m.fixedassetsRoutes) },
-      { path: 'projects', loadChildren: () => import('@virteex/projects-ui').then(m => m.projectsRoutes) },
-      { path: 'manufacturing', loadChildren: () => import('@virteex/manufacturing-ui').then(m => m.manufacturingRoutes) },
-      { path: 'pos', loadChildren: () => import('@virteex/pos-ui').then(m => m.posRoutes) },
-      { path: 'billing', loadChildren: () => import('@virteex/billing-ui').then(m => m.billingRoutes) },
-      { path: 'catalog', loadChildren: () => import('@virteex/catalog-ui').then(m => m.catalogRoutes) },
-      { path: 'bi', loadChildren: () => import('@virteex/bi-ui').then(m => m.biRoutes) },
-      { path: 'admin', loadChildren: () => import('@virteex/admin-ui').then(m => m.adminRoutes) },
-      { path: 'fiscal', loadChildren: () => import('@virteex/fiscal-ui').then(m => m.fiscalRoutes) },
-      { path: 'account', loadChildren: () => import('@virteex/identity-ui').then(m => m.identityManagementRoutes) },
+      { path: 'accounting', loadChildren: () => import('@virtex/accounting-ui').then(m => m.accountingRoutes) },
+      { path: 'inventory', loadChildren: () => import('@virtex/inventory-ui').then(m => m.inventoryRoutes) },
+      { path: 'payroll', loadChildren: () => import('@virtex/payroll-ui').then(m => m.payrollRoutes) },
+      { path: 'crm', loadChildren: () => import('@virtex/crm-ui').then(m => m.crmRoutes) },
+      { path: 'purchasing', loadChildren: () => import('@virtex/purchasing-ui').then(m => m.purchasingRoutes) },
+      { path: 'treasury', loadChildren: () => import('@virtex/treasury-ui').then(m => m.treasuryRoutes) },
+      { path: 'fixed-assets', loadChildren: () => import('@virtex/fixed-assets-ui').then(m => m.fixedassetsRoutes) },
+      { path: 'projects', loadChildren: () => import('@virtex/projects-ui').then(m => m.projectsRoutes) },
+      { path: 'manufacturing', loadChildren: () => import('@virtex/manufacturing-ui').then(m => m.manufacturingRoutes) },
+      { path: 'pos', loadChildren: () => import('@virtex/pos-ui').then(m => m.posRoutes) },
+      { path: 'billing', loadChildren: () => import('@virtex/billing-ui').then(m => m.billingRoutes) },
+      { path: 'catalog', loadChildren: () => import('@virtex/catalog-ui').then(m => m.catalogRoutes) },
+      { path: 'bi', loadChildren: () => import('@virtex/bi-ui').then(m => m.biRoutes) },
+      { path: 'admin', loadChildren: () => import('@virtex/admin-ui').then(m => m.adminRoutes) },
+      { path: 'fiscal', loadChildren: () => import('@virtex/fiscal-ui').then(m => m.fiscalRoutes) },
+      { path: 'account', loadChildren: () => import('@virtex/identity-ui').then(m => m.identityManagementRoutes) },
     ]
   },
   {
@@ -56,23 +56,23 @@ export const appRoutes: Route[] = [
     canActivate: [authGuard, languageInitGuard],
     children: [
       { path: '', redirectTo: 'accounting', pathMatch: 'full' }, // Redirect root to accounting or a dashboard
-      { path: 'accounting', loadChildren: () => import('@virteex/accounting-ui').then(m => m.accountingRoutes) },
-      { path: 'inventory', loadChildren: () => import('@virteex/inventory-ui').then(m => m.inventoryRoutes) },
-      { path: 'payroll', loadChildren: () => import('@virteex/payroll-ui').then(m => m.payrollRoutes) },
-      { path: 'crm', loadChildren: () => import('@virteex/crm-ui').then(m => m.crmRoutes) },
-      { path: 'purchasing', loadChildren: () => import('@virteex/purchasing-ui').then(m => m.purchasingRoutes) },
-      { path: 'treasury', loadChildren: () => import('@virteex/treasury-ui').then(m => m.treasuryRoutes) },
-      { path: 'fixed-assets', loadChildren: () => import('@virteex/fixed-assets-ui').then(m => m.fixedassetsRoutes) },
-      { path: 'projects', loadChildren: () => import('@virteex/projects-ui').then(m => m.projectsRoutes) },
-      { path: 'manufacturing', loadChildren: () => import('@virteex/manufacturing-ui').then(m => m.manufacturingRoutes) },
-      { path: 'pos', loadChildren: () => import('@virteex/pos-ui').then(m => m.posRoutes) },
-      { path: 'billing', loadChildren: () => import('@virteex/billing-ui').then(m => m.billingRoutes) },
-      { path: 'catalog', loadChildren: () => import('@virteex/catalog-ui').then(m => m.catalogRoutes) },
-      { path: 'bi', loadChildren: () => import('@virteex/bi-ui').then(m => m.biRoutes) },
-      { path: 'admin', loadChildren: () => import('@virteex/admin-ui').then(m => m.adminRoutes) },
-      { path: 'fiscal', loadChildren: () => import('@virteex/fiscal-ui').then(m => m.fiscalRoutes) },
-      { path: 'account', loadChildren: () => import('@virteex/identity-ui').then(m => m.identityManagementRoutes) },
-      // { path: 'sample', loadChildren: () => import('@virteex/sample-ui').then(m => m.sampleRoutes) },
+      { path: 'accounting', loadChildren: () => import('@virtex/accounting-ui').then(m => m.accountingRoutes) },
+      { path: 'inventory', loadChildren: () => import('@virtex/inventory-ui').then(m => m.inventoryRoutes) },
+      { path: 'payroll', loadChildren: () => import('@virtex/payroll-ui').then(m => m.payrollRoutes) },
+      { path: 'crm', loadChildren: () => import('@virtex/crm-ui').then(m => m.crmRoutes) },
+      { path: 'purchasing', loadChildren: () => import('@virtex/purchasing-ui').then(m => m.purchasingRoutes) },
+      { path: 'treasury', loadChildren: () => import('@virtex/treasury-ui').then(m => m.treasuryRoutes) },
+      { path: 'fixed-assets', loadChildren: () => import('@virtex/fixed-assets-ui').then(m => m.fixedassetsRoutes) },
+      { path: 'projects', loadChildren: () => import('@virtex/projects-ui').then(m => m.projectsRoutes) },
+      { path: 'manufacturing', loadChildren: () => import('@virtex/manufacturing-ui').then(m => m.manufacturingRoutes) },
+      { path: 'pos', loadChildren: () => import('@virtex/pos-ui').then(m => m.posRoutes) },
+      { path: 'billing', loadChildren: () => import('@virtex/billing-ui').then(m => m.billingRoutes) },
+      { path: 'catalog', loadChildren: () => import('@virtex/catalog-ui').then(m => m.catalogRoutes) },
+      { path: 'bi', loadChildren: () => import('@virtex/bi-ui').then(m => m.biRoutes) },
+      { path: 'admin', loadChildren: () => import('@virtex/admin-ui').then(m => m.adminRoutes) },
+      { path: 'fiscal', loadChildren: () => import('@virtex/fiscal-ui').then(m => m.fiscalRoutes) },
+      { path: 'account', loadChildren: () => import('@virtex/identity-ui').then(m => m.identityManagementRoutes) },
+      // { path: 'sample', loadChildren: () => import('@virtex/sample-ui').then(m => m.sampleRoutes) },
     ]
   }
 ];

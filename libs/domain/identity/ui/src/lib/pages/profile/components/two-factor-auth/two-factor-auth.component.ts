@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LucideAngularModule, Shield, ShieldCheck, ShieldAlert, Key, Smartphone, Mail, Copy, Check, AlertTriangle, RefreshCw, XCircle, Fingerprint } from 'lucide-angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { AuthService, ToastService } from '@virteex/shared-ui';
+import { AuthService, ToastService } from '@virtex/shared-ui';
 
 @Component({
-  selector: 'virteex-two-factor-auth',
+  selector: 'virtex-two-factor-auth',
   standalone: true,
   imports: [CommonModule, FormsModule, LucideAngularModule, TranslateModule],
   templateUrl: './two-factor-auth.component.html',

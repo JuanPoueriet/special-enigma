@@ -1,8 +1,8 @@
 import { Controller, Post, Body, Get, Query, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { CurrentTenant } from '@virteex/shared-util-server-server-config';
-import { JwtAuthGuard, TenantGuard } from '@virteex/kernel-auth';
-import { RequireEntitlement, EntitlementGuard } from '@virteex/kernel-entitlements';
+import { CurrentTenant } from '@virtex/shared-util-server-server-config';
+import { JwtAuthGuard, TenantGuard } from '@virtex/kernel-auth';
+import { RequireEntitlement, EntitlementGuard } from '@virtex/kernel-entitlements';
 import {
   GenerateReportHandler,
   GetTopProductsHandler,
@@ -14,8 +14,8 @@ import {
   GetInvoiceStatusQuery,
   GetArAgingQuery,
   GetExpensesQuery
-} from '@virteex/domain-bi-application';
-import { GenerateReportRequest } from '@virteex/domain-bi-contracts';
+} from '@virtex/domain-bi-application';
+import { GenerateReportRequest } from '@virtex/domain-bi-contracts';
 
 @ApiTags('BI')
 @ApiBearerAuth()

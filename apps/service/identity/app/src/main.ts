@@ -1,7 +1,7 @@
 import { INestApplication, Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { Transport, MicroserviceOptions } from '@nestjs/microservices';
-import { IDENTITY_PACKAGE, IDENTITY_PROTO_PATH } from '@virteex/shared-proto';
+import { IDENTITY_PACKAGE, IDENTITY_PROTO_PATH } from '@virtex/shared-proto';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import { RedisStore } from 'connect-redis';
@@ -13,7 +13,7 @@ import { otelSDK } from './tracing';
 otelSDK.start();
 
 import { AppModule } from './app/app.module';
-import { setupGlobalConfig, validate } from '@virteex/shared-util-server-server-config';
+import { setupGlobalConfig, validate } from '@virtex/shared-util-server-server-config';
 
 const logger = new Logger('Bootstrap');
 
@@ -55,7 +55,7 @@ async function buildSessionStore(): Promise<session.Store> {
     logger.log(`Session store: Redis (${redisUrl})`);
     return new RedisStore({
       client: redisClient,
-      prefix: 'virteex_sess:',
+      prefix: 'virtex_sess:',
     });
   } catch (error) {
     redisClient.disconnect();
@@ -121,7 +121,7 @@ async function bootstrap() {
 
   app.use(cookieParser());
 
-  const resolvedSessionSecret = process.env.SESSION_SECRET ?? 'virteex-dev-secret-session';
+  const resolvedSessionSecret = process.env.SESSION_SECRET ?? 'virtex-dev-secret-session';
 
   const redisStore = await buildSessionStore();
 

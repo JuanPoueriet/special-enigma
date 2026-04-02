@@ -1,5 +1,5 @@
 
-import { TaskStatus } from '@virteex/shared-contracts';
+import { TaskStatus } from '@virtex/shared-contracts';
 import type { Project } from './project.entity';
 
 

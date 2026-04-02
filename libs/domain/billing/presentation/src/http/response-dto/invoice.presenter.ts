@@ -1,4 +1,4 @@
-import { Invoice } from '@virteex/domain-billing-domain';
+import { Invoice } from '@virtex/domain-billing-domain';
 import { InvoiceObject } from './invoice.object';
 
 export const presentInvoice = (invoice: Invoice): InvoiceObject => ({

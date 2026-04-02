@@ -1,6 +1,6 @@
-import { type AccountDto } from '@virteex/domain-accounting-contracts';
+import { type AccountDto } from '@virtex/domain-accounting-contracts';
 import { AccountMapper } from '../../mappers/account.mapper';
-import { type AccountRepository, type JournalEntryRepository } from '@virteex/domain-accounting-domain';
+import { type AccountRepository, type JournalEntryRepository } from '@virtex/domain-accounting-domain';
 import { Decimal } from 'decimal.js';
 
 export class GetAccountsByIdsUseCase {

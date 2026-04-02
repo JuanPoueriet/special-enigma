@@ -13,4 +13,4 @@ export * from './lib/use-cases/register-inventory-movement-batch.use-case';
 // Explicit exports to help resolution
 export { type CreateWarehouseDto } from './lib/use-cases/create-warehouse.use-case';
 export { type RegisterMovementInput } from './lib/use-cases/register-movement.use-case';
-export { InventoryMovementType } from '@virteex/domain-inventory-domain';
+export { InventoryMovementType } from '@virtex/domain-inventory-domain';

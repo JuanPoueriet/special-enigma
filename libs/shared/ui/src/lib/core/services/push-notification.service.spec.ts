@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { PushNotificationService } from '../../core/services/push-notification.service';
 import { SwPush } from '@angular/service-worker';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { APP_CONFIG } from '@virteex/shared-config';
+import { APP_CONFIG } from '@virtex/shared-config';
 import { vi } from 'vitest';
 
 class MockSwPush {

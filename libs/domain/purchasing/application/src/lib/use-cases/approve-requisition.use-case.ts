@@ -1,6 +1,6 @@
-import { DomainException } from '@virteex/shared-util-server-server-config';
+import { DomainException } from '@virtex/shared-util-server-server-config';
 import { Injectable, Inject } from '@nestjs/common';
-import { RequisitionRepository } from '@virteex/domain-purchasing-domain';
+import { RequisitionRepository } from '@virtex/domain-purchasing-domain';
 
 @Injectable()
 export class ApproveRequisitionUseCase {

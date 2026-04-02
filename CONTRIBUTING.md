@@ -1,4 +1,4 @@
-# Contributing to Virteex ERP
+# Contributing to virtex ERP
 
 Este documento proporciona pautas para contribuir al monorepo manteniendo la integridad de la arquitectura y la calidad del código.
 

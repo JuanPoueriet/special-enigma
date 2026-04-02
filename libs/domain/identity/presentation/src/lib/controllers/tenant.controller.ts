@@ -1,8 +1,8 @@
 import { Controller, Get, UseGuards, ForbiddenException } from '@nestjs/common';
-import { ListTenantsUseCase } from '@virteex/domain-identity-application';
-import { Company } from '@virteex/domain-identity-domain';
+import { ListTenantsUseCase } from '@virtex/domain-identity-application';
+import { Company } from '@virtex/domain-identity-domain';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { JwtAuthGuard, StepUpGuard, StepUp, CurrentUser } from '@virteex/kernel-auth';
+import { JwtAuthGuard, StepUpGuard, StepUp, CurrentUser } from '@virtex/kernel-auth';
 
 @ApiTags('Admin')
 @Controller('admin/tenants')

@@ -10,7 +10,7 @@ import { SecretManagerService } from './secret-manager.service';
 import {
   TelemetryService,
   TELEMETRY_SERVICE,
-} from '@virteex/kernel-telemetry-interfaces';
+} from '@virtex/kernel-telemetry-interfaces';
 import Redis from 'ioredis';
 
 export type SupportedTokenType =
@@ -73,46 +73,46 @@ export class JwtTokenService {
     this.issuerByType = {
       access: this.secretManager.getSecret(
         'JWT_ISSUER_ACCESS',
-        this.secretManager.getSecret('JWT_ISSUER', 'virteex-issuer'),
+        this.secretManager.getSecret('JWT_ISSUER', 'virtex-issuer'),
       ),
       refresh: this.secretManager.getSecret(
         'JWT_ISSUER_REFRESH',
-        this.secretManager.getSecret('JWT_ISSUER', 'virteex-issuer'),
+        this.secretManager.getSecret('JWT_ISSUER', 'virtex-issuer'),
       ),
       service: this.secretManager.getSecret(
         'JWT_ISSUER_SERVICE',
-        this.secretManager.getSecret('JWT_ISSUER', 'virteex-issuer'),
+        this.secretManager.getSecret('JWT_ISSUER', 'virtex-issuer'),
       ),
       plugin: this.secretManager.getSecret(
         'JWT_ISSUER_PLUGIN',
-        this.secretManager.getSecret('JWT_ISSUER', 'virteex-issuer'),
+        this.secretManager.getSecret('JWT_ISSUER', 'virtex-issuer'),
       ),
       stepup: this.secretManager.getSecret(
         'JWT_ISSUER_STEPUP',
-        this.secretManager.getSecret('JWT_ISSUER', 'virteex-issuer'),
+        this.secretManager.getSecret('JWT_ISSUER', 'virtex-issuer'),
       ),
     };
 
     this.audienceByType = {
       access: this.secretManager.getSecret(
         'JWT_AUDIENCE_ACCESS',
-        this.secretManager.getSecret('JWT_AUDIENCE', 'virteex-api'),
+        this.secretManager.getSecret('JWT_AUDIENCE', 'virtex-api'),
       ),
       refresh: this.secretManager.getSecret(
         'JWT_AUDIENCE_REFRESH',
-        this.secretManager.getSecret('JWT_AUDIENCE', 'virteex-api'),
+        this.secretManager.getSecret('JWT_AUDIENCE', 'virtex-api'),
       ),
       service: this.secretManager.getSecret(
         'JWT_AUDIENCE_SERVICE',
-        this.secretManager.getSecret('JWT_AUDIENCE', 'virteex-internal'),
+        this.secretManager.getSecret('JWT_AUDIENCE', 'virtex-internal'),
       ),
       plugin: this.secretManager.getSecret(
         'JWT_AUDIENCE_PLUGIN',
-        this.secretManager.getSecret('JWT_AUDIENCE', 'virteex-plugin-host'),
+        this.secretManager.getSecret('JWT_AUDIENCE', 'virtex-plugin-host'),
       ),
       stepup: this.secretManager.getSecret(
         'JWT_AUDIENCE_STEPUP',
-        this.secretManager.getSecret('JWT_AUDIENCE', 'virteex-api'),
+        this.secretManager.getSecret('JWT_AUDIENCE', 'virtex-api'),
       ),
     };
 
@@ -152,7 +152,7 @@ export class JwtTokenService {
       iat: now,
       nbf: now,
       jti,
-      typ: `virteex+${tokenType}`,
+      typ: `virtex+${tokenType}`,
       token_use: tokenType,
     };
 
@@ -225,7 +225,7 @@ export class JwtTokenService {
       throw new UnauthorizedException('JWT missing iat/nbf');
     }
     if (
-      verified['typ'] !== `virteex+${tokenType}` ||
+      verified['typ'] !== `virtex+${tokenType}` ||
       verified['token_use'] !== tokenType
     ) {
       throw new UnauthorizedException('JWT token type mismatch');

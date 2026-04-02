@@ -1,7 +1,7 @@
 # Billing Domain
 
 ## Propósito
-El dominio de Billing se encarga de la gestión de facturación, pagos, suscripciones y cálculos de impuestos para el sistema Virteex.
+El dominio de Billing se encarga de la gestión de facturación, pagos, suscripciones y cálculos de impuestos para el sistema virtex.
 
 ## Perfil del Dominio
 **Perfil:** `core-domain`

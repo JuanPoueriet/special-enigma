@@ -1,6 +1,6 @@
 import { Module, Global } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { PROJECT_REPOSITORY } from '@virteex/domain-projects-domain';
+import { PROJECT_REPOSITORY } from '@virtex/domain-projects-domain';
 import { MikroOrmProjectRepository } from './repositories/mikro-orm-project.repository';
 import { ProjectSchema, TaskSchema } from './persistence/projects.schemas';
 

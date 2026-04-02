@@ -2,7 +2,7 @@
   "name": "web-pos-app",
   "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "prefix": "virteex",
+  "prefix": "virtex",
   "sourceRoot": "apps/client/web/pos/app/src",
   "tags": [
     "scope:pos",

@@ -1,6 +1,6 @@
 # Nivel 5 GraphQL Contract Taxonomy
 
-This document defines the mandatory requirements for all GraphQL contracts within the Virteex Federation.
+This document defines the mandatory requirements for all GraphQL contracts within the virtex Federation.
 
 ## 1. Federated Schema Contract
 - **Canonical Keys**: Every federated entity must define a `@key`.

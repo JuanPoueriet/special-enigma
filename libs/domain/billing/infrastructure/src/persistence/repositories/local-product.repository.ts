@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/core';
-import { type ProductRepository, type BillingProduct } from '@virteex/domain-billing-domain';
+import { type ProductRepository, type BillingProduct } from '@virtex/domain-billing-domain';
 import { BillingProductEntity } from '../entities/billing-product.entity';
 
 @Injectable()

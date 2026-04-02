@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { CatalogApplicationModule, GetProductsUseCase, GetProductByIdUseCase, CreateProductUseCase, UpdateProductUseCase, DeleteProductUseCase } from '@virteex/domain-catalog-application';
+import { CatalogApplicationModule, GetProductsUseCase, GetProductByIdUseCase, CreateProductUseCase, UpdateProductUseCase, DeleteProductUseCase } from '@virtex/domain-catalog-application';
 import { CatalogController } from './http/controllers/catalog.controller';
 import { CatalogResolver } from './graphql/resolvers/catalog.resolver';
 

@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { type InvoicePort, type InvoiceStatusSummary, type ArAging } from '@virteex/domain-bi-domain';
-import { INVOICE_REPOSITORY, type InvoiceRepository } from '@virteex/domain-billing-domain';
+import { type InvoicePort, type InvoiceStatusSummary, type ArAging } from '@virtex/domain-bi-domain';
+import { INVOICE_REPOSITORY, type InvoiceRepository } from '@virtex/domain-billing-domain';
 
 @Injectable()
 export class BiInvoiceAdapter implements InvoicePort {

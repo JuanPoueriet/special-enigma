@@ -1,4 +1,4 @@
-import { CustomerType } from '@virteex/shared-contracts';
+import { CustomerType } from '@virtex/shared-contracts';
 import { v4 as uuidv4 } from 'uuid';
 
 export class Customer {

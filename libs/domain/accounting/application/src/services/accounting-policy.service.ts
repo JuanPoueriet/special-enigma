@@ -1,4 +1,4 @@
-import { type PolicyRepository } from '@virteex/domain-accounting-domain';
+import { type PolicyRepository } from '@virtex/domain-accounting-domain';
 
 export class AccountingPolicyService {
   constructor(

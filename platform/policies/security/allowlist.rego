@@ -1,4 +1,4 @@
-package virteex.security.allowlist
+package virtex.security.allowlist
 
 default allow = false
 

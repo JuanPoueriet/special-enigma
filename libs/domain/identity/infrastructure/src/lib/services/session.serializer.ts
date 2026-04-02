@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { PassportSerializer } from '@nestjs/passport';
-import { UserRepository } from '@virteex/domain-identity-domain';
+import { UserRepository } from '@virtex/domain-identity-domain';
 
 @Injectable()
 export class SessionSerializer extends PassportSerializer {

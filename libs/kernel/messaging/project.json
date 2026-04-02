@@ -3,7 +3,7 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/kernel/messaging/src",
   "projectType": "library",
-  "prefix": "virteex",
+  "prefix": "virtex",
   "tags": [
     "scope:kernel",
     "type:util",

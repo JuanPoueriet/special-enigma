@@ -4,13 +4,13 @@ import * as path from 'path';
 import * as crypto from 'crypto';
 import { MikroORM, RequestContext } from '@mikro-orm/core';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
-import { Plugin, PluginVersion, PluginStatus, PluginChannel, TenantConsent, MeteringRecord } from '@virteex/domain-catalog-domain';
+import { Plugin, PluginVersion, PluginStatus, PluginChannel, TenantConsent, MeteringRecord } from '@virtex/domain-catalog-domain';
 import ormConfig from '../../../../../libs/domain/catalog/infrastructure/src/lib/persistence/mikro-orm.config';
 import { SandboxService } from './sandbox.service';
 import { PluginAdmissionService } from './services/plugin-admission.service';
 import { MeteringService } from './services/metering.service';
 import { BillingService } from './services/billing.service';
-import { parseAndValidateSignedContext } from '@virteex/kernel-auth';
+import { parseAndValidateSignedContext } from '@virtex/kernel-auth';
 import { metrics } from '@opentelemetry/api';
 
 const nodeEnv = process.env.NODE_ENV ?? 'development';
@@ -57,7 +57,7 @@ if (nodeEnv === 'production' && admissionMode !== 'enforced') {
 }
 
 const server = Fastify({ logger: true });
-const meter = metrics.getMeter('virteex-plugin-host');
+const meter = metrics.getMeter('virtex-plugin-host');
 const contextViolationCounter = meter.createCounter('tenant_context_violations_total');
 
 const sandbox = new SandboxService();
@@ -75,12 +75,12 @@ server.addHook('preHandler', async (request, reply) => {
     return;
   }
 
-  const encodedContext = request.headers['x-virteex-context'] as string | undefined;
-  const signature = request.headers['x-virteex-signature'] as string | undefined;
-  const secret = process.env.VIRTEEX_HMAC_SECRET;
+  const encodedContext = request.headers['x-virtex-context'] as string | undefined;
+  const signature = request.headers['x-virtex-signature'] as string | undefined;
+  const secret = process.env.virtex_HMAC_SECRET;
 
   if (!secret) {
-    reply.status(500).send({ error: 'VIRTEEX_HMAC_SECRET is required for plugin-host context validation.' });
+    reply.status(500).send({ error: 'virtex_HMAC_SECRET is required for plugin-host context validation.' });
     return;
   }
 

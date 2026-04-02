@@ -2,7 +2,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { APP_CONFIG } from '@virteex/shared-config';
+import { APP_CONFIG } from '@virtex/shared-config';
 
 export interface OrganizationProfile {
   id: string;

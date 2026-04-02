@@ -1,7 +1,7 @@
 import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus, Logger } from '@nestjs/common';
 import { GqlArgumentsHost } from '@nestjs/graphql';
 import { Response, Request } from 'express';
-import { AccountingDomainError } from '@virteex/domain-accounting-domain';
+import { AccountingDomainError } from '@virtex/domain-accounting-domain';
 
 @Catch()
 export class AccountingExceptionFilter implements ExceptionFilter {

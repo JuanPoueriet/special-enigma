@@ -1,4 +1,4 @@
-describe('Virteex Desktop Main', () => {
+describe('virtex Desktop Main', () => {
   it('should exist', () => {
     expect(true).toBeTruthy();
   });

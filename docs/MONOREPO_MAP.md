@@ -1,4 +1,4 @@
-# Virteex Monorepo Map
+# virtex Monorepo Map
 
 Este documento proporciona una visión clara de la estructura del monorepo y la ubicación de los diferentes artefactos arquitectónicos siguiendo los principios de Clean Architecture y DDD.
 

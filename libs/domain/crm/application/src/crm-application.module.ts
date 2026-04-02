@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { MessagingModule } from '@virteex/kernel-messaging';
+import { MessagingModule } from '@virtex/kernel-messaging';
 import { CreateSaleUseCase } from './use-cases/commands/create-sale.use-case';
 import { ListSalesUseCase } from './use-cases/queries/list-sales.use-case';
 import { CreateCustomerUseCase } from './use-cases/commands/create-customer.use-case';

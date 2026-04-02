@@ -1,4 +1,4 @@
-import { API_URL } from '@virteex/shared-config';
+import { API_URL } from '@virtex/shared-config';
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { of, catchError, Observable, timer, switchMap, filter } from 'rxjs';

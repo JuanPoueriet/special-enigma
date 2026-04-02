@@ -15,7 +15,7 @@ const sotRaw = fs.readFileSync(sotPath, 'utf8');
 const sot = JSON.parse(sotRaw);
 const sotHash = crypto.createHash('sha256').update(sotRaw).digest('hex');
 
-let reportContent = `# Virteex ERP Release Readiness Report\n\n`;
+let reportContent = `# virtex ERP Release Readiness Report\n\n`;
 reportContent += `**Date:** ${date}\n`;
 reportContent += `**Version:** ${releaseVersion}\n`;
 reportContent += `**Single source of truth:** ${path.relative(process.cwd(), sotPath)}\n`;
@@ -91,7 +91,7 @@ for (const item of sot.slaByTenantModeRegion ?? []) {
   reportContent += `| ${item.tenantMode} | ${item.region} | ${item.availabilitySla}% | ${item.p95LatencyMs}ms | ${item.historicalWindowDays}d | ${item.historicalSamples} | ${(item.gateIds ?? []).join(', ')} |\n`;
 }
 
-reportContent += `\n---\n*Report generated automatically by Virteex readiness tooling*\n`;
+reportContent += `\n---\n*Report generated automatically by virtex readiness tooling*\n`;
 
 fs.mkdirSync(path.dirname(reportPath), { recursive: true });
 fs.writeFileSync(reportPath, reportContent);

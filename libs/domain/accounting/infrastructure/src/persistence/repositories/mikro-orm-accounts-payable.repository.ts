@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/core';
-import { Invoice, type AccountsPayableRepository, InvoiceStatus } from '@virteex/domain-accounting-domain';
+import { Invoice, type AccountsPayableRepository, InvoiceStatus } from '@virtex/domain-accounting-domain';
 import { Decimal } from 'decimal.js';
 
 @Injectable()

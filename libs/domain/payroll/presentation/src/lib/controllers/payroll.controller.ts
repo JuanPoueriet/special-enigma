@@ -1,10 +1,10 @@
 import { Body, Controller, Post, Get, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
-import { CalculatePayrollDto } from '@virteex/domain-payroll-contracts';
-import { CalculatePayrollUseCase, GetEmployeesUseCase } from '@virteex/domain-payroll-application';
-import { type Payroll, Employee } from '@virteex/domain-payroll-domain';
-import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virteex/kernel-auth';
-import { RequireEntitlement, EntitlementGuard } from '@virteex/kernel-entitlements';
+import { CalculatePayrollDto } from '@virtex/domain-payroll-contracts';
+import { CalculatePayrollUseCase, GetEmployeesUseCase } from '@virtex/domain-payroll-application';
+import { type Payroll, Employee } from '@virtex/domain-payroll-domain';
+import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virtex/kernel-auth';
+import { RequireEntitlement, EntitlementGuard } from '@virtex/kernel-entitlements';
 
 @ApiTags('Payroll')
 @ApiBearerAuth()

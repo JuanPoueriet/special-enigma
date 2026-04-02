@@ -10,10 +10,10 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { CountryService, AsyncValidators } from '@virteex/shared-ui';
+import { CountryService, AsyncValidators } from '@virtex/shared-ui';
 import { AuthInputComponent } from '../../../components/auth-input/auth-input.component';
 import { HttpClient } from '@angular/common/http';
-import { API_URL } from '@virteex/shared-config';
+import { API_URL } from '@virtex/shared-config';
 import {
   debounceTime,
   distinctUntilChanged,
@@ -26,7 +26,7 @@ import { of } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  selector: 'virteex-step-configuration',
+  selector: 'virtex-step-configuration',
   standalone: true,
   imports: [
     CommonModule,

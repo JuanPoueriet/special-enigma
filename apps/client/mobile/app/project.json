@@ -2,7 +2,7 @@
   "name": "mobile-app",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "prefix": "virteex",
+  "prefix": "virtex",
   "sourceRoot": "apps/client/mobile/app/src",
   "tags": [
     "scope:mobile-app",

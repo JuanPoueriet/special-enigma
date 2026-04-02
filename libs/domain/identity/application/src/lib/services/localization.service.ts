@@ -1,6 +1,6 @@
 import { Injectable, Logger, Inject } from '@nestjs/common';
-import { LocalizationConfigDto, TaxLookupDto } from '@virteex/domain-identity-contracts';
-import { LocalizationPort } from '@virteex/domain-identity-domain';
+import { LocalizationConfigDto, TaxLookupDto } from '@virtex/domain-identity-contracts';
+import { LocalizationPort } from '@virtex/domain-identity-domain';
 import * as countries from './countries.json';
 import { TaxProviderFactory } from './tax-providers/tax-provider-factory';
 import { HttpService } from '@nestjs/axios';

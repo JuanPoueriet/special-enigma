@@ -1,7 +1,7 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
 import { Observable, of, from, tap, switchMap } from 'rxjs';
 import { IdempotencyService } from '../services/idempotency.service';
-import { getTenantContext } from '@virteex/kernel-auth';
+import { getTenantContext } from '@virtex/kernel-auth';
 
 @Injectable()
 export class IdempotencyInterceptor implements NestInterceptor {

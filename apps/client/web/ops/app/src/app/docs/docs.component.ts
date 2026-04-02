@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'virteex-docs',
+  selector: 'virtex-docs',
   standalone: true,
   imports: [CommonModule],
   template: `

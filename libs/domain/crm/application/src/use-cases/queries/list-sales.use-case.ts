@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { Sale, type SaleRepository } from '@virteex/domain-crm-domain';
+import { Sale, type SaleRepository } from '@virtex/domain-crm-domain';
 
 @Injectable()
 export class ListSalesUseCase {

@@ -1,15 +1,15 @@
 import { Body, Controller, Get, Post, Query, UseInterceptors, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiHeader } from '@nestjs/swagger';
-import { CreateAccountDto, RecordJournalEntryDto, RecordInvoiceDto, RecordPaymentDto, GenerateFinancialReportDto, CloseFiscalPeriodDto, ReopenFiscalPeriodDto, FinancialReportDto } from '@virteex/domain-accounting-contracts';
+import { CreateAccountDto, RecordJournalEntryDto, RecordInvoiceDto, RecordPaymentDto, GenerateFinancialReportDto, CloseFiscalPeriodDto, ReopenFiscalPeriodDto, FinancialReportDto } from '@virtex/domain-accounting-contracts';
 import {
   AccountingCommandFacade,
   AccountingQueryFacade
-} from '@virteex/domain-accounting-application';
-import { CurrentTenant, CurrentUser } from '@virteex/kernel-auth';
-import { IdempotencyInterceptor } from '@virteex/shared-util-server-server-config';
+} from '@virtex/domain-accounting-application';
+import { CurrentTenant, CurrentUser } from '@virtex/kernel-auth';
+import { IdempotencyInterceptor } from '@virtex/shared-util-server-server-config';
 import { CapabilityGuard } from '../../guards/capability.guard';
 import { RequiresCapability } from '../../guards/requires-capability.decorator';
-import { ClosingTaskStatus } from '@virteex/domain-accounting-domain';
+import { ClosingTaskStatus } from '@virtex/domain-accounting-domain';
 
 @ApiTags('Accounting')
 @Controller('accounting')

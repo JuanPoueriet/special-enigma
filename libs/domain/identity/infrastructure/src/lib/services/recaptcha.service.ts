@@ -1,9 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { HttpService } from '@nestjs/axios';
-import { CriticalConfigurationException } from '@virteex/kernel-exceptions';
+import { CriticalConfigurationException } from '@virtex/kernel-exceptions';
 import { lastValueFrom } from 'rxjs';
-import { RecaptchaPort } from '@virteex/domain-identity-domain';
+import { RecaptchaPort } from '@virtex/domain-identity-domain';
 
 @Injectable()
 export class RecaptchaService implements RecaptchaPort {

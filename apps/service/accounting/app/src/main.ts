@@ -4,7 +4,7 @@ import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import cookieParser from 'cookie-parser';
 
 import { AppModule } from './app/app.module';
-import { setupGlobalConfig } from '@virteex/shared-util-server-server-config';
+import { setupGlobalConfig } from '@virtex/shared-util-server-server-config';
 
 function shouldStartKafkaMicroservice(): boolean {
   if (process.env.ACCOUNTING_KAFKA_ENABLED === 'true') {

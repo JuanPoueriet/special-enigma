@@ -1,9 +1,9 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { EntityNotFoundException } from "@virteex/kernel-exceptions";
-import { UserRepository, AuditLog, AuditLogRepository } from '@virteex/domain-identity-domain';
+import { EntityNotFoundException } from "@virtex/kernel-exceptions";
+import { UserRepository, AuditLog, AuditLogRepository } from '@virtex/domain-identity-domain';
 import { TokenGenerationService } from '../services/token-generation.service';
-import { LoginResponseDto } from '@virteex/domain-identity-contracts';
-import { UnauthorizedException } from '@virteex/kernel-exceptions';
+import { LoginResponseDto } from '@virtex/domain-identity-contracts';
+import { UnauthorizedException } from '@virtex/kernel-exceptions';
 
 export interface SocialProfile {
   id: string;

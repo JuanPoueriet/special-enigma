@@ -1,8 +1,8 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
-import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virteex/kernel-auth';
-import { RequireEntitlement, EntitlementGuard } from '@virteex/kernel-entitlements';
-import { GetDashboardStatsHandler, GetDashboardStatsQuery } from '@virteex/domain-bi-application';
+import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virtex/kernel-auth';
+import { RequireEntitlement, EntitlementGuard } from '@virtex/kernel-entitlements';
+import { GetDashboardStatsHandler, GetDashboardStatsQuery } from '@virtex/domain-bi-application';
 
 @ApiTags('Dashboard')
 @ApiBearerAuth()

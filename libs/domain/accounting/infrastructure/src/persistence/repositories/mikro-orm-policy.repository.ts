@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/postgresql';
-import { type PolicyRepository, AccountingPolicy } from '@virteex/domain-accounting-domain';
+import { type PolicyRepository, AccountingPolicy } from '@virtex/domain-accounting-domain';
 
 @Injectable()
 export class MikroOrmPolicyRepository implements PolicyRepository {

@@ -1,7 +1,7 @@
-import { DomainException } from '@virteex/shared-util-server-server-config';
+import { DomainException } from '@virtex/shared-util-server-server-config';
 import { Injectable, Inject } from '@nestjs/common';
-import { UpdateVendorBillDto } from '@virteex/domain-purchasing-contracts';
-import { VendorBill, VendorBillRepository, VENDOR_BILL_REPOSITORY } from '@virteex/domain-purchasing-domain';
+import { UpdateVendorBillDto } from '@virtex/domain-purchasing-contracts';
+import { VendorBill, VendorBillRepository, VENDOR_BILL_REPOSITORY } from '@virtex/domain-purchasing-domain';
 
 @Injectable()
 export class UpdateVendorBillUseCase {

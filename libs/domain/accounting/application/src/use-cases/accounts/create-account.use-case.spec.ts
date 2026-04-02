@@ -1,7 +1,7 @@
 import { vi, describe, it, expect, beforeEach, type Mock } from 'vitest';
 import { CreateAccountUseCase } from './create-account.use-case';
-import { type AccountRepository, Account, type OutboxRepository, type ITelemetryService } from '@virteex/domain-accounting-domain';
-import { AccountType } from '@virteex/domain-accounting-contracts';
+import { type AccountRepository, Account, type OutboxRepository, type ITelemetryService } from '@virtex/domain-accounting-domain';
+import { AccountType } from '@virtex/domain-accounting-contracts';
 
 describe('CreateAccountUseCase', () => {
   let service: CreateAccountUseCase;

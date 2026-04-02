@@ -1,8 +1,8 @@
 import { Controller, Get, UseGuards, Inject, Optional } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virteex/kernel-auth';
-import { EntitlementService } from '@virteex/kernel-entitlements';
-import { SUBSCRIPTION_PLAN_REPOSITORY, type SubscriptionPlanRepository } from '@virteex/domain-subscription-domain';
+import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virtex/kernel-auth';
+import { EntitlementService } from '@virtex/kernel-entitlements';
+import { SUBSCRIPTION_PLAN_REPOSITORY, type SubscriptionPlanRepository } from '@virtex/domain-subscription-domain';
 
 @ApiTags('Tenant')
 @Controller('tenant/feature-flags')

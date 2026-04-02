@@ -21,7 +21,7 @@ export class EmailService {
   async sendEmail(to: string, subject: string, body: string): Promise<void> {
     try {
       await this.transporter.sendMail({
-        from: process.env.SMTP_FROM || '"Virteex ERP" <no-reply@virteex.com>',
+        from: process.env.SMTP_FROM || '"virtex ERP" <no-reply@virtex.com>',
         to,
         subject,
         text: body,

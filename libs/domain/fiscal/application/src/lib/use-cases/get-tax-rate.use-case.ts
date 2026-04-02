@@ -1,6 +1,6 @@
-import { DomainException } from '@virteex/shared-util-server-server-config';
+import { DomainException } from '@virtex/shared-util-server-server-config';
 import { Injectable, Inject } from '@nestjs/common';
-import { type TenantConfigRepository, TENANT_CONFIG_REPOSITORY } from '@virteex/domain-fiscal-domain';
+import { type TenantConfigRepository, TENANT_CONFIG_REPOSITORY } from '@virtex/domain-fiscal-domain';
 
 @Injectable()
 export class GetTaxRateUseCase {

@@ -1,8 +1,8 @@
 import { vi } from 'vitest';
 import { Test, TestingModule } from '@nestjs/testing';
 import { CreateSupplierUseCase } from './create-supplier.use-case';
-import { SUPPLIER_REPOSITORY } from '@virteex/domain-purchasing-domain';
-import { CreateSupplierDto, SupplierType as ContractSupplierType } from '@virteex/domain-purchasing-contracts';
+import { SUPPLIER_REPOSITORY } from '@virtex/domain-purchasing-domain';
+import { CreateSupplierDto, SupplierType as ContractSupplierType } from '@virtex/domain-purchasing-contracts';
 
 describe('CreateSupplierUseCase', () => {
   let useCase: CreateSupplierUseCase;

@@ -1,4 +1,4 @@
-import { PlanLimit } from '@virteex/domain-subscription-contracts';
+import { PlanLimit } from '@virtex/domain-subscription-contracts';
 
 export interface StructuredLimit {
   limit: number;

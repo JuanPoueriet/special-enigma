@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { API_BASE_URL } from '../core/config/api-base-url.token';
-import { IncidentDto } from '@virteex/domain-admin-contracts';
+import { IncidentDto } from '@virtex/domain-admin-contracts';
 
 @Injectable({ providedIn: 'root' })
 export class SupportService {

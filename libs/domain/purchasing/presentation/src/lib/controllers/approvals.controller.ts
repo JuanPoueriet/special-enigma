@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Param, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
-import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virteex/kernel-auth';
-import { RequireEntitlement, EntitlementGuard } from '@virteex/kernel-entitlements';
-import { GetRequisitionsUseCase, ApproveRequisitionUseCase, RejectRequisitionUseCase } from '@virteex/domain-purchasing-application';
+import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virtex/kernel-auth';
+import { RequireEntitlement, EntitlementGuard } from '@virtex/kernel-entitlements';
+import { GetRequisitionsUseCase, ApproveRequisitionUseCase, RejectRequisitionUseCase } from '@virtex/domain-purchasing-application';
 
 @ApiTags('Purchasing Approvals')
 @ApiBearerAuth()

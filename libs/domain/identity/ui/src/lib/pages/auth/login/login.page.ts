@@ -2,10 +2,10 @@ import { Component, OnInit, inject, signal, ViewChild, effect } from '@angular/c
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthService, LanguageService, CountryService } from '@virteex/shared-ui';
+import { AuthService, LanguageService, CountryService } from '@virtex/shared-ui';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { RecaptchaV3Module, ReCaptchaV3Service, RECAPTCHA_V3_SITE_KEY } from 'ng-recaptcha-19';
-import { RECAPTCHA_SITE_KEY } from '@virteex/shared-ui';
+import { RECAPTCHA_SITE_KEY } from '@virtex/shared-ui';
 import { LucideAngularModule, Mail, Lock, User, ArrowRight, AlertCircle, CheckCircle, ShieldCheck } from 'lucide-angular';
 
 // Shared Components
@@ -13,10 +13,10 @@ import { AuthLayoutComponent } from '../components/auth-layout/auth-layout.compo
 import { AuthInputComponent } from '../components/auth-input/auth-input.component';
 import { AuthButtonComponent } from '../components/auth-button/auth-button.component';
 import { SocialAuthButtonsComponent } from '../components/social-auth-buttons/social-auth-buttons.component';
-import { OtpComponent } from '@virteex/shared-ui';
+import { OtpComponent } from '@virtex/shared-ui';
 
 @Component({
-  selector: 'virteex-login',
+  selector: 'virtex-login',
   standalone: true,
   imports: [
     CommonModule,

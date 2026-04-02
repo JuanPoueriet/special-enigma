@@ -1,5 +1,5 @@
 import { EntitySchema } from '@mikro-orm/core';
-import { Sale, SaleItem, SaleStatus } from '@virteex/domain-crm-domain';
+import { Sale, SaleItem, SaleStatus } from '@virtex/domain-crm-domain';
 
 export const SaleSchema = new EntitySchema<Sale>({
   class: Sale,

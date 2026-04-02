@@ -4,7 +4,7 @@
 Propuesto
 
 ## Contexto
-El proyecto Virteex ERP es un monorepo Nx que soporta múltiples aplicaciones (web, mobile, desktop, APIs). Actualmente, existe una aplicación web POS y una aplicación desktop genérica basada en Electron. Para escalar el desarrollo de aplicaciones multiplataforma minimizando la duplicación de código y manteniendo la coherencia del dominio, se requiere una estrategia arquitectónica estandarizada.
+El proyecto virtex ERP es un monorepo Nx que soporta múltiples aplicaciones (web, mobile, desktop, APIs). Actualmente, existe una aplicación web POS y una aplicación desktop genérica basada en Electron. Para escalar el desarrollo de aplicaciones multiplataforma minimizando la duplicación de código y manteniendo la coherencia del dominio, se requiere una estrategia arquitectónica estandarizada.
 
 ## Decisión
 Adoptar la arquitectura **"Product Core + Platform Shells"**.

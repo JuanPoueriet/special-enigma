@@ -2,7 +2,7 @@ import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter, withEnabledBlockingInitialNavigation } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { appRoutes } from './app.routes';
-import { APP_CONFIG, AppConfig, getBffUrl, API_URL } from '@virteex/shared-config';
+import { APP_CONFIG, AppConfig, getBffUrl, API_URL } from '@virtex/shared-config';
 import { environment } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {

@@ -5,11 +5,11 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideRouter } from '@angular/router';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthService, LanguageService, RECAPTCHA_SITE_KEY } from '@virteex/shared-ui';
+import { AuthService, LanguageService, RECAPTCHA_SITE_KEY } from '@virtex/shared-ui';
 import { of, Observable } from 'rxjs';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { ReCaptchaV3Service, RECAPTCHA_V3_SITE_KEY } from 'ng-recaptcha-19';
-import { APP_CONFIG } from '@virteex/shared-config';
+import { APP_CONFIG } from '@virtex/shared-config';
 import { vi } from 'vitest';
 
 class FakeLoader implements TranslateLoader {

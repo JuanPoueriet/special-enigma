@@ -1,6 +1,6 @@
 import { Injectable, NestMiddleware, Logger } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
-import { CanonicalTenantMiddleware } from '@virteex/kernel-auth';
+import { CanonicalTenantMiddleware } from '@virtex/kernel-auth';
 
 @Injectable()
 export class TenantContextMiddleware implements NestMiddleware {

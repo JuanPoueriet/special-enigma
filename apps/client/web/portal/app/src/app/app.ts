@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ThemeService } from '@virteex/shared-ui';
+import { ThemeService } from '@virtex/shared-ui';
 
 @Component({
   imports: [RouterModule],
-  selector: 'virteex-web-root',
+  selector: 'virtex-web-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })

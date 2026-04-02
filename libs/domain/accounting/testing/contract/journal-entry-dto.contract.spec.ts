@@ -1,5 +1,5 @@
-import { JournalEntryMapper } from '@virteex/domain-accounting-application';
-import { JournalEntry, JournalEntryStatus, JournalEntryType } from '@virteex/domain-accounting-domain';
+import { JournalEntryMapper } from '@virtex/domain-accounting-application';
+import { JournalEntry, JournalEntryStatus, JournalEntryType } from '@virtex/domain-accounting-domain';
 
 describe('JournalEntryDtoContract', () => {
   it('should guarantee that amount is present and calculated correctly from lines in toDto', () => {

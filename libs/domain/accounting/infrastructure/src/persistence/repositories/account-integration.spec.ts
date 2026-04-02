@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { PostgreSqlContainer, StartedPostgreSqlContainer } from '@testcontainers/postgresql';
 import { MikroORM } from '@mikro-orm/postgresql';
-import { Account } from '@virteex/domain-accounting-domain';
-import { AccountType } from '@virteex/domain-accounting-contracts';
+import { Account } from '@virtex/domain-accounting-domain';
+import { AccountType } from '@virtex/domain-accounting-contracts';
 import { AccountSchema, JournalEntrySchema, JournalEntryLineSchema, FiscalYearSchema, AccountingPolicySchema } from '../orm/mikro-orm.schemas';
 import { MikroOrmAccountRepository } from './mikro-orm-account.repository';
 

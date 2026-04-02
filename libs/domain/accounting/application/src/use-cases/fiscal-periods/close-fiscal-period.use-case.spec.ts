@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { CloseFiscalPeriodUseCase } from './close-fiscal-period.use-case';
-import { JournalEntry, JournalEntryType, Account, AccountType, AccountingDomainError } from '@virteex/domain-accounting-domain';
+import { JournalEntry, JournalEntryType, Account, AccountType, AccountingDomainError } from '@virtex/domain-accounting-domain';
 import { Decimal } from 'decimal.js';
 
 describe('CloseFiscalPeriodUseCase', () => {

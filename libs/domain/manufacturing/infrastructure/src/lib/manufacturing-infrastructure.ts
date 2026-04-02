@@ -6,7 +6,7 @@ import {
   PRODUCTION_ORDER_REPOSITORY,
   INVENTORY_SERVICE,
   BILL_OF_MATERIALS_REPOSITORY
-} from '@virteex/domain-manufacturing-domain';
+} from '@virtex/domain-manufacturing-domain';
 import { MikroOrmProductionOrderRepository } from './repositories/mikro-orm-production-order.repository';
 import { MikroOrmBillOfMaterialsRepository } from './repositories/mikro-orm-bill-of-materials.repository';
 import { HttpInventoryAdapter } from './adapters/http-inventory.adapter';

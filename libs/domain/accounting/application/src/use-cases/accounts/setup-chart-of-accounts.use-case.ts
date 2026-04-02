@@ -1,5 +1,5 @@
-import { Account, type AccountRepository } from '@virteex/domain-accounting-domain';
-import { AccountType } from '@virteex/domain-accounting-domain';
+import { Account, type AccountRepository } from '@virtex/domain-accounting-domain';
+import { AccountType } from '@virtex/domain-accounting-domain';
 
 export interface AccountDefinition {
   code: string;

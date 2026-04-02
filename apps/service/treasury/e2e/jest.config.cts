@@ -1,5 +1,5 @@
 export default {
-  displayName: 'virteex-treasury-service-e2e',
+  displayName: 'virtex-treasury-service-e2e',
   preset: '../../../../jest.preset.js',
   globalSetup: '<rootDir>/src/support/global-setup.ts',
   globalTeardown: '<rootDir>/src/support/global-teardown.ts',
@@ -11,5 +11,5 @@ export default {
     }],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/virteex-treasury-service-e2e',
+  coverageDirectory: '../../coverage/virtex-treasury-service-e2e',
 };

@@ -3,7 +3,7 @@
   "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/service/plugin-host/app/src",
   "projectType": "application",
-  "prefix": "virteex",
+  "prefix": "virtex",
   "tags": [
     "scope:shared",
     "type:app",

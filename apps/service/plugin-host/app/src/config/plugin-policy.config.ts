@@ -1,8 +1,8 @@
 export const PLUGIN_POLICY = {
   egress: {
     allowlist: [
-      'api.virteex.io',
-      'auth.virteex.io',
+      'api.virtex.io',
+      'auth.virtex.io',
       'trusted-partner.com',
       'api.taxjar.com',
     ],

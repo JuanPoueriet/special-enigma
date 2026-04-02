@@ -1,8 +1,8 @@
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { JournalEntryRepositoryAdapter } from './journal-entry-repository-adapter';
-import { JournalEntry, JournalEntryType, JournalEntryLine } from '@virteex/domain-accounting-domain';
+import { JournalEntry, JournalEntryType, JournalEntryLine } from '@virtex/domain-accounting-domain';
 import { EntityManager } from '@mikro-orm/knex';
-import { DimensionValidator } from '@virteex/domain-accounting-application';
+import { DimensionValidator } from '@virtex/domain-accounting-application';
 
 describe('JournalEntryRepositoryAdapter', () => {
   let repository: JournalEntryRepositoryAdapter;

@@ -1,9 +1,9 @@
-import { DomainException } from '@virteex/shared-util-server-server-config';
+import { DomainException } from '@virtex/shared-util-server-server-config';
 import { Injectable, Inject } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { User, UserRepository, AuthService, UserInvitedEvent } from '@virteex/domain-identity-domain';
-import { InviteUserDto } from '@virteex/domain-identity-contracts';
-import { EntitlementService } from '@virteex/kernel-entitlements';
+import { User, UserRepository, AuthService, UserInvitedEvent } from '@virtex/domain-identity-domain';
+import { InviteUserDto } from '@virtex/domain-identity-contracts';
+import { EntitlementService } from '@virtex/kernel-entitlements';
 import { randomUUID } from 'crypto';
 
 @Injectable()

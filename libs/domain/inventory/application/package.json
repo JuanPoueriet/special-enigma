@@ -1,5 +1,5 @@
 {
-  "name": "@virteex/domain-inventory-application",
+  "name": "@virtex/domain-inventory-application",
   "version": "0.0.1",
   "private": true,
   "main": "./src/index.js",
@@ -7,10 +7,10 @@
   "dependencies": {
     "tslib": "^2.3.0",
     "@nestjs/common": "^11.0.0",
-    "@virteex/domain-inventory-domain": "*",
+    "@virtex/domain-inventory-domain": "*",
     "class-validator": "^0.14.3",
     "decimal.js": "^10.6.0",
-    "@virteex/domain-inventory-contracts": "*"
+    "@virtex/domain-inventory-contracts": "*"
   },
   "exports": {
     ".": {

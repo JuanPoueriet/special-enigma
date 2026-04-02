@@ -1,4 +1,4 @@
-import { ProjectStatus } from '@virteex/domain-projects-contracts';
+import { ProjectStatus } from '@virtex/domain-projects-contracts';
 import type { Task } from './task.entity';
 
 export class Project {

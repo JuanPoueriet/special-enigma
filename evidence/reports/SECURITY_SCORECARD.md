@@ -1,4 +1,4 @@
-# Virteex ERP Security Scorecard
+# virtex ERP Security Scorecard
 
 | Control | Estado Anterior | Estado Nuevo | Evidencia | Riesgo Residual | Impacto en Nota |
 |---------|-----------------|--------------|-----------|-----------------|-----------------|

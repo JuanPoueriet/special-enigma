@@ -1,5 +1,5 @@
 {
-  "name": "@virteex/accounting-ui",
+  "name": "@virtex/accounting-ui",
   "version": "0.0.1",
   "private": true,
   "main": "./src/index.js",

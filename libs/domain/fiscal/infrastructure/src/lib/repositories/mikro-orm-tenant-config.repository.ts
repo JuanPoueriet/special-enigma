@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/postgresql';
-import { Company } from '@virteex/domain-identity-domain';
-import { TenantConfigRepository, TenantFiscalConfig } from '@virteex/domain-fiscal-domain';
+import { Company } from '@virtex/domain-identity-domain';
+import { TenantConfigRepository, TenantFiscalConfig } from '@virtex/domain-fiscal-domain';
 
 @Injectable()
 export class MikroOrmTenantConfigRepository implements TenantConfigRepository {

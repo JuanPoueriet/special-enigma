@@ -19,8 +19,8 @@ import {
 } from '../use-cases/bank/bank-reconciliation.use-case';
 import { RecordInvoiceUseCase } from '../use-cases/subledgers/record-invoice.use-case';
 import { RecordPaymentUseCase } from '../use-cases/subledgers/record-payment.use-case';
-import { CreateAccountDto, RecordJournalEntryDto, RecordInvoiceDto, RecordPaymentDto } from '@virteex/domain-accounting-contracts';
-import { CLOSING_TASK_REPOSITORY, type ClosingTaskRepository, type ClosingTaskStatus, Invoice, Payment } from '@virteex/domain-accounting-domain';
+import { CreateAccountDto, RecordJournalEntryDto, RecordInvoiceDto, RecordPaymentDto } from '@virtex/domain-accounting-contracts';
+import { CLOSING_TASK_REPOSITORY, type ClosingTaskRepository, type ClosingTaskStatus, Invoice, Payment } from '@virtex/domain-accounting-domain';
 
 @Injectable()
 export class AccountingCommandFacade {

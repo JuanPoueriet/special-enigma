@@ -1,4 +1,4 @@
-import { TaxStrategy, TaxResult } from '@virteex/domain-billing-domain';
+import { TaxStrategy, TaxResult } from '@virtex/domain-billing-domain';
 import { Injectable, Logger, InternalServerErrorException } from '@nestjs/common';
 import { Decimal } from 'decimal.js';
 

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { SqliteUsageRepository } from './persistence/sqlite-usage.repository';
-import { USAGE_REPOSITORY } from '@virteex/domain-finops-domain';
+import { USAGE_REPOSITORY } from '@virtex/domain-finops-domain';
 
 @Module({
   providers: [

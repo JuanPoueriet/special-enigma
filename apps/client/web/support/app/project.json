@@ -2,7 +2,7 @@
   "name": "web-support-app",
   "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "prefix": "virteex",
+  "prefix": "virtex",
   "sourceRoot": "apps/client/web/support/app/src",
   "tags": [
     "scope:web-support",

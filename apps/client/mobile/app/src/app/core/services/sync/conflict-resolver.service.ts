@@ -17,7 +17,7 @@ export class ConflictResolverService {
       // Re-issue request with a special header or query param that the backend understands as "force"
       return await firstValueFrom(this.http.request(context.method, context.url, {
           body: context.payload,
-          headers: { 'X-Virteex-Conflict-Resolution': 'force-client' }
+          headers: { 'X-virtex-Conflict-Resolution': 'force-client' }
       }));
     }
 

@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/postgresql';
-import { MeteringRecord } from '@virteex/domain-catalog-domain';
+import { MeteringRecord } from '@virtex/domain-catalog-domain';
 
 export interface BillingReport {
     tenantId: string;

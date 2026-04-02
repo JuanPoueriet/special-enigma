@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/core';
-import { ClosingTask, type ClosingTaskRepository } from '@virteex/domain-accounting-domain';
+import { ClosingTask, type ClosingTaskRepository } from '@virtex/domain-accounting-domain';
 
 @Injectable()
 export class MikroOrmClosingTaskRepository implements ClosingTaskRepository {

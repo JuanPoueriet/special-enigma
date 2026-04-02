@@ -1,11 +1,11 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Decimal } from 'decimal.js';
-import { INVOICE_REPOSITORY, PRODUCT_REPOSITORY, TENANT_CONFIG_REPOSITORY } from '@virteex/domain-billing-domain';
+import { INVOICE_REPOSITORY, PRODUCT_REPOSITORY, TENANT_CONFIG_REPOSITORY } from '@virtex/domain-billing-domain';
 import { CreateInvoiceUseCase } from '../../application/src/use-cases/commands/create-invoice.use-case';
 import { INVOICE_INTEGRATION_PUBLISHER } from '../../application/src/ports/outbound/invoice-integration-publisher.port';
 import { PriceValidationPolicy } from '../../application/src/services/price-validation.policy';
 import { InvoiceStampingOrchestrator } from '../../application/src/services/invoice-stamping.orchestrator';
-import { SUBSCRIPTION_REPOSITORY } from '@virteex/domain-subscription-domain';
+import { SUBSCRIPTION_REPOSITORY } from '@virtex/domain-subscription-domain';
 
 describe('CreateInvoiceUseCase', () => {
   let useCase: CreateInvoiceUseCase;

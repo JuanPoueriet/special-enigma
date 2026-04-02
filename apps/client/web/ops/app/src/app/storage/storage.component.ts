@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'virteex-storage',
+  selector: 'virtex-storage',
   standalone: true,
   imports: [CommonModule],
   template: `

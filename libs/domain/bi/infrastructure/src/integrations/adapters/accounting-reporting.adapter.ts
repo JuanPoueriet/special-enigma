@@ -1,9 +1,9 @@
 import { Injectable, Inject, OnModuleInit } from '@nestjs/common';
-import { IAccountingReportingPort } from '@virteex/domain-accounting-contracts';
-import { SecretManagerService } from '@virteex/kernel-auth';
-import { buildSignedContextClaims, encodeContextClaims, signEncodedContext } from '@virteex/kernel-auth';
-import { TELEMETRY_SERVICE, ITelemetryService } from '@virteex/kernel-telemetry';
-import { IntegrationError } from '@virteex/domain-accounting-contracts';
+import { IAccountingReportingPort } from '@virtex/domain-accounting-contracts';
+import { SecretManagerService } from '@virtex/kernel-auth';
+import { buildSignedContextClaims, encodeContextClaims, signEncodedContext } from '@virtex/kernel-auth';
+import { TELEMETRY_SERVICE, ITelemetryService } from '@virtex/kernel-telemetry';
+import { IntegrationError } from '@virtex/domain-accounting-contracts';
 
 @Injectable()
 export class AccountingReportingAdapter implements IAccountingReportingPort, OnModuleInit {
@@ -15,7 +15,7 @@ export class AccountingReportingAdapter implements IAccountingReportingPort, OnM
   ) {}
 
   onModuleInit() {
-    this.hmacSecret = this.secretManager.getSecret('VIRTEEX_HMAC_SECRET');
+    this.hmacSecret = this.secretManager.getSecret('virtex_HMAC_SECRET');
   }
 
   async countJournalEntries(tenantId: string): Promise<number> {
@@ -39,9 +39,9 @@ export class AccountingReportingAdapter implements IAccountingReportingPort, OnM
 
         const response = await fetch(`${baseUrl}/internal/accounting/journal-entries/count`, {
             headers: {
-              'x-virteex-tenant-id': tenantId,
-              'x-virteex-context': encodedContext,
-              'x-virteex-signature': signature
+              'x-virtex-tenant-id': tenantId,
+              'x-virtex-context': encodedContext,
+              'x-virtex-signature': signature
             },
             signal: controller.signal
         });
@@ -87,9 +87,9 @@ export class AccountingReportingAdapter implements IAccountingReportingPort, OnM
     try {
       const response = await fetch(`${baseUrl}/internal/accounting/metrics/monthly-opex`, {
           headers: {
-            'x-virteex-tenant-id': tenantId,
-            'x-virteex-context': encodedContext,
-            'x-virteex-signature': signature
+            'x-virtex-tenant-id': tenantId,
+            'x-virtex-context': encodedContext,
+            'x-virtex-signature': signature
           }
       });
 

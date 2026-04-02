@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
-import { DashboardGateway, DashboardMetrics } from '@virteex/domain-admin-domain';
+import { DashboardGateway, DashboardMetrics } from '@virtex/domain-admin-domain';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()
@@ -14,8 +14,8 @@ export class HttpDashboardGateway implements DashboardGateway {
     private readonly httpService: HttpService,
     private readonly configService: ConfigService
   ) {
-    this.billingUrl = this.configService.get<string>('BILLING_SERVICE_URL', 'http://virteex-billing-service:3000');
-    this.identityUrl = this.configService.get<string>('IDENTITY_SERVICE_URL', 'http://virteex-identity-service:3000');
+    this.billingUrl = this.configService.get<string>('BILLING_SERVICE_URL', 'http://virtex-billing-service:3000');
+    this.identityUrl = this.configService.get<string>('IDENTITY_SERVICE_URL', 'http://virtex-identity-service:3000');
   }
 
   async getMetrics(): Promise<DashboardMetrics> {

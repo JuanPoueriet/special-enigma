@@ -1,9 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { TaxStrategyFactory, TaxService } from '@virteex/domain-payroll-domain';
+import { TaxStrategyFactory, TaxService } from '@virtex/domain-payroll-domain';
 import { MexicanTaxStrategy } from '../strategies/mexican-tax.strategy';
 import { USPayrollStrategy } from '../strategies/us-payroll.strategy';
 import { GenericLatamStrategy } from '../strategies/generic-latam.strategy';
-import { CountryCode } from '@virteex/shared-util-server-server-config';
+import { CountryCode } from '@virtex/shared-util-server-server-config';
 
 @Injectable()
 export class TaxStrategyFactoryImpl implements TaxStrategyFactory {

@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { type SubscriptionPlanRepository, SUBSCRIPTION_PLAN_REPOSITORY, SubscriptionPlan } from '@virteex/domain-subscription-domain';
+import { type SubscriptionPlanRepository, SUBSCRIPTION_PLAN_REPOSITORY, SubscriptionPlan } from '@virtex/domain-subscription-domain';
 
 @Injectable()
 export class GetSubscriptionPlansUseCase {

@@ -2,7 +2,7 @@
   "name": "platform-desktop-file-system",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/platform/desktop/file-system/src",
-  "prefix": "virteex",
+  "prefix": "virtex",
   "projectType": "library",
   "tags": [
     "type:infrastructure",

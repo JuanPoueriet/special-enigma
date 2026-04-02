@@ -1,5 +1,5 @@
 import { EntitySchema } from '@mikro-orm/core';
-import { User, Company, AuditLog, Session, JobTitle, UserAuthenticator } from '@virteex/domain-identity-domain';
+import { User, Company, AuditLog, Session, JobTitle, UserAuthenticator } from '@virtex/domain-identity-domain';
 
 export const UserSchema = new EntitySchema<any>({
   class: User,

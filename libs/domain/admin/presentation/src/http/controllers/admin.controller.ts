@@ -1,11 +1,11 @@
 import { Controller, Post, UseInterceptors, UploadedFile, Body, Logger, UseGuards } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags, ApiOperation, ApiConsumes, ApiBody, ApiBearerAuth } from '@nestjs/swagger';
-import { DataImportService } from '@virteex/domain-admin-application';
+import { DataImportService } from '@virtex/domain-admin-application';
 import { Express } from 'express';
 import 'multer';
-import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virteex/kernel-auth';
-import { RequireEntitlement, EntitlementGuard } from '@virteex/kernel-entitlements';
+import { JwtAuthGuard, TenantGuard, CurrentTenant } from '@virtex/kernel-auth';
+import { RequireEntitlement, EntitlementGuard } from '@virtex/kernel-entitlements';
 
 @ApiTags('Admin')
 @ApiBearerAuth()

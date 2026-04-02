@@ -1,1 +1,1 @@
-export { User, hasPermission } from '@virteex/shared-types';
+export { User, hasPermission } from '@virtex/shared-types';

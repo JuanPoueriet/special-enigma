@@ -1,5 +1,5 @@
 {
-  "name": "@virteex/domain-catalog-presentation",
+  "name": "@virtex/domain-catalog-presentation",
   "version": "0.0.1",
   "type": "commonjs",
   "main": "./src/index.js",

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'virteex-pos-terminal',
+  selector: 'virtex-pos-terminal',
   standalone: true,
   imports: [CommonModule],
   template: `

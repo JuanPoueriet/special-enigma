@@ -8,11 +8,11 @@ import { InboxService } from './inbox.service';
 import { OutboxProcessor } from './outbox.processor';
 import { OutboxReconciliationService } from './outbox-reconciliation.service';
 import { SagaOrchestrator } from './saga/saga-orchestrator';
-import { RedisCacheModule } from '@virteex/platform-cache';
+import { RedisCacheModule } from '@virtex/platform-cache';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 import { EgressProxyService } from './egress-proxy.service';
-import { NatsModule } from '@virteex/platform-nats';
+import { NatsModule } from '@virtex/platform-nats';
 
 @Global()
 @Module({

@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { LocalizationController } from './localization.controller';
-import { LocalizationPort } from '@virteex/domain-identity-domain';
+import { LocalizationPort } from '@virtex/domain-identity-domain';
 import { vi, describe, beforeEach, it, expect } from 'vitest';
 
 describe('LocalizationController', () => {

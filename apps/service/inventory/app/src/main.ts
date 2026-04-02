@@ -6,9 +6,9 @@ otelSDK.start();
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { Transport, MicroserviceOptions } from '@nestjs/microservices';
-import { INVENTORY_PACKAGE, INVENTORY_PROTO_PATH } from '@virteex/shared-proto';
+import { INVENTORY_PACKAGE, INVENTORY_PROTO_PATH } from '@virtex/shared-proto';
 import { AppModule } from './app/app.module';
-import { setupGlobalConfig, validate } from '@virteex/shared-util-server-server-config';
+import { setupGlobalConfig, validate } from '@virtex/shared-util-server-server-config';
 
 function validateEnv() {
   validate(process.env, ['DATABASE_URL', 'NATS_URL']);

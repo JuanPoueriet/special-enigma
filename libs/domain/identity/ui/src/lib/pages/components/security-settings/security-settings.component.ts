@@ -6,7 +6,7 @@ import { SessionManagementComponent } from '../../profile/components/session-man
 import { TwoFactorAuthComponent } from '../../profile/components/two-factor-auth/two-factor-auth.component';
 
 @Component({
-  selector: 'virteex-security-settings',
+  selector: 'virtex-security-settings',
   standalone: true,
   imports: [
     CommonModule,
