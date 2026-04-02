@@ -38,8 +38,15 @@ export class IdentityProxyController {
   @Get('auth/me')
   async getMe(@Req() req: Request) {
     const authHeader = req.headers.authorization;
+    let token: string | undefined;
+
     if (authHeader && authHeader.startsWith('Bearer ')) {
-      const token = authHeader.split(' ')[1];
+      token = authHeader.split(' ')[1];
+    } else if (req.cookies && req.cookies['access_token']) {
+      token = req.cookies['access_token'];
+    }
+
+    if (token) {
       const user = await this.identityProxy.getMe(token);
       return {
         ...user,
@@ -100,8 +107,15 @@ export class IdentityProxyController {
   @Post('auth/logout')
   async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     const authHeader = req.headers.authorization;
+    let token: string | undefined;
+
     if (authHeader && authHeader.startsWith('Bearer ')) {
-      const token = authHeader.split(' ')[1];
+      token = authHeader.split(' ')[1];
+    } else if (req.cookies && req.cookies['access_token']) {
+      token = req.cookies['access_token'];
+    }
+
+    if (token) {
       await this.identityProxy.logout(token);
     }
     this.cookiePolicy.clearAuthCookies(res);
@@ -243,7 +257,12 @@ export class IdentityProxyController {
 
   @Get('auth/location')
   async getLocation(@Req() req: Request) {
-    return await this.identityProxy.getLocation(req.ip || 'unknown');
+    const ip = req.ip || req.headers['x-forwarded-for'] || 'unknown';
+    const result = await this.identityProxy.getLocation(ip as string);
+    return {
+        ...result,
+        ip: ip
+    };
   }
 
   // --- Users ---
