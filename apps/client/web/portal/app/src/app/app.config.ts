@@ -84,7 +84,10 @@ export const appConfig: ApplicationConfig = {
       }),
     ),
     { provide: APP_CONFIG, useValue: environment },
-    { provide: RECAPTCHA_SITE_KEY, useValue: environment.recaptcha.siteKey },
+    {
+      provide: RECAPTCHA_SITE_KEY,
+      useValue: environment.recaptcha?.siteKey ?? '',
+    },
     {
       provide: API_URL,
       useFactory: (config: AppConfig) => getBffUrl('portal', config.apiUrl),
