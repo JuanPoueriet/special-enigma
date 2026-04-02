@@ -1,4 +1,3 @@
-import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import {
@@ -14,10 +13,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { IdentityProxyController } from './identity-proxy.controller';
 import { IdentityProxyService } from './identity-proxy.service';
+import { CookiePolicyService } from '@virtex/domain-identity-presentation';
 
 @Module({
   imports: [
-    HttpModule,
     HealthModule,
     TelemetryModule,
     ServerConfigModule,
@@ -61,6 +60,6 @@ import { IdentityProxyService } from './identity-proxy.service';
     ]),
   ],
   controllers: [AppController, IdentityProxyController],
-  providers: [AppService, IdentityProxyService],
+  providers: [AppService, IdentityProxyService, CookiePolicyService],
 })
 export class AppModule {}

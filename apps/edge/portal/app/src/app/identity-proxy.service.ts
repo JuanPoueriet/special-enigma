@@ -1,149 +1,320 @@
-import { HttpService } from '@nestjs/axios';
-import { HttpException, Injectable, Logger, OnModuleInit, Inject } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit, Inject } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
-import type { Request, Response } from 'express';
-import axiosRetry from 'axios-retry';
-import { firstValueFrom } from 'rxjs';
+import type { Request } from 'express';
+import { firstValueFrom, Observable } from 'rxjs';
 
 interface IdentityService {
-  getMe(data: { access_token: string }): any;
-  login(data: any): any;
+  getMe(data: { access_token: string }): Observable<any>;
+  login(data: any): Observable<any>;
+  initiateSignup(data: any): Observable<any>;
+  verifySignup(data: any): Observable<any>;
+  completeOnboarding(data: any): Observable<any>;
+  verifyMfa(data: any): Observable<any>;
+  refreshToken(data: any): Observable<any>;
+  logout(data: any): Observable<any>;
+  getOnboardingStatus(data: any): Observable<any>;
+  forgotPassword(data: any): Observable<any>;
+  resetPassword(data: any): Observable<any>;
+  setPassword(data: any): Observable<any>;
+  getSocialRegisterInfo(data: any): Observable<any>;
+  getPasskeyRegisterOptions(data: any): Observable<any>;
+  verifyPasskeyRegister(data: any): Observable<any>;
+  getPasskeyLoginOptions(data: any): Observable<any>;
+  verifyPasskeyLogin(data: any): Observable<any>;
+  checkSecurityContext(data: any): Observable<any>;
+  getSessions(data: any): Observable<any>;
+  revokeSession(data: any): Observable<any>;
+  impersonate(data: any): Observable<any>;
+  changePassword(data: any): Observable<any>;
+  generate2faSecret(data: any): Observable<any>;
+  enable2fa(data: any): Observable<any>;
+  disable2fa(data: any): Observable<any>;
+  generateBackupCodes(data: any): Observable<any>;
+  send2faEmailVerification(data: any): Observable<any>;
+  verify2faEmailVerification(data: any): Observable<any>;
+  getLocation(data: any): Observable<any>;
+
+  listUsers(data: any): Observable<any>;
+  getJobTitles(data: any): Observable<any>;
+  getUserProfile(data: any): Observable<any>;
+  getUserAuditLogs(data: any): Observable<any>;
+  updateUserProfile(data: any): Observable<any>;
+  updateUser(data: any): Observable<any>;
+  deleteUser(data: any): Observable<any>;
+  inviteUser(data: any): Observable<any>;
+  forceLogout(data: any): Observable<any>;
+  blockAndLogout(data: any): Observable<any>;
+  setUserStatus(data: any): Observable<any>;
+  sendPasswordReset(data: any): Observable<any>;
+  uploadAvatar(data: any): Observable<any>;
+
+  getLocalizationConfig(data: any): Observable<any>;
+  localizationLookup(data: any): Observable<any>;
+
+  checkUserExists(data: any): Observable<any>;
+  checkOrganizationExists(data: any): Observable<any>;
+
+  listTenants(data: any): Observable<any>;
 }
 
 @Injectable()
 export class IdentityProxyService implements OnModuleInit {
   private readonly logger = new Logger(IdentityProxyService.name);
-  private readonly identityBaseUrl = process.env['IDENTITY_SERVICE_URL'];
-
   private identityService: IdentityService;
 
   constructor(
-    private readonly httpService: HttpService,
     @Inject('IDENTITY_PACKAGE') private client: ClientGrpc,
-  ) {
-    // Configure axios-retry for resilient communication
-    axiosRetry(this.httpService.axiosRef, {
-      retries: 3,
-      retryDelay: axiosRetry.exponentialDelay,
-      retryCondition: (error) => {
-        return (
-          axiosRetry.isNetworkOrIdempotentRequestError(error) ||
-          (error.response?.status ? error.response.status >= 500 : false)
-        );
-      },
-      onRetry: (retryCount, error, requestConfig) => {
-        this.logger.warn(
-          `Retrying request to ${requestConfig.url} (Attempt ${retryCount}). Reason: ${error.message}`,
-        );
-      },
-    });
-  }
-
-  async checkConnectivity(): Promise<{ status: string; url: string }> {
-    if (!this.identityBaseUrl) {
-      return { status: 'unknown', url: 'not_configured' };
-    }
-    try {
-      await this.httpService.axiosRef.head(this.identityBaseUrl, {
-        timeout: 2000,
-      });
-      return { status: 'up', url: this.identityBaseUrl };
-    } catch (error: any) {
-      this.logger.error(`Identity service connectivity check failed at ${this.identityBaseUrl}: ${error.message}`);
-      return { status: 'down', url: this.identityBaseUrl };
-    }
-  }
+  ) {}
 
   onModuleInit() {
     this.identityService = this.client.getService<IdentityService>('IdentityService');
   }
 
-  async getMeGrpc(accessToken: string) {
-    try {
-      this.logger.log(`Calling gRPC IdentityService.GetMe for token: ${accessToken.substring(0, 5)}...`);
-      return await firstValueFrom(this.identityService.getMe({ access_token: accessToken }));
-    } catch (e) {
-      this.logger.error('gRPC getMe failed', e);
-      throw e;
-    }
+  // --- Request Context Helper ---
+
+  buildContext(req: Request) {
+    return {
+      ip: req.ip || req.headers['x-forwarded-for'] || 'unknown',
+      user_agent: req.headers['user-agent'] || 'unknown',
+    };
   }
 
-  async loginGrpc(data: any) {
-    try {
-      this.logger.log(`Calling gRPC IdentityService.Login for user: ${data.email}`);
-      return await firstValueFrom(this.identityService.login(data));
-    } catch (e) {
-      this.logger.error('gRPC login failed', e);
-      throw e;
-    }
+  // --- Auth Wrappers ---
+
+  async getMe(accessToken: string) {
+    return await firstValueFrom(this.identityService.getMe({ access_token: accessToken }));
   }
 
-  /**
-   * @deprecated Standard internal communication should be gRPC.
-   * Forward is maintained only for legacy routes.
-   * In production, this will log a warning as we transition to 100% gRPC.
-   */
-  async forward(req: Request, res: Response, path: string): Promise<void> {
-    this.logger.warn(`Legacy HTTP forward used for path: ${path}. Plan to migrate to gRPC.`);
+  async login(data: any, context: any) {
+    return await firstValueFrom(this.identityService.login({ ...data, context }));
+  }
 
-    if (!this.identityBaseUrl) {
-      if (process.env.NODE_ENV === 'production') {
-        this.logger.error('Identity service HTTP proxy NOT configured in production!');
-      }
-      throw new HttpException('Identity service HTTP proxy not configured', 503);
-    }
-    const targetUrl = `${this.identityBaseUrl}/${path.replace(/^\/+/, '')}`;
+  async initiateSignup(data: any) {
+    return await firstValueFrom(this.identityService.initiateSignup(data));
+  }
 
-    try {
-      this.logger.debug(`Forwarding ${req.method} ${req.originalUrl} to ${targetUrl}`);
+  async verifySignup(data: any) {
+    return await firstValueFrom(this.identityService.verifySignup(data));
+  }
 
-      const response = await this.httpService.axiosRef.request({
-        url: targetUrl,
-        method: req.method as any,
-        params: req.query,
-        data: req.body,
-        headers: {
-          cookie: req.headers.cookie,
-          authorization: req.headers.authorization,
-          'content-type': req.headers['content-type'],
-          'user-agent': req.headers['user-agent'],
-          'x-forwarded-for': req.headers['x-forwarded-for'] || req.ip,
-          'x-request-id': req.headers['x-request-id'] as string | undefined,
-        },
-        validateStatus: () => true,
-      });
+  async completeOnboarding(data: any, context: any) {
+    return await firstValueFrom(this.identityService.completeOnboarding({ ...data, context }));
+  }
 
-      const setCookieHeader = response.headers['set-cookie'];
-      if (setCookieHeader) {
-        res.setHeader('set-cookie', setCookieHeader);
-      }
+  async verifyMfa(data: any, context: any) {
+    return await firstValueFrom(this.identityService.verifyMfa({ ...data, context }));
+  }
 
-      res.status(response.status);
-      if (req.method.toUpperCase() === 'HEAD' || response.status === 204) {
-        res.send();
-        return;
-      }
+  async refreshToken(refreshToken: string, context: any) {
+    return await firstValueFrom(this.identityService.refreshToken({ refresh_token: refreshToken, context }));
+  }
 
-      res.send(response.data);
-    } catch (error: any) {
-      const status = error.response?.status || 503;
-      const message = error.response?.data?.message || 'Identity service unavailable';
+  async logout(accessToken: string) {
+    return await firstValueFrom(this.identityService.logout({ access_token: accessToken }));
+  }
 
-      this.logger.error(
-        `Proxy failed for ${req.method} ${path} at ${targetUrl}. Status: ${status}`,
-        error?.stack || error,
-      );
+  async getOnboardingStatus(userId: string) {
+    return await firstValueFrom(this.identityService.getOnboardingStatus({ user_id: userId }));
+  }
 
-      throw new HttpException(
-        {
-          statusCode: status,
-          message: message,
-          error: 'Bad Gateway',
-          path: req.originalUrl,
-          targetUrl: process.env.NODE_ENV === 'development' ? targetUrl : undefined,
-        },
-        status
-      );
-    }
+  async forgotPassword(data: any, context: any) {
+    return await firstValueFrom(this.identityService.forgotPassword({ ...data, context }));
+  }
+
+  async resetPassword(data: any, context: any) {
+    return await firstValueFrom(this.identityService.resetPassword({ ...data, context }));
+  }
+
+  async setPassword(data: any, context: any) {
+    return await firstValueFrom(this.identityService.setPassword({ ...data, context }));
+  }
+
+  async getSocialRegisterInfo(token: string) {
+    return await firstValueFrom(this.identityService.getSocialRegisterInfo({ token }));
+  }
+
+  async getPasskeyRegisterOptions(userId: string) {
+    return await firstValueFrom(this.identityService.getPasskeyRegisterOptions({ user_id: userId }));
+  }
+
+  async verifyPasskeyRegister(userId: string, challenge: any, response: any) {
+    return await firstValueFrom(this.identityService.verifyPasskeyRegister({
+      user_id: userId,
+      challenge_json: JSON.stringify(challenge),
+      response_json: JSON.stringify(response),
+    }));
+  }
+
+  async getPasskeyLoginOptions(email?: string) {
+    return await firstValueFrom(this.identityService.getPasskeyLoginOptions({ email }));
+  }
+
+  async verifyPasskeyLogin(response: any, challenge: any, context: any) {
+    return await firstValueFrom(this.identityService.verifyPasskeyLogin({
+      response_json: JSON.stringify(response),
+      challenge_json: JSON.stringify(challenge),
+      context,
+    }));
+  }
+
+  async checkSecurityContext(urlCountry: string, ip: string) {
+    return await firstValueFrom(this.identityService.checkSecurityContext({ url_country: urlCountry, ip }));
+  }
+
+  async getSessions(userId: string) {
+    return await firstValueFrom(this.identityService.getSessions({ user_id: userId }));
+  }
+
+  async revokeSession(userId: string, sessionId: string) {
+    return await firstValueFrom(this.identityService.revokeSession({ user_id: userId, session_id: sessionId }));
+  }
+
+  async impersonate(adminUserId: string, targetUserId: string, context: any) {
+    return await firstValueFrom(this.identityService.impersonate({ admin_user_id: adminUserId, target_user_id: targetUserId, context }));
+  }
+
+  async changePassword(userId: string, data: any) {
+    return await firstValueFrom(this.identityService.changePassword({
+      user_id: userId,
+      current_password: data.currentPassword,
+      new_password: data.newPassword,
+    }));
+  }
+
+  async generate2faSecret(userId: string) {
+    return await firstValueFrom(this.identityService.generate2faSecret({ user_id: userId }));
+  }
+
+  async enable2fa(userId: string, token: string) {
+    return await firstValueFrom(this.identityService.enable2fa({ user_id: userId, token }));
+  }
+
+  async disable2fa(userId: string) {
+    return await firstValueFrom(this.identityService.disable2fa({ user_id: userId }));
+  }
+
+  async generateBackupCodes(userId: string) {
+    return await firstValueFrom(this.identityService.generateBackupCodes({ user_id: userId }));
+  }
+
+  async send2faEmailVerification(userId: string) {
+    return await firstValueFrom(this.identityService.send2faEmailVerification({ user_id: userId }));
+  }
+
+  async verify2faEmailVerification(userId: string, code: string) {
+    return await firstValueFrom(this.identityService.verify2faEmailVerification({ user_id: userId, code }));
+  }
+
+  async getLocation(ip: string) {
+    return await firstValueFrom(this.identityService.getLocation({ ip }));
+  }
+
+  // --- Users Wrappers ---
+
+  async listUsers(data: any) {
+    return await firstValueFrom(this.identityService.listUsers({
+      page: data.page,
+      page_size: data.pageSize,
+      search_term: data.searchTerm,
+      status_filter: data.statusFilter,
+      sort_column: data.sortColumn,
+      sort_direction: data.sortDirection,
+      tenant_id: data.tenantId,
+    }));
+  }
+
+  async getJobTitles() {
+    return await firstValueFrom(this.identityService.getJobTitles({}));
+  }
+
+  async getUserProfile(userId: string) {
+    return await firstValueFrom(this.identityService.getUserProfile({ user_id: userId }));
+  }
+
+  async getUserAuditLogs(userId: string) {
+    return await firstValueFrom(this.identityService.getUserAuditLogs({ user_id: userId }));
+  }
+
+  async updateUserProfile(userId: string, data: any) {
+    return await firstValueFrom(this.identityService.updateUserProfile({
+      user_id: userId,
+      first_name: data.firstName,
+      last_name: data.lastName,
+      phone: data.phone,
+      preferred_language: data.preferredLanguage,
+      status: data.status,
+    }));
+  }
+
+  async updateUser(id: string, data: any, tenantId: string) {
+    return await firstValueFrom(this.identityService.updateUser({
+      id,
+      first_name: data.firstName,
+      last_name: data.lastName,
+      phone: data.phone,
+      preferred_language: data.preferredLanguage,
+      status: data.status,
+      tenant_id: tenantId,
+    }));
+  }
+
+  async deleteUser(id: string, tenantId: string) {
+    return await firstValueFrom(this.identityService.deleteUser({ id, tenant_id: tenantId }));
+  }
+
+  async inviteUser(data: any, inviterId: string) {
+    return await firstValueFrom(this.identityService.inviteUser({
+      email: data.email,
+      first_name: data.firstName,
+      last_name: data.lastName,
+      role: data.role,
+      inviter_id: inviterId,
+    }));
+  }
+
+  async forceLogout(userId: string) {
+    return await firstValueFrom(this.identityService.forceLogout({ user_id: userId }));
+  }
+
+  async blockAndLogout(userId: string) {
+    return await firstValueFrom(this.identityService.blockAndLogout({ user_id: userId }));
+  }
+
+  async setUserStatus(id: string, isOnline: boolean, tenantId: string) {
+    return await firstValueFrom(this.identityService.setUserStatus({ id, is_online: isOnline, tenant_id: tenantId }));
+  }
+
+  async sendPasswordReset(id: string, tenantId: string, context: any) {
+    return await firstValueFrom(this.identityService.sendPasswordReset({ id, tenant_id: tenantId, context }));
+  }
+
+  async uploadAvatar(userId: string, fileName: string, fileContent: Buffer) {
+    return await firstValueFrom(this.identityService.uploadAvatar({ user_id: userId, file_name: fileName, file_content: fileContent }));
+  }
+
+  // --- Localization Wrappers ---
+
+  async getLocalizationConfig(code: string) {
+    return await firstValueFrom(this.identityService.getLocalizationConfig({ code }));
+  }
+
+  async localizationLookup(taxId: string, country: string) {
+    return await firstValueFrom(this.identityService.localizationLookup({ tax_id: taxId, country }));
+  }
+
+  // --- Common Wrappers ---
+
+  async checkUserExists(email: string) {
+    return await firstValueFrom(this.identityService.checkUserExists({ email }));
+  }
+
+  async checkOrganizationExists(taxId: string) {
+    return await firstValueFrom(this.identityService.checkOrganizationExists({ tax_id: taxId }));
+  }
+
+  // --- Admin Wrappers ---
+
+  async listTenants() {
+    return await firstValueFrom(this.identityService.listTenants({}));
   }
 }

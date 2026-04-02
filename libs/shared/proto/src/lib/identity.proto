@@ -2,10 +2,76 @@ syntax = "proto3";
 
 package identity;
 
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
 service IdentityService {
+  // --- Auth ---
   rpc GetMe (GetMeRequest) returns (UserResponse);
   rpc Login (LoginRequest) returns (LoginResponse);
+  rpc InitiateSignup (InitiateSignupRequest) returns (google.protobuf.Empty);
+  rpc VerifySignup (VerifySignupRequest) returns (VerifySignupResponse);
+  rpc CompleteOnboarding (CompleteOnboardingRequest) returns (LoginResponse);
+  rpc VerifyMfa (VerifyMfaRequest) returns (LoginResponse);
+  rpc RefreshToken (RefreshTokenRequest) returns (LoginResponse);
+  rpc Logout (LogoutRequest) returns (google.protobuf.Empty);
+  rpc GetOnboardingStatus (GetOnboardingStatusRequest) returns (OnboardingStatusResponse);
+  rpc ForgotPassword (ForgotPasswordRequest) returns (google.protobuf.Empty);
+  rpc ResetPassword (ResetPasswordRequest) returns (google.protobuf.Empty);
+  rpc SetPassword (SetPasswordRequest) returns (LoginResponse);
+  rpc GetSocialRegisterInfo (GetSocialRegisterInfoRequest) returns (SocialRegisterInfoResponse);
+  rpc GetPasskeyRegisterOptions (GetPasskeyRegisterOptionsRequest) returns (PasskeyOptionsResponse);
+  rpc VerifyPasskeyRegister (VerifyPasskeyRegisterRequest) returns (google.protobuf.Empty);
+  rpc GetPasskeyLoginOptions (GetPasskeyLoginOptionsRequest) returns (PasskeyOptionsResponse);
+  rpc VerifyPasskeyLogin (VerifyPasskeyLoginRequest) returns (LoginResponse);
+  rpc CheckSecurityContext (CheckSecurityContextRequest) returns (CheckSecurityContextResponse);
+  rpc GetSessions (GetSessionsRequest) returns (SessionsResponse);
+  rpc RevokeSession (RevokeSessionRequest) returns (google.protobuf.Empty);
+  rpc Impersonate (ImpersonateRequest) returns (LoginResponse);
+  rpc ChangePassword (ChangePasswordRequest) returns (google.protobuf.Empty);
+  rpc Generate2faSecret (Generate2faSecretRequest) returns (TwoFaSecretResponse);
+  rpc Enable2fa (Enable2faRequest) returns (Enable2faResponse);
+  rpc Disable2fa (Disable2faRequest) returns (google.protobuf.Empty);
+  rpc GenerateBackupCodes (GenerateBackupCodesRequest) returns (BackupCodesResponse);
+  rpc Send2faEmailVerification (Send2faEmailVerificationRequest) returns (google.protobuf.Empty);
+  rpc Verify2faEmailVerification (Verify2faEmailVerificationRequest) returns (google.protobuf.Empty);
+  rpc GetLocation (GetLocationRequest) returns (LocationResponse);
+
+  // --- Users ---
+  rpc ListUsers (ListUsersRequest) returns (PaginatedUsersResponse);
+  rpc GetJobTitles (google.protobuf.Empty) returns (JobTitlesResponse);
+  rpc GetUserProfile (GetUserProfileRequest) returns (UserResponse);
+  rpc GetUserAuditLogs (GetUserAuditLogsRequest) returns (AuditLogsResponse);
+  rpc UpdateUserProfile (UpdateUserProfileRequest) returns (UserResponse);
+  rpc UpdateUser (UpdateUserRequest) returns (UserResponse);
+  rpc DeleteUser (DeleteUserRequest) returns (google.protobuf.Empty);
+  rpc InviteUser (InviteUserRequest) returns (UserResponse);
+  rpc ForceLogout (ForceLogoutRequest) returns (google.protobuf.Empty);
+  rpc BlockAndLogout (BlockAndLogoutRequest) returns (google.protobuf.Empty);
+  rpc SetUserStatus (SetUserStatusRequest) returns (UserResponse);
+  rpc SendPasswordReset (SendPasswordResetRequest) returns (google.protobuf.Empty);
+  rpc UploadAvatar (UploadAvatarRequest) returns (UploadAvatarResponse);
+
+  // --- Localization ---
+  rpc GetLocalizationConfig (GetLocalizationConfigRequest) returns (LocalizationConfigResponse);
+  rpc LocalizationLookup (LocalizationLookupRequest) returns (TaxLookupResponse);
+
+  // --- Common ---
+  rpc CheckUserExists (CheckUserExistsRequest) returns (ExistsResponse);
+  rpc CheckOrganizationExists (CheckOrganizationExistsRequest) returns (ExistsResponse);
+
+  // --- Admin ---
+  rpc ListTenants (google.protobuf.Empty) returns (TenantsResponse);
 }
+
+// --- Common Messages ---
+
+message RequestContext {
+  string ip = 1;
+  string user_agent = 2;
+}
+
+// --- Auth Messages ---
 
 message GetMeRequest {
   string access_token = 1;
@@ -14,16 +80,401 @@ message GetMeRequest {
 message LoginRequest {
   string email = 1;
   string password = 2;
-}
-
-message UserResponse {
-  string sub = 1;
-  string email = 2;
-  string name = 3;
+  bool remember_me = 3;
+  string recaptcha_token = 4;
+  RequestContext context = 5;
 }
 
 message LoginResponse {
   string access_token = 1;
   string refresh_token = 2;
   int32 expires_in = 3;
+  bool mfa_required = 4;
+}
+
+message InitiateSignupRequest {
+  string email = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string company_name = 4;
+  string country = 5;
+}
+
+message VerifySignupRequest {
+  string email = 1;
+  string code = 2;
+}
+
+message VerifySignupResponse {
+  string onboarding_token = 1;
+}
+
+message CompleteOnboardingRequest {
+  string onboarding_token = 1;
+  string password = 2;
+  string first_name = 3;
+  string last_name = 4;
+  string phone = 5;
+  string company_name = 6;
+  string tax_id = 7;
+  string country = 8;
+  string regime = 9;
+  string fiscal_region_id = 10;
+  string industry = 11;
+  string recaptcha_token = 12;
+  RequestContext context = 13;
+}
+
+message VerifyMfaRequest {
+  string temp_token = 1;
+  string code = 2;
+  RequestContext context = 3;
+}
+
+message RefreshTokenRequest {
+  string refresh_token = 1;
+  RequestContext context = 2;
+}
+
+message LogoutRequest {
+  string access_token = 1;
+}
+
+message GetOnboardingStatusRequest {
+  string user_id = 1;
+}
+
+message OnboardingStatusResponse {
+  string status = 1;
+  bool is_completed = 2;
+}
+
+message ForgotPasswordRequest {
+  string email = 1;
+  string recaptcha_token = 2;
+  RequestContext context = 3;
+}
+
+message ResetPasswordRequest {
+  string token = 1;
+  string password = 2;
+  RequestContext context = 3;
+}
+
+message SetPasswordRequest {
+  string token = 1;
+  string password = 2;
+  string recaptcha_token = 3;
+  RequestContext context = 4;
+}
+
+message GetSocialRegisterInfoRequest {
+  string token = 1;
+}
+
+message SocialRegisterInfoResponse {
+  string email = 1;
+  string first_name = 2;
+  string last_name = 3;
+}
+
+message GetPasskeyRegisterOptionsRequest {
+  string user_id = 1;
+}
+
+message PasskeyOptionsResponse {
+  string options_json = 1; // JSON string of options
+}
+
+message VerifyPasskeyRegisterRequest {
+  string user_id = 1;
+  string challenge_json = 2;
+  string response_json = 3;
+}
+
+message GetPasskeyLoginOptionsRequest {
+  string email = 1;
+}
+
+message VerifyPasskeyLoginRequest {
+  string email = 1;
+  string challenge_json = 2;
+  string response_json = 3;
+  RequestContext context = 4;
+}
+
+message CheckSecurityContextRequest {
+  string url_country = 1;
+  string ip = 2;
+}
+
+message CheckSecurityContextResponse {
+  string action = 1;
+  string detected_country = 2;
+  string target_country = 3;
+  string discrepancy_level = 4;
+}
+
+message GetSessionsRequest {
+  string user_id = 1;
+}
+
+message SessionInfo {
+  string id = 1;
+  string ip_address = 2;
+  string user_agent = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp expires_at = 5;
+  bool is_active = 6;
+}
+
+message SessionsResponse {
+  repeated SessionInfo sessions = 1;
+}
+
+message RevokeSessionRequest {
+  string user_id = 1;
+  string session_id = 2;
+}
+
+message ImpersonateRequest {
+  string admin_user_id = 1;
+  string target_user_id = 2;
+  RequestContext context = 3;
+}
+
+message ChangePasswordRequest {
+  string user_id = 1;
+  string current_password = 2;
+  string new_password = 3;
+}
+
+message Generate2faSecretRequest {
+  string user_id = 1;
+}
+
+message TwoFaSecretResponse {
+  string secret = 1;
+  string otpauth_url = 2;
+}
+
+message Enable2faRequest {
+  string user_id = 1;
+  string token = 2;
+}
+
+message Enable2faResponse {
+  bool success = 1;
+  repeated string backup_codes = 2;
+}
+
+message GenerateBackupCodesRequest {
+  string user_id = 1;
+}
+
+message BackupCodesResponse {
+  repeated string codes = 1;
+}
+
+message Send2faEmailVerificationRequest {
+  string user_id = 1;
+}
+
+message Verify2faEmailVerificationRequest {
+  string user_id = 1;
+  string code = 2;
+}
+
+message GetLocationRequest {
+  string ip = 1;
+}
+
+message LocationResponse {
+  string country = 1;
+  string region = 2;
+  string city = 3;
+  string timezone = 4;
+}
+
+// --- Users Messages ---
+
+message ListUsersRequest {
+  int32 page = 1;
+  int32 page_size = 2;
+  string search_term = 3;
+  string status_filter = 4;
+  string sort_column = 5;
+  string sort_direction = 6;
+  string tenant_id = 7;
+}
+
+message UserResponse {
+  string sub = 1;
+  string email = 2;
+  string first_name = 3;
+  string last_name = 4;
+  string country = 5;
+  string timezone = 6;
+  string phone = 7;
+  string avatar_url = 8;
+  string preferred_language = 9;
+  string role = 10;
+  string company_name = 11;
+  string company_id = 12;
+  bool is_active = 13;
+  string status = 14;
+  google.protobuf.Timestamp created_at = 15;
+  google.protobuf.Timestamp updated_at = 16;
+}
+
+message PaginatedUsersResponse {
+  repeated UserResponse data = 1;
+  int32 total = 2;
+}
+
+message JobTitlesResponse {
+  repeated string titles = 1;
+}
+
+message GetUserProfileRequest {
+  string user_id = 1;
+}
+
+message GetUserAuditLogsRequest {
+  string user_id = 1;
+}
+
+message AuditLogEntry {
+  string id = 1;
+  string event = 2;
+  string user_id = 3;
+  string metadata_json = 4;
+  google.protobuf.Timestamp timestamp = 5;
+}
+
+message AuditLogsResponse {
+  repeated AuditLogEntry logs = 1;
+}
+
+message UpdateUserProfileRequest {
+  string user_id = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string phone = 4;
+  string preferred_language = 5;
+  string status = 6;
+}
+
+message UpdateUserRequest {
+  string id = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string phone = 4;
+  string preferred_language = 5;
+  string status = 6;
+  string tenant_id = 7;
+}
+
+message DeleteUserRequest {
+  string id = 1;
+  string tenant_id = 2;
+}
+
+message InviteUserRequest {
+  string email = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string role = 4;
+  string inviter_id = 5;
+}
+
+message ForceLogoutRequest {
+  string user_id = 1;
+}
+
+message BlockAndLogoutRequest {
+  string user_id = 1;
+}
+
+message SetUserStatusRequest {
+  string id = 1;
+  bool is_online = 2;
+  string tenant_id = 3;
+}
+
+message SendPasswordResetRequest {
+  string id = 1;
+  string tenant_id = 2;
+  RequestContext context = 3;
+}
+
+message UploadAvatarRequest {
+  string user_id = 1;
+  string file_name = 2;
+  bytes file_content = 3;
+}
+
+message UploadAvatarResponse {
+  string url = 1;
+}
+
+// --- Localization Messages ---
+
+message GetLocalizationConfigRequest {
+  string code = 1;
+}
+
+message LocalizationConfigResponse {
+  string country_code = 1;
+  string name = 2;
+  string currency = 3;
+  string locale = 4;
+  string tax_id_regex = 5;
+  string fiscal_region_id = 6;
+  string tax_id_label = 7;
+  string tax_id_mask = 8;
+  string phone_code = 9;
+  string form_schema_json = 10;
+}
+
+message LocalizationLookupRequest {
+  string tax_id = 1;
+  string country = 2;
+}
+
+message TaxLookupResponse {
+  string tax_id = 1;
+  string country = 2;
+  string name = 3;
+  string legal_name = 4;
+  string status = 5;
+  bool is_valid = 6;
+  string industry = 7;
+}
+
+// --- Common Messages ---
+
+message CheckUserExistsRequest {
+  string email = 1;
+}
+
+message CheckOrganizationExistsRequest {
+  string tax_id = 1;
+}
+
+message ExistsResponse {
+  bool exists = 1;
+}
+
+// --- Admin Messages ---
+
+message TenantInfo {
+  string id = 1;
+  string name = 2;
+  string tax_id = 3;
+  string country = 4;
+}
+
+message TenantsResponse {
+  repeated TenantInfo tenants = 1;
 }
