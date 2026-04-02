@@ -3,7 +3,7 @@
   "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/service/crm/app/src",
   "projectType": "application",
-  "tags": ["scope:crm", "type:app", "platform:agnostic", "criticality:medium"],
+  "tags": ["scope:crm", "type:microservice", "platform:agnostic", "criticality:medium"],
   "targets": {
     "build": {
       "executor": "nx:run-commands",

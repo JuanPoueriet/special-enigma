@@ -6,7 +6,7 @@
   "prefix": "virtex",
   "tags": [
     "scope:shared",
-    "type:app",
+    "type:microservice",
     "platform:plugin-host",
     "criticality:medium"
   ],

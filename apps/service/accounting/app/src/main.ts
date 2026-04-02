@@ -1,3 +1,7 @@
+import { otelSDK } from './tracing';
+// Start SDK before importing other modules
+otelSDK.start();
+
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';

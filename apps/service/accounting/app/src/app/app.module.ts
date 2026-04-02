@@ -24,6 +24,7 @@ import { AccountingApplicationWiringModule } from '@virtex/domain-accounting-inf
 import { TenantModule } from '@virtex/kernel-tenant';
 import { AuthModule, CanonicalTenantMiddleware } from '@virtex/kernel-auth';
 import { ServerConfigModule } from '@virtex/shared-util-server-server-config';
+import { HealthModule } from '@virtex/shared-util-server-health';
 
 const DEFAULT_ACCOUNTING_DB_CONFIG = {
   host: 'localhost',
@@ -86,6 +87,7 @@ function shouldConnectDatabase(): boolean {
 @Module({
   imports: [
     ServerConfigModule,
+    HealthModule,
     TenantModule,
     AuthModule,
     ConfigModule.forRoot({ isGlobal: true }),

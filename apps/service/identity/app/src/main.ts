@@ -26,7 +26,7 @@ function isAddressInUseError(error: unknown): error is NodeJS.ErrnoException {
 }
 
 function validateEnv() {
-  validate(process.env, ['SESSION_SECRET', 'REDIS_URL', 'DATABASE_URL', 'NATS_URL']);
+  validate(process.env, ['SESSION_SECRET', 'REDIS_URL', 'DATABASE_URL']);
 }
 
 async function buildSessionStore(): Promise<session.Store> {
@@ -106,6 +106,7 @@ async function bootstrap() {
   validateEnv();
   const app = await NestFactory.create(AppModule);
 
+
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.GRPC,
     options: {
@@ -121,14 +122,22 @@ async function bootstrap() {
 
   app.use(cookieParser());
 
-  const resolvedSessionSecret = process.env.SESSION_SECRET ?? 'virtex-dev-secret-session';
+  const isProduction = process.env.NODE_ENV === 'production';
+  const resolvedSessionSecret = process.env.SESSION_SECRET;
+
+  if (!resolvedSessionSecret) {
+    if (isProduction) {
+      throw new Error('SESSION_SECRET is required in production');
+    }
+    logger.warn('SESSION_SECRET is missing; using an insecure development fallback.');
+  }
 
   const redisStore = await buildSessionStore();
 
   app.use(
     session({
       store: redisStore,
-      secret: resolvedSessionSecret,
+      secret: resolvedSessionSecret || 'virtex-dev-secret-session',
       resave: false,
       saveUninitialized: false,
       cookie: {

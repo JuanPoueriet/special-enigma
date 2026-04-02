@@ -5,7 +5,7 @@
   "projectType": "application",
   "tags": [
     "scope:purchasing",
-    "type:app",
+    "type:microservice",
     "platform:agnostic",
     "criticality:medium"
   ],

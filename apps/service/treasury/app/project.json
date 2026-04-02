@@ -5,7 +5,7 @@
   "projectType": "application",
   "tags": [
     "scope:treasury",
-    "type:app",
+    "type:microservice",
     "platform:agnostic",
     "criticality:medium"
   ],
