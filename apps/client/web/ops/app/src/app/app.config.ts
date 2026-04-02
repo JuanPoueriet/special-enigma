@@ -14,6 +14,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(appRoutes),
     provideHttpClient(withFetch()),
     provideAnimations(),
-    { provide: API_BASE_URL, useValue: 'http://localhost:3000/api' }
+    { provide: API_BASE_URL, useValue: '/api' }
   ],
 };

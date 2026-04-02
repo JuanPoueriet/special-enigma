@@ -12,23 +12,19 @@ export class IdentityProxyController {
     const authHeader = req.headers.authorization;
     if (authHeader && authHeader.startsWith('Bearer ')) {
       const token = authHeader.split(' ')[1];
-      try {
-        // Aggregate data from multiple sources (BFF pattern)
-        const [user, preferences] = await Promise.all([
-          this.identityProxy.getMeGrpc(token),
-          this.fetchMockPreferences(token),
-        ]);
+      // Aggregate data from multiple sources (BFF pattern)
+      const [user, preferences] = await Promise.all([
+        this.identityProxy.getMeGrpc(token),
+        this.fetchMockPreferences(token),
+      ]);
 
-        res.json({
-          ...(user as any),
-          preferences,
-          bff_aggregated: true,
-          timestamp: new Date().toISOString(),
-        });
-        return;
-      } catch (e) {
-        this.logger.warn('BFF Aggregation failed, falling back to HTTP proxy');
-      }
+      res.json({
+        ...(user as any),
+        preferences,
+        bff_aggregated: true,
+        timestamp: new Date().toISOString(),
+      });
+      return;
     }
     await this.identityProxy.forward(req, res, this.extractPath(req));
   }

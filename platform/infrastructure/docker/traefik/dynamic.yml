@@ -15,6 +15,27 @@ http:
         - websecure
       tls: {}
 
+    identity-router:
+      rule: "Host(`localhost`) && PathPrefix(`/api/identity-service`)"
+      service: identity-service
+      entryPoints:
+        - websecure
+      tls: {}
+
+    inventory-router:
+      rule: "Host(`localhost`) && PathPrefix(`/api/inventory-service`)"
+      service: inventory-service
+      entryPoints:
+        - websecure
+      tls: {}
+
+    billing-router:
+      rule: "Host(`localhost`) && PathPrefix(`/api/billing-service`)"
+      service: billing-service
+      entryPoints:
+        - websecure
+      tls: {}
+
   services:
     portal-service:
       loadBalancer:
@@ -24,6 +45,18 @@ http:
       loadBalancer:
         servers:
           - url: "http://pos-service:3008"
+    identity-service:
+      loadBalancer:
+        servers:
+          - url: "http://service-identity:3000"
+    inventory-service:
+      loadBalancer:
+        servers:
+          - url: "http://service-inventory:3001"
+    billing-service:
+      loadBalancer:
+        servers:
+          - url: "http://service-billing:3003"
 
 tls:
   certificates:

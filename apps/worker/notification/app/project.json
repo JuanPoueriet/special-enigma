@@ -95,6 +95,14 @@
           "buildTarget": "worker-notification-app:build:production"
         }
       }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/apps/worker/notification/app"],
+      "options": {
+        "jestConfig": "apps/worker/notification/app/jest.config.ts",
+        "passWithNoTests": true
+      }
     }
   }
 }

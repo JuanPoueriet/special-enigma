@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { Test, TestingModule } from '@nestjs/testing';
 import { OutboxService } from './outbox.service';
 import { EntityManager } from '@mikro-orm/core';
@@ -9,8 +8,8 @@ describe('OutboxService', () => {
 
   beforeEach(async () => {
     const mockEm = {
-      persist: vi.fn(),
-      flush: vi.fn(),
+      persist: jest.fn(),
+      flush: jest.fn(),
     };
 
     const module: TestingModule = await Test.createTestingModule({
