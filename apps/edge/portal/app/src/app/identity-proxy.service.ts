@@ -1,6 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { HttpException, Injectable, Logger } from '@nestjs/common';
 import type { Request, Response } from 'express';
+import axiosRetry from 'axios-retry';
 
 @Injectable()
 export class IdentityProxyService {
@@ -9,13 +10,43 @@ export class IdentityProxyService {
     process.env['IDENTITY_SERVICE_URL'] ||
     'http://localhost:3000/api/identity-service';
 
-  constructor(private readonly httpService: HttpService) {}
+  constructor(private readonly httpService: HttpService) {
+    // Configure axios-retry for resilient communication
+    axiosRetry(this.httpService.axiosRef, {
+      retries: 3,
+      retryDelay: axiosRetry.exponentialDelay,
+      retryCondition: (error) => {
+        return (
+          axiosRetry.isNetworkOrIdempotentRequestError(error) ||
+          (error.response?.status ? error.response.status >= 500 : false)
+        );
+      },
+      onRetry: (retryCount, error, requestConfig) => {
+        this.logger.warn(
+          `Retrying request to ${requestConfig.url} (Attempt ${retryCount}). Reason: ${error.message}`,
+        );
+      },
+    });
+  }
+
+  async checkConnectivity(): Promise<{ status: string; url: string }> {
+    try {
+      await this.httpService.axiosRef.head(this.identityBaseUrl, {
+        timeout: 2000,
+      });
+      return { status: 'up', url: this.identityBaseUrl };
+    } catch (error: any) {
+      this.logger.error(`Identity service connectivity check failed at ${this.identityBaseUrl}: ${error.message}`);
+      return { status: 'down', url: this.identityBaseUrl };
+    }
+  }
 
   async forward(req: Request, res: Response, path: string): Promise<void> {
     const targetUrl = `${this.identityBaseUrl}/${path.replace(/^\/+/, '')}`;
 
     try {
       this.logger.debug(`Forwarding ${req.method} ${req.originalUrl} to ${targetUrl}`);
+
       const response = await this.httpService.axiosRef.request({
         url: targetUrl,
         method: req.method as any,
@@ -25,6 +56,7 @@ export class IdentityProxyService {
           cookie: req.headers.cookie,
           authorization: req.headers.authorization,
           'content-type': req.headers['content-type'],
+          'user-agent': req.headers['user-agent'],
           'x-forwarded-for': req.headers['x-forwarded-for'] || req.ip,
           'x-request-id': req.headers['x-request-id'] as string | undefined,
         },
@@ -44,11 +76,24 @@ export class IdentityProxyService {
 
       res.send(response.data);
     } catch (error: any) {
+      const status = error.response?.status || 503;
+      const message = error.response?.data?.message || 'Identity service unavailable';
+
       this.logger.error(
-        `Proxy failed for ${req.method} ${path}`,
+        `Proxy failed for ${req.method} ${path} at ${targetUrl}. Status: ${status}`,
         error?.stack || error,
       );
-      throw new HttpException('Identity service unavailable', 503);
+
+      throw new HttpException(
+        {
+          statusCode: status,
+          message: message,
+          error: 'Bad Gateway',
+          path: req.originalUrl,
+          targetUrl: process.env.NODE_ENV === 'development' ? targetUrl : undefined,
+        },
+        status
+      );
     }
   }
 }
