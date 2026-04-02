@@ -13,6 +13,9 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(appRoutes),
     provideHttpClient(withInterceptors([authInterceptor])),
-    { provide: API_URL, useValue: 'http://localhost:3000/api' }
+    {
+      provide: API_URL,
+      useValue: (window as any).env?.API_URL || 'http://localhost:3000/api'
+    }
   ],
 };

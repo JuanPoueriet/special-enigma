@@ -84,16 +84,7 @@ export class OutboxProcessor implements OnModuleInit {
     };
     const messageString = JSON.stringify(messagePayload);
 
-    // NATS Publishing (Primary backbone)
-    try {
-        const subject = event.aggregateType.toLowerCase().replace(/\./g, '.');
-        await firstValueFrom(this.natsClient.emit(subject, messagePayload));
-        this.logger.log(`[NATS] Published: ${event.eventType} to subject ${subject}`);
-    } catch (natsErr) {
-        this.logger.error(`[NATS] Error publishing event ${event.id}`, natsErr);
-    }
-
-    // Kafka Publishing (Secondary/Domain-specific backbone)
+    // Kafka Publishing (Primary backbone as per Architecture Guidelines)
     if (this.isKafkaConnected && this.kafkaProducer) {
         try {
             // Normalize topic name: e.g., 'crm.sale' -> 'crm-sale'
@@ -102,10 +93,21 @@ export class OutboxProcessor implements OnModuleInit {
                 topic: topic,
                 messages: [{ key: event.aggregateId, value: messageString }],
             });
-            this.logger.log(`[Kafka] Published: ${event.eventType} to topic ${topic}`);
+            this.logger.log(`[Kafka] Published (Primary): ${event.eventType} to topic ${topic}`);
         } catch (kafkaErr) {
             this.logger.error(`[Kafka] Error publishing event ${event.id}`, kafkaErr);
         }
+    } else {
+        this.logger.warn(`[Kafka] Primary publish skipped: Not connected.`);
+    }
+
+    // NATS Publishing (Secondary/Legacy backbone)
+    try {
+        const subject = event.aggregateType.toLowerCase().replace(/\./g, '.');
+        await firstValueFrom(this.natsClient.emit(subject, messagePayload));
+        this.logger.log(`[NATS] Published (Secondary): ${event.eventType} to subject ${subject}`);
+    } catch (natsErr) {
+        this.logger.error(`[NATS] Error publishing event ${event.id}`, natsErr);
     }
 
     // Redis Publishing (for Real-time UI updates via WebSockets, etc.)

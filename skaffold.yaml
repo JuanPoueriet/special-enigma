@@ -4,10 +4,10 @@ metadata:
   name: virtex-erp
 build:
   artifacts:
-    - image: ghcr.io/virtex/api-gateway
+    - image: ghcr.io/virtex/edge-portal-app
       context: .
       docker:
-        dockerfile: apps/virtex-api-gateway/Dockerfile
+        dockerfile: apps/edge/portal/app/Dockerfile
   local:
     push: false
 manifests:

@@ -59,6 +59,7 @@ export class IdentityProxyService implements OnModuleInit {
 
   async getMeGrpc(accessToken: string) {
     try {
+      this.logger.log(`Calling gRPC IdentityService.GetMe for token: ${accessToken.substring(0, 5)}...`);
       return await firstValueFrom(this.identityService.getMe({ access_token: accessToken }));
     } catch (e) {
       this.logger.error('gRPC getMe failed', e);
@@ -68,6 +69,7 @@ export class IdentityProxyService implements OnModuleInit {
 
   async loginGrpc(data: any) {
     try {
+      this.logger.log(`Calling gRPC IdentityService.Login for user: ${data.email}`);
       return await firstValueFrom(this.identityService.login(data));
     } catch (e) {
       this.logger.error('gRPC login failed', e);
@@ -75,6 +77,10 @@ export class IdentityProxyService implements OnModuleInit {
     }
   }
 
+  /**
+   * @deprecated Standard internal communication should be gRPC.
+   * Forward is maintained only for legacy routes or when gRPC is not available.
+   */
   async forward(req: Request, res: Response, path: string): Promise<void> {
     const targetUrl = `${this.identityBaseUrl}/${path.replace(/^\/+/, '')}`;
 
