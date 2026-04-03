@@ -29,12 +29,12 @@ describe('languageRedirectGuard', () => {
   it('should redirect to dashboard if authenticated', () => {
     mockAuthService.isAuthenticated.mockReturnValue(true);
     const result = TestBed.runInInjectionContext(() => languageRedirectGuard({} as any, {} as any));
-    expect(mockRouter.createUrlTree).toHaveBeenCalledWith(['/es/accounting']);
+    expect(mockRouter.createUrlTree).toHaveBeenCalledWith(['/', 'es', 'accounting']);
   });
 
   it('should redirect to lang login if not authenticated', () => {
     mockAuthService.isAuthenticated.mockReturnValue(false);
     const result = TestBed.runInInjectionContext(() => languageRedirectGuard({} as any, {} as any));
-    expect(mockRouter.createUrlTree).toHaveBeenCalledWith(['/es/auth/login']);
+    expect(mockRouter.createUrlTree).toHaveBeenCalledWith(['/', 'es', 'auth', 'login']);
   });
 });

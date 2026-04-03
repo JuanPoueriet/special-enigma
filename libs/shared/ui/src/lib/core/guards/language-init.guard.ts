@@ -6,7 +6,7 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { LanguageService } from '../../..';
+import { LanguageService } from '../services/language';
 
 export const languageInitGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot,
@@ -33,17 +33,14 @@ export const languageInitGuard: CanActivateFn = (
 
   // We need to replace the invalid language segment with the default one,
   // or just redirect to the default language root if the path structure is broken.
-  // Assuming the structure is /:lang/...
-  // We can just redirect to defaultLang + whatever was after, or just default home.
-  // For safety/simplicity, let's redirect to default home/root of that language.
 
   // Construct the new URL.
   // If URL was /fr/home -> redirect to /es/home
   const urlSegments = state.url.split('/').filter(Boolean);
   if (urlSegments.length > 0) {
-     urlSegments[0] = defaultLang;
-     return router.createUrlTree(['/' + urlSegments.join('/')]);
+    urlSegments[0] = defaultLang;
+    return router.createUrlTree(['/', ...urlSegments]);
   }
 
-  return router.createUrlTree(['/' + defaultLang]);
+  return router.createUrlTree(['/', defaultLang]);
 };

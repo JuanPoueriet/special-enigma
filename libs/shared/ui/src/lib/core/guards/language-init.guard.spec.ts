@@ -34,6 +34,6 @@ describe('languageInitGuard', () => {
     const route = { params: { lang: 'fr' } } as any;
     const state = { url: '/fr/home' } as any;
     const result = TestBed.runInInjectionContext(() => languageInitGuard(route, state));
-    expect(mockRouter.createUrlTree).toHaveBeenCalledWith(['/es/home']);
+    expect(mockRouter.createUrlTree).toHaveBeenCalledWith(['/', 'es', 'home']);
   });
 });
