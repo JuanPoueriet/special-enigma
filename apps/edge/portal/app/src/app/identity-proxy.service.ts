@@ -82,6 +82,14 @@ export class IdentityProxyService {
 
   constructor(@Inject('IDENTITY_PACKAGE') private client: ClientGrpc) {}
 
+  private get identityService(): IdentityService {
+    return this._identityService;
+  }
+
+  private set identityService(service: IdentityService) {
+    this._identityService = service;
+  }
+
   onModuleInit() {
     try {
       this.identityService =
@@ -144,12 +152,12 @@ export class IdentityProxyService {
 
   getMetadata(req: Request): Metadata {
     const metadata = new Metadata();
-    const requestId = req.headers['x-request-id'] || req.headers['X-Request-Id'];
+    const requestId =
+      req.headers['x-request-id'] || req.headers['X-Request-Id'];
     if (requestId) {
       metadata.add('x-request-id', requestId as string);
     }
-    const tenantId =
-      req.headers['x-tenant-id'] || (req as any).user?.tenantId;
+    const tenantId = req.headers['x-tenant-id'] || (req as any).user?.tenantId;
     if (tenantId) {
       metadata.add('x-tenant-id', tenantId);
     }
@@ -184,14 +192,14 @@ export class IdentityProxyService {
   async initiateSignup(data: any, metadata: Metadata) {
     return await this.callIdentity(
       'initiateSignup',
-      this.identityService.initiateSignup(data, metadata)
+      this.identityService.initiateSignup(data, metadata),
     );
   }
 
   async verifySignup(data: any, metadata: Metadata) {
     return await this.callIdentity(
       'verifySignup',
-      this.identityService.verifySignup(data, metadata)
+      this.identityService.verifySignup(data, metadata),
     );
   }
 
@@ -212,10 +220,13 @@ export class IdentityProxyService {
   async refreshToken(refreshToken: string, context: any, metadata: Metadata) {
     return await this.callIdentity(
       'refreshToken',
-      this.identityService.refreshToken({
-        refresh_token: refreshToken,
-        context,
-      }, metadata),
+      this.identityService.refreshToken(
+        {
+          refresh_token: refreshToken,
+          context,
+        },
+        metadata,
+      ),
     );
   }
 
@@ -264,18 +275,29 @@ export class IdentityProxyService {
   async getPasskeyRegisterOptions(userId: string, metadata: Metadata) {
     return await this.callIdentity(
       'getPasskeyRegisterOptions',
-      this.identityService.getPasskeyRegisterOptions({ user_id: userId }, metadata),
+      this.identityService.getPasskeyRegisterOptions(
+        { user_id: userId },
+        metadata,
+      ),
     );
   }
 
-  async verifyPasskeyRegister(userId: string, challenge: any, response: any, metadata: Metadata) {
+  async verifyPasskeyRegister(
+    userId: string,
+    challenge: any,
+    response: any,
+    metadata: Metadata,
+  ) {
     return await this.callIdentity(
       'verifyPasskeyRegister',
-      this.identityService.verifyPasskeyRegister({
-        user_id: userId,
-        challenge_json: JSON.stringify(challenge),
-        response_json: JSON.stringify(response),
-      }, metadata),
+      this.identityService.verifyPasskeyRegister(
+        {
+          user_id: userId,
+          challenge_json: JSON.stringify(challenge),
+          response_json: JSON.stringify(response),
+        },
+        metadata,
+      ),
     );
   }
 
@@ -286,24 +308,39 @@ export class IdentityProxyService {
     );
   }
 
-  async verifyPasskeyLogin(response: any, challenge: any, context: any, metadata: Metadata) {
+  async verifyPasskeyLogin(
+    response: any,
+    challenge: any,
+    context: any,
+    metadata: Metadata,
+  ) {
     return await this.callIdentity(
       'verifyPasskeyLogin',
-      this.identityService.verifyPasskeyLogin({
-        response_json: JSON.stringify(response),
-        challenge_json: JSON.stringify(challenge),
-        context,
-      }, metadata),
+      this.identityService.verifyPasskeyLogin(
+        {
+          response_json: JSON.stringify(response),
+          challenge_json: JSON.stringify(challenge),
+          context,
+        },
+        metadata,
+      ),
     );
   }
 
-  async checkSecurityContext(urlCountry: string, ip: string, metadata: Metadata) {
+  async checkSecurityContext(
+    urlCountry: string,
+    ip: string,
+    metadata: Metadata,
+  ) {
     return await this.callIdentity(
       'checkSecurityContext',
-      this.identityService.checkSecurityContext({
-        url_country: urlCountry,
-        ip,
-      }, metadata),
+      this.identityService.checkSecurityContext(
+        {
+          url_country: urlCountry,
+          ip,
+        },
+        metadata,
+      ),
     );
   }
 
@@ -317,32 +354,46 @@ export class IdentityProxyService {
   async revokeSession(userId: string, sessionId: string, metadata: Metadata) {
     return await this.callIdentity(
       'revokeSession',
-      this.identityService.revokeSession({
-        user_id: userId,
-        session_id: sessionId,
-      }, metadata),
+      this.identityService.revokeSession(
+        {
+          user_id: userId,
+          session_id: sessionId,
+        },
+        metadata,
+      ),
     );
   }
 
-  async impersonate(adminUserId: string, targetUserId: string, context: any, metadata: Metadata) {
+  async impersonate(
+    adminUserId: string,
+    targetUserId: string,
+    context: any,
+    metadata: Metadata,
+  ) {
     return await this.callIdentity(
       'impersonate',
-      this.identityService.impersonate({
-        admin_user_id: adminUserId,
-        target_user_id: targetUserId,
-        context,
-      }, metadata),
+      this.identityService.impersonate(
+        {
+          admin_user_id: adminUserId,
+          target_user_id: targetUserId,
+          context,
+        },
+        metadata,
+      ),
     );
   }
 
   async changePassword(userId: string, data: any, metadata: Metadata) {
     return await this.callIdentity(
       'changePassword',
-      this.identityService.changePassword({
-        user_id: userId,
-        current_password: data.currentPassword,
-        new_password: data.newPassword,
-      }, metadata),
+      this.identityService.changePassword(
+        {
+          user_id: userId,
+          current_password: data.currentPassword,
+          new_password: data.newPassword,
+        },
+        metadata,
+      ),
     );
   }
 
@@ -377,17 +428,27 @@ export class IdentityProxyService {
   async send2faEmailVerification(userId: string, metadata: Metadata) {
     return await this.callIdentity(
       'send2faEmailVerification',
-      this.identityService.send2faEmailVerification({ user_id: userId }, metadata),
+      this.identityService.send2faEmailVerification(
+        { user_id: userId },
+        metadata,
+      ),
     );
   }
 
-  async verify2faEmailVerification(userId: string, code: string, metadata: Metadata) {
+  async verify2faEmailVerification(
+    userId: string,
+    code: string,
+    metadata: Metadata,
+  ) {
     return await this.callIdentity(
       'verify2faEmailVerification',
-      this.identityService.verify2faEmailVerification({
-        user_id: userId,
-        code,
-      }, metadata),
+      this.identityService.verify2faEmailVerification(
+        {
+          user_id: userId,
+          code,
+        },
+        metadata,
+      ),
     );
   }
 
@@ -403,22 +464,25 @@ export class IdentityProxyService {
   async listUsers(data: any, metadata: Metadata) {
     return await this.callIdentity(
       'listUsers',
-      this.identityService.listUsers({
-        page: data.page,
-        page_size: data.pageSize,
-        search_term: data.searchTerm,
-        status_filter: data.statusFilter,
-        sort_column: data.sortColumn,
-        sort_direction: data.sortDirection,
-        tenant_id: data.tenantId,
-      }, metadata),
+      this.identityService.listUsers(
+        {
+          page: data.page,
+          page_size: data.pageSize,
+          search_term: data.searchTerm,
+          status_filter: data.statusFilter,
+          sort_column: data.sortColumn,
+          sort_direction: data.sortDirection,
+          tenant_id: data.tenantId,
+        },
+        metadata,
+      ),
     );
   }
 
   async getJobTitles(metadata: Metadata) {
     return await this.callIdentity(
       'getJobTitles',
-      this.identityService.getJobTitles({}, metadata)
+      this.identityService.getJobTitles({}, metadata),
     );
   }
 
@@ -439,29 +503,40 @@ export class IdentityProxyService {
   async updateUserProfile(userId: string, data: any, metadata: Metadata) {
     return await this.callIdentity(
       'updateUserProfile',
-      this.identityService.updateUserProfile({
-        user_id: userId,
-        first_name: data.firstName,
-        last_name: data.lastName,
-        phone: data.phone,
-        preferred_language: data.preferredLanguage,
-        status: data.status,
-      }, metadata),
+      this.identityService.updateUserProfile(
+        {
+          user_id: userId,
+          first_name: data.firstName,
+          last_name: data.lastName,
+          phone: data.phone,
+          preferred_language: data.preferredLanguage,
+          status: data.status,
+        },
+        metadata,
+      ),
     );
   }
 
-  async updateUser(id: string, data: any, tenantId: string, metadata: Metadata) {
+  async updateUser(
+    id: string,
+    data: any,
+    tenantId: string,
+    metadata: Metadata,
+  ) {
     return await this.callIdentity(
       'updateUser',
-      this.identityService.updateUser({
-        id,
-        first_name: data.firstName,
-        last_name: data.lastName,
-        phone: data.phone,
-        preferred_language: data.preferredLanguage,
-        status: data.status,
-        tenant_id: tenantId,
-      }, metadata),
+      this.identityService.updateUser(
+        {
+          id,
+          first_name: data.firstName,
+          last_name: data.lastName,
+          phone: data.phone,
+          preferred_language: data.preferredLanguage,
+          status: data.status,
+          tenant_id: tenantId,
+        },
+        metadata,
+      ),
     );
   }
 
@@ -475,13 +550,16 @@ export class IdentityProxyService {
   async inviteUser(data: any, inviterId: string, metadata: Metadata) {
     return await this.callIdentity(
       'inviteUser',
-      this.identityService.inviteUser({
-        email: data.email,
-        first_name: data.firstName,
-        last_name: data.lastName,
-        role: data.role,
-        inviter_id: inviterId,
-      }, metadata),
+      this.identityService.inviteUser(
+        {
+          email: data.email,
+          first_name: data.firstName,
+          last_name: data.lastName,
+          role: data.role,
+          inviter_id: inviterId,
+        },
+        metadata,
+      ),
     );
   }
 
@@ -499,36 +577,60 @@ export class IdentityProxyService {
     );
   }
 
-  async setUserStatus(id: string, isOnline: boolean, tenantId: string, metadata: Metadata) {
+  async setUserStatus(
+    id: string,
+    isOnline: boolean,
+    tenantId: string,
+    metadata: Metadata,
+  ) {
     return await this.callIdentity(
       'setUserStatus',
-      this.identityService.setUserStatus({
-        id,
-        is_online: isOnline,
-        tenant_id: tenantId,
-      }, metadata),
+      this.identityService.setUserStatus(
+        {
+          id,
+          is_online: isOnline,
+          tenant_id: tenantId,
+        },
+        metadata,
+      ),
     );
   }
 
-  async sendPasswordReset(id: string, tenantId: string, context: any, metadata: Metadata) {
+  async sendPasswordReset(
+    id: string,
+    tenantId: string,
+    context: any,
+    metadata: Metadata,
+  ) {
     return await this.callIdentity(
       'sendPasswordReset',
-      this.identityService.sendPasswordReset({
-        id,
-        tenant_id: tenantId,
-        context,
-      }, metadata),
+      this.identityService.sendPasswordReset(
+        {
+          id,
+          tenant_id: tenantId,
+          context,
+        },
+        metadata,
+      ),
     );
   }
 
-  async uploadAvatar(userId: string, fileName: string, fileContent: Buffer, metadata: Metadata) {
+  async uploadAvatar(
+    userId: string,
+    fileName: string,
+    fileContent: Buffer,
+    metadata: Metadata,
+  ) {
     return await this.callIdentity(
       'uploadAvatar',
-      this.identityService.uploadAvatar({
-        user_id: userId,
-        file_name: fileName,
-        file_content: fileContent,
-      }, metadata),
+      this.identityService.uploadAvatar(
+        {
+          user_id: userId,
+          file_name: fileName,
+          file_content: fileContent,
+        },
+        metadata,
+      ),
     );
   }
 
@@ -544,7 +646,10 @@ export class IdentityProxyService {
   async localizationLookup(taxId: string, country: string, metadata: Metadata) {
     return await this.callIdentity(
       'localizationLookup',
-      this.identityService.localizationLookup({ tax_id: taxId, country }, metadata),
+      this.identityService.localizationLookup(
+        { tax_id: taxId, country },
+        metadata,
+      ),
     );
   }
 
@@ -569,14 +674,14 @@ export class IdentityProxyService {
   async listTenants(metadata: Metadata) {
     return await this.callIdentity(
       'listTenants',
-      this.identityService.listTenants({}, metadata)
+      this.identityService.listTenants({}, metadata),
     );
   }
 
   async checkConnectivity(metadata: Metadata) {
     return await this.callIdentity(
       'healthCheck',
-      this.identityService.healthCheck({}, metadata)
+      this.identityService.healthCheck({}, metadata),
     );
   }
 }
