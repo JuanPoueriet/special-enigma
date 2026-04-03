@@ -1,4 +1,4 @@
-import { Module, MiddlewareConsumer, RequestMethod, NestModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
@@ -6,17 +6,10 @@ import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { SqliteDriver } from '@mikro-orm/sqlite';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { EventEmitterModule } from '@nestjs/event-emitter';
-import { GraphQLModule } from '@nestjs/graphql';
-import depthLimit from 'graphql-depth-limit';
-import { createComplexityRule, simpleEstimator } from 'graphql-query-complexity';
-import { ApolloFederationDriver, ApolloFederationDriverConfig } from '@nestjs/apollo';
-import { ApolloServerPluginLandingPageLocalDefault, ApolloServerPluginLandingPageProductionDefault } from '@apollo/server/plugin/landingPage/default';
-import { FederationSupportModule } from '@virtex/shared-util-server-server-config';
 import { TenantModule } from '@virtex/kernel-tenant';
 import { AuthModule } from '@virtex/kernel-auth';
 import { HealthModule } from '@virtex/shared-util-server-health';
 import { TelemetryModule } from '@virtex/kernel-telemetry';
-import { IdentityPresentationModule } from '@virtex/domain-identity-presentation';
 import { IdentityInfrastructureModule } from '@virtex/domain-identity-infrastructure';
 
 import { AppController } from './app.controller';
@@ -34,26 +27,6 @@ import { AppService } from './app.service';
       limit: 10,
     }]),
     EventEmitterModule.forRoot(),
-    FederationSupportModule,
-    GraphQLModule.forRoot<ApolloFederationDriverConfig>({
-      driver: ApolloFederationDriver,
-      playground: false,
-      plugins: [
-        process.env.NODE_ENV === 'production'
-          ? ApolloServerPluginLandingPageProductionDefault({
-              embed: true,
-              graphRef: 'my-graph@current'
-            })
-          : ApolloServerPluginLandingPageLocalDefault({ embed: true }),
-      ],
-      autoSchemaFile: {
-        federation: 2,
-      },
-      validationRules: [
-        depthLimit(10),
-        createComplexityRule({ maximumComplexity: 1000, estimators: [simpleEstimator({ defaultComplexity: 1 })] })
-      ],
-    }),
     MikroOrmModule.forRootAsync({
       driver: PostgreSqlDriver,
       imports: [ConfigModule],
@@ -88,7 +61,6 @@ import { AppService } from './app.service';
       },
     }),
     IdentityInfrastructureModule,
-    IdentityPresentationModule,
     HealthModule,
     TelemetryModule,
   ],

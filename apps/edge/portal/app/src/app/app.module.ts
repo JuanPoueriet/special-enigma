@@ -14,12 +14,18 @@ import { AppService } from './app.service';
 import { IdentityProxyController } from './identity-proxy.controller';
 import { IdentityProxyService } from './identity-proxy.service';
 import { CookiePolicyService } from '@virtex/domain-identity-presentation';
+import { PassportModule } from '@nestjs/passport';
+import { GoogleStrategy } from './strategies/google.strategy';
+import { MicrosoftStrategy } from './strategies/microsoft.strategy';
+import { OktaStrategy } from './strategies/okta.strategy';
+import { SessionSerializer } from './strategies/session.serializer';
 
 @Module({
   imports: [
     HealthModule,
     TelemetryModule,
     ServerConfigModule,
+    PassportModule.register({ session: true }),
     ClientsModule.register([
       {
         name: 'IDENTITY_PACKAGE',
@@ -60,6 +66,14 @@ import { CookiePolicyService } from '@virtex/domain-identity-presentation';
     ]),
   ],
   controllers: [AppController, IdentityProxyController],
-  providers: [AppService, IdentityProxyService, CookiePolicyService],
+  providers: [
+    AppService,
+    IdentityProxyService,
+    CookiePolicyService,
+    GoogleStrategy,
+    MicrosoftStrategy,
+    OktaStrategy,
+    SessionSerializer,
+  ],
 })
 export class AppModule {}

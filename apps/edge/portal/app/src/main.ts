@@ -2,6 +2,8 @@ import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import passport from 'passport';
 import {
   setupGlobalConfig,
   startOtel,
@@ -18,7 +20,7 @@ function validateEnv() {
     'BILLING_GRPC_URL',
     'INVENTORY_GRPC_URL',
     'CATALOG_GRPC_URL',
-    'IDENTITY_SERVICE_URL',
+    'SESSION_SECRET',
   ]);
 }
 
@@ -31,6 +33,22 @@ async function bootstrap() {
     setupGlobalConfig(app, 'portal');
 
     app.use(cookieParser());
+
+    app.use(
+      session({
+        secret: process.env['SESSION_SECRET'] || 'portal-dev-secret',
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+          secure: process.env['NODE_ENV'] === 'production',
+          httpOnly: true,
+          sameSite: 'lax',
+        },
+      }),
+    );
+
+    app.use(passport.initialize());
+    app.use(passport.session());
 
     const port = Number(process.env['EDGE_PORTAL_PORT'] || process.env['PORT'] || 3000);
     const server = app.getHttpServer();

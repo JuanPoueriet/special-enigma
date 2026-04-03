@@ -10,9 +10,7 @@ describe('AppModule smoke', () => {
       .map((importedModule) => importedModule.module?.name ?? importedModule.name)
       .filter((name): name is string => Boolean(name));
 
-    expect(importedModuleNames).toContain('GraphQLModule');
     expect(importedModuleNames.some((name) => name.endsWith('InfrastructureModule'))).toBe(true);
-    expect(importedModuleNames.some((name) => name.endsWith('PresentationModule'))).toBe(true);
   });
 
   it('should define provider and controller wiring collections', () => {

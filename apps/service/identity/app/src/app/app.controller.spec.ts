@@ -47,11 +47,23 @@ import {
   ForceLogoutUseCase,
   BlockUserUseCase,
   UploadAvatarUseCase,
-  ListTenantsUseCase
+  ListTenantsUseCase,
+  HandleSocialLoginUseCase,
 } from '@virtex/domain-identity-application';
 
 describe('AppController', () => {
   let app: TestingModule;
+
+  it('should be defined', () => {
+    const appController = app.get<AppController>(AppController);
+    expect(appController).toBeDefined();
+  });
+
+    it('getData should return status', async () => {
+      const appController = app.get<AppController>(AppController);
+      const result = await appController.getData();
+      expect(result).toEqual({ status: 'ok' });
+    });
 
   beforeAll(async () => {
     app = await Test.createTestingModule({
@@ -102,18 +114,9 @@ describe('AppController', () => {
         { provide: BlockUserUseCase, useValue: {} },
         { provide: UploadAvatarUseCase, useValue: {} },
         { provide: ListTenantsUseCase, useValue: {} },
+        { provide: HandleSocialLoginUseCase, useValue: {} },
       ],
     }).compile();
   });
 
-  describe('getData', () => {
-    it('should return an operational status payload', () => {
-      const appController = app.get<AppController>(AppController);
-      expect(appController.getData()).toEqual(
-        expect.objectContaining({
-          status: 'ok',
-        }),
-      );
-    });
-  });
 });
