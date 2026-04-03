@@ -76,9 +76,9 @@ interface IdentityService {
 }
 
 @Injectable()
-export class IdentityProxyService implements OnModuleInit {
+export class IdentityProxyService {
   private readonly logger = new Logger(IdentityProxyService.name);
-  private identityService: IdentityService;
+  private _identityService: IdentityService;
 
   constructor(@Inject('IDENTITY_PACKAGE') private client: ClientGrpc) {}
 
