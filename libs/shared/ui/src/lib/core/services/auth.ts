@@ -46,7 +46,10 @@ export class AuthService {
   }
 
   verifyMfa(dto: any): Observable<any> {
-    return this.http.post<any>(`${this._baseUrl}/verify-mfa`, dto, { withCredentials: true }).pipe(
+    return this.http.post<any>(`${this._baseUrl}/verify-mfa`, dto, {
+        withCredentials: true,
+        context: new HttpContext().set(IS_PUBLIC_API, true)
+    }).pipe(
       tap(res => {
         if (res.user) {
           this._currentUser.set(res.user);
@@ -58,7 +61,10 @@ export class AuthService {
   }
 
   logout(redirect = true): void {
-    this.http.post(`${this._baseUrl}/logout`, {}, { withCredentials: true }).pipe(
+    this.http.post(`${this._baseUrl}/logout`, {}, {
+        withCredentials: true,
+        context: new HttpContext().set(IS_PUBLIC_API, true)
+    }).pipe(
         catchError(() => of(null))
     ).subscribe();
 
@@ -82,7 +88,10 @@ export class AuthService {
   }
 
   refreshAccessToken(): Observable<void> {
-    return this.http.post<any>(`${this._baseUrl}/refresh`, {}, { withCredentials: true }).pipe(
+    return this.http.post<any>(`${this._baseUrl}/refresh`, {}, {
+        withCredentials: true,
+        context: new HttpContext().set(IS_PUBLIC_API, true)
+    }).pipe(
       map(() => undefined),
       catchError(err => {
         this.logout();
@@ -116,15 +125,26 @@ export class AuthService {
   }
 
   async registerPasskey(): Promise<any> {
-    const options = await lastValueFrom(this.http.get<any>(`${this._baseUrl}/passkey/register-options`, { withCredentials: true }));
+    const options = await lastValueFrom(this.http.get<any>(`${this._baseUrl}/passkey/register-options`, {
+        withCredentials: true,
+        context: new HttpContext().set(IS_PUBLIC_API, true)
+    }));
     const attResp = await startRegistration({ optionsJSON: options });
-    return lastValueFrom(this.http.post(`${this._baseUrl}/passkey/register-verify`, attResp, { withCredentials: true }));
+    return lastValueFrom(this.http.post(`${this._baseUrl}/passkey/register-verify`, attResp, {
+        withCredentials: true,
+        context: new HttpContext().set(IS_PUBLIC_API, true)
+    }));
   }
 
   async loginWithPasskey(email?: string): Promise<any> {
-    const options = await lastValueFrom(this.http.post<any>(`${this._baseUrl}/passkey/login-options`, { email }));
+    const options = await lastValueFrom(this.http.post<any>(`${this._baseUrl}/passkey/login-options`, { email }, {
+        context: new HttpContext().set(IS_PUBLIC_API, true)
+    }));
     const asseResp = await startAuthentication({ optionsJSON: options });
-    const response = await lastValueFrom(this.http.post<any>(`${this._baseUrl}/passkey/login-verify`, asseResp, { withCredentials: true }));
+    const response = await lastValueFrom(this.http.post<any>(`${this._baseUrl}/passkey/login-verify`, asseResp, {
+        withCredentials: true,
+        context: new HttpContext().set(IS_PUBLIC_API, true)
+    }));
     this.checkAuthStatus().subscribe();
     return response;
   }
