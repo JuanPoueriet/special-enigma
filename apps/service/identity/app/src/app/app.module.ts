@@ -4,7 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { SqliteDriver } from '@mikro-orm/sqlite';
-import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { ThrottlerModule } from '@nestjs/throttler';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { TenantModule } from '@virtex/kernel-tenant';
 import { AuthModule } from '@virtex/kernel-auth';
@@ -14,6 +14,7 @@ import { IdentityInfrastructureModule } from '@virtex/domain-identity-infrastruc
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { RpcAwareThrottlerGuard } from './guards/rpc-aware-throttler.guard';
 
 @Module({
   imports: [
@@ -22,10 +23,12 @@ import { AppService } from './app.service';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    ThrottlerModule.forRoot([{
-      ttl: 60000,
-      limit: 10,
-    }]),
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 10,
+      },
+    ]),
     EventEmitterModule.forRoot(),
     MikroOrmModule.forRootAsync({
       driver: PostgreSqlDriver,
@@ -35,10 +38,22 @@ import { AppService } from './app.service';
         const isPostgres = configService.get('DB_DRIVER') === 'postgres';
         return {
           driver: isPostgres ? PostgreSqlDriver : SqliteDriver,
-          host: isPostgres ? (configService.get<string>('IDENTITY_DB_HOST') || configService.get<string>('DB_HOST')) : undefined,
-          port: isPostgres ? (configService.get<number>('IDENTITY_DB_PORT') || configService.get<number>('DB_PORT')) : undefined,
-          user: isPostgres ? (configService.get<string>('IDENTITY_DB_USER') || configService.get<string>('DB_USER')) : undefined,
-          password: isPostgres ? (configService.get<string>('IDENTITY_DB_PASSWORD') || configService.get<string>('DB_PASSWORD')) : undefined,
+          host: isPostgres
+            ? configService.get<string>('IDENTITY_DB_HOST') ||
+              configService.get<string>('DB_HOST')
+            : undefined,
+          port: isPostgres
+            ? configService.get<number>('IDENTITY_DB_PORT') ||
+              configService.get<number>('DB_PORT')
+            : undefined,
+          user: isPostgres
+            ? configService.get<string>('IDENTITY_DB_USER') ||
+              configService.get<string>('DB_USER')
+            : undefined,
+          password: isPostgres
+            ? configService.get<string>('IDENTITY_DB_PASSWORD') ||
+              configService.get<string>('DB_PASSWORD')
+            : undefined,
           dbName: (() => {
             const dbName = configService.get<string>('IDENTITY_DB_NAME');
             if (dbName) {
@@ -46,17 +61,29 @@ import { AppService } from './app.service';
             }
 
             if (isPostgres) {
-              throw new Error('IDENTITY_DB_NAME environment variable is required when DB_DRIVER=postgres.');
+              throw new Error(
+                'IDENTITY_DB_NAME environment variable is required when DB_DRIVER=postgres.',
+              );
             }
 
             return 'identity.sqlite3';
           })(),
           autoLoadEntities: true,
-          driverOptions: (isPostgres && configService.get<boolean>('DB_SSL_ENABLED'))
-            ? {
-                connection: { ssl: { rejectUnauthorized: (configService.get("NODE_ENV") === "production" || process.env.RELEASE_STAGE === "production") ? true : configService.get("DB_SSL_REJECT_UNAUTHORIZED") !== "false" } },
-              }
-            : undefined,
+          driverOptions:
+            isPostgres && configService.get<boolean>('DB_SSL_ENABLED')
+              ? {
+                  connection: {
+                    ssl: {
+                      rejectUnauthorized:
+                        configService.get('NODE_ENV') === 'production' ||
+                        process.env.RELEASE_STAGE === 'production'
+                          ? true
+                          : configService.get('DB_SSL_REJECT_UNAUTHORIZED') !==
+                            'false',
+                    },
+                  },
+                }
+              : undefined,
         };
       },
     }),
@@ -69,7 +96,7 @@ import { AppService } from './app.service';
     AppService,
     {
       provide: APP_GUARD,
-      useClass: ThrottlerGuard,
+      useClass: RpcAwareThrottlerGuard,
     },
   ],
 })
