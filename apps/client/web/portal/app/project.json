@@ -87,7 +87,6 @@
       },
       "defaultConfiguration": "development",
       "options": {
-        "proxyConfig": "apps/client/web/portal/app/proxy.conf.cjs",
         "port": 4200,
         "prebundle": false
       }

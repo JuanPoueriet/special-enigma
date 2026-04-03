@@ -32,7 +32,7 @@ async function bootstrap() {
 
     app.use(cookieParser());
 
-    const port = Number(process.env['PORT'] || 3100);
+    const port = Number(process.env['EDGE_PORTAL_PORT'] || process.env['PORT'] || 3000);
     const server = app.getHttpServer();
 
     server.on('error', (error: NodeJS.ErrnoException) => {
