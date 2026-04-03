@@ -1,6 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
+import cookieParser from 'cookie-parser';
 import {
   setupGlobalConfig,
   startOtel,
@@ -28,6 +29,8 @@ async function bootstrap() {
 
     // Apply Global Configuration (Security, Pipes, Filters, Throttling, Global Prefix)
     setupGlobalConfig(app, 'portal');
+
+    app.use(cookieParser());
 
     const port = Number(process.env['PORT'] || 3100);
     const server = app.getHttpServer();
