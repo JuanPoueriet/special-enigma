@@ -72,9 +72,9 @@ export class CountryService {
       .get<any>(`${this.apiUrl}/localization/config/${code}`)
       .pipe(
         map((backendConfig) => {
-          // Mapeo robusto de la respuesta del backend
+          // Mapeo robusto de la respuesta del backend (soporta camelCase y snake_case)
           const config: CountryConfig = {
-            code: backendConfig.countryCode,
+            code: backendConfig.countryCode || backendConfig.country_code,
             name: backendConfig.name,
             currencyCode: backendConfig.currency,
             currencySymbol:
@@ -84,12 +84,12 @@ export class CountryService {
                   ? 'RD$'
                   : '$',
             locale: backendConfig.locale,
-            phoneCode: backendConfig.phoneCode,
-            taxIdLabel: backendConfig.taxIdLabel,
-            taxIdRegex: backendConfig.taxIdRegex,
-            taxIdMask: backendConfig.taxIdMask,
-            fiscalRegionId: backendConfig.fiscalRegionId,
-            formSchema: backendConfig.formSchema || {},
+            phoneCode: backendConfig.phoneCode || backendConfig.phone_code,
+            taxIdLabel: backendConfig.taxIdLabel || backendConfig.tax_id_label,
+            taxIdRegex: backendConfig.taxIdRegex || backendConfig.tax_id_regex,
+            taxIdMask: backendConfig.taxIdMask || backendConfig.tax_id_mask,
+            fiscalRegionId: backendConfig.fiscalRegionId || backendConfig.fiscal_region_id,
+            formSchema: backendConfig.formSchema || (backendConfig.form_schema_json ? JSON.parse(backendConfig.form_schema_json) : {}),
           };
           return config;
         }),

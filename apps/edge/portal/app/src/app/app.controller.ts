@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Req } from '@nestjs/common';
 import { AppService } from './app.service';
 import { IdentityProxyService } from './identity-proxy.service';
 
@@ -15,8 +15,9 @@ export class AppController {
   }
 
   @Get('health')
-  async checkHealth() {
-    const identityHealth = await this.identityProxy.checkConnectivity();
+  async checkHealth(@Req() req: any) {
+    const metadata = this.identityProxy.getMetadata(req);
+    const identityHealth = await this.identityProxy.checkConnectivity(metadata);
     return {
       status: 'ok',
       timestamp: new Date().toISOString(),
