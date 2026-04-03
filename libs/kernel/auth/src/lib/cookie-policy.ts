@@ -4,6 +4,10 @@ export interface CookiePolicyContext {
   domain?: string;
 }
 
+export function getRefreshCookiePath(): string {
+  return process.env['COOKIE_REFRESH_PATH'] || '/api';
+}
+
 export function buildAccessCookieOptions(context: CookiePolicyContext) {
   return {
     httpOnly: true,
@@ -15,12 +19,15 @@ export function buildAccessCookieOptions(context: CookiePolicyContext) {
   } as const;
 }
 
-export function buildRefreshCookieOptions(context: CookiePolicyContext, rememberMe: boolean) {
+export function buildRefreshCookieOptions(
+  context: CookiePolicyContext,
+  rememberMe: boolean,
+) {
   return {
     httpOnly: true,
     secure: context.secure,
     sameSite: context.sameSite,
-    path: '/api/auth/refresh',
+    path: getRefreshCookiePath(),
     domain: context.domain,
     maxAge: rememberMe ? 7 * 24 * 3600 * 1000 : 24 * 3600 * 1000,
   } as const;
