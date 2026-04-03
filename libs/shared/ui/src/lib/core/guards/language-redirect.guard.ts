@@ -1,13 +1,9 @@
 import { inject } from '@angular/core';
-import {
-  CanActivateFn,
-  Router,
-  UrlTree,
-} from '@angular/router';
+import { CanMatchFn, Router, UrlTree } from '@angular/router';
 import { LanguageService } from '../../..';
 import { AuthService } from '../../..';
 
-export const languageRedirectGuard: CanActivateFn = (): boolean | UrlTree => {
+export const languageRedirectGuard: CanMatchFn = (): boolean | UrlTree => {
   const router = inject(Router);
   const authService = inject(AuthService);
   const languageService = inject(LanguageService);
