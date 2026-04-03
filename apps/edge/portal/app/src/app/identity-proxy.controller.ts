@@ -84,6 +84,53 @@ export class IdentityProxyController {
     return result;
   }
 
+  @Get('auth/google')
+  @UseGuards(AuthGuard('google'))
+  async googleAuth() {
+    // Redirects to Google
+  }
+
+  @Get('auth/google/callback')
+  @UseGuards(AuthGuard('google'))
+  async googleAuthCallback(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+    return this.handleSocialCallback(req, res);
+  }
+
+  @Get('auth/microsoft')
+  @UseGuards(AuthGuard('microsoft'))
+  async microsoftAuth() {
+    // Redirects to Microsoft
+  }
+
+  @Get('auth/microsoft/callback')
+  @UseGuards(AuthGuard('microsoft'))
+  async microsoftAuthCallback(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+    return this.handleSocialCallback(req, res);
+  }
+
+  @Get('auth/okta')
+  @UseGuards(AuthGuard('okta'))
+  async oktaAuth() {
+    // Redirects to Okta
+  }
+
+  @Get('auth/okta/callback')
+  @UseGuards(AuthGuard('okta'))
+  async oktaAuthCallback(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+    return this.handleSocialCallback(req, res);
+  }
+
+  private async handleSocialCallback(req: Request, res: Response) {
+    const context = this.identityProxy.buildContext(req);
+    const metadata = this.identityProxy.getMetadata(req);
+    const result = await this.identityProxy.handleSocialLogin(req.user, context, metadata);
+
+    this.cookiePolicy.setAuthCookies(res, result.access_token, result.refresh_token);
+
+    const frontendUrl = process.env['FRONTEND_URL'] || 'http://localhost:4200';
+    res.redirect(`${frontendUrl}/accounting`);
+  }
+
   @Post('auth/verify-mfa')
   async verifyMfa(@Body() body: any, @Req() req: Request, @Res({ passthrough: true }) res: Response) {
     const context = this.identityProxy.buildContext(req);

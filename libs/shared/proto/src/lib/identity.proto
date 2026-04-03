@@ -28,6 +28,7 @@ service IdentityService {
   rpc GetSessions (GetSessionsRequest) returns (SessionsResponse);
   rpc RevokeSession (RevokeSessionRequest) returns (google.protobuf.Empty);
   rpc Impersonate (ImpersonateRequest) returns (LoginResponse);
+  rpc HandleSocialLogin (HandleSocialLoginRequest) returns (LoginResponse);
   rpc ChangePassword (ChangePasswordRequest) returns (google.protobuf.Empty);
   rpc Generate2faSecret (Generate2faSecretRequest) returns (TwoFaSecretResponse);
   rpc Enable2fa (Enable2faRequest) returns (Enable2faResponse);
@@ -65,6 +66,7 @@ service IdentityService {
 
   // --- Health ---
   rpc HealthCheck (google.protobuf.Empty) returns (HealthCheckResponse);
+  rpc GetData (google.protobuf.Empty) returns (StatusResponse);
 }
 
 // --- Common Messages ---
@@ -244,6 +246,19 @@ message ImpersonateRequest {
   string admin_user_id = 1;
   string target_user_id = 2;
   RequestContext context = 3;
+}
+
+message SocialProfile {
+  string id = 1;
+  string email = 2;
+  string first_name = 3;
+  string last_name = 4;
+  string provider = 5;
+}
+
+message HandleSocialLoginRequest {
+  SocialProfile profile = 1;
+  RequestContext context = 2;
 }
 
 message ChangePasswordRequest {
@@ -488,4 +503,10 @@ message TenantsResponse {
 
 message HealthCheckResponse {
   string status = 1;
+}
+
+message StatusResponse {
+  string service = 1;
+  string status = 2;
+  string timestamp = 3;
 }

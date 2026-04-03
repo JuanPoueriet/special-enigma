@@ -42,6 +42,7 @@ interface IdentityService {
   getSessions: GrpcMethod<any>;
   revokeSession: GrpcMethod<any>;
   impersonate: GrpcMethod<any>;
+  handleSocialLogin: GrpcMethod<any>;
   changePassword: GrpcMethod<any>;
   generate2faSecret: GrpcMethod<any>;
   enable2fa: GrpcMethod<any>;
@@ -377,6 +378,28 @@ export class IdentityProxyService {
           admin_user_id: adminUserId,
           target_user_id: targetUserId,
           context,
+        },
+        metadata,
+      ),
+    );
+  }
+
+  async handleSocialLogin(profile: any, context: any, metadata: Metadata) {
+    return await this.callIdentity(
+      'handleSocialLogin',
+      this.identityService.handleSocialLogin(
+        {
+          profile: {
+            id: profile.id,
+            email: profile.email,
+            first_name: profile.firstName,
+            last_name: profile.lastName,
+            provider: profile.provider,
+          },
+          context: {
+            ip: context.ip,
+            user_agent: context.userAgent,
+          },
         },
         metadata,
       ),

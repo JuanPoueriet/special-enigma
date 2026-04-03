@@ -49,6 +49,7 @@ import {
   BlockUserUseCase,
   UploadAvatarUseCase,
   ListTenantsUseCase,
+  HandleSocialLoginUseCase,
 } from '@virtex/domain-identity-application';
 import { status } from '@grpc/grpc-js';
 
@@ -101,12 +102,8 @@ export class AppController {
     private readonly blockUserUseCase: BlockUserUseCase,
     private readonly uploadAvatarUseCase: UploadAvatarUseCase,
     private readonly listTenantsUseCase: ListTenantsUseCase,
+    private readonly handleSocialLoginUseCase: HandleSocialLoginUseCase,
   ) {}
-
-  @Get()
-  getData() {
-    return this.appService.getData();
-  }
 
   // --- Helper for protected methods ---
   private async verifyToken(accessToken: string) {
@@ -407,6 +404,30 @@ export class AppController {
     };
   }
 
+  @GrpcMethod('IdentityService', 'HandleSocialLogin')
+  async handleSocialLogin(data: any) {
+    const result = await this.handleSocialLoginUseCase.execute(
+      {
+        id: data.profile.id,
+        email: data.profile.email,
+        firstName: data.profile.first_name,
+        lastName: data.profile.last_name,
+        provider: data.profile.provider,
+      },
+      {
+        ip: data.context.ip,
+        userAgent: data.context.user_agent,
+      }
+    );
+
+    return {
+      access_token: result.accessToken,
+      refresh_token: result.refreshToken,
+      expires_in: result.expiresIn,
+      mfa_required: result.mfaRequired,
+    };
+  }
+
   @GrpcMethod('IdentityService', 'ChangePassword')
   async changePassword(data: any) {
     await this.changePasswordUseCase.execute(data.user_id, {
@@ -683,5 +704,10 @@ export class AppController {
   @GrpcMethod('IdentityService', 'HealthCheck')
   async healthCheck() {
     return { status: 'ok' };
+  }
+
+  @GrpcMethod('IdentityService', 'GetData')
+  async getData() {
+    return this.appService.getData();
   }
 }
