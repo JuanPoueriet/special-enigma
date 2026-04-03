@@ -180,7 +180,7 @@ async function bootstrap() {
     app.use(passport.initialize());
     app.use(passport.session());
 
-    const requestedPort = Number(process.env['PORT'] || 3000);
+    const requestedPort = Number(process.env['IDENTITY_HTTP_PORT'] || process.env['PORT'] || 3001);
     const port = await resolveHttpPort(requestedPort);
 
     await app.listen(port, '0.0.0.0');

@@ -43,10 +43,10 @@ export function setupGlobalConfig(app: INestApplication, serviceName?: string) {
       credentials: true,
     });
   } else if (!isProduction) {
-    // In development, we also disable CORS by default to enforce the use of the proxy (same-origin).
-    // This aligns dev environment closer to production and avoids "hidden" routing issues.
+    // In development, we also allow explicit localhost:4200 if no proxy is used
     app.enableCors({
-      origin: false,
+      origin: ['http://localhost:4200'],
+      credentials: true,
     });
   } else {
     // In production, if no CORS_ORIGIN is provided, we disable it (Same-Origin)
