@@ -3,6 +3,8 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
+import RedisStore from 'connect-redis';
+import Redis from 'ioredis';
 import passport from 'passport';
 import {
   setupGlobalConfig,
@@ -23,6 +25,7 @@ function validateEnv() {
     'INVENTORY_GRPC_URL',
     'CATALOG_GRPC_URL',
     'SESSION_SECRET',
+    'REDIS_URL',
   ]);
 }
 
@@ -38,15 +41,25 @@ async function bootstrap() {
 
     app.use(cookieParser());
 
+    const redisClient = new Redis(process.env['REDIS_URL'] as string);
+    const redisStore = new RedisStore({
+      client: redisClient,
+      prefix: 'edge_session:',
+    });
+
     app.use(
       session({
+        store: redisStore,
         secret: process.env['SESSION_SECRET'] as string,
         resave: false,
         saveUninitialized: false,
+        rolling: true,
+        name: 'edge_sid',
         cookie: {
           secure: process.env['NODE_ENV'] === 'production',
           httpOnly: true,
           sameSite: 'lax',
+          maxAge: 1000 * 60 * 60 * 24, // 24 hours
         },
       }),
     );

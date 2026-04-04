@@ -10,6 +10,7 @@ export class ResetPasswordUseCase {
     @Inject(AuthService) private readonly authService: AuthService,
     @Inject(AuditLogRepository) private readonly auditLogRepository: AuditLogRepository,
     @Inject(SessionRepository) private readonly sessionRepository: SessionRepository,
+    @Inject('CachePort') private readonly cachePort: any,
   ) {}
 
   async execute(dto: ResetPasswordDto, context: { ip: string, userAgent: string }): Promise<void> {
@@ -33,6 +34,10 @@ export class ResetPasswordUseCase {
     await this.userRepository.save(user);
 
     // Invalidate all active sessions for this user for security
+    const sessions = await this.sessionRepository.findByUserId(user.id);
+    for (const session of sessions) {
+      await this.cachePort.del(`session:${session.id}`);
+    }
     await this.sessionRepository.deleteByUserId(user.id);
 
     await this.auditLogRepository.save(new AuditLog('PASSWORD_RESET_COMPLETED', user.id, context));

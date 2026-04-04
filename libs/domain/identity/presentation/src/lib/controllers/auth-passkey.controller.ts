@@ -68,8 +68,6 @@ export class AuthPasskeyController {
 
       this.cookiePolicyService.setAuthCookies(res, result.accessToken!, result.refreshToken!);
       return {
-          accessToken: result.accessToken,
-          refreshToken: result.refreshToken,
           expiresIn: result.expiresIn,
           mfaRequired: false
       };

@@ -158,10 +158,25 @@ export class IdentityProxyService {
     if (requestId) {
       metadata.add('x-request-id', requestId as string);
     }
-    const tenantId = req.headers['x-tenant-id'] || (req as any).user?.tenantId;
+
+    const tenantId =
+      req.headers['x-tenant-id'] ||
+      req.headers['x-virtex-tenant-id'] ||
+      (req as any).user?.tenantId ||
+      (req as any).tenantContext?.tenantId;
+
     if (tenantId) {
       metadata.add('x-tenant-id', tenantId);
     }
+
+    const accessToken =
+      req.cookies?.['access_token'] ||
+      req.headers['authorization']?.replace('Bearer ', '');
+
+    if (accessToken) {
+      metadata.add('access_token', accessToken);
+    }
+
     return metadata;
   }
 

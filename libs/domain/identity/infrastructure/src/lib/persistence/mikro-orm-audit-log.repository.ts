@@ -23,7 +23,11 @@ export class MikroOrmAuditLogRepository implements AuditLogRepository {
         });
 
         const previousHash = lastLog?.hash || '0'.repeat(64);
-        const secret = this.secretManager.getSecret('AUDIT_LOG_PEPPER', 'audit-default-pepper-stable');
+        const secret = this.secretManager.getSecret('AUDIT_LOG_PEPPER');
+
+        if (!secret) {
+          throw new Error('AUDIT_LOG_PEPPER secret is required for cryptographic audit logging.');
+        }
 
         // Deterministic hashing of all critical fields
         const logData = {
