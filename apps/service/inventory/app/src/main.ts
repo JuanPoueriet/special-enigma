@@ -21,7 +21,7 @@ async function bootstrap() {
     options: {
       package: INVENTORY_PACKAGE,
       protoPath: INVENTORY_PROTO_PATH,
-      url: `0.0.0.0:${process.env.INVENTORY_GRPC_PORT || 50053}`,
+      url: `0.0.0.0:${process.env.INVENTORY_GRPC_PORT}`,
     },
   });
 

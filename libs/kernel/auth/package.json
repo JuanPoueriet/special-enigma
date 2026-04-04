@@ -12,5 +12,24 @@
     },
     "./package.json": "./package.json"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@virtex/kernel-tenant-context": "0.0.1",
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/core": "^11.0.0",
+    "@nestjs/config": "^4.0.3",
+    "@nestjs/passport": "^11.0.5",
+    "@nestjs/jwt": "^11.0.2",
+    "@virtex/kernel-telemetry-interfaces": "0.0.1",
+    "@nestjs/graphql": "^13.2.4",
+    "jsonwebtoken": "^9.0.3",
+    "express": "^4.21.2",
+    "@virtex/kernel-exceptions": "0.0.1",
+    "ioredis": "^5.9.2",
+    "otplib": "^13.2.1",
+    "axios": "^1.7.9",
+    "passport-jwt": "^4.0.1",
+    "vitest": "^4.1.2",
+    "@nx/vite": "22.5.3",
+    "tslib": "^2.3.0"
+  }
 }

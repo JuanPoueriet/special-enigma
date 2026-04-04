@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 import { RequestContextService } from '../services/request-context.service';
-import { CookiePolicyService } from '../services/cookie-policy.service';
+import { CookiePolicyService } from '@virtex/kernel-auth';
 import {
     LoginUserUseCase,
     VerifyMfaUseCase,

@@ -43,12 +43,11 @@ import {
     ChangePasswordDto
 } from '@virtex/domain-identity-contracts';
 import { Request, Response } from 'express';
-import { Public, JwtAuthGuard, SecretManagerService } from '@virtex/kernel-auth';
+import { Public, JwtAuthGuard, SecretManagerService, CookiePolicyService } from '@virtex/kernel-auth';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Throttle, ThrottlerGuard } from '@nestjs/throttler';
 import { SessionGuard } from '../guards/session.guard';
 import { RequestContextService } from '../services/request-context.service';
-import { CookiePolicyService } from '../services/cookie-policy.service';
 
 @ApiTags('Auth')
 @Controller('auth')

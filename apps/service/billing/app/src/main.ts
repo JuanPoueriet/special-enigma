@@ -36,7 +36,7 @@ async function bootstrap() {
     options: {
       package: BILLING_PACKAGE,
       protoPath: BILLING_PROTO_PATH,
-      url: `0.0.0.0:${process.env.BILLING_GRPC_PORT || 50052}`,
+      url: `0.0.0.0:${process.env.BILLING_GRPC_PORT}`,
     },
   });
 

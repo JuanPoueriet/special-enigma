@@ -15,3 +15,4 @@ export * from './lib/services/tenant-context-contract.service';
 export * from './lib/guards/step-up.guard';
 export * from './lib/decorators/step-up.decorator';
 export * from './lib/cookie-policy';
+export * from './lib/services/cookie-policy.service';
