@@ -2,25 +2,24 @@
   <div class="footer-content">
 
     <!-- Language Selector moved here -->
-    <virtex-language-selector></virtex-language-selector>
+    <virtex-language-selector position="top"></virtex-language-selector>
 
     <div class="footer-links">
-      <!-- Legal links temporarily disabled as components are not yet implemented -->
-      <!-- <a routerLink="/terms">{{ 'LOGIN.FOOTER.TERMS' | translate }}</a>
+      <a routerLink="/terms">{{ 'LOGIN.FOOTER.TERMS' | translate }}</a>
       <a routerLink="/privacy">{{ 'LOGIN.FOOTER.PRIVACY' | translate }}</a>
       <a routerLink="/security">{{ 'LOGIN.FOOTER.SECURITY' | translate }}</a>
-      <a routerLink="/contact">{{ 'LOGIN.FOOTER.CONTACT' | translate }}</a> -->
+      <a routerLink="/contact">{{ 'LOGIN.FOOTER.CONTACT' | translate }}</a>
     </div>
 
     <div class="copyright-row">
       <p class="copyright">
-        &copy; {{ currentYear }} FacturaPRO. {{ 'LOGIN.FOOTER.ALL_RIGHTS_RESERVED' | translate }}
+        &copy; {{ currentYear }} virtex. {{ 'LOGIN.FOOTER.ALL_RIGHTS_RESERVED' | translate }}
       </p>
 
-      <!-- <p class="support-text">
+      <p class="support-text">
         {{ 'AUTH.NEED_HELP' | translate }}
         <a routerLink="/support" class="support-link">{{ 'AUTH.SUPPORT_CENTER' | translate }}</a>
-      </p> -->
+      </p>
     </div>
   </div>
 </footer>

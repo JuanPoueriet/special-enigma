@@ -1,12 +1,29 @@
 <div class="language-selector-container">
-    <label for="language-select">Idioma de la Interfaz</label>
-    <div class="button-group">
-        <button (click)="languageService.setLanguage('es')" [class.active]="languageService.currentLang() === 'es'">
-            Español
-        </button>
-        <button (click)="languageService.setLanguage('en')" [class.active]="languageService.currentLang() === 'en'">
-            English
-        </button>
+  <div class="language-selector">
+    <button
+      type="button"
+      class="selector-trigger"
+      (click)="toggleLangDropdown($event)"
+      [class.active]="isLangDropdownOpen"
+      [attr.aria-expanded]="isLangDropdownOpen"
+      aria-label="Select Language">
+      <lucide-icon [img]="icons.Globe" class="icon-left" size="16"></lucide-icon>
+      <span class="lang-label">{{ currentLangLabel }}</span>
+      <lucide-icon [img]="icons.ChevronDown" class="icon-right" size="16"></lucide-icon>
+    </button>
+
+    <div class="dropdown-menu"
+      [class.show]="isLangDropdownOpen"
+      [class.open-top]="position === 'top'">
+      <button
+        type="button"
+        class="dropdown-item"
+        *ngFor="let lang of availableLanguages"
+        [class.active]="currentLang === lang.code"
+        (click)="changeLang(lang.code)">
+        <span>{{ lang.label }}</span>
+        <lucide-icon *ngIf="currentLang === lang.code" [img]="icons.Check" size="14" class="check-icon"></lucide-icon>
+      </button>
     </div>
-    <p class="description">Selecciona el idioma en que se mostrará la aplicación.</p>
+  </div>
 </div>

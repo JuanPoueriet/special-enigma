@@ -1,39 +1,119 @@
 .language-selector-container {
-  label {
-    display: block;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 0.75rem;
-  }
-  .description {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    margin-top: 0.75rem;
+  .language-selector {
+    position: relative;
+    display: inline-block;
+
+    .selector-trigger {
+      background: rgba(255, 255, 255, 0.05); // Subtle glass
+      border: 1px solid var(--border-color);
+      border-radius: 9999px; // Pill shape
+      padding: 0.5rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      transition: all 0.2s;
+
+      &:hover, &.active {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--text-primary);
+        border-color: var(--primary-light);
+      }
+
+      .icon-left {
+        opacity: 0.7;
+      }
+
+      .icon-right {
+        opacity: 0.5;
+        transition: transform 0.2s;
+      }
+
+      &.active .icon-right {
+        transform: rotate(180deg);
+      }
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      left: 0;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 0.75rem;
+      padding: 0.5rem;
+      min-width: 140px;
+      box-shadow: var(--shadow-xl);
+      display: none;
+      backdrop-filter: blur(10px);
+      animation: slideDownFade 0.2s ease-out;
+      z-index: 50;
+
+      &.show {
+        display: block;
+      }
+
+      // Default opening (bottom)
+      top: 100%;
+      margin-top: 0.5rem;
+
+      // Conditional opening (top)
+      &.open-top {
+        top: auto;
+        bottom: 100%;
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+        animation: slideUpFade 0.2s ease-out;
+      }
+
+      .dropdown-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 0.5rem 0.75rem;
+        background: none;
+        border: none;
+        text-align: left;
+        color: var(--text-secondary);
+        border-radius: 0.5rem;
+        cursor: pointer;
+        font-size: 0.875rem;
+        transition: all 0.2s;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.05);
+          color: var(--text-primary);
+        }
+
+        &.active {
+          color: var(--primary);
+          background: rgba(var(--primary-rgb), 0.1);
+        }
+      }
+    }
   }
 }
-.button-group {
-  display: flex;
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius-md);
-  overflow: hidden;
-  max-width: 250px;
 
-  button {
-    flex-grow: 1;
-    padding: var(--space-input-y) var(--space-padding);
-    background-color: var(--bg-layer-1);
-    color: var(--text-secondary);
-    border: none;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background-color 0.2s ease, color 0.2s ease;
-    &:not(:last-child) {
-      border-right: 1px solid var(--border-color);
-    }
-    &.active {
-      background-color: var(--accent-primary);
-      color: var(--accent-text);
-    }
+@keyframes slideDownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
