@@ -36,6 +36,7 @@ export class CanonicalTenantMiddleware implements NestMiddleware, OnModuleInit {
     const contextHeader = this.getHeader(req, 'x-virtex-context');
     const signatureHeader = this.getHeader(req, 'x-virtex-signature');
     const authHeader = req.headers.authorization;
+    const accessCookie = (req as any).cookies?.['access_token'];
 
     let context: TenantContext | null = null;
 
@@ -43,7 +44,9 @@ export class CanonicalTenantMiddleware implements NestMiddleware, OnModuleInit {
       if (contextHeader || signatureHeader) {
         context = parseAndValidateSignedContext(contextHeader as string, signatureHeader as string, this.hmacSecret);
       } else if (authHeader) {
-        context = this.processJwtContext(authHeader);
+        context = this.processJwtContext(authHeader.replace('Bearer ', ''));
+      } else if (accessCookie) {
+        context = this.processJwtContext(accessCookie);
       }
     } catch (error) {
       if (error instanceof TenantContextValidationError) {
@@ -74,10 +77,7 @@ export class CanonicalTenantMiddleware implements NestMiddleware, OnModuleInit {
     runWithTenantContext(context as any, () => next());
   }
 
-  private processJwtContext(authHeader: string): TenantContext {
-    const token = authHeader.split(' ')[1];
-    if (!token) throw new UnauthorizedException('Invalid Authorization token format');
-
+  private processJwtContext(token: string): TenantContext {
     try {
       const decoded = jwt.verify(token, this.jwtSecret) as jwt.JwtPayload;
       return claimsFromJwtPayload(decoded);

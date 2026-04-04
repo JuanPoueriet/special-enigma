@@ -15,7 +15,10 @@ import { TelemetryModule } from '@virtex/kernel-telemetry';
 import { ServerConfigModule } from '@virtex/shared-util-server-server-config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { IdentityProxyController } from './identity-proxy.controller';
+import { AuthProxyController } from './auth-proxy.controller';
+import { UserProxyController } from './user-proxy.controller';
+import { ProfileProxyController } from './profile-proxy.controller';
+import { AdminProxyController } from './admin-proxy.controller';
 import { IdentityProxyService } from './identity-proxy.service';
 import { CookiePolicyService } from '@virtex/kernel-auth';
 import { PassportModule } from '@nestjs/passport';
@@ -71,7 +74,13 @@ import { BffCoreModule } from '@virtex/kernel-bff-core';
       },
     ]),
   ],
-  controllers: [AppController, IdentityProxyController],
+  controllers: [
+    AppController,
+    AuthProxyController,
+    UserProxyController,
+    ProfileProxyController,
+    AdminProxyController,
+  ],
   providers: [
     AppService,
     IdentityProxyService,

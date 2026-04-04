@@ -9,7 +9,8 @@ export class ChangePasswordUseCase {
     @Inject(UserRepository) private readonly userRepository: UserRepository,
     @Inject(AuthService) private readonly authService: AuthService,
     @Inject(AuditLogRepository) private readonly auditLogRepository: AuditLogRepository,
-    @Inject(SessionRepository) private readonly sessionRepository: SessionRepository
+    @Inject(SessionRepository) private readonly sessionRepository: SessionRepository,
+    @Inject('CachePort') private readonly cachePort: any,
   ) {}
 
   async execute(userId: string, dto: any): Promise<void> {
@@ -29,6 +30,10 @@ export class ChangePasswordUseCase {
     await this.userRepository.save(user);
 
     // Invalidate other sessions
+    const sessions = await this.sessionRepository.findByUserId(user.id);
+    for (const session of sessions) {
+      await this.cachePort.del(`session:${session.id}`);
+    }
     await this.sessionRepository.deleteByUserId(user.id);
 
     await this.auditLogRepository.save(new AuditLog('PASSWORD_CHANGED', user.id, {}));

@@ -2,43 +2,26 @@ import {
   Controller,
   Req,
   Res,
-  Logger,
   Post,
   Get,
   Body,
-  Param,
   Query,
-  Delete,
-  Patch,
-  Put,
-  Head,
-  HttpCode,
-  HttpStatus,
-  UseInterceptors,
-  UploadedFile,
   UnauthorizedException,
-  NotFoundException,
   UseGuards,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { AuthGuard } from '@nestjs/passport';
 import type { Request, Response } from 'express';
 import { IdentityProxyService } from './identity-proxy.service';
-import { CookiePolicyService } from '@virtex/kernel-auth';
-import { AuthGuard } from '@nestjs/passport';
-import { Public } from '@virtex/kernel-auth';
+import { CookiePolicyService, Public } from '@virtex/kernel-auth';
 
-@Controller('v1')
-export class IdentityProxyController {
-  private readonly logger = new Logger(IdentityProxyController.name);
-
+@Controller('v1/auth')
+export class AuthProxyController {
   constructor(
     private readonly identityProxy: IdentityProxyService,
     private readonly cookiePolicy: CookiePolicyService,
   ) {}
 
-  // --- Auth ---
-
-  @Get('auth/me')
+  @Get('me')
   async getMe(@Req() req: Request) {
     const user = (req as any).user;
     return {
@@ -49,7 +32,7 @@ export class IdentityProxyController {
   }
 
   @Public()
-  @Post('auth/login')
+  @Post('login')
   async login(
     @Body() body: any,
     @Req() req: Request,
@@ -88,21 +71,21 @@ export class IdentityProxyController {
   }
 
   @Public()
-  @Post('auth/signup/initiate')
+  @Post('signup/initiate')
   async initiateSignup(@Body() body: any, @Req() req: Request) {
     const metadata = this.identityProxy.getMetadata(req);
     return await this.identityProxy.initiateSignup(body, metadata);
   }
 
   @Public()
-  @Post('auth/signup/verify')
+  @Post('signup/verify')
   async verifySignup(@Body() body: any, @Req() req: Request) {
     const metadata = this.identityProxy.getMetadata(req);
     return await this.identityProxy.verifySignup(body, metadata);
   }
 
   @Public()
-  @Post('auth/signup/complete')
+  @Post('signup/complete')
   async completeOnboarding(
     @Body() body: any,
     @Req() req: Request,
@@ -135,53 +118,38 @@ export class IdentityProxyController {
   }
 
   @Public()
-  @Get('auth/google')
+  @Get('google')
   @UseGuards(AuthGuard('google'))
-  async googleAuth() {
-    // Redirects to Google
-  }
+  async googleAuth() {}
 
   @Public()
-  @Get('auth/google/callback')
+  @Get('google/callback')
   @UseGuards(AuthGuard('google'))
-  async googleAuthCallback(
-    @Req() req: Request,
-    @Res({ passthrough: true }) res: Response,
-  ) {
+  async googleAuthCallback(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     return this.handleSocialCallback(req, res);
   }
 
   @Public()
-  @Get('auth/microsoft')
+  @Get('microsoft')
   @UseGuards(AuthGuard('microsoft'))
-  async microsoftAuth() {
-    // Redirects to Microsoft
-  }
+  async microsoftAuth() {}
 
   @Public()
-  @Get('auth/microsoft/callback')
+  @Get('microsoft/callback')
   @UseGuards(AuthGuard('microsoft'))
-  async microsoftAuthCallback(
-    @Req() req: Request,
-    @Res({ passthrough: true }) res: Response,
-  ) {
+  async microsoftAuthCallback(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     return this.handleSocialCallback(req, res);
   }
 
   @Public()
-  @Get('auth/okta')
+  @Get('okta')
   @UseGuards(AuthGuard('okta'))
-  async oktaAuth() {
-    // Redirects to Okta
-  }
+  async oktaAuth() {}
 
   @Public()
-  @Get('auth/okta/callback')
+  @Get('okta/callback')
   @UseGuards(AuthGuard('okta'))
-  async oktaAuthCallback(
-    @Req() req: Request,
-    @Res({ passthrough: true }) res: Response,
-  ) {
+  async oktaAuthCallback(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     return this.handleSocialCallback(req, res);
   }
 
@@ -205,7 +173,7 @@ export class IdentityProxyController {
   }
 
   @Public()
-  @Post('auth/verify-mfa')
+  @Post('verify-mfa')
   async verifyMfa(
     @Body() body: any,
     @Req() req: Request,
@@ -234,7 +202,7 @@ export class IdentityProxyController {
   }
 
   @Public()
-  @Post('auth/refresh')
+  @Post('refresh')
   async refresh(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
@@ -269,7 +237,7 @@ export class IdentityProxyController {
     };
   }
 
-  @Post('auth/logout')
+  @Post('logout')
   async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     const token = req.cookies['access_token'];
     const metadata = this.identityProxy.getMetadata(req);
@@ -280,7 +248,7 @@ export class IdentityProxyController {
     return { message: 'Logged out successfully' };
   }
 
-  @Get('auth/onboarding-status')
+  @Get('onboarding-status')
   async getOnboardingStatus(@Req() req: Request) {
     const user = (req as any).user;
     const metadata = this.identityProxy.getMetadata(req);
@@ -288,7 +256,7 @@ export class IdentityProxyController {
   }
 
   @Public()
-  @Post('auth/forgot-password')
+  @Post('forgot-password')
   async forgotPassword(@Body() body: any, @Req() req: Request) {
     const context = this.identityProxy.buildContext(req);
     const metadata = this.identityProxy.getMetadata(req);
@@ -296,7 +264,7 @@ export class IdentityProxyController {
   }
 
   @Public()
-  @Post('auth/reset-password')
+  @Post('reset-password')
   async resetPassword(@Body() body: any, @Req() req: Request) {
     const context = this.identityProxy.buildContext(req);
     const metadata = this.identityProxy.getMetadata(req);
@@ -304,7 +272,7 @@ export class IdentityProxyController {
   }
 
   @Public()
-  @Post('auth/set-password')
+  @Post('set-password')
   async setPassword(
     @Body() body: any,
     @Req() req: Request,
@@ -336,7 +304,7 @@ export class IdentityProxyController {
     };
   }
 
-  @Get('auth/social-register-info')
+  @Get('social-register-info')
   async getSocialRegisterInfo(
     @Query('token') token: string,
     @Req() req: Request,
@@ -345,7 +313,7 @@ export class IdentityProxyController {
     return await this.identityProxy.getSocialRegisterInfo(token, metadata);
   }
 
-  @Get('auth/passkey/register-options')
+  @Get('passkey/register-options')
   async passkeyRegisterOptions(@Req() req: Request) {
     const user = (req as any).user;
     const metadata = this.identityProxy.getMetadata(req);
@@ -357,7 +325,7 @@ export class IdentityProxyController {
     return options;
   }
 
-  @Post('auth/passkey/register-verify')
+  @Post('passkey/register-verify')
   async passkeyRegisterVerify(@Body() body: any, @Req() req: Request) {
     const user = (req as any).user;
     const currentOptions = (req as any).session.registrationOptions;
@@ -373,7 +341,7 @@ export class IdentityProxyController {
   }
 
   @Public()
-  @Post('auth/passkey/login-options')
+  @Post('passkey/login-options')
   async passkeyLoginOptions(
     @Body() body: { email?: string },
     @Req() req: Request,
@@ -388,7 +356,7 @@ export class IdentityProxyController {
   }
 
   @Public()
-  @Post('auth/passkey/login-verify')
+  @Post('passkey/login-verify')
   async passkeyLoginVerify(
     @Body() body: any,
     @Req() req: Request,
@@ -414,7 +382,7 @@ export class IdentityProxyController {
     };
   }
 
-  @Post('auth/security/context-check')
+  @Post('security/context-check')
   async checkContext(
     @Body() body: { urlCountry: string },
     @Req() req: Request,
@@ -427,14 +395,14 @@ export class IdentityProxyController {
     );
   }
 
-  @Get('auth/sessions')
+  @Get('sessions')
   async getSessions(@Req() req: Request) {
     const user = (req as any).user;
     const metadata = this.identityProxy.getMetadata(req);
     return await this.identityProxy.getSessions(user.sub, metadata);
   }
 
-  @Post('auth/sessions/:id/revoke')
+  @Post('sessions/:id/revoke')
   async revokeSession(@Req() req: Request, @Param('id') sessionId: string) {
     const user = (req as any).user;
     const metadata = this.identityProxy.getMetadata(req);
@@ -445,7 +413,7 @@ export class IdentityProxyController {
     );
   }
 
-  @Post('auth/impersonate')
+  @Post('impersonate')
   async impersonate(
     @Body() body: { userId: string },
     @Req() req: Request,
@@ -470,42 +438,42 @@ export class IdentityProxyController {
     };
   }
 
-  @Post('auth/change-password')
+  @Post('change-password')
   async changePassword(@Body() body: any, @Req() req: Request) {
     const user = (req as any).user;
     const metadata = this.identityProxy.getMetadata(req);
     return await this.identityProxy.changePassword(user.sub, body, metadata);
   }
 
-  @Post('auth/2fa/generate')
+  @Post('2fa/generate')
   async generate2faSecret(@Req() req: Request) {
     const user = (req as any).user;
     const metadata = this.identityProxy.getMetadata(req);
     return await this.identityProxy.generate2faSecret(user.sub, metadata);
   }
 
-  @Post('auth/2fa/enable')
+  @Post('2fa/enable')
   async enable2fa(@Body() body: { token: string }, @Req() req: Request) {
     const user = (req as any).user;
     const metadata = this.identityProxy.getMetadata(req);
     return await this.identityProxy.enable2fa(user.sub, body.token, metadata);
   }
 
-  @Post('auth/2fa/disable')
+  @Post('2fa/disable')
   async disable2fa(@Req() req: Request) {
     const user = (req as any).user;
     const metadata = this.identityProxy.getMetadata(req);
     return await this.identityProxy.disable2fa(user.sub, metadata);
   }
 
-  @Post('auth/2fa/backup-codes/generate')
+  @Post('2fa/backup-codes/generate')
   async generateBackupCodes(@Req() req: Request) {
     const user = (req as any).user;
     const metadata = this.identityProxy.getMetadata(req);
     return await this.identityProxy.generateBackupCodes(user.sub, metadata);
   }
 
-  @Post('auth/2fa/send-email-verification')
+  @Post('2fa/send-email-verification')
   async sendEmailVerification(@Req() req: Request) {
     const user = (req as any).user;
     const metadata = this.identityProxy.getMetadata(req);
@@ -515,7 +483,7 @@ export class IdentityProxyController {
     );
   }
 
-  @Post('auth/2fa/verify-email-verification')
+  @Post('2fa/verify-email-verification')
   async verifyEmailVerification(
     @Body() body: { code: string },
     @Req() req: Request,
@@ -529,202 +497,9 @@ export class IdentityProxyController {
     );
   }
 
-  @Get('auth/location')
+  @Get('location')
   async getLocation(@Req() req: Request) {
     const metadata = this.identityProxy.getMetadata(req);
     return await this.identityProxy.getLocation(req.ip || 'unknown', metadata);
-  }
-
-  // --- Users ---
-
-  @Get('users')
-  async listUsers(
-    @Req() req: Request,
-    @Query('page') page = 1,
-    @Query('pageSize') pageSize = 10,
-    @Query('searchTerm') searchTerm?: string,
-    @Query('statusFilter') statusFilter?: string,
-    @Query('sortColumn') sortColumn?: string,
-    @Query('sortDirection') sortDirection?: 'ASC' | 'DESC',
-  ) {
-    const user = (req as any).user;
-    const metadata = this.identityProxy.getMetadata(req);
-    return await this.identityProxy.listUsers(
-      {
-        page: Number(page),
-        pageSize: Number(pageSize),
-        searchTerm,
-        statusFilter,
-        sortColumn,
-        sortDirection,
-        tenantId: user?.tenantId,
-      },
-      metadata,
-    );
-  }
-
-  @Get('users/job-titles')
-  async getJobTitles(@Req() req: Request) {
-    const metadata = this.identityProxy.getMetadata(req);
-    return await this.identityProxy.getJobTitles(metadata);
-  }
-
-  @Get('users/profile')
-  async getMyProfile(@Req() req: Request) {
-    const user = (req as any).user;
-    const metadata = this.identityProxy.getMetadata(req);
-    return await this.identityProxy.getUserProfile(user?.sub, metadata);
-  }
-
-  @Get('users/audit-logs')
-  async getMyAuditLogs(@Req() req: Request) {
-    const user = (req as any).user;
-    const metadata = this.identityProxy.getMetadata(req);
-    return await this.identityProxy.getUserAuditLogs(user?.sub, metadata);
-  }
-
-  @Patch('users/profile')
-  async updateMyProfile(@Req() req: Request, @Body() dto: any) {
-    const user = (req as any).user;
-    const metadata = this.identityProxy.getMetadata(req);
-    return await this.identityProxy.updateUserProfile(user?.sub, dto, metadata);
-  }
-
-  @Patch('users/:id')
-  async updateUser(
-    @Param('id') id: string,
-    @Body() dto: any,
-    @Req() req: Request,
-  ) {
-    const user = (req as any).user;
-    const metadata = this.identityProxy.getMetadata(req);
-    return await this.identityProxy.updateUser(
-      id,
-      dto,
-      user.tenantId,
-      metadata,
-    );
-  }
-
-  @Delete('users/:id')
-  async delete(@Param('id') id: string, @Req() req: Request) {
-    const user = (req as any).user;
-    const metadata = this.identityProxy.getMetadata(req);
-    return await this.identityProxy.deleteUser(id, user.tenantId, metadata);
-  }
-
-  @Post('users/invite')
-  async invite(@Req() req: Request, @Body() dto: any) {
-    const user = (req as any).user;
-    const metadata = this.identityProxy.getMetadata(req);
-    return await this.identityProxy.inviteUser(dto, user?.sub, metadata);
-  }
-
-  @Post('users/:id/force-logout')
-  async forceLogout(@Param('id') id: string, @Req() req: Request) {
-    const metadata = this.identityProxy.getMetadata(req);
-    return await this.identityProxy.forceLogout(id, metadata);
-  }
-
-  @Post('users/:id/block-and-logout')
-  async blockAndLogout(@Param('id') id: string, @Req() req: Request) {
-    const metadata = this.identityProxy.getMetadata(req);
-    return await this.identityProxy.blockAndLogout(id, metadata);
-  }
-
-  @Put('users/:id/status')
-  async setUserStatus(
-    @Param('id') id: string,
-    @Body() body: { isOnline: boolean },
-    @Req() req: Request,
-  ) {
-    const user = (req as any).user;
-    const metadata = this.identityProxy.getMetadata(req);
-    return await this.identityProxy.setUserStatus(
-      id,
-      body.isOnline,
-      user.tenantId,
-      metadata,
-    );
-  }
-
-  @Post('users/:id/reset-password')
-  async sendPasswordReset(@Param('id') id: string, @Req() req: Request) {
-    const user = (req as any).user;
-    const context = this.identityProxy.buildContext(req);
-    const metadata = this.identityProxy.getMetadata(req);
-    return await this.identityProxy.sendPasswordReset(
-      id,
-      user.tenantId,
-      context,
-      metadata,
-    );
-  }
-
-  @Post('users/profile/avatar')
-  @UseInterceptors(FileInterceptor('file'))
-  async upload(@Req() req: Request, @UploadedFile() file: any) {
-    const user = (req as any).user;
-    const metadata = this.identityProxy.getMetadata(req);
-    return await this.identityProxy.uploadAvatar(
-      user?.sub,
-      file.originalname,
-      file.buffer,
-      metadata,
-    );
-  }
-
-  // --- Localization ---
-
-  @Get('localization/config/:code')
-  async getConfig(@Param('code') code: string, @Req() req: Request) {
-    const metadata = this.identityProxy.getMetadata(req);
-    return await this.identityProxy.getLocalizationConfig(code, metadata);
-  }
-
-  @Get('localization/lookup/:taxId')
-  async lookup(
-    @Param('taxId') taxId: string,
-    @Query('country') country: string,
-    @Req() req: Request,
-  ) {
-    const metadata = this.identityProxy.getMetadata(req);
-    return await this.identityProxy.localizationLookup(
-      taxId,
-      country,
-      metadata,
-    );
-  }
-
-  // --- Common ---
-
-  @Head('common/users/exists')
-  @HttpCode(HttpStatus.OK)
-  async checkUserExists(@Query('email') email: string, @Req() req: Request) {
-    const metadata = this.identityProxy.getMetadata(req);
-    const result = await this.identityProxy.checkUserExists(email, metadata);
-    if (!result.exists) throw new NotFoundException('User not found');
-  }
-
-  @Head('common/organizations/exists')
-  @HttpCode(HttpStatus.OK)
-  async checkOrganizationExists(
-    @Query('taxId') taxId: string,
-    @Req() req: Request,
-  ) {
-    const metadata = this.identityProxy.getMetadata(req);
-    const result = await this.identityProxy.checkOrganizationExists(
-      taxId,
-      metadata,
-    );
-    if (!result.exists) throw new NotFoundException('Organization not found');
-  }
-
-  // --- Admin ---
-
-  @Get('admin/tenants')
-  async listTenants(@Req() req: Request) {
-    const metadata = this.identityProxy.getMetadata(req);
-    return await this.identityProxy.listTenants(metadata);
   }
 }
