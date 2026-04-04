@@ -8,49 +8,35 @@ import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import cookieParser from 'cookie-parser';
 
 import { AppModule } from './app/app.module';
-import { setupGlobalConfig } from '@virtex/shared-util-server-server-config';
+import { setupGlobalConfig, validate } from '@virtex/shared-util-server-server-config';
 
-function shouldStartKafkaMicroservice(): boolean {
-  const isProduction = process.env.NODE_ENV === 'production';
-  const kafkaEnabled = process.env.ACCOUNTING_KAFKA_ENABLED;
-
-  if (kafkaEnabled !== undefined) {
-    return kafkaEnabled === 'true';
-  }
-
-  // In production, we default to TRUE for reliability unless explicitly disabled
-  return isProduction;
+function validateEnv() {
+  validate(process.env, ['KAFKA_BROKERS', 'DATABASE_URL']);
 }
 
 async function bootstrap() {
+  validateEnv();
   const app = await NestFactory.create(AppModule);
-  setupGlobalConfig(app);
+  setupGlobalConfig(app, 'accounting-service');
   app.use(cookieParser());
 
-  if (shouldStartKafkaMicroservice()) {
-    app.connectMicroservice<MicroserviceOptions>({
-      transport: Transport.KAFKA,
-      options: {
-        client: {
-          brokers: (process.env.KAFKA_BROKERS || 'localhost:9092').split(','),
-        },
-        consumer: {
-          groupId: 'accounting-service-consumer',
-        },
+  app.connectMicroservice<MicroserviceOptions>({
+    transport: Transport.KAFKA,
+    options: {
+      client: {
+        brokers: (process.env.KAFKA_BROKERS || 'localhost:9092').split(','),
       },
-    });
+      consumer: {
+        groupId: 'accounting-service-consumer',
+      },
+    },
+  });
 
-    await app.startAllMicroservices();
-  } else {
-    Logger.warn(
-      'Kafka microservice disabled (set ACCOUNTING_KAFKA_ENABLED=true to enable).',
-      'Bootstrap',
-    );
-  }
+  await app.startAllMicroservices();
 
   const port = process.env.PORT || 3000;
   await app.listen(port);
-  Logger.log(`🚀 Application is running on: http://localhost:${port}`);
+  Logger.log(`🚀 Application is running on: http://localhost:${port}/api/accounting-service`);
 }
 
 bootstrap();
