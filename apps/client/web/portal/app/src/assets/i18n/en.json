@@ -10,9 +10,13 @@
         "COPY_ALL": "Copy All",
         "COPIED": "Copied to clipboard",
         "ERROR": "An error occurred",
-        "SUCCESS": "Operation successful"
+        "SUCCESS": "Operation successful",
+        "NOT_FOUND": "Resource not found",
+        "SERVER_ERROR": "Server error. Please try again later."
     },
     "AUTH": {
+        "SESSION_EXPIRED": "Session expired or unauthorized",
+        "NO_PERMISSION": "You do not have permission to perform this action",
         "NEED_HELP": "Need help?",
         "SUPPORT_CENTER": "Support Center"
     },
@@ -107,6 +111,12 @@
         "VIEWS": {
             "ALL": "All users"
         }
+    },
+    "TOAST": {
+        "SUCCESS": "Success",
+        "ERROR": "Error",
+        "WARNING": "Warning",
+        "INFO": "Information"
     },
     "SETTINGS": {
         "PROFILE": {

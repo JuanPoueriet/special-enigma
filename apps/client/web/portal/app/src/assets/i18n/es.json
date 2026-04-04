@@ -10,9 +10,13 @@
         "COPY_ALL": "Copiar Todo",
         "COPIED": "Copiado al portapapeles",
         "ERROR": "Ha ocurrido un error",
-        "SUCCESS": "Operación exitosa"
+        "SUCCESS": "Operación exitosa",
+        "NOT_FOUND": "Recurso no encontrado",
+        "SERVER_ERROR": "Error del servidor. Por favor intente más tarde."
     },
     "AUTH": {
+        "SESSION_EXPIRED": "Sesión expirada o no autorizado",
+        "NO_PERMISSION": "No tienes permiso para realizar esta acción",
         "NEED_HELP": "¿Necesitas ayuda?",
         "SUPPORT_CENTER": "Centro de soporte"
     },
@@ -107,6 +111,12 @@
         "VIEWS": {
             "ALL": "Todos los usuarios"
         }
+    },
+    "TOAST": {
+        "SUCCESS": "Éxito",
+        "ERROR": "Error",
+        "WARNING": "Advertencia",
+        "INFO": "Información"
     },
     "SETTINGS": {
         "PROFILE": {
