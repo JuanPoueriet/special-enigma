@@ -1,10 +1,14 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import {
-  IDENTITY_PACKAGE, IDENTITY_PROTO_PATH,
-  BILLING_PACKAGE, BILLING_PROTO_PATH,
-  INVENTORY_PACKAGE, INVENTORY_PROTO_PATH,
-  CATALOG_PACKAGE, CATALOG_PROTO_PATH
+  IDENTITY_PACKAGE,
+  IDENTITY_PROTO_PATH,
+  BILLING_PACKAGE,
+  BILLING_PROTO_PATH,
+  INVENTORY_PACKAGE,
+  INVENTORY_PROTO_PATH,
+  CATALOG_PACKAGE,
+  CATALOG_PROTO_PATH,
 } from '@virtex/shared-proto';
 import { HealthModule } from '@virtex/shared-util-server-health';
 import { TelemetryModule } from '@virtex/kernel-telemetry';
@@ -19,9 +23,11 @@ import { GoogleStrategy } from './strategies/google.strategy';
 import { MicrosoftStrategy } from './strategies/microsoft.strategy';
 import { OktaStrategy } from './strategies/okta.strategy';
 import { SessionSerializer } from './strategies/session.serializer';
+import { BffCoreModule } from '@virtex/kernel-bff-core';
 
 @Module({
   imports: [
+    BffCoreModule,
     HealthModule,
     TelemetryModule,
     ServerConfigModule,
