@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AuthSessionController } from './controllers/auth-session.controller';
+import { AuthSecurityController } from './controllers/auth-security.controller';
 import { AuthMfaController } from './controllers/auth-mfa.controller';
 import { AuthSocialController } from './controllers/auth-social.controller';
 import { AuthRecoveryController } from './controllers/auth-recovery.controller';
@@ -19,6 +20,7 @@ import { CookiePolicyService } from '@virtex/kernel-auth';
   imports: [IdentityInfrastructureModule, AuthModule],
   controllers: [
     AuthSessionController,
+    AuthSecurityController,
     AuthMfaController,
     AuthSocialController,
     AuthRecoveryController,

@@ -31,7 +31,7 @@ export class RefreshTokenUseCase {
 
     const sessionStatus = await this.cachePort.get(`session:${sessionId}`);
     if (!sessionStatus || sessionStatus !== 'valid') {
-        // Fallback or treat as invalid
+        throw new DomainException('Session invalid or expired in cache', 'UNAUTHORIZED');
     }
 
     const session = await this.sessionRepository.findById(sessionId);
