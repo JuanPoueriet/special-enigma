@@ -32,3 +32,6 @@ export const INVENTORY_PACKAGE = 'inventory';
 
 export const CATALOG_PROTO_PATH = resolveProtoPath('catalog.proto');
 export const CATALOG_PACKAGE = 'catalog';
+
+export const ADMIN_PROTO_PATH = resolveProtoPath('admin.proto');
+export const ADMIN_PACKAGE = 'admin';
