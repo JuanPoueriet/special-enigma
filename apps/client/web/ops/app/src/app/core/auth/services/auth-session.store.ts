@@ -28,15 +28,6 @@ export class AuthSessionStore {
     }
   }
 
-  private isTokenValid(token: string): boolean {
-    try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      return payload.exp > Date.now() / 1000;
-    } catch {
-      return false;
-    }
-  }
-
   set(user: AuthUser): void {
     // Level 6: Do NOT store the token in client-accessible storage
     // We only keep user info for the UI
@@ -51,12 +42,7 @@ export class AuthSessionStore {
   }
 
   getCurrentUser(): AuthUser | null {
-    const user = this.currentUserSubject.value;
-    if (user && !this.isTokenValid(user.token)) {
-        this.clear();
-        return null;
-    }
-    return user;
+    return this.currentUserSubject.value;
   }
 
   isAuthenticated(): boolean {
@@ -65,7 +51,8 @@ export class AuthSessionStore {
   }
 
   getToken(): string | null {
-    const user = this.getCurrentUser();
-    return user ? user.accessToken : null;
+    // Since we are using HttpOnly cookies, we no longer need to manually manage the token.
+    // This is kept for compatibility but should return null or a placeholder.
+    return null;
   }
 }

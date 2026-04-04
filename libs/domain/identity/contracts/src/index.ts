@@ -14,5 +14,6 @@ export * from './lib/dto/verify-signup.dto';
 export * from './lib/dto/forgot-password.dto';
 export * from './lib/dto/reset-password.dto';
 export * from './lib/dto/set-password.dto';
+export * from './lib/dto/unified-login-response.dto';
 export * from './lib/dtos/audit-log.dto';
 export * from './lib/dtos/localization.dto';
