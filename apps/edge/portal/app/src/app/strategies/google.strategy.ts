@@ -1,14 +1,24 @@
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, VerifyCallback } from 'passport-google-oauth20';
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   constructor() {
+    const clientID = process.env['GOOGLE_CLIENT_ID'];
+    const clientSecret = process.env['GOOGLE_CLIENT_SECRET'];
+    const callbackURL = process.env['GOOGLE_CALLBACK_URL'];
+
+    if (!clientID || !clientSecret || !callbackURL) {
+      throw new InternalServerErrorException(
+        'Missing Google OAuth configuration (GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, or GOOGLE_CALLBACK_URL)',
+      );
+    }
+
     super({
-      clientID: process.env['GOOGLE_CLIENT_ID'] || 'google-id',
-      clientSecret: process.env['GOOGLE_CLIENT_SECRET'] || 'google-secret',
-      callbackURL: process.env['GOOGLE_CALLBACK_URL'] || 'http://localhost:3000/api/portal/v1/auth/google/callback',
+      clientID,
+      clientSecret,
+      callbackURL,
       scope: ['email', 'profile'],
     });
   }

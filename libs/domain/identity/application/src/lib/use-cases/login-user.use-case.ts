@@ -25,10 +25,7 @@ export class LoginUserUseCase {
 
   async execute(dto: LoginUserDto, context: LoginContext = { ip: 'unknown', userAgent: 'unknown' }): Promise<LoginResponseDto> {
     // Standard reCAPTCHA check for web/mobile clients
-    // Allow gRPC bypass only if specifically marked (internal trusted comms)
-    const isGrpcBypass = dto.recaptchaToken === 'grpc-bypass';
-
-    if (!isGrpcBypass && !(await this.recaptchaService.verify(dto.recaptchaToken, 'login'))) {
+    if (!(await this.recaptchaService.verify(dto.recaptchaToken, 'login'))) {
       throw new BadRequestException('reCAPTCHA verification failed');
     }
 

@@ -1,5 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AuthController } from './controllers/auth.controller';
+import { AuthSessionController } from './controllers/auth-session.controller';
+import { AuthMfaController } from './controllers/auth-mfa.controller';
+import { AuthSocialController } from './controllers/auth-social.controller';
+import { AuthRecoveryController } from './controllers/auth-recovery.controller';
+import { AuthPasskeyController } from './controllers/auth-passkey.controller';
+import { AuthOnboardingController } from './controllers/auth-onboarding.controller';
 import { UsersController } from './controllers/users.controller';
 import { LocalizationController } from './controllers/localization.controller';
 import { CommonController } from './controllers/common.controller';
@@ -12,7 +17,18 @@ import { CookiePolicyService } from '@virtex/kernel-auth';
 
 @Module({
   imports: [IdentityInfrastructureModule, AuthModule],
-  controllers: [AuthController, UsersController, LocalizationController, CommonController, TenantController],
+  controllers: [
+    AuthSessionController,
+    AuthMfaController,
+    AuthSocialController,
+    AuthRecoveryController,
+    AuthPasskeyController,
+    AuthOnboardingController,
+    UsersController,
+    LocalizationController,
+    CommonController,
+    TenantController
+  ],
   providers: [IdentityResolver, RequestContextService, CookiePolicyService],
   exports: [],
 })

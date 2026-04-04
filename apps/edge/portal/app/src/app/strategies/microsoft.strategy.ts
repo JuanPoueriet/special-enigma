@@ -1,14 +1,24 @@
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-microsoft';
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 
 @Injectable()
 export class MicrosoftStrategy extends PassportStrategy(Strategy, 'microsoft') {
   constructor() {
+    const clientID = process.env['MICROSOFT_CLIENT_ID'];
+    const clientSecret = process.env['MICROSOFT_CLIENT_SECRET'];
+    const callbackURL = process.env['MICROSOFT_CALLBACK_URL'];
+
+    if (!clientID || !clientSecret || !callbackURL) {
+      throw new InternalServerErrorException(
+        'Missing Microsoft OAuth configuration (MICROSOFT_CLIENT_ID, MICROSOFT_CLIENT_SECRET, or MICROSOFT_CALLBACK_URL)',
+      );
+    }
+
     super({
-      clientID: process.env['MICROSOFT_CLIENT_ID'] || 'microsoft-id',
-      clientSecret: process.env['MICROSOFT_CLIENT_SECRET'] || 'microsoft-secret',
-      callbackURL: process.env['MICROSOFT_CALLBACK_URL'] || 'http://localhost:3000/api/portal/v1/auth/microsoft/callback',
+      clientID,
+      clientSecret,
+      callbackURL,
       scope: ['user.read'],
       tenant: 'common',
     });
