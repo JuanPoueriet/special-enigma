@@ -50,7 +50,10 @@ export class AuthService {
     // Support capability:action:scope format
     const [capability, action, scope] = permission.split(':');
     const hasEntitlement = entitlements.some((f) => {
-        const [fCap, fAct, fScope] = f.split(':');
+        const parts = f.split(':');
+        const fCap = parts[0];
+        const fAct = parts[1];
+        const fScope = parts[2];
         if (fCap !== capability) return false;
         const actionMatches = !action || fAct === '*' || fAct === action;
         if (!actionMatches) return false;

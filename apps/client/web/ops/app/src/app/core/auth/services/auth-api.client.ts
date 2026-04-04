@@ -7,7 +7,10 @@ export interface AuthUser {
   id: number;
   email: string;
   role: string;
-  token: string;
+  accessToken: string;
+  refreshToken?: string;
+  expiresIn?: number;
+  mfaRequired?: boolean;
   entitlements: string[];
 }
 
@@ -17,6 +20,6 @@ export class AuthApiClient {
   private readonly apiBaseUrl = inject(API_BASE_URL);
 
   login(credentials: { email: string; password?: string }): Observable<AuthUser> {
-    return this.http.post<AuthUser>(`${this.apiBaseUrl}/auth/login`, credentials);
+    return this.http.post<AuthUser>(`${this.apiBaseUrl}/auth/login`, credentials, { withCredentials: true });
   }
 }

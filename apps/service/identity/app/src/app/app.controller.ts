@@ -1,4 +1,4 @@
-import { Controller, Get, Inject, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Inject, UsePipes, ValidationPipe, UseGuards } from '@nestjs/common';
 import { GrpcMethod, RpcException } from '@nestjs/microservices';
 import { AppService } from './app.service';
 import {
@@ -52,6 +52,7 @@ import {
   HandleSocialLoginUseCase,
 } from '@virtex/domain-identity-application';
 import { status } from '@grpc/grpc-js';
+import { GrpcAuthGuard } from './guards/grpc-auth.guard';
 
 @Controller()
 @UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
@@ -262,9 +263,10 @@ export class AppController {
     return {};
   }
 
+  @UseGuards(GrpcAuthGuard)
   @GrpcMethod('IdentityService', 'GetOnboardingStatus')
   async getOnboardingStatus(data: any) {
-    const result = await this.getOnboardingStatusUseCase.execute(data.user_id);
+    const result = await this.getOnboardingStatusUseCase.execute(data.user.sub);
     return {
       status: result.status,
       is_completed: result.isCompleted,
@@ -322,16 +324,18 @@ export class AppController {
     };
   }
 
+  @UseGuards(GrpcAuthGuard)
   @GrpcMethod('IdentityService', 'GetPasskeyRegisterOptions')
   async getPasskeyRegisterOptions(data: any) {
-    const options = await this.generatePasskeyRegistrationOptionsUseCase.execute(data.user_id);
+    const options = await this.generatePasskeyRegistrationOptionsUseCase.execute(data.user.sub);
     return { options_json: JSON.stringify(options) };
   }
 
+  @UseGuards(GrpcAuthGuard)
   @GrpcMethod('IdentityService', 'VerifyPasskeyRegister')
   async verifyPasskeyRegister(data: any) {
     await this.verifyPasskeyRegistrationUseCase.execute(
-      data.user_id,
+      data.user.sub,
       JSON.parse(data.challenge_json),
       JSON.parse(data.response_json)
     );
@@ -369,9 +373,10 @@ export class AppController {
     };
   }
 
+  @UseGuards(GrpcAuthGuard)
   @GrpcMethod('IdentityService', 'GetSessions')
   async getSessions(data: any) {
-    const sessions = await this.getSessionsUseCase.execute(data.user_id);
+    const sessions = await this.getSessionsUseCase.execute(data.user.sub);
     return {
       sessions: sessions.map((s) => ({
         id: s.id,
@@ -384,16 +389,18 @@ export class AppController {
     };
   }
 
+  @UseGuards(GrpcAuthGuard)
   @GrpcMethod('IdentityService', 'RevokeSession')
   async revokeSession(data: any) {
-    await this.revokeSessionUseCase.execute(data.user_id, data.session_id);
+    await this.revokeSessionUseCase.execute(data.user.sub, data.session_id);
     return {};
   }
 
+  @UseGuards(GrpcAuthGuard)
   @GrpcMethod('IdentityService', 'Impersonate')
   async impersonate(data: any) {
     const result = await this.impersonateUserUseCase.execute(
-      data.admin_user_id,
+      data.user.sub,
       data.target_user_id,
       data.context
     );
@@ -428,30 +435,33 @@ export class AppController {
     };
   }
 
+  @UseGuards(GrpcAuthGuard)
   @GrpcMethod('IdentityService', 'ChangePassword')
   async changePassword(data: any) {
-    await this.changePasswordUseCase.execute(data.user_id, {
+    await this.changePasswordUseCase.execute(data.user.sub, {
       currentPassword: data.current_password,
       newPassword: data.new_password,
     });
     return {};
   }
 
+  @UseGuards(GrpcAuthGuard)
   @GrpcMethod('IdentityService', 'Generate2faSecret')
   async generate2faSecret(data: any) {
-    const result = await this.setupMfaUseCase.execute(data.user_id);
+    const result = await this.setupMfaUseCase.execute(data.user.sub);
     return {
       secret: result.secret,
       otpauth_url: result.otpauthUrl,
     };
   }
 
+  @UseGuards(GrpcAuthGuard)
   @GrpcMethod('IdentityService', 'Enable2fa')
   async enable2fa(data: any) {
-    const success = await this.confirmMfaUseCase.execute(data.user_id, data.token);
+    const success = await this.confirmMfaUseCase.execute(data.user.sub, data.token);
     let codes: string[] = [];
     if (success) {
-      const result = await this.generateBackupCodesUseCase.execute(data.user_id);
+      const result = await this.generateBackupCodesUseCase.execute(data.user.sub);
       codes = result.codes;
     }
     return {
@@ -460,27 +470,31 @@ export class AppController {
     };
   }
 
+  @UseGuards(GrpcAuthGuard)
   @GrpcMethod('IdentityService', 'Disable2fa')
   async disable2fa(data: any) {
-    await this.disable2faUseCase.execute(data.user_id);
+    await this.disable2faUseCase.execute(data.user.sub);
     return {};
   }
 
+  @UseGuards(GrpcAuthGuard)
   @GrpcMethod('IdentityService', 'GenerateBackupCodes')
   async generateBackupCodes(data: any) {
-    const result = await this.generateBackupCodesUseCase.execute(data.user_id);
+    const result = await this.generateBackupCodesUseCase.execute(data.user.sub);
     return { codes: result.codes };
   }
 
+  @UseGuards(GrpcAuthGuard)
   @GrpcMethod('IdentityService', 'Send2faEmailVerification')
   async send2faEmailVerification(data: any) {
-    await this.send2faEmailVerificationUseCase.execute(data.user_id);
+    await this.send2faEmailVerificationUseCase.execute(data.user.sub);
     return {};
   }
 
+  @UseGuards(GrpcAuthGuard)
   @GrpcMethod('IdentityService', 'Verify2faEmailVerification')
   async verify2faEmailVerification(data: any) {
-    await this.verify2faEmailVerificationUseCase.execute(data.user_id, data.code);
+    await this.verify2faEmailVerificationUseCase.execute(data.user.sub, data.code);
     return {};
   }
 
@@ -497,6 +511,7 @@ export class AppController {
 
   // --- Users ---
 
+  @UseGuards(GrpcAuthGuard)
   @GrpcMethod('IdentityService', 'ListUsers')
   async listUsers(data: any) {
     const result = await this.listUsersUseCase.execute({
@@ -521,15 +536,19 @@ export class AppController {
     return { titles: titles.map((t: any) => t.title) };
   }
 
+  @UseGuards(GrpcAuthGuard)
   @GrpcMethod('IdentityService', 'GetUserProfile')
   async getUserProfile(data: any) {
-    const user = await this.getUserProfileUseCase.execute(data.user_id);
+    const userId = data.user_id || data.user.sub;
+    const user = await this.getUserProfileUseCase.execute(userId);
     return this.mapUserToResponse(user);
   }
 
+  @UseGuards(GrpcAuthGuard)
   @GrpcMethod('IdentityService', 'GetUserAuditLogs')
   async getUserAuditLogs(data: any) {
-    const logs = await this.getAuditLogsUseCase.execute(data.user_id);
+    const userId = data.user_id || data.user.sub;
+    const logs = await this.getAuditLogsUseCase.execute(userId);
     return {
       logs: logs.map((l) => ({
         id: l.id,
@@ -541,9 +560,10 @@ export class AppController {
     };
   }
 
+  @UseGuards(GrpcAuthGuard)
   @GrpcMethod('IdentityService', 'UpdateUserProfile')
   async updateUserProfile(data: any) {
-    const user = await this.updateUserProfileUseCase.execute(data.user_id, {
+    const user = await this.updateUserProfileUseCase.execute(data.user.sub, {
       firstName: data.first_name,
       lastName: data.last_name,
       phone: data.phone,
@@ -553,6 +573,7 @@ export class AppController {
     return this.mapUserToResponse(user);
   }
 
+  @UseGuards(GrpcAuthGuard)
   @GrpcMethod('IdentityService', 'UpdateUser')
   async updateUser(data: any) {
     const user = await this.updateUserUseCase.execute(
@@ -569,12 +590,14 @@ export class AppController {
     return this.mapUserToResponse(user);
   }
 
+  @UseGuards(GrpcAuthGuard)
   @GrpcMethod('IdentityService', 'DeleteUser')
   async deleteUser(data: any) {
     await this.deleteUserUseCase.execute(data.id, data.tenant_id);
     return {};
   }
 
+  @UseGuards(GrpcAuthGuard)
   @GrpcMethod('IdentityService', 'InviteUser')
   async inviteUser(data: any) {
     const user = await this.inviteUserUseCase.execute(
@@ -584,27 +607,31 @@ export class AppController {
         lastName: data.last_name,
         role: data.role,
       },
-      data.inviter_id
+      data.user.sub
     );
     return this.mapUserToResponse(user);
   }
 
+  @UseGuards(GrpcAuthGuard)
   @GrpcMethod('IdentityService', 'ForceLogout')
   async forceLogout(data: any) {
     await this.forceLogoutUseCase.execute(data.user_id);
     return {};
   }
 
+  @UseGuards(GrpcAuthGuard)
   @GrpcMethod('IdentityService', 'BlockAndLogout')
   async blockAndLogout(data: any) {
     await this.blockUserUseCase.execute(data.user_id);
     return {};
   }
 
+  @UseGuards(GrpcAuthGuard)
   @GrpcMethod('IdentityService', 'SetUserStatus')
   async setUserStatus(data: any) {
+    const userId = data.id || data.user.sub;
     const user = await this.updateUserUseCase.execute(
-      data.id,
+      userId,
       { status: data.is_online ? 'ONLINE' : 'OFFLINE' } as any,
       data.tenant_id
     );
@@ -615,6 +642,7 @@ export class AppController {
     };
   }
 
+  @UseGuards(GrpcAuthGuard)
   @GrpcMethod('IdentityService', 'SendPasswordReset')
   async sendPasswordReset(data: any) {
     const user = await this.userRepository.findById(data.id, data.tenant_id);
@@ -629,10 +657,11 @@ export class AppController {
     return {};
   }
 
+  @UseGuards(GrpcAuthGuard)
   @GrpcMethod('IdentityService', 'UploadAvatar')
   async uploadAvatar(data: any) {
     const url = await this.uploadAvatarUseCase.execute(
-      data.user_id,
+      data.user.sub,
       data.file_name,
       data.file_content
     );
