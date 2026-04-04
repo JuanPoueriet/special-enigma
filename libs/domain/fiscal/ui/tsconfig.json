@@ -8,6 +8,7 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "baseUrl": "../../../..",
+    "ignoreDeprecations": "6.0",
     "paths": {
       "@virtex/shared-config": ["libs/shared/config/src/index.ts"]
     }
