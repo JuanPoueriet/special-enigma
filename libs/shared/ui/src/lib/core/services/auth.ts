@@ -6,7 +6,7 @@ import { CountryService } from './country.service';
 import { Observable, of, tap, map, catchError, lastValueFrom } from 'rxjs';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { HttpContext } from '@angular/common/http';
-import { IS_PUBLIC_API } from '../interceptors/auth.interceptor';
+import { IS_PUBLIC_API } from '../tokens/http-context.tokens';
 import { API_URL } from '@virtex/shared-config';
 import { hasPermission } from '@virtex/shared-types';
 import { startRegistration, startAuthentication } from '@simplewebauthn/browser';
@@ -77,7 +77,10 @@ export class AuthService {
   }
 
   checkAuthStatus(): Observable<boolean> {
-    return this.http.get<any>(`${this._baseUrl}/me`, { withCredentials: true }).pipe(
+    return this.http.get<any>(`${this._baseUrl}/me`, {
+        withCredentials: true,
+        context: new HttpContext().set(IS_PUBLIC_API, true)
+    }).pipe(
       tap(user => this._currentUser.set(user)),
       map(user => !!user),
       catchError(() => {
