@@ -46,9 +46,17 @@ export function createOtelSdk(serviceName: string): NodeSDK {
     }),
     instrumentations: [
       new HttpInstrumentation({
-        requestHook: (span, request) => {
-           // Basic redaction for headers could be added here
-        }
+        requestHook: (span, request: any) => {
+          const tenantId = request.headers?.['x-tenant-id'] || request.headers?.['X-Tenant-Id'];
+          const requestId = request.headers?.['x-request-id'] || request.headers?.['X-Request-Id'];
+
+          if (tenantId) {
+            span.setAttribute('tenant.id', tenantId as string);
+          }
+          if (requestId) {
+            span.setAttribute('request.id', requestId as string);
+          }
+        },
       }),
       new ExpressInstrumentation(),
       new NestInstrumentation(),

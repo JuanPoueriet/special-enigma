@@ -8,7 +8,7 @@ import { IdentityInfrastructureModule } from '@virtex/domain-identity-infrastruc
 import { AuthModule } from '@virtex/kernel-auth';
 import { IdentityResolver } from './graphql/identity.resolver';
 import { RequestContextService } from './services/request-context.service';
-import { CookiePolicyService } from './services/cookie-policy.service';
+import { CookiePolicyService } from '@virtex/kernel-auth';
 
 @Module({
   imports: [IdentityInfrastructureModule, AuthModule],

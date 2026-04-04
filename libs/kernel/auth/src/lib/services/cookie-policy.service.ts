@@ -2,10 +2,12 @@ import { Injectable, Optional } from '@nestjs/common';
 import { Response } from 'express';
 import {
   SecretManagerService,
+} from './secret-manager.service';
+import {
   buildAccessCookieOptions,
   buildRefreshCookieOptions,
   getRefreshCookiePath,
-} from '@virtex/kernel-auth';
+} from '../cookie-policy';
 import { CriticalConfigurationException } from '@virtex/kernel-exceptions';
 
 @Injectable()

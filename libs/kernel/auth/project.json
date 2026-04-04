@@ -6,7 +6,7 @@
   "prefix": "virtex",
   "tags": [
     "scope:kernel",
-    "type:util",
+    "type:auth",
     "platform:agnostic",
     "criticality:high",
     "compliance:none",

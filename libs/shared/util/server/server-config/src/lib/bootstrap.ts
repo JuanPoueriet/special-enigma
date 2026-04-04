@@ -42,14 +42,8 @@ export function setupGlobalConfig(app: INestApplication, serviceName?: string) {
       origin: corsOrigin.split(','),
       credentials: true,
     });
-  } else if (!isProduction) {
-    // In development, we also allow explicit localhost:4200 if no proxy is used
-    app.enableCors({
-      origin: ['http://localhost:4200'],
-      credentials: true,
-    });
   } else {
-    // In production, if no CORS_ORIGIN is provided, we disable it (Same-Origin)
+    // In production and development, if no CORS_ORIGIN is provided, we default to same-origin
     app.enableCors({
       origin: false,
     });

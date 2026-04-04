@@ -20,7 +20,7 @@ describe('JwtTokenService', () => {
   const originalNodeEnv = process.env['NODE_ENV'];
   const originalRedisUrl = process.env['REDIS_URL'];
 
-  const buildJwks = (secret: string, kid = 'default', alg: string = 'HS256') =>
+  const buildJwks = (secret: string, kid = 'default', alg = 'HS256') =>
     JSON.stringify([
       {
         kid,

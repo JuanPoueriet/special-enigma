@@ -20,7 +20,7 @@ async function bootstrap() {
   try {
     validateEnv();
 
-    const grpcPort = process.env['GRPC_PORT'] || 50051;
+    const grpcPort = process.env['GRPC_PORT'];
 
     const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
       transport: Transport.GRPC,

@@ -23,9 +23,9 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import type { Request, Response } from 'express';
 import { IdentityProxyService } from './identity-proxy.service';
-import { CookiePolicyService } from '@virtex/kernel-auth';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { CookiePolicyService } from '@virtex/domain-identity-presentation';
 import { AuthGuard } from '@nestjs/passport';
-import { Public } from '@virtex/kernel-auth';
 
 @Controller('v1')
 export class IdentityProxyController {
@@ -40,7 +40,12 @@ export class IdentityProxyController {
 
   @Get('auth/me')
   async getMe(@Req() req: Request) {
-    const user = (req as any).user;
+    const token = req.cookies['access_token'];
+    if (!token) {
+      throw new UnauthorizedException('Missing access token');
+    }
+    const metadata = this.identityProxy.getMetadata(req);
+    const user = await this.identityProxy.getMe(token, metadata);
     return {
       ...user,
       bff_aggregated: true,
@@ -48,7 +53,6 @@ export class IdentityProxyController {
     };
   }
 
-  @Public()
   @Post('auth/login')
   async login(
     @Body() body: any,
@@ -71,21 +75,18 @@ export class IdentityProxyController {
     return result;
   }
 
-  @Public()
   @Post('auth/signup/initiate')
   async initiateSignup(@Body() body: any, @Req() req: Request) {
     const metadata = this.identityProxy.getMetadata(req);
     return await this.identityProxy.initiateSignup(body, metadata);
   }
 
-  @Public()
   @Post('auth/signup/verify')
   async verifySignup(@Body() body: any, @Req() req: Request) {
     const metadata = this.identityProxy.getMetadata(req);
     return await this.identityProxy.verifySignup(body, metadata);
   }
 
-  @Public()
   @Post('auth/signup/complete')
   async completeOnboarding(
     @Body() body: any,
@@ -107,14 +108,12 @@ export class IdentityProxyController {
     return result;
   }
 
-  @Public()
   @Get('auth/google')
   @UseGuards(AuthGuard('google'))
   async googleAuth() {
     // Redirects to Google
   }
 
-  @Public()
   @Get('auth/google/callback')
   @UseGuards(AuthGuard('google'))
   async googleAuthCallback(
@@ -124,14 +123,12 @@ export class IdentityProxyController {
     return this.handleSocialCallback(req, res);
   }
 
-  @Public()
   @Get('auth/microsoft')
   @UseGuards(AuthGuard('microsoft'))
   async microsoftAuth() {
     // Redirects to Microsoft
   }
 
-  @Public()
   @Get('auth/microsoft/callback')
   @UseGuards(AuthGuard('microsoft'))
   async microsoftAuthCallback(
@@ -141,14 +138,12 @@ export class IdentityProxyController {
     return this.handleSocialCallback(req, res);
   }
 
-  @Public()
   @Get('auth/okta')
   @UseGuards(AuthGuard('okta'))
   async oktaAuth() {
     // Redirects to Okta
   }
 
-  @Public()
   @Get('auth/okta/callback')
   @UseGuards(AuthGuard('okta'))
   async oktaAuthCallback(
@@ -177,7 +172,6 @@ export class IdentityProxyController {
     res.redirect(`${frontendUrl}/accounting`);
   }
 
-  @Public()
   @Post('auth/verify-mfa')
   async verifyMfa(
     @Body() body: any,
@@ -195,7 +189,6 @@ export class IdentityProxyController {
     return result;
   }
 
-  @Public()
   @Post('auth/refresh')
   async refresh(
     @Req() req: Request,
@@ -238,7 +231,6 @@ export class IdentityProxyController {
     return await this.identityProxy.getOnboardingStatus(user.sub, metadata);
   }
 
-  @Public()
   @Post('auth/forgot-password')
   async forgotPassword(@Body() body: any, @Req() req: Request) {
     const context = this.identityProxy.buildContext(req);
@@ -246,7 +238,6 @@ export class IdentityProxyController {
     return await this.identityProxy.forgotPassword(body, context, metadata);
   }
 
-  @Public()
   @Post('auth/reset-password')
   async resetPassword(@Body() body: any, @Req() req: Request) {
     const context = this.identityProxy.buildContext(req);
@@ -311,7 +302,6 @@ export class IdentityProxyController {
     return { success: true };
   }
 
-  @Public()
   @Post('auth/passkey/login-options')
   async passkeyLoginOptions(
     @Body() body: { email?: string },
@@ -326,7 +316,6 @@ export class IdentityProxyController {
     return options;
   }
 
-  @Public()
   @Post('auth/passkey/login-verify')
   async passkeyLoginVerify(
     @Body() body: any,

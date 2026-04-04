@@ -14,7 +14,7 @@ import { BffAuthGuard } from '@virtex/kernel-bff-core';
 
 const logger = new Logger('Bootstrap');
 
-startOtel('edge-portal-app');
+startOtel('edge-ops-app');
 
 function validateEnv() {
   validate(process.env, [
@@ -32,7 +32,7 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule);
 
     // Apply Global Configuration (Security, Pipes, Filters, Throttling, Global Prefix)
-    setupGlobalConfig(app, 'portal');
+    setupGlobalConfig(app, 'ops');
 
     app.useGlobalGuards(new BffAuthGuard(app.get(Reflector)));
 
@@ -54,7 +54,7 @@ async function bootstrap() {
     app.use(passport.initialize());
     app.use(passport.session());
 
-    const port = Number(process.env['EDGE_PORTAL_PORT'] || process.env['PORT'] || 3000);
+    const port = Number(process.env['EDGE_OPS_PORT'] || process.env['PORT'] || 3104);
     const server = app.getHttpServer();
 
     server.on('error', (error: NodeJS.ErrnoException) => {
@@ -68,7 +68,7 @@ async function bootstrap() {
     });
 
     await app.listen(port, '0.0.0.0');
-    logger.log(`🚀 Edge Portal BFF is running on: http://localhost:${port}/api/portal`);
+    logger.log(`🚀 Edge Ops BFF is running on: http://localhost:${port}/api/ops`);
   } catch (error) {
     logger.error(
       `Failed to start BFF: ${(error as Error).message}`,

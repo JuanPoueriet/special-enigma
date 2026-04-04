@@ -35,6 +35,9 @@ export default [
                 'type:domain',
                 'type:contracts',
                 'type:util',
+                'type:auth',
+                'scope:kernel',
+                'type:infrastructure',
               ],
             },
             {
@@ -98,6 +101,9 @@ export default [
                 'type:domain',
                 'type:contracts',
                 'type:util',
+                'type:auth',
+                'scope:kernel',
+                'type:infrastructure',
               ],
             },
             {
