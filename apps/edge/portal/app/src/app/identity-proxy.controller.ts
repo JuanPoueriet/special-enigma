@@ -303,6 +303,7 @@ export class IdentityProxyController {
     return await this.identityProxy.resetPassword(body, context, metadata);
   }
 
+  @Public()
   @Post('auth/set-password')
   async setPassword(
     @Body() body: any,

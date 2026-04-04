@@ -33,7 +33,6 @@ export class AuthSessionController {
     private readonly getSessionsUseCase: GetSessionsUseCase,
     private readonly revokeSessionUseCase: RevokeSessionUseCase,
     private readonly impersonateUserUseCase: ImpersonateUserUseCase,
-    private readonly checkSecurityContextUseCase: CheckSecurityContextUseCase,
     private readonly getUserProfileUseCase: GetUserProfileUseCase,
     private readonly requestContextService: RequestContextService,
     private readonly cookiePolicyService: CookiePolicyService
@@ -59,17 +58,7 @@ export class AuthSessionController {
 
     this.cookiePolicyService.setAuthCookies(res, result.accessToken!, result.refreshToken!, dto.rememberMe);
 
-    const user = await this.getUserProfileUseCase.execute(result.accessToken!); // Use case expects userId or token? Usually userId.
-    // Actually, result doesn't have userId, but we can get it from the token payload or have the use case return it.
-    // Looking at login-user.use-case, it returns LoginResponseDto which only has tokens.
-
-    // For now, let's just return the tokens as requested by BFF if it's internal comms,
-    // but the task said "stop returning tokens in body".
-    // Wait, the code review said: "The BFF code still expects result.access_token and result.refresh_token in the body... to call getMe"
-
     return {
-        accessToken: result.accessToken,
-        refreshToken: result.refreshToken,
         expiresIn: result.expiresIn,
         mfaRequired: false
     };
@@ -100,8 +89,6 @@ export class AuthSessionController {
     this.cookiePolicyService.setAuthCookies(res, result.accessToken!, result.refreshToken!);
 
     return {
-        accessToken: result.accessToken,
-        refreshToken: result.refreshToken,
         expiresIn: result.expiresIn
     };
   }
@@ -148,33 +135,7 @@ export class AuthSessionController {
       const result = await this.impersonateUserUseCase.execute(adminUser.sub, body.userId, context);
       this.cookiePolicyService.setAuthCookies(res, result.accessToken, result.refreshToken);
       return {
-          accessToken: result.accessToken,
-          refreshToken: result.refreshToken,
           expiresIn: result.expiresIn
       };
-  }
-
-  @Public()
-  @Post('security/context-check')
-  @HttpCode(HttpStatus.OK)
-  async checkContext(@Body() body: { urlCountry: string }, @Req() req: Request) {
-      const ip = this.requestContextService.extractIp(req);
-      return this.checkSecurityContextUseCase.execute({
-          urlCountry: body.urlCountry,
-          ip
-      });
-  }
-
-  @Public()
-  @Get('location')
-  @ApiOperation({ summary: 'Get client location' })
-  async getLocation(@Req() req: Request): Promise<any> {
-    try {
-      const ip = this.requestContextService.extractIp(req);
-      return await this.requestContextService.getGeoLocation(ip);
-    } catch (error) {
-      this.logger.error('Error fetching location:', error);
-      return { country_code: null };
-    }
   }
 }

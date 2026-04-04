@@ -7,8 +7,6 @@ export interface AuthUser {
   id: number;
   email: string;
   role: string;
-  accessToken: string;
-  refreshToken?: string;
   expiresIn?: number;
   mfaRequired?: boolean;
   entitlements: string[];

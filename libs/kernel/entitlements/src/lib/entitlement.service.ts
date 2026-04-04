@@ -110,7 +110,7 @@ export class EntitlementService {
     if (usage >= limit) {
       const periodContext = period === 'monthly' ? ' (this month)' : ' (lifetime)';
       throw new ForbiddenException(
-        `Quota exceeded for resource '${resource}'${periodContext}. Limit: ${limit}, Current Usage: ${usage}`,
+        `Quota exceeded for ${resource}${periodContext}. Limit: ${limit}, Current: ${usage}`,
       );
     }
   }
