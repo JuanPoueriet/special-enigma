@@ -10,9 +10,15 @@
         "COPY_ALL": "Copiar Todo",
         "COPIED": "Copiado al portapapeles",
         "ERROR": "Ha ocurrido un error",
-        "SUCCESS": "Operación exitosa"
+        "SUCCESS": "Operación exitosa",
+        "NOT_FOUND": "No hemos podido encontrar el recurso solicitado.",
+        "SERVER_ERROR": "Estamos experimentando dificultades técnicas. Por favor intente más tarde.",
+        "NETWORK_ERROR": "No se pudo establecer conexión. Revise su conexión a internet.",
+        "UNKNOWN_ERROR": "Ha ocurrido un error inesperado. Nuestro equipo ha sido notificado."
     },
     "AUTH": {
+        "SESSION_EXPIRED": "Sesión expirada o no autorizado",
+        "NO_PERMISSION": "No tienes permiso para realizar esta acción",
         "NEED_HELP": "¿Necesitas ayuda?",
         "SUPPORT_CENTER": "Centro de soporte"
     },
@@ -107,6 +113,12 @@
         "VIEWS": {
             "ALL": "Todos los usuarios"
         }
+    },
+    "TOAST": {
+        "SUCCESS": "Éxito",
+        "ERROR": "Error",
+        "WARNING": "Advertencia",
+        "INFO": "Información"
     },
     "SETTINGS": {
         "PROFILE": {

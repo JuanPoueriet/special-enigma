@@ -8,28 +8,31 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
-      let errorMessage = 'An unknown error occurred!';
+      let errorMessage = 'COMMON.ERROR';
 
       if (error.error instanceof ErrorEvent) {
-        // Client-side error
-        errorMessage = `Error: ${error.error.message}`;
+        // Client-side error (user-friendly)
+        errorMessage = error.error.message;
       } else {
         // Server-side error
-        if (error.status === 401) {
-             errorMessage = 'Session expired or unauthorized.';
+        if (error.status === 0) {
+             errorMessage = 'COMMON.NETWORK_ERROR';
+        } else if (error.status === 401) {
+             errorMessage = 'AUTH.SESSION_EXPIRED';
         } else if (error.status === 403) {
-             errorMessage = 'You do not have permission to perform this action.';
+             errorMessage = 'AUTH.NO_PERMISSION';
         } else if (error.status === 404) {
-             errorMessage = 'Resource not found.';
+             errorMessage = 'COMMON.NOT_FOUND';
         } else if (error.status >= 500) {
-             errorMessage = 'Server error. Please try again later.';
+             errorMessage = 'COMMON.SERVER_ERROR';
         } else if (error.error && error.error.message) {
-             // NestJS often returns { statusCode, message, error }
+             // User-facing messages from server should be prioritized
              errorMessage = Array.isArray(error.error.message)
-                ? error.error.message.join(', ')
+                ? error.error.message[0] // Take first if array
                 : error.error.message;
         } else {
-             errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+             // Generic fallback
+             errorMessage = 'COMMON.UNKNOWN_ERROR';
         }
       }
 
