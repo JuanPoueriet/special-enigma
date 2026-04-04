@@ -11,9 +11,7 @@ import { Observable, throwError, timer } from 'rxjs';
 import { catchError, switchMap, retry } from 'rxjs/operators';
 import { AuthService } from '../services/auth';
 import { AuthQueueService } from '../services/auth-queue.service';
-// import { IS_PUBLIC_API } from '../tokens/http-context.tokens';
-import { HttpContextToken } from '@angular/common/http';
-export const IS_PUBLIC_API = new HttpContextToken<boolean>(() => false);
+import { IS_PUBLIC_API } from '../tokens/http-context.tokens';
 
 export const authInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
@@ -45,7 +43,10 @@ export const authInterceptor: HttpInterceptorFn = (
       // Verificamos si la ruta es pública usando el HttpContextToken
       const isPublicAuthApiRoute = req.context.get(IS_PUBLIC_API);
 
-      if (isUnauthorized && !isPublicAuthApiRoute) {
+      // Salvaguarda: Si la petición falló y es una ruta pública o de auth crítica, no intentar refresh
+      const isAuthPath = req.url.includes('/auth/login') || req.url.includes('/auth/refresh') || req.url.includes('/auth/me');
+
+      if (isUnauthorized && !isPublicAuthApiRoute && !isAuthPath) {
         if (!authQueueService.isRefreshingToken) {
           authQueueService.startRefresh();
 
