@@ -11,8 +11,10 @@
         "COPIED": "Copiado al portapapeles",
         "ERROR": "Ha ocurrido un error",
         "SUCCESS": "Operación exitosa",
-        "NOT_FOUND": "Recurso no encontrado",
-        "SERVER_ERROR": "Error del servidor. Por favor intente más tarde."
+        "NOT_FOUND": "No hemos podido encontrar el recurso solicitado.",
+        "SERVER_ERROR": "Estamos experimentando dificultades técnicas. Por favor intente más tarde.",
+        "NETWORK_ERROR": "No se pudo establecer conexión. Revise su conexión a internet.",
+        "UNKNOWN_ERROR": "Ha ocurrido un error inesperado. Nuestro equipo ha sido notificado."
     },
     "AUTH": {
         "SESSION_EXPIRED": "Sesión expirada o no autorizado",
