@@ -26,6 +26,7 @@ import { IdentityProxyService } from './identity-proxy.service';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { CookiePolicyService } from '@virtex/domain-identity-presentation';
 import { AuthGuard } from '@nestjs/passport';
+import { Public } from '@virtex/kernel-auth';
 
 @Controller('v1')
 export class IdentityProxyController {
@@ -38,6 +39,7 @@ export class IdentityProxyController {
 
   // --- Auth ---
 
+  @Public()
   @Get('auth/me')
   async getMe(@Req() req: Request) {
     const token = req.cookies['access_token'];
@@ -53,6 +55,7 @@ export class IdentityProxyController {
     };
   }
 
+  @Public()
   @Post('auth/login')
   async login(
     @Body() body: any,
@@ -63,30 +66,51 @@ export class IdentityProxyController {
     const metadata = this.identityProxy.getMetadata(req);
     const result = await this.identityProxy.login(body, context, metadata);
 
-    if (!result.mfa_required) {
-      this.cookiePolicy.setAuthCookies(
-        res,
-        result.access_token,
-        result.refresh_token,
-        body.rememberMe,
-      );
+    if (result.mfa_required) {
+      return {
+        mfaRequired: true,
+        accessToken: result.access_token, // This is the temp token for MFA
+      };
     }
 
-    return result;
+    this.cookiePolicy.setAuthCookies(
+      res,
+      result.access_token,
+      result.refresh_token,
+      body.rememberMe,
+    );
+
+    const user = await this.identityProxy.getMe(result.access_token, metadata);
+
+    return {
+      accessToken: result.access_token,
+      refreshToken: result.refresh_token,
+      expiresIn: result.expires_in,
+      mfaRequired: false,
+      user: {
+        id: user.sub,
+        email: user.email,
+        role: user.role,
+        entitlements: user.entitlements || [],
+      },
+    };
   }
 
+  @Public()
   @Post('auth/signup/initiate')
   async initiateSignup(@Body() body: any, @Req() req: Request) {
     const metadata = this.identityProxy.getMetadata(req);
     return await this.identityProxy.initiateSignup(body, metadata);
   }
 
+  @Public()
   @Post('auth/signup/verify')
   async verifySignup(@Body() body: any, @Req() req: Request) {
     const metadata = this.identityProxy.getMetadata(req);
     return await this.identityProxy.verifySignup(body, metadata);
   }
 
+  @Public()
   @Post('auth/signup/complete')
   async completeOnboarding(
     @Body() body: any,
@@ -105,15 +129,30 @@ export class IdentityProxyController {
       result.access_token,
       result.refresh_token,
     );
-    return result;
+
+    const user = await this.identityProxy.getMe(result.access_token, metadata);
+
+    return {
+      accessToken: result.access_token,
+      refreshToken: result.refresh_token,
+      expiresIn: result.expires_in,
+      user: {
+        id: user.sub,
+        email: user.email,
+        role: user.role,
+        entitlements: user.entitlements || [],
+      },
+    };
   }
 
+  @Public()
   @Get('auth/google')
   @UseGuards(AuthGuard('google'))
   async googleAuth() {
     // Redirects to Google
   }
 
+  @Public()
   @Get('auth/google/callback')
   @UseGuards(AuthGuard('google'))
   async googleAuthCallback(
@@ -123,12 +162,14 @@ export class IdentityProxyController {
     return this.handleSocialCallback(req, res);
   }
 
+  @Public()
   @Get('auth/microsoft')
   @UseGuards(AuthGuard('microsoft'))
   async microsoftAuth() {
     // Redirects to Microsoft
   }
 
+  @Public()
   @Get('auth/microsoft/callback')
   @UseGuards(AuthGuard('microsoft'))
   async microsoftAuthCallback(
@@ -138,12 +179,14 @@ export class IdentityProxyController {
     return this.handleSocialCallback(req, res);
   }
 
+  @Public()
   @Get('auth/okta')
   @UseGuards(AuthGuard('okta'))
   async oktaAuth() {
     // Redirects to Okta
   }
 
+  @Public()
   @Get('auth/okta/callback')
   @UseGuards(AuthGuard('okta'))
   async oktaAuthCallback(
@@ -172,6 +215,7 @@ export class IdentityProxyController {
     res.redirect(`${frontendUrl}/accounting`);
   }
 
+  @Public()
   @Post('auth/verify-mfa')
   async verifyMfa(
     @Body() body: any,
@@ -186,9 +230,23 @@ export class IdentityProxyController {
       result.access_token,
       result.refresh_token,
     );
-    return result;
+
+    const user = await this.identityProxy.getMe(result.access_token, metadata);
+
+    return {
+      accessToken: result.access_token,
+      refreshToken: result.refresh_token,
+      expiresIn: result.expires_in,
+      user: {
+        id: user.sub,
+        email: user.email,
+        role: user.role,
+        entitlements: user.entitlements || [],
+      },
+    };
   }
 
+  @Public()
   @Post('auth/refresh')
   async refresh(
     @Req() req: Request,
@@ -210,7 +268,20 @@ export class IdentityProxyController {
       result.access_token,
       result.refresh_token,
     );
-    return result;
+
+    const user = await this.identityProxy.getMe(result.access_token, metadata);
+
+    return {
+      accessToken: result.access_token,
+      refreshToken: result.refresh_token,
+      expiresIn: result.expires_in,
+      user: {
+        id: user.sub,
+        email: user.email,
+        role: user.role,
+        entitlements: user.entitlements || [],
+      },
+    };
   }
 
   @Post('auth/logout')
@@ -231,6 +302,7 @@ export class IdentityProxyController {
     return await this.identityProxy.getOnboardingStatus(user.sub, metadata);
   }
 
+  @Public()
   @Post('auth/forgot-password')
   async forgotPassword(@Body() body: any, @Req() req: Request) {
     const context = this.identityProxy.buildContext(req);
@@ -238,6 +310,7 @@ export class IdentityProxyController {
     return await this.identityProxy.forgotPassword(body, context, metadata);
   }
 
+  @Public()
   @Post('auth/reset-password')
   async resetPassword(@Body() body: any, @Req() req: Request) {
     const context = this.identityProxy.buildContext(req);
@@ -245,6 +318,7 @@ export class IdentityProxyController {
     return await this.identityProxy.resetPassword(body, context, metadata);
   }
 
+  @Public()
   @Post('auth/set-password')
   async setPassword(
     @Body() body: any,
@@ -263,9 +337,23 @@ export class IdentityProxyController {
       result.access_token,
       result.refresh_token,
     );
-    return result;
+
+    const user = await this.identityProxy.getMe(result.access_token, metadata);
+
+    return {
+      accessToken: result.access_token,
+      refreshToken: result.refresh_token,
+      expiresIn: result.expires_in,
+      user: {
+        id: user.sub,
+        email: user.email,
+        role: user.role,
+        entitlements: user.entitlements || [],
+      },
+    };
   }
 
+  @Public()
   @Get('auth/social-register-info')
   async getSocialRegisterInfo(
     @Query('token') token: string,
@@ -302,6 +390,7 @@ export class IdentityProxyController {
     return { success: true };
   }
 
+  @Public()
   @Post('auth/passkey/login-options')
   async passkeyLoginOptions(
     @Body() body: { email?: string },
@@ -316,6 +405,7 @@ export class IdentityProxyController {
     return options;
   }
 
+  @Public()
   @Post('auth/passkey/login-verify')
   async passkeyLoginVerify(
     @Body() body: any,
@@ -337,9 +427,23 @@ export class IdentityProxyController {
       result.access_token,
       result.refresh_token,
     );
-    return result;
+
+    const user = await this.identityProxy.getMe(result.access_token, metadata);
+
+    return {
+      accessToken: result.access_token,
+      refreshToken: result.refresh_token,
+      expiresIn: result.expires_in,
+      user: {
+        id: user.sub,
+        email: user.email,
+        role: user.role,
+        entitlements: user.entitlements || [],
+      },
+    };
   }
 
+  @Public()
   @Post('auth/security/context-check')
   async checkContext(
     @Body() body: { urlCountry: string },
@@ -391,7 +495,20 @@ export class IdentityProxyController {
       result.access_token,
       result.refresh_token,
     );
-    return result;
+
+    const user = await this.identityProxy.getMe(result.access_token, metadata);
+
+    return {
+      accessToken: result.access_token,
+      refreshToken: result.refresh_token,
+      expiresIn: result.expires_in,
+      user: {
+        id: user.sub,
+        email: user.email,
+        role: user.role,
+        entitlements: user.entitlements || [],
+      },
+    };
   }
 
   @Post('auth/change-password')
@@ -453,6 +570,7 @@ export class IdentityProxyController {
     );
   }
 
+  @Public()
   @Get('auth/location')
   async getLocation(@Req() req: Request) {
     const metadata = this.identityProxy.getMetadata(req);
@@ -600,12 +718,14 @@ export class IdentityProxyController {
 
   // --- Localization ---
 
+  @Public()
   @Get('localization/config/:code')
   async getConfig(@Param('code') code: string, @Req() req: Request) {
     const metadata = this.identityProxy.getMetadata(req);
     return await this.identityProxy.getLocalizationConfig(code, metadata);
   }
 
+  @Public()
   @Get('localization/lookup/:taxId')
   async lookup(
     @Param('taxId') taxId: string,
@@ -622,6 +742,7 @@ export class IdentityProxyController {
 
   // --- Common ---
 
+  @Public()
   @Head('common/users/exists')
   @HttpCode(HttpStatus.OK)
   async checkUserExists(@Query('email') email: string, @Req() req: Request) {
@@ -630,6 +751,7 @@ export class IdentityProxyController {
     if (!result.exists) throw new NotFoundException('User not found');
   }
 
+  @Public()
   @Head('common/organizations/exists')
   @HttpCode(HttpStatus.OK)
   async checkOrganizationExists(

@@ -59,16 +59,34 @@ export class IdentityProxyController {
     const metadata = this.identityProxy.getMetadata(req);
     const result = await this.identityProxy.login(body, context, metadata);
 
-    if (!result.mfa_required) {
-      this.cookiePolicy.setAuthCookies(
-        res,
-        result.access_token,
-        result.refresh_token,
-        body.rememberMe,
-      );
+    if (result.mfa_required) {
+      return {
+        mfaRequired: true,
+        accessToken: result.access_token,
+      };
     }
 
-    return result;
+    this.cookiePolicy.setAuthCookies(
+      res,
+      result.access_token,
+      result.refresh_token,
+      body.rememberMe,
+    );
+
+    const user = await this.identityProxy.getMe(result.access_token, metadata);
+
+    return {
+      accessToken: result.access_token,
+      refreshToken: result.refresh_token,
+      expiresIn: result.expires_in,
+      mfaRequired: false,
+      user: {
+        id: user.sub,
+        email: user.email,
+        role: user.role,
+        entitlements: user.entitlements || [],
+      },
+    };
   }
 
   @Public()
@@ -104,7 +122,20 @@ export class IdentityProxyController {
       result.access_token,
       result.refresh_token,
     );
-    return result;
+
+    const user = await this.identityProxy.getMe(result.access_token, metadata);
+
+    return {
+      accessToken: result.access_token,
+      refreshToken: result.refresh_token,
+      expiresIn: result.expires_in,
+      user: {
+        id: user.sub,
+        email: user.email,
+        role: user.role,
+        entitlements: user.entitlements || [],
+      },
+    };
   }
 
   @Public()
@@ -192,7 +223,20 @@ export class IdentityProxyController {
       result.access_token,
       result.refresh_token,
     );
-    return result;
+
+    const user = await this.identityProxy.getMe(result.access_token, metadata);
+
+    return {
+      accessToken: result.access_token,
+      refreshToken: result.refresh_token,
+      expiresIn: result.expires_in,
+      user: {
+        id: user.sub,
+        email: user.email,
+        role: user.role,
+        entitlements: user.entitlements || [],
+      },
+    };
   }
 
   @Public()
@@ -217,7 +261,20 @@ export class IdentityProxyController {
       result.access_token,
       result.refresh_token,
     );
-    return result;
+
+    const user = await this.identityProxy.getMe(result.access_token, metadata);
+
+    return {
+      accessToken: result.access_token,
+      refreshToken: result.refresh_token,
+      expiresIn: result.expires_in,
+      user: {
+        id: user.sub,
+        email: user.email,
+        role: user.role,
+        entitlements: user.entitlements || [],
+      },
+    };
   }
 
   @Post('auth/logout')
@@ -272,7 +329,20 @@ export class IdentityProxyController {
       result.access_token,
       result.refresh_token,
     );
-    return result;
+
+    const user = await this.identityProxy.getMe(result.access_token, metadata);
+
+    return {
+      accessToken: result.access_token,
+      refreshToken: result.refresh_token,
+      expiresIn: result.expires_in,
+      user: {
+        id: user.sub,
+        email: user.email,
+        role: user.role,
+        entitlements: user.entitlements || [],
+      },
+    };
   }
 
   @Get('auth/social-register-info')
@@ -348,7 +418,11 @@ export class IdentityProxyController {
       result.access_token,
       result.refresh_token,
     );
-    return result;
+    return {
+      accessToken: result.access_token,
+      refreshToken: result.refresh_token,
+      expiresIn: result.expires_in,
+    };
   }
 
   @Post('auth/security/context-check')
@@ -402,7 +476,11 @@ export class IdentityProxyController {
       result.access_token,
       result.refresh_token,
     );
-    return result;
+    return {
+      accessToken: result.access_token,
+      refreshToken: result.refresh_token,
+      expiresIn: result.expires_in,
+    };
   }
 
   @Post('auth/change-password')

@@ -18,11 +18,18 @@ export class KeycloakAuthService implements AuthService {
     private readonly jwtTokenService: JwtTokenService,
     private readonly mfaHelper: MfaHelperService
   ) {
-      this.clientSecret = this.secretManager.getSecret('KEYCLOAK_CLIENT_SECRET', 'dev-keycloak-secret');
-      this.issuer = this.secretManager.getSecret('KEYCLOAK_ISSUER', 'https://keycloak.virtex.com/auth/realms/virtex');
+      this.clientSecret = this.secretManager.getSecret('KEYCLOAK_CLIENT_SECRET');
+      this.issuer = this.secretManager.getSecret('KEYCLOAK_ISSUER');
+
+      if (!this.clientSecret || !this.issuer) {
+          throw new Error('Keycloak configuration (KEYCLOAK_CLIENT_SECRET, KEYCLOAK_ISSUER) is missing');
+      }
 
       const mfaKey = this.secretManager.getSecret('MFA_ENCRYPTION_KEY', this.clientSecret);
-      const salt = this.secretManager.getSecret('ENCRYPTION_SALT', 'keycloak-default-salt');
+      const salt = this.secretManager.getSecret('ENCRYPTION_SALT');
+      if (!salt) {
+          throw new Error('ENCRYPTION_SALT must be configured');
+      }
       this.encryptionKey = crypto.scryptSync(mfaKey, salt, 32);
   }
 

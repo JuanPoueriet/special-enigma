@@ -12,20 +12,19 @@ export class AuthSessionStore {
   }
 
   private rehydrate(): void {
-    const token = sessionStorage.getItem('token') || localStorage.getItem('token');
-    const email = sessionStorage.getItem('email') || localStorage.getItem('email');
+    const email = localStorage.getItem('email');
 
-    if (token && this.isTokenValid(token)) {
-      const payload = JSON.parse(atob(token.split('.')[1]));
+    // With HttpOnly cookies, we rely on the backend to tell us who we are.
+    // The interceptor will handle authentication via cookies.
+    // We can still keep the email for UI display if it was saved.
+    if (email) {
       this.currentUserSubject.next({
           id: 0,
-          email: email ?? '',
-          role: payload.role || 'OPERATOR',
-          token,
-          entitlements: payload.entitlements || []
+          email: email,
+          role: 'INITIALIZING', // Better state than GUEST
+          accessToken: '', // No longer stored in client
+          entitlements: []
       });
-    } else {
-      this.clear();
     }
   }
 
@@ -39,20 +38,15 @@ export class AuthSessionStore {
   }
 
   set(user: AuthUser): void {
-    // Level 5: Use sessionStorage for sensitive tokens to prevent persistence across sessions
-    sessionStorage.setItem('token', user.token);
-    sessionStorage.setItem('email', user.email);
-
-    // Optional: Keep email in localStorage for "Remember Me" but NOT the token
+    // Level 6: Do NOT store the token in client-accessible storage
+    // We only keep user info for the UI
     localStorage.setItem('email', user.email);
 
     this.currentUserSubject.next(user);
   }
 
   clear(): void {
-    sessionStorage.removeItem('token');
-    sessionStorage.removeItem('email');
-    localStorage.removeItem('token'); // Cleanup legacy
+    localStorage.removeItem('email');
     this.currentUserSubject.next(null);
   }
 
@@ -72,6 +66,6 @@ export class AuthSessionStore {
 
   getToken(): string | null {
     const user = this.getCurrentUser();
-    return user ? user.token : null;
+    return user ? user.accessToken : null;
   }
 }
