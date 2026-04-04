@@ -44,19 +44,6 @@
         "NOTES": "Notes",
         "STOCK_ERROR": "Insufficient stock"
     },
-    "LOGIN": {
-        "TITLE": "Sign in to your account",
-        "EMAIL": "Email",
-        "PASSWORD": "Password",
-        "SIGN_IN": "Sign In",
-        "FORGOT_PASSWORD": "Forgot password?",
-        "FOOTER": {
-            "TERMS": "Terms of Service",
-            "PRIVACY": "Privacy Policy",
-            "SECURITY": "Security",
-            "CONTACT": "Contact"
-        }
-    },
     "REGISTER": {
         "TITLE": "Create an account",
         "OTP_TITLE": "Verify your email",
@@ -91,6 +78,20 @@
         },
         "FOOTER": {
             "COPYRIGHT": "All rights reserved."
+        }
+    },
+    "LOGIN": {
+        "TITLE": "Sign in to your account",
+        "EMAIL": "Email",
+        "PASSWORD": "Password",
+        "SIGN_IN": "Sign In",
+        "FORGOT_PASSWORD": "Forgot password?",
+        "FOOTER": {
+            "TERMS": "Terms of Service",
+            "PRIVACY": "Privacy Policy",
+            "SECURITY": "Security",
+            "CONTACT": "Contact",
+            "ALL_RIGHTS_RESERVED": "All rights reserved."
         }
     },
     "USER": {
