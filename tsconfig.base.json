@@ -12,10 +12,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
-    "lib": [
-      "es2020",
-      "dom"
-    ],
+    "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
@@ -45,9 +42,7 @@
       "@virtex/domain-admin-contracts": [
         "libs/domain/admin/contracts/src/index.ts"
       ],
-      "@virtex/domain-admin-domain": [
-        "libs/domain/admin/domain/src/index.ts"
-      ],
+      "@virtex/domain-admin-domain": ["libs/domain/admin/domain/src/index.ts"],
       "@virtex/domain-admin-infrastructure": [
         "libs/domain/admin/infrastructure/src/index.ts"
       ],
@@ -57,12 +52,8 @@
       "@virtex/domain-bi-application": [
         "libs/domain/bi/application/src/index.ts"
       ],
-      "@virtex/domain-bi-contracts": [
-        "libs/domain/bi/contracts/src/index.ts"
-      ],
-      "@virtex/domain-bi-domain": [
-        "libs/domain/bi/domain/src/index.ts"
-      ],
+      "@virtex/domain-bi-contracts": ["libs/domain/bi/contracts/src/index.ts"],
+      "@virtex/domain-bi-domain": ["libs/domain/bi/domain/src/index.ts"],
       "@virtex/domain-bi-infrastructure": [
         "libs/domain/bi/infrastructure/src/index.ts"
       ],
@@ -93,18 +84,14 @@
       "@virtex/domain-catalog-presentation": [
         "libs/domain/catalog/presentation/src/index.ts"
       ],
-      "@virtex/domain-catalog-ui": [
-        "libs/domain/catalog/ui/src/index.ts"
-      ],
+      "@virtex/domain-catalog-ui": ["libs/domain/catalog/ui/src/index.ts"],
       "@virtex/domain-crm-application": [
         "libs/domain/crm/application/src/index.ts"
       ],
       "@virtex/domain-crm-contracts": [
         "libs/domain/crm/contracts/src/index.ts"
       ],
-      "@virtex/domain-crm-domain": [
-        "libs/domain/crm/domain/src/index.ts"
-      ],
+      "@virtex/domain-crm-domain": ["libs/domain/crm/domain/src/index.ts"],
       "@virtex/domain-crm-infrastructure": [
         "libs/domain/crm/infrastructure/src/index.ts"
       ],
@@ -132,9 +119,7 @@
       "@virtex/domain-fiscal-presentation": [
         "libs/domain/fiscal/presentation/src/index.ts"
       ],
-      "@virtex/domain-fiscal-ui": [
-        "libs/domain/fiscal/ui/src/index.ts"
-      ],
+      "@virtex/domain-fiscal-ui": ["libs/domain/fiscal/ui/src/index.ts"],
       "@virtex/domain-fixed-assets-application": [
         "libs/domain/fixed-assets/application/src/index.ts"
       ],
@@ -165,9 +150,7 @@
       "@virtex/domain-identity-presentation": [
         "libs/domain/identity/presentation/src/index.ts"
       ],
-      "@virtex/domain-identity-ui": [
-        "libs/domain/identity/ui/src/index.ts"
-      ],
+      "@virtex/domain-identity-ui": ["libs/domain/identity/ui/src/index.ts"],
       "@virtex/domain-inventory-application": [
         "libs/domain/inventory/application/src/index.ts"
       ],
@@ -228,15 +211,11 @@
       "@virtex/domain-pos-application": [
         "libs/domain/pos/application/src/index.ts"
       ],
-      "@virtex/domain-pos-domain": [
-        "libs/domain/pos/domain/src/index.ts"
-      ],
+      "@virtex/domain-pos-domain": ["libs/domain/pos/domain/src/index.ts"],
       "@virtex/domain-pos-infrastructure": [
         "libs/domain/pos/infrastructure/src/index.ts"
       ],
-      "@virtex/domain-pos-ui": [
-        "libs/domain/pos/ui/src/index.ts"
-      ],
+      "@virtex/domain-pos-ui": ["libs/domain/pos/ui/src/index.ts"],
       "@virtex/domain-projects-application": [
         "libs/domain/projects/application/src/index.ts"
       ],
@@ -297,66 +276,30 @@
       "@virtex/domain-treasury-presentation": [
         "libs/domain/treasury/presentation/src/index.ts"
       ],
-      "@virtex/exceptions": [
-        "libs/kernel/exceptions/src/index.ts"
-      ],
-      "@virtex/kernel-entitlements": [
-        "libs/kernel/entitlements/src/index.ts"
-      ],
-      "@virtex/kernel-audit": [
-        "libs/kernel/audit/src/index.ts"
-      ],
-      "@virtex/kernel-bff-core": [
-        "libs/kernel/bff-core/src/index.ts"
-      ],
-      "@virtex/kernel-auth": [
-        "libs/kernel/auth/src/index.ts"
-      ],
-      "@virtex/kernel-messaging": [
-        "libs/kernel/messaging/src/index.ts"
-      ],
-      "@virtex/kernel-telemetry": [
-        "libs/kernel/telemetry/src/index.ts"
-      ],
+      "@virtex/exceptions": ["libs/kernel/exceptions/src/index.ts"],
+      "@virtex/kernel-entitlements": ["libs/kernel/entitlements/src/index.ts"],
+      "@virtex/kernel-audit": ["libs/kernel/audit/src/index.ts"],
+      "@virtex/kernel-bff-core": ["libs/kernel/bff-core/src/index.ts"],
+      "@virtex/kernel-auth": ["libs/kernel/auth/src/index.ts"],
+      "@virtex/kernel-messaging": ["libs/kernel/messaging/src/index.ts"],
+      "@virtex/kernel-telemetry": ["libs/kernel/telemetry/src/index.ts"],
       "@virtex/kernel-telemetry-interfaces": [
         "libs/kernel/telemetry-interfaces/src/index.ts"
       ],
-      "@virtex/kernel-tenant": [
-        "libs/kernel/tenant/src/index.ts"
-      ],
+      "@virtex/kernel-tenant": ["libs/kernel/tenant/src/index.ts"],
       "@virtex/kernel-tenant-context": [
         "libs/kernel/tenant-context/src/index.ts"
       ],
-      "@virtex/kernel-http": [
-        "libs/kernel/http/src/index.ts"
-      ],
-      "@virtex/kernel-idempotency": [
-        "libs/kernel/idempotency/src/index.ts"
-      ],
-      "@virtex/kernel-federation": [
-        "libs/kernel/federation/src/index.ts"
-      ],
-      "@virtex/kernel-constants": [
-        "libs/kernel/constants/src/index.ts"
-      ],
-      "@virtex/platform-audit": [
-        "libs/platform/audit/src/index.ts"
-      ],
-      "@virtex/platform-cache": [
-        "libs/platform/cache/src/index.ts"
-      ],
-      "@virtex/platform-kafka": [
-        "libs/platform/kafka/src/index.ts"
-      ],
-      "@virtex/platform-nats": [
-        "libs/platform/nats/src/index.ts"
-      ],
-      "@virtex/platform-storage": [
-        "libs/platform/storage/src/index.ts"
-      ],
-      "@virtex/platform-xslt": [
-        "libs/platform/xslt/src/index.ts"
-      ],
+      "@virtex/kernel-http": ["libs/kernel/http/src/index.ts"],
+      "@virtex/kernel-idempotency": ["libs/kernel/idempotency/src/index.ts"],
+      "@virtex/kernel-federation": ["libs/kernel/federation/src/index.ts"],
+      "@virtex/kernel-constants": ["libs/kernel/constants/src/index.ts"],
+      "@virtex/platform-audit": ["libs/platform/audit/src/index.ts"],
+      "@virtex/platform-cache": ["libs/platform/cache/src/index.ts"],
+      "@virtex/platform-kafka": ["libs/platform/kafka/src/index.ts"],
+      "@virtex/platform-nats": ["libs/platform/nats/src/index.ts"],
+      "@virtex/platform-storage": ["libs/platform/storage/src/index.ts"],
+      "@virtex/platform-xslt": ["libs/platform/xslt/src/index.ts"],
       "@virtex/platform-contract-governance": [
         "libs/platform/contract-governance/src/index.ts"
       ],
@@ -375,12 +318,8 @@
       "@virtex/platform-desktop-file-system": [
         "libs/platform/desktop/file-system/src/index.ts"
       ],
-      "@virtex/shared-contracts": [
-        "libs/shared/contracts/src/index.ts"
-      ],
-      "@virtex/shared-ui": [
-        "libs/shared/ui/src/index.ts"
-      ],
+      "@virtex/shared-contracts": ["libs/shared/contracts/src/index.ts"],
+      "@virtex/shared-ui": ["libs/shared/ui/src/index.ts"],
       "@virtex/shared-util-client-auth": [
         "libs/shared/util/client/auth/src/index.ts"
       ],
@@ -396,12 +335,8 @@
       "@virtex/shared-util-server-health": [
         "libs/shared/util/server/health/src/index.ts"
       ],
-      "@virtex/shared-proto": [
-        "libs/shared/proto/src/index.ts"
-      ],
-      "@virtex/shared-validators": [
-        "libs/shared/validators/src/index.ts"
-      ],
+      "@virtex/shared-proto": ["libs/shared/proto/src/index.ts"],
+      "@virtex/shared-validators": ["libs/shared/validators/src/index.ts"],
       "@virtex/domain-scheduler-domain": [
         "libs/domain/scheduler/domain/src/index.ts"
       ],
@@ -420,79 +355,169 @@
       "@virtex/domain-billing-contracts": [
         "libs/domain/billing/contracts/src/index.ts"
       ],
-      "@virtex/kernel-exceptions": [
-        "libs/kernel/exceptions/src/index.ts"
-      ],
+      "@virtex/kernel-exceptions": ["libs/kernel/exceptions/src/index.ts"],
       "@virtex/platform-data-quality": [
         "libs/platform/data-quality/src/index.ts"
       ],
       "@virtex/domain-payroll-contracts-payroll-contracts": [
         "libs/domain/payroll/contracts/src/index.ts"
       ],
-      "@virtex/shared-types": [
-        "libs/shared/types/src/index.ts"
-      ],
-      "@virtex/shared-config": [
-        "libs/shared/config/src/index.ts"
-      ],
-      "@virtex/shared-util-auth": [
-        "libs/shared/util/client/auth/src/index.ts"
-      ],
-      "@virtex/shared-util-http": [
-        "libs/shared/util/client/http/src/index.ts"
-      ],
-      "@virtex/identity-ui": [
-        "libs/domain/identity/ui/src/index.ts"
-      ],
-      "@virtex/accounting-ui": [
-        "libs/domain/accounting/ui/src/index.ts"
-      ],
-      "@virtex/inventory-ui": [
-        "libs/domain/inventory/ui-wms/src/index.ts"
-      ],
-      "@virtex/payroll-ui": [
-        "libs/domain/payroll/ui/src/index.ts"
-      ],
-      "@virtex/crm-ui": [
-        "libs/domain/crm/ui/src/index.ts"
-      ],
-      "@virtex/purchasing-ui": [
-        "libs/domain/purchasing/ui/src/index.ts"
-      ],
-      "@virtex/treasury-ui": [
-        "libs/domain/treasury/ui/src/index.ts"
-      ],
-      "@virtex/fixed-assets-ui": [
-        "libs/domain/fixed-assets/ui/src/index.ts"
-      ],
-      "@virtex/projects-ui": [
-        "libs/domain/projects/ui/src/index.ts"
-      ],
+      "@virtex/shared-types": ["libs/shared/types/src/index.ts"],
+      "@virtex/shared-config": ["libs/shared/config/src/index.ts"],
+      "@virtex/shared-util-auth": ["libs/shared/util/client/auth/src/index.ts"],
+      "@virtex/shared-util-http": ["libs/shared/util/client/http/src/index.ts"],
+      "@virtex/identity-ui": ["libs/domain/identity/ui/src/index.ts"],
+      "@virtex/accounting-ui": ["libs/domain/accounting/ui/src/index.ts"],
+      "@virtex/inventory-ui": ["libs/domain/inventory/ui-wms/src/index.ts"],
+      "@virtex/payroll-ui": ["libs/domain/payroll/ui/src/index.ts"],
+      "@virtex/crm-ui": ["libs/domain/crm/ui/src/index.ts"],
+      "@virtex/purchasing-ui": ["libs/domain/purchasing/ui/src/index.ts"],
+      "@virtex/treasury-ui": ["libs/domain/treasury/ui/src/index.ts"],
+      "@virtex/fixed-assets-ui": ["libs/domain/fixed-assets/ui/src/index.ts"],
+      "@virtex/projects-ui": ["libs/domain/projects/ui/src/index.ts"],
       "@virtex/manufacturing-ui": [
         "libs/domain/manufacturing/ui-shopfloor/src/index.ts"
       ],
-      "@virtex/pos-ui": [
-        "libs/domain/pos/ui/src/index.ts"
+      "@virtex/pos-ui": ["libs/domain/pos/ui/src/index.ts"],
+      "@virtex/billing-ui": ["libs/domain/billing/ui/src/index.ts"],
+      "@virtex/catalog-ui": ["libs/domain/catalog/ui/src/index.ts"],
+      "@virtex/bi-ui": ["libs/domain/bi/ui/src/index.ts"],
+      "@virtex/admin-ui": ["libs/domain/admin/ui/src/index.ts"],
+      "@virtex/fiscal-ui": ["libs/domain/fiscal/ui/src/index.ts"],
+      "@virtex/domain-authn-credential-domain": [
+        "libs/domain/authn-credential/domain/src/index.ts"
       ],
-      "@virtex/billing-ui": [
-        "libs/domain/billing/ui/src/index.ts"
+      "@virtex/domain-risk-adaptive-auth-domain": [
+        "libs/domain/risk-adaptive-auth/domain/src/index.ts"
       ],
-      "@virtex/catalog-ui": [
-        "libs/domain/catalog/ui/src/index.ts"
+      "@virtex/domain-authn-credential-application": [
+        "libs/domain/authn-credential/application/src/index.ts"
       ],
-      "@virtex/bi-ui": [
-        "libs/domain/bi/ui/src/index.ts"
+      "@virtex/domain-risk-adaptive-auth-application": [
+        "libs/domain/risk-adaptive-auth/application/src/index.ts"
       ],
-      "@virtex/admin-ui": [
-        "libs/domain/admin/ui/src/index.ts"
+      "@virtex/domain-authn-credential-infrastructure": [
+        "libs/domain/authn-credential/infrastructure/src/index.ts"
       ],
-      "@virtex/fiscal-ui": [
-        "libs/domain/fiscal/ui/src/index.ts"
+      "@virtex/domain-risk-adaptive-auth-infrastructure": [
+        "libs/domain/risk-adaptive-auth/infrastructure/src/index.ts"
+      ],
+      "@virtex/domain-authn-credential-presentation": [
+        "libs/domain/authn-credential/presentation/src/index.ts"
+      ],
+      "@virtex/domain-risk-adaptive-auth-presentation": [
+        "libs/domain/risk-adaptive-auth/presentation/src/index.ts"
+      ],
+      "@virtex/domain-authn-credential-contracts": [
+        "libs/domain/authn-credential/contracts/src/index.ts"
+      ],
+      "@virtex/domain-risk-adaptive-auth-contracts": [
+        "libs/domain/risk-adaptive-auth/contracts/src/index.ts"
+      ],
+      "@virtex/domain-identity-profile-domain": [
+        "libs/domain/identity-profile/domain/src/index.ts"
+      ],
+      "@virtex/domain-provisioning-federation-domain": [
+        "libs/domain/provisioning-federation/domain/src/index.ts"
+      ],
+      "@virtex/domain-identity-profile-application": [
+        "libs/domain/identity-profile/application/src/index.ts"
+      ],
+      "@virtex/domain-provisioning-federation-application": [
+        "libs/domain/provisioning-federation/application/src/index.ts"
+      ],
+      "@virtex/domain-identity-profile-infrastructure": [
+        "libs/domain/identity-profile/infrastructure/src/index.ts"
+      ],
+      "@virtex/domain-provisioning-federation-infrastructure": [
+        "libs/domain/provisioning-federation/infrastructure/src/index.ts"
+      ],
+      "@virtex/domain-identity-profile-presentation": [
+        "libs/domain/identity-profile/presentation/src/index.ts"
+      ],
+      "@virtex/domain-provisioning-federation-presentation": [
+        "libs/domain/provisioning-federation/presentation/src/index.ts"
+      ],
+      "@virtex/domain-identity-profile-contracts": [
+        "libs/domain/identity-profile/contracts/src/index.ts"
+      ],
+      "@virtex/domain-provisioning-federation-contracts": [
+        "libs/domain/provisioning-federation/contracts/src/index.ts"
+      ],
+      "@virtex/domain-token-domain": ["libs/domain/token/domain/src/index.ts"],
+      "@virtex/domain-token-application": [
+        "libs/domain/token/application/src/index.ts"
+      ],
+      "@virtex/domain-token-infrastructure": [
+        "libs/domain/token/infrastructure/src/index.ts"
+      ],
+      "@virtex/domain-token-presentation": [
+        "libs/domain/token/presentation/src/index.ts"
+      ],
+      "@virtex/domain-token-contracts": [
+        "libs/domain/token/contracts/src/index.ts"
+      ],
+      "@virtex/domain-session-domain": [
+        "libs/domain/session/domain/src/index.ts"
+      ],
+      "@virtex/domain-session-application": [
+        "libs/domain/session/application/src/index.ts"
+      ],
+      "@virtex/domain-session-infrastructure": [
+        "libs/domain/session/infrastructure/src/index.ts"
+      ],
+      "@virtex/domain-session-presentation": [
+        "libs/domain/session/presentation/src/index.ts"
+      ],
+      "@virtex/domain-session-contracts": [
+        "libs/domain/session/contracts/src/index.ts"
+      ],
+      "@virtex/domain-authorization-policy-domain": [
+        "libs/domain/authorization-policy/domain/src/index.ts"
+      ],
+      "@virtex/domain-authorization-policy-application": [
+        "libs/domain/authorization-policy/application/src/index.ts"
+      ],
+      "@virtex/domain-authorization-policy-infrastructure": [
+        "libs/domain/authorization-policy/infrastructure/src/index.ts"
+      ],
+      "@virtex/domain-authorization-policy-presentation": [
+        "libs/domain/authorization-policy/presentation/src/index.ts"
+      ],
+      "@virtex/domain-authorization-policy-contracts": [
+        "libs/domain/authorization-policy/contracts/src/index.ts"
+      ],
+      "@virtex/domain-identity-audit-ledger-domain": [
+        "libs/domain/identity-audit-ledger/domain/src/index.ts"
+      ],
+      "@virtex/domain-identity-audit-ledger-application": [
+        "libs/domain/identity-audit-ledger/application/src/index.ts"
+      ],
+      "@virtex/domain-identity-audit-ledger-infrastructure": [
+        "libs/domain/identity-audit-ledger/infrastructure/src/index.ts"
+      ],
+      "@virtex/domain-identity-audit-ledger-presentation": [
+        "libs/domain/identity-audit-ledger/presentation/src/index.ts"
+      ],
+      "@virtex/domain-identity-audit-ledger-contracts": [
+        "libs/domain/identity-audit-ledger/contracts/src/index.ts"
+      ],
+      "@virtex/domain-api-access-gateway-domain": [
+        "libs/domain/api-access-gateway/domain/src/index.ts"
+      ],
+      "@virtex/domain-api-access-gateway-application": [
+        "libs/domain/api-access-gateway/application/src/index.ts"
+      ],
+      "@virtex/domain-api-access-gateway-infrastructure": [
+        "libs/domain/api-access-gateway/infrastructure/src/index.ts"
+      ],
+      "@virtex/domain-api-access-gateway-presentation": [
+        "libs/domain/api-access-gateway/presentation/src/index.ts"
+      ],
+      "@virtex/domain-api-access-gateway-contracts": [
+        "libs/domain/api-access-gateway/contracts/src/index.ts"
       ]
     }
   },
-  "exclude": [
-    "node_modules",
-    "tmp"
-  ]
+  "exclude": ["node_modules", "tmp"]
 }

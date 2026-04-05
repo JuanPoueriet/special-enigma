@@ -67,7 +67,16 @@
         "apps/edge/support/e2e/**/*",
         "apps/edge/cms/e2e/**/*",
         "apps/edge/site/app-public-e2e/**/*",
-        "apps/edge/storefront/e2e/**/*"
+        "apps/edge/storefront/e2e/**/*",
+        "apps/service/authn-credential/app-e2e/**/*",
+        "apps/service/risk-adaptive-auth/app-e2e/**/*",
+        "apps/service/identity-profile/app-e2e/**/*",
+        "apps/service/provisioning-federation/app-e2e/**/*",
+        "apps/service/token/app-e2e/**/*",
+        "apps/service/session/app-e2e/**/*",
+        "apps/service/authorization-policy/app-e2e/**/*",
+        "apps/service/identity-audit-ledger/app-e2e/**/*",
+        "apps/service/api-access-gateway/app-e2e/**/*"
       ]
     },
     {

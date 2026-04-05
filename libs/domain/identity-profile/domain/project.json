@@ -1,0 +1,9 @@
+{
+  "name": "domain-identity-profile-domain",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domain/identity-profile/domain/src",
+  "projectType": "library",
+  "tags": ["scope:identity-profile", "type:domain"],
+  "// targets": "to see all targets run: nx show project domain-identity-profile-domain --web",
+  "targets": {}
+}

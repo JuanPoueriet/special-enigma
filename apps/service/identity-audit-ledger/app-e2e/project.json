@@ -1,0 +1,20 @@
+{
+  "name": "identity-audit-ledger-e2e",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "implicitDependencies": ["identity-audit-ledger"],
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
+      "options": {
+        "jestConfig": "apps/service/identity-audit-ledger/app-e2e/jest.config.cts",
+        "passWithNoTests": true
+      },
+      "dependsOn": [
+        "identity-audit-ledger:build",
+        "identity-audit-ledger:serve"
+      ]
+    }
+  }
+}

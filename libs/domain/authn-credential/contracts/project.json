@@ -1,0 +1,9 @@
+{
+  "name": "domain-authn-credential-contracts",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domain/authn-credential/contracts/src",
+  "projectType": "library",
+  "tags": ["scope:authn-credential", "type:contracts"],
+  "// targets": "to see all targets run: nx show project domain-authn-credential-contracts --web",
+  "targets": {}
+}

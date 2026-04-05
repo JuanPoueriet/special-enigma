@@ -1,0 +1,9 @@
+{
+  "name": "domain-authn-credential-domain",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domain/authn-credential/domain/src",
+  "projectType": "library",
+  "tags": ["scope:authn-credential", "type:domain"],
+  "// targets": "to see all targets run: nx show project domain-authn-credential-domain --web",
+  "targets": {}
+}

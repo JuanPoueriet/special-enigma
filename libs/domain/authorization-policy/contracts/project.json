@@ -1,0 +1,9 @@
+{
+  "name": "domain-authorization-policy-contracts",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domain/authorization-policy/contracts/src",
+  "projectType": "library",
+  "tags": ["scope:authorization-policy", "type:contracts"],
+  "// targets": "to see all targets run: nx show project domain-authorization-policy-contracts --web",
+  "targets": {}
+}

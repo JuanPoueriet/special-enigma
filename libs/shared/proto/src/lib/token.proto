@@ -1,0 +1,22 @@
+
+syntax = "proto3";
+
+package token;
+
+service TokenService {
+  rpc IssueTokens (IssueTokenRequest) returns (IssueTokenResponse);
+}
+
+message IssueTokenRequest {
+  string userId = 1;
+  string email = 2;
+  string role = 3;
+  string tenantId = 4;
+  int32 riskScore = 5;
+}
+
+message IssueTokenResponse {
+  string accessToken = 1;
+  string refreshToken = 2;
+  int32 expiresIn = 3;
+}

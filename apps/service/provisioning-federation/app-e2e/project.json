@@ -1,0 +1,20 @@
+{
+  "name": "provisioning-federation-e2e",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "implicitDependencies": ["provisioning-federation"],
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
+      "options": {
+        "jestConfig": "apps/service/provisioning-federation/app-e2e/jest.config.cts",
+        "passWithNoTests": true
+      },
+      "dependsOn": [
+        "provisioning-federation:build",
+        "provisioning-federation:serve"
+      ]
+    }
+  }
+}

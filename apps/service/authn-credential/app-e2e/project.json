@@ -1,0 +1,17 @@
+{
+  "name": "authn-credential-e2e",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "implicitDependencies": ["authn-credential"],
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
+      "options": {
+        "jestConfig": "apps/service/authn-credential/app-e2e/jest.config.cts",
+        "passWithNoTests": true
+      },
+      "dependsOn": ["authn-credential:build", "authn-credential:serve"]
+    }
+  }
+}
