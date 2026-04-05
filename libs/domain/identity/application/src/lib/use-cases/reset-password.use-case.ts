@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { BadRequestException } from '@virtex/kernel-exceptions';
-import { UserRepository, AuthService, AuditLogRepository, AuditLog, SessionRepository } from '@virtex/domain-identity-domain';
+import { UserRepository, AuthService, AuditLogRepository, AuditLog, SessionRepository, CachePort } from '@virtex/domain-identity-domain';
 import { ResetPasswordDto } from '@virtex/domain-identity-contracts';
 
 @Injectable()
@@ -10,7 +10,7 @@ export class ResetPasswordUseCase {
     @Inject(AuthService) private readonly authService: AuthService,
     @Inject(AuditLogRepository) private readonly auditLogRepository: AuditLogRepository,
     @Inject(SessionRepository) private readonly sessionRepository: SessionRepository,
-    @Inject('CachePort') private readonly cachePort: any,
+    @Inject(CachePort) private readonly cachePort: CachePort,
   ) {}
 
   async execute(dto: ResetPasswordDto, context: { ip: string, userAgent: string }): Promise<void> {

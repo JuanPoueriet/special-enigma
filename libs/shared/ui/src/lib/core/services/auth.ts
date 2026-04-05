@@ -25,6 +25,7 @@ export class AuthService {
 
   private _currentUser = signal<any>(null);
   public readonly currentUser = computed(() => this._currentUser());
+  public readonly currentUser$ = toObservable(this._currentUser);
   public readonly isAuthenticated = computed(() => !!this._currentUser());
   public isAuthenticated$ = toObservable(this.isAuthenticated);
 

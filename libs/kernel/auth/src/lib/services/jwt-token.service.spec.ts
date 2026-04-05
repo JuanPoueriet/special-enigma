@@ -2,6 +2,7 @@ import { vi, describe, it, expect, beforeEach, afterAll } from 'vitest';
 import { JwtTokenService, TokenIssueOptions } from './jwt-token.service';
 import * as jwt from 'jsonwebtoken';
 import { UnauthorizedException } from '@nestjs/common';
+import { SessionValidator } from '../interfaces/session-validator.interface';
 
 vi.mock('ioredis', () => {
   return {
@@ -128,5 +129,32 @@ describe('JwtTokenService', () => {
     });
 
     expect(() => new JwtTokenService(mockSecretManager)).toThrow('JWT_JWKS is mandatory in production');
+  });
+
+  it('should use SessionValidator for additional check if sessionId is present', async () => {
+    const mockValidator: SessionValidator = {
+        isValid: vi.fn().mockResolvedValue(false)
+    };
+    const mockSecretManager = createMockSecretManager();
+    const serviceWithValidator = new JwtTokenService(mockSecretManager, { recordSecurityEvent: vi.fn() } as any, mockValidator);
+
+    const token = serviceWithValidator.issueToken({ sessionId: 'sess-123' }, { tokenType: 'access', subject: 'user123' });
+
+    await expect(serviceWithValidator.verifyToken(token, 'access')).rejects.toThrow('Session revoked or invalid');
+    expect(mockValidator.isValid).toHaveBeenCalledWith('sess-123');
+  });
+
+  it('should allow valid session from SessionValidator', async () => {
+    const mockValidator: SessionValidator = {
+        isValid: vi.fn().mockResolvedValue(true)
+    };
+    const mockSecretManager = createMockSecretManager();
+    const serviceWithValidator = new JwtTokenService(mockSecretManager, { recordSecurityEvent: vi.fn() } as any, mockValidator);
+
+    const token = serviceWithValidator.issueToken({ sessionId: 'sess-456' }, { tokenType: 'access', subject: 'user123' });
+
+    const verified = await serviceWithValidator.verifyToken(token, 'access');
+    expect(verified.sessionId).toBe('sess-456');
+    expect(mockValidator.isValid).toHaveBeenCalledWith('sess-456');
   });
 });

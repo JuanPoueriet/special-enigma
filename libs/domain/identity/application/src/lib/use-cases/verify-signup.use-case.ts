@@ -1,13 +1,14 @@
 import { DomainException } from '@virtex/shared-util-server-server-config';
 import { Injectable, Inject } from '@nestjs/common';
-import { AuthService, CachePort } from '@virtex/domain-identity-domain';
+import { AuthService, CachePort, AuditLogRepository, AuditLog } from '@virtex/domain-identity-domain';
 import { VerifySignupDto, VerifySignupResponse } from '@virtex/domain-identity-contracts';
 
 @Injectable()
 export class VerifySignupUseCase {
   constructor(
     @Inject(CachePort) private readonly cachePort: CachePort,
-    @Inject(AuthService) private readonly authService: AuthService
+    @Inject(AuthService) private readonly authService: AuthService,
+    @Inject(AuditLogRepository) private readonly auditLogRepository: AuditLogRepository,
   ) {}
 
   async execute(dto: VerifySignupDto): Promise<VerifySignupResponse> {
@@ -26,10 +27,13 @@ export class VerifySignupUseCase {
     }
 
     if (payload.otp !== dto.otp) {
+        await this.auditLogRepository.save(new AuditLog('SIGNUP_OTP_FAILED', undefined, { email: dto.email }));
         throw new DomainException('Invalid OTP', 'BAD_REQUEST');
     }
 
     await this.cachePort.set(key, payloadStr, 3600);
+
+    await this.auditLogRepository.save(new AuditLog('SIGNUP_OTP_SUCCESS', undefined, { email: dto.email }));
 
     const onboardingToken = await this.authService.generateToken({
         email: dto.email,

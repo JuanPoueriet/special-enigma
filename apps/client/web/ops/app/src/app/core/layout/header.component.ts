@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from '@virtex/shared-ui';
 
 @Component({
   selector: 'virtex-header',
@@ -63,6 +63,10 @@ import { AuthService } from '../auth/auth.service';
 export class HeaderComponent {
   authService = inject(AuthService);
   currentUser$ = this.authService.currentUser$;
+
+  constructor() {
+    this.authService.checkAuthStatus().subscribe();
+  }
 
   logout() {
     this.authService.logout();

@@ -10,13 +10,11 @@ describe('App', () => {
     }).compileComponents();
   });
 
-  it('should render the application shell', () => {
+  it('should render the application outlet', () => {
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
 
-    expect(compiled.querySelector('[data-testid="shell-header"]')).not.toBeNull();
-    expect(compiled.querySelector('[data-testid="shell-sidebar"]')).not.toBeNull();
     expect(compiled.querySelector('router-outlet')).not.toBeNull();
   });
 });

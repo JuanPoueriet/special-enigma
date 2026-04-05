@@ -1,7 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { EntityNotFoundException } from "@virtex/kernel-exceptions";
 import { ChangePasswordUseCase } from './change-password.use-case';
-import { UserRepository, AuthService, AuditLogRepository, SessionRepository } from '@virtex/domain-identity-domain';
+import { UserRepository, AuthService, AuditLogRepository, SessionRepository, CachePort } from '@virtex/domain-identity-domain';
 import { UnauthorizedException } from '@virtex/kernel-exceptions';
 
 describe('ChangePasswordUseCase', () => {
@@ -21,7 +20,7 @@ describe('ChangePasswordUseCase', () => {
         { provide: AuthService, useValue: mockAuthService },
         { provide: AuditLogRepository, useValue: mockAuditRepo },
         { provide: SessionRepository, useValue: mockSessionRepo },
-        { provide: 'CachePort', useValue: mockCachePort },
+        { provide: CachePort, useValue: mockCachePort },
       ],
     }).compile();
     useCase = module.get<ChangePasswordUseCase>(ChangePasswordUseCase);

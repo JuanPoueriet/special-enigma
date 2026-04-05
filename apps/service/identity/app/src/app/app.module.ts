@@ -11,6 +11,7 @@ import { AuthModule } from '@virtex/kernel-auth';
 import { HealthModule } from '@virtex/shared-util-server-health';
 import { TelemetryModule } from '@virtex/kernel-telemetry';
 import { IdentityInfrastructureModule } from '@virtex/domain-identity-infrastructure';
+import { IdentityPresentationModule } from '@virtex/domain-identity-presentation';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -88,6 +89,7 @@ import { RpcAwareThrottlerGuard } from './guards/rpc-aware-throttler.guard';
       },
     }),
     IdentityInfrastructureModule,
+    IdentityPresentationModule,
     HealthModule,
     TelemetryModule,
   ],

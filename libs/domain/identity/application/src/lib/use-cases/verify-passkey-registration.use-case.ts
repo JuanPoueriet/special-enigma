@@ -1,6 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { EntityNotFoundException } from "@virtex/kernel-exceptions";
-import { UserRepository, UserAuthenticator, WebAuthnService } from '@virtex/domain-identity-domain';
+import { UserRepository, UserAuthenticator, WebAuthnService, AuditLogRepository, AuditLog } from '@virtex/domain-identity-domain';
 import { UnauthorizedException } from '@virtex/kernel-exceptions';
 import { RegistrationResponseJSON } from '@simplewebauthn/types';
 
@@ -8,7 +7,8 @@ import { RegistrationResponseJSON } from '@simplewebauthn/types';
 export class VerifyPasskeyRegistrationUseCase {
   constructor(
     @Inject(UserRepository) private readonly userRepository: UserRepository,
-    @Inject(WebAuthnService) private readonly webAuthnService: WebAuthnService
+    @Inject(WebAuthnService) private readonly webAuthnService: WebAuthnService,
+    @Inject(AuditLogRepository) private readonly auditLogRepository: AuditLogRepository,
   ) {}
 
   async execute(userId: string, currentOptions: any, body: RegistrationResponseJSON) {
@@ -33,9 +33,13 @@ export class VerifyPasskeyRegistrationUseCase {
 
       user.authenticators.push(newAuthenticator);
       await this.userRepository.save(user);
+
+      await this.auditLogRepository.save(new AuditLog('PASSKEY_REGISTERED', userId, { deviceType: credentialDeviceType }));
+
       return { verified: true };
     }
 
+    await this.auditLogRepository.save(new AuditLog('PASSKEY_REGISTRATION_FAILED', userId, {}));
     return { verified: false };
   }
 }

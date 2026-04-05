@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 import { MainLayoutComponent } from './core/layout/main-layout.component';
-import { authGuard } from './core/auth/auth.guard';
+import { authGuard } from '@virtex/shared-ui';
 import { entitlementGuard } from './core/auth/entitlement.guard';
 import { LoginComponent } from './auth/login.component';
 

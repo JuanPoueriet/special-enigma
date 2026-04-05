@@ -1,7 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { EntityNotFoundException } from "@virtex/kernel-exceptions";
 import { RevokeSessionUseCase } from './revoke-session.use-case';
-import { SessionRepository, CachePort } from '@virtex/domain-identity-domain';
+import { SessionRepository, CachePort, AuditLogRepository } from '@virtex/domain-identity-domain';
 import { UnauthorizedException } from '@virtex/kernel-exceptions';
 
 describe('RevokeSessionUseCase', () => {
@@ -16,6 +15,9 @@ describe('RevokeSessionUseCase', () => {
   const mockCache = {
     del: vi.fn(),
   };
+  const mockAuditLogRepository = {
+    save: vi.fn(),
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -23,6 +25,7 @@ describe('RevokeSessionUseCase', () => {
         RevokeSessionUseCase,
         { provide: SessionRepository, useValue: mockRepository },
         { provide: CachePort, useValue: mockCache },
+        { provide: AuditLogRepository, useValue: mockAuditLogRepository },
       ],
     }).compile();
 
