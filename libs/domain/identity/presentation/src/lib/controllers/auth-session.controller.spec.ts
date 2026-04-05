@@ -54,7 +54,6 @@ describe('AuthSessionController', () => {
         providers.find(p => p.provide === GetSessionsUseCase)!.useValue as any,
         providers.find(p => p.provide === RevokeSessionUseCase)!.useValue as any,
         providers.find(p => p.provide === ImpersonateUserUseCase)!.useValue as any,
-        providers.find(p => p.provide === CheckSecurityContextUseCase)!.useValue as any,
         providers.find(p => p.provide === GetUserProfileUseCase)!.useValue as any,
         providers.find(p => p.provide === RequestContextService)!.useValue as any,
         providers.find(p => p.provide === CookiePolicyService)!.useValue as any
@@ -78,7 +77,7 @@ describe('AuthSessionController', () => {
       const response = await controller.login(dto, req, res);
 
       expect(loginUseCase.execute).toHaveBeenCalled();
-      expect(response).toEqual({ accessToken: 'access', refreshToken: 'refresh', expiresIn: 3600, mfaRequired: false });
+      expect(response).toEqual({ expiresIn: 3600, mfaRequired: false });
       expect((controller as any).cookiePolicyService.setAuthCookies).toHaveBeenCalledWith(res, 'access', 'refresh', true);
     });
   });

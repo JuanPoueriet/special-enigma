@@ -1,43 +1,30 @@
-import { Controller, Get, Patch, Put, Post, Delete, Body, Param, Query, UseGuards, UseInterceptors, UploadedFile, Req, NotFoundException, ForbiddenException } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { Controller, Get, Patch, Post, Delete, Put, Body, Param, Query, UseGuards, NotFoundException } from '@nestjs/common';
 import {
-    GetUserProfileUseCase,
-    UpdateUserProfileUseCase,
     InviteUserUseCase,
-    UploadAvatarUseCase,
     GetJobTitlesUseCase,
-    GetAuditLogsUseCase,
     ListUsersUseCase,
     DeleteUserUseCase,
     UpdateUserUseCase,
-    BlockUserUseCase,
-    ForceLogoutUseCase,
-    ForgotPasswordUseCase
+    BlockUserUseCase
 } from '@virtex/domain-identity-application';
 import { UserRepository } from '@virtex/domain-identity-domain';
-import { UpdateUserDto, InviteUserDto, PaginatedUsersResponse } from '@virtex/domain-identity-contracts';
+import { UpdateUserDto, InviteUserDto, PaginatedUsersResponse, UserResponseDto } from '@virtex/domain-identity-contracts';
 import { JwtAuthGuard, CurrentUser, StepUp, StepUpGuard, TenantGuard } from '@virtex/kernel-auth';
 import { UserMapper } from '../mappers/user.mapper';
-import { AuditLogMapper } from '../mappers/audit-log.mapper';
-import { UserResponseDto, AuditLogDto } from '@virtex/domain-identity-contracts';
 import { RequireEntitlement, EntitlementGuard } from '@virtex/kernel-entitlements';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('User Administration')
 @Controller('users')
 @UseGuards(JwtAuthGuard, TenantGuard, EntitlementGuard, StepUpGuard)
-export class UsersController {
+export class UserAdminController {
   constructor(
-    private readonly getProfile: GetUserProfileUseCase,
-    private readonly updateProfile: UpdateUserProfileUseCase,
     private readonly inviteUser: InviteUserUseCase,
-    private readonly uploadAvatar: UploadAvatarUseCase,
     private readonly getJobTitlesUseCase: GetJobTitlesUseCase,
-    private readonly getAuditLogsUseCase: GetAuditLogsUseCase,
     private readonly listUsersUseCase: ListUsersUseCase,
     private readonly deleteUserUseCase: DeleteUserUseCase,
     private readonly updateUserUseCase: UpdateUserUseCase,
     private readonly blockUserUseCase: BlockUserUseCase,
-    private readonly forceLogoutUseCase: ForceLogoutUseCase,
-    private readonly forgotPasswordUseCase: ForgotPasswordUseCase,
     private readonly userRepository: UserRepository
   ) {}
 
@@ -76,27 +63,6 @@ export class UsersController {
     return titles.map(t => t.title);
   }
 
-  @Get('profile')
-  async getMyProfile(@CurrentUser() user: any): Promise<UserResponseDto> {
-    const userId = user?.sub;
-    const userEntity = await this.getProfile.execute(userId);
-    return UserMapper.toDto(userEntity);
-  }
-
-  @Get('audit-logs')
-  async getMyAuditLogs(@CurrentUser() user: any): Promise<AuditLogDto[]> {
-    const userId = user?.sub;
-    const logs = await this.getAuditLogsUseCase.execute(userId);
-    return AuditLogMapper.toDtoList(logs);
-  }
-
-  @Patch('profile')
-  async updateMyProfile(@CurrentUser() user: any, @Body() dto: UpdateUserDto): Promise<UserResponseDto> {
-    const userId = user?.sub;
-    const userEntity = await this.updateProfile.execute(userId, dto);
-    return UserMapper.toDto(userEntity);
-  }
-
   @Patch(':id')
   @RequireEntitlement('users')
   @StepUp({ action: 'tenant-admin', maxAgeSeconds: 300 })
@@ -121,17 +87,6 @@ export class UsersController {
     return UserMapper.toDto(userEntity);
   }
 
-  @Post(':id/force-logout')
-  @RequireEntitlement('users')
-  @StepUp({ action: 'tenant-admin', maxAgeSeconds: 300 })
-  async forceLogout(@Param('id') id: string, @CurrentUser() user: any): Promise<void> {
-    const targetUser = await this.userRepository.findById(id, user.tenantId);
-    if (!targetUser) {
-        throw new NotFoundException('User not found or does not belong to your organization');
-    }
-    await this.forceLogoutUseCase.execute(id);
-  }
-
   @Post(':id/block-and-logout')
   @RequireEntitlement('users')
   @StepUp({ action: 'tenant-admin', maxAgeSeconds: 300 })
@@ -149,35 +104,5 @@ export class UsersController {
   async setUserStatus(@Param('id') id: string, @Body() body: { isOnline: boolean }, @CurrentUser() user: any): Promise<UserResponseDto> {
     const userEntity = await this.updateUserUseCase.execute(id, { status: body.isOnline ? 'ONLINE' : 'OFFLINE' } as any, user.tenantId);
     return UserMapper.toDto(userEntity);
-  }
-
-  @Post(':id/reset-password')
-  @RequireEntitlement('users')
-  @StepUp({ action: 'tenant-admin', maxAgeSeconds: 300 })
-  async sendPasswordReset(@Param('id') id: string, @Req() req: any, @CurrentUser() currentUser: any): Promise<{ message: string }> {
-    const user = await this.userRepository.findById(id, currentUser.tenantId);
-    if (!user) {
-        throw new Error('User not found in tenant context');
-    }
-    await this.forgotPasswordUseCase.execute({ email: user.email, recaptchaToken: '' }, {
-        ip: req.ip,
-        userAgent: req.headers['user-agent']
-    }, true);
-    return { message: 'Password reset email sent' };
-  }
-
-  @Post('profile/avatar')
-  @UseInterceptors(FileInterceptor('file'))
-  async upload(@CurrentUser() user: any, @UploadedFile() file: any): Promise<{ url: string }> {
-    if (!file) {
-        throw new Error('No file uploaded');
-    }
-    const userId = user?.sub;
-    const buffer = file.buffer;
-    const originalName = file.originalname;
-    // Use a folder-like structure to support the prefix counting with delimiter
-    const fileName = `${userId}/${Date.now()}-${originalName}`;
-    const url = await this.uploadAvatar.execute(userId, fileName, buffer);
-    return { url };
   }
 }

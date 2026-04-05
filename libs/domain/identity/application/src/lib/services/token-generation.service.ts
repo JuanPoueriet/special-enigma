@@ -58,7 +58,11 @@ export class TokenGenerationService {
       mfa_verified_at: mfaVerified ? Math.floor(Date.now() / 1000) : undefined
     }, { tokenType: 'access', subject: user.id });
 
-    const refreshToken = Buffer.from(`${session.id}:${refreshTokenSecret}`).toString('base64');
+    const refreshToken = await this.authService.generateToken({
+      sub: user.id,
+      sessionId: session.id,
+      secret: refreshTokenSecret,
+    }, { tokenType: 'refresh', subject: user.id, expiresIn: '7d' });
 
     return {
       accessToken,
@@ -100,7 +104,11 @@ export class TokenGenerationService {
       mfa_verified_at: mfaVerified ? Math.floor(Date.now() / 1000) : undefined
     }, { tokenType: 'access', subject: user.id });
 
-    const refreshToken = Buffer.from(`${session.id}:${refreshTokenSecret}`).toString('base64');
+    const refreshToken = await this.authService.generateToken({
+      sub: user.id,
+      sessionId: session.id,
+      secret: refreshTokenSecret,
+    }, { tokenType: 'refresh', subject: user.id, expiresIn: '7d' });
 
     return {
       accessToken,

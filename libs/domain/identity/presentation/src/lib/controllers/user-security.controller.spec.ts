@@ -1,26 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UsersController } from './users.controller';
+import { UserSecurityController } from './user-security.controller';
 import {
-    GetUserProfileUseCase,
-    UpdateUserProfileUseCase,
-    InviteUserUseCase,
-    UploadAvatarUseCase,
-    GetJobTitlesUseCase,
-    GetAuditLogsUseCase,
-    ListUsersUseCase,
-    DeleteUserUseCase,
-    UpdateUserUseCase,
-    BlockUserUseCase,
     ForceLogoutUseCase,
-    ForgotPasswordUseCase,
-    UserRepository
+    ForgotPasswordUseCase
 } from '@virtex/domain-identity-application';
+import { UserRepository } from '@virtex/domain-identity-domain';
 import { vi, describe, beforeEach, it, expect } from 'vitest';
-import { UserResponseDto } from '@virtex/domain-identity-contracts';
 import { NotFoundException } from '@nestjs/common';
 
-describe('UsersController', () => {
-  let controller: UsersController;
+describe('UserSecurityController', () => {
+  let controller: UserSecurityController;
 
   const mockUseCase = () => ({
     execute: vi.fn()
@@ -28,22 +17,11 @@ describe('UsersController', () => {
 
   const mockRepo = () => ({
     findById: vi.fn(),
-    findByEmail: vi.fn(),
     save: vi.fn()
   });
 
   beforeEach(() => {
-    controller = new UsersController(
-        mockUseCase() as any, // getProfile
-        mockUseCase() as any, // updateProfile
-        mockUseCase() as any, // inviteUser
-        mockUseCase() as any, // uploadAvatar
-        mockUseCase() as any, // getJobTitlesUseCase
-        mockUseCase() as any, // getAuditLogsUseCase
-        mockUseCase() as any, // listUsersUseCase
-        mockUseCase() as any, // deleteUserUseCase
-        mockUseCase() as any, // updateUserUseCase
-        mockUseCase() as any, // blockUserUseCase
+    controller = new UserSecurityController(
         mockUseCase() as any, // forceLogoutUseCase
         mockUseCase() as any, // forgotPasswordUseCase
         mockRepo() as any      // userRepository
@@ -52,23 +30,6 @@ describe('UsersController', () => {
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
-  });
-
-  describe('setUserStatus', () => {
-    it('should update user status', async () => {
-      const userId = '123';
-      const body = { isOnline: true };
-      const userEntity = { id: userId, status: 'ONLINE', email: 'test@test.com' };
-      const currentUser = { tenantId: 'tenant-1' };
-
-      const updateUserUseCase = (controller as any).updateUserUseCase;
-      updateUserUseCase.execute.mockResolvedValue(userEntity);
-
-      const result = await controller.setUserStatus(userId, body, currentUser as any);
-
-      expect(updateUserUseCase.execute).toHaveBeenCalledWith(userId, { status: 'ONLINE' }, currentUser.tenantId);
-      expect(result.id).toBe(userId);
-    });
   });
 
   describe('sendPasswordReset', () => {
@@ -117,18 +78,6 @@ describe('UsersController', () => {
       await controller.forceLogout(userId, currentUser as any);
 
       expect(forceLogoutUseCase.execute).toHaveBeenCalledWith(userId);
-    });
-  });
-
-  describe('blockAndLogout', () => {
-    it('should throw if user not found in tenant', async () => {
-      const userId = '123';
-      const currentUser = { tenantId: 'tenant-1' };
-      const userRepository = (controller as any).userRepository;
-      userRepository.findById.mockResolvedValue(null);
-
-      await expect(controller.blockAndLogout(userId, currentUser as any)).rejects.toThrow(NotFoundException);
-      expect(userRepository.findById).toHaveBeenCalledWith(userId, currentUser.tenantId);
     });
   });
 });
