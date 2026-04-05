@@ -17,6 +17,7 @@ export { type PaymentMethodRepository, PAYMENT_METHOD_REPOSITORY } from './repos
 export { type TenantConfigRepository, type TenantFiscalConfig, TENANT_CONFIG_REPOSITORY } from './repository-ports/tenant-config.port';
 export * from './repository-ports/customer.repository';
 export { type ProductRepository, type BillingProduct, PRODUCT_REPOSITORY } from './repository-ports/product.repository';
+export * from './repository-ports/fiscal-stamping.port';
 
 export * from './events/invoice-stamped.event';
 export * from './factories/pac-strategy.factory';

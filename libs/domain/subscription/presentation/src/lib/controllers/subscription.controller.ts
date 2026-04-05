@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, UseGuards, Query, Put, BadRequestException } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { CurrentTenant } from '@virtex/shared-util-server-server-config';
+import { CurrentTenant } from '@virtex/kernel-tenant-context';
 import { JwtAuthGuard, TenantGuard } from '@virtex/kernel-auth';
 import { SubscribeToPlanUseCase, SubscribeToPlanDto, ChangeSubscriptionPlanUseCase, ChangeSubscriptionPlanDto, GetSubscriptionUseCase, CreateCheckoutSessionUseCase, CreateCheckoutSessionDto, CreatePortalSessionUseCase, CreatePortalSessionDto, GetSubscriptionPlansUseCase } from '@virtex/domain-subscription-application';
 

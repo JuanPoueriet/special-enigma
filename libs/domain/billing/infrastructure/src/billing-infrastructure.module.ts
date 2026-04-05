@@ -2,7 +2,7 @@ import { Module, Global } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { AuthModule } from '@virtex/kernel-auth';
 import { FiscalInfrastructureModule } from '@virtex/domain-fiscal-infrastructure';
-import { PAC_STRATEGY_FACTORY, TENANT_CONFIG_REPOSITORY, INVOICE_REPOSITORY, PAYMENT_METHOD_REPOSITORY, PRODUCT_REPOSITORY, CUSTOMER_REPOSITORY, BillingDomainModule } from '@virtex/domain-billing-domain';
+import { PAC_STRATEGY_FACTORY, TENANT_CONFIG_REPOSITORY, INVOICE_REPOSITORY, PAYMENT_METHOD_REPOSITORY, PRODUCT_REPOSITORY, CUSTOMER_REPOSITORY, BillingDomainModule, FISCAL_STAMPING_PORT } from '@virtex/domain-billing-domain';
 import { FISCAL_DOCUMENT_BUILDER_FACTORY } from '@virtex/domain-fiscal-domain';
 import { BILLING_TAX_STRATEGY_FACTORY } from '@virtex/domain-billing-domain';
 
@@ -91,8 +91,12 @@ import { EntitlementsModule } from '@virtex/kernel-entitlements';
     XsltService,
     // Note: Builders are now provided by FiscalInfrastructureModule
     {
-      provide: FISCAL_DOCUMENT_BUILDER_FACTORY,
+      provide: FISCAL_STAMPING_PORT,
       useClass: FiscalDocumentBuilderFactoryImpl,
+    },
+    {
+        provide: FISCAL_DOCUMENT_BUILDER_FACTORY,
+        useExisting: FISCAL_STAMPING_PORT,
     },
     // Strategies
     MxTaxStrategy,
@@ -111,6 +115,7 @@ import { EntitlementsModule } from '@virtex/kernel-entitlements';
     CUSTOMER_REPOSITORY,
     PAC_STRATEGY_FACTORY,
     TENANT_CONFIG_REPOSITORY,
+    FISCAL_STAMPING_PORT,
     FISCAL_DOCUMENT_BUILDER_FACTORY,
     BILLING_TAX_STRATEGY_FACTORY,
     MikroOrmModule,

@@ -6,7 +6,7 @@ import {
   AccountingQueryFacade
 } from '@virtex/domain-accounting-application';
 import { CurrentTenant, CurrentUser } from '@virtex/kernel-auth';
-import { IdempotencyInterceptor } from '@virtex/shared-util-server-server-config';
+import { IdempotencyInterceptor } from '@virtex/kernel-idempotency';
 import { CapabilityGuard } from '../../guards/capability.guard';
 import { RequiresCapability } from '../../guards/requires-capability.decorator';
 import { ClosingTaskStatus } from '@virtex/domain-accounting-domain';

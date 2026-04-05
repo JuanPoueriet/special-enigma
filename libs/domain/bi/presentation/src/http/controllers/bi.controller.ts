@@ -1,6 +1,6 @@
 import { Controller, Post, Body, Get, Query, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { CurrentTenant } from '@virtex/shared-util-server-server-config';
+import { CurrentTenant } from '@virtex/kernel-tenant-context';
 import { JwtAuthGuard, TenantGuard } from '@virtex/kernel-auth';
 import { RequireEntitlement, EntitlementGuard } from '@virtex/kernel-entitlements';
 import {

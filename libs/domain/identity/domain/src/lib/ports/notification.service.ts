@@ -1,4 +1,4 @@
-import { User } from '../entities/user.entity';
+import { User } from '../iam/user.entity';
 
 export abstract class NotificationService {
   abstract sendWelcomeEmail(user: User, tempPassword?: string): Promise<void>;

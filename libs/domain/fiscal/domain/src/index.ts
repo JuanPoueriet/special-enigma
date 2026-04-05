@@ -119,3 +119,4 @@ export interface TenantConfigRepository {
 export * from './lib/fiscal-domain.service';
 export * from './lib/fiscal-domain.module';
 export * from './lib/entities/fiscal-invoice.entity';
+export * from './lib/contracts/fiscal-sales-snapshot.dto';

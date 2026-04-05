@@ -1,4 +1,4 @@
-import { Session } from '../entities/session.entity';
+import { Session } from '../iam/session.entity';
 
 export abstract class SessionRepository {
   abstract save(session: Session): Promise<void>;

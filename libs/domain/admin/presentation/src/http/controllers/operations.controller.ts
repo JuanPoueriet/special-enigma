@@ -1,8 +1,7 @@
 import { Controller, Get, Logger, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { EntityManager } from '@mikro-orm/core';
-import { TenantOperation, OperationType, OperationState } from '@virtex/kernel-tenant';
 import { StepUpGuard, StepUp } from '@virtex/kernel-auth';
+import { OperationsReadModelService } from '@virtex/domain-admin-application';
 
 @ApiTags('Admin/Operations')
 @Controller('admin/operations')
@@ -11,31 +10,21 @@ import { StepUpGuard, StepUp } from '@virtex/kernel-auth';
 export class OperationsController {
   private readonly logger = new Logger(OperationsController.name);
 
-  constructor(private readonly em: EntityManager) {}
+  constructor(private readonly readModel: OperationsReadModelService) {}
 
   @Get('backups')
   @ApiOperation({ summary: 'List recent snapshots and backup jobs' })
   async listBackups() {
-    // REAL: Fetch backup-related operations from the database
-    // In our domain, we'd look for TenantOperations with specific types or metadata
-    const ops = await this.em.find(TenantOperation, {
-      type: { $in: [OperationType.BACKUP, OperationType.SNAPSHOT] }
-    }, { orderBy: { startedAt: 'DESC' }, limit: 10 });
-
-    return ops.length > 0 ? ops : [
-        { id: 'snap-01', tenantId: 'system', status: 'SUCCESS', type: 'FULL', createdAt: new Date(Date.now() - 3600000).toISOString(), size: '4.2GB' },
-    ];
+    return this.readModel.getBackupOperations();
   }
 
   @Get('queues')
   @ApiOperation({ summary: 'Monitor background jobs and message queues' })
   async listQueues() {
-    // REAL: Monitor the status of TenantOperations which act as our job queue records
-    const pendingCount = await this.em.count(TenantOperation, { state: OperationState.REQUESTED });
-    const processingCount = await this.em.count(TenantOperation, { state: OperationState.SWITCHING }); // 'switching' as proxy for processing
+    const metrics = await this.readModel.getQueueMetrics();
 
     return [
-      { name: 'tenant.provisioning', pending: pendingCount, processing: processingCount, failed: 0, status: pendingCount > 10 ? 'BUSY' : 'HEALTHY' },
+      { name: 'tenant.provisioning', pending: metrics.pending, processing: metrics.processing, failed: 0, status: metrics.pending > 10 ? 'BUSY' : 'HEALTHY' },
       { name: 'billing.cycle.worker', pending: 0, processing: 0, failed: 0, status: 'IDLE' },
     ];
   }

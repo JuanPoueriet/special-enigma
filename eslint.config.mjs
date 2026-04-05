@@ -267,6 +267,14 @@ export default [
               onlyDependOnLibsWithTags: ['scope:kernel', 'scope:shared', 'scope:subscription']
             },
             {
+              sourceTag: 'scope:ops',
+              onlyDependOnLibsWithTags: ['scope:ops', 'scope:shared', 'scope:kernel', 'scope:admin', 'scope:platform']
+            },
+            {
+              sourceTag: 'scope:scheduler',
+              onlyDependOnLibsWithTags: ['scope:scheduler', 'scope:shared', 'scope:kernel', 'scope:platform']
+            },
+            {
               sourceTag: 'scope:edge',
               onlyDependOnLibsWithTags: [
                 'scope:edge',
@@ -345,7 +353,16 @@ export default [
             },
             {
               sourceTag: 'scope:mobile-app',
-              onlyDependOnLibsWithTags: ['scope:mobile-app', 'scope:shared', 'scope:kernel']
+              onlyDependOnLibsWithTags: [
+                'scope:mobile-app',
+                'scope:shared',
+                'scope:kernel',
+                'scope:identity',
+                'scope:crm',
+                'scope:catalog',
+                'scope:pos',
+                'scope:notification'
+              ]
             },
             {
               sourceTag: 'scope:portal',

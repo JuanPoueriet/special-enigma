@@ -127,7 +127,7 @@
     "jsdom": "^27.1.0",
     "jsonc-eslint-parser": "^2.1.0",
     "lint-staged": "^16.2.7",
-    "nx": "^22.5.3",
+    "nx": "^22.6.4",
     "nx-electron": "^21.0.1",
     "prettier": "~3.6.2",
     "testcontainers": "^11.13.0",

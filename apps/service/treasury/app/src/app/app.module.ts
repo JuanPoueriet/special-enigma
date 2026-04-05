@@ -9,7 +9,7 @@ import depthLimit from 'graphql-depth-limit';
 import { createComplexityRule, simpleEstimator } from 'graphql-query-complexity';
 import { ApolloFederationDriver, ApolloFederationDriverConfig } from '@nestjs/apollo';
 import { ApolloServerPluginLandingPageLocalDefault, ApolloServerPluginLandingPageProductionDefault } from '@apollo/server/plugin/landingPage/default';
-import { FederationSupportModule } from '@virtex/shared-util-server-server-config';
+import { FederationSupportModule } from '@virtex/kernel-federation';
 import { TenantModule } from '@virtex/kernel-tenant';
 import { CanonicalTenantMiddleware } from '@virtex/kernel-auth';
 

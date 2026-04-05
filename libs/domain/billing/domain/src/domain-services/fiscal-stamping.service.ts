@@ -4,14 +4,14 @@ import { FiscalStamp } from '../repository-ports/pac-provider.port';
 import { type TenantConfigRepository } from '../repository-ports/tenant-config.port';
 import { type CustomerRepository } from '../repository-ports/customer.repository';
 import { type PacStrategyFactory } from '../factories/pac-strategy.factory';
-import { FiscalDocumentBuilderFactory } from '@virtex/domain-fiscal-domain';
+import { FiscalStampingPort } from '../repository-ports/fiscal-stamping.port';
 
 export class FiscalStampingService {
   constructor(
     private readonly pacStrategyFactory: PacStrategyFactory,
     private readonly tenantConfigRepo: TenantConfigRepository,
     private readonly customerRepo: CustomerRepository,
-    private readonly documentBuilderFactory: FiscalDocumentBuilderFactory
+    private readonly documentBuilderFactory: FiscalStampingPort
   ) {}
 
   async stampInvoice(invoice: Invoice): Promise<FiscalStamp> {

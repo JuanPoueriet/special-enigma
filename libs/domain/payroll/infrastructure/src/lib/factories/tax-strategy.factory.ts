@@ -3,7 +3,7 @@ import { TaxStrategyFactory, TaxService } from '@virtex/domain-payroll-domain';
 import { MexicanTaxStrategy } from '../strategies/mexican-tax.strategy';
 import { USPayrollStrategy } from '../strategies/us-payroll.strategy';
 import { GenericLatamStrategy } from '../strategies/generic-latam.strategy';
-import { CountryCode } from '@virtex/shared-util-server-server-config';
+import { CountryCode } from '@virtex/kernel-constants';
 
 @Injectable()
 export class TaxStrategyFactoryImpl implements TaxStrategyFactory {

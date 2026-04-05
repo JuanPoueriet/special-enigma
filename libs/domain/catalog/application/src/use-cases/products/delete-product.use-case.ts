@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { PRODUCT_READ_REPOSITORY, type ProductReadRepository, PRODUCT_WRITE_REPOSITORY, type ProductWriteRepository } from '@virtex/domain-catalog-domain';
-import { DomainException } from '@virtex/shared-util-server-server-config';
+import { DomainException } from '@virtex/kernel-exceptions';
 
 @Injectable()
 export class DeleteProductUseCase {

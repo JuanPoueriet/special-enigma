@@ -1,4 +1,4 @@
-import { DomainException } from '@virtex/shared-util-server-server-config';
+import { DomainException } from '@virtex/kernel-exceptions';
 import { Injectable, Inject } from '@nestjs/common';
 import { RequisitionRepository } from '@virtex/domain-purchasing-domain';
 

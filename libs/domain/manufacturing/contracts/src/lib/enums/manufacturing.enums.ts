@@ -1,0 +1,2 @@
+export enum ProductionOrderStatus { PLANNED = 'PLANNED', RELEASED = 'RELEASED', IN_PROGRESS = 'IN_PROGRESS', COMPLETED = 'COMPLETED', CANCELLED = 'CANCELLED' }
+export enum BillOfMaterialsStatus { DRAFT = 'DRAFT', ACTIVE = 'ACTIVE', OBSOLETE = 'OBSOLETE' }

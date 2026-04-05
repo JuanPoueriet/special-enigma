@@ -9,16 +9,16 @@ Este documento proporciona una visión clara de la estructura del monorepo y la 
 ```text
 .
 ├── apps/               # Aplicaciones (Composition Roots)
-│   ├── api/            # Servicios Backend (NestJS)
-│   ├── web/            # Aplicaciones Web (Angular)
+│   ├── service/        # Servicios Backend (NestJS)
+│   ├── edge/           # Aplicaciones de Borde (Angular, NestJS)
 │   ├── mobile/         # Apps Móviles (Ionic/Capacitor)
 │   ├── desktop/        # Apps Desktop (Electron/Tauri)
 │   └── worker/         # Background Workers
 ├── libs/               # Librerías Reutilizables (Core Logic)
-│   ├── domain/         # Lógica de Negocio por Dominio
-│   ├── kernel/         # Utilidades Core y Cross-cutting Concerns
-│   ├── platform/       # Infraestructura de Plataforma (IaC, CI/CD)
-│   └── shared/         # Utilidades y UI compartidas
+│   ├── domain/         # Lógica de Negocio por Dominio (Clean Architecture)
+│   ├── kernel/         # Utilidades Core y Cross-cutting Concerns (Exceptions, Auth, Tenant Context, HTTP, Idempotency)
+│   ├── platform/       # Infraestructura de Plataforma (IaC, CI/CD, Messaging, Cache)
+│   └── shared/         # Utilidades y UI compartidas (UI Components, Config)
 ├── platform/           # Configuraciones Globales de Infra (K8s, Helm)
 ├── tools/              # Scripts, Generators y Calidad
 └── docs/               # Documentación Técnica
@@ -29,7 +29,7 @@ Este documento proporciona una visión clara de la estructura del monorepo y la 
 Cada dominio de negocio se divide en capas siguiendo Clean Architecture:
 
 1. **`domain/`**: El corazón del dominio.
-   - **Contenido**: Entidades, Value Objects, Domain Services, Repositorios (Interfaces), Eventos.
+   - **Contenido**: Entidades, Value Objects, Domain Services, Repositorios (Interfaces), Eventos, Puertos.
    - **Regla de Oro**: **Puro TypeScript**. Cero dependencia de frameworks (NestJS, MikroORM).
 2. **`application/`**: Casos de uso y orquestación.
    - **Contenido**: Use Cases, DTOs de entrada, Ports para adaptadores externos.
@@ -39,7 +39,7 @@ Cada dominio de negocio se divide en capas siguiendo Clean Architecture:
 4. **`presentation/`**: Adaptadores de entrada.
    - **Contenido**: NestJS Controllers, GraphQL Resolvers, DTOs de salida, Presenters.
 5. **`contracts/`**: Definiciones compartidas.
-   - **Contenido**: Interfaces y DTOs compartidos entre el backend y otros consumidores.
+   - **Contenido**: Enums, Interfaces y DTOs compartidos entre el backend y otros consumidores.
 
 ## Dónde crear cada artefacto
 
@@ -48,10 +48,10 @@ Cada dominio de negocio se divide en capas siguiendo Clean Architecture:
 | **Entidad de Dominio** | `libs/domain/<dominio>/domain/src/lib/entities/` |
 | **Caso de Uso** | `libs/domain/<dominio>/application/src/lib/use-cases/` |
 | **Controller / Resolver** | `libs/domain/<dominio>/presentation/src/lib/` |
-| **Repositorio (Interface)** | `libs/domain/<dominio>/domain/src/lib/repositories/` |
-| **Repositorio (Impl)** | `libs/domain/<dominio>/infrastructure/src/lib/repositories/` |
-| **Mapping ORM** | `libs/domain/<dominio>/infrastructure/src/lib/persistence/` |
-| **Utilidad Transversal** | `libs/shared/util/` o `libs/kernel/` |
+| **Repositorio (Interface)** | `libs/domain/<dominio>/domain/src/lib/repository-ports/` |
+| **Repositorio (Impl)** | `libs/domain/<dominio>/infrastructure/src/lib/adapters/` |
+| **Mapping ORM** | `libs/domain/<dominio>/infrastructure/src/persistence/` |
+| **Utilidad Transversal** | `libs/kernel/<capability>/` |
 
 ## Gobernanza Automática
 
