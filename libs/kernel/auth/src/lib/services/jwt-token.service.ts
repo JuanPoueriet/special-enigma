@@ -3,10 +3,12 @@ import {
   UnauthorizedException,
   Logger,
   Inject,
+  Optional,
 } from '@nestjs/common';
 import * as jwt from 'jsonwebtoken';
 import { randomBytes, randomUUID } from 'node:crypto';
 import { SecretManagerService } from './secret-manager.service';
+import { SESSION_VALIDATOR, SessionValidator } from '../interfaces/session-validator.interface';
 import {
   TelemetryService,
   TELEMETRY_SERVICE,
@@ -54,6 +56,7 @@ export class JwtTokenService {
   constructor(
     private readonly secretManager: SecretManagerService,
     @Inject(TELEMETRY_SERVICE) private readonly telemetry: TelemetryService,
+    @Optional() @Inject(SESSION_VALIDATOR) private readonly sessionValidator?: SessionValidator,
   ) {
     this.isProduction = process.env['NODE_ENV'] === 'production';
 
@@ -233,6 +236,13 @@ export class JwtTokenService {
 
     if (await this.isRevoked(verified.jti)) {
       throw new UnauthorizedException('JWT revoked');
+    }
+
+    if (verified['sessionId'] && this.sessionValidator) {
+      const isValid = await this.sessionValidator.isValid(verified['sessionId']);
+      if (!isValid) {
+        throw new UnauthorizedException('Session revoked or invalid');
+      }
     }
 
     if (enforceOneTime) {

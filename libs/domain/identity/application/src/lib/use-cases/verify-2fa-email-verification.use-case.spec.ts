@@ -1,13 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { EntityNotFoundException } from "@virtex/kernel-exceptions";
 import { Verify2faEmailVerificationUseCase } from './verify-2fa-email-verification.use-case';
-import { UserRepository, CachePort } from '@virtex/domain-identity-domain';
+import { UserRepository, CachePort, AuditLogRepository } from '@virtex/domain-identity-domain';
 import { UnauthorizedException } from '@virtex/kernel-exceptions';
 
 describe('Verify2faEmailVerificationUseCase', () => {
   let useCase: Verify2faEmailVerificationUseCase;
   const mockUserRepo = { findById: vi.fn() };
   const mockCache = { get: vi.fn(), del: vi.fn() };
+  const mockAuditLogRepo = { save: vi.fn() };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -15,6 +15,7 @@ describe('Verify2faEmailVerificationUseCase', () => {
         Verify2faEmailVerificationUseCase,
         { provide: UserRepository, useValue: mockUserRepo },
         { provide: CachePort, useValue: mockCache },
+        { provide: AuditLogRepository, useValue: mockAuditLogRepo },
       ],
     }).compile();
     useCase = module.get<Verify2faEmailVerificationUseCase>(Verify2faEmailVerificationUseCase);

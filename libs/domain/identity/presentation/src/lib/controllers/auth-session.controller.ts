@@ -68,14 +68,10 @@ export class AuthSessionController {
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
   async refresh(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
-    let refreshToken = req.cookies['refresh_token'];
-
-    if (!refreshToken && req.body && req.body.refreshToken) {
-        refreshToken = req.body.refreshToken;
-    }
+    const refreshToken = req.cookies['refresh_token'];
 
     if (!refreshToken) {
-        throw new UnauthorizedException('No refresh token found in cookies or body');
+        throw new UnauthorizedException('No refresh token found in cookies');
     }
 
     const context = {

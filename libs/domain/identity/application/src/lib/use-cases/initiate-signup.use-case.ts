@@ -1,7 +1,7 @@
 import { DomainException } from '@virtex/shared-util-server-server-config';
 import { Injectable, Inject } from '@nestjs/common';
 import { BadRequestException } from '@virtex/kernel-exceptions';
-import { AuthService, NotificationService, UserRepository, CachePort, RecaptchaPort } from '@virtex/domain-identity-domain';
+import { AuthService, NotificationService, UserRepository, CachePort, RecaptchaPort, AuditLogRepository, AuditLog } from '@virtex/domain-identity-domain';
 import { InitiateSignupDto } from '@virtex/domain-identity-contracts';
 
 @Injectable()
@@ -11,7 +11,8 @@ export class InitiateSignupUseCase {
     @Inject(AuthService) private readonly authService: AuthService,
     @Inject(NotificationService) private readonly notificationService: NotificationService,
     @Inject(CachePort) private readonly cachePort: CachePort,
-    @Inject(RecaptchaPort) private readonly recaptchaService: RecaptchaPort
+    @Inject(RecaptchaPort) private readonly recaptchaService: RecaptchaPort,
+    @Inject(AuditLogRepository) private readonly auditLogRepository: AuditLogRepository,
   ) {}
 
   async execute(dto: InitiateSignupDto): Promise<void> {
@@ -29,6 +30,7 @@ export class InitiateSignupUseCase {
 
     const existingUser = await this.userRepository.findByEmail(dto.email);
     if (existingUser) {
+        await this.auditLogRepository.save(new AuditLog('SIGNUP_FAILED_USER_EXISTS', undefined, { email: dto.email }));
         throw new DomainException('User already exists', 'CONFLICT');
     }
 
@@ -52,6 +54,8 @@ export class InitiateSignupUseCase {
 
     await this.cachePort.set(`signup:${dto.email}`, payload, 600);
     await this.cachePort.set(attemptsKey, (attempts + 1).toString(), 600);
+
+    await this.auditLogRepository.save(new AuditLog('SIGNUP_INITIATED', undefined, { email: dto.email }));
 
     await this.notificationService.sendOtp(dto.email, otp);
   }

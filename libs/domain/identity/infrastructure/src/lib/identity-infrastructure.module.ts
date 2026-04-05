@@ -13,6 +13,7 @@ import { MikroOrmJobTitleRepository } from './persistence/mikro-orm-job-title.re
 
 import { Argon2AuthService } from './services/argon2-auth.service';
 import { KeycloakAuthService } from './services/keycloak-auth.service';
+import { IdentitySessionValidator } from './services/identity-session-validator.service';
 import { RecaptchaService } from './services/recaptcha.service';
 import { WebAuthnService as InfrastructureWebAuthnService } from './services/webauthn.service';
 import { SessionSerializer } from './services/session.serializer';
@@ -80,7 +81,7 @@ import { RedisCacheModule } from '@virtex/platform-cache';
 import { RedisCacheAdapter } from './adapters/redis-cache.adapter';
 import { MikroOrmUnitOfWorkAdapter } from './adapters/mikro-orm-unit-of-work.adapter';
 import { MikroOrmTenantRepository } from './adapters/mikro-orm-tenant.repository';
-import { AuthModule } from '@virtex/kernel-auth';
+import { AuthModule, SESSION_VALIDATOR } from '@virtex/kernel-auth';
 import { TenantModule } from '@virtex/kernel-tenant';
 import { HttpModule } from '@nestjs/axios';
 import { EntitlementsModule } from '@virtex/kernel-entitlements';
@@ -146,6 +147,7 @@ import { EntitlementsModule } from '@virtex/kernel-entitlements';
     { provide: StoragePort, useClass: StorageAdapter },
     { provide: GEO_IP_PORT, useClass: GeoIpLiteAdapter },
     { provide: CachePort, useClass: RedisCacheAdapter },
+    { provide: SESSION_VALIDATOR, useClass: IdentitySessionValidator },
     { provide: UNIT_OF_WORK_PORT, useClass: MikroOrmUnitOfWorkAdapter },
     { provide: TENANT_REPOSITORY, useClass: MikroOrmTenantRepository },
     { provide: LocalizationPort, useClass: LocalizationService },
@@ -247,6 +249,7 @@ import { EntitlementsModule } from '@virtex/kernel-entitlements';
     RiskEvaluatorService,
     CachePort,
     UNIT_OF_WORK_PORT,
+    SESSION_VALIDATOR,
     TENANT_REPOSITORY,
     GEO_IP_PORT
   ]

@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { UserRepository, SessionRepository, CachePort } from '@virtex/domain-identity-domain';
+import { UserRepository, SessionRepository, CachePort, AuditLogRepository, AuditLog } from '@virtex/domain-identity-domain';
 import { DomainException } from '@virtex/shared-util-server-server-config';
 
 @Injectable()
@@ -7,7 +7,8 @@ export class BlockUserUseCase {
   constructor(
     @Inject(UserRepository) private readonly userRepository: UserRepository,
     @Inject(SessionRepository) private readonly sessionRepository: SessionRepository,
-    @Inject(CachePort) private readonly cachePort: CachePort
+    @Inject(CachePort) private readonly cachePort: CachePort,
+    @Inject(AuditLogRepository) private readonly auditLogRepository: AuditLogRepository
   ) {}
 
   async execute(userId: string): Promise<void> {
@@ -19,6 +20,8 @@ export class BlockUserUseCase {
     user.isActive = false;
     user.status = 'BLOCKED';
     await this.userRepository.save(user);
+
+    await this.auditLogRepository.save(new AuditLog('USER_BLOCKED', userId, { reason: 'Administrative action' }));
 
     // Revoke all sessions
     const sessions = await this.sessionRepository.findByUserId(userId);

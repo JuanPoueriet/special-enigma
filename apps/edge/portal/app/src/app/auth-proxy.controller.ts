@@ -207,9 +207,9 @@ export class AuthProxyController {
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const refreshToken = req.cookies['refresh_token'] || req.body.refreshToken;
+    const refreshToken = req.cookies['refresh_token'];
     if (!refreshToken) {
-      throw new UnauthorizedException('Missing refresh token');
+      throw new UnauthorizedException('Missing refresh token in cookies');
     }
     const context = this.identityProxy.buildContext(req);
     const metadata = this.identityProxy.getMetadata(req);

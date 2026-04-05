@@ -1,11 +1,12 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { SessionRepository, CachePort } from '@virtex/domain-identity-domain';
+import { SessionRepository, CachePort, AuditLogRepository, AuditLog } from '@virtex/domain-identity-domain';
 
 @Injectable()
 export class ForceLogoutUseCase {
   constructor(
     @Inject(SessionRepository) private readonly sessionRepository: SessionRepository,
-    @Inject(CachePort) private readonly cachePort: CachePort
+    @Inject(CachePort) private readonly cachePort: CachePort,
+    @Inject(AuditLogRepository) private readonly auditLogRepository: AuditLogRepository,
   ) {}
 
   async execute(userId: string): Promise<void> {
@@ -14,5 +15,7 @@ export class ForceLogoutUseCase {
       await this.cachePort.del(`session:${session.id}`);
     }
     await this.sessionRepository.deleteByUserId(userId);
+
+    await this.auditLogRepository.save(new AuditLog('FORCE_LOGOUT', userId, { reason: 'Administrative action' }));
   }
 }

@@ -1,7 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { EntityNotFoundException } from "@virtex/kernel-exceptions";
 import { UnauthorizedException } from '@virtex/kernel-exceptions';
-import { UserRepository, AuthService, AuditLogRepository, AuditLog, SessionRepository } from '@virtex/domain-identity-domain';
+import { UserRepository, AuthService, AuditLogRepository, AuditLog, SessionRepository, CachePort } from '@virtex/domain-identity-domain';
 
 @Injectable()
 export class ChangePasswordUseCase {
@@ -10,7 +9,7 @@ export class ChangePasswordUseCase {
     @Inject(AuthService) private readonly authService: AuthService,
     @Inject(AuditLogRepository) private readonly auditLogRepository: AuditLogRepository,
     @Inject(SessionRepository) private readonly sessionRepository: SessionRepository,
-    @Inject('CachePort') private readonly cachePort: any,
+    @Inject(CachePort) private readonly cachePort: CachePort,
   ) {}
 
   async execute(userId: string, dto: any): Promise<void> {
