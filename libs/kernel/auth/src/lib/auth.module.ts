@@ -22,6 +22,7 @@ import { CompositeSecretProvider } from './services/providers/composite-secret.p
 import { CsrfMiddleware } from './middleware/csrf.middleware';
 import { JwtTokenService } from './services/jwt-token.service';
 import { StepUpGuard } from './guards/step-up.guard';
+import { RolesGuard } from './guards/roles.guard';
 import { MfaHelperService } from './services/mfa-helper.service';
 
 @Module({
@@ -45,6 +46,7 @@ import { MfaHelperService } from './services/mfa-helper.service';
     JwtTokenService,
     MfaHelperService,
     StepUpGuard,
+    RolesGuard,
     CsrfMiddleware,
     {
       provide: SECRET_PROVIDER,
@@ -70,6 +72,7 @@ import { MfaHelperService } from './services/mfa-helper.service';
     JwtTokenService,
     MfaHelperService,
     StepUpGuard,
+    RolesGuard,
     PassportModule,
     JwtModule,
   ],

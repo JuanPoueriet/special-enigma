@@ -8,6 +8,7 @@ import {
   Query,
   UnauthorizedException,
   UseGuards,
+  Param,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import type { Request, Response } from 'express';
@@ -239,11 +240,18 @@ export class AuthProxyController {
 
   @Post('logout')
   async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
-    const token = req.cookies['access_token'];
+    const accessToken = req.cookies['access_token'];
+    const refreshToken = req.cookies['refresh_token'];
     const metadata = this.identityProxy.getMetadata(req);
-    if (token) {
-      await this.identityProxy.logout(token, metadata);
+
+    if (accessToken || refreshToken) {
+      try {
+        await this.identityProxy.logout(accessToken, refreshToken, metadata);
+      } catch (error) {
+        // Log error but continue to clear cookies
+      }
     }
+
     this.cookiePolicy.clearAuthCookies(res);
     return { message: 'Logged out successfully' };
   }
