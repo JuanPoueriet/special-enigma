@@ -1,8 +1,13 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "namedInputs": {
-    "default": ["{projectRoot}/**/*", "sharedGlobals"],
-    "jest.preset.js": ["{workspaceRoot}/jest.preset.js"],
+    "default": [
+      "{projectRoot}/**/*",
+      "sharedGlobals"
+    ],
+    "jest.preset.js": [
+      "{workspaceRoot}/jest.preset.js"
+    ],
     "production": [
       "default",
       "!{projectRoot}/.eslintrc.json",
@@ -38,64 +43,45 @@
       "options": {
         "targetName": "lint"
       }
-    },
-    {
-      "plugin": "@nx/jest/plugin",
-      "options": {
-        "targetName": "test"
-      },
-      "exclude": [
-        "apps/service-identity-e2e/**/*",
-        "apps/worker-scheduler-e2e/**/*",
-        "apps/service-fiscal-e2e/**/*",
-        "apps/service-catalog-e2e/**/*",
-        "apps/worker-notification-e2e/**/*",
-        "apps/service-billing-e2e/**/*",
-        "apps/service-accounting-e2e/**/*",
-        "apps/service-payroll-e2e/**/*",
-        "apps/service-projects-e2e/**/*",
-        "apps/service-manufacturing-e2e/**/*",
-        "apps/service-treasury-e2e/**/*",
-        "apps/service-purchasing-e2e/**/*",
-        "apps/service-bi-e2e/**/*",
-        "apps/service-admin-e2e/**/*",
-        "apps/service-fixed-assets-e2e/**/*",
-        "apps/edge/portal/e2e/**/*",
-        "apps/edge/pos/e2e/**/*",
-        "apps/edge/wms/e2e/**/*",
-        "apps/edge/shopfloor/e2e/**/*",
-        "apps/edge/support/e2e/**/*",
-        "apps/edge/cms/e2e/**/*",
-        "apps/edge/site/app-public-e2e/**/*",
-        "apps/edge/storefront/e2e/**/*"
-      ]
-    },
-    {
-      "plugin": "@nx/playwright/plugin",
-      "options": {
-        "targetName": "e2e"
-      }
     }
   ],
   "targetDefaults": {
     "@angular/build:application": {
       "cache": true,
-      "dependsOn": ["^build"],
-      "inputs": ["production", "^production"]
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "production",
+        "^production"
+      ]
     },
     "@nx/esbuild:esbuild": {
       "cache": true,
-      "dependsOn": ["^build"],
-      "inputs": ["production", "^production"]
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "production",
+        "^production"
+      ]
     },
     "@nx/js:tsc": {
       "cache": true,
-      "dependsOn": ["^build"],
-      "inputs": ["production", "^production"]
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "production",
+        "^production"
+      ]
     },
     "@nx/vitest:test": {
       "cache": true,
-      "inputs": ["default", "^production"]
+      "inputs": [
+        "default",
+        "^production"
+      ]
     },
     "lint": {
       "cache": true,
