@@ -16,6 +16,11 @@ import { IdentityPresentationModule } from '@virtex/domain-identity-presentation
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { RpcAwareThrottlerGuard } from './guards/rpc-aware-throttler.guard';
+import { AuthGrpcController } from './controllers/auth.grpc.controller';
+import { UsersGrpcController } from './controllers/users.grpc.controller';
+import { OnboardingGrpcController } from './controllers/onboarding.grpc.controller';
+import { LocalizationGrpcController } from './controllers/localization.grpc.controller';
+import { AdminGrpcController } from './controllers/admin.grpc.controller';
 
 @Module({
   imports: [
@@ -93,7 +98,14 @@ import { RpcAwareThrottlerGuard } from './guards/rpc-aware-throttler.guard';
     HealthModule,
     TelemetryModule,
   ],
-  controllers: [AppController],
+  controllers: [
+    AppController,
+    AuthGrpcController,
+    UsersGrpcController,
+    OnboardingGrpcController,
+    LocalizationGrpcController,
+    AdminGrpcController,
+  ],
   providers: [
     AppService,
     {
