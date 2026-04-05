@@ -1,9 +1,9 @@
 import { Injectable, NestMiddleware, UnauthorizedException, Logger, OnModuleInit, Inject } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
-import * as jwt from 'jsonwebtoken';
 import { runWithTenantContext, TenantContext } from '@virtex/kernel-tenant-context';
 import { TelemetryService, TELEMETRY_SERVICE } from '@virtex/kernel-telemetry-interfaces';
 import { SecretManagerService } from '../services/secret-manager.service';
+import { JwtTokenService } from '../services/jwt-token.service';
 import {
   claimsFromJwtPayload,
   parseAndValidateSignedContext,
@@ -19,20 +19,20 @@ export class CanonicalTenantMiddleware implements NestMiddleware, OnModuleInit {
 
   constructor(
     @Inject(TELEMETRY_SERVICE) private readonly telemetryService: TelemetryService,
-    private readonly secretManager: SecretManagerService
+    private readonly secretManager: SecretManagerService,
+    private readonly jwtTokenService: JwtTokenService
   ) {}
 
   onModuleInit() {
     try {
       this.hmacSecret = this.secretManager.getSecret('virtex_HMAC_SECRET');
-      this.jwtSecret = this.secretManager.getSecret('JWT_SECRET');
     } catch {
       this.logger.error('FATAL: Security secrets missing in SecretManager.');
       throw new Error('Insecure environment: missing required security secrets.');
     }
   }
 
-  use(req: Request, _res: Response, next: NextFunction) {
+  async use(req: Request, _res: Response, next: NextFunction) {
     const contextHeader = this.getHeader(req, 'x-virtex-context');
     const signatureHeader = this.getHeader(req, 'x-virtex-signature');
     const authHeader = req.headers.authorization;
@@ -44,9 +44,9 @@ export class CanonicalTenantMiddleware implements NestMiddleware, OnModuleInit {
       if (contextHeader || signatureHeader) {
         context = parseAndValidateSignedContext(contextHeader as string, signatureHeader as string, this.hmacSecret);
       } else if (authHeader) {
-        context = this.processJwtContext(authHeader.replace('Bearer ', ''));
+        context = await this.processJwtContext(authHeader.replace('Bearer ', ''));
       } else if (accessCookie) {
-        context = this.processJwtContext(accessCookie);
+        context = await this.processJwtContext(accessCookie);
       }
     } catch (error) {
       if (error instanceof TenantContextValidationError) {
@@ -77,15 +77,15 @@ export class CanonicalTenantMiddleware implements NestMiddleware, OnModuleInit {
     runWithTenantContext(context as any, () => next());
   }
 
-  private processJwtContext(token: string): TenantContext {
+  private async processJwtContext(token: string): Promise<TenantContext> {
     try {
-      const decoded = jwt.verify(token, this.jwtSecret) as jwt.JwtPayload;
+      const decoded = await this.jwtTokenService.verifyToken(token, 'access');
       return claimsFromJwtPayload(decoded);
     } catch (err: any) {
-      const violationType = err?.name === 'TokenExpiredError' ? 'expired_context' : 'invalid_signature';
+      const violationType = err?.name === 'TokenExpiredError' || err instanceof UnauthorizedException ? 'expired_context' : 'invalid_signature';
       throw new TenantContextValidationError(
         violationType,
-        err?.name === 'TokenExpiredError' ? 'Session expired' : 'Invalid session'
+        err?.name === 'TokenExpiredError' || err instanceof UnauthorizedException ? 'Session expired or invalid' : 'Invalid session'
       );
     }
   }

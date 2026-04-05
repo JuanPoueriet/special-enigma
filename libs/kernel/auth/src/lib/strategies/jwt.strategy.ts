@@ -12,6 +12,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         (request: Request) => {
           return request?.cookies?.['access_token'] || null;
         },
+        ExtractJwt.fromAuthHeaderAsBearerToken(),
       ]),
       ignoreExpiration: false,
       passReqToCallback: true,
@@ -28,7 +29,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(request: Request, _payload: unknown) {
-    const token = request?.cookies?.['access_token'];
+    const token = request?.cookies?.['access_token'] || request.headers.authorization?.replace('Bearer ', '');
 
     if (!token) {
       throw new UnauthorizedException('Missing access token');

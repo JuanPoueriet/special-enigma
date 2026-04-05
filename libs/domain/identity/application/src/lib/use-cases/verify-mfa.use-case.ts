@@ -43,8 +43,25 @@ export class VerifyMfaUseCase {
         throw new DomainException('MFA not configured for this account.', 'UNAUTHORIZED');
     }
 
+    let isValid = false;
     const decryptedSecret = await this.authService.decrypt(user.mfaSecret);
-    const isValid = this.authService.verifyMfaToken(dto.code, decryptedSecret);
+    isValid = this.authService.verifyMfaToken(dto.code, decryptedSecret);
+
+    // If TOTP fails, check backup codes
+    if (!isValid && user.backupCodes && user.backupCodes.length > 0) {
+      const inputHash = this.authService.hashToken(dto.code);
+      const backupCodeIndex = user.backupCodes.findIndex(
+        (bc) => !bc.isUsed && bc.hash === inputHash && (!bc.expiresAt || new Date(bc.expiresAt) > new Date())
+      );
+
+      if (backupCodeIndex !== -1) {
+        isValid = true;
+        user.backupCodes[backupCodeIndex].isUsed = true;
+        (user.backupCodes[backupCodeIndex] as any).usedAt = new Date();
+        await this.userRepository.update(user);
+        await this.auditLogRepository.save(new AuditLog('BACKUP_CODE_USED', user.id, { ip: context.ip }));
+      }
+    }
 
     if (!isValid) {
         await this.auditLogRepository.save(new AuditLog('MFA_FAILED', user.id, { ip: context.ip }));

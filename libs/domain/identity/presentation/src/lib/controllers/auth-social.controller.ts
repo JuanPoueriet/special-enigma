@@ -89,7 +89,13 @@ export class AuthSocialController {
         try {
             const decodedState = JSON.parse(Buffer.from(state, 'base64').toString());
             if (decodedState.returnUrl) {
-                redirectUrl = `${frontendUrl}${decodedState.returnUrl}`;
+                // Security: Validate returnUrl to prevent open redirects.
+                // We only allow relative paths starting with /
+                if (typeof decodedState.returnUrl === 'string' && decodedState.returnUrl.startsWith('/') && !decodedState.returnUrl.startsWith('//')) {
+                    redirectUrl = `${frontendUrl}${decodedState.returnUrl}`;
+                } else {
+                    this.logger.warn(`Potential open redirect attempt blocked: ${decodedState.returnUrl}`);
+                }
             }
         } catch (e) {
             this.logger.error('Failed to parse social login state', e);
