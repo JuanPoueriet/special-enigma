@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Body, HttpCode, HttpStatus, Req, Res, UseGuards, Optional, Query, Logger } from '@nestjs/common';
+import { Controller, Post, Get, Body, HttpCode, HttpStatus, Req, Res, UseGuards, Optional, Query, Logger, Inject } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import {
     HandleSocialLoginUseCase,
@@ -6,6 +6,7 @@ import {
 } from '@virtex/domain-identity-application';
 import { Request, Response } from 'express';
 import { Public, JwtAuthGuard, SecretManagerService, CookiePolicyService } from '@virtex/kernel-auth';
+import { AuthService } from '@virtex/domain-identity-domain';
 import { ApiTags } from '@nestjs/swagger';
 import { ThrottlerGuard } from '@nestjs/throttler';
 import { SessionGuard } from '../guards/session.guard';
@@ -22,6 +23,7 @@ export class AuthSocialController {
     private readonly getSocialRegisterInfoUseCase: GetSocialRegisterInfoUseCase,
     private readonly requestContextService: RequestContextService,
     private readonly cookiePolicyService: CookiePolicyService,
+    @Inject(AuthService) private readonly authService: AuthService,
     @Optional() private readonly secretManager?: SecretManagerService
   ) {}
 
@@ -87,7 +89,8 @@ export class AuthSocialController {
 
     if (state) {
         try {
-            const decodedState = JSON.parse(Buffer.from(state, 'base64').toString());
+            const decryptedState = await this.authService.decrypt(state);
+            const decodedState = JSON.parse(decryptedState);
             if (decodedState.returnUrl) {
                 // Security: Validate returnUrl to prevent open redirects.
                 // We only allow relative paths starting with /
@@ -98,7 +101,7 @@ export class AuthSocialController {
                 }
             }
         } catch (e) {
-            this.logger.error('Failed to parse social login state', e);
+            this.logger.error('Failed to parse social login state or invalid signature', e);
         }
     }
 

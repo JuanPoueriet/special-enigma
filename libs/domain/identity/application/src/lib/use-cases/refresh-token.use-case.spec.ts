@@ -26,6 +26,7 @@ describe('RefreshTokenUseCase', () => {
 
   const mockAuthService = {
     generateToken: vi.fn(),
+    verifyToken: vi.fn(),
   };
 
   const mockAuditLogRepository = {
@@ -69,7 +70,8 @@ describe('RefreshTokenUseCase', () => {
   });
 
   it('should throw if token format is invalid', async () => {
-      // Mock base64 failure implicitly by passing garbage that might fail split
+    (mockAuthService.verifyToken as Mock).mockRejectedValue(new Error('Invalid token'));
+
     await expect(useCase.execute({ refreshToken: 'invalid' }, { ip: '1.2.3.4', userAgent: 'test' }))
       .rejects.toThrow(DomainException);
   });
@@ -77,7 +79,8 @@ describe('RefreshTokenUseCase', () => {
   it('should throw if session not found', async () => {
     const sessionId = 'session-1';
     const secret = 'secret';
-    const token = Buffer.from(`${sessionId}:${secret}`).toString('base64');
+    const token = 'jwt-token';
+    (mockAuthService.verifyToken as Mock).mockResolvedValue({ sessionId, secret });
     (mockCachePort.get as Mock).mockResolvedValue('valid');
     (mockSessionRepository.findById as Mock).mockResolvedValue(null);
 
@@ -88,7 +91,7 @@ describe('RefreshTokenUseCase', () => {
   it('should revoke session if hash mismatch (reuse)', async () => {
     const sessionId = 'session-1';
     const secret = 'secret';
-    const token = Buffer.from(`${sessionId}:${secret}`).toString('base64');
+    const token = 'jwt-token';
     const secretHash = crypto.createHash('sha256').update(secret).digest('hex');
 
     const user = { id: 'user-1' } as User;
@@ -97,9 +100,11 @@ describe('RefreshTokenUseCase', () => {
       isActive: true,
       expiresAt: new Date(Date.now() + 10000),
       currentRefreshTokenHash: 'different-hash',
-      user: user
-    } as Session;
+      user: user,
+      id_copy: sessionId // To ensure we have the id for the expect check
+    } as any;
 
+    (mockAuthService.verifyToken as Mock).mockResolvedValue({ sessionId, secret });
     (mockCachePort.get as Mock).mockResolvedValue('valid');
     (mockSessionRepository.findById as Mock).mockResolvedValue(session);
 
@@ -114,7 +119,7 @@ describe('RefreshTokenUseCase', () => {
   it('should rotate token if valid', async () => {
     const sessionId = 'session-1';
     const secret = 'secret';
-    const token = Buffer.from(`${sessionId}:${secret}`).toString('base64');
+    const token = 'jwt-token';
     const secretHash = crypto.createHash('sha256').update(secret).digest('hex');
 
     const user = { id: 'user-1', email: 'test@example.com', role: 'admin', company: { id: 'comp-1'} as Company, country: 'US' } as User;
@@ -126,6 +131,7 @@ describe('RefreshTokenUseCase', () => {
       user: user
     } as Session;
 
+    (mockAuthService.verifyToken as Mock).mockResolvedValue({ sessionId, secret });
     (mockCachePort.get as Mock).mockResolvedValue('valid');
     (mockSessionRepository.findById as Mock).mockResolvedValue(session);
 

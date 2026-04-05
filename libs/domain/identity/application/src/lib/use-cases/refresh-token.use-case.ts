@@ -2,7 +2,7 @@ import { DomainException } from '@virtex/shared-util-server-server-config';
 import { Injectable, Inject } from '@nestjs/common';
 import * as crypto from 'crypto';
 import { RefreshTokenDto, LoginResponseDto } from '@virtex/domain-identity-contracts';
-import { SessionRepository, AuditLogRepository, AuditLog, UserRepository, CachePort } from '@virtex/domain-identity-domain';
+import { SessionRepository, AuditLogRepository, AuditLog, UserRepository, CachePort, AuthService } from '@virtex/domain-identity-domain';
 import { TokenGenerationService } from '../services/token-generation.service';
 
 @Injectable()
@@ -12,6 +12,7 @@ export class RefreshTokenUseCase {
     @Inject(UserRepository) private readonly userRepository: UserRepository,
     @Inject(AuditLogRepository) private readonly auditLogRepository: AuditLogRepository,
     @Inject(CachePort) private readonly cachePort: CachePort,
+    @Inject(AuthService) private readonly authService: AuthService,
     @Inject(TokenGenerationService) private readonly tokenGenerationService: TokenGenerationService
   ) {}
 
@@ -20,13 +21,15 @@ export class RefreshTokenUseCase {
     let secret: string;
 
     try {
-      const decoded = Buffer.from(dto.refreshToken, 'base64').toString('utf-8');
-      const parts = decoded.split(':');
-      if (parts.length !== 2) throw new Error();
-      sessionId = parts[0];
-      secret = parts[1];
-    } catch {
-       throw new DomainException('Invalid token format', 'UNAUTHORIZED');
+      const payload = await this.authService.verifyToken(dto.refreshToken);
+      sessionId = payload.sessionId;
+      secret = payload.secret;
+
+      if (!sessionId || !secret) {
+          throw new Error('Invalid token payload');
+      }
+    } catch (error) {
+       throw new DomainException('Invalid or expired refresh token', 'UNAUTHORIZED');
     }
 
     const sessionStatus = await this.cachePort.get(`session:${sessionId}`);

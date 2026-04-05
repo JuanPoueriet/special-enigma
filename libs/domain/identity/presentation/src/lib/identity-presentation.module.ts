@@ -6,7 +6,9 @@ import { AuthSocialController } from './controllers/auth-social.controller';
 import { AuthRecoveryController } from './controllers/auth-recovery.controller';
 import { AuthPasskeyController } from './controllers/auth-passkey.controller';
 import { AuthOnboardingController } from './controllers/auth-onboarding.controller';
-import { UsersController } from './controllers/users.controller';
+import { UserProfileController } from './controllers/user-profile.controller';
+import { UserAdminController } from './controllers/user-admin.controller';
+import { UserSecurityController } from './controllers/user-security.controller';
 import { LocalizationController } from './controllers/localization.controller';
 import { CommonController } from './controllers/common.controller';
 import { TenantController } from './controllers/tenant.controller';
@@ -26,7 +28,9 @@ import { CookiePolicyService } from '@virtex/kernel-auth';
     AuthRecoveryController,
     AuthPasskeyController,
     AuthOnboardingController,
-    UsersController,
+    UserProfileController,
+    UserAdminController,
+    UserSecurityController,
     LocalizationController,
     CommonController,
     TenantController

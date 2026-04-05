@@ -1,13 +1,12 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException, Inject } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { IS_PUBLIC_KEY } from '@virtex/kernel-auth';
-import { CachePort } from '@virtex/domain-identity-domain';
+import { IS_PUBLIC_KEY, SESSION_VALIDATOR, SessionValidator } from '@virtex/kernel-auth';
 
 @Injectable()
 export class SessionGuard implements CanActivate {
   constructor(
     private reflector: Reflector,
-    @Inject(CachePort) private cachePort: CachePort
+    @Inject(SESSION_VALIDATOR) private sessionValidator: SessionValidator
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -28,7 +27,7 @@ export class SessionGuard implements CanActivate {
         throw new UnauthorizedException('Invalid Session');
     }
 
-    const isValid = await this.cachePort.get(`session:${user.sessionId}`);
+    const isValid = await this.sessionValidator.isValid(user.sessionId);
     if (!isValid) {
         throw new UnauthorizedException('Session Revoked or Expired');
     }
