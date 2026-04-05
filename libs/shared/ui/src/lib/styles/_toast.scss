@@ -1,6 +1,6 @@
 .toast-container {
   position: fixed;
-  top: var(--spacing-lg); // Move to top for more discrete look
+  bottom: var(--spacing-lg);
   right: var(--spacing-lg);
   z-index: 9999;
   display: flex;
@@ -23,7 +23,7 @@
   align-items: center; // Center items for more compact look
   gap: var(--spacing-sm);
   opacity: 0;
-  transform: translateY(-10px); // Slide from top
+  transform: translateY(10px); // Slide from bottom
   transition: opacity var(--transition-normal), transform var(--transition-normal);
 
   &.visible {

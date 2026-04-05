@@ -14,6 +14,8 @@
         "NOT_FOUND": "No hemos podido encontrar el recurso solicitado.",
         "SERVER_ERROR": "Estamos experimentando dificultades técnicas. Por favor intente más tarde.",
         "NETWORK_ERROR": "No se pudo establecer conexión. Revise su conexión a internet.",
+        "NO_INTERNET": "No tienes conexión a internet",
+        "SERVER_UNREACHABLE": "No se pudo conectar con el servidor",
         "UNKNOWN_ERROR": "Ha ocurrido un error inesperado. Nuestro equipo ha sido notificado."
     },
     "AUTH": {
