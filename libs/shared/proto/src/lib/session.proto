@@ -1,0 +1,47 @@
+
+syntax = "proto3";
+
+package session;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+service SessionService {
+  rpc CreateSession (CreateSessionRequest) returns (SessionResponse);
+  rpc GetSession (GetSessionRequest) returns (SessionResponse);
+  rpc RevokeSession (RevokeSessionRequest) returns (google.protobuf.Empty);
+  rpc ListSessions (ListSessionsRequest) returns (ListSessionsResponse);
+}
+
+message CreateSessionRequest {
+  string userId = 1;
+  string ipAddress = 2;
+  string userAgent = 3;
+  string tenantId = 4;
+}
+
+message GetSessionRequest {
+  string sessionId = 1;
+}
+
+message RevokeSessionRequest {
+  string sessionId = 1;
+}
+
+message ListSessionsRequest {
+  string userId = 1;
+}
+
+message SessionResponse {
+  string id = 1;
+  string userId = 2;
+  string ipAddress = 3;
+  string userAgent = 4;
+  google.protobuf.Timestamp createdAt = 5;
+  google.protobuf.Timestamp expiresAt = 6;
+  bool isActive = 7;
+}
+
+message ListSessionsResponse {
+  repeated SessionResponse sessions = 1;
+}

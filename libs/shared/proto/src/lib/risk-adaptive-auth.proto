@@ -1,0 +1,20 @@
+
+syntax = "proto3";
+
+package risk;
+
+service RiskAdaptiveAuthService {
+  rpc CalculateRisk (RiskRequest) returns (RiskResponse);
+}
+
+message RiskRequest {
+  string userId = 1;
+  string ipAddress = 2;
+  string userAgent = 3;
+  string email = 4;
+}
+
+message RiskResponse {
+  float score = 1;
+  bool stepUpRequired = 2;
+}

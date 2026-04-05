@@ -1,10 +1,12 @@
+
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { ConfigModule } from '@nestjs/config';
+import { DomainRiskAdaptiveAuthPresentationModule } from '@virtex/domain-risk-adaptive-auth-presentation';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    DomainRiskAdaptiveAuthPresentationModule,
+  ],
 })
 export class AppModule {}
