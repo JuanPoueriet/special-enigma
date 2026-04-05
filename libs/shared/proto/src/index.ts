@@ -32,3 +32,30 @@ export const INVENTORY_PACKAGE = 'inventory';
 
 export const CATALOG_PROTO_PATH = resolveProtoPath('catalog.proto');
 export const CATALOG_PACKAGE = 'catalog';
+
+export const API_ACCESS_GATEWAY_PROTO_PATH = resolveProtoPath('api-access-gateway.proto');
+export const API_ACCESS_GATEWAY_PACKAGE = 'access';
+
+export const AUTHN_CREDENTIAL_PROTO_PATH = resolveProtoPath('authn-credential.proto');
+export const AUTHN_CREDENTIAL_PACKAGE = 'authn';
+
+export const IDENTITY_PROFILE_PROTO_PATH = resolveProtoPath('identity-profile.proto');
+export const IDENTITY_PROFILE_PACKAGE = 'profile';
+
+export const TOKEN_PROTO_PATH = resolveProtoPath('token.proto');
+export const TOKEN_PACKAGE = 'token';
+
+export const SESSION_PROTO_PATH = resolveProtoPath('session.proto');
+export const SESSION_PACKAGE = 'session';
+
+export const AUTHORIZATION_POLICY_PROTO_PATH = resolveProtoPath('authorization-policy.proto');
+export const AUTHORIZATION_POLICY_PACKAGE = 'authz';
+
+export const RISK_ADAPTIVE_AUTH_PROTO_PATH = resolveProtoPath('risk-adaptive-auth.proto');
+export const RISK_ADAPTIVE_AUTH_PACKAGE = 'risk';
+
+export const IDENTITY_AUDIT_LEDGER_PROTO_PATH = resolveProtoPath('identity-audit-ledger.proto');
+export const IDENTITY_AUDIT_LEDGER_PACKAGE = 'audit';
+
+export const PROVISIONING_FEDERATION_PROTO_PATH = resolveProtoPath('provisioning-federation.proto');
+export const PROVISIONING_FEDERATION_PACKAGE = 'federation';

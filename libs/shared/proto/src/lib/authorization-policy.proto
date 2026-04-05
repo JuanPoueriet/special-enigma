@@ -1,0 +1,22 @@
+
+syntax = "proto3";
+
+package authz;
+
+import "google/protobuf/empty.proto";
+
+service AuthorizationPolicyService {
+  rpc EvaluatePolicy (EvaluateRequest) returns (EvaluateResponse);
+}
+
+message EvaluateRequest {
+  string sub = 1;
+  string action = 2;
+  string resource = 3;
+  string tenantId = 4;
+}
+
+message EvaluateResponse {
+  bool allowed = 1;
+  string reason = 2;
+}

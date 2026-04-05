@@ -1,0 +1,46 @@
+
+syntax = "proto3";
+
+package profile;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+service IdentityProfileService {
+  rpc GetUserProfile (GetUserProfileRequest) returns (UserIdentityResponse);
+  rpc UpdateUserProfile (UpdateUserProfileRequest) returns (UserIdentityResponse);
+  rpc ResolveTenantContext (ResolveTenantRequest) returns (TenantContextResponse);
+}
+
+message GetUserProfileRequest {
+  string userId = 1;
+}
+
+message UpdateUserProfileRequest {
+  string userId = 1;
+  string firstName = 2;
+  string lastName = 3;
+  string phone = 4;
+  string preferredLanguage = 5;
+}
+
+message UserIdentityResponse {
+  string id = 1;
+  string email = 2;
+  string firstName = 3;
+  string lastName = 4;
+  string country = 5;
+  string role = 6;
+  string companyId = 7;
+  bool isActive = 8;
+  string status = 9;
+}
+
+message ResolveTenantRequest {
+  string userId = 1;
+}
+
+message TenantContextResponse {
+  string tenantId = 1;
+  string region = 2;
+}

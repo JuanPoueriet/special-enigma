@@ -1,10 +1,12 @@
+
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { ConfigModule } from '@nestjs/config';
+import { DomainIdentityAuditLedgerPresentationModule } from '@virtex/domain-identity-audit-ledger-presentation';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    DomainIdentityAuditLedgerPresentationModule,
+  ],
 })
 export class AppModule {}

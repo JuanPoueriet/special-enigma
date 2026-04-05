@@ -1,0 +1,22 @@
+
+syntax = "proto3";
+
+package audit;
+
+import "google/protobuf/timestamp.proto";
+
+service IdentityAuditLedgerService {
+  rpc RecordEvent (AuditEventRequest) returns (AuditEventResponse);
+}
+
+message AuditEventRequest {
+  string event = 1;
+  string userId = 2;
+  string metadataJson = 3;
+  string tenantId = 4;
+}
+
+message AuditEventResponse {
+  string ledgerId = 1;
+  string hash = 2;
+}

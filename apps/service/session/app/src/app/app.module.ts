@@ -1,10 +1,12 @@
+
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { ConfigModule } from '@nestjs/config';
+import { DomainSessionPresentationModule } from '@virtex/domain-session-presentation';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    DomainSessionPresentationModule,
+  ],
 })
 export class AppModule {}
