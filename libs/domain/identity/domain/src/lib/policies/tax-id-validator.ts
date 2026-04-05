@@ -1,4 +1,4 @@
-import { DomainException } from '@virtex/shared-util-server-server-config';
+import { DomainException } from '@virtex/kernel-exceptions';
 
 export class TaxIdValidator {
   validate(country: string, taxId: string): void {

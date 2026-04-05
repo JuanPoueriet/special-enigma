@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
+import { FiscalStampingPort } from '@virtex/domain-billing-domain';
 import { FiscalDocumentBuilderFactory, FiscalDocumentBuilder } from '@virtex/domain-fiscal-domain';
 import { MxFiscalDocumentBuilder, UsFiscalDocumentBuilder, CoFiscalDocumentBuilder, BrFiscalDocumentBuilder, DoFiscalDocumentBuilder } from '@virtex/domain-fiscal-infrastructure';
 
 @Injectable()
-export class FiscalDocumentBuilderFactoryImpl extends FiscalDocumentBuilderFactory {
+export class FiscalDocumentBuilderFactoryImpl extends FiscalDocumentBuilderFactory implements FiscalStampingPort {
     constructor(
         private readonly mx: MxFiscalDocumentBuilder,
         private readonly us: UsFiscalDocumentBuilder,

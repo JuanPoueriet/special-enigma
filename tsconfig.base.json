@@ -327,6 +327,18 @@
       "@virtex/kernel-tenant-context": [
         "libs/kernel/tenant-context/src/index.ts"
       ],
+      "@virtex/kernel-http": [
+        "libs/kernel/http/src/index.ts"
+      ],
+      "@virtex/kernel-idempotency": [
+        "libs/kernel/idempotency/src/index.ts"
+      ],
+      "@virtex/kernel-federation": [
+        "libs/kernel/federation/src/index.ts"
+      ],
+      "@virtex/kernel-constants": [
+        "libs/kernel/constants/src/index.ts"
+      ],
       "@virtex/platform-audit": [
         "libs/platform/audit/src/index.ts"
       ],

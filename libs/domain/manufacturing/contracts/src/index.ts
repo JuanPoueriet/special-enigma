@@ -1,1 +1,1 @@
-export * from './lib/enums/production-order-status.enum';
+export * from './lib/enums/manufacturing.enums';

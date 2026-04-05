@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
-import { CurrentTenant } from '@virtex/shared-util-server-server-config';
+import { CurrentTenant } from '@virtex/kernel-tenant-context';
 import { CreateInvoiceUseCase, CreateInvoiceDto, GetInvoicesUseCase, GetPaymentHistoryUseCase, GetUsageUseCase } from '@virtex/domain-billing-application';
 import { GetSubscriptionPlansUseCase, GetSubscriptionUseCase } from '@virtex/domain-subscription-application';
 import { JwtAuthGuard, TenantGuard } from '@virtex/kernel-auth';

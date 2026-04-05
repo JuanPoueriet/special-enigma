@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { Invoice, InvoiceItem, type InvoiceRepository, INVOICE_REPOSITORY, type ProductRepository, PRODUCT_REPOSITORY, TaxCalculatorService, TENANT_CONFIG_REPOSITORY, type TenantConfigRepository } from '@virtex/domain-billing-domain';
-import { DomainException } from '@virtex/shared-util-server-server-config';
+import { DomainException } from '@virtex/kernel-exceptions';
 import { CreateInvoiceDto } from '../../dto/create-invoice.dto';
 import { Decimal } from 'decimal.js';
 import { SUBSCRIPTION_REPOSITORY, type SubscriptionRepository } from '@virtex/domain-subscription-domain';

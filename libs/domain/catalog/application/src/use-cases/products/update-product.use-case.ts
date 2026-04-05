@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PRODUCT_READ_REPOSITORY, type ProductReadRepository, PRODUCT_WRITE_REPOSITORY, type ProductWriteRepository, type Product, ProductUpdatedEvent } from '@virtex/domain-catalog-domain';
-import { DomainException } from '@virtex/shared-util-server-server-config';
+import { DomainException } from '@virtex/kernel-exceptions';
 
 export interface UpdateProductDto {
   id: number;

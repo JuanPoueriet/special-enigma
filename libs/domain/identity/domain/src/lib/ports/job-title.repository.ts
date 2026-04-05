@@ -1,4 +1,4 @@
-import { JobTitle } from '../entities/job-title.entity';
+import { JobTitle } from '../user-profile/job-title.entity';
 
 export abstract class JobTitleRepository {
   abstract findAll(): Promise<JobTitle[]>;

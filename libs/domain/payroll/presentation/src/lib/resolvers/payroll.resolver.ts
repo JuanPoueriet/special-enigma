@@ -1,7 +1,7 @@
 import { Resolver, Query, Mutation, Args, ID } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '@virtex/kernel-auth';
-import { CurrentTenant } from '@virtex/shared-util-server-server-config';
+import { CurrentTenant } from '@virtex/kernel-tenant-context';
 import { CalculatePayrollUseCase, GetEmployeesUseCase } from '@virtex/domain-payroll-application';
 import { EmployeeObject } from '../dto/employee.object';
 import { CalculatePayrollInput } from '../dto/calculate-payroll.input';

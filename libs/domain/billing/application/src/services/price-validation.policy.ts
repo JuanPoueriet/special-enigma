@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Decimal } from 'decimal.js';
-import { DomainException } from '@virtex/shared-util-server-server-config';
+import { DomainException } from '@virtex/kernel-exceptions';
 import { type ProductRepository } from '@virtex/domain-billing-domain';
 
 @Injectable()

@@ -1,0 +1,11 @@
+{
+  "name": "@virtex/kernel-federation",
+  "version": "0.0.1",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "dependencies": {
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/graphql": "^13.2.4",
+    "tslib": "^2.3.0"
+  }
+}
