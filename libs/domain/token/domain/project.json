@@ -1,0 +1,9 @@
+{
+  "name": "domain-token-domain",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domain/token/domain/src",
+  "projectType": "library",
+  "tags": ["scope:token", "type:domain"],
+  "// targets": "to see all targets run: nx show project domain-token-domain --web",
+  "targets": {}
+}

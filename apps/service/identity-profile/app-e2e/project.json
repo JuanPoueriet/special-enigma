@@ -1,0 +1,17 @@
+{
+  "name": "identity-profile-e2e",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "implicitDependencies": ["identity-profile"],
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
+      "options": {
+        "jestConfig": "apps/service/identity-profile/app-e2e/jest.config.cts",
+        "passWithNoTests": true
+      },
+      "dependsOn": ["identity-profile:build", "identity-profile:serve"]
+    }
+  }
+}

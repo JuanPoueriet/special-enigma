@@ -1,0 +1,9 @@
+{
+  "name": "domain-provisioning-federation-contracts",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domain/provisioning-federation/contracts/src",
+  "projectType": "library",
+  "tags": ["scope:provisioning-federation", "type:contracts"],
+  "// targets": "to see all targets run: nx show project domain-provisioning-federation-contracts --web",
+  "targets": {}
+}

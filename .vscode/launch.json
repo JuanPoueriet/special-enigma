@@ -6,19 +6,13 @@
       "request": "launch",
       "name": "Debug api-gateway-app with Nx",
       "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "nx",
-        "serve",
-        "api-gateway-app"
-      ],
+      "runtimeArgs": ["nx", "serve", "api-gateway-app"],
       "env": {
         "NODE_OPTIONS": "--inspect=9229"
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
       "outFiles": [
         "${workspaceFolder}/apps/api-gateway-app/dist/**/*.(m|c|)js",
@@ -30,19 +24,13 @@
       "request": "launch",
       "name": "Debug api-plugin-host-app with Nx",
       "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "nx",
-        "serve",
-        "api-plugin-host-app"
-      ],
+      "runtimeArgs": ["nx", "serve", "api-plugin-host-app"],
       "env": {
         "NODE_OPTIONS": "--inspect=9230"
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
       "outFiles": [
         "${workspaceFolder}/apps/api-plugin-host-app/dist/**/*.(m|c|)js",
@@ -54,19 +42,13 @@
       "request": "launch",
       "name": "Debug api-identity-app with Nx",
       "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "nx",
-        "serve",
-        "api-identity-app"
-      ],
+      "runtimeArgs": ["nx", "serve", "api-identity-app"],
       "env": {
         "NODE_OPTIONS": "--inspect=9231"
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
       "outFiles": [
         "${workspaceFolder}/apps/api-identity-app/dist/**/*.(m|c|)js",
@@ -78,19 +60,13 @@
       "request": "launch",
       "name": "Debug worker-scheduler-app with Nx",
       "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "nx",
-        "serve",
-        "worker-scheduler-app"
-      ],
+      "runtimeArgs": ["nx", "serve", "worker-scheduler-app"],
       "env": {
         "NODE_OPTIONS": "--inspect=9232"
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
       "outFiles": [
         "${workspaceFolder}/apps/worker-scheduler-app/dist/**/*.(m|c|)js",
@@ -102,19 +78,13 @@
       "request": "launch",
       "name": "Debug api-fiscal-app with Nx",
       "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "nx",
-        "serve",
-        "api-fiscal-app"
-      ],
+      "runtimeArgs": ["nx", "serve", "api-fiscal-app"],
       "env": {
         "NODE_OPTIONS": "--inspect=9233"
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
       "outFiles": [
         "${workspaceFolder}/apps/api-fiscal-app/dist/**/*.(m|c|)js",
@@ -126,19 +96,13 @@
       "request": "launch",
       "name": "Debug api-catalog-app with Nx",
       "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "nx",
-        "serve",
-        "api-catalog-app"
-      ],
+      "runtimeArgs": ["nx", "serve", "api-catalog-app"],
       "env": {
         "NODE_OPTIONS": "--inspect=9234"
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
       "outFiles": [
         "${workspaceFolder}/apps/api-catalog-app/dist/**/*.(m|c|)js",
@@ -150,19 +114,13 @@
       "request": "launch",
       "name": "Debug api-gateway-legacy-app with Nx",
       "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "nx",
-        "serve",
-        "api-gateway-legacy-app"
-      ],
+      "runtimeArgs": ["nx", "serve", "api-gateway-legacy-app"],
       "env": {
         "NODE_OPTIONS": "--inspect=9235"
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
       "outFiles": [
         "${workspaceFolder}/apps/api-gateway-legacy-app/dist/**/*.(m|c|)js",
@@ -174,19 +132,13 @@
       "request": "launch",
       "name": "Debug worker-notification-app with Nx",
       "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "nx",
-        "serve",
-        "worker-notification-app"
-      ],
+      "runtimeArgs": ["nx", "serve", "worker-notification-app"],
       "env": {
         "NODE_OPTIONS": "--inspect=9236"
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
       "outFiles": [
         "${workspaceFolder}/apps/worker-notification-app/dist/**/*.(m|c|)js",
@@ -198,19 +150,13 @@
       "request": "launch",
       "name": "Debug api-inventory-app with Nx",
       "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "nx",
-        "serve",
-        "api-inventory-app"
-      ],
+      "runtimeArgs": ["nx", "serve", "api-inventory-app"],
       "env": {
         "NODE_OPTIONS": "--inspect=9237"
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
       "outFiles": [
         "${workspaceFolder}/apps/api-inventory-app/dist/**/*.(m|c|)js",
@@ -222,19 +168,13 @@
       "request": "launch",
       "name": "Debug api-billing-app with Nx",
       "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "nx",
-        "serve",
-        "api-billing-app"
-      ],
+      "runtimeArgs": ["nx", "serve", "api-billing-app"],
       "env": {
         "NODE_OPTIONS": "--inspect=9238"
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
       "outFiles": [
         "${workspaceFolder}/apps/api-billing-app/dist/**/*.(m|c|)js",
@@ -246,19 +186,13 @@
       "request": "launch",
       "name": "Debug api-accounting-app with Nx",
       "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "nx",
-        "serve",
-        "api-accounting-app"
-      ],
+      "runtimeArgs": ["nx", "serve", "api-accounting-app"],
       "env": {
         "NODE_OPTIONS": "--inspect=9239"
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
       "outFiles": [
         "${workspaceFolder}/apps/api-accounting-app/dist/**/*.(m|c|)js",
@@ -270,19 +204,13 @@
       "request": "launch",
       "name": "Debug api-payroll-app with Nx",
       "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "nx",
-        "serve",
-        "api-payroll-app"
-      ],
+      "runtimeArgs": ["nx", "serve", "api-payroll-app"],
       "env": {
         "NODE_OPTIONS": "--inspect=9240"
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
       "outFiles": [
         "${workspaceFolder}/apps/api-payroll-app/dist/**/*.(m|c|)js",
@@ -294,19 +222,13 @@
       "request": "launch",
       "name": "Debug api-projects-app with Nx",
       "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "nx",
-        "serve",
-        "api-projects-app"
-      ],
+      "runtimeArgs": ["nx", "serve", "api-projects-app"],
       "env": {
         "NODE_OPTIONS": "--inspect=9241"
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
       "outFiles": [
         "${workspaceFolder}/apps/api-projects-app/dist/**/*.(m|c|)js",
@@ -318,19 +240,13 @@
       "request": "launch",
       "name": "Debug api-manufacturing-app with Nx",
       "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "nx",
-        "serve",
-        "api-manufacturing-app"
-      ],
+      "runtimeArgs": ["nx", "serve", "api-manufacturing-app"],
       "env": {
         "NODE_OPTIONS": "--inspect=9242"
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
       "outFiles": [
         "${workspaceFolder}/apps/api-manufacturing-app/dist/**/*.(m|c|)js",
@@ -342,19 +258,13 @@
       "request": "launch",
       "name": "Debug api-treasury-app with Nx",
       "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "nx",
-        "serve",
-        "api-treasury-app"
-      ],
+      "runtimeArgs": ["nx", "serve", "api-treasury-app"],
       "env": {
         "NODE_OPTIONS": "--inspect=9243"
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
       "outFiles": [
         "${workspaceFolder}/apps/api-treasury-app/dist/**/*.(m|c|)js",
@@ -366,19 +276,13 @@
       "request": "launch",
       "name": "Debug api-purchasing-app with Nx",
       "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "nx",
-        "serve",
-        "api-purchasing-app"
-      ],
+      "runtimeArgs": ["nx", "serve", "api-purchasing-app"],
       "env": {
         "NODE_OPTIONS": "--inspect=9244"
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
       "outFiles": [
         "${workspaceFolder}/apps/api-purchasing-app/dist/**/*.(m|c|)js",
@@ -390,19 +294,13 @@
       "request": "launch",
       "name": "Debug api-bi-app with Nx",
       "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "nx",
-        "serve",
-        "api-bi-app"
-      ],
+      "runtimeArgs": ["nx", "serve", "api-bi-app"],
       "env": {
         "NODE_OPTIONS": "--inspect=9245"
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
       "outFiles": [
         "${workspaceFolder}/apps/api-bi-app/dist/**/*.(m|c|)js",
@@ -414,19 +312,13 @@
       "request": "launch",
       "name": "Debug api-admin-app with Nx",
       "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "nx",
-        "serve",
-        "api-admin-app"
-      ],
+      "runtimeArgs": ["nx", "serve", "api-admin-app"],
       "env": {
         "NODE_OPTIONS": "--inspect=9246"
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
       "outFiles": [
         "${workspaceFolder}/apps/api-admin-app/dist/**/*.(m|c|)js",
@@ -438,19 +330,13 @@
       "request": "launch",
       "name": "Debug api-fixed-assets-app with Nx",
       "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "nx",
-        "serve",
-        "api-fixed-assets-app"
-      ],
+      "runtimeArgs": ["nx", "serve", "api-fixed-assets-app"],
       "env": {
         "NODE_OPTIONS": "--inspect=9247"
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
       "outFiles": [
         "${workspaceFolder}/apps/api-fixed-assets-app/dist/**/*.(m|c|)js",
@@ -462,19 +348,13 @@
       "request": "launch",
       "name": "Debug bff-portal with Nx",
       "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "nx",
-        "serve",
-        "bff-portal"
-      ],
+      "runtimeArgs": ["nx", "serve", "bff-portal"],
       "env": {
         "NODE_OPTIONS": "--inspect=9248"
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
       "outFiles": [
         "${workspaceFolder}/dist/apps/edge/bff-portal/**/*.(m|c|)js",
@@ -486,19 +366,13 @@
       "request": "launch",
       "name": "Debug bff-pos with Nx",
       "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "nx",
-        "serve",
-        "bff-pos"
-      ],
+      "runtimeArgs": ["nx", "serve", "bff-pos"],
       "env": {
         "NODE_OPTIONS": "--inspect=9249"
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
       "outFiles": [
         "${workspaceFolder}/dist/apps/edge/bff-pos/**/*.(m|c|)js",
@@ -510,19 +384,13 @@
       "request": "launch",
       "name": "Debug bff-wms with Nx",
       "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "nx",
-        "serve",
-        "bff-wms"
-      ],
+      "runtimeArgs": ["nx", "serve", "bff-wms"],
       "env": {
         "NODE_OPTIONS": "--inspect=9250"
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
       "outFiles": [
         "${workspaceFolder}/dist/apps/edge/bff-wms/**/*.(m|c|)js",
@@ -534,19 +402,13 @@
       "request": "launch",
       "name": "Debug bff-shopfloor with Nx",
       "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "nx",
-        "serve",
-        "bff-shopfloor"
-      ],
+      "runtimeArgs": ["nx", "serve", "bff-shopfloor"],
       "env": {
         "NODE_OPTIONS": "--inspect=9251"
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
       "outFiles": [
         "${workspaceFolder}/dist/apps/edge/bff-shopfloor/**/*.(m|c|)js",
@@ -558,19 +420,13 @@
       "request": "launch",
       "name": "Debug bff-support with Nx",
       "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "nx",
-        "serve",
-        "bff-support"
-      ],
+      "runtimeArgs": ["nx", "serve", "bff-support"],
       "env": {
         "NODE_OPTIONS": "--inspect=9252"
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
       "outFiles": [
         "${workspaceFolder}/dist/apps/edge/bff-support/**/*.(m|c|)js",
@@ -582,19 +438,13 @@
       "request": "launch",
       "name": "Debug bff-cms with Nx",
       "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "nx",
-        "serve",
-        "bff-cms"
-      ],
+      "runtimeArgs": ["nx", "serve", "bff-cms"],
       "env": {
         "NODE_OPTIONS": "--inspect=9253"
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
       "outFiles": [
         "${workspaceFolder}/dist/apps/edge/bff-cms/**/*.(m|c|)js",
@@ -606,19 +456,13 @@
       "request": "launch",
       "name": "Debug bff-site-public with Nx",
       "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "nx",
-        "serve",
-        "bff-site-public"
-      ],
+      "runtimeArgs": ["nx", "serve", "bff-site-public"],
       "env": {
         "NODE_OPTIONS": "--inspect=9254"
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
       "outFiles": [
         "${workspaceFolder}/dist/apps/edge/bff-site-public/**/*.(m|c|)js",
@@ -630,22 +474,178 @@
       "request": "launch",
       "name": "Debug bff-storefront with Nx",
       "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "nx",
-        "serve",
-        "bff-storefront"
-      ],
+      "runtimeArgs": ["nx", "serve", "bff-storefront"],
       "env": {
         "NODE_OPTIONS": "--inspect=9255"
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
       "outFiles": [
         "${workspaceFolder}/dist/apps/edge/bff-storefront/**/*.(m|c|)js",
+        "!**/node_modules/**"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug authn-credential with Nx",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["nx", "serve", "authn-credential"],
+      "env": {
+        "NODE_OPTIONS": "--inspect=9256"
+      },
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "skipFiles": ["<node_internals>/**"],
+      "sourceMaps": true,
+      "outFiles": [
+        "${workspaceFolder}/apps/service/authn-credential/app/dist/**/*.(m|c|)js",
+        "!**/node_modules/**"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug risk-adaptive-auth with Nx",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["nx", "serve", "risk-adaptive-auth"],
+      "env": {
+        "NODE_OPTIONS": "--inspect=9257"
+      },
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "skipFiles": ["<node_internals>/**"],
+      "sourceMaps": true,
+      "outFiles": [
+        "${workspaceFolder}/apps/service/risk-adaptive-auth/app/dist/**/*.(m|c|)js",
+        "!**/node_modules/**"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug identity-profile with Nx",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["nx", "serve", "identity-profile"],
+      "env": {
+        "NODE_OPTIONS": "--inspect=9258"
+      },
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "skipFiles": ["<node_internals>/**"],
+      "sourceMaps": true,
+      "outFiles": [
+        "${workspaceFolder}/apps/service/identity-profile/app/dist/**/*.(m|c|)js",
+        "!**/node_modules/**"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug provisioning-federation with Nx",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["nx", "serve", "provisioning-federation"],
+      "env": {
+        "NODE_OPTIONS": "--inspect=9259"
+      },
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "skipFiles": ["<node_internals>/**"],
+      "sourceMaps": true,
+      "outFiles": [
+        "${workspaceFolder}/apps/service/provisioning-federation/app/dist/**/*.(m|c|)js",
+        "!**/node_modules/**"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug token with Nx",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["nx", "serve", "token"],
+      "env": {
+        "NODE_OPTIONS": "--inspect=9260"
+      },
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "skipFiles": ["<node_internals>/**"],
+      "sourceMaps": true,
+      "outFiles": [
+        "${workspaceFolder}/apps/service/token/app/dist/**/*.(m|c|)js",
+        "!**/node_modules/**"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug session with Nx",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["nx", "serve", "session"],
+      "env": {
+        "NODE_OPTIONS": "--inspect=9261"
+      },
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "skipFiles": ["<node_internals>/**"],
+      "sourceMaps": true,
+      "outFiles": [
+        "${workspaceFolder}/apps/service/session/app/dist/**/*.(m|c|)js",
+        "!**/node_modules/**"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug authorization-policy with Nx",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["nx", "serve", "authorization-policy"],
+      "env": {
+        "NODE_OPTIONS": "--inspect=9262"
+      },
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "skipFiles": ["<node_internals>/**"],
+      "sourceMaps": true,
+      "outFiles": [
+        "${workspaceFolder}/apps/service/authorization-policy/app/dist/**/*.(m|c|)js",
+        "!**/node_modules/**"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug identity-audit-ledger with Nx",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["nx", "serve", "identity-audit-ledger"],
+      "env": {
+        "NODE_OPTIONS": "--inspect=9263"
+      },
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "skipFiles": ["<node_internals>/**"],
+      "sourceMaps": true,
+      "outFiles": [
+        "${workspaceFolder}/apps/service/identity-audit-ledger/app/dist/**/*.(m|c|)js",
+        "!**/node_modules/**"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug api-access-gateway with Nx",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["nx", "serve", "api-access-gateway"],
+      "env": {
+        "NODE_OPTIONS": "--inspect=9264"
+      },
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "skipFiles": ["<node_internals>/**"],
+      "sourceMaps": true,
+      "outFiles": [
+        "${workspaceFolder}/apps/service/api-access-gateway/app/dist/**/*.(m|c|)js",
         "!**/node_modules/**"
       ]
     }

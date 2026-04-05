@@ -1,0 +1,9 @@
+{
+  "name": "domain-identity-audit-ledger-contracts",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domain/identity-audit-ledger/contracts/src",
+  "projectType": "library",
+  "tags": ["scope:identity-audit-ledger", "type:contracts"],
+  "// targets": "to see all targets run: nx show project domain-identity-audit-ledger-contracts --web",
+  "targets": {}
+}

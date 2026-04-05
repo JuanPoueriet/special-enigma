@@ -1,0 +1,9 @@
+{
+  "name": "domain-api-access-gateway-contracts",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domain/api-access-gateway/contracts/src",
+  "projectType": "library",
+  "tags": ["scope:api-access-gateway", "type:contracts"],
+  "// targets": "to see all targets run: nx show project domain-api-access-gateway-contracts --web",
+  "targets": {}
+}

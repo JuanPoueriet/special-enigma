@@ -1,0 +1,9 @@
+{
+  "name": "domain-identity-audit-ledger-presentation",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domain/identity-audit-ledger/presentation/src",
+  "projectType": "library",
+  "tags": ["scope:identity-audit-ledger", "type:presentation"],
+  "// targets": "to see all targets run: nx show project domain-identity-audit-ledger-presentation --web",
+  "targets": {}
+}

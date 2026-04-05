@@ -1,0 +1,9 @@
+{
+  "name": "domain-session-presentation",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domain/session/presentation/src",
+  "projectType": "library",
+  "tags": ["scope:session", "type:presentation"],
+  "// targets": "to see all targets run: nx show project domain-session-presentation --web",
+  "targets": {}
+}

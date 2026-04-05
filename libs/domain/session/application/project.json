@@ -1,0 +1,9 @@
+{
+  "name": "domain-session-application",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domain/session/application/src",
+  "projectType": "library",
+  "tags": ["scope:session", "type:application"],
+  "// targets": "to see all targets run: nx show project domain-session-application --web",
+  "targets": {}
+}

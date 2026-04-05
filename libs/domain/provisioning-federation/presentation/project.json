@@ -1,0 +1,9 @@
+{
+  "name": "domain-provisioning-federation-presentation",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domain/provisioning-federation/presentation/src",
+  "projectType": "library",
+  "tags": ["scope:provisioning-federation", "type:presentation"],
+  "// targets": "to see all targets run: nx show project domain-provisioning-federation-presentation --web",
+  "targets": {}
+}

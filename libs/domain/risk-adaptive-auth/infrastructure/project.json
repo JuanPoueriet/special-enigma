@@ -1,0 +1,9 @@
+{
+  "name": "domain-risk-adaptive-auth-infrastructure",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domain/risk-adaptive-auth/infrastructure/src",
+  "projectType": "library",
+  "tags": ["scope:risk-adaptive-auth", "type:infrastructure"],
+  "// targets": "to see all targets run: nx show project domain-risk-adaptive-auth-infrastructure --web",
+  "targets": {}
+}
