@@ -86,6 +86,10 @@
         "PASSWORD": "Contraseña",
         "SIGN_IN": "Iniciar sesión",
         "FORGOT_PASSWORD": "¿Olvidaste tu contraseña?",
+        "ERRORS": {
+            "EMAIL_REQUIRED": "El correo electrónico es obligatorio",
+            "PASSWORD_REQUIRED": "La contraseña es obligatoria"
+        },
         "FOOTER": {
             "TERMS": "Términos de servicio",
             "PRIVACY": "Política de privacidad",

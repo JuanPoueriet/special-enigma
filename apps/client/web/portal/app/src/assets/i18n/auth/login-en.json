@@ -42,5 +42,9 @@
       "CONTACT": "Contact",
       "ALL_RIGHTS_RESERVED": "All rights reserved."
     }
+  },
+  "AUTH": {
+    "NEED_HELP": "Need help?",
+    "SUPPORT_CENTER": "Support Center"
   }
 }
