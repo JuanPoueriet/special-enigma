@@ -16,7 +16,7 @@ const logger = new Logger('Bootstrap');
 startOtel('service-identity-app');
 
 function validateEnv() {
-  validate(process.env, ['REDIS_URL', 'DATABASE_URL']);
+  validate(process.env, ['REDIS_URL', 'DATABASE_URL', 'SESSION_SECRET']);
 }
 
 async function bootstrap() {
@@ -41,10 +41,15 @@ async function bootstrap() {
       prefix: 'identity-auth-session:',
     });
 
+    const sessionSecret = process.env['SESSION_SECRET'];
+    if (!sessionSecret) {
+      throw new Error('SESSION_SECRET environment variable is not defined');
+    }
+
     app.use(
       session({
         store: redisStore,
-        secret: process.env['SESSION_SECRET'] || 'virtex-default-session-secret',
+        secret: sessionSecret,
         resave: false,
         saveUninitialized: false,
         name: 'identity.sid',

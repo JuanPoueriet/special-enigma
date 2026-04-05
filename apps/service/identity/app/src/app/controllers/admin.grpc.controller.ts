@@ -1,4 +1,4 @@
-import { Controller, Inject, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Controller, Inject, UsePipes, ValidationPipe, UseGuards } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
 import {
   CompanyRepository,
@@ -7,6 +7,8 @@ import {
   ListTenantsUseCase,
 } from '@virtex/domain-identity-application';
 import { AppService } from '../app.service';
+import { Roles, RolesGuard, JwtAuthGuard } from '@virtex/kernel-auth';
+import { GrpcAuthGuard } from '../guards/grpc-auth.guard';
 
 @Controller()
 @UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
@@ -17,6 +19,8 @@ export class AdminGrpcController {
     private readonly listTenantsUseCase: ListTenantsUseCase,
   ) {}
 
+  @UseGuards(GrpcAuthGuard, RolesGuard)
+  @Roles('admin')
   @GrpcMethod('IdentityService', 'ListTenants')
   async listTenants() {
     const tenants = await this.listTenantsUseCase.execute();

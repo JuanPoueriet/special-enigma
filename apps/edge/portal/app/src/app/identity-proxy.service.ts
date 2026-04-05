@@ -28,7 +28,7 @@ interface IdentityService {
   completeOnboarding: GrpcMethod<any>;
   verifyMfa: GrpcMethod<any>;
   refreshToken: GrpcMethod<any>;
-  logout: GrpcMethod<any>;
+  logout: GrpcMethod<{ access_token?: string; refresh_token?: string }>;
   getOnboardingStatus: GrpcMethod<any>;
   forgotPassword: GrpcMethod<any>;
   resetPassword: GrpcMethod<any>;
@@ -246,10 +246,13 @@ export class IdentityProxyService {
     );
   }
 
-  async logout(accessToken: string, metadata: Metadata) {
+  async logout(accessToken: string | undefined, refreshToken: string | undefined, metadata: Metadata) {
     return await this.callIdentity(
       'logout',
-      this.identityService.logout({ access_token: accessToken }, metadata),
+      this.identityService.logout({
+        access_token: accessToken,
+        refresh_token: refreshToken
+      }, metadata),
     );
   }
 
@@ -413,7 +416,7 @@ export class IdentityProxyService {
           },
           context: {
             ip: context.ip,
-            user_agent: context.userAgent,
+            user_agent: context.user_agent || context.userAgent,
           },
         },
         metadata,

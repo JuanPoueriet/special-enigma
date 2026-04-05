@@ -29,6 +29,7 @@ import {
 } from '@virtex/domain-identity-application';
 import { status } from '@grpc/grpc-js';
 import { GrpcAuthGuard } from '../guards/grpc-auth.guard';
+import { Roles, RolesGuard } from '@virtex/kernel-auth';
 
 @Controller()
 @UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
@@ -117,7 +118,8 @@ export class UsersGrpcController {
     };
   }
 
-  @UseGuards(GrpcAuthGuard)
+  @UseGuards(GrpcAuthGuard, RolesGuard)
+  @Roles('admin')
   @GrpcMethod('IdentityService', 'Impersonate')
   async impersonate(data: any) {
     const result = await this.impersonateUserUseCase.execute(
@@ -195,7 +197,8 @@ export class UsersGrpcController {
     return {};
   }
 
-  @UseGuards(GrpcAuthGuard)
+  @UseGuards(GrpcAuthGuard, RolesGuard)
+  @Roles('admin')
   @GrpcMethod('IdentityService', 'ListUsers')
   async listUsers(data: any) {
     const result = await this.listUsersUseCase.execute({
@@ -224,6 +227,12 @@ export class UsersGrpcController {
   @GrpcMethod('IdentityService', 'GetUserProfile')
   async getUserProfile(data: any) {
     const userId = data.user_id || data.user.sub;
+    if (userId !== data.user.sub && data.user.role !== 'admin') {
+      throw new RpcException({
+        code: status.PERMISSION_DENIED,
+        message: 'You do not have permission to view this profile',
+      });
+    }
     const user = await this.getUserProfileUseCase.execute(userId);
     return this.mapUserToResponse(user);
   }
@@ -232,6 +241,12 @@ export class UsersGrpcController {
   @GrpcMethod('IdentityService', 'GetUserAuditLogs')
   async getUserAuditLogs(data: any) {
     const userId = data.user_id || data.user.sub;
+    if (userId !== data.user.sub && data.user.role !== 'admin') {
+      throw new RpcException({
+        code: status.PERMISSION_DENIED,
+        message: 'You do not have permission to view these audit logs',
+      });
+    }
     const logs = await this.getAuditLogsUseCase.execute(userId);
     return {
       logs: logs.map((l) => ({
@@ -257,7 +272,8 @@ export class UsersGrpcController {
     return this.mapUserToResponse(user);
   }
 
-  @UseGuards(GrpcAuthGuard)
+  @UseGuards(GrpcAuthGuard, RolesGuard)
+  @Roles('admin')
   @GrpcMethod('IdentityService', 'UpdateUser')
   async updateUser(data: any) {
     const user = await this.updateUserUseCase.execute(
@@ -274,14 +290,16 @@ export class UsersGrpcController {
     return this.mapUserToResponse(user);
   }
 
-  @UseGuards(GrpcAuthGuard)
+  @UseGuards(GrpcAuthGuard, RolesGuard)
+  @Roles('admin')
   @GrpcMethod('IdentityService', 'DeleteUser')
   async deleteUser(data: any) {
     await this.deleteUserUseCase.execute(data.id, data.tenant_id);
     return {};
   }
 
-  @UseGuards(GrpcAuthGuard)
+  @UseGuards(GrpcAuthGuard, RolesGuard)
+  @Roles('admin')
   @GrpcMethod('IdentityService', 'InviteUser')
   async inviteUser(data: any) {
     const user = await this.inviteUserUseCase.execute(
@@ -296,14 +314,16 @@ export class UsersGrpcController {
     return this.mapUserToResponse(user);
   }
 
-  @UseGuards(GrpcAuthGuard)
+  @UseGuards(GrpcAuthGuard, RolesGuard)
+  @Roles('admin')
   @GrpcMethod('IdentityService', 'ForceLogout')
   async forceLogout(data: any) {
     await this.forceLogoutUseCase.execute(data.user_id);
     return {};
   }
 
-  @UseGuards(GrpcAuthGuard)
+  @UseGuards(GrpcAuthGuard, RolesGuard)
+  @Roles('admin')
   @GrpcMethod('IdentityService', 'BlockAndLogout')
   async blockAndLogout(data: any) {
     await this.blockUserUseCase.execute(data.user_id);
@@ -326,7 +346,8 @@ export class UsersGrpcController {
     };
   }
 
-  @UseGuards(GrpcAuthGuard)
+  @UseGuards(GrpcAuthGuard, RolesGuard)
+  @Roles('admin')
   @GrpcMethod('IdentityService', 'SendPasswordReset')
   async sendPasswordReset(data: any) {
     const user = await this.userRepository.findById(data.id, data.tenant_id);

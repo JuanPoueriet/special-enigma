@@ -114,10 +114,31 @@ export class AuthGrpcController {
 
   @GrpcMethod('IdentityService', 'Logout')
   async logout(data: any) {
-    const payload = await this.verifyToken(data.access_token);
-    if (payload.sessionId) {
-      await this.logoutUserUseCase.execute(payload.sessionId);
+    if (data.access_token) {
+      try {
+        const payload = await this.verifyToken(data.access_token);
+        if (payload.sessionId) {
+          await this.logoutUserUseCase.execute(payload.sessionId);
+          return {};
+        }
+      } catch (e) {
+        // Token might be expired, try refresh token if provided
+      }
     }
+
+    if (data.refresh_token) {
+      try {
+        const decoded = Buffer.from(data.refresh_token, 'base64').toString('utf-8');
+        const parts = decoded.split(':');
+        if (parts.length === 2) {
+          const sessionId = parts[0];
+          await this.logoutUserUseCase.execute(sessionId);
+        }
+      } catch (e) {
+        // Invalid refresh token format
+      }
+    }
+
     return {};
   }
 
@@ -245,7 +266,7 @@ export class AuthGrpcController {
       },
       {
         ip: data.context.ip,
-        userAgent: data.context.user_agent,
+        userAgent: data.context.user_agent || data.context.userAgent,
       }
     );
 
