@@ -14,6 +14,8 @@
         "NOT_FOUND": "The requested resource could not be found.",
         "SERVER_ERROR": "We are experiencing technical difficulties. Please try again later.",
         "NETWORK_ERROR": "Unable to connect. Please check your internet connection.",
+        "NO_INTERNET": "You have no internet connection",
+        "SERVER_UNREACHABLE": "Could not connect to the server",
         "UNKNOWN_ERROR": "An unexpected error occurred. Our team has been notified."
     },
     "AUTH": {

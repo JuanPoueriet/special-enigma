@@ -16,7 +16,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       } else {
         // Server-side error
         if (error.status === 0) {
-             errorMessage = 'COMMON.NETWORK_ERROR';
+             errorMessage = navigator.onLine ? 'COMMON.SERVER_UNREACHABLE' : 'COMMON.NO_INTERNET';
         } else if (error.status === 401) {
              errorMessage = 'AUTH.SESSION_EXPIRED';
         } else if (error.status === 403) {
