@@ -34,31 +34,21 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   ├── HEAD
 │   │   └── refs
 │   │       ├── heads
-│   │       │   ├── jules-15989751868765811750-b5b2ef35
+│   │       │   ├── jules-8091112965322677245-6a2ad9c1
 │   │       │   └── main
 │   │       └── remotes
 │   │           └── origin
 │   │               └── HEAD
 │   ├── objects
-│   │   ├── 38
-│   │   │   └── bf30bb4ee6fd1ded8b2b6635abfed670ae8e78
-│   │   ├── d4
-│   │   │   └── 82cedaa650366d17a2a0ef52a12d144ccc34fb
-│   │   ├── d6
-│   │   │   └── 946f947d6c70782e97901145aa89648224253e
-│   │   ├── f1
-│   │   │   └── efa619b73d388c394c5f9dcf5ec13006eb97f4
-│   │   ├── fb
-│   │   │   └── 6a8a13a730a18b6c401504b4b5e2eae44cf85f
 │   │   ├── info
 │   │   └── pack
-│   │       ├── pack-0adebc068392bc410a15575dba5df25ec9589743.idx
-│   │       ├── pack-0adebc068392bc410a15575dba5df25ec9589743.pack
-│   │       └── pack-0adebc068392bc410a15575dba5df25ec9589743.rev
+│   │       ├── pack-2395a32abd1558169ca3417ef5507b3ce7e83a34.idx
+│   │       ├── pack-2395a32abd1558169ca3417ef5507b3ce7e83a34.pack
+│   │       └── pack-2395a32abd1558169ca3417ef5507b3ce7e83a34.rev
 │   ├── packed-refs
 │   ├── refs
 │   │   ├── heads
-│   │   │   ├── jules-15989751868765811750-b5b2ef35
+│   │   │   ├── jules-8091112965322677245-6a2ad9c1
 │   │   │   └── main
 │   │   ├── remotes
 │   │   │   └── origin
@@ -75,6 +65,7 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 ├── .husky
 │   └── pre-commit
 ├── .npmrc
+├── .nvmrc
 ├── .prettierignore
 ├── .prettierrc
 ├── .vscode
@@ -86,7 +77,6 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 ├── OWNERS
 ├── README.md
 ├── SECURITY.md
-├── virtex_OVERVIEW.md
 ├── apps
 │   ├── client
 │   │   ├── desktop
@@ -218,6 +208,7 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │       │   ├── app
 │   │       │   │   ├── eslint.config.mjs
 │   │       │   │   ├── project.json
+│   │       │   │   ├── proxy.conf.json
 │   │       │   │   ├── public
 │   │       │   │   │   └── favicon.ico
 │   │       │   │   ├── src
@@ -228,6 +219,9 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │       │   │   │   │   ├── app.scss
 │   │       │   │   │   │   ├── app.spec.ts
 │   │       │   │   │   │   └── app.ts
+│   │       │   │   │   ├── environments
+│   │       │   │   │   │   ├── environment.prod.ts
+│   │       │   │   │   │   └── environment.ts
 │   │       │   │   │   ├── index.html
 │   │       │   │   │   ├── main.ts
 │   │       │   │   │   ├── styles.scss
@@ -247,6 +241,7 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │       │   ├── app
 │   │       │   │   ├── eslint.config.mjs
 │   │       │   │   ├── project.json
+│   │       │   │   ├── proxy.conf.json
 │   │       │   │   ├── public
 │   │       │   │   │   └── favicon.ico
 │   │       │   │   ├── src
@@ -273,12 +268,8 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │       │   │   │   │   │   └── console-config.component.ts
 │   │       │   │   │   │   ├── core
 │   │       │   │   │   │   │   ├── auth
-│   │       │   │   │   │   │   │   ├── auth.guard.ts
-│   │       │   │   │   │   │   │   ├── auth.service.ts
-│   │       │   │   │   │   │   │   ├── prm-check.directive.ts
-│   │       │   │   │   │   │   │   └── services
-│   │       │   │   │   │   │   │       ├── auth-api.client.ts
-│   │       │   │   │   │   │   │       └── auth-session.store.ts
+│   │       │   │   │   │   │   │   ├── entitlement.guard.ts
+│   │       │   │   │   │   │   │   └── prm-check.directive.ts
 │   │       │   │   │   │   │   ├── config
 │   │       │   │   │   │   │   │   └── api-base-url.token.ts
 │   │       │   │   │   │   │   ├── layout
@@ -332,6 +323,9 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │       │   │   │   │   │   └── tenants.facade.ts
 │   │       │   │   │   │   └── testing
 │   │       │   │   │   │       └── testing.component.ts
+│   │       │   │   │   ├── environments
+│   │       │   │   │   │   ├── environment.prod.ts
+│   │       │   │   │   │   └── environment.ts
 │   │       │   │   │   ├── index.html
 │   │       │   │   │   ├── main.ts
 │   │       │   │   │   ├── styles.scss
@@ -354,7 +348,6 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │       │   │   ├── README.md
 │   │       │   │   ├── eslint.config.mjs
 │   │       │   │   ├── project.json
-│   │       │   │   ├── proxy.conf.json
 │   │       │   │   ├── public
 │   │       │   │   │   └── favicon.ico
 │   │       │   │   ├── src
@@ -416,6 +409,7 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │       │       ├── playwright.config.ts
 │   │       │       ├── project.json
 │   │       │       ├── src
+│   │       │       │   ├── accounting.spec.ts
 │   │       │       │   ├── app.spec.ts
 │   │       │       │   ├── example.spec.ts
 │   │       │       │   ├── journeys
@@ -425,12 +419,16 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │       ├── pos
 │   │       │   └── app
 │   │       │       ├── project.json
+│   │       │       ├── proxy.conf.json
 │   │       │       ├── src
 │   │       │       │   ├── app
 │   │       │       │   │   ├── app.config.ts
 │   │       │       │   │   ├── app.routes.ts
 │   │       │       │   │   ├── app.spec.ts
 │   │       │       │   │   └── app.ts
+│   │       │       │   ├── environments
+│   │       │       │   │   ├── environment.prod.ts
+│   │       │       │   │   └── environment.ts
 │   │       │       │   ├── index.html
 │   │       │       │   ├── main.server.ts
 │   │       │       │   ├── main.ts
@@ -445,6 +443,7 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │       │   └── app
 │   │       │       ├── eslint.config.mjs
 │   │       │       ├── project.json
+│   │       │       ├── proxy.conf.json
 │   │       │       ├── public
 │   │       │       │   └── favicon.ico
 │   │       │       ├── src
@@ -455,6 +454,9 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │       │       │   │   ├── app.scss
 │   │       │       │   │   ├── app.spec.ts
 │   │       │       │   │   └── app.ts
+│   │       │       │   ├── environments
+│   │       │       │   │   ├── environment.prod.ts
+│   │       │       │   │   └── environment.ts
 │   │       │       │   ├── index.html
 │   │       │       │   ├── main.server.ts
 │   │       │       │   ├── main.ts
@@ -469,6 +471,7 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │       │   ├── app
 │   │       │   │   ├── eslint.config.mjs
 │   │       │   │   ├── project.json
+│   │       │   │   ├── proxy.conf.json
 │   │       │   │   ├── public
 │   │       │   │   │   └── favicon.ico
 │   │       │   │   ├── src
@@ -481,6 +484,9 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │       │   │   │   │   ├── app.scss
 │   │       │   │   │   │   ├── app.spec.ts
 │   │       │   │   │   │   └── app.ts
+│   │       │   │   │   ├── environments
+│   │       │   │   │   │   ├── environment.prod.ts
+│   │       │   │   │   │   └── environment.ts
 │   │       │   │   │   ├── index.html
 │   │       │   │   │   ├── main.server.ts
 │   │       │   │   │   ├── main.ts
@@ -502,6 +508,7 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │       │   └── app
 │   │       │       ├── eslint.config.mjs
 │   │       │       ├── project.json
+│   │       │       ├── proxy.conf.json
 │   │       │       ├── public
 │   │       │       │   └── favicon.ico
 │   │       │       ├── src
@@ -514,6 +521,9 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │       │       │   │   ├── app.scss
 │   │       │       │   │   ├── app.spec.ts
 │   │       │       │   │   └── app.ts
+│   │       │       │   ├── environments
+│   │       │       │   │   ├── environment.prod.ts
+│   │       │       │   │   └── environment.ts
 │   │       │       │   ├── index.html
 │   │       │       │   ├── main.server.ts
 │   │       │       │   ├── main.ts
@@ -528,6 +538,7 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │       │   ├── app
 │   │       │   │   ├── eslint.config.mjs
 │   │       │   │   ├── project.json
+│   │       │   │   ├── proxy.conf.json
 │   │       │   │   ├── public
 │   │       │   │   │   └── favicon.ico
 │   │       │   │   ├── src
@@ -538,6 +549,9 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │       │   │   │   │   ├── app.scss
 │   │       │   │   │   │   ├── app.spec.ts
 │   │       │   │   │   │   └── app.ts
+│   │       │   │   │   ├── environments
+│   │       │   │   │   │   ├── environment.prod.ts
+│   │       │   │   │   │   └── environment.ts
 │   │       │   │   │   ├── index.html
 │   │       │   │   │   ├── main.ts
 │   │       │   │   │   ├── styles.scss
@@ -558,6 +572,7 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │               ├── eslint.config.mjs
 │   │               ├── ngsw-config.json
 │   │               ├── project.json
+│   │               ├── proxy.conf.json
 │   │               ├── public
 │   │               │   ├── favicon.ico
 │   │               │   ├── icons
@@ -578,6 +593,9 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │               │   │   ├── app.scss
 │   │               │   │   ├── app.spec.ts
 │   │               │   │   └── app.ts
+│   │               │   ├── environments
+│   │               │   │   ├── environment.prod.ts
+│   │               │   │   └── environment.ts
 │   │               │   ├── index.html
 │   │               │   ├── main.server.ts
 │   │               │   ├── main.ts
@@ -596,7 +614,9 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   │   ├── app
 │   │   │   │   │   │   ├── app.controller.ts
 │   │   │   │   │   │   ├── app.module.ts
-│   │   │   │   │   │   └── app.service.ts
+│   │   │   │   │   │   ├── app.service.ts
+│   │   │   │   │   │   ├── catalog-proxy.controller.ts
+│   │   │   │   │   │   └── cms-api.module.ts
 │   │   │   │   │   ├── assets
 │   │   │   │   │   │   └── .gitkeep
 │   │   │   │   │   └── main.ts
@@ -615,15 +635,46 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │       │       └── test-setup.ts
 │   │   │       ├── tsconfig.json
 │   │   │       └── tsconfig.spec.json
+│   │   ├── ops
+│   │   │   └── app
+│   │   │       ├── jest.config.ts
+│   │   │       ├── project.json
+│   │   │       ├── src
+│   │   │       │   ├── app
+│   │   │       │   │   ├── app.controller.ts
+│   │   │       │   │   ├── app.module.ts
+│   │   │       │   │   ├── app.service.ts
+│   │   │       │   │   ├── identity-proxy.controller.ts
+│   │   │       │   │   ├── identity-proxy.service.ts
+│   │   │       │   │   └── strategies
+│   │   │       │   │       ├── google.strategy.ts
+│   │   │       │   │       ├── microsoft.strategy.ts
+│   │   │       │   │       ├── okta.strategy.ts
+│   │   │       │   │       └── session.serializer.ts
+│   │   │       │   └── main.ts
+│   │   │       ├── tsconfig.app.json
+│   │   │       ├── tsconfig.json
+│   │   │       └── webpack.config.js
 │   │   ├── portal
 │   │   │   ├── app
+│   │   │   │   ├── Dockerfile
 │   │   │   │   ├── jest.config.ts
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
 │   │   │   │   │   ├── app
+│   │   │   │   │   │   ├── admin-proxy.controller.ts
 │   │   │   │   │   │   ├── app.controller.ts
 │   │   │   │   │   │   ├── app.module.ts
-│   │   │   │   │   │   └── app.service.ts
+│   │   │   │   │   │   ├── app.service.ts
+│   │   │   │   │   │   ├── auth-proxy.controller.ts
+│   │   │   │   │   │   ├── identity-proxy.service.ts
+│   │   │   │   │   │   ├── profile-proxy.controller.ts
+│   │   │   │   │   │   ├── strategies
+│   │   │   │   │   │   │   ├── google.strategy.ts
+│   │   │   │   │   │   │   ├── microsoft.strategy.ts
+│   │   │   │   │   │   │   ├── okta.strategy.ts
+│   │   │   │   │   │   │   └── session.serializer.ts
+│   │   │   │   │   │   └── user-proxy.controller.ts
 │   │   │   │   │   ├── assets
 │   │   │   │   │   │   └── .gitkeep
 │   │   │   │   │   └── main.ts
@@ -644,6 +695,7 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │       └── tsconfig.spec.json
 │   │   ├── pos
 │   │   │   ├── app
+│   │   │   │   ├── jest.config.ts
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
 │   │   │   │   │   ├── app
@@ -865,6 +917,84 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │       │       └── virtex-admin-service.spec.ts
 │   │   │       ├── tsconfig.json
 │   │   │       └── tsconfig.spec.json
+│   │   ├── api-access-gateway
+│   │   │   ├── app
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── app
+│   │   │   │   │   │   ├── app.controller.ts
+│   │   │   │   │   │   ├── app.module.ts
+│   │   │   │   │   │   └── app.service.ts
+│   │   │   │   │   ├── assets
+│   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   └── main.ts
+│   │   │   │   ├── tsconfig.app.json
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── webpack.config.js
+│   │   │   └── app-e2e
+│   │   │       ├── jest.config.cts
+│   │   │       ├── project.json
+│   │   │       ├── src
+│   │   │       │   ├── api-access-gateway
+│   │   │       │   │   └── api-access-gateway.spec.ts
+│   │   │       │   └── support
+│   │   │       │       ├── global-setup.ts
+│   │   │       │       ├── global-teardown.ts
+│   │   │       │       └── test-setup.ts
+│   │   │       ├── tsconfig.json
+│   │   │       └── tsconfig.spec.json
+│   │   ├── authn-credential
+│   │   │   ├── app
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── app
+│   │   │   │   │   │   ├── app.controller.ts
+│   │   │   │   │   │   ├── app.module.ts
+│   │   │   │   │   │   └── app.service.ts
+│   │   │   │   │   ├── assets
+│   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   └── main.ts
+│   │   │   │   ├── tsconfig.app.json
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── webpack.config.js
+│   │   │   └── app-e2e
+│   │   │       ├── jest.config.cts
+│   │   │       ├── project.json
+│   │   │       ├── src
+│   │   │       │   ├── authn-credential
+│   │   │       │   │   └── authn-credential.spec.ts
+│   │   │       │   └── support
+│   │   │       │       ├── global-setup.ts
+│   │   │       │       ├── global-teardown.ts
+│   │   │       │       └── test-setup.ts
+│   │   │       ├── tsconfig.json
+│   │   │       └── tsconfig.spec.json
+│   │   ├── authorization-policy
+│   │   │   ├── app
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── app
+│   │   │   │   │   │   ├── app.controller.ts
+│   │   │   │   │   │   ├── app.module.ts
+│   │   │   │   │   │   └── app.service.ts
+│   │   │   │   │   ├── assets
+│   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   └── main.ts
+│   │   │   │   ├── tsconfig.app.json
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── webpack.config.js
+│   │   │   └── app-e2e
+│   │   │       ├── jest.config.cts
+│   │   │       ├── project.json
+│   │   │       ├── src
+│   │   │       │   ├── authorization-policy
+│   │   │       │   │   └── authorization-policy.spec.ts
+│   │   │       │   └── support
+│   │   │       │       ├── global-setup.ts
+│   │   │       │       ├── global-teardown.ts
+│   │   │       │       └── test-setup.ts
+│   │   │       ├── tsconfig.json
+│   │   │       └── tsconfig.spec.json
 │   │   ├── bi
 │   │   │   ├── app
 │   │   │   │   ├── eslint.config.mjs
@@ -906,7 +1036,6 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   │   │   ├── app.module.ts
 │   │   │   │   │   │   ├── app.service.ts
 │   │   │   │   │   │   ├── finops-cost.service.spec.ts
-│   │   │   │   │   │   ├── finops-cost.service.ts
 │   │   │   │   │   │   ├── ops-readiness.service.spec.ts
 │   │   │   │   │   │   ├── ops-readiness.service.ts
 │   │   │   │   │   │   ├── ops.controller.ts
@@ -914,8 +1043,7 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   │   │       └── initial-seeder.service.ts
 │   │   │   │   │   ├── assets
 │   │   │   │   │   │   └── .gitkeep
-│   │   │   │   │   ├── main.ts
-│   │   │   │   │   └── tracing.ts
+│   │   │   │   │   └── main.ts
 │   │   │   │   ├── tsconfig.app.json
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.spec.json
@@ -973,8 +1101,7 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │       │   │   ├── app.module.spec.ts
 │   │   │       │   │   ├── app.module.ts
 │   │   │       │   │   └── app.service.ts
-│   │   │       │   ├── main.ts
-│   │   │       │   └── tracing.ts
+│   │   │       │   └── main.ts
 │   │   │       ├── tsconfig.app.json
 │   │   │       ├── tsconfig.json
 │   │   │       ├── tsconfig.spec.json
@@ -1062,7 +1189,16 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   │   │   ├── app.module.spec.ts
 │   │   │   │   │   │   ├── app.module.ts
 │   │   │   │   │   │   ├── app.service.spec.ts
-│   │   │   │   │   │   └── app.service.ts
+│   │   │   │   │   │   ├── app.service.ts
+│   │   │   │   │   │   ├── controllers
+│   │   │   │   │   │   │   ├── admin.grpc.controller.ts
+│   │   │   │   │   │   │   ├── auth.grpc.controller.ts
+│   │   │   │   │   │   │   ├── localization.grpc.controller.ts
+│   │   │   │   │   │   │   ├── onboarding.grpc.controller.ts
+│   │   │   │   │   │   │   └── users.grpc.controller.ts
+│   │   │   │   │   │   └── guards
+│   │   │   │   │   │       ├── grpc-auth.guard.ts
+│   │   │   │   │   │       └── rpc-aware-throttler.guard.ts
 │   │   │   │   │   ├── assets
 │   │   │   │   │   │   └── .gitkeep
 │   │   │   │   │   └── main.ts
@@ -1081,6 +1217,58 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │       │   │   └── test-setup.ts
 │   │   │       │   └── virtex-auth-server
 │   │   │       │       └── virtex-auth-server.spec.ts
+│   │   │       ├── tsconfig.json
+│   │   │       └── tsconfig.spec.json
+│   │   ├── identity-audit-ledger
+│   │   │   ├── app
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── app
+│   │   │   │   │   │   ├── app.controller.ts
+│   │   │   │   │   │   ├── app.module.ts
+│   │   │   │   │   │   └── app.service.ts
+│   │   │   │   │   ├── assets
+│   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   └── main.ts
+│   │   │   │   ├── tsconfig.app.json
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── webpack.config.js
+│   │   │   └── app-e2e
+│   │   │       ├── jest.config.cts
+│   │   │       ├── project.json
+│   │   │       ├── src
+│   │   │       │   ├── identity-audit-ledger
+│   │   │       │   │   └── identity-audit-ledger.spec.ts
+│   │   │       │   └── support
+│   │   │       │       ├── global-setup.ts
+│   │   │       │       ├── global-teardown.ts
+│   │   │       │       └── test-setup.ts
+│   │   │       ├── tsconfig.json
+│   │   │       └── tsconfig.spec.json
+│   │   ├── identity-profile
+│   │   │   ├── app
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── app
+│   │   │   │   │   │   ├── app.controller.ts
+│   │   │   │   │   │   ├── app.module.ts
+│   │   │   │   │   │   └── app.service.ts
+│   │   │   │   │   ├── assets
+│   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   └── main.ts
+│   │   │   │   ├── tsconfig.app.json
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── webpack.config.js
+│   │   │   └── app-e2e
+│   │   │       ├── jest.config.cts
+│   │   │       ├── project.json
+│   │   │       ├── src
+│   │   │       │   ├── identity-profile
+│   │   │       │   │   └── identity-profile.spec.ts
+│   │   │       │   └── support
+│   │   │       │       ├── global-setup.ts
+│   │   │       │       ├── global-teardown.ts
+│   │   │       │       └── test-setup.ts
 │   │   │       ├── tsconfig.json
 │   │   │       └── tsconfig.spec.json
 │   │   ├── inventory
@@ -1230,6 +1418,32 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │       │       └── virtex-projects-service.spec.ts
 │   │   │       ├── tsconfig.json
 │   │   │       └── tsconfig.spec.json
+│   │   ├── provisioning-federation
+│   │   │   ├── app
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── app
+│   │   │   │   │   │   ├── app.controller.ts
+│   │   │   │   │   │   ├── app.module.ts
+│   │   │   │   │   │   └── app.service.ts
+│   │   │   │   │   ├── assets
+│   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   └── main.ts
+│   │   │   │   ├── tsconfig.app.json
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── webpack.config.js
+│   │   │   └── app-e2e
+│   │   │       ├── jest.config.cts
+│   │   │       ├── project.json
+│   │   │       ├── src
+│   │   │       │   ├── provisioning-federation
+│   │   │       │   │   └── provisioning-federation.spec.ts
+│   │   │       │   └── support
+│   │   │       │       ├── global-setup.ts
+│   │   │       │       ├── global-teardown.ts
+│   │   │       │       └── test-setup.ts
+│   │   │       ├── tsconfig.json
+│   │   │       └── tsconfig.spec.json
 │   │   ├── purchasing
 │   │   │   ├── app
 │   │   │   │   ├── eslint.config.mjs
@@ -1259,6 +1473,58 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │       │       └── virtex-purchasing-service.spec.ts
 │   │   │       ├── tsconfig.json
 │   │   │       └── tsconfig.spec.json
+│   │   ├── risk-adaptive-auth
+│   │   │   ├── app
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── app
+│   │   │   │   │   │   ├── app.controller.ts
+│   │   │   │   │   │   ├── app.module.ts
+│   │   │   │   │   │   └── app.service.ts
+│   │   │   │   │   ├── assets
+│   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   └── main.ts
+│   │   │   │   ├── tsconfig.app.json
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── webpack.config.js
+│   │   │   └── app-e2e
+│   │   │       ├── jest.config.cts
+│   │   │       ├── project.json
+│   │   │       ├── src
+│   │   │       │   ├── risk-adaptive-auth
+│   │   │       │   │   └── risk-adaptive-auth.spec.ts
+│   │   │       │   └── support
+│   │   │       │       ├── global-setup.ts
+│   │   │       │       ├── global-teardown.ts
+│   │   │       │       └── test-setup.ts
+│   │   │       ├── tsconfig.json
+│   │   │       └── tsconfig.spec.json
+│   │   ├── session
+│   │   │   ├── app
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── app
+│   │   │   │   │   │   ├── app.controller.ts
+│   │   │   │   │   │   ├── app.module.ts
+│   │   │   │   │   │   └── app.service.ts
+│   │   │   │   │   ├── assets
+│   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   └── main.ts
+│   │   │   │   ├── tsconfig.app.json
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── webpack.config.js
+│   │   │   └── app-e2e
+│   │   │       ├── jest.config.cts
+│   │   │       ├── project.json
+│   │   │       ├── src
+│   │   │       │   ├── session
+│   │   │       │   │   └── session.spec.ts
+│   │   │       │   └── support
+│   │   │       │       ├── global-setup.ts
+│   │   │       │       ├── global-teardown.ts
+│   │   │       │       └── test-setup.ts
+│   │   │       ├── tsconfig.json
+│   │   │       └── tsconfig.spec.json
 │   │   ├── subscription
 │   │   │   └── app
 │   │   │       ├── jest.config.cts
@@ -1271,12 +1537,37 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │       │   │   └── app.service.ts
 │   │   │       │   ├── assets
 │   │   │       │   │   └── .gitkeep
-│   │   │       │   ├── main.ts
-│   │   │       │   └── tracing.ts
+│   │   │       │   └── main.ts
 │   │   │       ├── tsconfig.app.json
 │   │   │       ├── tsconfig.json
 │   │   │       ├── tsconfig.spec.json
 │   │   │       └── webpack.config.js
+│   │   ├── token
+│   │   │   ├── app
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── app
+│   │   │   │   │   │   ├── app.controller.ts
+│   │   │   │   │   │   ├── app.module.ts
+│   │   │   │   │   │   └── app.service.ts
+│   │   │   │   │   ├── assets
+│   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   └── main.ts
+│   │   │   │   ├── tsconfig.app.json
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── webpack.config.js
+│   │   │   └── app-e2e
+│   │   │       ├── jest.config.cts
+│   │   │       ├── project.json
+│   │   │       ├── src
+│   │   │       │   ├── support
+│   │   │       │   │   ├── global-setup.ts
+│   │   │       │   │   ├── global-teardown.ts
+│   │   │       │   │   └── test-setup.ts
+│   │   │       │   └── token
+│   │   │       │       └── token.spec.ts
+│   │   │       ├── tsconfig.json
+│   │   │       └── tsconfig.spec.json
 │   │   └── treasury
 │   │       ├── app
 │   │       │   ├── eslint.config.mjs
@@ -1386,6 +1677,7 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   ├── governance
 │   │   ├── backend-test-policy.json
 │   │   ├── e2e-policy.json
+│   │   ├── entitlement-matrix.json
 │   │   ├── naming-policy.json
 │   │   └── tag-catalog.json
 │   ├── operations
@@ -1403,6 +1695,8 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   ├── 0002-domain-contracts.md
 │   │   └── 0003-product-core-platform-shells.md
 │   ├── architecture
+│   │   ├── ESTANDAR_MIGRACION_MICROSERVICIOS.md
+│   │   ├── GUIA_MIGRACION_DOMINIOS_V2.md
 │   │   ├── LEVEL_5_READINESS_REPORT.md
 │   │   ├── bff-migration-matrix.md
 │   │   ├── billing-ops-architecture-remediation.md
@@ -1459,68 +1753,14 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   └── marketplace-compliance-report.md
 │   └── tenant-enforcement-inventory.md
 ├── eslint.config.mjs
-├── evidence
-│   ├── EVIDENCE_PACK.md
-│   ├── REMEDIATION_EXECUTION_REPORT.md
-│   ├── drills
-│   │   ├── 2026-03-22-t1-fail-key.json
-│   │   ├── 2026-03-22-t1-health-key.json
-│   │   ├── 2026-03-22-t1-key-1.json
-│   │   └── 2026-03-23-t1-real.json
-│   ├── infrastructure
-│   │   ├── eu-central-1
-│   │   │   └── terraform-state.json
-│   │   ├── sa-east-1
-│   │   │   ├── manifest.json
-│   │   │   ├── terraform-state.json
-│   │   │   └── topology.tf.snippet.txt
-│   │   └── us-east-1
-│   │       ├── manifest.json
-│   │       ├── terraform-state.json
-│   │       └── topology.tf.snippet.txt
-│   ├── migrations
-│   │   ├── op-123
-│   │   │   └── checksum-manifest.json
-│   │   └── op-999-real-checksum.json
-│   ├── releases
-│   │   ├── 2026.03-5.0-GA
-│   │   │   ├── manifest.json
-│   │   │   └── summary.json
-│   │   ├── 2026.03-rc1
-│   │   │   ├── README.md
-│   │   │   ├── manifest.json
-│   │   │   └── summary.json
-│   │   └── DEV-SNAPSHOT
-│   │       ├── README.md
-│   │       ├── manifest.json
-│   │       └── summary.json
-│   ├── reports
-│   │   ├── COMMERCIAL_READINESS_CHECKLIST.md
-│   │   ├── MT_MR_LEVEL5_EXECUTION_REPORT.md
-│   │   ├── OPEN_EXTERNAL_DEPENDENCIES.md
-│   │   ├── PRODUCTION_BLOCKERS_STATUS.md
-│   │   ├── RELEASE_READINESS_REPORT.md
-│   │   ├── REMEDIATION_EXECUTION_REPORT.md
-│   │   ├── REMEDIATION_PLAN.md
-│   │   ├── RUNBOOKS.md
-│   │   ├── SECURITY_DECISIONS.md
-│   │   ├── SECURITY_GAP_MATRIX.md
-│   │   ├── SECURITY_SCORECARD.md
-│   │   ├── TESTING_STATUS.md
-│   │   ├── rls-adversarial-probe-real.json
-│   │   └── rollback
-│   │       ├── t-enterprise-op-123.json
-│   │       ├── t-integrity-op-123.json
-│   │       ├── t-lag-op-123.json
-│   │       └── t1-op-123.json
-│   ├── slo
-│   │   └── slo-compliance-history.json
-│   └── tenant-lifecycle
-│       └── 2026-03-22-test-tenant-ACTIVATE.json
+├── identity.sqlite3
 ├── jest.preset.js
 ├── libs
 │   ├── domain
 │   │   ├── accounting
+│   │   │   ├── CHANGELOG.md
+│   │   │   ├── OWNERS
+│   │   │   ├── README.md
 │   │   │   ├── application
 │   │   │   │   ├── OWNERS
 │   │   │   │   ├── README.md
@@ -1529,31 +1769,56 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   ├── package.json
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
+│   │   │   │   │   ├── application.public-api.ts
+│   │   │   │   │   ├── facades
+│   │   │   │   │   │   ├── accounting-command.facade.ts
+│   │   │   │   │   │   └── accounting-query.facade.ts
 │   │   │   │   │   ├── index.ts
-│   │   │   │   │   └── lib
-│   │   │   │   │       ├── accounting-application.module.ts
-│   │   │   │   │       ├── listeners
-│   │   │   │   │       │   └── accounting.listener.ts
-│   │   │   │   │       ├── mappers
-│   │   │   │   │       │   ├── account.mapper.ts
-│   │   │   │   │       │   └── journal-entry.mapper.ts
-│   │   │   │   │       ├── services
-│   │   │   │   │       │   ├── accounting-event-handler.service.ts
-│   │   │   │   │       │   └── accounting-policy.service.ts
-│   │   │   │   │       └── use-cases
-│   │   │   │   │           ├── close-fiscal-period.use-case.spec.ts
-│   │   │   │   │           ├── close-fiscal-period.use-case.ts
-│   │   │   │   │           ├── create-account.use-case.spec.ts
-│   │   │   │   │           ├── create-account.use-case.ts
-│   │   │   │   │           ├── generate-financial-report.use-case.hardening.spec.ts
-│   │   │   │   │           ├── generate-financial-report.use-case.spec.ts
-│   │   │   │   │           ├── generate-financial-report.use-case.ts
-│   │   │   │   │           ├── get-accounts.use-case.ts
-│   │   │   │   │           ├── get-journal-entries.use-case.ts
-│   │   │   │   │           ├── index.ts
-│   │   │   │   │           ├── record-journal-entry.use-case.spec.ts
-│   │   │   │   │           ├── record-journal-entry.use-case.ts
-│   │   │   │   │           └── setup-chart-of-accounts.use-case.ts
+│   │   │   │   │   ├── mappers
+│   │   │   │   │   │   ├── account.mapper.ts
+│   │   │   │   │   │   └── journal-entry.mapper.ts
+│   │   │   │   │   ├── ports
+│   │   │   │   │   │   ├── inbound
+│   │   │   │   │   │   │   └── accounting-event-consumer.port.ts
+│   │   │   │   │   │   ├── logger.port.ts
+│   │   │   │   │   │   └── outbound
+│   │   │   │   │   │       ├── message-broker.port.ts
+│   │   │   │   │   │       └── unit-of-work.port.ts
+│   │   │   │   │   ├── services
+│   │   │   │   │   │   ├── accounting-event-handler.service.ts
+│   │   │   │   │   │   ├── accounting-policy.service.ts
+│   │   │   │   │   │   └── dimension-validator.service.ts
+│   │   │   │   │   └── use-cases
+│   │   │   │   │       ├── accounts
+│   │   │   │   │       │   ├── create-account.use-case.spec.ts
+│   │   │   │   │       │   ├── create-account.use-case.ts
+│   │   │   │   │       │   ├── get-accounts-by-ids.use-case.ts
+│   │   │   │   │       │   ├── get-accounts.use-case.ts
+│   │   │   │   │       │   └── setup-chart-of-accounts.use-case.ts
+│   │   │   │   │       ├── bank
+│   │   │   │   │       │   ├── bank-reconciliation.use-case.spec.ts
+│   │   │   │   │       │   └── bank-reconciliation.use-case.ts
+│   │   │   │   │       ├── consolidation
+│   │   │   │   │       │   └── consolidate-accounts.use-case.ts
+│   │   │   │   │       ├── fiscal-periods
+│   │   │   │   │       │   ├── close-fiscal-period.use-case.spec.ts
+│   │   │   │   │       │   └── close-fiscal-period.use-case.ts
+│   │   │   │   │       ├── journal-entries
+│   │   │   │   │       │   ├── count-journal-entries.use-case.ts
+│   │   │   │   │       │   ├── get-journal-entries.use-case.ts
+│   │   │   │   │       │   ├── record-journal-entry.use-case.spec.ts
+│   │   │   │   │       │   └── record-journal-entry.use-case.ts
+│   │   │   │   │       ├── metrics
+│   │   │   │   │       │   └── get-monthly-opex.use-case.ts
+│   │   │   │   │       ├── reports
+│   │   │   │   │       │   ├── generate-financial-report.use-case.hardening.spec.ts
+│   │   │   │   │       │   ├── generate-financial-report.use-case.spec.ts
+│   │   │   │   │       │   └── generate-financial-report.use-case.ts
+│   │   │   │   │       └── subledgers
+│   │   │   │   │           ├── record-invoice.use-case.spec.ts
+│   │   │   │   │           ├── record-invoice.use-case.ts
+│   │   │   │   │           ├── record-payment.use-case.spec.ts
+│   │   │   │   │           └── record-payment.use-case.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
 │   │   │   │   ├── tsconfig.spec.json
@@ -1567,31 +1832,59 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   ├── package.json
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
+│   │   │   │   │   ├── api
+│   │   │   │   │   │   ├── v1
+│   │   │   │   │   │   │   ├── requests
+│   │   │   │   │   │   │   │   ├── accounting-ops.dto.ts
+│   │   │   │   │   │   │   │   ├── create-account.dto.ts
+│   │   │   │   │   │   │   │   ├── invoice.dto.ts
+│   │   │   │   │   │   │   │   ├── payment.dto.ts
+│   │   │   │   │   │   │   │   └── record-journal-entry.dto.ts
+│   │   │   │   │   │   │   └── responses
+│   │   │   │   │   │   │       ├── account.dto.ts
+│   │   │   │   │   │   │       ├── financial-report.dto.ts
+│   │   │   │   │   │   │       └── journal-entry.dto.ts
+│   │   │   │   │   │   └── v2
+│   │   │   │   │   │       └── responses
+│   │   │   │   │   │           ├── account.v2.dto.ts
+│   │   │   │   │   │           └── journal-entry.v2.dto.ts
+│   │   │   │   │   ├── compatibility
+│   │   │   │   │   │   └── v1-to-v2.mapper.ts
+│   │   │   │   │   ├── core
+│   │   │   │   │   │   ├── accounting-ops.interface.ts
+│   │   │   │   │   │   └── create-account.interface.ts
+│   │   │   │   │   ├── errors
+│   │   │   │   │   │   └── integration.error.ts
+│   │   │   │   │   ├── events
+│   │   │   │   │   │   ├── accounting-integration.events.ts
+│   │   │   │   │   │   └── v1
+│   │   │   │   │   │       └── account-created.event.ts
+│   │   │   │   │   ├── index.spec.ts
 │   │   │   │   │   ├── index.ts
-│   │   │   │   │   └── lib
-│   │   │   │   │       ├── accounting-contracts.spec.ts
-│   │   │   │   │       ├── accounting-contracts.ts
-│   │   │   │   │       ├── dtos
-│   │   │   │   │       │   ├── account.dto.ts
-│   │   │   │   │       │   ├── accounting-ops.dto.ts
-│   │   │   │   │       │   ├── create-account.dto.ts
-│   │   │   │   │       │   ├── journal-entry.dto.ts
-│   │   │   │   │       │   └── record-journal-entry.dto.ts
+│   │   │   │   │   ├── integration
+│   │   │   │   │   │   └── reporting.port.ts
+│   │   │   │   │   └── shared
+│   │   │   │   │       ├── account.model.ts
 │   │   │   │   │       ├── enums
 │   │   │   │   │       │   ├── account-type.enum.ts
+│   │   │   │   │       │   ├── financial-report-type.enum.ts
 │   │   │   │   │       │   ├── journal-entry-status.enum.ts
 │   │   │   │   │       │   └── journal-entry-type.enum.ts
-│   │   │   │   │       ├── journal-entry.contract.ts
-│   │   │   │   │       └── models
-│   │   │   │   │           ├── account.model.ts
-│   │   │   │   │           ├── flattened-account.model.ts
-│   │   │   │   │           ├── general-ledger.model.ts
-│   │   │   │   │           ├── journal-entry.model.ts
-│   │   │   │   │           ├── journal.model.ts
-│   │   │   │   │           └── ledger.model.ts
+│   │   │   │   │       ├── flattened-account.model.ts
+│   │   │   │   │       ├── general-ledger.model.ts
+│   │   │   │   │       ├── journal-entry.model.ts
+│   │   │   │   │       ├── journal.model.ts
+│   │   │   │   │       └── ledger.model.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
 │   │   │   │   └── tsconfig.spec.json
+│   │   │   ├── docs
+│   │   │   │   ├── adr
+│   │   │   │   │   ├── 0001-outbox-pattern.md
+│   │   │   │   │   ├── 0002-contract-versioning.md
+│   │   │   │   │   ├── 0003-tenancy-enforcement.md
+│   │   │   │   │   └── 003-functional-organization.md
+│   │   │   │   └── migration-guide.md
 │   │   │   ├── domain
 │   │   │   │   ├── OWNERS
 │   │   │   │   ├── README.md
@@ -1599,27 +1892,45 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   ├── package.json
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
+│   │   │   │   │   ├── domain-services
+│   │   │   │   │   │   ├── currency-revaluation.service.spec.ts
+│   │   │   │   │   │   └── currency-revaluation.service.ts
+│   │   │   │   │   ├── entities
+│   │   │   │   │   │   ├── account.entity.ts
+│   │   │   │   │   │   ├── accounting-policy.entity.ts
+│   │   │   │   │   │   ├── audit-log.entity.ts
+│   │   │   │   │   │   ├── bank-reconciliation.entity.ts
+│   │   │   │   │   │   ├── bank-statement-line.entity.ts
+│   │   │   │   │   │   ├── closing-task.entity.ts
+│   │   │   │   │   │   ├── financial-report-snapshot.entity.ts
+│   │   │   │   │   │   ├── fiscal-period.entity.ts
+│   │   │   │   │   │   ├── fiscal-year.entity.ts
+│   │   │   │   │   │   ├── invoice.entity.ts
+│   │   │   │   │   │   ├── journal-entry-line.entity.ts
+│   │   │   │   │   │   ├── journal-entry.entity.ts
+│   │   │   │   │   │   └── payment.entity.ts
+│   │   │   │   │   ├── errors
+│   │   │   │   │   │   └── accounting.errors.ts
+│   │   │   │   │   ├── events
+│   │   │   │   │   │   ├── account-created.event.ts
+│   │   │   │   │   │   └── domain-event.interface.ts
 │   │   │   │   │   ├── index.ts
-│   │   │   │   │   └── lib
-│   │   │   │   │       ├── entities
-│   │   │   │   │       │   ├── account.entity.ts
-│   │   │   │   │       │   ├── accounting-policy.entity.ts
-│   │   │   │   │       │   ├── fiscal-year.entity.ts
-│   │   │   │   │       │   ├── journal-entry-line.entity.ts
-│   │   │   │   │       │   └── journal-entry.entity.ts
-│   │   │   │   │       ├── enums
-│   │   │   │   │       │   ├── account-type.enum.ts
-│   │   │   │   │       │   ├── journal-entry-status.enum.ts
-│   │   │   │   │       │   └── journal-entry-type.enum.ts
-│   │   │   │   │       ├── errors
-│   │   │   │   │       │   └── accounting.errors.ts
-│   │   │   │   │       ├── ports
-│   │   │   │   │       │   ├── account.repository.ts
-│   │   │   │   │       │   ├── journal-entry.repository.ts
-│   │   │   │   │       │   └── policy.repository.ts
-│   │   │   │   │       └── services
-│   │   │   │   │           ├── currency-revaluation.service.spec.ts
-│   │   │   │   │           └── currency-revaluation.service.ts
+│   │   │   │   │   ├── repository-ports
+│   │   │   │   │   │   ├── account.repository.ts
+│   │   │   │   │   │   ├── accounts-payable.repository.ts
+│   │   │   │   │   │   ├── accounts-receivable.repository.ts
+│   │   │   │   │   │   ├── audit-log.repository.ts
+│   │   │   │   │   │   ├── bank-reconciliation.repository.ts
+│   │   │   │   │   │   ├── closing-task.repository.ts
+│   │   │   │   │   │   ├── financial-report-snapshot.repository.ts
+│   │   │   │   │   │   ├── fiscal-period.repository.ts
+│   │   │   │   │   │   ├── journal-entry.repository.ts
+│   │   │   │   │   │   └── policy.repository.ts
+│   │   │   │   │   └── value-objects
+│   │   │   │   │       ├── account-type.enum.ts
+│   │   │   │   │       ├── journal-entry-status.enum.ts
+│   │   │   │   │       ├── journal-entry-type.enum.ts
+│   │   │   │   │       └── money.vo.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
 │   │   │   │   ├── tsconfig.spec.json
@@ -1630,18 +1941,38 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   ├── package.json
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
+│   │   │   │   │   ├── accounting-application-wiring.module.ts
+│   │   │   │   │   ├── accounting-infrastructure.module.ts
 │   │   │   │   │   ├── index.ts
-│   │   │   │   │   └── lib
-│   │   │   │   │       ├── accounting-infrastructure.module.ts
-│   │   │   │   │       ├── persistence
+│   │   │   │   │   ├── messaging
+│   │   │   │   │   │   ├── consumers
+│   │   │   │   │   │   │   └── accounting-event-consumer.service.ts
+│   │   │   │   │   │   ├── outbox
+│   │   │   │   │   │   │   └── outbox-relay.service.ts
+│   │   │   │   │   │   └── producers
+│   │   │   │   │   │       └── kafka-message-broker.ts
+│   │   │   │   │   └── persistence
+│   │   │   │   │       ├── orm
 │   │   │   │   │       │   ├── mikro-orm.config.ts
-│   │   │   │   │       │   └── mikro-orm.schemas.ts
+│   │   │   │   │       │   ├── mikro-orm.schemas.ts
+│   │   │   │   │       │   └── outbox.schema.ts
 │   │   │   │   │       └── repositories
+│   │   │   │   │           ├── account-integration.spec.ts
 │   │   │   │   │           ├── account.repository.spec.ts
+│   │   │   │   │           ├── journal-entry-repository-adapter.ts
 │   │   │   │   │           ├── mikro-orm-account.repository.ts
-│   │   │   │   │           ├── mikro-orm-journal-entry.repository.ts
+│   │   │   │   │           ├── mikro-orm-accounts-payable.repository.ts
+│   │   │   │   │           ├── mikro-orm-accounts-receivable.repository.ts
+│   │   │   │   │           ├── mikro-orm-audit-log.repository.ts
+│   │   │   │   │           ├── mikro-orm-bank-reconciliation.repository.ts
+│   │   │   │   │           ├── mikro-orm-closing-task.repository.ts
+│   │   │   │   │           ├── mikro-orm-financial-report-snapshot.repository.ts
+│   │   │   │   │           ├── mikro-orm-fiscal-period.repository.ts
+│   │   │   │   │           ├── mikro-orm-journal-entry.repository.spec.ts
+│   │   │   │   │           ├── mikro-orm-outbox.repository.ts
 │   │   │   │   │           ├── mikro-orm-policy.repository.ts
-│   │   │   │   │           └── static-policy.repository.ts
+│   │   │   │   │           ├── mikro-orm-reporting-adapter.ts
+│   │   │   │   │           └── mikro-orm-unit-of-work-adapter.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
 │   │   │   │   └── vitest.config.ts
@@ -1651,74 +1982,137 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   ├── package.json
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
+│   │   │   │   │   ├── accounting-presentation.module.ts
+│   │   │   │   │   ├── events
+│   │   │   │   │   │   └── accounting.listener.ts
+│   │   │   │   │   ├── filters
+│   │   │   │   │   │   └── accounting-exception.filter.ts
+│   │   │   │   │   ├── graphql
+│   │   │   │   │   │   ├── account.loader.ts
+│   │   │   │   │   │   ├── accounts.resolver.ts
+│   │   │   │   │   │   └── journal-entries.resolver.ts
+│   │   │   │   │   ├── guards
+│   │   │   │   │   │   ├── capability.guard.ts
+│   │   │   │   │   │   └── requires-capability.decorator.ts
+│   │   │   │   │   ├── http
+│   │   │   │   │   │   ├── controllers
+│   │   │   │   │   │   │   ├── accounting-events.controller.ts
+│   │   │   │   │   │   │   ├── accounting-health.controller.ts
+│   │   │   │   │   │   │   ├── accounting-internal.controller.spec.ts
+│   │   │   │   │   │   │   ├── accounting-internal.controller.ts
+│   │   │   │   │   │   │   ├── accounting.controller.spec.ts
+│   │   │   │   │   │   │   └── accounting.controller.ts
+│   │   │   │   │   │   └── dto
+│   │   │   │   │   │       ├── account.object.ts
+│   │   │   │   │   │       ├── create-account.input.ts
+│   │   │   │   │   │       ├── journal-entry-line.object.ts
+│   │   │   │   │   │       ├── journal-entry.object.ts
+│   │   │   │   │   │       └── record-journal-entry.input.ts
 │   │   │   │   │   ├── index.ts
-│   │   │   │   │   └── lib
-│   │   │   │   │       ├── accounting-presentation.module.ts
-│   │   │   │   │       ├── controllers
-│   │   │   │   │       │   ├── accounting-events.controller.ts
-│   │   │   │   │       │   ├── accounting-health.controller.ts
-│   │   │   │   │       │   ├── accounting.controller.spec.ts
-│   │   │   │   │       │   └── accounting.controller.ts
-│   │   │   │   │       ├── dto
-│   │   │   │   │       │   ├── account.object.ts
-│   │   │   │   │       │   ├── create-account.input.ts
-│   │   │   │   │       │   ├── journal-entry.object.ts
-│   │   │   │   │       │   └── record-journal-entry.input.ts
-│   │   │   │   │       ├── loaders
-│   │   │   │   │       │   └── account.loader.ts
-│   │   │   │   │       └── resolvers
-│   │   │   │   │           ├── accounts.resolver.ts
-│   │   │   │   │           └── journal-entries.resolver.ts
+│   │   │   │   │   ├── interceptors
+│   │   │   │   │   │   └── presentation-logging.interceptor.ts
+│   │   │   │   │   └── modules
+│   │   │   │   │       ├── accounting-events.module.ts
+│   │   │   │   │       └── accounting-rest.module.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
 │   │   │   │   └── vitest.config.ts
+│   │   │   ├── project.json
+│   │   │   ├── testing
+│   │   │   │   ├── architecture
+│   │   │   │   │   └── boundaries.spec.ts
+│   │   │   │   ├── contract
+│   │   │   │   │   ├── api-contracts.spec.ts
+│   │   │   │   │   ├── journal-entry-dto.contract.spec.ts
+│   │   │   │   │   └── kafka-topic.contract.spec.ts
+│   │   │   │   ├── project.json
+│   │   │   │   ├── security
+│   │   │   │   │   └── security.spec.ts
+│   │   │   │   ├── src
+│   │   │   │   │   └── index.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   ├── unit-benchmark-synthetic
+│   │   │   │   │   ├── accounting.integration-benchmark-simulated.spec.ts
+│   │   │   │   │   └── load-benchmark-simulated.spec.ts
+│   │   │   │   ├── vitest.config.ts
+│   │   │   │   └── vitest.setup.ts
 │   │   │   └── ui
 │   │   │       ├── package.json
 │   │   │       ├── project.json
 │   │   │       ├── src
+│   │   │       │   ├── directives
+│   │   │       │   │   └── has-capability.directive.ts
+│   │   │       │   ├── facades
+│   │   │       │   │   └── accounting.facade.ts
+│   │   │       │   ├── forms
+│   │   │       │   │   └── account.form.ts
+│   │   │       │   ├── i18n
+│   │   │       │   │   ├── en.json
+│   │   │       │   │   └── es.json
 │   │   │       │   ├── index.ts
-│   │   │       │   ├── lib
-│   │   │       │   │   ├── lib.routes.ts
-│   │   │       │   │   ├── pages
-│   │   │       │   │   │   ├── chart-of-accounts
-│   │   │       │   │   │   │   ├── chart-of-accounts.component.ts
-│   │   │       │   │   │   │   └── create-account.component.ts
-│   │   │       │   │   │   ├── dashboard
-│   │   │       │   │   │   │   └── dashboard.component.ts
-│   │   │       │   │   │   ├── financial-reports
-│   │   │       │   │   │   │   └── financial-reports.component.ts
-│   │   │       │   │   │   ├── fiscal-closing
-│   │   │       │   │   │   │   └── fiscal-closing.component.ts
-│   │   │       │   │   │   └── journal-entries
-│   │   │       │   │   │       ├── journal-entries.component.ts
-│   │   │       │   │   │       └── record-journal-entry.component.ts
-│   │   │       │   │   └── services
-│   │   │       │   │       ├── accounting.service.spec.ts
-│   │   │       │   │       └── accounting.service.ts
-│   │   │       │   └── test-setup.ts
+│   │   │       │   ├── lib.routes.ts
+│   │   │       │   ├── pages
+│   │   │       │   │   ├── chart-of-accounts
+│   │   │       │   │   │   ├── chart-of-accounts.component.html
+│   │   │       │   │   │   ├── chart-of-accounts.component.scss
+│   │   │       │   │   │   ├── chart-of-accounts.component.ts
+│   │   │       │   │   │   ├── create-account.component.html
+│   │   │       │   │   │   ├── create-account.component.scss
+│   │   │       │   │   │   └── create-account.component.ts
+│   │   │       │   │   ├── dashboard
+│   │   │       │   │   │   ├── dashboard.component.html
+│   │   │       │   │   │   ├── dashboard.component.scss
+│   │   │       │   │   │   └── dashboard.component.ts
+│   │   │       │   │   ├── financial-reports
+│   │   │       │   │   │   ├── financial-reports.component.html
+│   │   │       │   │   │   ├── financial-reports.component.scss
+│   │   │       │   │   │   └── financial-reports.component.ts
+│   │   │       │   │   ├── fiscal-closing
+│   │   │       │   │   │   ├── fiscal-closing.component.html
+│   │   │       │   │   │   ├── fiscal-closing.component.scss
+│   │   │       │   │   │   └── fiscal-closing.component.ts
+│   │   │       │   │   └── journal-entries
+│   │   │       │   │       ├── journal-entries.component.html
+│   │   │       │   │       ├── journal-entries.component.scss
+│   │   │       │   │       ├── journal-entries.component.ts
+│   │   │       │   │       ├── record-journal-entry.component.html
+│   │   │       │   │       ├── record-journal-entry.component.scss
+│   │   │       │   │       └── record-journal-entry.component.ts
+│   │   │       │   ├── services
+│   │   │       │   │   ├── accounting.service.spec.ts
+│   │   │       │   │   ├── accounting.service.ts
+│   │   │       │   │   └── finance-dashboard.service.ts
+│   │   │       │   ├── state
+│   │   │       │   │   └── accounting.state.ts
+│   │   │       │   ├── test-setup.ts
+│   │   │       │   └── utils
+│   │   │       │       └── error-mapper.ts
 │   │   │       ├── tsconfig.json
 │   │   │       ├── tsconfig.lib.json
 │   │   │       └── vitest.config.ts
 │   │   ├── admin
+│   │   │   ├── CHANGELOG.md
+│   │   │   ├── OWNERS
+│   │   │   ├── README.md
 │   │   │   ├── application
 │   │   │   │   ├── README.md
 │   │   │   │   ├── eslint.config.mjs
 │   │   │   │   ├── package.json
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
+│   │   │   │   │   ├── admin-application.module.ts
+│   │   │   │   │   ├── admin-application.ts
 │   │   │   │   │   ├── index.ts
-│   │   │   │   │   └── lib
-│   │   │   │   │       ├── admin-application.module.ts
-│   │   │   │   │       ├── admin-application.ts
-│   │   │   │   │       ├── services
-│   │   │   │   │       │   ├── admin-dashboard.service.ts
-│   │   │   │   │       │   ├── data-import.service.ts
-│   │   │   │   │       │   ├── incident.service.ts
-│   │   │   │   │       │   └── tenant-support.service.ts
-│   │   │   │   │       └── use-cases
-│   │   │   │   │           ├── provisioning-validation.spec.ts
-│   │   │   │   │           ├── provisioning.service.ts
-│   │   │   │   │           └── update-config.use-case.ts
+│   │   │   │   │   ├── services
+│   │   │   │   │   │   ├── admin-dashboard.service.ts
+│   │   │   │   │   │   ├── data-import.service.ts
+│   │   │   │   │   │   ├── incident.service.ts
+│   │   │   │   │   │   ├── operations-read-model.service.ts
+│   │   │   │   │   │   └── tenant-support.service.ts
+│   │   │   │   │   └── use-cases
+│   │   │   │   │       ├── provisioning-validation.spec.ts
+│   │   │   │   │       ├── provisioning.service.ts
+│   │   │   │   │       └── update-config.use-case.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
 │   │   │   │   ├── tsconfig.spec.json
@@ -1730,32 +2124,32 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
 │   │   │   │   │   ├── index.ts
-│   │   │   │   │   └── lib
-│   │   │   │   │       ├── admin-contracts.spec.ts
+│   │   │   │   │   └── shared
 │   │   │   │   │       └── admin-contracts.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
 │   │   │   │   ├── tsconfig.spec.json
 │   │   │   │   └── vitest.config.ts
+│   │   │   ├── docs
+│   │   │   │   └── migration-guide.md
 │   │   │   ├── domain
 │   │   │   │   ├── README.md
 │   │   │   │   ├── eslint.config.mjs
 │   │   │   │   ├── package.json
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
+│   │   │   │   │   ├── admin-domain.spec.ts
+│   │   │   │   │   ├── admin-domain.ts
+│   │   │   │   │   ├── entities
+│   │   │   │   │   │   ├── incident.entity.ts
+│   │   │   │   │   │   └── tenant-config.entity.ts
 │   │   │   │   │   ├── index.ts
-│   │   │   │   │   └── lib
-│   │   │   │   │       ├── admin-domain.spec.ts
-│   │   │   │   │       ├── admin-domain.ts
-│   │   │   │   │       ├── entities
-│   │   │   │   │       │   ├── incident.entity.ts
-│   │   │   │   │       │   └── tenant-config.entity.ts
-│   │   │   │   │       └── ports
-│   │   │   │   │           ├── dashboard.gateway.ts
-│   │   │   │   │           ├── database.port.ts
-│   │   │   │   │           ├── incident.repository.ts
-│   │   │   │   │           ├── integration-gateway.port.ts
-│   │   │   │   │           └── tenant-config.repository.ts
+│   │   │   │   │   └── repository-ports
+│   │   │   │   │       ├── dashboard.gateway.ts
+│   │   │   │   │       ├── database.port.ts
+│   │   │   │   │       ├── incident.repository.ts
+│   │   │   │   │       ├── integration-gateway.port.ts
+│   │   │   │   │       └── tenant-config.repository.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
 │   │   │   │   ├── tsconfig.spec.json
@@ -1766,20 +2160,22 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   ├── package.json
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
+│   │   │   │   │   ├── admin-infrastructure.spec.ts
+│   │   │   │   │   ├── admin-infrastructure.ts
 │   │   │   │   │   ├── index.ts
-│   │   │   │   │   └── lib
-│   │   │   │   │       ├── adapters
-│   │   │   │   │       │   ├── http-dashboard.gateway.ts
-│   │   │   │   │       │   ├── http-integration.adapter.ts
-│   │   │   │   │       │   └── mikro-orm-database.adapter.ts
-│   │   │   │   │       ├── admin-infrastructure.spec.ts
-│   │   │   │   │       ├── admin-infrastructure.ts
-│   │   │   │   │       ├── entities
-│   │   │   │   │       │   ├── incident.entity.ts
-│   │   │   │   │       │   └── tenant-config.entity.ts
-│   │   │   │   │       └── repositories
-│   │   │   │   │           ├── mikro-orm-incident.repository.ts
-│   │   │   │   │           └── mikro-orm-tenant-config.repository.ts
+│   │   │   │   │   ├── integrations
+│   │   │   │   │   │   └── adapters
+│   │   │   │   │   │       ├── http-dashboard.gateway.ts
+│   │   │   │   │   │       └── http-integration.adapter.ts
+│   │   │   │   │   ├── persistence
+│   │   │   │   │   │   ├── entities
+│   │   │   │   │   │   │   ├── incident.entity.ts
+│   │   │   │   │   │   │   └── tenant-config.entity.ts
+│   │   │   │   │   │   └── repositories
+│   │   │   │   │   │       ├── mikro-orm-incident.repository.ts
+│   │   │   │   │   │       └── mikro-orm-tenant-config.repository.ts
+│   │   │   │   │   └── tenancy
+│   │   │   │   │       └── mikro-orm-database.adapter.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
 │   │   │   │   ├── tsconfig.spec.json
@@ -1790,19 +2186,19 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   ├── package.json
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
-│   │   │   │   │   ├── index.ts
-│   │   │   │   │   └── lib
-│   │   │   │   │       ├── admin-presentation.module.ts
-│   │   │   │   │       ├── admin-presentation.spec.ts
-│   │   │   │   │       ├── admin-presentation.ts
-│   │   │   │   │       └── controllers
-│   │   │   │   │           ├── admin-dashboard.controller.ts
-│   │   │   │   │           ├── admin.controller.ts
-│   │   │   │   │           ├── incidents.controller.ts
-│   │   │   │   │           ├── monitoring.controller.ts
-│   │   │   │   │           ├── operations.controller.ts
-│   │   │   │   │           ├── security.controller.ts
-│   │   │   │   │           └── tenants.controller.ts
+│   │   │   │   │   ├── admin-presentation.module.ts
+│   │   │   │   │   ├── admin-presentation.spec.ts
+│   │   │   │   │   ├── admin-presentation.ts
+│   │   │   │   │   ├── http
+│   │   │   │   │   │   └── controllers
+│   │   │   │   │   │       ├── admin-dashboard.controller.ts
+│   │   │   │   │   │       ├── admin.controller.ts
+│   │   │   │   │   │       ├── incidents.controller.ts
+│   │   │   │   │   │       ├── monitoring.controller.ts
+│   │   │   │   │   │       ├── operations.controller.ts
+│   │   │   │   │   │       ├── security.controller.ts
+│   │   │   │   │   │       └── tenants.controller.ts
+│   │   │   │   │   └── index.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
 │   │   │   │   ├── tsconfig.spec.json
@@ -1811,32 +2207,196 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │       ├── package.json
 │   │   │       ├── project.json
 │   │   │       ├── src
+│   │   │       │   ├── components
+│   │   │       │   │   └── onboarding-wizard
+│   │   │       │   │       └── onboarding-wizard.component.ts
+│   │   │       │   ├── index.ts
+│   │   │       │   └── lib.routes.ts
+│   │   │       ├── tsconfig.json
+│   │   │       ├── tsconfig.lib.json
+│   │   │       └── vitest.config.ts
+│   │   ├── api-access-gateway
+│   │   │   ├── application
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       └── domain-api-access-gateway-application.module.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   ├── contracts
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       └── domain-api-access-gateway-contracts.module.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   ├── domain
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       └── domain-api-access-gateway-domain.module.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   ├── infrastructure
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       ├── authn-credential-service.client.ts
+│   │   │   │   │       └── domain-api-access-gateway-infrastructure.module.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   └── presentation
+│   │   │       ├── README.md
+│   │   │       ├── project.json
+│   │   │       ├── src
 │   │   │       │   ├── index.ts
 │   │   │       │   └── lib
-│   │   │       │       ├── components
-│   │   │       │       │   └── onboarding-wizard
-│   │   │       │       │       └── onboarding-wizard.component.ts
-│   │   │       │       └── lib.routes.ts
+│   │   │       │       ├── auth-session.controller.ts
+│   │   │       │       └── domain-api-access-gateway-presentation.module.ts
+│   │   │       ├── tsconfig.json
+│   │   │       └── tsconfig.lib.json
+│   │   ├── authn-credential
+│   │   │   ├── application
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       ├── domain-authn-credential-application.module.ts
+│   │   │   │   │       └── login-user.use-case.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   ├── contracts
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       └── domain-authn-credential-contracts.module.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   ├── domain
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       ├── credential.entity.ts
+│   │   │   │   │       └── domain-authn-credential-domain.module.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   ├── infrastructure
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       ├── domain-authn-credential-infrastructure.module.ts
+│   │   │   │   │       ├── identity-service.client.ts
+│   │   │   │   │       ├── outbox.repository.ts
+│   │   │   │   │       └── token-service.client.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   └── presentation
+│   │   │       ├── README.md
+│   │   │       ├── project.json
+│   │   │       ├── src
+│   │   │       │   ├── index.ts
+│   │   │       │   └── lib
+│   │   │       │       ├── authn-credential.grpc.controller.ts
+│   │   │       │       └── domain-authn-credential-presentation.module.ts
+│   │   │       ├── tsconfig.json
+│   │   │       └── tsconfig.lib.json
+│   │   ├── authorization-policy
+│   │   │   ├── application
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       ├── domain-authorization-policy-application.module.ts
+│   │   │   │   │       └── evaluate-policy.use-case.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   ├── contracts
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       └── domain-authorization-policy-contracts.module.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   ├── domain
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       └── domain-authorization-policy-domain.module.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   ├── infrastructure
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       └── domain-authorization-policy-infrastructure.module.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   └── presentation
+│   │   │       ├── README.md
+│   │   │       ├── project.json
+│   │   │       ├── src
+│   │   │       │   ├── index.ts
+│   │   │       │   └── lib
+│   │   │       │       └── domain-authorization-policy-presentation.module.ts
 │   │   │       ├── tsconfig.json
 │   │   │       └── tsconfig.lib.json
 │   │   ├── bi
+│   │   │   ├── CHANGELOG.md
+│   │   │   ├── OWNERS
+│   │   │   ├── README.md
 │   │   │   ├── application
 │   │   │   │   ├── README.md
 │   │   │   │   ├── eslint.config.mjs
 │   │   │   │   ├── package.json
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
+│   │   │   │   │   ├── bi-application.module.ts
+│   │   │   │   │   ├── dto
+│   │   │   │   │   │   └── generate-report.dto.ts
 │   │   │   │   │   ├── index.ts
-│   │   │   │   │   └── lib
-│   │   │   │   │       ├── bi-application.spec.ts
-│   │   │   │   │       ├── bi-application.ts
-│   │   │   │   │       └── use-cases
-│   │   │   │   │           ├── generate-report.use-case.ts
-│   │   │   │   │           ├── get-ar-aging.use-case.ts
-│   │   │   │   │           ├── get-dashboard-stats.use-case.ts
-│   │   │   │   │           ├── get-expenses.use-case.ts
-│   │   │   │   │           ├── get-invoice-status.use-case.ts
-│   │   │   │   │           └── get-top-products.use-case.ts
+│   │   │   │   │   └── use-cases
+│   │   │   │   │       ├── commands
+│   │   │   │   │       │   └── generate-report
+│   │   │   │   │       │       ├── generate-report.command.ts
+│   │   │   │   │       │       └── generate-report.handler.ts
+│   │   │   │   │       └── queries
+│   │   │   │   │           ├── get-ar-aging
+│   │   │   │   │           │   ├── get-ar-aging.handler.ts
+│   │   │   │   │           │   └── get-ar-aging.query.ts
+│   │   │   │   │           ├── get-dashboard-stats
+│   │   │   │   │           │   ├── get-dashboard-stats.handler.ts
+│   │   │   │   │           │   └── get-dashboard-stats.query.ts
+│   │   │   │   │           ├── get-expenses
+│   │   │   │   │           │   ├── get-expenses.handler.ts
+│   │   │   │   │           │   └── get-expenses.query.ts
+│   │   │   │   │           ├── get-invoice-status
+│   │   │   │   │           │   ├── get-invoice-status.handler.ts
+│   │   │   │   │           │   └── get-invoice-status.query.ts
+│   │   │   │   │           └── get-top-products
+│   │   │   │   │               ├── get-top-products.handler.ts
+│   │   │   │   │               └── get-top-products.query.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
 │   │   │   │   ├── tsconfig.spec.json
@@ -1847,32 +2407,40 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   ├── package.json
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
-│   │   │   │   │   ├── index.ts
-│   │   │   │   │   └── lib
-│   │   │   │   │       ├── bi-contracts.spec.ts
-│   │   │   │   │       └── bi-contracts.ts
+│   │   │   │   │   ├── api
+│   │   │   │   │   │   └── v1
+│   │   │   │   │   │       ├── requests
+│   │   │   │   │   │       │   └── generate-report.request.ts
+│   │   │   │   │   │       └── responses
+│   │   │   │   │   │           ├── bi-report.response.ts
+│   │   │   │   │   │           └── dashboard-stats.response.ts
+│   │   │   │   │   └── index.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
 │   │   │   │   ├── tsconfig.spec.json
 │   │   │   │   └── vitest.config.ts
+│   │   │   ├── docs
+│   │   │   │   └── migration-guide.md
 │   │   │   ├── domain
 │   │   │   │   ├── README.md
 │   │   │   │   ├── eslint.config.mjs
 │   │   │   │   ├── package.json
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
+│   │   │   │   │   ├── entities
+│   │   │   │   │   │   └── bi-report.entity.ts
 │   │   │   │   │   ├── index.ts
-│   │   │   │   │   └── lib
-│   │   │   │   │       ├── bi-domain.spec.ts
-│   │   │   │   │       ├── bi-domain.ts
-│   │   │   │   │       ├── entities
-│   │   │   │   │       │   └── bi-report.entity.ts
-│   │   │   │   │       └── ports
-│   │   │   │   │           ├── bi-report.repository.ts
-│   │   │   │   │           ├── dashboard-gateway.port.ts
-│   │   │   │   │           ├── expenses.port.ts
-│   │   │   │   │           ├── invoice.port.ts
-│   │   │   │   │           └── sales.port.ts
+│   │   │   │   │   └── repository-ports
+│   │   │   │   │       ├── bi-accounting.port.ts
+│   │   │   │   │       ├── bi-report.repository.ts
+│   │   │   │   │       ├── catalog.port.ts
+│   │   │   │   │       ├── crm.port.ts
+│   │   │   │   │       ├── dashboard-gateway.port.ts
+│   │   │   │   │       ├── expenses.port.ts
+│   │   │   │   │       ├── invoice.port.ts
+│   │   │   │   │       ├── purchasing.port.ts
+│   │   │   │   │       ├── sales.port.ts
+│   │   │   │   │       └── treasury.port.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
 │   │   │   │   ├── tsconfig.spec.json
@@ -1883,17 +2451,22 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   ├── package.json
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
+│   │   │   │   │   ├── bi-infrastructure.module.ts
 │   │   │   │   │   ├── index.ts
-│   │   │   │   │   └── lib
-│   │   │   │   │       ├── adapters
-│   │   │   │   │       │   ├── bi-expenses.adapter.ts
-│   │   │   │   │       │   ├── bi-invoice.adapter.ts
-│   │   │   │   │       │   ├── crm-sales.adapter.ts
-│   │   │   │   │       │   └── sql-dashboard-gateway.adapter.ts
-│   │   │   │   │       ├── bi-infrastructure.spec.ts
-│   │   │   │   │       ├── bi-infrastructure.ts
-│   │   │   │   │       ├── persistence
-│   │   │   │   │       │   └── bi.schemas.ts
+│   │   │   │   │   ├── integrations
+│   │   │   │   │   │   └── adapters
+│   │   │   │   │   │       ├── accounting-reporting.adapter.ts
+│   │   │   │   │   │       ├── bi-expenses.adapter.ts
+│   │   │   │   │   │       ├── bi-invoice.adapter.ts
+│   │   │   │   │   │       ├── crm-sales.adapter.ts
+│   │   │   │   │   │       ├── sql-bi-accounting.adapter.ts
+│   │   │   │   │   │       ├── sql-catalog.adapter.ts
+│   │   │   │   │   │       ├── sql-crm.adapter.ts
+│   │   │   │   │   │       ├── sql-dashboard-gateway.adapter.ts
+│   │   │   │   │   │       ├── sql-purchasing.adapter.ts
+│   │   │   │   │   │       └── sql-treasury.adapter.ts
+│   │   │   │   │   └── persistence
+│   │   │   │   │       ├── bi-report.orm-entity.ts
 │   │   │   │   │       └── repositories
 │   │   │   │   │           └── mikro-orm-bi-report.repository.ts
 │   │   │   │   ├── tsconfig.json
@@ -1906,59 +2479,62 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   ├── package.json
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
-│   │   │   │   │   ├── index.ts
-│   │   │   │   │   └── lib
-│   │   │   │   │       ├── bi-presentation.module.ts
-│   │   │   │   │       ├── bi-presentation.spec.ts
-│   │   │   │   │       ├── bi-presentation.ts
-│   │   │   │   │       └── controllers
-│   │   │   │   │           ├── bi.controller.ts
-│   │   │   │   │           └── dashboard.controller.ts
+│   │   │   │   │   ├── bi-presentation.module.ts
+│   │   │   │   │   ├── http
+│   │   │   │   │   │   └── controllers
+│   │   │   │   │   │       ├── bi.controller.ts
+│   │   │   │   │   │       └── dashboard.controller.ts
+│   │   │   │   │   └── index.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
 │   │   │   │   ├── tsconfig.spec.json
 │   │   │   │   └── vitest.config.ts
 │   │   │   └── ui
-│   │   │       ├── package.json
 │   │   │       ├── project.json
 │   │   │       ├── src
-│   │   │       │   ├── index.ts
-│   │   │       │   └── lib
-│   │   │       │       └── lib.routes.ts
+│   │   │       │   └── index.ts
 │   │   │       ├── tsconfig.json
 │   │   │       └── tsconfig.lib.json
 │   │   ├── billing
+│   │   │   ├── CHANGELOG.md
+│   │   │   ├── OWNERS
+│   │   │   ├── README.md
 │   │   │   ├── application
 │   │   │   │   ├── package.json
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
+│   │   │   │   │   ├── billing-application.module.ts
+│   │   │   │   │   ├── dto
+│   │   │   │   │   │   └── create-invoice.dto.ts
+│   │   │   │   │   ├── handlers
+│   │   │   │   │   │   ├── billing-job.handler.ts
+│   │   │   │   │   │   └── stripe-event.listener.ts
 │   │   │   │   │   ├── index.ts
-│   │   │   │   │   └── lib
-│   │   │   │   │       ├── billing-application.module.ts
-│   │   │   │   │       ├── dtos
-│   │   │   │   │       │   └── create-invoice.dto.ts
-│   │   │   │   │       ├── listeners
-│   │   │   │   │       │   └── stripe-event.listener.ts
-│   │   │   │   │       ├── mappers
-│   │   │   │   │       │   └── create-invoice-input.mapper.ts
-│   │   │   │   │       ├── ports
-│   │   │   │   │       │   └── invoice-integration-publisher.port.ts
-│   │   │   │   │       ├── services
-│   │   │   │   │       │   ├── invoice-stamping.orchestrator.ts
-│   │   │   │   │       │   └── price-validation.policy.ts
-│   │   │   │   │       └── use-cases
-│   │   │   │   │           ├── add-payment-method.use-case.ts
-│   │   │   │   │           ├── create-invoice.use-case.spec.ts
-│   │   │   │   │           ├── create-invoice.use-case.ts
-│   │   │   │   │           ├── create-subscription.use-case.ts
+│   │   │   │   │   ├── mappers
+│   │   │   │   │   │   └── create-invoice-input.mapper.ts
+│   │   │   │   │   ├── ports
+│   │   │   │   │   │   ├── outbound
+│   │   │   │   │   │   │   └── invoice-integration-publisher.port.ts
+│   │   │   │   │   │   ├── storage-read.port.ts
+│   │   │   │   │   │   └── user-read.port.ts
+│   │   │   │   │   ├── services
+│   │   │   │   │   │   ├── invoice-stamping.orchestrator.ts
+│   │   │   │   │   │   └── price-validation.policy.ts
+│   │   │   │   │   └── use-cases
+│   │   │   │   │       ├── commands
+│   │   │   │   │       │   ├── add-payment-method.use-case.ts
+│   │   │   │   │       │   ├── create-checkout-session.use-case.ts
+│   │   │   │   │       │   ├── create-invoice.use-case.spec.ts
+│   │   │   │   │       │   ├── create-invoice.use-case.ts
+│   │   │   │   │       │   ├── create-subscription.use-case.ts
+│   │   │   │   │       │   ├── handle-stripe-webhook.use-case.ts
+│   │   │   │   │       │   ├── process-payment.use-case.ts
+│   │   │   │   │       │   └── reconcile-billing.use-case.ts
+│   │   │   │   │       └── queries
 │   │   │   │   │           ├── get-invoices.use-case.ts
 │   │   │   │   │           ├── get-payment-history.use-case.ts
 │   │   │   │   │           ├── get-payment-method.use-case.ts
-│   │   │   │   │           ├── get-usage.use-case.spec.ts
-│   │   │   │   │           ├── get-usage.use-case.ts
-│   │   │   │   │           ├── handle-stripe-webhook.use-case.ts
-│   │   │   │   │           ├── process-payment.use-case.ts
-│   │   │   │   │           └── reconcile-billing.use-case.ts
+│   │   │   │   │           └── get-usage.use-case.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
 │   │   │   │   ├── tsconfig.spec.json
@@ -1970,48 +2546,52 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   ├── package.json
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
+│   │   │   │   │   ├── api
+│   │   │   │   │   │   └── v1
+│   │   │   │   │   │       └── index.ts
 │   │   │   │   │   ├── index.ts
-│   │   │   │   │   └── lib
+│   │   │   │   │   └── shared
 │   │   │   │   │       ├── contracts.spec.ts
 │   │   │   │   │       └── contracts.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
 │   │   │   │   ├── tsconfig.spec.json
 │   │   │   │   └── vitest.config.ts
+│   │   │   ├── docs
+│   │   │   │   └── migration-guide.md
 │   │   │   ├── domain
 │   │   │   │   ├── README.md
 │   │   │   │   ├── package.json
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
+│   │   │   │   │   ├── billing-domain.module.ts
+│   │   │   │   │   ├── domain-services
+│   │   │   │   │   │   ├── fiscal-stamping.service.spec.ts
+│   │   │   │   │   │   ├── fiscal-stamping.service.ts
+│   │   │   │   │   │   ├── tax-calculator.service.ts
+│   │   │   │   │   │   └── tax-rule.engine.ts
+│   │   │   │   │   ├── entities
+│   │   │   │   │   │   ├── invoice-item.entity.ts
+│   │   │   │   │   │   ├── invoice.entity.ts
+│   │   │   │   │   │   ├── payment-method.entity.ts
+│   │   │   │   │   │   ├── tax-line.entity.ts
+│   │   │   │   │   │   └── tax-rule.entity.ts
+│   │   │   │   │   ├── events
+│   │   │   │   │   │   └── invoice-stamped.event.ts
+│   │   │   │   │   ├── factories
+│   │   │   │   │   │   ├── pac-strategy.factory.ts
+│   │   │   │   │   │   └── tax-strategy.factory.ts
 │   │   │   │   │   ├── index.ts
-│   │   │   │   │   └── lib
-│   │   │   │   │       ├── billing-domain.module.ts
-│   │   │   │   │       ├── entities
-│   │   │   │   │       │   ├── invoice-item.entity.ts
-│   │   │   │   │       │   ├── invoice.entity.ts
-│   │   │   │   │       │   ├── payment-method.entity.ts
-│   │   │   │   │       │   ├── tax-line.entity.ts
-│   │   │   │   │       │   └── tax-rule.entity.ts
-│   │   │   │   │       ├── events
-│   │   │   │   │       │   └── invoice-stamped.event.ts
-│   │   │   │   │       ├── ports
-│   │   │   │   │       │   ├── customer.repository.ts
-│   │   │   │   │       │   ├── invoice.repository.ts
-│   │   │   │   │       │   ├── pac-provider.port.ts
-│   │   │   │   │       │   ├── pac-strategy.factory.ts
-│   │   │   │   │       │   ├── payment-method.repository.ts
-│   │   │   │   │       │   ├── payment-provider.port.ts
-│   │   │   │   │       │   └── tenant-config.port.ts
-│   │   │   │   │       ├── repositories
-│   │   │   │   │       │   └── product.repository.ts
-│   │   │   │   │       ├── services
-│   │   │   │   │       │   ├── fiscal-stamping.service.spec.ts
-│   │   │   │   │       │   ├── fiscal-stamping.service.ts
-│   │   │   │   │       │   ├── tax-calculator.service.ts
-│   │   │   │   │       │   └── tax-rule.engine.ts
-│   │   │   │   │       └── strategies
-│   │   │   │   │           ├── tax-strategy.factory.ts
-│   │   │   │   │           └── tax-strategy.interface.ts
+│   │   │   │   │   └── repository-ports
+│   │   │   │   │       ├── customer.repository.ts
+│   │   │   │   │       ├── fiscal-stamping.port.ts
+│   │   │   │   │       ├── invoice.repository.ts
+│   │   │   │   │       ├── pac-provider.port.ts
+│   │   │   │   │       ├── payment-method.repository.ts
+│   │   │   │   │       ├── payment-provider.port.ts
+│   │   │   │   │       ├── product.repository.ts
+│   │   │   │   │       ├── tax-strategy.interface.ts
+│   │   │   │   │       └── tenant-config.port.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
 │   │   │   │   ├── tsconfig.spec.json
@@ -2021,42 +2601,41 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   ├── package.json
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
+│   │   │   │   │   ├── billing-infrastructure.module.ts
 │   │   │   │   │   ├── index.ts
-│   │   │   │   │   └── lib
-│   │   │   │   │       ├── adapters
-│   │   │   │   │       │   ├── stripe-payment-provider.adapter.spec.ts
-│   │   │   │   │       │   └── stripe-payment-provider.adapter.ts
-│   │   │   │   │       ├── billing-infrastructure.module.ts
+│   │   │   │   │   ├── integrations
+│   │   │   │   │   │   └── adapters
+│   │   │   │   │   │       ├── br-tax.strategy.ts
+│   │   │   │   │   │       ├── do-tax.strategy.ts
+│   │   │   │   │   │       ├── finkok-pac.provider.ts
+│   │   │   │   │   │       ├── fiscal-document-builder.factory.ts
+│   │   │   │   │   │       ├── mx-tax.strategy.ts
+│   │   │   │   │   │       ├── null-pac.provider.ts
+│   │   │   │   │   │       ├── pac-strategy.factory.spec.ts
+│   │   │   │   │   │       ├── pac-strategy.factory.ts
+│   │   │   │   │   │       ├── stripe-payment-provider.adapter.spec.ts
+│   │   │   │   │   │       ├── stripe-payment-provider.adapter.ts
+│   │   │   │   │   │       ├── tax-strategy.factory.ts
+│   │   │   │   │   │       └── us-tax.strategy.ts
+│   │   │   │   │   ├── messaging
+│   │   │   │   │   │   ├── consumers
+│   │   │   │   │   │   │   └── product-events.controller.ts
+│   │   │   │   │   │   └── producers
+│   │   │   │   │   │       └── invoice-integration.publisher.ts
+│   │   │   │   │   └── persistence
 │   │   │   │   │       ├── entities
 │   │   │   │   │       │   ├── billing-product.entity.ts
 │   │   │   │   │       │   ├── invoice-item.record.ts
 │   │   │   │   │       │   └── invoice.record.ts
-│   │   │   │   │       ├── factories
-│   │   │   │   │       │   ├── fiscal-document-builder.factory.ts
-│   │   │   │   │       │   ├── pac-strategy.factory.spec.ts
-│   │   │   │   │       │   ├── pac-strategy.factory.ts
-│   │   │   │   │       │   └── tax-strategy.factory.ts
-│   │   │   │   │       ├── listeners
-│   │   │   │   │       │   └── product-events.controller.ts
-│   │   │   │   │       ├── persistence
+│   │   │   │   │       ├── orm
 │   │   │   │   │       │   └── mikro-orm.schemas.ts
-│   │   │   │   │       ├── providers
-│   │   │   │   │       │   ├── finkok-pac.provider.ts
-│   │   │   │   │       │   └── null-pac.provider.ts
-│   │   │   │   │       ├── publishers
-│   │   │   │   │       │   └── invoice-integration.publisher.ts
-│   │   │   │   │       ├── repositories
-│   │   │   │   │       │   ├── http-customer.repository.ts
-│   │   │   │   │       │   ├── invoice.mapper.ts
-│   │   │   │   │       │   ├── local-product.repository.ts
-│   │   │   │   │       │   ├── mikro-orm-invoice.repository.ts
-│   │   │   │   │       │   ├── mikro-orm-payment-method.repository.ts
-│   │   │   │   │       │   └── mikro-orm-tenant-config.repository.ts
-│   │   │   │   │       └── strategies
-│   │   │   │   │           ├── br-tax.strategy.ts
-│   │   │   │   │           ├── do-tax.strategy.ts
-│   │   │   │   │           ├── mx-tax.strategy.ts
-│   │   │   │   │           └── us-tax.strategy.ts
+│   │   │   │   │       └── repositories
+│   │   │   │   │           ├── http-customer.repository.ts
+│   │   │   │   │           ├── invoice.mapper.ts
+│   │   │   │   │           ├── local-product.repository.ts
+│   │   │   │   │           ├── mikro-orm-invoice.repository.ts
+│   │   │   │   │           ├── mikro-orm-payment-method.repository.ts
+│   │   │   │   │           └── mikro-orm-tenant-config.repository.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
 │   │   │   │   ├── tsconfig.spec.json
@@ -2065,36 +2644,44 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   ├── package.json
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
-│   │   │   │   │   ├── index.ts
-│   │   │   │   │   └── lib
-│   │   │   │   │       ├── billing-presentation.module.ts
-│   │   │   │   │       ├── controllers
-│   │   │   │   │       │   ├── billing.controller.ts
-│   │   │   │   │       │   ├── payment-method.controller.ts
-│   │   │   │   │       │   └── payment.controller.ts
-│   │   │   │   │       ├── dto
-│   │   │   │   │       │   ├── create-invoice.input.ts
-│   │   │   │   │       │   └── invoice.object.ts
-│   │   │   │   │       ├── invoice.presenter.ts
-│   │   │   │   │       └── resolvers
-│   │   │   │   │           └── billing.resolver.ts
+│   │   │   │   │   ├── billing-grpc.controller.ts
+│   │   │   │   │   ├── billing-presentation.module.ts
+│   │   │   │   │   ├── graphql
+│   │   │   │   │   │   └── billing.resolver.ts
+│   │   │   │   │   ├── http
+│   │   │   │   │   │   ├── controllers
+│   │   │   │   │   │   │   ├── billing.controller.ts
+│   │   │   │   │   │   │   ├── payment-method.controller.ts
+│   │   │   │   │   │   │   └── payment.controller.ts
+│   │   │   │   │   │   ├── request-dto
+│   │   │   │   │   │   │   └── create-invoice.input.ts
+│   │   │   │   │   │   └── response-dto
+│   │   │   │   │   │       ├── invoice.object.ts
+│   │   │   │   │   │       └── invoice.presenter.ts
+│   │   │   │   │   └── index.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   └── tsconfig.lib.json
+│   │   │   ├── testing
+│   │   │   │   └── e2e
+│   │   │   │       ├── create-invoice.use-case.spec.ts
+│   │   │   │       └── get-usage.use-case.spec.ts
 │   │   │   └── ui
 │   │   │       ├── package.json
 │   │   │       ├── project.json
 │   │   │       ├── src
 │   │   │       │   ├── index.ts
-│   │   │       │   └── lib
-│   │   │       │       ├── lib.routes.ts
-│   │   │       │       └── pages
-│   │   │       │           ├── invoice-detail
-│   │   │       │           │   └── invoice-detail.component.ts
-│   │   │       │           └── invoice-list
-│   │   │       │               └── invoice-list.component.ts
+│   │   │       │   ├── lib.routes.ts
+│   │   │       │   └── pages
+│   │   │       │       ├── invoice-detail
+│   │   │       │       │   └── invoice-detail.component.ts
+│   │   │       │       └── invoice-list
+│   │   │       │           └── invoice-list.component.ts
 │   │   │       ├── tsconfig.json
 │   │   │       └── tsconfig.lib.json
 │   │   ├── catalog
+│   │   │   ├── CHANGELOG.md
+│   │   │   ├── OWNERS
+│   │   │   ├── README.md
 │   │   │   ├── application
 │   │   │   │   ├── README.md
 │   │   │   │   ├── eslint.config.mjs
@@ -2102,19 +2689,39 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   ├── package.json
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
+│   │   │   │   │   ├── application.spec.ts
+│   │   │   │   │   ├── application.ts
+│   │   │   │   │   ├── authorization
+│   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   ├── catalog-application.module.ts
+│   │   │   │   │   ├── dto
+│   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   ├── handlers
+│   │   │   │   │   │   └── .gitkeep
 │   │   │   │   │   ├── index.ts
-│   │   │   │   │   └── lib
-│   │   │   │   │       ├── application.spec.ts
-│   │   │   │   │       ├── application.ts
-│   │   │   │   │       ├── catalog-application.module.ts
-│   │   │   │   │       └── use-cases
-│   │   │   │   │           ├── create-product.use-case.ts
-│   │   │   │   │           ├── delete-product.use-case.ts
-│   │   │   │   │           ├── get-product-by-id.use-case.ts
-│   │   │   │   │           ├── get-product-by-sku.use-case.ts
-│   │   │   │   │           ├── get-products.use-case.ts
-│   │   │   │   │           ├── get-sat-catalogs.use-case.ts
-│   │   │   │   │           └── update-product.use-case.ts
+│   │   │   │   │   ├── mappers
+│   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   ├── ports
+│   │   │   │   │   │   ├── inbound
+│   │   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   │   └── outbound
+│   │   │   │   │   │       └── .gitkeep
+│   │   │   │   │   ├── sagas
+│   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   ├── services
+│   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   ├── use-cases
+│   │   │   │   │   │   ├── products
+│   │   │   │   │   │   │   ├── create-product.use-case.ts
+│   │   │   │   │   │   │   ├── delete-product.use-case.ts
+│   │   │   │   │   │   │   ├── get-product-by-id.use-case.ts
+│   │   │   │   │   │   │   ├── get-product-by-sku.use-case.ts
+│   │   │   │   │   │   │   ├── get-products.use-case.ts
+│   │   │   │   │   │   │   └── update-product.use-case.ts
+│   │   │   │   │   │   └── sat-catalogs
+│   │   │   │   │   │       └── get-sat-catalogs.use-case.ts
+│   │   │   │   │   └── validators
+│   │   │   │   │       └── .gitkeep
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
 │   │   │   │   └── tsconfig.spec.json
@@ -2122,12 +2729,28 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   ├── package.json
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
-│   │   │   │   │   └── lib
-│   │   │   │   │       └── models
-│   │   │   │   │           ├── price-list.model.ts
-│   │   │   │   │           └── product.model.ts
+│   │   │   │   │   ├── api
+│   │   │   │   │   │   └── v1
+│   │   │   │   │   │       ├── requests
+│   │   │   │   │   │       │   └── .gitkeep
+│   │   │   │   │   │       └── responses
+│   │   │   │   │   │           ├── price-list.model.ts
+│   │   │   │   │   │           └── product.model.ts
+│   │   │   │   │   ├── compatibility
+│   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   ├── events
+│   │   │   │   │   │   └── v1
+│   │   │   │   │   │       └── schemas
+│   │   │   │   │   │           └── .gitkeep
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   ├── messages
+│   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   └── shared
+│   │   │   │   │       └── .gitkeep
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   └── tsconfig.lib.json
+│   │   │   ├── docs
+│   │   │   │   └── migration-guide.md
 │   │   │   ├── domain
 │   │   │   │   ├── OWNERS
 │   │   │   │   ├── README.md
@@ -2136,27 +2759,38 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   ├── package.json
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
+│   │   │   │   │   ├── aggregates
+│   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   ├── domain-services
+│   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   ├── domain.spec.ts
+│   │   │   │   │   ├── domain.ts
+│   │   │   │   │   ├── entities
+│   │   │   │   │   │   ├── metering-record.entity.ts
+│   │   │   │   │   │   ├── plugin-version.entity.ts
+│   │   │   │   │   │   ├── plugin.entity.ts
+│   │   │   │   │   │   ├── product.entity.ts
+│   │   │   │   │   │   ├── sat-catalog.entity.ts
+│   │   │   │   │   │   └── tenant-consent.entity.ts
+│   │   │   │   │   ├── errors
+│   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   ├── events
+│   │   │   │   │   │   ├── product-created.event.ts
+│   │   │   │   │   │   └── product-updated.event.ts
+│   │   │   │   │   ├── factories
+│   │   │   │   │   │   └── .gitkeep
 │   │   │   │   │   ├── index.ts
-│   │   │   │   │   └── lib
-│   │   │   │   │       ├── domain.spec.ts
-│   │   │   │   │       ├── domain.ts
-│   │   │   │   │       ├── entities
-│   │   │   │   │       │   ├── metering-record.entity.ts
-│   │   │   │   │       │   ├── plugin-version.entity.ts
-│   │   │   │   │       │   ├── plugin.entity.ts
-│   │   │   │   │       │   ├── product.entity.ts
-│   │   │   │   │       │   ├── sat-catalog.entity.ts
-│   │   │   │   │       │   └── tenant-consent.entity.ts
-│   │   │   │   │       ├── events
-│   │   │   │   │       │   ├── product-created.event.ts
-│   │   │   │   │       │   └── product-updated.event.ts
-│   │   │   │   │       ├── ports
-│   │   │   │   │       │   └── product.repository.ts
-│   │   │   │   │       └── repositories
-│   │   │   │   │           ├── product-read.repository.ts
-│   │   │   │   │           ├── product-write.repository.ts
-│   │   │   │   │           ├── product.repository.ts
-│   │   │   │   │           └── sat-catalog.repository.ts
+│   │   │   │   │   ├── policies
+│   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   ├── repository-ports
+│   │   │   │   │   │   ├── product-read.repository.ts
+│   │   │   │   │   │   ├── product-write.repository.ts
+│   │   │   │   │   │   ├── product.repository.ts
+│   │   │   │   │   │   └── sat-catalog.repository.ts
+│   │   │   │   │   ├── specifications
+│   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   └── value-objects
+│   │   │   │   │       └── .gitkeep
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
 │   │   │   │   └── tsconfig.spec.json
@@ -2165,21 +2799,48 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   ├── package.json
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
+│   │   │   │   │   ├── caching
+│   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   ├── catalog-infrastructure.module.ts
 │   │   │   │   │   ├── index.ts
-│   │   │   │   │   └── lib
-│   │   │   │   │       ├── catalog-infrastructure.module.ts
-│   │   │   │   │       ├── listeners
-│   │   │   │   │       │   └── catalog-kafka.publisher.ts
-│   │   │   │   │       ├── migrations
-│   │   │   │   │       │   └── Migration20240521153000.ts
-│   │   │   │   │       ├── persistence
-│   │   │   │   │       │   ├── mikro-orm.config.ts
-│   │   │   │   │       │   └── mikro-orm.schemas.ts
-│   │   │   │   │       ├── repositories
-│   │   │   │   │       │   ├── mikro-orm-product.repository.ts
-│   │   │   │   │       │   └── mikro-orm-sat-catalog.repository.ts
-│   │   │   │   │       └── services
-│   │   │   │   │           └── catalog-seeder.service.ts
+│   │   │   │   │   ├── integrations
+│   │   │   │   │   │   ├── adapters
+│   │   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   │   ├── grpc
+│   │   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   │   └── http
+│   │   │   │   │   │       └── .gitkeep
+│   │   │   │   │   ├── messaging
+│   │   │   │   │   │   ├── consumers
+│   │   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   │   ├── outbox
+│   │   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   │   ├── producers
+│   │   │   │   │   │   │   └── catalog-kafka.publisher.ts
+│   │   │   │   │   │   └── serializers
+│   │   │   │   │   │       └── .gitkeep
+│   │   │   │   │   ├── observability
+│   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   ├── persistence
+│   │   │   │   │   │   ├── catalog-seeder.service.ts
+│   │   │   │   │   │   ├── entities
+│   │   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   │   ├── migrations
+│   │   │   │   │   │   │   └── Migration20240521153000.ts
+│   │   │   │   │   │   ├── orm
+│   │   │   │   │   │   │   ├── mikro-orm.config.ts
+│   │   │   │   │   │   │   └── mikro-orm.schemas.ts
+│   │   │   │   │   │   ├── read-models
+│   │   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   │   └── repositories
+│   │   │   │   │   │       ├── mikro-orm-product.repository.ts
+│   │   │   │   │   │       └── mikro-orm-sat-catalog.repository.ts
+│   │   │   │   │   ├── security
+│   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   ├── services
+│   │   │   │   │   │   └── catalog-usage.providers.ts
+│   │   │   │   │   └── tenancy
+│   │   │   │   │       └── .gitkeep
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   └── tsconfig.lib.json
 │   │   │   ├── presentation
@@ -2187,64 +2848,83 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   ├── package.json
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
+│   │   │   │   │   ├── catalog-presentation.module.ts
+│   │   │   │   │   ├── filters
+│   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   ├── graphql
+│   │   │   │   │   │   ├── resolvers
+│   │   │   │   │   │   │   └── catalog.resolver.ts
+│   │   │   │   │   │   └── schemas
+│   │   │   │   │   │       └── .gitkeep
+│   │   │   │   │   ├── guards
+│   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   ├── http
+│   │   │   │   │   │   ├── controllers
+│   │   │   │   │   │   │   └── catalog.controller.ts
+│   │   │   │   │   │   ├── middlewares
+│   │   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   │   ├── request-dto
+│   │   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   │   ├── response-dto
+│   │   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   │   └── routes
+│   │   │   │   │   │       └── .gitkeep
 │   │   │   │   │   ├── index.ts
-│   │   │   │   │   └── lib
-│   │   │   │   │       ├── catalog-presentation.module.ts
-│   │   │   │   │       ├── controllers
-│   │   │   │   │       │   └── catalog.controller.ts
-│   │   │   │   │       ├── models
-│   │   │   │   │       │   ├── product.model.ts
-│   │   │   │   │       │   └── sat-catalog.model.ts
-│   │   │   │   │       └── resolvers
-│   │   │   │   │           └── catalog.resolver.ts
+│   │   │   │   │   ├── interceptors
+│   │   │   │   │   │   └── .gitkeep
+│   │   │   │   │   └── models
+│   │   │   │   │       ├── product.model.ts
+│   │   │   │   │       └── sat-catalog.model.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   └── tsconfig.lib.json
-│   │   │   └── ui-store
+│   │   │   └── ui
 │   │   │       ├── README.md
 │   │   │       ├── eslint.config.mjs
 │   │   │       ├── package.json
 │   │   │       ├── project.json
 │   │   │       ├── src
 │   │   │       │   ├── index.ts
-│   │   │       │   ├── lib
-│   │   │       │   │   ├── product-list
-│   │   │       │   │   │   ├── product-list.component.html
-│   │   │       │   │   │   ├── product-list.component.scss
-│   │   │       │   │   │   └── product-list.component.ts
-│   │   │       │   │   └── ui-store
-│   │   │       │   │       ├── ui-store.css
-│   │   │       │   │       ├── ui-store.html
-│   │   │       │   │       ├── ui-store.spec.ts
-│   │   │       │   │       └── ui-store.ts
-│   │   │       │   └── test-setup.ts
+│   │   │       │   ├── product-list
+│   │   │       │   │   ├── product-list.component.html
+│   │   │       │   │   ├── product-list.component.scss
+│   │   │       │   │   └── product-list.component.ts
+│   │   │       │   ├── test-setup.ts
+│   │   │       │   └── ui
+│   │   │       │       ├── ui.component.css
+│   │   │       │       ├── ui.component.html
+│   │   │       │       ├── ui.component.spec.ts
+│   │   │       │       └── ui.component.ts
 │   │   │       ├── tsconfig.json
 │   │   │       ├── tsconfig.lib.json
 │   │   │       ├── tsconfig.spec.json
 │   │   │       ├── vite.config.mts
 │   │   │       └── vitest.config.ts
 │   │   ├── crm
+│   │   │   ├── CHANGELOG.md
+│   │   │   ├── OWNERS
+│   │   │   ├── README.md
 │   │   │   ├── application
 │   │   │   │   ├── README.md
 │   │   │   │   ├── eslint.config.mjs
 │   │   │   │   ├── package.json
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
+│   │   │   │   │   ├── crm-application.module.ts
+│   │   │   │   │   ├── dto
+│   │   │   │   │   │   └── create-sale.dto.ts
 │   │   │   │   │   ├── index.ts
-│   │   │   │   │   └── lib
-│   │   │   │   │       ├── crm-application.module.ts
-│   │   │   │   │       ├── crm-application.spec.ts
-│   │   │   │   │       ├── crm-application.ts
-│   │   │   │   │       ├── dtos
-│   │   │   │   │       │   └── create-sale.dto.ts
-│   │   │   │   │       └── use-cases
-│   │   │   │   │           ├── approve-sale.use-case.ts
-│   │   │   │   │           ├── cancel-sale.use-case.ts
-│   │   │   │   │           ├── complete-sale.use-case.ts
-│   │   │   │   │           ├── create-customer.use-case.ts
-│   │   │   │   │           ├── create-sale.use-case.ts
-│   │   │   │   │           ├── get-customer-by-id.use-case.ts
-│   │   │   │   │           ├── list-customers.use-case.ts
-│   │   │   │   │           ├── list-sales.use-case.ts
+│   │   │   │   │   └── use-cases
+│   │   │   │   │       ├── commands
+│   │   │   │   │       │   ├── approve-sale.use-case.ts
+│   │   │   │   │       │   ├── cancel-sale.use-case.ts
+│   │   │   │   │       │   ├── complete-sale.use-case.ts
+│   │   │   │   │       │   ├── create-customer.use-case.ts
+│   │   │   │   │       │   └── create-sale.use-case.ts
+│   │   │   │   │       ├── queries
+│   │   │   │   │       │   ├── get-customer-by-id.use-case.ts
+│   │   │   │   │       │   ├── list-customers.use-case.ts
+│   │   │   │   │       │   └── list-sales.use-case.ts
+│   │   │   │   │       └── tests
 │   │   │   │   │           └── sale-transitions.spec.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
@@ -2256,40 +2936,41 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   ├── package.json
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
+│   │   │   │   │   ├── api
+│   │   │   │   │   │   └── v1
+│   │   │   │   │   │       └── responses
+│   │   │   │   │   │           └── customer.model.ts
 │   │   │   │   │   ├── index.ts
-│   │   │   │   │   └── lib
-│   │   │   │   │       ├── crm-contracts.spec.ts
-│   │   │   │   │       ├── crm-contracts.ts
-│   │   │   │   │       ├── enums
-│   │   │   │   │       │   ├── customer-type.enum.ts
-│   │   │   │   │       │   └── opportunity-stage.enum.ts
-│   │   │   │   │       └── models
-│   │   │   │   │           └── customer.model.ts
+│   │   │   │   │   ├── lib
+│   │   │   │   │   │   └── enums
+│   │   │   │   │   │       └── crm.enums.ts
+│   │   │   │   │   └── shared
+│   │   │   │   │       ├── customer-type.enum.ts
+│   │   │   │   │       └── opportunity-stage.enum.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
 │   │   │   │   ├── tsconfig.spec.json
 │   │   │   │   └── vitest.config.ts
+│   │   │   ├── docs
+│   │   │   │   └── migration-guide.md
 │   │   │   ├── domain
 │   │   │   │   ├── README.md
 │   │   │   │   ├── eslint.config.mjs
 │   │   │   │   ├── package.json
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
+│   │   │   │   │   ├── domain-services
+│   │   │   │   │   │   ├── catalog.service.ts
+│   │   │   │   │   │   └── inventory.service.ts
+│   │   │   │   │   ├── entities
+│   │   │   │   │   │   ├── customer.entity.spec.ts
+│   │   │   │   │   │   ├── customer.entity.ts
+│   │   │   │   │   │   ├── opportunity.entity.ts
+│   │   │   │   │   │   └── sale.entity.ts
 │   │   │   │   │   ├── index.ts
-│   │   │   │   │   └── lib
-│   │   │   │   │       ├── crm-domain.spec.ts
-│   │   │   │   │       ├── crm-domain.ts
-│   │   │   │   │       ├── entities
-│   │   │   │   │       │   ├── customer.entity.spec.ts
-│   │   │   │   │       │   ├── customer.entity.ts
-│   │   │   │   │       │   ├── opportunity.entity.ts
-│   │   │   │   │       │   └── sale.entity.ts
-│   │   │   │   │       ├── ports
-│   │   │   │   │       │   ├── catalog.service.ts
-│   │   │   │   │       │   └── inventory.service.ts
-│   │   │   │   │       └── repositories
-│   │   │   │   │           ├── customer.repository.ts
-│   │   │   │   │           └── sale.repository.ts
+│   │   │   │   │   └── repository-ports
+│   │   │   │   │       ├── customer.repository.ts
+│   │   │   │   │       └── sale.repository.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
 │   │   │   │   ├── tsconfig.spec.json
@@ -2301,20 +2982,22 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
 │   │   │   │   │   ├── index.ts
-│   │   │   │   │   └── lib
-│   │   │   │   │       ├── adapters
-│   │   │   │   │       │   ├── http-catalog.adapter.ts
-│   │   │   │   │       │   └── http-inventory.adapter.ts
-│   │   │   │   │       ├── crm-infrastructure.module.ts
-│   │   │   │   │       ├── crm-infrastructure.spec.ts
-│   │   │   │   │       ├── crm-infrastructure.ts
-│   │   │   │   │       ├── entities
-│   │   │   │   │       │   ├── customer.schema.ts
-│   │   │   │   │       │   ├── opportunity.schema.ts
-│   │   │   │   │       │   └── sale.schema.ts
-│   │   │   │   │       └── repositories
-│   │   │   │   │           ├── mikro-orm-customer.repository.ts
-│   │   │   │   │           └── mikro-orm-sale.repository.ts
+│   │   │   │   │   ├── integrations
+│   │   │   │   │   │   └── http
+│   │   │   │   │   │       ├── grpc-catalog.adapter.ts
+│   │   │   │   │   │       └── http-inventory.adapter.ts
+│   │   │   │   │   ├── persistence
+│   │   │   │   │   │   ├── entities
+│   │   │   │   │   │   │   ├── customer.schema.ts
+│   │   │   │   │   │   │   ├── opportunity.schema.ts
+│   │   │   │   │   │   │   └── sale.schema.ts
+│   │   │   │   │   │   ├── orm
+│   │   │   │   │   │   │   └── crm-infrastructure.module.ts
+│   │   │   │   │   │   └── repositories
+│   │   │   │   │   │       ├── mikro-orm-customer.repository.ts
+│   │   │   │   │   │       └── mikro-orm-sale.repository.ts
+│   │   │   │   │   └── services
+│   │   │   │   │       └── crm-usage.providers.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
 │   │   │   │   ├── tsconfig.spec.json
@@ -2325,13 +3008,12 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   ├── package.json
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
-│   │   │   │   │   ├── index.ts
-│   │   │   │   │   └── lib
-│   │   │   │   │       ├── controllers
-│   │   │   │   │       │   └── crm.controller.ts
-│   │   │   │   │       ├── crm-presentation.module.ts
-│   │   │   │   │       ├── crm-presentation.spec.ts
-│   │   │   │   │       └── crm-presentation.ts
+│   │   │   │   │   ├── http
+│   │   │   │   │   │   ├── controllers
+│   │   │   │   │   │   │   └── crm.controller.ts
+│   │   │   │   │   │   └── modules
+│   │   │   │   │   │       └── crm-presentation.module.ts
+│   │   │   │   │   └── index.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
 │   │   │   │   ├── tsconfig.spec.json
@@ -2341,16 +3023,25 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │       ├── project.json
 │   │   │       ├── src
 │   │   │       │   ├── index.ts
-│   │   │       │   └── lib
-│   │   │       │       ├── lib.routes.ts
-│   │   │       │       └── pages
-│   │   │       │           ├── customer-list
-│   │   │       │           │   └── customer-list.component.ts
-│   │   │       │           └── lead-pipeline
-│   │   │       │               └── lead-pipeline.component.ts
+│   │   │       │   ├── lib.routes.ts
+│   │   │       │   ├── pages
+│   │   │       │   │   ├── customer-list
+│   │   │       │   │   │   └── customer-list.component.ts
+│   │   │       │   │   └── lead-pipeline
+│   │   │       │   │       └── lead-pipeline.component.ts
+│   │   │       │   └── routes
+│   │   │       │       └── crm.routes.ts
 │   │   │       ├── tsconfig.json
 │   │   │       └── tsconfig.lib.json
 │   │   ├── finops
+│   │   │   ├── application
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       └── cost-reconciliation.service.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
 │   │   │   ├── domain
 │   │   │   │   ├── README.md
 │   │   │   │   ├── package.json
@@ -2388,12 +3079,15 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   │   └── lib
 │   │   │   │   │       ├── fiscal-application.spec.ts
 │   │   │   │   │       ├── fiscal-application.ts
+│   │   │   │   │       ├── handlers
+│   │   │   │   │       │   └── fiscal-job.handler.ts
 │   │   │   │   │       └── use-cases
 │   │   │   │   │           ├── create-declaration.use-case.ts
 │   │   │   │   │           ├── create-tax-rule.use-case.ts
 │   │   │   │   │           ├── get-fiscal-stats.use-case.ts
 │   │   │   │   │           ├── get-tax-rate.use-case.ts
-│   │   │   │   │           └── get-tax-rules.use-case.ts
+│   │   │   │   │           ├── get-tax-rules.use-case.ts
+│   │   │   │   │           └── stamp-fiscal-document.use-case.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
 │   │   │   │   ├── tsconfig.spec.json
@@ -2422,6 +3116,8 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   ├── src
 │   │   │   │   │   ├── index.ts
 │   │   │   │   │   └── lib
+│   │   │   │   │       ├── contracts
+│   │   │   │   │       │   └── fiscal-sales-snapshot.dto.ts
 │   │   │   │   │       ├── entities
 │   │   │   │   │       │   ├── fiscal-invoice.entity.ts
 │   │   │   │   │       │   ├── fiscal-tax-rule.entity.ts
@@ -2566,6 +3262,7 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   │   └── lib
 │   │   │   │   │       ├── enums
 │   │   │   │   │       │   ├── asset-status.enum.ts
+│   │   │   │   │       │   ├── assets.enums.ts
 │   │   │   │   │       │   └── depreciation-method.enum.ts
 │   │   │   │   │       ├── fixed-assets-contracts.spec.ts
 │   │   │   │   │       └── fixed-assets-contracts.ts
@@ -2656,61 +3353,76 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   ├── src
 │   │   │   │   │   ├── index.ts
 │   │   │   │   │   └── lib
+│   │   │   │   │       ├── iam
+│   │   │   │   │       │   ├── block-user.use-case.ts
+│   │   │   │   │       │   ├── change-password.use-case.spec.ts
+│   │   │   │   │       │   ├── change-password.use-case.ts
+│   │   │   │   │       │   ├── check-security-context.use-case.ts
+│   │   │   │   │       │   ├── confirm-mfa.use-case.ts
+│   │   │   │   │       │   ├── delete-user.use-case.ts
+│   │   │   │   │       │   ├── disable-2fa.use-case.spec.ts
+│   │   │   │   │       │   ├── disable-2fa.use-case.ts
+│   │   │   │   │       │   ├── force-logout.use-case.ts
+│   │   │   │   │       │   ├── forgot-password.use-case.ts
+│   │   │   │   │       │   ├── generate-backup-codes.use-case.spec.ts
+│   │   │   │   │       │   ├── generate-backup-codes.use-case.ts
+│   │   │   │   │       │   ├── generate-passkey-login-options.use-case.ts
+│   │   │   │   │       │   ├── generate-passkey-registration-options.use-case.ts
+│   │   │   │   │       │   ├── get-audit-logs.use-case.ts
+│   │   │   │   │       │   ├── get-job-titles.use-case.ts
+│   │   │   │   │       │   ├── get-sessions.use-case.spec.ts
+│   │   │   │   │       │   ├── get-sessions.use-case.ts
+│   │   │   │   │       │   ├── get-social-register-info.use-case.ts
+│   │   │   │   │       │   ├── handle-social-login.use-case.ts
+│   │   │   │   │       │   ├── impersonate-user.use-case.spec.ts
+│   │   │   │   │       │   ├── impersonate-user.use-case.ts
+│   │   │   │   │       │   ├── initiate-signup.use-case.ts
+│   │   │   │   │       │   ├── invite-user.use-case.spec.ts
+│   │   │   │   │       │   ├── invite-user.use-case.ts
+│   │   │   │   │       │   ├── list-tenants.use-case.ts
+│   │   │   │   │       │   ├── list-users.use-case.ts
+│   │   │   │   │       │   ├── login-user.use-case.spec.ts
+│   │   │   │   │       │   ├── login-user.use-case.ts
+│   │   │   │   │       │   ├── logout-user.use-case.ts
+│   │   │   │   │       │   ├── refresh-token.use-case.spec.ts
+│   │   │   │   │       │   ├── refresh-token.use-case.ts
+│   │   │   │   │       │   ├── reset-password.use-case.ts
+│   │   │   │   │       │   ├── revoke-session.use-case.spec.ts
+│   │   │   │   │       │   ├── revoke-session.use-case.ts
+│   │   │   │   │       │   ├── send-2fa-email-verification.use-case.spec.ts
+│   │   │   │   │       │   ├── send-2fa-email-verification.use-case.ts
+│   │   │   │   │       │   ├── set-password.use-case.ts
+│   │   │   │   │       │   ├── setup-mfa.use-case.ts
+│   │   │   │   │       │   ├── update-user.use-case.ts
+│   │   │   │   │       │   ├── verify-2fa-email-verification.use-case.spec.ts
+│   │   │   │   │       │   ├── verify-2fa-email-verification.use-case.ts
+│   │   │   │   │       │   ├── verify-mfa.use-case.ts
+│   │   │   │   │       │   ├── verify-passkey-login.use-case.ts
+│   │   │   │   │       │   ├── verify-passkey-registration.use-case.ts
+│   │   │   │   │       │   └── verify-signup.use-case.ts
 │   │   │   │   │       ├── listeners
 │   │   │   │   │       │   └── user-invited.listener.ts
+│   │   │   │   │       ├── onboarding
+│   │   │   │   │       │   ├── complete-onboarding.use-case.ts
+│   │   │   │   │       │   └── get-onboarding-status.use-case.ts
 │   │   │   │   │       ├── ports
 │   │   │   │   │       │   └── storage.port.ts
 │   │   │   │   │       ├── services
+│   │   │   │   │       │   ├── countries.json
+│   │   │   │   │       │   ├── localization.service.spec.ts
+│   │   │   │   │       │   ├── localization.service.ts
+│   │   │   │   │       │   ├── tax-providers
+│   │   │   │   │       │   │   ├── abstract-robust-tax-provider.ts
+│   │   │   │   │       │   │   ├── dominican-republic-tax-provider.ts
+│   │   │   │   │       │   │   ├── generic-tax-provider.ts
+│   │   │   │   │       │   │   ├── mexico-tax-provider.ts
+│   │   │   │   │       │   │   ├── tax-provider-factory.ts
+│   │   │   │   │       │   │   └── us-tax-provider.ts
 │   │   │   │   │       │   └── token-generation.service.ts
-│   │   │   │   │       └── use-cases
-│   │   │   │   │           ├── change-password.use-case.spec.ts
-│   │   │   │   │           ├── change-password.use-case.ts
-│   │   │   │   │           ├── check-security-context.use-case.ts
-│   │   │   │   │           ├── complete-onboarding.use-case.ts
-│   │   │   │   │           ├── confirm-mfa.use-case.ts
-│   │   │   │   │           ├── disable-2fa.use-case.spec.ts
-│   │   │   │   │           ├── disable-2fa.use-case.ts
-│   │   │   │   │           ├── forgot-password.use-case.ts
-│   │   │   │   │           ├── generate-backup-codes.use-case.spec.ts
-│   │   │   │   │           ├── generate-backup-codes.use-case.ts
-│   │   │   │   │           ├── generate-passkey-login-options.use-case.ts
-│   │   │   │   │           ├── generate-passkey-registration-options.use-case.ts
-│   │   │   │   │           ├── get-audit-logs.use-case.ts
-│   │   │   │   │           ├── get-job-titles.use-case.ts
-│   │   │   │   │           ├── get-onboarding-status.use-case.ts
-│   │   │   │   │           ├── get-sessions.use-case.spec.ts
-│   │   │   │   │           ├── get-sessions.use-case.ts
-│   │   │   │   │           ├── get-social-register-info.use-case.ts
-│   │   │   │   │           ├── get-subscription-status.use-case.ts
+│   │   │   │   │       └── user-profile
 │   │   │   │   │           ├── get-user-profile.use-case.ts
-│   │   │   │   │           ├── handle-social-login.use-case.ts
-│   │   │   │   │           ├── impersonate-user.use-case.spec.ts
-│   │   │   │   │           ├── impersonate-user.use-case.ts
-│   │   │   │   │           ├── initiate-signup.use-case.ts
-│   │   │   │   │           ├── invite-user.use-case.ts
-│   │   │   │   │           ├── list-tenants.use-case.ts
-│   │   │   │   │           ├── login-user.use-case.spec.ts
-│   │   │   │   │           ├── login-user.use-case.ts
-│   │   │   │   │           ├── logout-user.use-case.ts
-│   │   │   │   │           ├── onboard-tenant.saga.ts
-│   │   │   │   │           ├── refresh-token.use-case.spec.ts
-│   │   │   │   │           ├── refresh-token.use-case.ts
-│   │   │   │   │           ├── reset-password.use-case.ts
-│   │   │   │   │           ├── revoke-session.use-case.spec.ts
-│   │   │   │   │           ├── revoke-session.use-case.ts
-│   │   │   │   │           ├── send-2fa-email-verification.use-case.spec.ts
-│   │   │   │   │           ├── send-2fa-email-verification.use-case.ts
-│   │   │   │   │           ├── set-password.use-case.ts
-│   │   │   │   │           ├── setup-mfa.use-case.ts
-│   │   │   │   │           ├── update-subscription.use-case.ts
 │   │   │   │   │           ├── update-user-profile.use-case.ts
-│   │   │   │   │           ├── upload-avatar.use-case.ts
-│   │   │   │   │           ├── verify-2fa-email-verification.use-case.spec.ts
-│   │   │   │   │           ├── verify-2fa-email-verification.use-case.ts
-│   │   │   │   │           ├── verify-mfa.use-case.ts
-│   │   │   │   │           ├── verify-passkey-login.use-case.ts
-│   │   │   │   │           ├── verify-passkey-registration.use-case.ts
-│   │   │   │   │           └── verify-signup.use-case.ts
+│   │   │   │   │           └── upload-avatar.use-case.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
 │   │   │   │   ├── tsconfig.spec.json
@@ -2729,16 +3441,19 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   │       │   ├── invite-user.dto.ts
 │   │   │   │   │       │   ├── login-response.dto.ts
 │   │   │   │   │       │   ├── login-user.dto.ts
+│   │   │   │   │       │   ├── paginated-users-response.dto.ts
 │   │   │   │   │       │   ├── refresh-token.dto.ts
 │   │   │   │   │       │   ├── register-user.dto.ts
 │   │   │   │   │       │   ├── reset-password.dto.ts
 │   │   │   │   │       │   ├── set-password.dto.ts
+│   │   │   │   │       │   ├── unified-login-response.dto.ts
 │   │   │   │   │       │   ├── update-user.dto.ts
 │   │   │   │   │       │   ├── user-response.dto.ts
 │   │   │   │   │       │   ├── verify-mfa.dto.ts
 │   │   │   │   │       │   └── verify-signup.dto.ts
 │   │   │   │   │       └── dtos
-│   │   │   │   │           └── audit-log.dto.ts
+│   │   │   │   │           ├── audit-log.dto.ts
+│   │   │   │   │           └── localization.dto.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
 │   │   │   │   └── vitest.config.ts
@@ -2750,16 +3465,15 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   ├── src
 │   │   │   │   │   ├── index.ts
 │   │   │   │   │   └── lib
-│   │   │   │   │       ├── entities
-│   │   │   │   │       │   ├── audit-log.entity.ts
-│   │   │   │   │       │   ├── company.entity.ts
-│   │   │   │   │       │   ├── job-title.entity.ts
-│   │   │   │   │       │   ├── session.entity.ts
-│   │   │   │   │       │   ├── user-authenticator.entity.ts
-│   │   │   │   │       │   └── user.entity.ts
 │   │   │   │   │       ├── events
 │   │   │   │   │       │   ├── user-invited.event.ts
 │   │   │   │   │       │   └── user-registered.event.ts
+│   │   │   │   │       ├── iam
+│   │   │   │   │       │   ├── session.entity.ts
+│   │   │   │   │       │   ├── user-authenticator.entity.ts
+│   │   │   │   │       │   └── user.entity.ts
+│   │   │   │   │       ├── onboarding
+│   │   │   │   │       │   └── company.entity.ts
 │   │   │   │   │       ├── policies
 │   │   │   │   │       │   └── tax-id-validator.ts
 │   │   │   │   │       ├── ports
@@ -2769,15 +3483,20 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   │       │   ├── company.repository.ts
 │   │   │   │   │       │   ├── geo-ip.port.ts
 │   │   │   │   │       │   ├── job-title.repository.ts
+│   │   │   │   │       │   ├── localization.port.ts
 │   │   │   │   │       │   ├── notification.service.ts
 │   │   │   │   │       │   ├── recaptcha.port.ts
 │   │   │   │   │       │   ├── risk-engine.service.ts
 │   │   │   │   │       │   ├── session.repository.ts
+│   │   │   │   │       │   ├── tax-provider.port.ts
 │   │   │   │   │       │   ├── tenant.repository.ts
 │   │   │   │   │       │   ├── unit-of-work.port.ts
 │   │   │   │   │       │   └── user.repository.ts
-│   │   │   │   │       └── services
-│   │   │   │   │           └── risk-evaluator.service.ts
+│   │   │   │   │       ├── services
+│   │   │   │   │       │   └── risk-evaluator.service.ts
+│   │   │   │   │       └── user-profile
+│   │   │   │   │           ├── audit-log.entity.ts
+│   │   │   │   │           └── job-title.entity.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
 │   │   │   │   ├── tsconfig.spec.json
@@ -2789,44 +3508,49 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
 │   │   │   │   │   ├── index.ts
-│   │   │   │   │   └── lib
-│   │   │   │   │       ├── adapters
-│   │   │   │   │       │   ├── geo-ip-lite.adapter.ts
-│   │   │   │   │       │   ├── redis-cache.adapter.ts
-│   │   │   │   │       │   └── storage.adapter.ts
-│   │   │   │   │       ├── identity-infrastructure.module.ts
-│   │   │   │   │       ├── mappers
-│   │   │   │   │       │   └── user.mapper.ts
-│   │   │   │   │       ├── persistence
-│   │   │   │   │       │   ├── entities
-│   │   │   │   │       │   │   ├── audit-log.orm-entity.ts
-│   │   │   │   │       │   │   ├── company.orm-entity.ts
-│   │   │   │   │       │   │   ├── job-title.orm-entity.ts
-│   │   │   │   │       │   │   ├── session.orm-entity.ts
-│   │   │   │   │       │   │   ├── user-authenticator.orm-entity.ts
-│   │   │   │   │       │   │   └── user.orm-entity.ts
-│   │   │   │   │       │   ├── identity.schemas.ts
-│   │   │   │   │       │   ├── mikro-orm-audit-log.repository.ts
-│   │   │   │   │       │   ├── mikro-orm-company.repository.ts
-│   │   │   │   │       │   ├── mikro-orm-job-title.repository.ts
-│   │   │   │   │       │   ├── mikro-orm-session.repository.ts
-│   │   │   │   │       │   └── mikro-orm-user.repository.ts
-│   │   │   │   │       ├── services
-│   │   │   │   │       │   ├── argon2-auth.service.ts
-│   │   │   │   │       │   ├── configuration-validator.service.ts
-│   │   │   │   │       │   ├── keycloak-auth.service.ts
-│   │   │   │   │       │   ├── mail-queue.producer.ts
-│   │   │   │   │       │   ├── mail.processor.ts
-│   │   │   │   │       │   ├── nodemailer-notification.service.ts
-│   │   │   │   │       │   ├── recaptcha.service.ts
-│   │   │   │   │       │   ├── risk-engine.service.ts
-│   │   │   │   │       │   ├── session.serializer.ts
-│   │   │   │   │       │   ├── webauthn.service.spec.ts
-│   │   │   │   │       │   └── webauthn.service.ts
-│   │   │   │   │       └── strategies
-│   │   │   │   │           ├── google.strategy.ts
-│   │   │   │   │           ├── microsoft.strategy.ts
-│   │   │   │   │           └── okta.strategy.ts
+│   │   │   │   │   ├── lib
+│   │   │   │   │   │   ├── adapters
+│   │   │   │   │   │   │   ├── geo-ip-lite.adapter.ts
+│   │   │   │   │   │   │   ├── mikro-orm-tenant.repository.ts
+│   │   │   │   │   │   │   ├── mikro-orm-unit-of-work.adapter.ts
+│   │   │   │   │   │   │   ├── redis-cache.adapter.ts
+│   │   │   │   │   │   │   └── storage.adapter.ts
+│   │   │   │   │   │   ├── identity-infrastructure.module.ts
+│   │   │   │   │   │   ├── mappers
+│   │   │   │   │   │   │   └── user.mapper.ts
+│   │   │   │   │   │   ├── persistence
+│   │   │   │   │   │   │   ├── entities
+│   │   │   │   │   │   │   │   ├── audit-log.orm-entity.ts
+│   │   │   │   │   │   │   │   ├── company.orm-entity.ts
+│   │   │   │   │   │   │   │   ├── job-title.orm-entity.ts
+│   │   │   │   │   │   │   │   ├── session.orm-entity.ts
+│   │   │   │   │   │   │   │   ├── user-authenticator.orm-entity.ts
+│   │   │   │   │   │   │   │   └── user.orm-entity.ts
+│   │   │   │   │   │   │   ├── identity.schemas.ts
+│   │   │   │   │   │   │   ├── mikro-orm-audit-log.repository.ts
+│   │   │   │   │   │   │   ├── mikro-orm-company.repository.ts
+│   │   │   │   │   │   │   ├── mikro-orm-job-title.repository.ts
+│   │   │   │   │   │   │   ├── mikro-orm-session.repository.ts
+│   │   │   │   │   │   │   └── mikro-orm-user.repository.ts
+│   │   │   │   │   │   ├── services
+│   │   │   │   │   │   │   ├── argon2-auth.service.ts
+│   │   │   │   │   │   │   ├── configuration-validator.service.ts
+│   │   │   │   │   │   │   ├── identity-session-validator.service.ts
+│   │   │   │   │   │   │   ├── identity-usage.providers.ts
+│   │   │   │   │   │   │   ├── keycloak-auth.service.ts
+│   │   │   │   │   │   │   ├── mail-queue.producer.ts
+│   │   │   │   │   │   │   ├── mail.processor.ts
+│   │   │   │   │   │   │   ├── nodemailer-notification.service.ts
+│   │   │   │   │   │   │   ├── recaptcha.service.ts
+│   │   │   │   │   │   │   ├── risk-engine.service.ts
+│   │   │   │   │   │   │   ├── session.serializer.ts
+│   │   │   │   │   │   │   ├── webauthn.service.spec.ts
+│   │   │   │   │   │   │   └── webauthn.service.ts
+│   │   │   │   │   │   └── strategies
+│   │   │   │   │   │       ├── google.strategy.ts
+│   │   │   │   │   │       ├── microsoft.strategy.ts
+│   │   │   │   │   │       └── okta.strategy.ts
+│   │   │   │   │   └── passport-openidconnect.d.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
 │   │   │   │   ├── tsconfig.spec.json
@@ -2839,12 +3563,6 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   ├── src
 │   │   │   │   │   ├── index.ts
 │   │   │   │   │   └── lib
-│   │   │   │   │       ├── controllers
-│   │   │   │   │       │   ├── auth.controller.spec.ts
-│   │   │   │   │       │   ├── auth.controller.ts
-│   │   │   │   │       │   ├── subscription.controller.ts
-│   │   │   │   │       │   ├── tenant.controller.ts
-│   │   │   │   │       │   └── users.controller.ts
 │   │   │   │   │       ├── graphql
 │   │   │   │   │       │   ├── dto
 │   │   │   │   │       │   │   ├── login.input.ts
@@ -2855,13 +3573,33 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   │       │   └── identity.resolver.ts
 │   │   │   │   │       ├── guards
 │   │   │   │   │       │   └── session.guard.ts
+│   │   │   │   │       ├── iam
+│   │   │   │   │       │   ├── auth-mfa.controller.ts
+│   │   │   │   │       │   ├── auth-passkey.controller.ts
+│   │   │   │   │       │   ├── auth-recovery.controller.ts
+│   │   │   │   │       │   ├── auth-security.controller.ts
+│   │   │   │   │       │   ├── auth-session.controller.spec.ts
+│   │   │   │   │       │   ├── auth-session.controller.ts
+│   │   │   │   │       │   ├── auth-social.controller.ts
+│   │   │   │   │       │   ├── common.controller.ts
+│   │   │   │   │       │   ├── tenant.controller.ts
+│   │   │   │   │       │   ├── user-admin.controller.spec.ts
+│   │   │   │   │       │   ├── user-admin.controller.ts
+│   │   │   │   │       │   ├── user-security.controller.spec.ts
+│   │   │   │   │       │   └── user-security.controller.ts
 │   │   │   │   │       ├── identity-presentation.module.ts
 │   │   │   │   │       ├── mappers
 │   │   │   │   │       │   ├── audit-log.mapper.ts
 │   │   │   │   │       │   └── user.mapper.ts
-│   │   │   │   │       └── services
-│   │   │   │   │           ├── cookie-policy.service.ts
-│   │   │   │   │           └── request-context.service.ts
+│   │   │   │   │       ├── onboarding
+│   │   │   │   │       │   └── auth-onboarding.controller.ts
+│   │   │   │   │       ├── services
+│   │   │   │   │       │   └── request-context.service.ts
+│   │   │   │   │       └── user-profile
+│   │   │   │   │           ├── localization.controller.spec.ts
+│   │   │   │   │           ├── localization.controller.ts
+│   │   │   │   │           ├── user-profile.controller.spec.ts
+│   │   │   │   │           └── user-profile.controller.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
 │   │   │   │   ├── tsconfig.spec.json
@@ -2880,8 +3618,6 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │       │   │   │       ├── country-selector.component.scss
 │   │   │       │   │   │       └── country-selector.component.ts
 │   │   │       │   │   ├── core
-│   │   │       │   │   │   ├── api
-│   │   │       │   │   │   │   └── security.service.ts
 │   │   │       │   │   │   └── utils
 │   │   │       │   │   │       └── auth-translate-loader.ts
 │   │   │       │   │   ├── identity-ui
@@ -2910,8 +3646,6 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │       │   │   │   │   │   │   ├── auth-layout.component.html
 │   │   │       │   │   │   │   │   │   ├── auth-layout.component.scss
 │   │   │       │   │   │   │   │   │   └── auth-layout.component.ts
-│   │   │       │   │   │   │   │   ├── passkey-button
-│   │   │       │   │   │   │   │   │   └── passkey-button.component.ts
 │   │   │       │   │   │   │   │   ├── password-validator
 │   │   │       │   │   │   │   │   │   └── password-validator.component.ts
 │   │   │       │   │   │   │   │   └── social-auth-buttons
@@ -2957,7 +3691,6 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │       │   │   │   │   │       │   ├── step-business.scss
 │   │   │       │   │   │   │   │       │   └── step-business.ts
 │   │   │       │   │   │   │   │       ├── step-configuration
-│   │   │       │   │   │   │   │       │   ├── step-configuration.component.ts
 │   │   │       │   │   │   │   │       │   ├── step-configuration.html
 │   │   │       │   │   │   │   │       │   ├── step-configuration.scss
 │   │   │       │   │   │   │   │       │   ├── step-configuration.spec.ts
@@ -3016,6 +3749,103 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │       ├── tsconfig.spec.json
 │   │   │       ├── vite.config.mts
 │   │   │       └── vitest.config.ts
+│   │   ├── identity-audit-ledger
+│   │   │   ├── application
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       ├── domain-identity-audit-ledger-application.module.ts
+│   │   │   │   │       └── record-event.use-case.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   ├── contracts
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       └── domain-identity-audit-ledger-contracts.module.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   ├── domain
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       └── domain-identity-audit-ledger-domain.module.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   ├── infrastructure
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       └── domain-identity-audit-ledger-infrastructure.module.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   └── presentation
+│   │   │       ├── README.md
+│   │   │       ├── project.json
+│   │   │       ├── src
+│   │   │       │   ├── index.ts
+│   │   │       │   └── lib
+│   │   │       │       └── domain-identity-audit-ledger-presentation.module.ts
+│   │   │       ├── tsconfig.json
+│   │   │       └── tsconfig.lib.json
+│   │   ├── identity-profile
+│   │   │   ├── application
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       ├── domain-identity-profile-application.module.ts
+│   │   │   │   │       ├── get-user-profile.use-case.ts
+│   │   │   │   │       └── update-user-profile.use-case.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   ├── contracts
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       └── domain-identity-profile-contracts.module.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   ├── domain
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       ├── domain-identity-profile-domain.module.ts
+│   │   │   │   │       └── user-identity.entity.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   ├── infrastructure
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       └── domain-identity-profile-infrastructure.module.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   └── presentation
+│   │   │       ├── README.md
+│   │   │       ├── project.json
+│   │   │       ├── src
+│   │   │       │   ├── index.ts
+│   │   │       │   └── lib
+│   │   │       │       ├── domain-identity-profile-presentation.module.ts
+│   │   │       │       └── identity-profile.grpc.controller.ts
+│   │   │       ├── tsconfig.json
+│   │   │       └── tsconfig.lib.json
 │   │   ├── inventory
 │   │   │   ├── application
 │   │   │   │   ├── README.md
@@ -3029,6 +3859,7 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   │       ├── inventory-application.module.ts
 │   │   │   │   │       └── use-cases
 │   │   │   │   │           ├── check-stock.use-case.ts
+│   │   │   │   │           ├── create-warehouse.use-case.spec.ts
 │   │   │   │   │           ├── create-warehouse.use-case.ts
 │   │   │   │   │           ├── delete-warehouse.use-case.ts
 │   │   │   │   │           ├── generate-warehouse-code.use-case.spec.ts
@@ -3129,6 +3960,7 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   │       │   │   ├── reserve-batch-stock.dto.ts
 │   │   │   │   │       │   │   ├── reserve-stock.dto.ts
 │   │   │   │   │       │   │   └── update-warehouse-body.dto.ts
+│   │   │   │   │       │   ├── inventory-grpc.controller.ts
 │   │   │   │   │       │   ├── movements.controller.ts
 │   │   │   │   │       │   ├── reservations.controller.ts
 │   │   │   │   │       │   ├── stock.controller.ts
@@ -3162,6 +3994,7 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │       ├── src
 │   │   │       │   ├── index.ts
 │   │   │       │   ├── lib
+│   │   │       │   │   ├── inventory-dashboard.service.ts
 │   │   │       │   │   ├── scan
 │   │   │       │   │   │   ├── scan.component.html
 │   │   │       │   │   │   ├── scan.component.scss
@@ -3205,6 +4038,7 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   │   ├── index.ts
 │   │   │   │   │   └── lib
 │   │   │   │   │       ├── enums
+│   │   │   │   │       │   ├── manufacturing.enums.ts
 │   │   │   │   │       │   └── production-order-status.enum.ts
 │   │   │   │   │       ├── manufacturing-contracts.spec.ts
 │   │   │   │   │       └── manufacturing-contracts.ts
@@ -3243,7 +4077,7 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   │   ├── index.ts
 │   │   │   │   │   └── lib
 │   │   │   │   │       ├── adapters
-│   │   │   │   │       │   └── http-inventory.adapter.ts
+│   │   │   │   │       │   └── grpc-inventory.adapter.ts
 │   │   │   │   │       ├── manufacturing-infrastructure.spec.ts
 │   │   │   │   │       ├── manufacturing-infrastructure.ts
 │   │   │   │   │       ├── migrations
@@ -3326,13 +4160,19 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │           │   └── template.entity.ts
 │   │   │   │           ├── notification-domain.module.ts
 │   │   │   │           ├── notification-state-machine.ts
-│   │   │   │           └── notification.domain.ts
+│   │   │   │           ├── notification.domain.ts
+│   │   │   │           └── ports
+│   │   │   │               ├── notification-dispatch.port.ts
+│   │   │   │               └── notification-repository.port.ts
 │   │   │   ├── infrastructure
 │   │   │   │   ├── package.json
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
 │   │   │   │   │   ├── index.ts
 │   │   │   │   │   └── lib
+│   │   │   │   │       ├── adapters
+│   │   │   │   │       │   ├── notification-dispatch.adapter.ts
+│   │   │   │   │       │   └── notification-repository.adapter.ts
 │   │   │   │   │       ├── controllers
 │   │   │   │   │       │   ├── notification-callback.controller.spec.ts
 │   │   │   │   │       │   └── notification-callback.controller.ts
@@ -3370,14 +4210,16 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   ├── project.json
 │   │   │   │   ├── src
 │   │   │   │   │   ├── index.ts
-│   │   │   │   │   └── lib
-│   │   │   │   │       ├── payroll-application.module.ts
-│   │   │   │   │       ├── payroll-application.spec.ts
-│   │   │   │   │       ├── payroll-application.ts
-│   │   │   │   │       └── use-cases
-│   │   │   │   │           ├── calculate-payroll.use-case.ts
-│   │   │   │   │           ├── get-employees.use-case.ts
-│   │   │   │   │           └── stamp-payroll.use-case.ts
+│   │   │   │   │   ├── lib
+│   │   │   │   │   │   ├── payroll-application.module.ts
+│   │   │   │   │   │   ├── payroll-application.spec.ts
+│   │   │   │   │   │   ├── payroll-application.ts
+│   │   │   │   │   │   └── use-cases
+│   │   │   │   │   │       ├── calculate-payroll.use-case.ts
+│   │   │   │   │   │       ├── get-employees.use-case.ts
+│   │   │   │   │   │       └── stamp-payroll.use-case.ts
+│   │   │   │   │   └── ports
+│   │   │   │   │       └── fiscal-stamping.port.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
 │   │   │   │   ├── tsconfig.spec.json
@@ -3529,7 +4371,8 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   │   ├── index.ts
 │   │   │   │   │   └── lib
 │   │   │   │   │       ├── ports
-│   │   │   │   │       │   └── native-capabilities.port.ts
+│   │   │   │   │       │   ├── native-capabilities.port.ts
+│   │   │   │   │       │   └── pos-integration.ports.ts
 │   │   │   │   │       └── use-cases
 │   │   │   │   │           ├── open-shift.use-case.ts
 │   │   │   │   │           ├── process-sale.use-case.ts
@@ -3560,6 +4403,7 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   │   ├── index.ts
 │   │   │   │   │   └── lib
 │   │   │   │   │       ├── adapters
+│   │   │   │   │       │   ├── grpc-pos-integration.adapter.ts
 │   │   │   │   │       │   └── hardware-bridge.adapter.ts
 │   │   │   │   │       ├── entities
 │   │   │   │   │       │   └── pos.schema.ts
@@ -3618,6 +4462,7 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   │   └── lib
 │   │   │   │   │       ├── enums
 │   │   │   │   │       │   ├── project-status.enum.ts
+│   │   │   │   │       │   ├── projects.enums.ts
 │   │   │   │   │       │   └── task-status.enum.ts
 │   │   │   │   │       ├── projects-contracts.spec.ts
 │   │   │   │   │       └── projects-contracts.ts
@@ -3686,6 +4531,53 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │       │   ├── index.ts
 │   │   │       │   └── lib
 │   │   │       │       └── lib.routes.ts
+│   │   │       ├── tsconfig.json
+│   │   │       └── tsconfig.lib.json
+│   │   ├── provisioning-federation
+│   │   │   ├── application
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       ├── domain-provisioning-federation-application.module.ts
+│   │   │   │   │       └── sync-external-idp.use-case.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   ├── contracts
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       └── domain-provisioning-federation-contracts.module.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   ├── domain
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       └── domain-provisioning-federation-domain.module.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   ├── infrastructure
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       └── domain-provisioning-federation-infrastructure.module.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   └── presentation
+│   │   │       ├── README.md
+│   │   │       ├── project.json
+│   │   │       ├── src
+│   │   │       │   ├── index.ts
+│   │   │       │   └── lib
+│   │   │       │       └── domain-provisioning-federation-presentation.module.ts
 │   │   │       ├── tsconfig.json
 │   │   │       └── tsconfig.lib.json
 │   │   ├── purchasing
@@ -3804,6 +4696,53 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │       │       └── lib.routes.ts
 │   │   │       ├── tsconfig.json
 │   │   │       └── tsconfig.lib.json
+│   │   ├── risk-adaptive-auth
+│   │   │   ├── application
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       ├── calculate-risk.use-case.ts
+│   │   │   │   │       └── domain-risk-adaptive-auth-application.module.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   ├── contracts
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       └── domain-risk-adaptive-auth-contracts.module.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   ├── domain
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       └── domain-risk-adaptive-auth-domain.module.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   ├── infrastructure
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       └── domain-risk-adaptive-auth-infrastructure.module.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   └── presentation
+│   │   │       ├── README.md
+│   │   │       ├── project.json
+│   │   │       ├── src
+│   │   │       │   ├── index.ts
+│   │   │       │   └── lib
+│   │   │       │       └── domain-risk-adaptive-auth-presentation.module.ts
+│   │   │       ├── tsconfig.json
+│   │   │       └── tsconfig.lib.json
 │   │   ├── scheduler
 │   │   │   ├── application
 │   │   │   │   ├── package.json
@@ -3811,16 +4750,16 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   ├── src
 │   │   │   │   │   ├── index.ts
 │   │   │   │   │   └── lib
-│   │   │   │   │       ├── handlers
-│   │   │   │   │       │   ├── billing-job.handler.ts
-│   │   │   │   │       │   └── fiscal-job.handler.ts
 │   │   │   │   │       ├── job-orchestrator.ts
 │   │   │   │   │       ├── job-processor.service.spec.ts
 │   │   │   │   │       ├── job-processor.service.ts
+│   │   │   │   │       ├── ports
+│   │   │   │   │       │   └── job-handler.port.ts
 │   │   │   │   │       ├── scheduler-application.module.ts
 │   │   │   │   │       └── scheduler.service.ts
 │   │   │   │   ├── tsconfig.json
-│   │   │   │   └── tsconfig.lib.json
+│   │   │   │   ├── tsconfig.lib.json
+│   │   │   │   └── vitest.config.ts
 │   │   │   ├── domain
 │   │   │   │   ├── package.json
 │   │   │   │   ├── project.json
@@ -3849,6 +4788,57 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │       │           └── telemetry.service.ts
 │   │   │       ├── tsconfig.json
 │   │   │       └── tsconfig.lib.json
+│   │   ├── session
+│   │   │   ├── application
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       ├── create-session.use-case.ts
+│   │   │   │   │       ├── domain-session-application.module.ts
+│   │   │   │   │       └── start-session.use-case.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   ├── contracts
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       └── domain-session-contracts.module.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   ├── domain
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       ├── domain-session-domain.module.ts
+│   │   │   │   │       └── session.entity.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   ├── infrastructure
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       └── domain-session-infrastructure.module.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   └── presentation
+│   │   │       ├── README.md
+│   │   │       ├── project.json
+│   │   │       ├── src
+│   │   │       │   ├── index.ts
+│   │   │       │   └── lib
+│   │   │       │       ├── controllers
+│   │   │       │       │   └── session.controller.ts
+│   │   │       │       └── domain-session-presentation.module.ts
+│   │   │       ├── tsconfig.json
+│   │   │       └── tsconfig.lib.json
 │   │   ├── subscription
 │   │   │   ├── application
 │   │   │   │   ├── package.json
@@ -3863,13 +4853,15 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   │           ├── create-checkout-session.use-case.ts
 │   │   │   │   │           ├── create-portal-session.use-case.ts
 │   │   │   │   │           ├── get-subscription-plans.use-case.ts
+│   │   │   │   │           ├── get-subscription-status.use-case.ts
 │   │   │   │   │           ├── get-subscription.use-case.ts
 │   │   │   │   │           ├── handle-invoice-paid.use-case.ts
 │   │   │   │   │           ├── handle-subscription-deleted.use-case.ts
 │   │   │   │   │           ├── handle-subscription-updated.use-case.ts
 │   │   │   │   │           ├── process-checkout-success.use-case.ts
 │   │   │   │   │           ├── process-stripe-webhook.use-case.ts
-│   │   │   │   │           └── subscribe-to-plan.use-case.ts
+│   │   │   │   │           ├── subscribe-to-plan.use-case.ts
+│   │   │   │   │           └── update-tenant-plan.use-case.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
 │   │   │   │   └── vitest.config.ts
@@ -3901,10 +4893,12 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   │       ├── repositories
 │   │   │   │   │       │   ├── subscription-plan.repository.ts
 │   │   │   │   │       │   └── subscription.repository.ts
-│   │   │   │   │       └── services
-│   │   │   │   │           ├── customer-identity.service.ts
-│   │   │   │   │           ├── stripe-runtime-config.service.spec.ts
-│   │   │   │   │           └── stripe-runtime-config.service.ts
+│   │   │   │   │       ├── services
+│   │   │   │   │       │   ├── customer-identity.service.ts
+│   │   │   │   │       │   ├── plan-limit.mapper.ts
+│   │   │   │   │       │   ├── stripe-runtime-config.service.spec.ts
+│   │   │   │   │       │   └── stripe-runtime-config.service.ts
+│   │   │   │   │       └── subscription-domain.module.ts
 │   │   │   │   ├── tsconfig.json
 │   │   │   │   ├── tsconfig.lib.json
 │   │   │   │   └── vitest.config.ts
@@ -3943,6 +4937,54 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │       ├── tsconfig.json
 │   │   │       ├── tsconfig.lib.json
 │   │   │       └── vitest.config.ts
+│   │   ├── token
+│   │   │   ├── application
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       ├── domain-token-application.module.ts
+│   │   │   │   │       └── issue-token.use-case.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   ├── contracts
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       └── domain-token-contracts.module.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   ├── domain
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       ├── domain-token-domain.module.ts
+│   │   │   │   │       └── token.service.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   ├── infrastructure
+│   │   │   │   ├── README.md
+│   │   │   │   ├── project.json
+│   │   │   │   ├── src
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   └── lib
+│   │   │   │   │       └── domain-token-infrastructure.module.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── tsconfig.lib.json
+│   │   │   └── presentation
+│   │   │       ├── README.md
+│   │   │       ├── project.json
+│   │   │       ├── src
+│   │   │       │   ├── index.ts
+│   │   │       │   └── lib
+│   │   │       │       └── domain-token-presentation.module.ts
+│   │   │       ├── tsconfig.json
+│   │   │       └── tsconfig.lib.json
 │   │   └── treasury
 │   │       ├── application
 │   │       │   ├── README.md
@@ -3985,7 +5027,8 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │       │   │       │   └── transaction.dto.ts
 │   │       │   │       ├── enums
 │   │       │   │       │   ├── cash-flow-type.enum.ts
-│   │       │   │       │   └── transaction-type.enum.ts
+│   │       │   │       │   ├── transaction-type.enum.ts
+│   │       │   │       │   └── treasury.enums.ts
 │   │       │   │       ├── ports
 │   │       │   │       │   └── bank-statement-parser.port.ts
 │   │       │   │       ├── treasury-contracts.spec.ts
@@ -4095,24 +5138,28 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │       │   ├── abac.decorator.ts
 │   │   │   │       │   └── abac.guard.ts
 │   │   │   │       ├── auth.module.ts
-│   │   │   │       ├── auth.spec.ts
+│   │   │   │       ├── auth.spec.ts.disabled
 │   │   │   │       ├── cookie-policy.ts
 │   │   │   │       ├── decorators
 │   │   │   │       │   ├── current-user.decorator.ts
 │   │   │   │       │   ├── public.decorator.ts
+│   │   │   │       │   ├── roles.decorator.ts
 │   │   │   │       │   └── step-up.decorator.ts
 │   │   │   │       ├── guards
 │   │   │   │       │   ├── jwt-auth.guard.ts
+│   │   │   │       │   ├── roles.guard.ts
 │   │   │   │       │   ├── step-up.guard.spec.ts
 │   │   │   │       │   ├── step-up.guard.ts
 │   │   │   │       │   └── tenant.guard.ts
 │   │   │   │       ├── interfaces
 │   │   │   │       │   ├── express.interface.ts
-│   │   │   │       │   └── secret-provider.interface.ts
+│   │   │   │       │   ├── secret-provider.interface.ts
+│   │   │   │       │   └── session-validator.interface.ts
 │   │   │   │       ├── middleware
 │   │   │   │       │   ├── canonical-tenant.middleware.ts
 │   │   │   │       │   └── csrf.middleware.ts
 │   │   │   │       ├── services
+│   │   │   │       │   ├── cookie-policy.service.ts
 │   │   │   │       │   ├── jwt-token.service.spec.ts
 │   │   │   │       │   ├── jwt-token.service.ts
 │   │   │   │       │   ├── mfa-helper.service.spec.ts
@@ -4153,6 +5200,29 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │           └── tenant-context.middleware.ts
 │   │   │   ├── tsconfig.lib.json
 │   │   │   └── tsconfig.spec.json
+│   │   ├── constants
+│   │   │   ├── package.json
+│   │   │   └── src
+│   │   │       ├── index.ts
+│   │   │       └── lib
+│   │   │           └── countries.ts
+│   │   ├── entitlements
+│   │   │   ├── package.json
+│   │   │   ├── project.json
+│   │   │   ├── src
+│   │   │   │   ├── index.ts
+│   │   │   │   └── lib
+│   │   │   │       ├── entitlement-centralized-quota.spec.ts
+│   │   │   │       ├── entitlement-quota.spec.ts
+│   │   │   │       ├── entitlement.guard.ts
+│   │   │   │       ├── entitlement.service.spec.ts
+│   │   │   │       ├── entitlement.service.ts
+│   │   │   │       ├── entitlements.module.ts
+│   │   │   │       └── require-entitlement.decorator.ts
+│   │   │   ├── tsconfig.json
+│   │   │   ├── tsconfig.lib.json
+│   │   │   ├── tsconfig.spec.json
+│   │   │   └── vitest.config.ts
 │   │   ├── exceptions
 │   │   │   ├── README.md
 │   │   │   ├── eslint.config.mjs
@@ -4169,6 +5239,29 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   ├── tsconfig.lib.json
 │   │   │   ├── tsconfig.spec.json
 │   │   │   └── vitest.config.ts
+│   │   ├── federation
+│   │   │   ├── package.json
+│   │   │   └── src
+│   │   │       ├── index.ts
+│   │   │       └── lib
+│   │   │           ├── federation-support.module.ts
+│   │   │           └── health.resolver.ts
+│   │   ├── http
+│   │   │   ├── package.json
+│   │   │   └── src
+│   │   │       ├── index.ts
+│   │   │       └── lib
+│   │   │           └── filters
+│   │   │               └── global-exception.filter.ts
+│   │   ├── idempotency
+│   │   │   ├── package.json
+│   │   │   └── src
+│   │   │       ├── index.ts
+│   │   │       └── lib
+│   │   │           ├── interceptors
+│   │   │           │   └── idempotency.interceptor.ts
+│   │   │           └── services
+│   │   │               └── idempotency.service.ts
 │   │   ├── messaging
 │   │   │   ├── README.md
 │   │   │   ├── eslint.config.mjs
@@ -4233,6 +5326,7 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   │   ├── index.ts
 │   │   │   │   └── lib
 │   │   │   │       ├── controllers
+│   │   │   │       │   ├── feature-flags.controller.ts
 │   │   │   │       │   └── residency-auditor.controller.ts
 │   │   │   │       ├── dual-write-manager.ts
 │   │   │   │       ├── entities
@@ -4286,6 +5380,8 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │       ├── src
 │   │       │   ├── index.ts
 │   │       │   └── lib
+│   │       │       ├── decorators
+│   │       │       │   └── current-tenant.decorator.ts
 │   │       │       ├── signed-tenant-context.interface.ts
 │   │       │       ├── tenant-context.interface.ts
 │   │       │       └── tenant-context.storage.ts
@@ -4400,6 +5496,19 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   ├── tsconfig.json
 │   │   │   ├── tsconfig.lib.json
 │   │   │   └── tsconfig.spec.json
+│   │   ├── nats
+│   │   │   ├── package.json
+│   │   │   ├── project.json
+│   │   │   ├── src
+│   │   │   │   ├── index.ts
+│   │   │   │   └── lib
+│   │   │   │       └── nats.module.ts
+│   │   │   └── tsconfig.lib.json
+│   │   ├── onboarding-orchestrator
+│   │   │   └── src
+│   │   │       ├── index.ts
+│   │   │       └── lib
+│   │   │           └── onboard-tenant.saga.ts
 │   │   ├── storage
 │   │   │   ├── package.json
 │   │   │   ├── project.json
@@ -4436,6 +5545,7 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │       │   ├── src
 │       │   │   ├── index.ts
 │       │   │   └── lib
+│       │   │       ├── network-contract.ts
 │       │   │       ├── shared-config.d.ts
 │       │   │       ├── shared-config.js
 │       │   │       ├── shared-config.js.map
@@ -4453,10 +5563,32 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │       │   │   └── lib
 │       │   │       ├── contracts.spec.ts
 │       │   │       ├── contracts.ts
+│       │   │       ├── financial-integration.ts
+│       │   │       ├── fiscal-document.contract.ts
 │       │   │       └── plugin.interface.ts
 │       │   ├── tsconfig.json
 │       │   ├── tsconfig.lib.json
 │       │   └── tsconfig.spec.json
+│       ├── proto
+│       │   ├── package.json
+│       │   ├── project.json
+│       │   ├── src
+│       │   │   ├── index.ts
+│       │   │   └── lib
+│       │   │       ├── api-access-gateway.proto
+│       │   │       ├── authn-credential.proto
+│       │   │       ├── authorization-policy.proto
+│       │   │       ├── billing.proto
+│       │   │       ├── catalog.proto
+│       │   │       ├── identity-audit-ledger.proto
+│       │   │       ├── identity-profile.proto
+│       │   │       ├── identity.proto
+│       │   │       ├── inventory.proto
+│       │   │       ├── provisioning-federation.proto
+│       │   │       ├── risk-adaptive-auth.proto
+│       │   │       ├── session.proto
+│       │   │       └── token.proto
+│       │   └── tsconfig.lib.json
 │       ├── types
 │       │   ├── package.json
 │       │   ├── project.json
@@ -4551,14 +5683,11 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │       │   │   │   │           └── ui-modal.component.ts
 │       │   │   │   ├── core
 │       │   │   │   │   ├── api
-│       │   │   │   │   │   ├── localization.service.ts
 │       │   │   │   │   │   ├── roles.service.ts
 │       │   │   │   │   │   └── users.service.ts
 │       │   │   │   │   ├── guards
 │       │   │   │   │   │   ├── auth.guard.spec.ts
 │       │   │   │   │   │   ├── auth.guard.ts
-│       │   │   │   │   │   ├── country.guard.spec.ts
-│       │   │   │   │   │   ├── country.guard.ts
 │       │   │   │   │   │   ├── language-init.guard.spec.ts
 │       │   │   │   │   │   ├── language-init.guard.ts
 │       │   │   │   │   │   ├── language-redirect.guard.spec.ts
@@ -4579,7 +5708,6 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │       │   │   │   │   │   ├── auth.ts
 │       │   │   │   │   │   ├── billing.ts
 │       │   │   │   │   │   ├── branding.ts
-│       │   │   │   │   │   ├── chart-of-accounts.ts
 │       │   │   │   │   │   ├── country.service.ts
 │       │   │   │   │   │   ├── customer-receipts.ts
 │       │   │   │   │   │   ├── dashboard.ts
@@ -4587,7 +5715,7 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │       │   │   │   │   │   ├── geo-location.service.ts
 │       │   │   │   │   │   ├── idle.service.ts
 │       │   │   │   │   │   ├── invoices.ts
-│       │   │   │   │   │   ├── journal-entries.ts
+│       │   │   │   │   │   ├── language.spec.ts
 │       │   │   │   │   │   ├── language.ts
 │       │   │   │   │   │   ├── notification.ts
 │       │   │   │   │   │   ├── push-notification.service.spec.ts
@@ -4614,7 +5742,7 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │       │   │   │   │   ├── user-payload.interface.ts
 │       │   │   │   │   └── user.interface.ts
 │       │   │   │   ├── models
-│       │   │   │   │   ├── account.model.ts
+│       │   │   │   │   ├── account-tree-node.model.ts
 │       │   │   │   │   ├── flattened-account.model.ts
 │       │   │   │   │   ├── gridster-compat.ts
 │       │   │   │   │   ├── plan.model.ts
@@ -4643,6 +5771,7 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │       │   │   │   │   ├── shared-ui.spec.ts
 │       │   │   │   │   └── shared-ui.ts
 │       │   │   │   ├── styles
+│       │   │   │   │   ├── _toast.scss
 │       │   │   │   │   ├── _tokens.scss
 │       │   │   │   │   └── migrated
 │       │   │   │   │       ├── _base.scss
@@ -4714,6 +5843,15 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │       │   │       ├── tsconfig.spec.json
 │       │   │       └── vitest.config.ts
 │       │   └── server
+│       │       ├── health
+│       │       │   ├── package.json
+│       │       │   ├── project.json
+│       │       │   ├── src
+│       │       │   │   ├── index.ts
+│       │       │   │   └── lib
+│       │       │   │       ├── health.controller.ts
+│       │       │   │       └── health.module.ts
+│       │       │   └── tsconfig.lib.json
 │       │       └── server-config
 │       │           ├── package.json
 │       │           ├── project.json
@@ -4765,7 +5903,8 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   └── virtex
 │   │       ├── Chart.yaml
 │   │       ├── templates
-│   │       │   └── all-apps.yaml
+│   │       │   ├── all-apps.yaml
+│   │       │   └── gateway-api.yaml
 │   │       └── values.yaml
 │   ├── infrastructure
 │   │   ├── docker
@@ -4773,10 +5912,13 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   │   ├── init-scripts
 │   │   │   │   ├── 01-create-databases.sh
 │   │   │   │   └── 010_tenant_rls_baseline.sql
-│   │   │   └── nginx
-│   │   │       ├── certs
-│   │   │       │   └── .gitkeep
-│   │   │       └── nginx.conf
+│   │   │   ├── nginx
+│   │   │   │   ├── certs
+│   │   │   │   │   └── .gitkeep
+│   │   │   │   └── nginx.conf
+│   │   │   └── traefik
+│   │   │       ├── dynamic.yml
+│   │   │       └── traefik.yml
 │   │   └── terraform
 │   │       ├── main.tf
 │   │       ├── modules
@@ -4828,7 +5970,10 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 ├── sbom.json
 ├── sbom.json.sig
 ├── skaffold.yaml
+├── test-results
+│   └── .last-run.json
 ├── tools
+│   ├── dev-doctor.mjs
 │   ├── diagnostic
 │   │   ├── summarize_errors.mjs
 │   │   └── test_serve.mjs
@@ -4915,6 +6060,7 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   │   ├── refactor_env.py
 │   │   ├── refactor_paths.py
 │   │   └── update_aliases.py
+│   ├── replace_virtex_with_virtex.py
 │   ├── run-pocs.sh
 │   ├── scripts
 │   │   └── generate-sbom.ts
@@ -4925,9 +6071,11 @@ Este archivo se genera automáticamente. Para actualizarlo, ejecuta: `npm run do
 │   ├── validate-project-tags.mjs
 │   └── validate-structure.mjs
 ├── tsconfig.base.json
-├── tsconfig.json -> tsconfig.base.json
+├── tsconfig.json
+├── virtex_OVERVIEW.md
+├── virtex_accounting
 ├── vitest.config.ts
 └── vitest.workspace.ts
 
-1343 directories, 3582 files
+1720 directories, 4353 files
 ```
