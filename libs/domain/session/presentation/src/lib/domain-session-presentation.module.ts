@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
+import { SessionController } from './controllers/session.controller';
 
 @Module({
-  controllers: [],
+  controllers: [SessionController],
   providers: [],
   exports: [],
 })

@@ -1,7 +1,4 @@
 
-import { Injectable } from '@nestjs/common';
-
-@Injectable()
 export class TokenService {
   async generateAccessToken(payload: any) {
     // JWT signing logic with KID and versioned claims

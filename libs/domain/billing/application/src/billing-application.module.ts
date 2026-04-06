@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, Inject, OnModuleInit } from '@nestjs/common';
 import { CreateInvoiceUseCase } from './use-cases/commands/create-invoice.use-case';
 import { GetInvoicesUseCase } from './use-cases/queries/get-invoices.use-case';
 import { GetPaymentHistoryUseCase } from './use-cases/queries/get-payment-history.use-case';
@@ -12,6 +12,8 @@ import { StripeEventListener } from './handlers/stripe-event.listener';
 import { BillingDomainModule } from '@virtex/domain-billing-domain';
 import { PriceValidationPolicy } from './services/price-validation.policy';
 import { InvoiceStampingOrchestrator } from './services/invoice-stamping.orchestrator';
+import { BillingJobHandler } from './handlers/billing-job.handler';
+import { JOB_HANDLER_REGISTRY, JobHandler } from '@virtex/domain-scheduler-application';
 
 @Module({
   imports: [BillingDomainModule],
@@ -28,6 +30,7 @@ import { InvoiceStampingOrchestrator } from './services/invoice-stamping.orchest
     StripeEventListener,
     PriceValidationPolicy,
     InvoiceStampingOrchestrator,
+    BillingJobHandler,
   ],
   exports: [
     CreateInvoiceUseCase,
@@ -41,4 +44,13 @@ import { InvoiceStampingOrchestrator } from './services/invoice-stamping.orchest
     ReconcileBillingUseCase,
   ]
 })
-export class BillingApplicationModule {}
+export class BillingApplicationModule implements OnModuleInit {
+  constructor(
+    @Inject(JOB_HANDLER_REGISTRY) private readonly registry: Map<string, JobHandler>,
+    private readonly billingHandler: BillingJobHandler
+  ) {}
+
+  onModuleInit() {
+    this.registry.set('billing.payment_failed', this.billingHandler);
+  }
+}

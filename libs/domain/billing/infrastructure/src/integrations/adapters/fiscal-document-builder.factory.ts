@@ -1,41 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { FiscalStampingPort } from '@virtex/domain-billing-domain';
-import { FiscalDocumentBuilderFactory, FiscalDocumentBuilder } from '@virtex/domain-fiscal-domain';
-import { MxFiscalDocumentBuilder, UsFiscalDocumentBuilder, CoFiscalDocumentBuilder, BrFiscalDocumentBuilder, DoFiscalDocumentBuilder } from '@virtex/domain-fiscal-infrastructure';
+import { FISCAL_DOCUMENT_BUILDER_FACTORY, FiscalDocumentBuilderFactory, FiscalDocumentBuilder } from '@virtex/domain-fiscal-domain';
 
 @Injectable()
-export class FiscalDocumentBuilderFactoryImpl extends FiscalDocumentBuilderFactory implements FiscalStampingPort {
+export class FiscalDocumentBuilderFactoryImpl implements FiscalStampingPort {
     constructor(
-        private readonly mx: MxFiscalDocumentBuilder,
-        private readonly us: UsFiscalDocumentBuilder,
-        private readonly co: CoFiscalDocumentBuilder,
-        private readonly br: BrFiscalDocumentBuilder,
-        private readonly dom: DoFiscalDocumentBuilder
-    ) {
-        super();
-    }
+        @Inject(FISCAL_DOCUMENT_BUILDER_FACTORY) private readonly fiscalFactory: FiscalDocumentBuilderFactory
+    ) {}
 
-    override getBuilder(country: string): FiscalDocumentBuilder {
-        if (!country) return this.mx;
-
-        switch(country.toUpperCase()) {
-            case 'US':
-            case 'USA':
-                return this.us;
-            case 'CO':
-            case 'COLOMBIA':
-                return this.co;
-            case 'BR':
-            case 'BRAZIL':
-                return this.br;
-            case 'DO':
-            case 'DOMINICAN REPUBLIC':
-            case 'REPUBLICA DOMINICANA':
-                return this.dom;
-            case 'MX':
-            case 'MEXICO':
-            default:
-                return this.mx;
-        }
+    getBuilder(country: string): FiscalDocumentBuilder {
+        return this.fiscalFactory.getBuilder(country);
     }
 }

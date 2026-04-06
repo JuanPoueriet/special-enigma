@@ -303,6 +303,9 @@
       "@virtex/platform-contract-governance": [
         "libs/platform/contract-governance/src/index.ts"
       ],
+      "@virtex/platform-onboarding-orchestrator": [
+        "libs/platform/onboarding-orchestrator/src/index.ts"
+      ],
       "@virtex/platform-desktop-core": [
         "libs/platform/desktop/core/src/index.ts"
       ],

@@ -63,5 +63,5 @@
       }
     }
   },
-  "tags": ["scope:identity-profile", "layer:app"]
+  "tags": ["scope:identity-profile", "type:microservice"]
 }
