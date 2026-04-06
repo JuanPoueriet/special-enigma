@@ -4,6 +4,7 @@ import * as crypto from 'crypto';
 import { RefreshTokenDto, LoginResponseDto } from '@virtex/domain-identity-contracts';
 import { SessionRepository, AuditLogRepository, AuditLog, UserRepository, CachePort, AuthService } from '@virtex/domain-identity-domain';
 import { TokenGenerationService } from '../services/token-generation.service';
+import { JwtTokenService } from '@virtex/kernel-auth';
 
 @Injectable()
 export class RefreshTokenUseCase {
@@ -13,17 +14,20 @@ export class RefreshTokenUseCase {
     @Inject(AuditLogRepository) private readonly auditLogRepository: AuditLogRepository,
     @Inject(CachePort) private readonly cachePort: CachePort,
     @Inject(AuthService) private readonly authService: AuthService,
-    @Inject(TokenGenerationService) private readonly tokenGenerationService: TokenGenerationService
+    @Inject(TokenGenerationService) private readonly tokenGenerationService: TokenGenerationService,
+    private readonly jwtTokenService: JwtTokenService,
   ) {}
 
   async execute(dto: RefreshTokenDto, context: { ip: string; userAgent: string }): Promise<LoginResponseDto> {
     let sessionId: string;
     let secret: string;
+    let oldJti: string;
 
     try {
-      const payload = await this.authService.verifyToken(dto.refreshToken);
+      const payload = await this.authService.verifyToken(dto.refreshToken, 'refresh');
       sessionId = payload.sessionId;
       secret = payload.secret;
+      oldJti = payload.jti;
 
       if (!sessionId || !secret) {
           throw new Error('Invalid token payload');
@@ -59,6 +63,10 @@ export class RefreshTokenUseCase {
 
         await this.cachePort.del(`session:${sessionId}`);
 
+        if (oldJti) {
+            await this.jwtTokenService.revokeToken(oldJti);
+        }
+
         const userId = session.user.id || (session.user as any);
         await this.auditLogRepository.save(new AuditLog('TOKEN_REUSE_DETECTED', userId, { sessionId: session.id, ip: context.ip }));
 
@@ -73,6 +81,10 @@ export class RefreshTokenUseCase {
     }
 
     const { accessToken, refreshToken, expiresIn } = await this.tokenGenerationService.rotateSessionToken(session, user);
+
+    if (oldJti) {
+        await this.jwtTokenService.revokeToken(oldJti);
+    }
 
     await this.auditLogRepository.save(new AuditLog('TOKEN_REFRESHED', user.id, { sessionId: session.id, ip: context.ip }));
 

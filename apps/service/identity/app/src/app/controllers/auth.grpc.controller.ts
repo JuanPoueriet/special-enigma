@@ -114,29 +114,31 @@ export class AuthGrpcController {
 
   @GrpcMethod('IdentityService', 'Logout')
   async logout(data: any) {
+    const jtis: string[] = [];
+    let sessionId: string | undefined;
+
     if (data.access_token) {
       try {
-        const payload = await this.verifyToken(data.access_token);
-        if (payload.sessionId) {
-          await this.logoutUserUseCase.execute(payload.sessionId);
-          return {};
-        }
+        const payload = await this.authService.verifyToken(data.access_token, 'access');
+        sessionId = payload.sessionId;
+        if (payload.jti) jtis.push(payload.jti);
       } catch (e) {
-        // Token might be expired, try refresh token if provided
+        // Token might be expired
       }
     }
 
     if (data.refresh_token) {
       try {
-        const decoded = Buffer.from(data.refresh_token, 'base64').toString('utf-8');
-        const parts = decoded.split(':');
-        if (parts.length === 2) {
-          const sessionId = parts[0];
-          await this.logoutUserUseCase.execute(sessionId);
-        }
+        const payload = await this.authService.verifyToken(data.refresh_token, 'refresh');
+        if (!sessionId) sessionId = payload.sessionId;
+        if (payload.jti) jtis.push(payload.jti);
       } catch (e) {
-        // Invalid refresh token format
+        // Invalid refresh token
       }
+    }
+
+    if (sessionId) {
+      await this.logoutUserUseCase.execute(sessionId, jtis.length > 0 ? jtis : undefined);
     }
 
     return {};

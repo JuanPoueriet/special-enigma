@@ -1,17 +1,14 @@
 
 export class TokenService {
   async generateAccessToken(payload: any) {
-    // JWT signing logic with KID and versioned claims
-    return "signed-access-token";
+    throw new Error('Not implemented: Use kernel-auth JwtTokenService instead.');
   }
 
   async generateRefreshToken(payload: any) {
-    // Refresh token generation
-    return "signed-refresh-token";
+    throw new Error('Not implemented: Use kernel-auth JwtTokenService instead.');
   }
 
   async publishJwks() {
-    // Publish JWKS to a well-known endpoint
-    return { keys: [] };
+    throw new Error('Not implemented: Use kernel-auth JwtTokenService instead.');
   }
 }

@@ -60,27 +60,12 @@ export class KeycloakAuthService implements AuthService {
       });
   }
 
-  async verifyToken(token: string): Promise<any> {
+  async verifyToken(token: string, type: "access" | "refresh" | "service" | "plugin" | "stepup" = "access"): Promise<any> {
       try {
-        const isProd = this.secretManager.getSecret('NODE_ENV', 'development') === 'production';
-        const publicKey = this.secretManager.getSecret('KEYCLOAK_PUBLIC_KEY', '');
-
-        if (isProd && !publicKey) {
-            throw new Error('KEYCLOAK_PUBLIC_KEY must be configured in production');
-        }
-
-        const verificationKey = publicKey || this.clientSecret;
-          const audience = this.secretManager.getSecret('KEYCLOAK_AUDIENCE', 'virtex-api');
-        const allowedAlgorithms: jwt.Algorithm[] = isProd ? ['RS256'] : ['HS256', 'RS256'];
-
-          return jwt.verify(token, verificationKey, {
-              issuer: this.issuer,
-              audience: audience,
-            algorithms: allowedAlgorithms
-          });
+          return await this.jwtTokenService.verifyToken(token, type);
       } catch (e: any) {
-          this.logger.error(`Keycloak token verification failed: ${e.message}`);
-          throw new UnauthorizedException('Invalid or expired Keycloak token');
+          this.logger.error(`Token verification failed: ${e.message}`);
+          throw new UnauthorizedException(e.message || 'Invalid or expired token');
       }
   }
 

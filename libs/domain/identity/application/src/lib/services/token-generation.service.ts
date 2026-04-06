@@ -45,17 +45,9 @@ export class TokenGenerationService {
 
     const accessToken = await this.authService.generateToken({
       sub: user.id,
-      email: user.email,
-      role: user.role,
-      roles: [user.role],
       tenantId: user.company.id,
-      companyId: user.company.id,
-      country: user.country,
       sessionId: session.id,
-      entitlements,
-      subscriptionVersion,
       amr: mfaVerified ? ['pwd', 'mfa'] : ['pwd'],
-      mfa_verified_at: mfaVerified ? Math.floor(Date.now() / 1000) : undefined
     }, { tokenType: 'access', subject: user.id });
 
     const refreshToken = await this.authService.generateToken({
@@ -91,17 +83,9 @@ export class TokenGenerationService {
 
     const accessToken = await this.authService.generateToken({
       sub: user.id,
-      email: user.email,
-      role: user.role,
-      roles: [user.role],
       tenantId: user.company.id,
-      companyId: user.company.id,
-      country: user.country,
       sessionId: session.id,
-      entitlements,
-      subscriptionVersion,
       amr: mfaVerified ? ['pwd', 'mfa'] : ['pwd'],
-      mfa_verified_at: mfaVerified ? Math.floor(Date.now() / 1000) : undefined
     }, { tokenType: 'access', subject: user.id });
 
     const refreshToken = await this.authService.generateToken({
