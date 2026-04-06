@@ -1,7 +1,7 @@
-import { fiscalApplication } from './fiscal-application';
+import { FiscalApplicationModule } from './fiscal-application';
 
-describe('fiscalApplication', () => {
-  it('should work', () => {
-    expect(fiscalApplication()).toEqual('fiscal-application');
+describe('FiscalApplicationModule', () => {
+  it('should be defined', () => {
+    expect(FiscalApplicationModule).toBeDefined();
   })
 })

@@ -1,11 +1,12 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Job } from '@virtex/domain-scheduler-domain';
 import { NotificationService } from '@virtex/domain-notification-application';
 import { NotificationChannel } from '@virtex/domain-notification-domain';
 import { EntityManager } from '@mikro-orm/core';
+import { JobHandler } from '@virtex/domain-scheduler-application';
+import { Job } from '@virtex/domain-scheduler-domain';
 
 @Injectable()
-export class BillingJobHandler {
+export class BillingJobHandler implements JobHandler {
   private readonly logger = new Logger(BillingJobHandler.name);
 
   constructor(
@@ -13,8 +14,14 @@ export class BillingJobHandler {
     private readonly notificationService: NotificationService
   ) {}
 
-  async handlePaymentFailed(job: Job): Promise<void> {
-    const { paymentId, tenantId, paymentStatus } = job.payload;
+  async handle(job: Job): Promise<void> {
+    if (job.type === 'billing.payment_failed') {
+      await this.handlePaymentFailed(job.payload, job.attempts);
+    }
+  }
+
+  private async handlePaymentFailed(payload: any, attempts: number): Promise<void> {
+    const { paymentId, tenantId, paymentStatus, userId, customerEmail } = payload;
 
     this.logger.log(`Processing billing job for failed payment ${paymentId}`);
 
@@ -27,13 +34,13 @@ export class BillingJobHandler {
 
     await this.notificationService.createNotification({
       tenantId,
-      userId: job.payload['userId'],
+      userId: userId,
       channel: NotificationChannel.EMAIL,
       templateId: 'billing.payment_failed',
       templateVersion: '1.0.0',
-      payload: { ...job.payload, category: 'billing' },
-      recipient: job.payload['customerEmail'],
-      idempotencyKey: `billing:${paymentId}:${job.attempts}`,
+      payload: { ...payload, category: 'billing' },
+      recipient: customerEmail,
+      idempotencyKey: `billing:${paymentId}:${attempts}`,
     });
 
     this.logger.log(`Billing/Dunning notification triggered for payment ${paymentId}`);

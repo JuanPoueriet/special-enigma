@@ -63,5 +63,5 @@
       }
     }
   },
-  "tags": ["scope:provisioning-federation", "layer:app"]
+  "tags": ["scope:provisioning-federation", "type:microservice"]
 }

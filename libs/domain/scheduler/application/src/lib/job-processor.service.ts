@@ -1,12 +1,11 @@
-import { Injectable, Logger, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit, OnModuleDestroy, Inject } from '@nestjs/common';
 import { Worker, Job as BullJob } from 'bullmq';
 import { EntityManager } from '@mikro-orm/core';
 import { Job, JobStatus } from '@virtex/domain-scheduler-domain';
 import { JobStateMachine } from '@virtex/domain-scheduler-domain';
 import { InboxService } from '@virtex/kernel-messaging';
-import { FiscalJobHandler } from './handlers/fiscal-job.handler';
-import { BillingJobHandler } from './handlers/billing-job.handler';
 import { runWithRequiredTenantContext } from '@virtex/kernel-auth';
+import { JOB_HANDLER_REGISTRY, JobHandler } from './ports/job-handler.port';
 
 @Injectable()
 export class JobProcessorService implements OnModuleInit, OnModuleDestroy {
@@ -16,8 +15,7 @@ export class JobProcessorService implements OnModuleInit, OnModuleDestroy {
   constructor(
     private readonly em: EntityManager,
     private readonly inboxService: InboxService,
-    private readonly fiscalHandler: FiscalJobHandler,
-    private readonly billingHandler: BillingJobHandler
+    @Inject(JOB_HANDLER_REGISTRY) private readonly handlers: Map<string, JobHandler>
   ) {}
 
   onModuleInit() {
@@ -89,18 +87,11 @@ export class JobProcessorService implements OnModuleInit, OnModuleDestroy {
   private async routeJobExecution(job: Job): Promise<void> {
     this.logger.debug(`Routing job execution for ${job.type}`);
 
-    switch (job.type) {
-      case 'fiscal.invoice_issued':
-        await this.fiscalHandler.handleInvoiceIssued(job);
-        break;
-      case 'billing.payment_failed':
-        await this.billingHandler.handlePaymentFailed(job);
-        break;
-      case 'notification.send':
-        // General notification dispatch
-        break;
-      default:
-        this.logger.warn(`Unsupported job type: ${job.type}`);
+    const handler = this.handlers.get(job.type);
+    if (handler) {
+      await handler.handle(job);
+    } else {
+      this.logger.warn(`Unsupported job type: ${job.type}`);
     }
 
     if (job.status !== JobStatus.RUNNING) {

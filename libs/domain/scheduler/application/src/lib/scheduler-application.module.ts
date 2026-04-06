@@ -1,20 +1,21 @@
-import { Module } from '@nestjs/common';
+import { Module, Global } from '@nestjs/common';
 import { JobProcessorService } from './job-processor.service';
 import { JobOrchestrator } from './job-orchestrator';
 import { SchedulerService } from './scheduler.service';
-import { FiscalJobHandler } from './handlers/fiscal-job.handler';
-import { BillingJobHandler } from './handlers/billing-job.handler';
-import { NotificationApplicationModule } from '@virtex/domain-notification-application';
+import { JOB_HANDLER_REGISTRY } from './ports/job-handler.port';
 
+@Global()
 @Module({
-  imports: [NotificationApplicationModule],
+  imports: [],
   providers: [
     JobProcessorService,
     JobOrchestrator,
     SchedulerService,
-    FiscalJobHandler,
-    BillingJobHandler,
+    {
+      provide: JOB_HANDLER_REGISTRY,
+      useValue: new Map(),
+    }
   ],
-  exports: [SchedulerService, JobOrchestrator, JobProcessorService],
+  exports: [SchedulerService, JobOrchestrator, JobProcessorService, JOB_HANDLER_REGISTRY],
 })
 export class SchedulerApplicationModule {}

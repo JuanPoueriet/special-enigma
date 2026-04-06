@@ -1,22 +1,27 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Job } from '@virtex/domain-scheduler-domain';
 import { NotificationService } from '@virtex/domain-notification-application';
 import { NotificationChannel } from '@virtex/domain-notification-domain';
-import { EntityManager } from '@mikro-orm/core';
 import { FiscalDomainService } from '@virtex/domain-fiscal-domain';
+import { JobHandler } from '@virtex/domain-scheduler-application';
+import { Job } from '@virtex/domain-scheduler-domain';
 
 @Injectable()
-export class FiscalJobHandler {
+export class FiscalJobHandler implements JobHandler {
   private readonly logger = new Logger(FiscalJobHandler.name);
 
   constructor(
-    private readonly em: EntityManager,
     private readonly notificationService: NotificationService,
     private readonly fiscalDomainService: FiscalDomainService
   ) {}
 
-  async handleInvoiceIssued(job: Job): Promise<void> {
-    const { invoiceId, tenantId, status } = job.payload;
+  async handle(job: Job): Promise<void> {
+    if (job.type === 'fiscal.invoice_issued') {
+      await this.handleInvoiceIssued(job.payload, job.attempts);
+    }
+  }
+
+  private async handleInvoiceIssued(payload: any, attempts: number): Promise<void> {
+    const { invoiceId, tenantId, status, userId, customerEmail } = payload;
 
     this.logger.log(`Processing fiscal job for invoice ${invoiceId}`);
 
@@ -28,13 +33,13 @@ export class FiscalJobHandler {
 
     await this.notificationService.createNotification({
       tenantId,
-      userId: job.payload['userId'],
+      userId: userId,
       channel: NotificationChannel.EMAIL,
       templateId: 'fiscal.invoice_issued',
       templateVersion: '1.0.0',
-      payload: { ...job.payload, category: 'fiscal' },
-      recipient: job.payload['customerEmail'],
-      idempotencyKey: `fiscal:${invoiceId}:${job.attempts}`,
+      payload: { ...payload, category: 'fiscal' },
+      recipient: customerEmail,
+      idempotencyKey: `fiscal:${invoiceId}:${attempts}`,
     });
 
     this.logger.log(`Fiscal notification triggered for invoice ${invoiceId}`);

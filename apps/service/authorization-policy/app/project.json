@@ -63,5 +63,5 @@
       }
     }
   },
-  "tags": ["scope:authorization-policy", "layer:app"]
+  "tags": ["scope:authorization-policy", "type:microservice"]
 }
