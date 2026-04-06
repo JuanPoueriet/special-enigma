@@ -69,7 +69,7 @@ export class IdentityProxyController {
     if (result.mfa_required) {
       return {
         mfaRequired: true,
-        accessToken: result.access_token, // This is the temp token for MFA
+        tempToken: result.access_token, // This is the temp token for MFA
       };
     }
 
@@ -83,8 +83,6 @@ export class IdentityProxyController {
     const user = await this.identityProxy.getMe(result.access_token, metadata);
 
     return {
-      accessToken: result.access_token,
-      refreshToken: result.refresh_token,
       expiresIn: result.expires_in,
       mfaRequired: false,
       user: {
@@ -133,8 +131,6 @@ export class IdentityProxyController {
     const user = await this.identityProxy.getMe(result.access_token, metadata);
 
     return {
-      accessToken: result.access_token,
-      refreshToken: result.refresh_token,
       expiresIn: result.expires_in,
       user: {
         id: user.sub,
@@ -234,8 +230,6 @@ export class IdentityProxyController {
     const user = await this.identityProxy.getMe(result.access_token, metadata);
 
     return {
-      accessToken: result.access_token,
-      refreshToken: result.refresh_token,
       expiresIn: result.expires_in,
       user: {
         id: user.sub,
@@ -272,8 +266,6 @@ export class IdentityProxyController {
     const user = await this.identityProxy.getMe(result.access_token, metadata);
 
     return {
-      accessToken: result.access_token,
-      refreshToken: result.refresh_token,
       expiresIn: result.expires_in,
       user: {
         id: user.sub,
@@ -341,8 +333,6 @@ export class IdentityProxyController {
     const user = await this.identityProxy.getMe(result.access_token, metadata);
 
     return {
-      accessToken: result.access_token,
-      refreshToken: result.refresh_token,
       expiresIn: result.expires_in,
       user: {
         id: user.sub,
@@ -431,8 +421,6 @@ export class IdentityProxyController {
     const user = await this.identityProxy.getMe(result.access_token, metadata);
 
     return {
-      accessToken: result.access_token,
-      refreshToken: result.refresh_token,
       expiresIn: result.expires_in,
       user: {
         id: user.sub,
