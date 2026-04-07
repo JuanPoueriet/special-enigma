@@ -14,7 +14,9 @@
         "NOT_FOUND": "No hemos podido encontrar el recurso solicitado.",
         "SERVER_ERROR": "Estamos experimentando dificultades técnicas. Por favor intente más tarde.",
         "NETWORK_ERROR": "No se pudo establecer conexión. Revise su conexión a internet.",
-        "UNKNOWN_ERROR": "Ha ocurrido un error inesperado. Nuestro equipo ha sido notificado."
+        "UNKNOWN_ERROR": "Ha ocurrido un error inesperado. Nuestro equipo ha sido notificado.",
+        "ACTIONS": "Acciones",
+        "NOTIFICATIONS": "Notificaciones"
     },
     "AUTH": {
         "SESSION_EXPIRED": "Sesión expirada o no autorizado",
@@ -172,6 +174,20 @@
                 "REVOKED": "Sesión revocada con éxito",
                 "REVOKE_ERROR": "Error al revocar la sesión"
             }
+        }
+    },
+    "NOTIFICATIONS": {
+        "TITLE": "Notificaciones",
+        "SUBTITLE": "Mantente al día con las últimas actualizaciones y alertas de tu cuenta.",
+        "MARK_ALL_AS_READ": "Marcar todas como leídas",
+        "EMPTY_STATE_TITLE": "Todo está al día",
+        "EMPTY_STATE_DESC": "No tienes notificaciones nuevas en este momento.",
+        "UNREAD_TITLE": "No leído",
+        "PERIODS": {
+            "TODAY": "Hoy",
+            "YESTERDAY": "Ayer",
+            "THIS_WEEK": "Esta Semana",
+            "OLDER": "Anteriores"
         }
     }
 }

@@ -1,6 +1,7 @@
 import { Component, ChangeDetectionStrategy, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule, Check, BellOff } from 'lucide-angular';
+import { TranslateModule } from '@ngx-translate/core';
 import { NotificationCenterService, Notification } from '../../services/notification-center.service';
 
 interface NotificationGroup {
@@ -11,7 +12,7 @@ interface NotificationGroup {
 @Component({
   selector: 'virtex-notifications-page',
   standalone: true,
-  imports: [CommonModule, LucideAngularModule],
+  imports: [CommonModule, LucideAngularModule, TranslateModule],
   templateUrl: './notifications.page.html',
   styleUrls: ['./notifications.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,10 +30,10 @@ export class NotificationsPage {
 
   private groupNotificationsByDate(notifications: Notification[]): NotificationGroup[] {
     const groups: { [key: string]: Notification[] } = {
-      'Hoy': [],
-      'Ayer': [],
-      'Esta Semana': [],
-      'Anteriores': [],
+      'NOTIFICATIONS.PERIODS.TODAY': [],
+      'NOTIFICATIONS.PERIODS.YESTERDAY': [],
+      'NOTIFICATIONS.PERIODS.THIS_WEEK': [],
+      'NOTIFICATIONS.PERIODS.OLDER': [],
     };
 
     const today = new Date();
@@ -46,13 +47,13 @@ export class NotificationsPage {
     for (const notification of notifications) {
       const notificationDate = new Date(notification.createdAt);
       if (notificationDate.toDateString() === today.toDateString()) {
-        groups['Hoy'].push(notification);
+        groups['NOTIFICATIONS.PERIODS.TODAY'].push(notification);
       } else if (notificationDate.toDateString() === yesterday.toDateString()) {
-        groups['Ayer'].push(notification);
+        groups['NOTIFICATIONS.PERIODS.YESTERDAY'].push(notification);
       } else if (notificationDate > oneWeekAgo) {
-        groups['Esta Semana'].push(notification);
+        groups['NOTIFICATIONS.PERIODS.THIS_WEEK'].push(notification);
       } else {
-        groups['Anteriores'].push(notification);
+        groups['NOTIFICATIONS.PERIODS.OLDER'].push(notification);
       }
     }
 
