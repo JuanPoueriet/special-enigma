@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { ThemeToggle } from '../theme-toggle/theme-toggle';
 import { LanguageService } from '../../core/services/language';
+import { BrandingService } from '../../core/services/branding';
 
 @Component({
   selector: 'virtex-main-layout',
@@ -15,6 +16,7 @@ import { LanguageService } from '../../core/services/language';
 })
 export class MainLayoutComponent {
   public languageService = inject(LanguageService);
+  public brandingService = inject(BrandingService);
   isSidebarOpen = true;
   currentYear = new Date().getFullYear();
 

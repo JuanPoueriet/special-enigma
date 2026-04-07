@@ -5,8 +5,13 @@
     [class.shell__sidebar--collapsed]="!isSidebarOpen"
   >
     <div class="shell__logo">
-      <div class="shell__logo-icon"></div>
-      <span class="shell__logo-text">virtex ERP</span>
+      <ng-container *ngIf="brandingService.settings().logoUrl; else defaultLogo">
+        <img [src]="brandingService.settings().logoUrl" alt="Logo" class="shell__logo-img">
+      </ng-container>
+      <ng-template #defaultLogo>
+        <div class="shell__logo-icon"></div>
+        <span class="shell__logo-text">virtex ERP</span>
+      </ng-template>
     </div>
 
     <nav class="shell__nav">
