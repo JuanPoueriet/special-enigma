@@ -19,4 +19,8 @@ export class MikroOrmCustomerRepository implements CustomerRepository {
   async findById(id: string): Promise<Customer | null> {
     return this.em.findOne(Customer, { id });
   }
+
+  async findByEmail(tenantId: string, email: string): Promise<Customer | null> {
+    return this.em.findOne(Customer, { tenantId, email: email.toLowerCase() });
+  }
 }

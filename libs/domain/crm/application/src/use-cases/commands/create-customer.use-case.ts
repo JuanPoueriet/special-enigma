@@ -21,13 +21,25 @@ export interface CreateCustomerDto {
 export class CreateCustomerUseCase {
   constructor(
     @Inject('CustomerRepository')
-    private readonly repository: CustomerRepository
+    private readonly repository: CustomerRepository,
   ) {}
 
   async execute(dto: CreateCustomerDto): Promise<Customer> {
-    const customer = new Customer(dto.tenantId, dto.type || CustomerType.COMPANY);
+    const normalizedEmail = dto.email.trim().toLowerCase();
+    const existingCustomer = await this.repository.findByEmail(
+      dto.tenantId,
+      normalizedEmail,
+    );
+    if (existingCustomer) {
+      return existingCustomer;
+    }
+
+    const customer = new Customer(
+      dto.tenantId,
+      dto.type || CustomerType.COMPANY,
+    );
     customer.companyName = dto.companyName;
-    customer.email = dto.email;
+    customer.email = normalizedEmail;
     customer.phone = dto.phone;
     customer.taxId = dto.taxId;
     customer.contactPerson = dto.contactPerson;

@@ -20,7 +20,13 @@ export interface Invoice {
   subtotal: number;
   tax: number;
   total: number;
-  status: 'Draft' | 'Pending' | 'Paid' | 'Partially Paid' | 'Void' | 'Credit Note';
+  status:
+    | 'Draft'
+    | 'Pending'
+    | 'Paid'
+    | 'Partially Paid'
+    | 'Void'
+    | 'Credit Note';
   lineItems: InvoiceLineItem[];
   notes?: string;
   originalInvoiceId?: string;
@@ -28,17 +34,19 @@ export interface Invoice {
 
 // DTO ya no incluye totales, se calculan en backend
 export interface CreateInvoiceDto {
-    customerId: string;
-    // Fields below might be ignored by current backend implementation but kept for UI state if needed
-    issueDate?: string;
-    dueDate?: string;
-    notes?: string;
-    items: {
-        productId: string;
-        quantity: number;
-        unitPrice: number;
-        description: string;
-    }[];
+  customerId: string;
+  dueDate: string;
+  paymentForm: string;
+  paymentMethod: string;
+  usage: string;
+  issueDate?: string;
+  notes?: string;
+  items: {
+    productId: string;
+    quantity: number;
+    unitPrice: number;
+    description: string;
+  }[];
 }
 
 @Injectable({ providedIn: 'root' })
@@ -60,7 +68,10 @@ export class InvoicesService {
   }
 
   createCreditNote(invoiceId: string): Observable<Invoice> {
-    return this.http.post<Invoice>(`${this.apiUrl}/${invoiceId}/credit-note`, {});
+    return this.http.post<Invoice>(
+      `${this.apiUrl}/${invoiceId}/credit-note`,
+      {},
+    );
   }
 
   downloadInvoicePdf(id: string): Observable<Blob> {
