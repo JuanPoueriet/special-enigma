@@ -53,7 +53,10 @@ export interface CreateInvoiceDto {
 export class InvoicesService {
   private config = inject(APP_CONFIG) as any;
   private http = inject(HttpClient);
-  private apiUrl = `${this.config.apiUrl}/invoices`;
+  // Billing invoices are served under /saas/invoices in the NestJS API.
+  // Posting to /invoices may hit accounting endpoints with a different DTO contract
+  // and produce 400 validation errors for otherwise valid billing payloads.
+  private apiUrl = `${this.config.apiUrl}/saas/invoices`;
 
   getInvoices(): Observable<Invoice[]> {
     return this.http.get<Invoice[]>(this.apiUrl);
