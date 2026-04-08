@@ -30,6 +30,10 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         } else if (error.status >= 500) {
           errorMessage = 'COMMON.SERVER_ERROR';
         } else if (error.status === 400 && Array.isArray(messageFromBody)) {
+          // Developer diagnostics for DTO/validation troubleshooting in local environments.
+          if (typeof ngDevMode !== 'undefined' && ngDevMode) {
+            console.error('HTTP 400 response body:', error.error);
+          }
           errorMessage = messageFromBody.join(', ');
         } else if (error.status === 409 || dbCode === '23505') {
           errorMessage =
