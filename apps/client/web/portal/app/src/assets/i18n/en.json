@@ -14,7 +14,9 @@
         "NOT_FOUND": "The requested resource could not be found.",
         "SERVER_ERROR": "We are experiencing technical difficulties. Please try again later.",
         "NETWORK_ERROR": "Unable to connect. Please check your internet connection.",
-        "UNKNOWN_ERROR": "An unexpected error occurred. Our team has been notified."
+        "UNKNOWN_ERROR": "An unexpected error occurred. Our team has been notified.",
+        "ACTIONS": "Actions",
+        "NOTIFICATIONS": "Notifications"
     },
     "AUTH": {
         "SESSION_EXPIRED": "Session expired or unauthorized",
@@ -172,6 +174,20 @@
                 "REVOKED": "Session revoked successfully",
                 "REVOKE_ERROR": "Error revoking session"
             }
+        }
+    },
+    "NOTIFICATIONS": {
+        "TITLE": "Notifications",
+        "SUBTITLE": "Stay up to date with the latest updates and alerts for your account.",
+        "MARK_ALL_AS_READ": "Mark all as read",
+        "EMPTY_STATE_TITLE": "Everything is up to date",
+        "EMPTY_STATE_DESC": "You don't have any new notifications at this time.",
+        "UNREAD_TITLE": "Unread",
+        "PERIODS": {
+            "TODAY": "Today",
+            "YESTERDAY": "Yesterday",
+            "THIS_WEEK": "This Week",
+            "OLDER": "Older"
         }
     }
 }
